@@ -149,6 +149,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
                       loader={loading}
+                      placeholder="Search by name"
                       data={{
                         list: labStore.listLabs,
                         selected: environmentStore.selectedItems?.labs,
@@ -168,9 +169,10 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                       onFilter={(value: string) => {
                         labStore.LabService.filter({
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
@@ -284,6 +286,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
                       loader={loading}
+                      placeholder="Search by name"
                       data={{
                         list: departmentStore.listDepartment,
                         selected: environmentStore.selectedItems?.department,
@@ -305,9 +308,9 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                       onFilter={(value: string) => {
                         departmentStore.DepartmentService.filter({
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,

@@ -372,6 +372,7 @@ export const Library = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     disable={
                       loginStore.login &&
                       loginStore.login.role !== "SYSADMIN"
@@ -388,9 +389,9 @@ export const Library = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,

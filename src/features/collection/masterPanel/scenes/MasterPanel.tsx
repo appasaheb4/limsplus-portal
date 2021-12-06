@@ -314,6 +314,7 @@ const MasterPanel = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     disable={
                       loginStore.login &&
                       loginStore.login.role !== "SYSADMIN"
@@ -330,9 +331,9 @@ const MasterPanel = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
@@ -405,9 +406,9 @@ const MasterPanel = observer(() => {
                       masterPanelStore.masterPanelService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
@@ -645,6 +646,7 @@ const MasterPanel = observer(() => {
                   >
                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by code"
                     data={{
                       list:deliveryScheduleStore.listDeliverySchedule,
                       displayKey: "schCode",
@@ -655,9 +657,9 @@ const MasterPanel = observer(() => {
                      deliveryScheduleStore.deliveryScheduleService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["schCode"]: value,
+                              schCode: value,
                             },
                             page: 0,
                             limit: 10,

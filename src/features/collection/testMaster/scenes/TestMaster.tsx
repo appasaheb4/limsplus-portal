@@ -311,6 +311,7 @@ const TestMater = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     disable={
                       stores.loginStore.login &&
                       stores.loginStore.login.role !== "SYSADMIN"
@@ -327,9 +328,9 @@ const TestMater = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "search",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
@@ -570,6 +571,7 @@ const TestMater = observer(() => {
                   >
                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by code"
                     data={{
                       list:deliveryScheduleStore.listDeliverySchedule,
                       displayKey: "schCode",
@@ -580,9 +582,9 @@ const TestMater = observer(() => {
                      deliveryScheduleStore.deliveryScheduleService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["schCode"]: value,
+                              schCode: value,
                             },
                             page: 0,
                             limit: 10,

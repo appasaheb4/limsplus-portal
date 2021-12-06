@@ -246,6 +246,7 @@ const MasterPackage = observer(() => {
                     hasError={errors.lab}
                   >
                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                     placeholder="Search by name"
                     loader={loading}
                     disable={
                       loginStore.login &&
@@ -263,9 +264,9 @@ const MasterPackage = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,

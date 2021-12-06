@@ -41,9 +41,9 @@ export const AutoCompleteFilterSingleSelectInvoiceAc = observer(
     const onFilter = (value: string) => {
       corporateClientsStore.corporateClientsService.filter({
         input: {
+          type: "search",
           filter: {
-            type: "search",
-            ["invoiceAc"]: value,
+            invoiceAc: value,
           },
           page: 0,
           limit: 10,
@@ -72,7 +72,7 @@ export const AutoCompleteFilterSingleSelectInvoiceAc = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search...."
+              placeholder="Search by Innvoice Ac"
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}
