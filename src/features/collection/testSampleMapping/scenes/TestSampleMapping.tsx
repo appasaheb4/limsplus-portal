@@ -161,6 +161,7 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by code"
                     data={{
                       list:testMasterStore.listTestMaster,
                       displayKey: "testCode",
@@ -171,9 +172,10 @@ const TestSampleMapping = observer(() => {
                      testMasterStore.testMasterService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["testCode"]: value,
+                              
+                              testCode: value,
                             },
                             page: 0,
                             limit: 10,
@@ -241,10 +243,10 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
-                    
+                    placeholder="Search by Code"
                     data={{
                       list:sampleTypeStore.listSampleType,
-                      displayKey: "sampleCode",
+                      displayKey: "sample code",
                       findKey: "sampleCode",
                     }}
                     hasError={errors.sampleCode}
@@ -252,9 +254,9 @@ const TestSampleMapping = observer(() => {
                       sampleTypeStore.sampleTypeService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["sampleCode"]: value,
+                              sampleCode: value,
                             },
                             page: 0,
                             limit: 10,
@@ -320,6 +322,7 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by sample type"
                     data={{
                       list:sampleTypeStore.listSampleType,
                       displayKey: "sampleType",
@@ -330,9 +333,10 @@ const TestSampleMapping = observer(() => {
                       sampleTypeStore.sampleTypeService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["sampleType"]: value,
+                              
+                              sampleType: value,
                             },
                             page: 0,
                             limit: 10,
@@ -369,9 +373,10 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by SampleGroup"
                     data={{
                       list:sampleTypeStore.listSampleType,
-                      displayKey: "sampleGroup",
+                      displayKey: "sample group",
                       findKey: "sampleGroup",
                     }}
                     hasError={errors.sampleGroup}
@@ -379,9 +384,10 @@ const TestSampleMapping = observer(() => {
                       sampleTypeStore.sampleTypeService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["sampleGroup"]: value,
+                              
+                              sampleGroup: value,
                             },
                             page: 0,
                             limit: 10,
@@ -417,6 +423,7 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by code"
                     data={{
                       list:sampleContainerStore.listSampleContainer,
                       displayKey: "containerCode",
@@ -427,9 +434,10 @@ const TestSampleMapping = observer(() => {
                       sampleContainerStore.sampleContainerService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["containerCode"]: value,
+                              
+                              containerCode: value,
                             },
                             page: 0,
                             limit: 10,
@@ -465,6 +473,7 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     data={{
                       list:sampleContainerStore.listSampleContainer,
                       displayKey: "containerName",
@@ -475,9 +484,10 @@ const TestSampleMapping = observer(() => {
                       sampleContainerStore.sampleContainerService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["containerName"]: value,
+                              
+                              containerName: value,
                             },
                             page: 0,
                             limit: 10,
@@ -513,6 +523,7 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by code"
                     data={{
                       list:sampleContainerStore.listSampleContainer,
                       displayKey: "containerCode",
@@ -523,9 +534,10 @@ const TestSampleMapping = observer(() => {
                       sampleContainerStore.sampleContainerService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["containerCode"]: value,
+                              
+                              containerCode: value,
                             },
                             page: 0,
                             limit: 10,
@@ -561,6 +573,7 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     data={{
                       list:sampleContainerStore.listSampleContainer,
                       displayKey: "containerName",
@@ -571,9 +584,10 @@ const TestSampleMapping = observer(() => {
                       sampleContainerStore.sampleContainerService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["containerName"]: value,
+                              
+                              containerName: value,
                             },
                             page: 0,
                             limit: 10,

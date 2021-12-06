@@ -247,6 +247,7 @@ const TestPanelMapping = observer(() => {
                   >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     disable={
                       loginStore.login &&
                       loginStore.login.role !== "SYSADMIN"
@@ -263,9 +264,9 @@ const TestPanelMapping = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
@@ -406,6 +407,18 @@ const TestPanelMapping = observer(() => {
                         findKey: ["testName", "testCode"],
                       }}
                       hasError={errors.testName}
+                       onFilter ={ (value: string) => {
+                        testMasterStore.testMasterService.filter({
+                          input: {
+                            type: "filter",
+                            filter: { 
+                              testName: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        })
+                      }}
                       onUpdate={(items) => {
                         onChange(items)
                         const testCode: string[] = []

@@ -245,6 +245,7 @@ const TestAnalyteMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     disable={
                       loginStore.login &&
                       loginStore.login.role !== "SYSADMIN"
@@ -261,9 +262,9 @@ const TestAnalyteMapping = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type:"filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                             name: value
                             },
                             page: 0,
                             limit: 10,
@@ -419,9 +420,9 @@ const TestAnalyteMapping = observer(() => {
                         masterAnalyteStore.masterAnalyteService.filter(
                           {
                             input: {
+                              type: "filter",
                               filter: {
-                                type: "search",
-                                ["analyteName"]: value,
+                                analyteName: value,
                               },
                               page: 0,
                               limit: 10,

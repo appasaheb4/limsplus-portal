@@ -1119,7 +1119,7 @@ const Doctors = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
-                    
+                    placeholder="Search by name"
                     data={{
                       list:labStore.listLabs,
                       displayKey: "name",
@@ -1130,9 +1130,9 @@ const Doctors = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "search",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
@@ -1184,7 +1184,7 @@ const Doctors = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
-                    
+                    placeholder="Search by name"
                     data={{
                       list:labStore.listLabs,
                       displayKey: "name",
@@ -1195,9 +1195,9 @@ const Doctors = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
@@ -1232,7 +1232,7 @@ const Doctors = observer(() => {
                   >
                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
-                    
+                    placeholder="Search by name"
                     data={{
                       list:labStore.listLabs,
                       displayKey: "name",
@@ -1243,9 +1243,9 @@ const Doctors = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
