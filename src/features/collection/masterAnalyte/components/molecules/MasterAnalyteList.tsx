@@ -4,8 +4,11 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectLabs} from '../organsims'
+import { AutoCompleteFilterSingleSelectLabs } from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+
+let dateExpire
+let version
 
 interface MasterAnalyteProps {
   data: any
@@ -58,9 +61,10 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectLabs
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -734,7 +738,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               //   },
               //   style: { display: "inline" },
               // }),
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  dateExpire = filter
+                },
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -755,7 +763,13 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               //     comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
               //   },
               // }),
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  console.log({ filter })
+
+                  version = filter
+                },
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -893,6 +907,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={() => {
+            console.log("clear")
+            dateExpire()
+            version("")
           }}
         />
       </div>

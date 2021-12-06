@@ -1,9 +1,16 @@
-import React, { useState } from "react"
-
+import React, { useState, useEffect } from "react"
 
 export const NumberFilter = (props) => {
   const [number, setNumber] = useState("")
   const [comparator, setComparator] = useState("=")
+  useEffect(() => {
+    if (props.column.filter.props.getFilter) {
+      props.column.filter.props.getFilter((filterVal) => {
+        setNumber("")
+        props.onFilter(filterVal)
+      })
+    }
+  }, [props.column.filter.props.getFilter])
 
   const filter = (number, comparator) => {
     props.onFilter({
@@ -48,7 +55,6 @@ export const NumberFilter = (props) => {
           className="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black ml-1"
           onChange={(e) => {
             const num = e.target.value
-            console.log({ num })
             const re = /^[0-9.,]+$|^$/
             if (re.test(num)) {
               setNumber(num)
@@ -62,7 +68,7 @@ export const NumberFilter = (props) => {
     </>
   )
 }
-  
+
 export const DateFilter = (props) => {
   const [startDate, setStartDate] = useState<any>(null)
   const [endDate, setEndDate] = useState<any>(null)
@@ -70,6 +76,19 @@ export const DateFilter = (props) => {
   const [comparator, setComparator] = useState("=")
   const [toggle, setToggle] = useState(false)
    
+  useEffect(() => {
+    if (props.column.filter.props.getFilter) {
+      props.column.filter.props.getFilter((filterVal) => {
+        setStartDate(null)
+        setEndDate(null)
+        setDiffFlag(false)
+        setComparator('=')
+        setToggle(false)
+        props.onFilter(filterVal)
+      })
+    }
+  }, [props.column.filter.props.getFilter])
+
   const filter = (startDate, endDate, comparator, diffFlag) => {
     props.onFilter({
       startDate,
@@ -85,8 +104,6 @@ export const DateFilter = (props) => {
     setDiffFlag(!diffFlag)
     filter(startDate, endDate, comparator, !diffFlag)
   }
-
-
 
   return (
     <>
@@ -137,7 +154,7 @@ export const DateFilter = (props) => {
         )}
         <input
           type="date"
-          value={startDate}
+          value={startDate || null}
           onChange={(e) => {
             const date = e.target.value
             setStartDate(date)
@@ -148,7 +165,7 @@ export const DateFilter = (props) => {
         {diffFlag && (
           <input
             type="date"
-            value={endDate}
+            value={endDate || null}
             onChange={(e) => {
               const date = e.target.value
               setEndDate(date)

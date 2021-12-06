@@ -22,6 +22,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import * as Config from "@lp/config"
+import Singleton from "@lp/library/utils/Singleton"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -43,8 +44,10 @@ interface TableBootstrapProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  clearAllFilter?: () => void
 }
 
+let SingletonFilter = Singleton.getInstance()
 const TableBootstrap = ({
   id,
   data,
@@ -62,9 +65,11 @@ const TableBootstrap = ({
   onUpdateItem,
   onPageSizeChange,
   onFilter,
+  clearAllFilter,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
+
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -193,8 +198,8 @@ const TableBootstrap = ({
   const handleTableChange = (
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
-  ) => {  
-    console.log({ type, filters })
+  ) => {
+    //console.log({ type, filters })
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
@@ -210,13 +215,19 @@ const TableBootstrap = ({
         if (page * sizePerPage > totalSize)
           return alert("You have not more records.")
       }
-        let filter: any = {}
-        for (const [key, value] of Object.entries(filters)) {
-          const values: any = value
-          const object = { [key]: values.filterVal }
-          filter = Object.assign(filter, object)
-        }
-        onFilter && onFilter(type, filter, (type === 'filter' && page === 1) ? 0 : page, sizePerPage)
+      let filter: any = {}
+      for (const [key, value] of Object.entries(filters)) {
+        const values: any = value
+        const object = { [key]: values.filterVal }
+        filter = Object.assign(filter, object)
+      }
+      onFilter &&
+        onFilter(
+          type,
+          filter,
+          type === "filter" && page === 1 ? 0 : page,
+          sizePerPage
+        )
     }
     if (type === "search") {
       setTimeout(() => {
@@ -311,11 +322,17 @@ const TableBootstrap = ({
                   }}
                 />
                 <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                   {...props.searchProps}
                 />
+                <button
+                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  onClick={clearAllFilter}
+                >
+                  Clear all filters
+                </button>
                 <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center `}
+                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                   {...props.csvProps}
                 >
                   Export CSV!!

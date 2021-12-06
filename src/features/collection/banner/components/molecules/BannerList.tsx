@@ -5,6 +5,9 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
 
+let title
+let environment
+
 interface BannerListProps {
   data: any
   totlaSize: number
@@ -19,7 +22,7 @@ interface BannerListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const BannerList = (props: BannerListProps) => {   
+const BannerList = (props: BannerListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -36,7 +39,11 @@ const BannerList = (props: BannerListProps) => {
           dataField: "title",
           text: "Title",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) => {
+              title = filter
+            },
+          }),
           headerClasses: "headerText",
           //classes: 'bg-black',
         },
@@ -80,7 +87,11 @@ const BannerList = (props: BannerListProps) => {
           dataField: "environment",
           text: "Environment",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) => {
+              environment = filter
+            },
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -166,6 +177,10 @@ const BannerList = (props: BannerListProps) => {
       }}
       onFilter={(type, filter, page, size) => {
         props.onFilter && props.onFilter(type, filter, page, size)
+      }}
+      clearAllFilter={() => {
+        title("")
+        environment("")
       }}
     />
   )
