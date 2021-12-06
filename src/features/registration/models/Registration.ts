@@ -1,79 +1,4 @@
-export class PatientManger {
-    pId?: string
-    mobileNo?: string
-    birthDate?: Date
-    title?: string
-    firstName?: string
-    middleName?: string
-    lastName?: string
-    sex?: string
-    species?: string
-    breed?: string
-    usualDoctor?: string
-    history?: boolean
-    address?: string
-    postcode?: string
-    city?: string
-    state?: string
-    country?: string
-    email?: string  
-    isMobileAndWhatsApp?: boolean
-    whatsappNumber?: string
-    permanent?: boolean
-    vip?: boolean
-    confidental?: boolean
-    photograph?: string
-    signature?: string
-    bloodGroup?: string
-    height?: string
-    weight?: string
-    followUp?: string
-    comments?: string
-    fyiLine?: string
-    balance?: string
-    accountType?: string
-    enteredBy?: string
-    status?: string
-    environment?: string
-    constructor(rawData: {[key in string]: any}){
-        this.pId = rawData.pId
-        this.mobileNo = rawData.mobileNo
-        this.birthDate = rawData.birthDate
-        this.title = rawData.title
-        this.firstName = rawData.firstName
-        this.middleName = rawData.middleName
-        this.lastName = rawData.lastName
-        this.sex = rawData.sex
-        this.species = rawData.species
-        this.breed = rawData.breed
-        this.usualDoctor = rawData.usualDoctor
-        this.history = rawData.history
-        this.address = rawData.address
-        this.postcode = rawData.postcode
-        this.city = rawData.city
-        this.state = rawData.state
-        this.country = rawData.country
-        this.email = rawData.email
-        this.isMobileAndWhatsApp = rawData.isMobileAndWhatsApp
-        this.whatsappNumber = rawData.whatsappNumber
-        this.permanent = rawData.permanent
-        this.vip = rawData.vip
-        this.confidental = rawData.confidental
-        this.photograph = rawData.photograph
-        this.signature = rawData.signature
-        this.bloodGroup = rawData.bloodGroup
-        this.height = rawData.height
-        this.weight =  rawData.weight
-        this.followUp = rawData.followUp
-        this.comments = rawData.comments
-        this.fyiLine = rawData.fyiLine
-        this.balance = rawData.balance
-        this.accountType = rawData.accountType
-        this.enteredBy = rawData.enteredBy
-        this.status = rawData.status
-        this.environment = rawData.environment
-    }
-  }
+
   
   export class PatientVisit {
     patient?: string
@@ -206,28 +131,6 @@ export class PatientManger {
     packageVersion?: string
     panelVersion?: string
     environment?: string
-    // dilitionValue?: string
-    // workFlow?: string
-    // loginServgrp?: string
-    // collectionDate?: Date
-    // collectedBy?: string
-    // collectedUnits?: string
-    // lastUpdated?: string
-    // orderStatus?: string
-    // sampleCondition?: string
-    // currentServgrp?: string
-    // routingStatus?: string
-    // pu?: string
-    // recvTime?: Date
-    // printLabel?: boolean
-    // srascanin?: string
-    // outSourceOrderNo?: string
-    // departmentOutsource?: string
-    // sampDesc?: string
-    // amoumtGross?: string
-    // amoumtNet?: string
-    // amountDiscount?: string
-    // discountInPercentage?: string
     
     constructor(rawData: {[key in string]: any}){
       this.visitId = rawData.visitId
@@ -256,37 +159,11 @@ export class PatientManger {
       this.reRun = rawData.reRun
       this.qty = rawData.qty
       this.rep = rawData.rep
-      // this.eqId = rawData.eqId
-      // this.eqType = rawData.eqType
       this.methodOn = rawData.methodOn
       this.methodName = rawData.methodName
       this.osStatus = rawData.osStatus
       this.priority = rawData.priority
-      // this.pOrder = rawData.pOrder
-      // this.aOrder = rawData.aOrder
       this.confidental = rawData.confidental
-      // this.dilitionValue = rawData.dilitionValue
-      // this.workFlow = rawData.workFlow
-      // this.loginServgrp = rawData.loginServgrp
-      // this.collectionDate = rawData.collectionDate
-      // this.collectedBy = rawData.collectedBy
-      // this.collectedUnits = rawData.collectedUnits
-      // this.lastUpdated = rawData.lastUpdated
-      // this.orderStatus = rawData.orderStatus
-      // this.sampleCondition = rawData.sampleCondition
-      // this.currentServgrp = rawData.currentServgrp
-      // this.routingStatus = rawData.routingStatus
-      // this.pu = rawData.pu
-      // this.recvTime = rawData.recvTime
-      // this.printLabel = rawData.printLabel
-      // this.srascanin = rawData.srascanin
-      // this.outSourceOrderNo = rawData.outSourceOrderNo
-      // this.departmentOutsource = rawData.departmentOutsource
-      // this.sampDesc = rawData.sampDesc
-      // this.amoumtGross = rawData.amountGross
-      // this.amoumtNet = rawData.amoumtNet
-      // this.amountDiscount = rawData.amountDiscount
-      // this.discountInPercentage = rawData.discountInPercentage
       this.environment = rawData.environment
         
     }

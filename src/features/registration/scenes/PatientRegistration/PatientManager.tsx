@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -8,9 +9,8 @@ import * as FeatureComponents from "../../components"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as AdministrativeDivisionStore } from "@lp/features/collection/administrativeDivisions/stores"
 import "@lp/library/assets/css/accordion.css"
-import { stores } from "@lp/stores"
+import { useStores } from "@lp/stores"
 import { toJS } from "mobx"
-import { Stores } from "../../stores"
 import { RouterFlow } from "@lp/flows"
 import {
   Accordion,
@@ -18,8 +18,8 @@ import {
   AccordionItemHeading,
   AccordionItemButton,
   AccordionItemPanel,
-} from 'react-accessible-accordion';
-import 'react-accessible-accordion/dist/fancy-example.css';
+} from "react-accessible-accordion"
+import "react-accessible-accordion/dist/fancy-example.css"
 
 interface PatientManagerProps {
   onModalConfirm?: (item: any) => void
@@ -30,21 +30,25 @@ const PatientManager = observer((props: PatientManagerProps) => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
+  const { loginStore, patientManagerStore, routerStore } = useStores()
 
-  const onSubmitPatientManager = () =>{
+  const onSubmitPatientManager = () => {
     // Add Patient
   }
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.patientRegistationStore.updatePatientManager({
-        ...Stores.patientRegistationStore.patientManger,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      patientManagerStore.updatePatientManager({
+        ...patientManagerStore.patientManger,
+        extraData: {  
+          ...patientManagerStore.patientManger.extraData,
+          environment: loginStore.login.environment,
+        },
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   return (
     <>
@@ -57,218 +61,223 @@ const PatientManager = observer((props: PatientManagerProps) => {
             fill
           >
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Pid"
-              name="txtPid"
-              placeholder={errors.pId?"Please Enter Pid":"Pid"}
-              hasError={errors.pId}
-              value={Stores.patientRegistationStore.patientManger?.pId}
-              onChange={(pId) => {
-               onChange(pId)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  pId,
-                })
-              }}
-            />
-            )}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="Pid"
+                  name="txtPid"
+                  placeholder={errors.pId ? "Please enter pid" : "Pid"}
+                  hasError={errors.pId}
+                  value={patientManagerStore.patientManger?.pId}
+                  onChange={(pId) => {
+                    onChange(pId)
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      pId,
+                    })
+                  }}
+                />
+              )}
               name="pId"
               rules={{ required: true }}
               defaultValue=""
             />
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Mobile No"
-              name="txtMobileNo"
-              placeholder={errors.txtMobileNo?"Please Enter MobileNo":"Mobile No"}
-              hasError={errors.txtMobileNo}
-              type="number"
-              value={Stores.patientRegistationStore.patientManger?.mobileNo}
-              onChange={(mobileNo) => {
-                onChange(mobileNo)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  mobileNo,
-                })
-              }}
-            />
-            )}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="Mobile No"
+                  name="txtMobileNo"
+                  placeholder={
+                    errors.txtMobileNo ? "Please Enter MobileNo" : "Mobile No"
+                  }
+                  hasError={errors.txtMobileNo}
+                  type="number"
+                  value={patientManagerStore.patientManger?.mobileNo}
+                  onChange={(mobileNo) => {
+                    onChange(mobileNo)
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      mobileNo,
+                    })
+                  }}
+                />
+              )}
               name="txtMobileNo"
               rules={{ required: true }}
               defaultValue=""
             />
             <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputDate
-              label="BithDate"
-              name="txtBirthDate"
-              placeholder={errors.birthDate?"Please Enter BirthDate":"BirthDate"}
-              hasError={errors.birthDate}
-              value={LibraryUtils.moment(
-                Stores.patientRegistationStore.patientManger?.birthDate
-              ).format("YYYY-MM-DD")}
-              onChange={(e) => {
-                let birthDate = new Date(e.target.value)
-                onChange(birthDate)
-                const formatDate = LibraryUtils.moment(birthDate).format(
-                  "YYYY-MM-DD HH:mm"
-                )
-                
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  birthDate: new Date(formatDate),
-                })
-              }}
-            />
-            )}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputDate
+                  label="Bithdate"
+                  placeholder={
+                    errors.birthDate ? "Please Enter BirthDate" : "BirthDate"
+                  }
+                  hasError={errors.birthDate}
+                  value={dayjs(patientManagerStore.patientManger?.birthDate).format(
+                    "YYYY-MM-DD"
+                  )}
+                  onChange={(e) => {
+                    let birthDate = new Date(e.target.value)
+                    onChange(birthDate)
+                    const formatDate = dayjs(birthDate).format("YYYY-MM-DD HH:mm")
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      birthDate: new Date(formatDate),
+                    })
+                  }}
+                />
+              )}
               name="birthDate"
               rules={{ required: true }}
               defaultValue=""
             />
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper label="Title" hasError={errors.title}>
-              <select
-                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                  errors.title
-                    ? "border-red-500  "
-                    : "border-gray-300"
-                } rounded-md`}
-                onChange={(e) => {
-                  const title = e.target.value
-                  onChange(title)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    title,
-                  })
-                }}
-              >
-                <option selected>Select</option>
-                {LibraryUtils.lookupItems(
-                  stores.routerStore.lookupItems,
-                  "PATIENT MANAGER - TITLE"
-                ).map((item: any, index: number) => (
-                  <option key={index} value={item.code}>
-                    {LibraryUtils.lookupValue(item)}
-                  </option>  
-                ))}
-              </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
-             )}
-             name="title"
-             rules={{ required: true }}
-             defaultValue=""
-           />
-           <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="First Name"
-              name="txtFirstName"
-              placeholder={errors.firstName?"Please Enter FirstName":"First Name"}
-              hasError={errors.firstName}
-              value={Stores.patientRegistationStore.patientManger?.firstName}
-              onChange={(firstName) => {
-                onChange(firstName)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  firstName:firstName.toUpperCase(),
-                })
-              }}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Title"
+                  hasError={errors.title}
+                >
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.title ? "border-red-500  " : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const title = e.target.value
+                      onChange(title)
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        title,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      routerStore.lookupItems,
+                      "PATIENT MANAGER - TITLE"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="title"
+              rules={{ required: true }}
+              defaultValue=""
             />
-            )}
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="First Name"
+                  name="txtFirstName"
+                  placeholder={
+                    errors.firstName ? "Please Enter FirstName" : "First Name"
+                  }
+                  hasError={errors.firstName}
+                  value={patientManagerStore.patientManger?.firstName}
+                  onChange={(firstName) => {
+                    onChange(firstName)
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      firstName: firstName.toUpperCase(),
+                    })
+                  }}
+                />
+              )}
               name="firstName"
               rules={{ required: true }}
               defaultValue=""
             />
             <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Middle Name"
-              name="txtMiddleName"
-              placeholder={errors.middleName?"Please Enter MiddleName":"Middle Name"}
-              hasError={errors.middleName}
-              value={Stores.patientRegistationStore.patientManger?.middleName}
-              onChange={(middleName) => {
-               onChange(middleName)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  middleName:middleName.toUpperCase(),
-                })
-              }}
-            />
-            )}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="Middle Name"
+                  name="txtMiddleName"
+                  placeholder={
+                    errors.middleName ? "Please Enter MiddleName" : "Middle Name"
+                  }
+                  hasError={errors.middleName}
+                  value={patientManagerStore.patientManger?.middleName}
+                  onChange={(middleName) => {
+                    onChange(middleName)
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      middleName: middleName.toUpperCase(),
+                    })
+                  }}
+                />
+              )}
               name="middleName"
               rules={{ required: true }}
               defaultValue=""
             />
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Last Name"
-              name="txtLastName"
-              placeholder={errors.lastName?"Please Enter LastName":"Last Name"}
-              hasError={errors.lastName}
-              value={Stores.patientRegistationStore.patientManger?.lastName}
-              onChange={(lastName) => {
-                onChange(lastName)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  lastName:lastName.toUpperCase(),
-                })
-              }}
-            />
-            )}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="Last Name"
+                  name="txtLastName"
+                  placeholder={
+                    errors.lastName ? "Please Enter LastName" : "Last Name"
+                  }
+                  hasError={errors.lastName}
+                  value={patientManagerStore.patientManger?.lastName}
+                  onChange={(lastName) => {
+                    onChange(lastName)
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      lastName: lastName.toUpperCase(),
+                    })
+                  }}
+                />
+              )}
               name="lastName"
               rules={{ required: true }}
               defaultValue=""
             />
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper label="Sex" hasError={errors.sex}>
-              <select
-                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                  errors.sex
-                    ? "border-red-500  "
-                    : "border-gray-300"
-                } rounded-md`}
-                onChange={(e) => {
-                  const sex = e.target.value
-                  onChange(sex)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    sex,
-                  })
-                }}
-              >
-                <option selected>Select</option>
-                {LibraryUtils.lookupItems(
-                  stores.routerStore.lookupItems,
-                  "PATIENT MANAGER - SEX"
-                ).map((item: any, index: number) => (
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Sex"
+                  hasError={errors.sex}
+                >
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.sex ? "border-red-500  " : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const sex = e.target.value
+                      onChange(sex)
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        sex,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      routerStore.lookupItems,
+                      "PATIENT MANAGER - SEX"
+                    ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {LibraryUtils.lookupValue(item)}
-                      </option>  
+                      </option>
                     ))}
-              </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="sex"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-           
-          
-           
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="sex"
+              rules={{ required: true }}
+              defaultValue=""
+            />
           </LibraryComponents.Atoms.List>
 
           <LibraryComponents.Atoms.List
@@ -278,84 +287,85 @@ const PatientManager = observer((props: PatientManagerProps) => {
             fill
           >
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper label="Species" hasError={errors.species}>
-              <select
-               className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                errors.species
-                  ? "border-red-500  "
-                  : "border-gray-300"
-              } rounded-md`}
-                onChange={(e) => {
-                  const species = e.target.value as string
-                  onChange(species)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    species,
-                  })
-                }}
-              >
-                <option selected>Select</option>
-                {LibraryUtils.lookupItems(
-                  stores.routerStore.lookupItems,
-                  "PATIENT MANAGER - SPECIES"
-                ).map((item: any, index: number) => (
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Species"
+                  hasError={errors.species}
+                >
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.species ? "border-red-500  " : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const species = e.target.value as string
+                      onChange(species)
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        species,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      routerStore.lookupItems,
+                      "PATIENT MANAGER - SPECIES"
+                    ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                       {LibraryUtils.lookupValue(item)}
+                        {LibraryUtils.lookupValue(item)}
                       </option>
                     ))}
-              </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="species"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-          <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Breed"
-              name="txtBreed"
-              placeholder={errors.breed?"Please Enter Breed":"Breed"}
-              hasError={errors.breed}
-              value={Stores.patientRegistationStore.patientManger?.breed}
-              onChange={(breed) => {
-                onChange(breed)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  breed,
-                })
-              }}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="species"
+              rules={{ required: true }}
+              defaultValue=""
             />
-            )}
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="Breed"
+                  name="txtBreed"
+                  placeholder={errors.breed ? "Please Enter Breed" : "Breed"}
+                  hasError={errors.breed}
+                  value={patientManagerStore.patientManger?.breed}
+                  onChange={(breed) => {
+                    onChange(breed)
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      breed,
+                    })
+                  }}
+                />
+              )}
               name="breed"
               rules={{ required: false }}
               defaultValue=""
             />
-          <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Usual Doctor"
-                    hasError={errors.usualDoctor}
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Usual Doctor"
+                  hasError={errors.usualDoctor}
+                >
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.usualDoctor ? "border-red-500" : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const usualDoctor = JSON.parse(e.target.value)
+                      onChange(usualDoctor)
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        usualDoctor,
+                      })
+                    }}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.usualDoctor ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const usualDoctor = JSON.parse(e.target.value)
-                        onChange(usualDoctor)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          usualDoctor
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {/* {CoporateClients.corporateClientsStore.listCorporateClients &&
+                    <option selected>Select</option>
+                    {/* {CoporateClients.corporateClientsStore.listCorporateClients &&
                         CoporateClients.corporateClientsStore.listCorporateClients.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
@@ -363,617 +373,750 @@ const PatientManager = observer((props: PatientManagerProps) => {
                             </option>
                           )
                         )} */}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="usualDoctor"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              
-              <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="History"
-                      id="txtHistory"
-                      hasError={errors.history}
-                      value={Stores.patientRegistationStore.patientManger?.history}
-                      onChange={(history) => {
-                        onChange(history)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          history,
-                        })
-                      }}
-                    />
-                  )}
-                  name="history"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="usualDoctor"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="History"
+                  id="txtHistory"
+                  hasError={errors.history}
+                  value={patientManagerStore.patientManger?.history}
+                  onChange={(history) => {
+                    onChange(history)
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      history,
+                    })
+                  }}
                 />
+              )}
+              name="history"
+              rules={{ required: false }}
+              defaultValue=""
+            />
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>
       <br />
-      <div className='extra' style={{border:'1px solid yellow'}}>
-      <Accordion allowZeroExpanded>
-            <AccordionItem>
-                <AccordionItemHeading>
-                    <AccordionItemButton>
-                        EXTRA DATA
-                    </AccordionItemButton>
-                </AccordionItemHeading>
-                <AccordionItemPanel>
-                    <>
-                    <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List direction='col' space={4} justify='stretch' fill>
-              <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.MultilineInput
-              rows={2}
-              label="Address"
-              name="txtAddress"
-              placeholder={errors.address?"Please Enter Address":"Address"}
-              hasError={errors.address}
-              value={Stores.patientRegistationStore.patientManger?.address}
-              onChange={(address) => {
-                onChange(address)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  address,
-                })
-              }}
-            />
-            )}
-              name="address"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Postcode"
-              name="txtPostcode"   
-              placeholder={errors.postcode?"Please Enter Postcode":"Postcode"}
-              hasError={errors.postcode}
-              value={Stores.patientRegistationStore.patientManger?.postcode}
-              onChange={(postcode) => {
-                onChange(postcode)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  postcode,
-                })
-              }}
-            />
-            )}
-              name="postcode"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-           <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="City"
-                    hasError={errors.city}
+      <div className="extra" style={{ border: "1px solid yellow" }}>
+        <Accordion allowZeroExpanded>
+          <AccordionItem>
+            <AccordionItemHeading>
+              <AccordionItemButton>EXTRA DATA</AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              <>
+                <LibraryComponents.Atoms.Grid cols={2}>
+                  <LibraryComponents.Atoms.List
+                    direction="col"
+                    space={4}
+                    justify="stretch"
+                    fill
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.city ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const city = e.target.value as string
-                        onChange(city)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          city,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv &&
-                      AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.city}>
-                            {`${item.city}`}
-                          </option>
-                        )
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.MultilineInput
+                          rows={2}
+                          label="Address"
+                          name="txtAddress"
+                          placeholder={
+                            errors.address ? "Please Enter Address" : "Address"
+                          }
+                          hasError={errors.address}
+                          value={
+                            patientManagerStore.patientManger?.extraData?.address
+                          }
+                          onChange={(address) => {
+                            onChange(address)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                address,
+                              },
+                            })
+                          }}
+                        />
                       )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="city"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-            <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="State"
-                    hasError={errors.state}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.state ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const state = e.target.value as string
-                        onChange(state)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          state,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv &&
-                      AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.state}>
-                            {`${item.state}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="state"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Country"
-                    hasError={errors.country}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.country ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const country = e.target.value as string
-                        onChange(country)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          country,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv &&
-                      AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.country}>
-                            {`${item.country}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-              name="country"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Email"
-              name="txtEmail"
-              placeholder={errors.email?"Please Enter Email":"Email"}
-              hasError={errors.email}
-              type="mail"
-              value={Stores.patientRegistationStore.patientManger?.email}
-              onChange={(email) => {
-                onChange(email)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  email,
-                })
-              }}
-            />
-            )}
-              name="email"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="WhatsApp Number"
-              name="txtWhatsappNumber"
-              placeholder={errors.whatsappNumber?"Please Enter WhatsappNumber":"WhatsAppNumber"}
-              hasError={errors.whatsappNumber}
-              value={Stores.patientRegistationStore.patientManger?.whatsappNumber}
-              onChange={(whatsappNumber) => {
-                onChange(whatsappNumber)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  whatsappNumber,
-                })
-              }}
-            />
-            )}
-              name="whatsappNumber"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputFile
-                      label="Photograph"
-                      placeholder="File"
-                      onChange={(e) => {
-                        const photograph = e.target.files[0]
-                        onChange(photograph)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          photograph,
-                        })
-                      }}
+                      name="address"
+                      rules={{ required: true }}
+                      defaultValue=""
                     />
-                  )}
-                  name="photograph"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputFile
-                      label="Signature"
-                      placeholder="File"
-                      onChange={(e) => {
-                        const signature = e.target.files[0]
-                        onChange(signature)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          signature,
-                        })
-                      }}
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Postcode"
+                          name="txtPostcode"
+                          placeholder={
+                            errors.postcode ? "Please Enter Postcode" : "Postcode"
+                          }
+                          hasError={errors.postcode}
+                          value={
+                            patientManagerStore.patientManger?.extraData.postcode
+                          }
+                          onChange={(postcode) => {
+                            onChange(postcode)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                postcode,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="postcode"
+                      rules={{ required: false }}
+                      defaultValue=""
                     />
-                  )}
-                  name="signature"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Blood Group"
-              name="txtBloodGroup"
-              placeholder={errors.bloodGroup?"Please Enter Blood Group":"BloodGroup"}
-              hasError={errors.bloodGroup}
-              value={Stores.patientRegistationStore.patientManger?.bloodGroup}
-              onChange={(bloodGroup) => {
-                onChange(bloodGroup)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  bloodGroup,
-                })
-              }}
-            />
-            )}
-              name="bloodGroup"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Height"
-              name="txtHeight"
-              placeholder={errors.height?"Please Enter Height":"Height"}
-              hasError={errors.height}
-              value={Stores.patientRegistationStore.patientManger?.height}
-              onChange={(height) => {
-                onChange(height)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  height,
-                })
-              }}
-            />
-            )}
-              name="height"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            </LibraryComponents.Atoms.List>   
-              <LibraryComponents.Atoms.List direction='col' space={4} justify='stretch' fill>
-              <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Weight"
-              name="txtWeight"
-              placeholder={errors.height?"Please Enter Weight":"Weight"}
-              hasError={errors.weight}
-              value={Stores.patientRegistationStore.patientManger?.weight}
-              onChange={(weight) => {
-                onChange(weight)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  weight,
-                })
-              }}
-            />
-            )}
-              name="weight"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Follow Up"
-              name="txtFollowUp"
-              placeholder={errors.followUp?"Please Enter FollowUp":"FollowUp"}
-              hasError={errors.followUp}
-              value={Stores.patientRegistationStore.patientManger?.followUp}
-              onChange={(followUp) => {
-                onChange(followUp)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  followUp,
-                })
-              }}
-            />
-            )}
-              name="followUp"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Comments"
-              name="txtComments"
-              placeholder={errors.comments?"Please Enter FollowUp":"FollowUp"}
-              hasError={errors.comments}
-              value={Stores.patientRegistationStore.patientManger?.comments}
-              onChange={(comments) => {
-                onChange(comments)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  comments,
-                })
-              }}
-            />
-            )}
-              name="comments"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="FyiLine"
-              name="txtFyiLine"
-              placeholder={errors.fyiLine?"Please Enter FyiLine":"Fyiline"}
-              hasError={errors.fyiLine}
-              value={Stores.patientRegistationStore.patientManger?.fyiLine}
-              onChange={(fyiLine) => {
-                onChange(fyiLine)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  fyiLine,
-                })
-              }}
-            />
-            )}
-              name="fyiLine"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Balance"
-              name="txtBalance"
-              placeholder={errors.balance?"Please Enter Balance":"Balance"}
-              hasError={errors.balance}
-              value={Stores.patientRegistationStore.patientManger?.balance}
-              onChange={(balance) => {
-                onChange(balance)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  balance,
-                })
-              }}
-            />
-            )}
-              name="balance"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Account Type"
-              name="txtAccountType"
-              placeholder={errors.accountType?"Please Enter Account Type":"Account Type"}
-              hasError={errors.accountType}
-              value={Stores.patientRegistationStore.patientManger?.accountType}
-              onChange={(accountType) => {
-                onChange(accountType)
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  accountType,
-                })
-              }}
-            />
-            )}
-              name="accountType"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Entered By"
-                    placeholder={
-                      errors.enteredBy ? "Please Enter Entered By" : "Entered By"
-                    }
-                    hasError={errors.enteredBy}
-                    value={LoginStore.loginStore.login?.userId}
-                    disabled={true}
-                  />
-                )}
-                name="enteredBy"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Status">
-                      <select
-                        value={Stores.patientRegistationStore.patientManger?.status}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status
-                            ? "border-red-500  "
-                            : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const status = e.target.value
-                          onChange(status)
-                          Stores.patientRegistationStore.updatePatientManager({
-                            ...Stores.patientRegistationStore.patientManger,
-                            status,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
-                          stores.routerStore.lookupItems,
-                          "PATIENT MANGER - STATUS"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="status"
-                  rules={{ required: true }}
-                  defaultValue=""
-                />
-           
-          <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.patientRegistationStore.patientManger?.environment}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  "
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.patientRegistationStore.updatePatientManager({
-                      ...Stores.patientRegistationStore.patientManger,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.patientRegistationStore.patientManger?.environment || `Select`}
-                      </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "PATIENT MANAGER - ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.Grid cols={4}>
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Is Mobile WhatsApp"
-                id="modeIsMobileAndWhatsApp"
-                hasError={errors.isMobileAndWhatsApp}
-                value={Stores.patientRegistationStore.patientManger?.isMobileAndWhatsApp}
-                onChange={(isMobileAndWhatsApp) => {
-                  onChange(isMobileAndWhatsApp)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    isMobileAndWhatsApp,
-                  })
-                }}
-              />
-              )}
-              name="isMobileAndWhatsApp"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Confidental"
-                id="modeConfidental"
-                hasError={errors.confidental}
-                value={Stores.patientRegistationStore.patientManger?.confidental}
-                onChange={(confidental) => {
-                  onChange(confidental)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    confidental,
-                  })
-                }}
-              />
-              )}
-              name="confidental"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.Grid>
-                    </>
-                </AccordionItemPanel>
-            </AccordionItem>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputWrapper
+                          label="City"
+                          hasError={errors.city}
+                        >
+                          <select
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.city ? "border-red-500" : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const city = e.target.value as string
+                              onChange(city)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  city,
+                                },
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {AdministrativeDivisionStore.administrativeDivStore
+                              .listAdministrativeDiv &&
+                              AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv.map(
+                                (item: any, index: number) => (
+                                  <option key={index} value={item.city}>
+                                    {`${item.city}`}
+                                  </option>
+                                )
+                              )}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                      )}
+                      name="city"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputWrapper
+                          label="State"
+                          hasError={errors.state}
+                        >
+                          <select
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.state ? "border-red-500" : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const state = e.target.value as string
+                              onChange(state)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  state,
+                                },
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {AdministrativeDivisionStore.administrativeDivStore
+                              .listAdministrativeDiv &&
+                              AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv.map(
+                                (item: any, index: number) => (
+                                  <option key={index} value={item.state}>
+                                    {`${item.state}`}
+                                  </option>
+                                )
+                              )}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                      )}
+                      name="state"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputWrapper
+                          label="Country"
+                          hasError={errors.country}
+                        >
+                          <select
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.country ? "border-red-500" : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const country = e.target.value as string
+                              onChange(country)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  country,
+                                },
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {AdministrativeDivisionStore.administrativeDivStore
+                              .listAdministrativeDiv &&
+                              AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv.map(
+                                (item: any, index: number) => (
+                                  <option key={index} value={item.country}>
+                                    {`${item.country}`}
+                                  </option>
+                                )
+                              )}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                      )}
+                      name="country"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Email"
+                          name="txtEmail"
+                          placeholder={errors.email ? "Please Enter Email" : "Email"}
+                          hasError={errors.email}
+                          type="mail"
+                          value={patientManagerStore.patientManger?.extraData.email}
+                          onChange={(email) => {
+                            onChange(email)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                email,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="email"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="WhatsApp Number"
+                          name="txtWhatsappNumber"
+                          placeholder={
+                            errors.whatsappNumber
+                              ? "Please Enter WhatsappNumber"
+                              : "WhatsAppNumber"
+                          }
+                          hasError={errors.whatsappNumber}
+                          value={
+                            patientManagerStore.patientManger?.extraData
+                              .whatsappNumber
+                          }
+                          onChange={(whatsappNumber) => {
+                            onChange(whatsappNumber)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                whatsappNumber,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="whatsappNumber"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputFile
+                          label="Photograph"
+                          placeholder="File"
+                          onChange={(e) => {
+                            const photograph = e.target.files[0]
+                            onChange(photograph)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                photograph,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="photograph"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputFile
+                          label="Signature"
+                          placeholder="File"
+                          onChange={(e) => {
+                            const signature = e.target.files[0]
+                            onChange(signature)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                signature,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="signature"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Blood Group"
+                          name="txtBloodGroup"
+                          placeholder={
+                            errors.bloodGroup
+                              ? "Please Enter Blood Group"
+                              : "BloodGroup"
+                          }
+                          hasError={errors.bloodGroup}
+                          value={
+                            patientManagerStore.patientManger?.extraData.bloodGroup
+                          }
+                          onChange={(bloodGroup) => {
+                            onChange(bloodGroup)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                bloodGroup,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="bloodGroup"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Height"
+                          name="txtHeight"
+                          placeholder={
+                            errors.height ? "Please Enter Height" : "Height"
+                          }
+                          hasError={errors.height}
+                          value={patientManagerStore.patientManger?.extraData.height}
+                          onChange={(height) => {
+                            onChange(height)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                height,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="height"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                  </LibraryComponents.Atoms.List>
+                  <LibraryComponents.Atoms.List
+                    direction="col"
+                    space={4}
+                    justify="stretch"
+                    fill
+                  >
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Weight"
+                          name="txtWeight"
+                          placeholder={
+                            errors.height ? "Please Enter Weight" : "Weight"
+                          }
+                          hasError={errors.weight}
+                          value={patientManagerStore.patientManger?.extraData.weight}
+                          onChange={(weight) => {
+                            onChange(weight)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                weight,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="weight"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Follow Up"
+                          name="txtFollowUp"
+                          placeholder={
+                            errors.followUp ? "Please Enter FollowUp" : "FollowUp"
+                          }
+                          hasError={errors.followUp}
+                          value={
+                            patientManagerStore.patientManger?.extraData.followUp
+                          }
+                          onChange={(followUp) => {
+                            onChange(followUp)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                followUp,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="followUp"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Comments"
+                          name="txtComments"
+                          placeholder={
+                            errors.comments ? "Please Enter FollowUp" : "FollowUp"
+                          }
+                          hasError={errors.comments}
+                          value={
+                            patientManagerStore.patientManger?.extraData.comments
+                          }
+                          onChange={(comments) => {
+                            onChange(comments)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                comments,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="comments"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="FyiLine"
+                          name="txtFyiLine"
+                          placeholder={
+                            errors.fyiLine ? "Please Enter FyiLine" : "Fyiline"
+                          }
+                          hasError={errors.fyiLine}
+                          value={
+                            patientManagerStore.patientManger?.extraData.fyiLine
+                          }
+                          onChange={(fyiLine) => {
+                            onChange(fyiLine)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                fyiLine,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="fyiLine"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Balance"
+                          name="txtBalance"
+                          placeholder={
+                            errors.balance ? "Please Enter Balance" : "Balance"
+                          }
+                          hasError={errors.balance}
+                          value={
+                            patientManagerStore.patientManger?.extraData.balance
+                          }
+                          onChange={(balance) => {
+                            onChange(balance)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                balance,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="balance"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Account Type"
+                          name="txtAccountType"
+                          placeholder={
+                            errors.accountType
+                              ? "Please Enter Account Type"
+                              : "Account Type"
+                          }
+                          hasError={errors.accountType}
+                          value={
+                            patientManagerStore.patientManger?.extraData.accountType
+                          }
+                          onChange={(accountType) => {
+                            onChange(accountType)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                accountType,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="accountType"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="Entered By"
+                          placeholder={
+                            errors.enteredBy
+                              ? "Please Enter Entered By"
+                              : "Entered By"
+                          }
+                          hasError={errors.enteredBy}
+                          value={LoginStore.loginStore.login?.userId}
+                          disabled={true}
+                        />
+                      )}
+                      name="enteredBy"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                          <select
+                            value={
+                              patientManagerStore.patientManger?.extraData.status
+                            }
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.status ? "border-red-500  " : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const status = e.target.value
+                              onChange(status)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  status,
+                                },
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {LibraryUtils.lookupItems(
+                              routerStore.lookupItems,
+                              "PATIENT MANGER - STATUS"
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ))}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                      )}
+                      name="status"
+                      rules={{ required: true }}
+                      defaultValue=""
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                          <select
+                            value={
+                              patientManagerStore.patientManger?.extraData
+                                .environment
+                            }
+                            disabled={
+                              loginStore.login &&
+                              loginStore.login.role !== "SYSADMIN"
+                                ? true
+                                : false
+                            }
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.environment
+                                ? "border-red-500  "
+                                : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const environment = e.target.value
+                              onChange(environment)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  environment,
+                                },
+                              })
+                            }}
+                          >
+                            <option selected>
+                              {loginStore.login &&
+                              loginStore.login.role !== "SYSADMIN"
+                                ? `Select`
+                                : patientManagerStore.patientManger?.extraData
+                                    .environment || `Select`}
+                            </option>
+                            {LibraryUtils.lookupItems(
+                              routerStore.lookupItems,
+                              "PATIENT MANAGER - ENVIRONMENT"
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ))}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                      )}
+                      name="environment"
+                      rules={{ required: true }}
+                      defaultValue=""
+                    />
+                  </LibraryComponents.Atoms.List>
+                  <LibraryComponents.Atoms.Grid cols={4}>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Toggle
+                          label="Is Mobile WhatsApp"
+                          id="modeIsMobileAndWhatsApp"
+                          hasError={errors.isMobileAndWhatsApp}
+                          value={
+                            patientManagerStore.patientManger?.extraData
+                              .isMobileAndWhatsApp
+                          }
+                          onChange={(isMobileAndWhatsApp) => {
+                            onChange(isMobileAndWhatsApp)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                isMobileAndWhatsApp,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="isMobileAndWhatsApp"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Toggle
+                          label="Confidental"
+                          id="modeConfidental"
+                          hasError={errors.confidental}
+                          value={
+                            patientManagerStore.patientManger?.extraData?.confidental
+                          }
+                          onChange={(confidental) => {
+                            onChange(confidental)
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                confidental,
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="confidental"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                  </LibraryComponents.Atoms.Grid>
+                </LibraryComponents.Atoms.Grid>
+              </>
+            </AccordionItemPanel>
+          </AccordionItem>
         </Accordion>
       </div>
       <br />
@@ -1002,18 +1145,20 @@ const PatientManager = observer((props: PatientManagerProps) => {
         style={{ overflowX: "scroll" }}
       >
         <FeatureComponents.Molecules.PatientMangerList
-          data={Stores.patientRegistationStore.listPatientManger}
-          totalSize={Stores.patientRegistationStore.listPatientMangerCount}
+          data={patientManagerStore.listPatientManger}
+          totalSize={patientManagerStore.listPatientMangerCount}
           extraData={{
-            lookupItems: stores.routerStore.lookupItems,
-            listAdministrativeDiv: AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv
+            lookupItems: routerStore.lookupItems,
+            listAdministrativeDiv:
+              AdministrativeDivisionStore.administrativeDivStore
+                .listAdministrativeDiv,
           }}
           isDelete={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Delete"
           )}
           isEditModify={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Edit/Modify"
           )}
           onDelete={(selectedUser) =>
@@ -1046,69 +1191,68 @@ const PatientManager = observer((props: PatientManagerProps) => {
       </div>
       <hr />
       <br />
-      <div className='extra' style={{border:'1px solid yellow'}}>
-      <Accordion allowZeroExpanded>
-            <AccordionItem>
-                <AccordionItemHeading>
-                    <AccordionItemButton>
-                        EXTRA DATA TABLE
-                    </AccordionItemButton>
-                </AccordionItemHeading>
-                <AccordionItemPanel>
-                    <>
-                    <div
-        className="p-2 rounded-lg shadow-xl overflow-scroll"
-        style={{ overflowX: "scroll" }}
-      >
-        <FeatureComponents.Molecules.ExtraDataPatientManagerList
-          data={Stores.patientRegistationStore.extraDatListPatientManger}
-          totalSize={Stores.patientRegistationStore.extraDataListPatientManagerCount}
-          extraData={{
-            lookupItems: stores.routerStore.lookupItems,
-            listAdministrativeDiv: AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv
-          }}
-          isDelete={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
-            "Delete"
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
-            "Edit/Modify"
-          )}
-          onDelete={(selectedUser) =>
-            props.onModalConfirm && props.onModalConfirm(selectedUser)
-          }
-          onSelectedRow={(rows) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update recoard!`,
-              })
-          }}
-          // onPageSizeChange={(page, limit) => {
-          //   // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
-          // }}
-        />
-      </div>
-                    </>
-                </AccordionItemPanel>
-            </AccordionItem>
+      <div className="extra" style={{ border: "1px solid yellow" }}>
+        <Accordion allowZeroExpanded>
+          <AccordionItem>
+            <AccordionItemHeading>
+              <AccordionItemButton>EXTRA DATA TABLE</AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              <>
+                <div
+                  className="p-2 rounded-lg shadow-xl overflow-scroll"
+                  style={{ overflowX: "scroll" }}
+                >
+                  <FeatureComponents.Molecules.ExtraDataPatientManagerList
+                    data={patientManagerStore.listPatientManger}
+                    totalSize={patientManagerStore.listPatientMangerCount}
+                    extraData={{
+                      lookupItems: routerStore.lookupItems,
+                      listAdministrativeDiv:
+                        AdministrativeDivisionStore.administrativeDivStore
+                          .listAdministrativeDiv,
+                    }}
+                    isDelete={RouterFlow.checkPermission(
+                      toJS(routerStore.userPermission),
+                      "Delete"
+                    )}
+                    isEditModify={RouterFlow.checkPermission(
+                      toJS(routerStore.userPermission),
+                      "Edit/Modify"
+                    )}
+                    onDelete={(selectedUser) =>
+                      props.onModalConfirm && props.onModalConfirm(selectedUser)
+                    }
+                    onSelectedRow={(rows) => {
+                      props.onModalConfirm &&
+                        props.onModalConfirm({
+                          show: true,
+                          type: "Delete",
+                          id: rows,
+                          title: "Are you sure?",
+                          body: `Delete selected items!`,
+                        })
+                    }}
+                    onUpdateItem={(value: any, dataField: string, id: string) => {
+                      props.onModalConfirm &&
+                        props.onModalConfirm({
+                          show: true,
+                          type: "Update",
+                          data: { value, dataField, id },
+                          title: "Are you sure?",
+                          body: `Update recoard!`,
+                        })
+                    }}
+                    // onPageSizeChange={(page, limit) => {
+                    //   // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
+                    // }}
+                  />
+                </div>
+              </>
+            </AccordionItemPanel>
+          </AccordionItem>
         </Accordion>
-        </div>
-        
+      </div>
     </>
   )
 })

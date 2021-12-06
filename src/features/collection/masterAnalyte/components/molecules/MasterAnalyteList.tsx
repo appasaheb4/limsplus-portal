@@ -7,10 +7,9 @@ import * as LibraryModels from "@lp/library/models"
 import { AutoCompleteFilterSingleSelectLabs } from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
-
-let dateActive;
-let dateExpire;
-let version;
+let dateActive
+let dateExpire
+let version
 
 interface MasterAnalyteProps {
   data: any

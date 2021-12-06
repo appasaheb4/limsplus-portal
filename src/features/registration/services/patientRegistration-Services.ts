@@ -7,7 +7,7 @@
 //import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
-class PatientRegistrationService  {
+export class PatientRegistrationService  {
   sessionManagementList = () =>
     new Promise<any[]>((resolve, reject) => {
       http
