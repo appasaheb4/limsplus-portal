@@ -7,8 +7,10 @@ import * as LibraryModels from "@lp/library/models"
 import { AutoCompleteFilterSingleSelectLabs } from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
-let dateExpire
-let version
+
+let dateActive;
+let dateExpire;
+let version;
 
 interface MasterAnalyteProps {
   data: any
@@ -712,7 +714,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Active",
               headerClasses: "textHeader11",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  dateActive = filter
+                },
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -765,8 +771,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               // }),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
-                  console.log({ filter })
-
                   version = filter
                 },
               }),
@@ -909,7 +913,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
           clearAllFilter={() => {
-            console.log("clear")
+            dateActive()
             dateExpire()
             version("")
           }}
