@@ -41,10 +41,10 @@ export const AutoCompleteFilterSingleSelectLabs = observer(
     const onFilter = (value: string) => {
       labStore.LabService.filter({
         input: {
+          type: "filter",
           filter: {
-            type: "search",
-            ["name"]: value,
-            ["code"]: value,
+            
+            name: value,
           },
           page: 0,
           limit: 10,

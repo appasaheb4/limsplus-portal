@@ -1021,7 +1021,7 @@ const CorporateClients = observer(() => {
                   >
                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
-                    
+                    placeholder="Search by name"
                     data={{
                       list:labStore.listLabs,
                       displayKey: "name",
@@ -1032,9 +1032,9 @@ const CorporateClients = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,

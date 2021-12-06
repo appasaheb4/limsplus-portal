@@ -41,9 +41,9 @@ export const AutoCompleteFilterSingleSelectHod = observer(
     const onFilter = (value: string) => {
       userStore.UsersService.filter({
         input: {
+          type: "filter",
           filter: {
-            type: "search",
-            ["fullName"]: value,
+            fullName: value
           },
           page: 0,
           limit: 10,
@@ -72,7 +72,7 @@ export const AutoCompleteFilterSingleSelectHod = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search...."
+              placeholder="Search by FullName...."
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}
