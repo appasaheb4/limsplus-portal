@@ -41,9 +41,10 @@ export const AutoCompleteFilterSingleSelectSalesTerrority = observer(
     const onFilter = (value: string) => {
         administrativeDivisions.administrativeDivisionsService.filter({
         input: {
+          type: "filter",
           filter: {
-            type: "search",
-            ["country"]: value,
+            
+            country: value,
           },
           page: 0,
           limit: 10,
@@ -72,7 +73,7 @@ export const AutoCompleteFilterSingleSelectSalesTerrority = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search Country...."
+              placeholder="Search by country...."
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}

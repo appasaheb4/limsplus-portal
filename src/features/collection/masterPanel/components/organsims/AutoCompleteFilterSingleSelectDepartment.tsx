@@ -72,7 +72,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search by DepartmentName"
+              placeholder="Search by department name"
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}

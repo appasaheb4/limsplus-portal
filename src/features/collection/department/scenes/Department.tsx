@@ -337,7 +337,7 @@ export const Department = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                       loader={loading}
-                      placeholder="Search by FullName"
+                      placeholder="Search by name"
                       data={{
                         list: userStore.userList,
                         displayKey: "fullName",
