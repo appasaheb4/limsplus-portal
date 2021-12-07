@@ -283,9 +283,6 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             country: item.country.toUpperCase(),
                           })
-                          // administrativeDivisions.updateAdministrativeDivList(
-                          //   administrativeDivisions.listAdministrativeDivCopy
-                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -395,9 +392,6 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             district: item.district.toUpperCase(),
                           })
-                          // administrativeDivisions.updateAdministrativeDivList(
-                          //   administrativeDivisions.listAdministrativeDivCopy
-                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -454,9 +448,6 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             city: item.city.toUpperCase(),
                           })
-                          // administrativeDivisions.updateAdministrativeDivList(
-                          //   administrativeDivisions.listAdministrativeDivCopy
-                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -516,9 +507,6 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             area: item.area.toUpperCase(),
                           })
-                          // administrativeDivisions.updateAdministrativeDivList(
-                          //   administrativeDivisions.listAdministrativeDivCopy
-                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
