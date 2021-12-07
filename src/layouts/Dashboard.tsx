@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import Wrapper from "./components/Wrapper"
@@ -55,6 +55,9 @@ import * as SegmentMapping from "@lp/features/communication/segmentMapping"
 // communication
 import * as InterfaceManager from "@lp/features/communication/interfaceManager"
 import * as DataConveration from "@lp/features/communication/dataConversation"
+
+// registration
+import * as PatientRegistration from "@lp/features/registration"
 const Dashboard = observer(({ children }) => {
   const { loginStore } = useStores()
   const history: any = useHistory()
@@ -62,12 +65,12 @@ const Dashboard = observer(({ children }) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>()
 
   const loadApi = async (pathname?: string) => {
-    //console.log({ beforeStore: stores })
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
+    console.log({ beforeStore: pathname })
     //console.log({ pathname })
     if (pathname !== "/" && stores && loginStore.login) {
-      //      console.log({ pathname })
+      console.log({ loginafter: pathname })
       // common use api
       await Deginisation.startup()
       await Lab.startup()
@@ -79,6 +82,7 @@ const Dashboard = observer(({ children }) => {
       RouterFlow.getLookupValues(pathname).then((items) => {
         stores.routerStore.updateLookupItems(items)
       })
+
       // specific api load
       if (pathname === "/collection/banner") await Banner.startup()
       if (
@@ -163,12 +167,19 @@ const Dashboard = observer(({ children }) => {
         await InterfaceManager.startup()
         await SegmentMapping.startup()
       }
-      // global
+      // registration
+      if (pathname === "/registration/patient") {
+        console.log("patient")
+
+        await PatientRegistration.startup()
+        await Doctors.startup()
+        await AdministrativeDivisions.startup()
+      }
       stores
     }
     stores.appStore.updateLoadApi({ count: 1 })
   }
-  
+
   const router = async () => {
     let router: any = toJS(loginStore.login)
     if (router && !stores.routerStore.userRouter) {
@@ -216,21 +227,12 @@ const Dashboard = observer(({ children }) => {
       stores.rootStore.isLogin().then((isLogin) => {
         if (!isLogin && !isLogined) history.push("/")
         else {
-          // if (stores.appStore.loadApi.count === 0) loadApi()
-          // history.listen(async (location, action) => {
-          //   let pathname = location.pathname
-          //   console.log({ pathname })
-          //   if (
-          //     stores.appStore.loadApi.count === 1 &&
-          //     stores.appStore.loadApi.path != pathname
-          //   )
-          //     loadApi(pathname)
-          //   await stores.appStore.updateLoadApi({
-          //     ...stores.appStore.loadApi,
-          //     path: pathname,
-          //   })
-          //  })
-          loadApi()
+          let count = 0
+          history.listen(async (location, action) => {
+            loadApi()
+            count = 1
+          })
+          count == 0 && loadApi()
         }
       })
     }, 1000)
@@ -263,13 +265,12 @@ const Dashboard = observer(({ children }) => {
     debounce: 500,
   })
 
-   
   return (
     <React.Fragment>
       <Wrapper>
         <Sidebar />
         <Main className={null}>
-        <Navbar />
+          <Navbar />
           <Content>{children}</Content>
           <Footer />
         </Main>

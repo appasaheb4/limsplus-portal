@@ -1,9 +1,12 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
+import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+
 interface PatientMangerProps {
   data: any
   totalSize: number
@@ -14,6 +17,7 @@ interface PatientMangerProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
+let birthDate
 const PatientMangerList = observer((props: PatientMangerProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
@@ -50,113 +54,123 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
             },
             {
               dataField: "birthDate",
-              text: "Birth Date",
+              text: "Birthdate",
+              headerClasses: "textHeader11",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  birthDate = filter
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+              },
+            },
+            {
+              dataField: "title",
+              text: "Title",
+              headerClasses: "textHeader3",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      onChange={(e) => {
+                        const title = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(title, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "PATIENT MANAGER - TITLE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {LibraryUtils.lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
+              dataField: "firstName",
+              text: "First Name",
               headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-                dataField: "title",
-                text: "Title",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-                editorRenderer: (
-                    editorProps,
-                    value,
-                    row,
-                    column,
-                    rowIndex,
-                    columnIndex
-                  ) => (
-                    <>
-                      <LibraryComponents.Atoms.Form.InputWrapper>
-              <select
-                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                onChange={(e) => {
-                  const title = e.target.value
-                  props.onUpdateItem && props.onUpdateItem(title,column.dataField,row._id)
-                  
-                }}
-              >
-                <option selected>Select</option>
-                {LibraryUtils.lookupItems(
-                  props.extraData.lookupItems,
-                  "PATIENT MANAGER - TITLE"
-                ).map((item: any, index: number) => (
-                  <option key={index} value={item.code}>
-                    {LibraryUtils.lookupValue(item)}
-                  </option>  
-                ))}
-              </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
-                    </>
-                  ),
+              dataField: "middleName",
+              text: "Middle Name",
+              headerClasses: "textHeader3",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-                dataField: "firstName",
-                text: "First Name",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              dataField: "lastName",
+              text: "Last Name",
+              headerClasses: "textHeader3",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-                dataField: "middleName",
-                text: "Middle Name",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-                dataField: "lastName",
-                text: "Last Name",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-                dataField: "sex",
-                text: "Sex",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-                editorRenderer: (
-                    editorProps,
-                    value,
-                    row,
-                    column,
-                    rowIndex,
-                    columnIndex
-                  ) => (
-                    <>
-                      <LibraryComponents.Atoms.Form.InputWrapper>
-                        <select
-                          className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                          onChange={(e) => {
-                            const sex = e.target.value
-                            props.onUpdateItem &&
-                              props.onUpdateItem(sex, column.dataField, row._id)
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {LibraryUtils.lookupItems(
-                            props.extraData.lookupItems,
-                            "PATIENT MANAGER - SEX"
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                       {LibraryUtils.lookupValue(item)}
-                      </option>
-                          ))}
-                        </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
-                    </>
-                  ),
+              dataField: "sex",
+              text: "Sex",
+              headerClasses: "textHeader3",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const sex = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(sex, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "PATIENT MANAGER - SEX"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {LibraryUtils.lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "species",
@@ -189,8 +203,8 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                         "PATIENT MANAGER - SPECIES"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                       {LibraryUtils.lookupValue(item)}
-                      </option>
+                          {LibraryUtils.lookupValue(item)}
+                        </option>
                       ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
@@ -198,35 +212,39 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               ),
             },
             {
-                dataField: "breed",
-                text: "Breed",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              dataField: "breed",
+              text: "Breed",
+              headerClasses: "textHeader3",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-                dataField: "usualDoctor",
-                text: "Usual Doctor",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              dataField: "usualDoctor",
+              text: "Usual Doctor",
+              headerClasses: "textHeader3",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-                dataField: "history",
-                text: "Histroy",
-                sort: true,
-                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-                formatter: (cell, row) => {
-                    return <><LibraryComponents.Atoms.Form.Toggle
-                    value={row.history}
-                    onChange={(history) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(history, 'history', row._id)
-                    }}
-                  /></>
-                  },
+              dataField: "history",
+              text: "Histroy",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.history}
+                      onChange={(history) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(history, "history", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
             },
             {
               dataField: "opration",
@@ -234,7 +252,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
-              formatter: (cellContent, row) => (   
+              formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
@@ -264,13 +282,16 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="AnalyteMaster"
+          fileName="Patient Manager"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          clearAllFilter={() => {
+            birthDate()
           }}
         />
       </div>

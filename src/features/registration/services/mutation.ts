@@ -1,26 +1,63 @@
 import { gql } from "@apollo/client"
 
-export const BANNER_LIST = gql`
-  mutation($input: BannerInput!) {
-    banners(input: $input) {
+export const LIST_PATIENT_MANAGER = gql`
+  mutation($input: PatientManagerInput!) {
+    patientManagers(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
       data {
-        _id
+        pId
+        mobileNo
+        birthDate
         title
-        image
-        environment
+        firstName
+        middleName
+        lastName
+        sex
+        species
+        breed
+        usualDoctor
+        history
+        extraData {
+          address
+          postcode
+          city
+          state
+          country
+          email
+          isMobileAndWhatsApp
+          whatsappNumber
+          permanent
+          vip
+          confidental
+          photograph
+          signature
+          bloodGroup
+          height
+          weight
+          followUp
+          comments
+          fyiLine
+          balance
+          accountType
+          enteredBy
+          status
+          environment
+        }
+        documentType
+        dateOfEntry
+        lastUpdated
       }
     }
   }
 `
 
-export const CREATE_BANNER = gql`
-  mutation($input: CreateBannerInput!) {
-    createBanner(input: $input) {
+export const CREATE_PATIENT_MANAGER = gql`
+  mutation($input: CreatePatientManagerInput!) {
+    createPatientManager(input: $input) {
       success
       message
     }
@@ -53,7 +90,7 @@ export const UPDATE_BANNER_IMAGE = gql`
     }
   }
 `
-    
+
 export const FILTER = gql`
   mutation($input: BannerInput!) {
     filterBanners(input: $input) {
@@ -62,7 +99,7 @@ export const FILTER = gql`
       }
       success
       message
-      data{
+      data {
         _id
         title
         image

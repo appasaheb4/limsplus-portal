@@ -529,7 +529,6 @@ export const UserList = observer((props: UserListProps) => {
                   <>
                     <img
                       src={row.picture}
-                      alt="picture"
                       className="object-cover h-20 w-20 rounded-md"
                     />
                   </>
