@@ -7,6 +7,21 @@ import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs} from '../organsims'
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
+let lab
+let analyteCode
+let analyteName
+let testCode
+let testName
+let description
+let status
+let environment
+let dateCreation
+let dateActive
+let dateExpire
+let version
+let enteredBy
+
+
 interface TestAnalyteMappingListProps {
   data: any
   totalSize: number
@@ -46,7 +61,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Lab",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  lab = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -70,7 +89,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Test Code",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  testCode = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -78,7 +101,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Test Name",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  testName = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -86,7 +113,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Analyte Code",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  analyteCode = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -94,7 +125,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Analyte Name",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  analyteName = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -102,7 +137,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Description",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  description = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -130,7 +169,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  status = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -170,7 +213,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  enteredBy = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -179,7 +226,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter:(filter) =>{
+                  dateCreation = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -197,7 +248,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter:(filter) =>{
+                  dateActive = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -215,7 +270,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter:(filter) =>{
+                  dateExpire = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -233,7 +292,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter:(filter) =>{
+                  version = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -243,7 +306,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter:(filter) =>{
+                  environment = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -367,6 +434,21 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            lab("")
+            analyteCode("")
+            analyteName("")
+            testCode("")
+            testName("")
+            description("")
+            status("")
+            environment("")
+            dateCreation()
+            dateActive()
+            dateExpire()
+            version("")
+            enteredBy("")
           }}
         />
       </div>
