@@ -4,7 +4,6 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-
 interface ExtraDataPatientManagerProps {
   data: any
   totalSize: number
@@ -103,14 +102,16 @@ const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 formatter: (cell, row) => {
                   return (
-                    <>
-                      {/* <img
-                        src={row.extraData.photograph}
-                        alt="photograph"
+                    <div>
+                      <div
+                        style={{
+                          background: `transparent url(${row.extraData.photograph}) no-repeat`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
                         className="object-cover h-20 w-20 rounded-md"
-                      /> */}
-                      <button>View Image</button>
-                    </>
+                      />
+                    </div>
                   )
                 },
               },
@@ -121,11 +122,14 @@ const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return (
                     <div>
-                      {/* <img
-                        src={row.extraData.signature}
+                      <div
+                        style={{
+                          background: `transparent url(${row.extraData.signature}) no-repeat`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
                         className="object-cover h-20 w-20 rounded-md"
-                      /> */}
-                           <button>View Image</button>
+                      />
                     </div>
                   )
                 },
