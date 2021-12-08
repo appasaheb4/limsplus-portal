@@ -23,6 +23,7 @@ export class PatientManagerStore {
       patientManagerService: computed,
       updatePatientManagerList: action,
       updatePatientManager: action,
+      filterPatientManagerList: action
     })
   }
   
@@ -31,11 +32,14 @@ export class PatientManagerStore {
   } 
            
   updatePatientManagerList(res: any) {
-    console.log({res});
-    
     if (!res.patientManagers.success) return alert(res.patientManagers.message)
     this.listPatientManger = res.patientManagers.data
     this.listPatientMangerCount = res.patientManagers.paginatorInfo.count
+  }
+
+  filterPatientManagerList(res: any){
+    this.listPatientManger = res.filterPatientManager.data
+    this.listPatientMangerCount = res.filterPatientManager.paginatorInfo.count
   }
    
   updatePatientManager(manager: Models.PatientManger) {

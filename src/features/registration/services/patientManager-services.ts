@@ -9,11 +9,11 @@ import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
   LIST_PATIENT_MANAGER,
-  REMOVE_BANNERS,
-  UPDATE_BANNER,
+  REMOVE_PATIENT_MANAGER,
+  UPDATE_PATIENT_MANAGER,
   CREATE_PATIENT_MANAGER,
   UPDATE_BANNER_IMAGE,
-  FILTER,
+  FILTER_PATIENT_MANAGER,
 } from "./mutation"
 
 export class PatientManagerService {
@@ -49,12 +49,12 @@ export class PatientManagerService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+  
   deletePatientManager = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: REMOVE_BANNERS,
+          mutation: REMOVE_PATIENT_MANAGER,
           variables,
         })
         .then((response: any) => {
@@ -67,10 +67,9 @@ export class PatientManagerService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
       client
         .mutate({
-          mutation: UPDATE_BANNER,
+          mutation: UPDATE_PATIENT_MANAGER,
           variables,
         })
         .then((response: any) => {
@@ -102,13 +101,13 @@ export class PatientManagerService {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER,
+          mutation: FILTER_PATIENT_MANAGER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterBanners.success)
+          if (!response.data.filterPatientManager.success)
             return this.listPatientManager({ documentType: "patientManager" })
-          stores.bannerStore.filterBannerList(response.data)
+          stores.patientManagerStore.filterPatientManagerList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

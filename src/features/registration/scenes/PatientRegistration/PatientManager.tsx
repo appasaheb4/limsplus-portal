@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
@@ -20,9 +20,7 @@ import {
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
 
-interface PatientManagerProps {
-  onModalConfirm?: (item: any) => void
-}
+interface PatientManagerProps {}
 
 const PatientManager = observer((props: PatientManagerProps) => {
   const {
@@ -39,6 +37,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
     administrativeDivisions,
     doctorsStore,
   } = useStores()
+  const [modalConfirm, setModalConfirm] = useState<any>()
 
   const onSubmitPatientManager = () => {
     patientManagerStore.patientManagerService
@@ -76,6 +75,14 @@ const PatientManager = observer((props: PatientManagerProps) => {
       extraData: {
         ...patientManagerStore.patientManger?.extraData,
         enteredBy: loginStore.login.userId,
+        status: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT MANAGER - STATUS"
+        ),   
+        environment: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT MANAGER - ENVIRONMENT"
+        ),
       },
     })
   }, [loginStore.login])
@@ -634,7 +641,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                           label="Address"
                           placeholder={
                             errors.address ? "Please Enter Address" : "Address"
-                          }  
+                          }
                           hasError={errors.address}
                           value={
                             patientManagerStore.patientManger?.extraData?.address
@@ -1069,7 +1076,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                             <option selected>Select</option>
                             {LibraryUtils.lookupItems(
                               routerStore.lookupItems,
-                              "PATIENT MANGER - STATUS"
+                              "PATIENT MANAGER - STATUS"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
                                 {`${item.value} - ${item.code}`}
@@ -1241,32 +1248,37 @@ const PatientManager = observer((props: PatientManagerProps) => {
             toJS(routerStore.userPermission),
             "Edit/Modify"
           )}
-          onDelete={(selectedUser) =>
-            props.onModalConfirm && props.onModalConfirm(selectedUser)
-          }
+          onDelete={(selectedItem) => setModalConfirm(selectedItem)}
           onSelectedRow={(rows) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
+            setModalConfirm({
+              show: true,
+              type: "delete",
+              id: rows,
+              title: "Are you sure?",
+              body: `Delete selected records!`,
+            })
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update recoard!`,
-              })
+            setModalConfirm({
+              show: true,
+              type: "update",
+              data: { value, dataField, id },
+              title: "Are you sure?",
+              body: `Update this record!`,
+            })
           }}
-          // onPageSizeChange={(page, limit) => {
-          //   // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
-          // }}
+          onPageSizeChange={(page, limit) => {
+            patientManagerStore.patientManagerService.listPatientManager(
+              { documentType: "environmentSettings" },
+              page,
+              limit
+            )
+          }}
+          onFilter={(type, filter, page, limit) => {
+            patientManagerStore.patientManagerService.filter({
+              input: { type, filter, page, limit },
+            })
+          }}
         />
       </div>
       <hr />
@@ -1279,9 +1291,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             </AccordionItemHeading>
             <AccordionItemPanel>
               <>
-                <div
-                  className="p-2 rounded-lg shadow-xl overflow-scroll"
-                >
+                <div className="p-2 rounded-lg shadow-xl overflow-scroll">
                   <FeatureComponents.Molecules.ExtraDataPatientManagerList
                     data={patientManagerStore.listPatientManger}
                     totalSize={patientManagerStore.listPatientMangerCount}
@@ -1298,32 +1308,37 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       toJS(routerStore.userPermission),
                       "Edit/Modify"
                     )}
-                    onDelete={(selectedUser) =>
-                      props.onModalConfirm && props.onModalConfirm(selectedUser)
-                    }
+                    onDelete={(selectedItem) => setModalConfirm(selectedItem)}
                     onSelectedRow={(rows) => {
-                      props.onModalConfirm &&
-                        props.onModalConfirm({
-                          show: true,
-                          type: "Delete",
-                          id: rows,
-                          title: "Are you sure?",
-                          body: `Delete selected items!`,
-                        })
+                      setModalConfirm({
+                        show: true,
+                        type: "delete",
+                        id: rows,
+                        title: "Are you sure?",
+                        body: `Delete selected records!`,
+                      })
                     }}
                     onUpdateItem={(value: any, dataField: string, id: string) => {
-                      props.onModalConfirm &&
-                        props.onModalConfirm({
-                          show: true,
-                          type: "Update",
-                          data: { value, dataField, id },
-                          title: "Are you sure?",
-                          body: `Update recoard!`,
-                        })
+                      setModalConfirm({
+                        show: true,
+                        type: "update",
+                        data: { value, dataField, id },
+                        title: "Are you sure?",
+                        body: `Update this record!`,
+                      })
                     }}
-                    // onPageSizeChange={(page, limit) => {
-                    //   // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
-                    // }}
+                    onPageSizeChange={(page, limit) => {
+                      patientManagerStore.patientManagerService.listPatientManager(
+                        { documentType: "environmentSettings" },
+                        page,
+                        limit
+                      )
+                    }}
+                    onFilter={(type, filter, page, limit) => {
+                      patientManagerStore.patientManagerService.filter({
+                        input: { type, filter, page, limit },
+                      })
+                    }}
                   />
                 </div>
               </>
@@ -1331,6 +1346,46 @@ const PatientManager = observer((props: PatientManagerProps) => {
           </AccordionItem>
         </Accordion>
       </div>
+      <LibraryComponents.Molecules.ModalConfirm
+        {...modalConfirm}
+        click={(type?: string) => {
+          if (type === "delete") {
+            patientManagerStore.patientManagerService
+              .deletePatientManager({ input: { id: modalConfirm.id } })
+              .then((res: any) => {
+                if (res.removePatientManager.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.removePatientManager.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  patientManagerStore.patientManagerService.listPatientManager({
+                    documentType: "patientManager",
+                  })
+                }
+              })
+          } else if (type === "update") {
+            patientManagerStore.patientManagerService
+              .updateSingleFiled({
+                input: {
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                },
+              })
+              .then((res: any) => {
+                if (res.updatePatientManager.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updatePatientManager.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  patientManagerStore.patientManagerService.listPatientManager({
+                    documentType: "patientManager",
+                  })
+                }
+              })
+          }
+        }}
+        onClose={() => setModalConfirm({ show: false })}
+      />
     </>
   )
 })

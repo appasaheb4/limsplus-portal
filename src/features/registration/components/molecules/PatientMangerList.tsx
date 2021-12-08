@@ -16,7 +16,10 @@ interface PatientMangerProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
+
 let birthDate
 const PatientMangerList = observer((props: PatientMangerProps) => {
   const editorCell = (row: any) => {
@@ -67,7 +70,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.birthDate).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -257,7 +260,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
@@ -266,7 +269,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                             show: true,
                             id: [row._id],
                             title: "Are you sure?",
-                            body: `Delete item`,
+                            body: `Delete record`,
                           })
                         }
                       >
@@ -278,6 +281,10 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                   </div>
                 </>
               ),
+              headerClasses: "sticky right-0  bg-gray-500 text-white",
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -290,6 +297,9 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
+          }}   
           clearAllFilter={() => {
             birthDate()
           }}
