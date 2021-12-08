@@ -4,6 +4,11 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
+let code;
+let description;
+let environment;
+
+
 interface DeginisationListProps {
   data: any
   totalSize: number
@@ -34,14 +39,22 @@ const DeginisationList = (props: DeginisationListProps) => {
           dataField: "code",
           text: "Code",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              code = filter
+            }
+          }),
           editable:false
         },
         {
           dataField: "description",
           text: "Description",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              description = filter
+            }
+          }),
           style:{textTransform:"uppercase"},
           editorStyle:{textTransform:"uppercase"}
         },
@@ -49,7 +62,11 @@ const DeginisationList = (props: DeginisationListProps) => {
           dataField: "environment",
           text: "Environment",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              environment = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -137,6 +154,11 @@ const DeginisationList = (props: DeginisationListProps) => {
       onFilter={(type, filter, page, size) => {
         props.onFilter && props.onFilter(type, filter, page, size)
       }}  
+      clearAllFilter={()=>{
+        code("")
+        description("")
+        environment("")
+      }}
     />
   )
 }
