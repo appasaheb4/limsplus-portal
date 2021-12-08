@@ -7,6 +7,21 @@ import * as LibraryUtils from "@lp/library/utils"
 import {AutoCompleteFilterSingleSelectLabs} from '../orgransims'
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
+
+let dateCreation
+let dateActive
+let dateExpire
+let version
+let enteredBy
+let lab
+let packageCode
+let packageName
+let panelCode
+let panelName
+let status
+let serviceType
+let environment
+
 interface PackageMasterListProps {
   data: any
   totalSize: number
@@ -45,7 +60,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                lab = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -69,7 +88,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Package Code",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                packageCode = filter
+              }
+            }),
             editable: false,
           },
 
@@ -78,7 +101,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Package Name",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                packageName = filter
+              }
+            }),
             editor: false,
             editable: false,
           },
@@ -87,7 +114,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Panel Code",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                panelCode = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -95,7 +126,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Panel Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                panelName = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -121,7 +156,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Status",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                status = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -160,7 +199,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Entered By",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                enteredBy = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -169,7 +212,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader6",
             sort: true,  
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateCreation = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -183,7 +230,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateActive = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -197,7 +248,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader11",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateExpire = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -211,7 +266,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                version = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -221,7 +280,11 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -346,6 +409,20 @@ const PackageMasterList = (props: PackageMasterListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          dateCreation()
+          dateActive()
+          dateExpire()
+          version("")
+          enteredBy("")
+          lab("")
+          packageCode("")
+          packageName("")
+          panelCode("")
+          panelName("")
+          status("")
+          environment("")
         }}
       />
     </>
