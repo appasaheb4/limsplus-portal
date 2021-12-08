@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 export class DeginisationStore {
   listDeginisation!: Models.Deginisation[]
+  listDeginisationCopy!: Models.Deginisation[]
   listDeginisationCount: number = 0
   deginisation!: Models.Deginisation
   checkExitsCode: boolean = false
@@ -36,9 +37,15 @@ export class DeginisationStore {
   }
 
   updateListDeginisation(res: any) {
-    if (!res.designations.success) return alert(res.designations.message)
-    this.listDeginisation = res.designations.data
-    this.listDeginisationCount = res.designations.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.designations.success) return alert(res.designations.message)
+      this.listDeginisation = res.designations.data
+      this.listDeginisationCopy = res.designations.data
+      this.listDeginisationCount = res.designations.paginatorInfo.count
+    }else{
+      this.listDeginisation = res
+    }
+    
   }
 
   filterDeginisationList(res: any) {

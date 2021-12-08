@@ -6,7 +6,7 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { AutoCompleteFilterMutiSelectRoles } from "../organisms"
+import { AutoCompleteFilterMutiSelectRoles ,AutoCompleteFilterSingleSelectDefaultLabs,AutoCompleteFilterSingleSelectDegnisation,AutoCompleteFilterMutiSelectDepartment} from "../organisms"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
   
 import { toJS } from "mobx"
@@ -81,23 +81,11 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Default Lab">
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
-                      onChange={(e) => {
-                        const defaultLab = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(defaultLab, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listLabs.map((item: any, index: number) => (
-                        <option key={item.name} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 <AutoCompleteFilterSingleSelectDefaultLabs
+                 onSelect={(item)=>{
+                   props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                 }}
+                 />
                 </>
               ),
             },
@@ -155,26 +143,11 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <select
-                    name="deginisation"
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 
-                      border-gray-300 rounded-md`}
-                    onChange={(e) => {
-                      const deginisation = e.target.value
-
-                      props.onUpdateItem &&
-                        props.onUpdateItem(deginisation, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>{row.deginisation}</option>
-                    {props.extraData.listDeginisation.map(
-                      (item: any, index: number) => (
-                        <option key={item.description} value={item.code}>
-                          {item.description}
-                        </option>
-                      )
-                    )}
-                  </select>
+                  <AutoCompleteFilterSingleSelectDegnisation
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -202,20 +175,13 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
-                    data={{
-                      defulatValues: toJS(row.department),
-                      list: props.extraData.listDepartment,
-                      displayKey: "name",
-                      findKey: "code",
-                    }}
-                    titleKey={{ key1: "code", key2: "name" }}
-                    onUpdate={(items) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
-                    }}
+                  <AutoCompleteFilterMutiSelectDepartment
+                  selected={row.department}
+                  onUpdate={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
                   />
-                </>
+                  </>
               ),
             },
             {
