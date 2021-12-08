@@ -13,7 +13,10 @@ interface ExtraDataPatientManagerProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
+
 const ExtraDataPatientManagerList = observer(
   (props: ExtraDataPatientManagerProps) => {
     return (
@@ -31,65 +34,69 @@ const ExtraDataPatientManagerList = observer(
                 csvExport: false,
               },
               {
-                dataField: "extraData.address",
+                dataField: "address",
                 text: "Address",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.address}</span>
+                },
               },
               {
-                dataField: "extraData.postCode",
+                dataField: "postCode",
                 text: "PostCode",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.postCode}</span>
+                },
               },
               {
-                dataField: "extraData.city",
+                dataField: "city",
                 text: "City",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.city}</span>
+                },
               },
               {
-                dataField: "extraData.state",
+                dataField: "state",
                 text: "State",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.state}</span>
+                },
               },
               {
-                dataField: "extraData.country",
+                dataField: "country",
                 text: "Country",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.country}</span>
+                },
               },
               {
-                dataField: "extraData.email",
+                dataField: "email",
                 text: "Email",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.email}</span>
+                },
               },
               {
                 dataField: "extraData.isMobileAndWhatsApp",
                 text: "IsMobileAndWhatsapp",
                 sort: true,
-              },
-              {
-                dataField: "extraData.permenant",
-                text: "Permenant",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-              },
-              {
-                dataField: "extraData.vip",
-                text: "Vip",
-                headerClasses: "textHeader3",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
               },
               {
                 dataField: "extraData.confidental",
@@ -102,16 +109,19 @@ const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 formatter: (cell, row) => {
                   return (
-                    <div>
-                      <div
-                        style={{
-                          background: `transparent url(${row.extraData.photograph}) no-repeat`,
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                        }}
-                        className="object-cover h-20 w-20 rounded-md"
-                      />
-                    </div>
+                    row.extraData.photograph && (
+                      <div>
+                         
+                        <div
+                          style={{
+                            background: `transparent url(${row.extraData.photograph}) no-repeat`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                          className="object-cover h-20 w-20 rounded-md"
+                        />
+                      </div>
+                    )
                   )
                 },
               },
@@ -121,95 +131,130 @@ const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 formatter: (cell, row) => {
                   return (
-                    <div>
-                      <div
-                        style={{
-                          background: `transparent url(${row.extraData.signature}) no-repeat`,
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                        }}
-                        className="object-cover h-20 w-20 rounded-md"
-                      />
-                    </div>
+                    row.extraData.signature && (
+                      <div>
+                        <div
+                          style={{
+                            background: `transparent url(${row.extraData.signature}) no-repeat`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                          className="object-cover h-20 w-20 rounded-md"
+                        />
+                      </div>
+                    )
                   )
                 },
               },
               {
-                dataField: "extraData.bloodGroup",
+                dataField: "bloodGroup",
                 text: "BloodGroup",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.bloodGroup}</span>
+                },
               },
               {
-                dataField: "extraData.height",
+                dataField: "height",
                 text: "Height",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.height}</span>
+                },
               },
               {
-                dataField: "extraData.weight",
+                dataField: "weight",
                 text: "Weight",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.weight}</span>
+                },
               },
               {
-                dataField: "extraData.followUp",
+                dataField: "followUp",
                 text: "FollowUp",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.followUp}</span>
+                },
               },
               {
-                dataField: "extraData.comments",
+                dataField: "comments",
                 text: "Comments",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.comments}</span>
+                },
               },
               {
-                dataField: "extraData.fyiLine",
+                dataField: "fyiLine",
                 text: "FyiLine",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.fyiLine}</span>
+                },
               },
               {
-                dataField: "extraData.balance",
+                dataField: "balance",
                 text: "Balance",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.balance}</span>
+                },
               },
               {
-                dataField: "extraData.accountType",
+                dataField: "accountType",
                 text: "Account Type",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.accountType}</span>
+                },
               },
               {
-                dataField: "extraData.enteredBy",
+                dataField: "enteredBy",
                 text: "Entered By",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.enteredBy}</span>
+                },
               },
               {
-                dataField: "extraData.status",
+                dataField: "status",
                 text: "Status",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.status}</span>
+                },
               },
               {
-                dataField: "extraData.environment",
+                dataField: "environment",
                 text: "Environment",
                 headerClasses: "textHeader3",
                 sort: true,
                 filter: LibraryComponents.Organisms.Utils.textFilter(),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.environment}</span>
+                },
               },
               {
                 dataField: "opration",
@@ -222,7 +267,7 @@ const ExtraDataPatientManagerList = observer(
                     <div className="flex flex-row">
                       <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                         <LibraryComponents.Atoms.Icons.IconContext
-                          color="#000"
+                          color="#fff"
                           size="20"
                           onClick={() =>
                             props.onDelete &&
@@ -231,7 +276,7 @@ const ExtraDataPatientManagerList = observer(
                               show: true,
                               id: [row._id],
                               title: "Are you sure?",
-                              body: `Delete item`,
+                              body: `Delete record`,
                             })
                           }
                         >
@@ -243,6 +288,10 @@ const ExtraDataPatientManagerList = observer(
                     </div>
                   </>
                 ),
+                headerClasses: "sticky right-0  bg-gray-500 text-white",
+                classes: (cell, row, rowIndex, colIndex) => {
+                  return "sticky right-0 bg-gray-500"
+                },
               },
             ]}
             isEditModify={props.isEditModify}
@@ -254,6 +303,9 @@ const ExtraDataPatientManagerList = observer(
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
               props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+            }}
+            onFilter={(type, filter, page, size) => {
+              props.onFilter && props.onFilter(type, filter, page, size)
             }}
           />
         </div>

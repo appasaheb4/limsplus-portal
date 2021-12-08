@@ -67,10 +67,10 @@ const Dashboard = observer(({ children }) => {
   const loadApi = async (pathname?: string) => {
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
-    console.log({ beforeStore: pathname })
+    //console.log({ beforeStore: pathname })
     //console.log({ pathname })
     if (pathname !== "/" && stores && loginStore.login) {
-      console.log({ loginafter: pathname })
+      //console.log({ loginafter: pathname })
       // common use api
       await Deginisation.startup()
       await Lab.startup()
@@ -81,7 +81,7 @@ const Dashboard = observer(({ children }) => {
       // lookup item fetch
       RouterFlow.getLookupValues(pathname).then((items) => {
         stores.routerStore.updateLookupItems(items)
-      })
+      })  
 
       // specific api load
       if (pathname === "/collection/banner") await Banner.startup()
@@ -169,8 +169,6 @@ const Dashboard = observer(({ children }) => {
       }
       // registration
       if (pathname === "/registration/patient") {
-        console.log("patient")
-
         await PatientRegistration.startup()
         await Doctors.startup()
         await AdministrativeDivisions.startup()

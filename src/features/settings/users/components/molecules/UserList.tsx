@@ -750,7 +750,6 @@ export const UserList = observer((props: UserListProps) => {
                         color="#fff"
                         size="20"
                         onClick={() => {
-                          console.log("delete")
                           props.onDelete &&
                             props.onDelete({
                               type: "Delete",

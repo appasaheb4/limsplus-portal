@@ -9,6 +9,7 @@ export const LIST_PATIENT_MANAGER = gql`
       success
       message
       data {
+        _id
         pId
         mobileNo
         birthDate
@@ -64,18 +65,18 @@ export const CREATE_PATIENT_MANAGER = gql`
   }
 `
 
-export const REMOVE_BANNERS = gql`
-  mutation($input: RemoveBannerInput!) {
-    removeBanner(input: $input) {
+export const REMOVE_PATIENT_MANAGER = gql`
+  mutation($input: PatientManagerRemoveInput!) {
+    removePatientManager(input: $input) {
       success
       message
     }
   }
 `
 
-export const UPDATE_BANNER = gql`
-  mutation($input: UpdateBannerInput!) {
-    updateBanner(input: $input) {
+export const UPDATE_PATIENT_MANAGER = gql`
+  mutation($input: UpdatePatientManagerInput!) {
+    updatePatientManager(input: $input) {
       success
       message
     }
@@ -91,9 +92,9 @@ export const UPDATE_BANNER_IMAGE = gql`
   }
 `
 
-export const FILTER = gql`
-  mutation($input: BannerInput!) {
-    filterBanners(input: $input) {
+export const FILTER_PATIENT_MANAGER = gql`
+  mutation($input: PatientManagerInput!) {
+    filterPatientManager(input: $input) {
       paginatorInfo {
         count
       }
@@ -101,9 +102,47 @@ export const FILTER = gql`
       message
       data {
         _id
+        pId
+        mobileNo
+        birthDate
         title
-        image
-        environment
+        firstName
+        middleName
+        lastName
+        sex
+        species
+        breed
+        usualDoctor
+        history
+        extraData {
+          address
+          postcode
+          city
+          state
+          country
+          email
+          isMobileAndWhatsApp
+          whatsappNumber
+          permanent
+          vip
+          confidental
+          photograph
+          signature
+          bloodGroup
+          height
+          weight
+          followUp
+          comments
+          fyiLine
+          balance
+          accountType
+          enteredBy
+          status
+          environment
+        }
+        documentType
+        dateOfEntry
+        lastUpdated
       }
     }
   }
