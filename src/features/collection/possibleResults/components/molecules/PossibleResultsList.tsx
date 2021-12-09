@@ -4,6 +4,13 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../organsims"
+let analyteCode
+let analyteName
+let result
+let possibleValue
+let conclusionResult
+let defaultConclusion
+let environment
 interface PossibleResultsListProps {
   data: Array<any>
   totalSize: number
@@ -35,7 +42,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "analyteCode",
             text: "Analyte Code",
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                analyteCode = filter
+              }
+            }),
             headerClasses: "textHeader4",
             sort: true,
             editorRenderer: (
@@ -60,7 +71,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Analyte Name",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                analyteName = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -68,7 +83,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Conclusion Result",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                conclusionResult = filter
+              }
+            }),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -254,7 +273,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Defualt Conclusion",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                defaultConclusion = filter
+              }
+            }),
             formatter: (cellContent, row) => (
               <>
                 {row.defaultConclusion && (
@@ -273,7 +296,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Environment",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -361,6 +388,15 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          analyteCode("")
+          analyteName("")
+          result("")
+          possibleValue("")
+          conclusionResult("")
+          defaultConclusion("")
+          environment("")
         }}
       />
     </div>
