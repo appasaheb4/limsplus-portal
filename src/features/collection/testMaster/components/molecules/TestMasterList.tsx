@@ -7,6 +7,48 @@ import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectDeliverySchedule} from '../organsims'
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
+let dateCreation
+let dateActive
+let dateExpire
+let version
+let enteredBy
+let rLab
+let pLab
+let department
+let section
+let testCode
+let testName
+let description
+let shortName
+let price
+let schedule
+let tat
+let validationLevel
+let reportGroup
+let resultOrder
+let processing
+let tubeGroup
+let labelInstruction
+let panelMethod
+let sampleRunOn
+let workflow
+let sampleType
+let speicalInstructions
+let disease
+let category
+let testType
+let workflowCode
+let worklistCode
+let cptCode
+let prefix
+let sufix
+let deleverySchedule
+let collectionContainer
+let holdingDays
+let status
+let environment
+
+
 interface TestMasterProps {
   data: any
   totalSize: number
@@ -46,7 +88,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "RLab",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  rLab = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -83,7 +129,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "PLab",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  pLab = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -107,7 +157,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Department",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  department = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -131,7 +185,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Section",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  section = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{`${row.section.code} -${row.section.name}`}</>
@@ -173,15 +231,23 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Test Code",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testCode = filter
+                }
+              }),
               editable: false,
             },
             {
               dataField: "testName",
-              text: "Test Name",
+              text: "Test NtestNameame",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testName = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -189,7 +255,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  description = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -217,7 +287,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Short Name",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  shortName = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               style: { textTransform: "uppercase" },
               editorStyle: { textTransform: "uppercase" },
@@ -227,7 +301,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  price = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -258,7 +336,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Schedule",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  schedule = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -282,7 +364,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "TAT",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  tat = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -290,7 +376,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Validation Level",
               headerClasses: "textHeader7",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  validationLevel = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -335,7 +425,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Result Order",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  resultOrder = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -343,7 +437,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Processing",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  processing = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -384,7 +482,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Sample Run On",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sampleRunOn = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -420,7 +522,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Workflow",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  workflow = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -460,7 +566,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "disease",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  disease = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -499,7 +609,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Category",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  category = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -538,7 +652,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Test Type",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -577,7 +695,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Workflow Code",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  workflowCode = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -613,7 +735,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "CPT Code",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  cptCode = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
@@ -719,7 +845,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Report Group",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  reportGroup = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
@@ -824,7 +954,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Tube Group",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  tubeGroup = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
@@ -833,7 +967,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Label Instruction",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  labelInstruction = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
@@ -842,7 +980,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Panel Method",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  panelMethod = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
@@ -851,7 +993,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Sample Type",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sampleType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
@@ -860,7 +1006,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Worklist Code",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  worklistCode = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
@@ -926,7 +1076,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Prefix",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  prefix = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -966,7 +1120,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Sufix",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sufix = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -1005,7 +1163,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Speical Instructions",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  speicalInstructions = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -1013,7 +1175,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Delevery Schedule",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  deleverySchedule = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -1040,7 +1206,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Collection Container",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  collectionContainer = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -1048,7 +1218,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Holding Days",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  holdingDays = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -1056,7 +1230,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  status = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -1095,7 +1273,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  enteredBy = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -1104,7 +1286,11 @@ const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader6",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateCreation = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -1118,7 +1304,11 @@ const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader6",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateActive = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -1132,7 +1322,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Expire",
               headerClasses: "textHeader11",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateExpire = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -1146,7 +1340,11 @@ const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader5",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  version = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -1156,7 +1354,11 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -1283,6 +1485,48 @@ const TestMasterList = (props: TestMasterProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            dateCreation()
+            dateActive()
+            dateExpire()
+            version("")
+            enteredBy("")
+            rLab("")
+            pLab("")
+            department("")
+            section("")
+            testCode("")
+            testName("")
+            description("")
+            shortName("")
+            price("")
+            schedule("")
+            tat("")
+            validationLevel("")
+            reportGroup("")
+            resultOrder("")
+            processing("")
+            tubeGroup("")
+            labelInstruction("")
+            panelMethod("")
+            sampleRunOn("")
+            workflow("")
+            sampleType("")
+            speicalInstructions("")
+            disease("")
+            category("")
+            testType("")
+            workflowCode("")
+            worklistCode("")
+            cptCode("")
+            prefix("")
+            sufix("")
+            deleverySchedule("")
+            collectionContainer("")
+            holdingDays("")
+            status("")
+            environment("")
           }}
         />
       </div>
