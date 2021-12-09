@@ -6,8 +6,6 @@ import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../organsims"
 let analyteCode
 let analyteName
-let result
-let possibleValue
 let conclusionResult
 let defaultConclusion
 let environment
@@ -392,8 +390,6 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
         clearAllFilter={()=>{
           analyteCode("")
           analyteName("")
-          result("")
-          possibleValue("")
           conclusionResult("")
           defaultConclusion("")
           environment("")
