@@ -3,6 +3,19 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+let schCode
+let pStartTime
+let pEndTime
+let cutofTime
+let secoundCutofTime
+let processingType
+let reportOn
+let dynamicRT
+let dynamicTU
+let fixedRT
+let schForDept
+let schForPat
+let environment
 interface DeliverySchduleListProps {
   data: any
   totalSize: number
@@ -36,7 +49,11 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sch Code",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  schCode = filter
+                }
+              }),
               editable:false
             },
             {
@@ -59,7 +76,11 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Holiday Processing",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              //   getFilter: (filter) =>{
+              //     holidayProcessing = filter
+              //   }
+              // }),
               editable: false,
             },
             {
@@ -67,7 +88,11 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sunday Reporting",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              //   getFilter: (filter) =>{
+              //     schCode = filter
+              //   }
+              // }),
               editable: false,
             },
             {
@@ -91,35 +116,55 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "P Start Time",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  pStartTime = filter
+                }
+              }),
             },
             {
               dataField: "pEndTime",
               text: "P End Time",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  pEndTime = filter
+                }
+              }),
             },
             {
               dataField: "cutofTime",
               text: "Cutof Time",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  cutofTime = filter
+                }
+              }),
             },
             {
               dataField: "secoundCutofTime",
               text: "Secound Cutof Time",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  secoundCutofTime = filter
+                }
+              }),
             },
             {
               dataField: "processingType",
               text: "Processing Type",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  processingType = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -159,7 +204,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sch Frequency",
               headerClasses: "textHeader3",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter({})
               formatter: (cell, row) => {
                 return <>{JSON.stringify(row.schFrequency)}</>
               },
@@ -169,21 +214,33 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Report On",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  reportOn = filter
+                }
+              }),
             },
             {
               dataField: "dynamicRT",
               text: "Dynamic RT",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  dynamicRT = filter
+                }
+              }),
             },
             {
               dataField: "dynamicTU",
               text: "Dynamic TU",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  dynamicTU = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -224,7 +281,11 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Fixed RT",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  fixedRT = filter
+                }
+              }),
             },
             {
               dataField: "onTime",
@@ -246,21 +307,33 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sch For Dept",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  schForDept = filter
+                }
+              }),
             },
             {
               dataField: "schForPat",
               text: "Sch For Pat",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  schForPat = filter
+                }
+              }),
             },
             {
               dataField: "environment",
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -346,6 +419,21 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            schCode("")
+            pStartTime("")
+            pEndTime("")
+            cutofTime("")
+            secoundCutofTime("")
+            processingType("")
+            reportOn("")
+            dynamicRT("")
+            dynamicTU("")
+            fixedRT("")
+            schForDept("")
+            schForPat("")
+            environment("")
           }}
         />
       </div>
