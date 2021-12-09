@@ -6,6 +6,25 @@ import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectTestCode
 ,AutoCompleteFilterSingleSelectSampleCode,AutoCompleteFilterSingleSelectSampleType
 ,AutoCompleteFilterSingleSelectSampleGroup,AutoCompleteFilterSingleSelectContainerCode,AutoCompleteFilterSingleSelectContainerName} from "../orgransims"
+let testCode
+let sampleCode
+let sampleType
+let sampleGroup
+let collContainerCode
+let collContainerName
+let testContainerCode
+let testContainerName
+let minDrawVol
+let minDrawVolUnit
+let minTestVol
+let minTestVolUnit
+let condition
+let repentionPeriod
+let repentionUnits
+let labelInst
+let info
+let environment
+
 interface TestSampleMappingListProps {
   data: any
   totalSize: number
@@ -39,7 +58,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Test Code",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testCode = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -62,7 +85,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Code",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sampleCode = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -85,7 +112,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Type",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sampleType = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -108,7 +139,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Group",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sampleGroup = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -131,7 +166,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Coll Container Code",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  collContainerCode = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -154,7 +193,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Coll Container Name",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  collContainerName = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -177,7 +220,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Test Container Code",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testContainerCode = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -200,7 +247,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Test Container Name",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testContainerName = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -367,7 +418,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Draw Vol",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  minDrawVol = filter
+                }
+              }),
             },
 
             {
@@ -375,7 +430,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Draw Vol Unit",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  minDrawVolUnit = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -417,14 +476,22 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Test Vol",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  minTestVol = filter
+                }
+              }),
             },
             {
               dataField: "minTestVolUnit",
               text: "Min Test Vol Unit",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  minTestVolUnit = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -466,14 +533,22 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Condition",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  condition = filter
+                }
+              }),
             },
             {
               dataField: "repentionPeriod",
               text: "Repention Period",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  repentionPeriod = filter
+                }
+              }),
             },
 
             {
@@ -481,7 +556,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Repention Units",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  repentionUnits = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -523,7 +602,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Label Inst",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  labelInst = filter
+                }
+              }),
             },
 
             {
@@ -549,14 +632,22 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Info",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  info = filter
+                }
+              }),
             },
             {
               dataField: "environment",
               text: "Environment",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -644,6 +735,26 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            testCode("")
+            sampleCode("")
+            sampleType("")
+            sampleGroup("")
+            collContainerCode("")
+            collContainerName("")
+            testContainerCode("")
+            testContainerName("")
+            minDrawVol("")
+            minDrawVolUnit("")
+            minTestVol("")
+            minTestVolUnit("")
+            condition("")
+            repentionPeriod("")
+            repentionUnits("")
+            labelInst("")
+            info("")
+            environment("")
           }}
         />
       </div>
