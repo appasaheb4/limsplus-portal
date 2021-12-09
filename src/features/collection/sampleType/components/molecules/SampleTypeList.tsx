@@ -4,6 +4,11 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
+let sampleCode
+let sampleType
+let descriptions
+let sampleGroup
+let environment
 
 interface SampleTypeListProps {
   data: any
@@ -38,7 +43,11 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Sample Code",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                sampleCode = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -46,7 +55,11 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Sample Type",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                sampleType = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -54,21 +67,33 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Descriptions",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                descriptions = filter
+              }
+            }),
           },
           {
             dataField: "sampleGroup",
             text: "Sample Group",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                sampleGroup = filter
+              }
+            }),
           },
           {
             dataField: "environment",
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -154,6 +179,13 @@ const SampleTypeList = (props: SampleTypeListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          sampleCode("")
+          sampleType("")
+          descriptions("")
+          sampleGroup("")
+          environment("")
         }}
       />
       </div>
