@@ -9,6 +9,8 @@ import { stores } from "@lp/stores"
 
 import { toJS } from "mobx"
 
+let role
+
 interface RoleMappingListProps {
   data: any
   totalSize: number
@@ -42,7 +44,11 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
               text: "Role",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  role  = filter
+                }
+              }),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -205,6 +211,9 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            role("")
           }}
         />
       </div>
