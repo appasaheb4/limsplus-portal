@@ -12,6 +12,7 @@ let message
 let action
 
 
+import {AutoCompleteFilterSingleSelectLabs} from "../organsims"
 interface NoticeBoardsListProps {
   data: any
   extraData: any
@@ -59,22 +60,11 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <select
-                    name="variable"
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const lab = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(lab, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listLabs.map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
+                  <AutoCompleteFilterSingleSelectLabs
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
