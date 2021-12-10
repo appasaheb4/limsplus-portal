@@ -7,6 +7,33 @@ import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectAnalyteCode,AutoCompleteFilterSingleSelectAnalyteName} from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
+let analyteCode
+let analyteName
+let department
+let species
+let sex
+let rangeSetOn
+let equipmentType
+let lab
+let rangType
+let age
+let ageUnit
+let low
+let high
+let alpha
+let enteredBy
+let status
+let environment
+let dateCreation
+let dateActive
+let dateExpire
+let version
+let deltaRangTeType
+let deltaInterval
+let intervalUnit
+let formalResultUnit
+let reportDefault
+
 interface ReferenceRangesProps {
   data: any
   totalSize: number
@@ -45,7 +72,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Analyte Code",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  analyteCode = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -69,7 +100,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Analayte Name",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  analyteName = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -93,7 +128,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Department",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  department = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -117,7 +156,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Species",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  species = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -156,7 +199,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Sex",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sex = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -195,7 +242,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Range Set On",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  rangeSetOn = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -234,7 +285,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Equipment Type",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  equipmentType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -275,7 +330,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  lab = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -299,7 +358,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Rang Type",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  rangType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -338,7 +401,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Age",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  age = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -349,7 +416,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Age Unit",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  ageUnit = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -388,7 +459,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Low",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  low = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -396,7 +471,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "High",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  high = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -404,7 +483,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Alpha",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  alpha = filter
+              }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -413,14 +496,22 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  enteredBy = filter
+              }
+              }),
             },
             {
               dataField: "status",
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  status = filter
+              }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -459,7 +550,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter
+              }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -499,7 +594,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateCreation = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -513,7 +612,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateActive = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -527,7 +630,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateExpire = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -541,7 +648,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Version",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  version = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -551,21 +662,33 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Delta Rang Tetype",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  deltaRangTeType = filter
+              }
+              }),
             },
             {
               dataField: "deltaInterval",
               text: "Delta Interval",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  deltaInterval = filter
+              }
+              }),
             },
             {
               dataField: "intervalUnit",
               text: "Interval Unit",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  intervalUnit = filter
+              }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -603,14 +726,22 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Formal Result Unit",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  formalResultUnit = filter
+              }
+              }),
             },
             {
               dataField: "reportDefault",
               text: "Report Default",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  reportDefault = filter
+              }
+              }),
             },
 
             {
@@ -706,6 +837,34 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            analyteCode("")
+            analyteName("")
+            department("")
+            species("")
+            sex("")
+            rangeSetOn("")
+            equipmentType("")
+            lab("")
+            rangType("")
+            age("")
+            ageUnit("")
+            low("")
+            high("")
+            alpha("")
+            enteredBy("")
+            status("")
+            environment("")
+            dateCreation()
+            dateActive()
+            dateExpire()
+            version("")
+            deltaRangTeType("")
+            deltaInterval("")
+            intervalUnit("")
+            formalResultUnit("")
+            reportDefault("")
           }}
         />
       </div>
