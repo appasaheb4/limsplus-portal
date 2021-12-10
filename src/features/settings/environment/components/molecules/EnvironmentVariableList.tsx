@@ -5,6 +5,12 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
 
+let environmentVariable
+let category
+let description
+let enteredBy
+
+
 interface EnvironmentVariableProps {
   data: any
   extraData: any
@@ -38,14 +44,22 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               headerClasses: "textHeader5",
               editable: false,
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environmentVariable = filter
+                }
+              }),
             },
             {
               dataField: "category",
               text: "Category",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  category = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -82,7 +96,11 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               dataField: "description",
               text: "Description",
               headerClasses: "textHeader3",
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  description = filter
+                }
+              }),
               sort: true,
             },
             {
@@ -90,7 +108,11 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Entered By",
               headerClasses: "textHeader3",
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  enteredBy = filter
+                }
+              }),
               sort: true,
             },
             {
@@ -149,6 +171,12 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            environmentVariable("")
+            category("")
+            description("")
+            enteredBy("")
           }}
         />
       </div>
