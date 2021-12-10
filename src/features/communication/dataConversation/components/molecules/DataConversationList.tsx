@@ -4,6 +4,11 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
 
+let hexadecimal
+let binary
+let ascii
+let environment
+
 interface ConversationMappingListProps {
   data: any
   extraData: any
@@ -35,7 +40,11 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "Hexa Decimal",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              hexadecimal = filter
+            }
+          }),
           formatter: (cellContent, row) => (
             <>
               {row.hexadecimal !== undefined
@@ -57,7 +66,11 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "Binary",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              binary = filter
+            }
+          }),
           formatter: (cellContent, row) => (
             <>
               {row.binary !== undefined
@@ -79,7 +92,11 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "ASCII",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              ascii = filter
+            }
+          }),
           formatter: (cellContent, row) => (
             <>
               {row.ascii
@@ -101,7 +118,11 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "Environment",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              environment = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -187,6 +208,12 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
       }}
       onFilter={(type, filter, page, size) => {
         props.onFilter && props.onFilter(type, filter, page, size)
+      }}
+      clearAllFilter={()=>{
+        hexadecimal("")
+        binary("")
+        ascii("")
+        environment("")
       }}
     />
   )
