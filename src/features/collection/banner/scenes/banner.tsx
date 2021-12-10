@@ -276,8 +276,8 @@ const Banner = observer(() => {
                   LibraryComponents.Atoms.Toast.success({
                     message: `😊 ${res.updateBanner.message}`,
                   })
-                  bannerStore.fetchListBanner()
-                  // setModalConfirm({ show: false })
+                  setModalConfirm({ show: false })
+                  bannerStore.fetchListBanner() 
                 }
               })
             } else {

@@ -24,6 +24,7 @@ export const Users = observer(() => {
     deginisationStore,
     departmentStore,
     roleStore,
+    loading
   } = useStores()
 
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -289,34 +290,48 @@ export const Users = observer(() => {
                     hasError={errors.defaultLab}
                     label="Default Lab"
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.defaultLab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const defaultLab = e.target.value
-                        onChange(defaultLab)
+                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    placeholder="Search by default lab name"
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            type: "filter",
+                            filter: {
+                              name: value
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
                         userStore.updateUser({
                           ...userStore.user,
-                          defaultLab,
+                          defaultLab:item.code,
                         })
                         const lab: any = labStore.listLabs.find(
-                          (item) => item.code == defaultLab
+                          (item) => item.code == item.code
                         )
                         setValue("labs", lab)
                         userStore.updateUser({
                           ...userStore.user,
                           lab,
                         })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={item.name} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                        labStore.updateLabList(
+                          labStore.listLabsCopy
+                        )
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="defaultLab"
@@ -387,26 +402,41 @@ export const Users = observer(() => {
                     label="Deginisation"
                     hasError={errors.deginisation}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.deginisation ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const deginisation = e.target.value
-                        onChange(deginisation)
-                        userStore.updateUser({
-                          ...userStore.user,
-                          deginisation,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {deginisationStore.listDeginisation.map((item: any) => (
-                        <option key={item.description} value={item.code}>
-                          {item.description}
-                        </option>
-                      ))}
-                    </select>
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    placeholder="Search by deginisation name"
+                    data={{
+                      list:deginisationStore.listDeginisation,
+                      displayKey: "description",
+                      findKey: "description",
+                    }}
+                    hasError={errors.deginisation}
+                    onFilter={(value: string) => {
+                      deginisationStore.DeginisationService.filter(
+                        {
+                          input: {
+                            type: "filter",
+                            filter: {
+                              description: value
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.code)
+                      userStore.updateUser({
+                        ...userStore.user,
+                        deginisation:item.description,
+                      })
+                      deginisationStore.updateListDeginisation(
+                        deginisationStore.listDeginisationCopy
+                      )
+                    }}
+                    />
+
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="deginisation"

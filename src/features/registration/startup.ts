@@ -1,6 +1,8 @@
-//import {Stores} from './stores';
+import { stores } from "@lp/stores"
 const startup = async () => {
-   //Stores.enviromentSettingsStore.fetchSessionManagementList()
-}   
-   
-export default startup;  
+  stores.patientManagerStore.patientManagerService.listPatientManager({
+    documentType: "patientManager"
+  })
+}
+
+export default startup

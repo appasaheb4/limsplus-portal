@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -13,7 +13,7 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const NoticeBoard = observer(() => {
-  const { loginStore, labStore, noticeBoardStore, routerStore } = useStores()
+  const { loginStore, labStore, noticeBoardStore, routerStore,loading } = useStores()
   const {
     control,
     handleSubmit,
@@ -57,6 +57,53 @@ const NoticeBoard = observer(() => {
     })
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.NoticeBoardsList
+          data={noticeBoardStore.noticeBoardList}
+          totalSize={noticeBoardStore.noticeBoardListCount}
+          extraData={{
+            listLabs: labStore.listLabs,
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            "Delete"
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            "Edit/Modify"
+          )}
+          onDelete={(selectedUser) => setModalConfirm(selectedUser)}
+          onSelectedRow={(rows) => {
+            setModalConfirm({
+              show: true,
+              type: "Delete",
+              id: rows,
+              title: "Are you sure?",
+              body: `Delete selected items!`,
+            })
+          }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "Update",
+              data: { value, dataField, id },
+              title: "Are you sure?",
+              body: `Update recoard!`,
+            })
+          }}
+          onPageSizeChange={(page, limit) => {
+            noticeBoardStore.fetchNoticeBoards(page, limit)
+          }}  
+          onFilter={(type, filter, page, limit) => {
+            noticeBoardStore.NoticeBoardService.filter({
+              input: { type, filter, page, limit },
+            })
+          }}
+        />
+    ),[noticeBoardStore.noticeBoardList]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -82,32 +129,47 @@ const NoticeBoard = observer(() => {
                     id="labs"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={noticeBoardStore.noticeBoard?.lab}
-                      disabled={
-                        loginStore.login && loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        onChange(lab)
-                        noticeBoardStore.updateNoticeBoard({
-                          ...noticeBoardStore.noticeBoard,
-                          lab,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    placeholder="Search by name"
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            type: "filter",
+                            filter: {
+                              name: value
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                     noticeBoardStore.updateNoticeBoard({
+                       ...noticeBoardStore.noticeBoard,
+                       lab:item.code
+                     })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                     
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -231,48 +293,7 @@ const NoticeBoard = observer(() => {
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
       >
-        <FeatureComponents.Molecules.NoticeBoardsList
-          data={noticeBoardStore.noticeBoardList}
-          totalSize={noticeBoardStore.noticeBoardListCount}
-          extraData={{
-            listLabs: labStore.listLabs,
-          }}
-          isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
-            "Delete"
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
-            "Edit/Modify"
-          )}
-          onDelete={(selectedUser) => setModalConfirm(selectedUser)}
-          onSelectedRow={(rows) => {
-            setModalConfirm({
-              show: true,
-              type: "Delete",
-              id: rows,
-              title: "Are you sure?",
-              body: `Delete selected items!`,
-            })
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: "Update",
-              data: { value, dataField, id },
-              title: "Are you sure?",
-              body: `Update recoard!`,
-            })
-          }}
-          onPageSizeChange={(page, limit) => {
-            noticeBoardStore.fetchNoticeBoards(page, limit)
-          }}  
-          onFilter={(type, filter, page, limit) => {
-            noticeBoardStore.NoticeBoardService.filter({
-              input: { type, filter, page, limit },
-            })
-          }}
-        />
+        {tableView}
       </div>
 
       <LibraryComponents.Molecules.ModalConfirm

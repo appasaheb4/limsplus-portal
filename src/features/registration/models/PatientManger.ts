@@ -11,6 +11,7 @@ export class PatientManger {
   breed: string
   usualDoctor: string
   history: boolean
+
   extraData: {
     address: string
     postcode: string
@@ -23,8 +24,8 @@ export class PatientManger {
     permanent: boolean
     vip: boolean
     confidental: boolean
-    photograph: string
-    signature: string
+    photograph: any
+    signature: any
     bloodGroup: string
     height: string
     weight: string
@@ -37,9 +38,10 @@ export class PatientManger {
     status: string
     environment: string
   }
-
+  documentType: string
   dateOfEntry: Date
   lastUpdated: Date
+
   constructor(rawData: { [key in string]: any }) {
     this.pId = rawData.pId
     this.mobileNo = rawData.mobileNo
@@ -54,6 +56,7 @@ export class PatientManger {
     this.usualDoctor = rawData.usualDoctor
     this.history = rawData.history
     this.extraData = rawData.extraData
+    this.documentType = rawData.documentType
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated
   }

@@ -339,8 +339,6 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               props.onSelectedRow(rows.map((item: any) => item._id))
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            console.log({ id })
-
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
           onPageSizeChange={(page, size) => {
