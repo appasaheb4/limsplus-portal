@@ -6,6 +6,12 @@ import * as LibraryComponents from "@lp/library/components"
 
 import * as LibraryModels from "@lp/library/models"
 
+let lab
+let header
+let message
+let action
+
+
 interface NoticeBoardsListProps {
   data: any
   extraData: any
@@ -39,7 +45,11 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Labs",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  lab = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -73,13 +83,21 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Header",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  header = filter
+                }
+              }),
             },
             {
               dataField: "message",
               text: "Message",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  message = filter
+                }
+              }),
               headerClasses: "textHeader2",
               editorRenderer: (
                 editorProps,
@@ -109,7 +127,11 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Action",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  action = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -195,6 +217,12 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}    
+          clearAllFilter={()=>{
+            lab("")
+            message("")
+            action("")
+            header("")
+          }}
         />
       </div>
     </>
