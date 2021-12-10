@@ -6,6 +6,31 @@ import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../organsims"
 import { NumberFilter } from "@lp/library/components/Organisms"  
 
+let code
+let description
+let usageType
+let libraryType
+let commentType
+let lab
+let department
+let commentsTarget
+let details
+let parameter
+let action
+let results
+let value
+let reflex
+let analyte
+let rule
+let status
+let organismGroup
+let organismClass
+let loAge
+let hiAge
+let sex
+let sexAction
+let environment
+
 interface LibraryListProps {
   data: any
   totalSize: number
@@ -44,7 +69,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Code",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  code = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -52,7 +81,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  description = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -60,7 +93,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Usage Type",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  usageType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -99,7 +136,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Library Type",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  libraryType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -138,7 +179,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Comment Type",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  commentType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -177,7 +222,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  lab = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -201,7 +250,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Department",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  department = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -225,7 +278,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "CommentsTarget",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  commentsTarget = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -268,7 +325,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Details",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  details = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -276,7 +336,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Parameter",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  parameter = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -314,7 +378,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Action",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  action = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -353,7 +421,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Aesults",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  results = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -392,7 +463,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Value",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  value = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -400,7 +474,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Reflex",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  reflex = filter}
+              }),
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
@@ -451,7 +528,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Analyte",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  analyte = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -459,7 +539,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Rule",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  rule = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -486,7 +569,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  status = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -525,7 +611,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Organism Group",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  organismGroup = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -533,7 +622,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Organism Class",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  organismClass = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -541,7 +633,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "LO Age",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  loAge = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -552,7 +648,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "HI Age",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  hiAge = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -563,7 +663,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Sex",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sex = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -602,7 +705,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Sex Action",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sexAction = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -641,7 +747,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter}
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -731,6 +840,32 @@ export const LibraryList = (props: LibraryListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            code("")
+            description("")
+            usageType("")
+            libraryType("")
+            commentType("")
+            lab("")
+            department("")
+            commentsTarget("")
+            details("")
+            parameter("")
+            action("")
+            results("")
+            value("")
+            reflex("")
+            analyte("")
+            rule("")
+            status("")
+            organismClass("")
+            organismGroup("")
+            loAge("")
+            hiAge("")
+            sex("")
+            sexAction("")
+            environment("")
           }}
         />
       </div>
