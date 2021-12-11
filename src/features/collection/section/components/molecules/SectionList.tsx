@@ -4,6 +4,19 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectDepartment} from '../organsims'
+
+let departmentCode
+let code
+let name
+let shortName
+let sectionInCharge
+let mobileNo
+let contactNo
+let fyiLine
+let workLine
+let status
+let environment
+
 interface SectionListProps {
   data: any
   totalSize: number
@@ -39,7 +52,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Department Code",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                departmentCode = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -63,7 +80,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Code",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                code = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -71,7 +92,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Name",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                name = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -79,7 +104,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Short Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                shortName = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             style:{textTransform:"uppercase"},
               editorStyle:{textTransform:"uppercase"}
@@ -89,15 +118,23 @@ export const SectionList = (props: SectionListProps) => {
             text: "Section In Charge",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                sectionInCharge = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
-            dataField: "mobieNo",
+            dataField: "mobileNo",
             text: "Mobie No",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                mobileNo = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -105,7 +142,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Contact No",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                contactNo = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -113,7 +154,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Fyi Line",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                fyiLine = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -121,7 +166,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Work Line",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                workLine = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -129,7 +178,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Status",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                status = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -168,7 +221,11 @@ export const SectionList = (props: SectionListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -255,6 +312,19 @@ export const SectionList = (props: SectionListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          departmentCode("")
+          code("")
+          name("")
+          shortName("")
+          sectionInCharge("")
+          mobileNo("")
+          contactNo("")
+          fyiLine("")
+          workLine("")
+          status("")
+          environment("")
         }}
       />   
     </div>

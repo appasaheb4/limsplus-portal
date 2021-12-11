@@ -5,6 +5,16 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import "react-accessible-accordion/dist/fancy-example.css"
 
+let country
+let state
+let district
+let city
+let area
+let postalCode
+let sbu
+let zone
+let environment
+
 interface AdminstrativeDivListProps {
   data: any
   totalSize: number
@@ -39,7 +49,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sort: true,
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                country = filter
+              }
+            }),
           },
           {
             dataField: "state",
@@ -48,7 +62,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sort: true,
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                state = filter
+              }
+            }),
           },
           {
             dataField: "district",
@@ -57,7 +75,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sort: true,
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                district = filter
+              }
+            }),
           },
           {
             dataField: "city",
@@ -66,7 +88,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sort: true,
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                city = filter
+              }
+            }),
           },
           {
             dataField: "area",
@@ -75,14 +101,22 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sort: true,
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                area = filter
+              }
+            }),
           },
           {
             dataField: "postalCode",
             text: "Postcode",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                postalCode = filter
+              }
+            }),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -110,7 +144,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "SBU",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                sbu = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -149,7 +187,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Zone",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                zone = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -187,7 +229,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -277,6 +323,17 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          country("")
+          state("")
+          district("")
+          city("")
+          area("")
+          postalCode("")
+          sbu("")
+          zone("")
+          environment("")
         }}
       />
     </div>

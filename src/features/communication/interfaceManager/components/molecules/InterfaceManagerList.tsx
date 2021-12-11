@@ -5,6 +5,15 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
 
+let interfaceType
+let instrumentType
+let instrumentName
+let dataFlowFrom
+let communicationProtocol
+let block
+let fileds
+let environment
+
 interface InterfaceManagerListProps {
   data: any
   extraData: any
@@ -36,7 +45,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Interface Type",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              interfaceType = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -64,7 +77,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Instrument Type",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              instrumentType = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -92,7 +109,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Instrument Name",
           headerClasses: "textHeader5",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              instrumentName = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -120,7 +141,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Data Flow From",
           headerClasses: "textHeader5",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              dataFlowFrom = filter
+            }
+          }),
           formatter: (cellContent, row) => (
             <>
               {row.dataFlowFrom && row.dataFlowFrom !== undefined
@@ -175,7 +200,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Communication Protocol",
           headerClasses: "textHeader6",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              communicationProtocol = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -210,7 +239,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Block",
           headerClasses: "textHeader5",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              block = filter
+            }
+          }),
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
@@ -318,7 +351,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Fileds",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              fileds = filter
+            }
+          }),
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
@@ -495,7 +532,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Environment",
           headerClasses: "textHeader3",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              environment = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -581,6 +622,16 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
       }}
       onFilter={(type, filter, page, size) => {
         props.onFilter && props.onFilter(type, filter, page, size)
+      }}
+      clearAllFilter={()=>{
+        interfaceType("")
+        instrumentName("")
+        instrumentType("")
+        dataFlowFrom("")
+        communicationProtocol("")
+        block("")
+        fileds("")
+        environment("")
       }}
     />
   )

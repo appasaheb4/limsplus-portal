@@ -11,6 +11,29 @@ import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
   
 import { toJS } from "mobx"
 
+let userId
+let empCode
+let defaultLab
+let lab
+let deginisation
+let fullName
+let mobileNo
+let contactNo
+let email
+let dateOfBirth
+let marriageAnniversary
+let userDegree
+let department
+let exipreDate
+let expireDays
+let dateOfEntry
+let role
+let validationLevel
+let createdBy
+let status
+let environment
+
+
 interface UserListProps {
   data: any
   totalSize: number
@@ -54,7 +77,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "userId",
               text: "UserId",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  userId = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editable: false,
             },
@@ -62,7 +89,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "empCode",
               text: "Emp Code",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  empCode = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editable: false,
             },
@@ -70,7 +101,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "defaultLab",
               text: "Default Lab",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  defaultLab = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -93,7 +128,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "lab",
               text: "Lab",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  lab = filter
+                }
+              }),
               headerClasses: "textHeader2",
               formatter: (cellContent, row) => (
                 <>
@@ -132,7 +171,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "deginisation",
               text: "Deginisation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  deginisation = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -155,7 +198,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "department",
               text: "Department",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  department = filter
+                }
+              }),
               headerClasses: "textHeader3",
               formatter: (cellContent, row) => (
                 <>
@@ -188,7 +235,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "validationLevel",
               text: "Validation Level",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  validationLevel = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -230,21 +281,25 @@ export const UserList = observer((props: UserListProps) => {
             //   dataField: "workStation",
             //   text: "Work Station",
             //   sort: true,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   filter: LibraryComponents.Organisms.Utils.textFilter({
             //   headerClasses: "textHeader3",
             // },
             // {
             //   dataField: "ipAddress",
             //   text: "IP Address",
             //   sort: true,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   filter: LibraryComponents.Organisms.Utils.textFilter({
             //   headerClasses: "textHeader3",
             // },
             {
               dataField: "fullName",
               text: "Full Name",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  fullName = filter
+                }
+              }),
               headerClasses: "textHeader3",
               style: { textTransform: "uppercase" },
               editorStyle: { textTransform: "uppercase" },
@@ -253,35 +308,55 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "mobileNo",
               text: "Mobile No",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  mobileNo = filter
+                }
+              }),
               headerClasses: "textHeader3",
             },
             {
               dataField: "contactNo",
               text: "Contact No",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  contactNo = filter
+                }
+              }),
               headerClasses: "textHeader3",
             },
             {
               dataField: "email",
               text: "Email",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  email = filter
+                }
+              }),
               headerClasses: "textHeader3",
             },
             {
               dataField: "userDegree",
               text: "User Degree",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  userDegree = filter
+                }
+              }),
               headerClasses: "textHeader3",
             },
             {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateOfBirth = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -315,7 +390,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  marriageAnniversary = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -348,7 +427,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Exipre Date",
               dataField: "exipreDate",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  exipreDate = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -382,7 +465,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "role",
               text: "Role",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  role = filter
+                }
+              }),
               headerClasses: "textHeader2",
               formatter: (cellContent, row) => (
                 <>
@@ -432,7 +519,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateOfEntry = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -446,7 +537,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "createdBy",
               text: "Created  By",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  createdBy = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editable: false,
             },
@@ -524,7 +619,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Status",
               dataField: "status",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  status = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -562,7 +661,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "environment",
               text: "Environment",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -789,6 +892,28 @@ export const UserList = observer((props: UserListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            userId("")
+            empCode("")
+            defaultLab("")
+            lab("")
+            deginisation("")
+            fullName("")
+            mobileNo("")
+            contactNo("")
+            email("")
+            dateOfBirth()
+            dateOfEntry()
+            marriageAnniversary()
+            userDegree("")
+            department("")
+            exipreDate()
+            role("")
+            validationLevel("")
+            createdBy("")
+            status("")
+            environment("")
           }}
         />
       </div>

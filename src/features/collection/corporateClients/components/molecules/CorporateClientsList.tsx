@@ -6,7 +6,41 @@ import * as LibraryUtils from "@lp/library/utils"
 import {AutoCompleteFilterSingleSelectLabs} from "../organsims"
 import dayjs from "dayjs"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
-
+let dateCreation
+let dateActive
+let dateExpire
+let version
+let enteredBy
+let corporateCode
+let corporateName
+let invoiceAc
+let priceList
+let priceGroup
+let billingOn
+let address
+let city
+let state
+let country
+let postcode
+let customerGroup
+let category
+let telephone
+let mobileNo
+let email
+let deliveryType
+let deliveryMethod
+let salesTerritoRy
+let area
+let zone
+let edi
+let ediAddress
+let schedule
+let reportFormat
+let info
+let fyiLine
+let workLine
+let status
+let environment
 interface CorporateClientListProps {
   data: any
   totalSize: number
@@ -41,7 +75,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Corporate Code",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                corporateCode = filter  
+              }
+            }),
             editable: false,
           },
           {
@@ -49,7 +87,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Corporate Name",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                corporateName = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -57,14 +99,22 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Invoice Ac",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                invoiceAc = filter
+              }
+            }),
           },
           {
             dataField: "priceList",
             text: "Price List",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                priceList = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -99,49 +149,77 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Price Group",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                priceGroup = filter
+              }
+            }),
           },
           {
             dataField: "billingOn",
             text: "Billing On",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                billingOn = filter
+              }
+            }),
           },
           {
             dataField: "address",
             text: "Address",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                address = filter
+              }
+            }),
           },
           {
             dataField: "city",
             text: "City",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                city = filter
+              }
+            }),
           },
           {
             dataField: "state",
             text: "State",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                state = filter
+              }
+            }),
           },
           {
             dataField: "country",
             text: "Country",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                country = filter
+              }
+            }),
           },
           {
             dataField: "postcode",
             text: "Postcode",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                postcode = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -151,7 +229,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Customer Group",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                customerGroup = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -190,7 +272,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Category",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                category = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -247,28 +333,44 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Telephone",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                telephone = filter
+              }
+            }),
           },
           {
             dataField: "mobileNo",
             text: "Mobile No",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                mobileNo = filter
+              }
+            }),
           },
           {
             dataField: "email",
             text: "Email",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                email = filter
+              }
+            }),
           },
           {
             dataField: "deliveryType",
             text: "Delivery Type",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                deliveryType = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -306,7 +408,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Delivery Method",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                deliveryMethod = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -344,7 +450,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Sales TerritoRy",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                salesTerritoRy = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -382,28 +492,44 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Area",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                area = filter
+              }
+            }),
           },
           {
             dataField: "zone",
             text: "Zone",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                zone = filter
+              }
+            }),
           },
           {
             dataField: "edi",
             text: "EDI",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                edi = filter
+              }
+            }),
           },
           {
             dataField: "ediAddress",
             text: "EDI Address",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                ediAddress = filter
+              }
+            }),
           },
           {
             dataField: "urgent",
@@ -429,7 +555,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Schedule",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                schedule = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -452,35 +582,55 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Report Format",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                reportFormat = filter
+              }
+            }),
           },
           {
             dataField: "info",
             text: "Info",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                info = filter
+              }
+            }),
           },
           {
             dataField: "fyiLine",
             text: "FYI Line",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                fyiLine = filter
+              }
+            }),
           },
           {
             dataField: "workLine",
             text: "Work Line",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                workLine = filter
+              }
+            }),
           },
           {
             dataField: "status",
             text: "Status",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                status = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -518,7 +668,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -558,7 +712,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateCreation = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -572,7 +730,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateActive = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -586,7 +748,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateExpire = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -600,7 +766,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Version",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                version = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -611,7 +781,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             headerClasses: "textHeader3",
             text: "Entered By",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                enteredBy = filter
+              }
+            }),
           },
 
           {
@@ -704,6 +878,44 @@ const CorporateClient = (props: CorporateClientListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          dateCreation()
+          dateActive()
+          dateExpire()
+          version("")
+          enteredBy("")
+          corporateCode("")
+          corporateName("")
+          priceList("")
+          priceGroup("")
+          billingOn("")
+          address("")
+          city("")
+          state("")
+          country("")
+          postcode("")
+          customerGroup("")
+          category("")
+          telephone("")
+          mobileNo("")
+          email("")
+          deliveryType("")
+          deliveryMethod("")
+          corporateCode("")
+          invoiceAc("")
+          salesTerritoRy("")
+          area("")
+          zone("")
+          edi("")
+          ediAddress("")
+          schedule("")
+          reportFormat("")
+          info("")
+          fyiLine("")
+          workLine("")
+          status("")
+          environment("")
         }}
       />
     </div>

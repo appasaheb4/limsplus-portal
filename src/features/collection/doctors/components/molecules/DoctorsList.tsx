@@ -6,7 +6,47 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs} from '../organsims'
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
-
+let dateCreation
+let dateActive
+let dateExpire
+let version
+let enteredBy
+let doctorCode
+let doctorName
+let sex
+let title
+let firstName
+let middleName
+let lastName
+let reportName
+let address
+let city
+let state
+let country
+let postcode
+let doctorType
+let speciality
+let salesTerritoRy
+let area
+let zone
+let telephone
+let mobileNo
+let email
+let workHours
+let deliveryType
+let deliveryMethod
+let edi
+let ediAddress
+let registrationLocation
+let lab
+let location
+let schedule
+let reportFormat
+let info
+let fyiLine
+let workLine
+let status
+let environment
 interface DoctorsListProps {
   data: any
   totalSize: number
@@ -45,7 +85,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Doctor Code",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                doctorCode = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -53,7 +97,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Doctor Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                doctorName = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -61,7 +109,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Sex",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                sex = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -97,7 +149,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Title",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                title = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -136,7 +192,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "First Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                firstName = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -144,7 +204,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Middle Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                middleName = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -152,7 +216,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Last Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                lastName = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -160,7 +228,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Report Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                reportName = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -168,7 +240,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Address",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                address = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -176,7 +252,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "City",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                city = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -184,7 +264,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "State",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                state = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -192,7 +276,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Country",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                country = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -200,7 +288,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Postcode",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                postcode = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -211,7 +303,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Doctor Type",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                doctorType = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
@@ -220,7 +316,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Speciality",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                speciality = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -279,7 +379,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Sales TerritoRy",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                salesTerritoRy = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -318,7 +422,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Area",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                area = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -326,7 +434,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Zone",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                zone = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -334,7 +446,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Telephone",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                telephone = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -342,7 +458,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Mobile No",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                mobileNo = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -350,7 +470,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Email",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                email = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -358,7 +482,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Work Hours",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                workHours = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -369,7 +497,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Delivery Type",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                deliveryType = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -408,7 +540,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Delivery Method",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                deliveryMethod = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -447,7 +583,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "EDI",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                edi = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -455,7 +595,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "EDI Address",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                ediAddress = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
@@ -483,7 +627,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Registration Location",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                registrationLocation = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -526,7 +674,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                lab = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -550,7 +702,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Location",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                location = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -574,7 +730,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Schedule",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                schedule = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -598,7 +758,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Report Format",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                reportFormat = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -606,7 +770,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Info",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                info = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -614,7 +782,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "FYI Line",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                fyiLine = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -622,7 +794,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Work Line",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                workLine = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -630,7 +806,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Status",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                status = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -669,7 +849,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -709,7 +893,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateCreation = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -723,7 +911,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateActive = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -737,7 +929,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateExpire = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -751,7 +947,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader4",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                version = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -761,7 +961,11 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Entered By",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                enteredBy = filter
+              }
+            }),
             editable: false,
           },
 
@@ -855,6 +1059,49 @@ const DoctorsList = (props: DoctorsListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          dateCreation()
+          dateActive()
+          dateExpire()
+          version("")
+          enteredBy("")
+          doctorCode("")
+          doctorName("")
+          sex("")
+          title("")
+          firstName("")
+          middleName("")
+          lastName("")
+          reportName("")
+          address("")
+          city("")
+          state("")
+          country("")
+          postcode("")
+          doctorType("")
+          speciality("")
+          salesTerritoRy("")
+          area("")
+          zone("")
+          telephone("")
+          mobileNo("")
+          email("")
+          workHours("")
+          deliveryType("")
+          deliveryMethod("")
+          edi("")
+          ediAddress("")
+          registrationLocation("")
+          lab("")
+          location("")
+          schedule("")
+          reportFormat("")
+          info("")
+          fyiLine("")
+          workLine("")
+          status("")
+          environment("")
         }}
       />
     </div>

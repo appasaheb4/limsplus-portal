@@ -8,7 +8,13 @@ import {
   AutoCompleteFilterMutiSelectLabs,
   AutoCompleteFilterMutiSelectDepartment,
 } from "../organisms"
-
+let lab
+let user
+let department
+let variable
+let value
+let description
+let environment
 interface SessionManagementListProps {
   data: any
   extraData: any
@@ -43,7 +49,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "lab",
               text: "Labs",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  lab = filter
+                }
+              }),
               headerClasses: "textHeader4",
               formatter: (cellContent, row) => (
                 <>
@@ -77,7 +87,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "user",
               text: "Users",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  user = filter
+                }
+              }),
               headerClasses: "textHeader4",
               formatter: (cellContent, row) => (
                 <>
@@ -112,7 +126,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               text: "Departments",
               sort: true,
               headerClasses: "textHeader4",
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  department = filter
+                }
+              }),
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -146,7 +164,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "variable",
               text: "Variable",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  variable = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -185,14 +207,22 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "value",
               text: "Value",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  value = filter
+                }
+              }),
               headerClasses: "textHeader3",
             },
             {
               dataField: "description",
               text: "Description",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  description = filter
+                }
+              }),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -222,7 +252,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -312,6 +346,15 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            lab("")
+            user("")
+            department("")
+            variable("")
+            value("")
+            description("")
+            environment("")
           }}
         />
       </div>

@@ -6,6 +6,11 @@ import dayjs from "dayjs"
 import { useStores } from "@lp/stores"
 import { DateFilter } from "@lp/library/components/Organisms"
 
+
+let userId
+let systemInfo
+let ipInfo
+
 const LoginActivity = observer(() => {
   const { loginStore, loginActivityStore, routerStore } = useStores()
   useEffect(() => {
@@ -37,7 +42,11 @@ const LoginActivity = observer(() => {
                   dataField: "userId",
                   text: "User details",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: LibraryComponents.Organisms.Utils.textFilter({
+                    getFilter: (filter) =>{
+                      userId = filter
+                    }
+                  }),
                   headerClasses: "textHeader5",
                   editable: false,
                   formatter: (cell, row) => {
@@ -55,7 +64,11 @@ const LoginActivity = observer(() => {
                   dataField: "systemInfo",
                   text: "System info",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: LibraryComponents.Organisms.Utils.textFilter({
+                    getFilter: (filter) =>{
+                      systemInfo = filter
+                    }
+                  }),
                   headerClasses: "textHeader5",
                   formatter: (cell, row) => {
                     return (
@@ -79,7 +92,11 @@ const LoginActivity = observer(() => {
                   dataField: "ipInfo",
                   text: "Ip Information",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: LibraryComponents.Organisms.Utils.textFilter({
+                    getFilter: (filter) =>{
+                      ipInfo = filter
+                    }
+                  }),
                   headerClasses: "textHeader3",
                   csvFormatter: (cell, row, rowIndex) =>
                     `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
@@ -138,6 +155,11 @@ const LoginActivity = observer(() => {
                 loginActivityStore.LoginActivityService.filter({
                   input: { type, filter, page, limit },
                 })
+              }}
+              clearAllFilter={()=>{
+                userId("")
+                systemInfo("")
+                ipInfo("")
               }}
               isEditModify={false}
               isSelectRow={false}

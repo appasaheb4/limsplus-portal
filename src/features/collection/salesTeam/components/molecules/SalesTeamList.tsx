@@ -4,6 +4,12 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectSalesTerrority,AutoCompleteFilterSingleSelectReportingTo} from "../organsims"
+let salesHierarchy
+let salesTerritory
+let empCode
+let empName
+let reportingTo
+let environment
 interface SalesTeamListProps {
   data: any
   totalSize: number
@@ -36,7 +42,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Sales Hierarchy",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                salesHierarchy = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -74,7 +84,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Sales Territory",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                salesTerritory = filter
+              }
+            }),
             // formatter: (cell, row) => {
             //   return <>{(row.salesTerritory && row.salesTerritory.area) || ""}</>
             // },
@@ -100,7 +114,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Employee Code",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                empCode = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -108,7 +126,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Employee Name",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                empName = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -116,7 +138,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Reporting To",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                reportingTo = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -139,7 +165,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -229,6 +259,14 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          salesHierarchy("")
+          salesTerritory("")
+          empCode("")
+          empName("")
+          reportingTo("")
+          environment("")
         }}
       />
     </div>
