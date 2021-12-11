@@ -19,8 +19,17 @@ interface PatientMangerProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
-
+let pId
+let mobileNo
 let birthDate
+let title
+let firstName
+let middleName
+let lastName
+let sex
+let species
+let breed
+let usualDoctor
 const PatientMangerList = observer((props: PatientMangerProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
@@ -44,7 +53,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Pid",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  pId = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -52,7 +65,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Mobile No",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  mobileNo = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -78,7 +95,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Title",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  title = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -117,7 +138,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "First Name",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  firstName = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -125,7 +150,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Middle Name",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  middleName = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -133,7 +162,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Last Name",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  lastName = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -141,7 +174,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Sex",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  sex = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -180,7 +217,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Species",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  species = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -219,7 +260,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Breed",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  breed = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -227,7 +272,10 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Usual Doctor",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  usualDoctor = filter}
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -301,6 +349,16 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}   
           clearAllFilter={() => {
+            pId("")
+            mobileNo("")
+            title("")
+            firstName("")
+            lastName("")
+            middleName("")
+            sex("")
+            species("")
+            breed("")
+            usualDoctor("")
             birthDate()
           }}
         />
