@@ -17,6 +17,24 @@ interface ExtraDataPatientManagerProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
+let address
+let postCode
+let city
+let country
+let state
+let email
+let whatsappNumber
+let bloodGroup
+let height
+let weight
+let followUp
+let comments
+let fyiLine
+let balance
+let accountType
+let enteredBy
+let status
+let environment
 const ExtraDataPatientManagerList = observer(
   (props: ExtraDataPatientManagerProps) => {
     return (
@@ -38,7 +56,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Address",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    address = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.address}</span>
                 },
@@ -48,7 +70,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "PostCode",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    postCode = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.postCode}</span>
                 },
@@ -58,7 +84,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "City",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    city = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.city}</span>
                 },
@@ -68,7 +98,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "State",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    state = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.state}</span>
                 },
@@ -78,7 +112,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Country",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    country = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.country}</span>
                 },
@@ -88,7 +126,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Email",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    email = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.email}</span>
                 },
@@ -151,7 +193,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "BloodGroup",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    bloodGroup = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.bloodGroup}</span>
                 },
@@ -161,7 +207,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Height",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    height = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.height}</span>
                 },
@@ -171,7 +221,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Weight",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    weight = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.weight}</span>
                 },
@@ -181,7 +235,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "FollowUp",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    followUp = filter
+                  }
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.followUp}</span>
                 },
@@ -191,7 +249,10 @@ const ExtraDataPatientManagerList = observer(
                 text: "Comments",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    comments = filter}
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.comments}</span>
                 },
@@ -201,7 +262,10 @@ const ExtraDataPatientManagerList = observer(
                 text: "FyiLine",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    fyiLine = filter}
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.fyiLine}</span>
                 },
@@ -211,7 +275,10 @@ const ExtraDataPatientManagerList = observer(
                 text: "Balance",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    balance = filter}
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.balance}</span>
                 },
@@ -221,7 +288,10 @@ const ExtraDataPatientManagerList = observer(
                 text: "Account Type",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    accountType = filter}
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.accountType}</span>
                 },
@@ -231,7 +301,10 @@ const ExtraDataPatientManagerList = observer(
                 text: "Entered By",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    enteredBy = filter}
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.enteredBy}</span>
                 },
@@ -241,7 +314,10 @@ const ExtraDataPatientManagerList = observer(
                 text: "Status",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    status = filter}
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.status}</span>
                 },
@@ -251,7 +327,10 @@ const ExtraDataPatientManagerList = observer(
                 text: "Environment",
                 headerClasses: "textHeader3",
                 sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    environment = filter}
+                }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.environment}</span>
                 },
@@ -306,6 +385,25 @@ const ExtraDataPatientManagerList = observer(
             }}
             onFilter={(type, filter, page, size) => {
               props.onFilter && props.onFilter(type, filter, page, size)
+            }}
+            clearAllFilter={()=>{
+              address("")
+              postCode("")
+              city("")
+              country("")
+              state("")
+              email("")
+              bloodGroup("")
+              height("")
+              weight("")
+              followUp("")
+              comments("")
+              fyiLine("")
+              balance("")
+              accountType("")
+              enteredBy("")
+              status("")
+              environment("")
             }}
           />
         </div>
