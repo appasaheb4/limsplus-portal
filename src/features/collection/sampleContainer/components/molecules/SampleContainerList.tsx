@@ -4,6 +4,11 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
+let containerCode
+let containerName
+let description
+let environment
+
 interface SampleContainerListProps {
   data: any
   totalSize: number
@@ -36,7 +41,11 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Container Code",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              containerCode = filter
+            }
+          }),
           editable: false,
         },
         {
@@ -44,7 +53,11 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Container Name",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              containerName = filter
+            }
+          }),
           editable: false,
         },
         {
@@ -52,7 +65,11 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Description",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              description = filter
+            }
+          }),
         },
         {
           dataField: "image",
@@ -96,7 +113,11 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Environment",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              environment = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -182,6 +203,12 @@ const SampleContainerList = (props: SampleContainerListProps) => {
       }}  
       onFilter={(type, filter, page, size) => {
         props.onFilter && props.onFilter(type, filter, page, size)
+      }}
+      clearAllFilter={()=>{
+        containerCode("")
+        containerName("")
+        description("")
+        environment("")
       }}
     />
   )

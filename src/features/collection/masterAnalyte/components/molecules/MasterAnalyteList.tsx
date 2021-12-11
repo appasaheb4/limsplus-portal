@@ -7,6 +7,26 @@ import * as LibraryModels from "@lp/library/models"
 import { AutoCompleteFilterSingleSelectLabs } from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
+let lab
+let analyteCode
+let analyteName
+let description
+let shortName
+let price
+let analyteMethod
+let calcyName
+let high
+let low
+let picture
+let units
+let usage
+let cptCode
+let resultType
+let analyteType
+let status
+let environment
+let enteredBy
+let dateCreation
 let dateActive
 let dateExpire
 let version
@@ -50,7 +70,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  lab = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -75,7 +99,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Code",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  analyteCode = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -83,7 +111,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Name",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  analyteName = filter
+                }
+              }),
               editable: false,
             },
             {
@@ -91,7 +123,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  description = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -137,7 +173,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Method",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  analyteMethod = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -145,7 +185,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Short Name",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  shortName = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               style: { textTransform: "uppercase" },
               editorStyle: { textTransform: "uppercase" },
@@ -155,7 +199,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter)=>{
+                  price = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -211,7 +259,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "High",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  high = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -219,7 +271,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Low",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  low = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -246,7 +302,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Result Type",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  resultType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -308,7 +368,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Type",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  analyteType = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -347,7 +411,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Units",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  units = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -386,7 +454,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Usage",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  usage = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -425,7 +497,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "picture",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  picture = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -635,7 +711,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Calcy Name",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  calcyName = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -643,7 +723,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "CPT Code",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  cptCode = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -651,7 +735,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  status = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -691,7 +779,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Entered By",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  enteredBy = filter
+                }
+              }),
             },
             {
               dataField: "dateCreation",
@@ -699,7 +791,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Creation",
               headerClasses: "textHeader11",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter)=>{
+                  dateCreation = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -782,7 +878,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Environment",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  environment = filter
+                }
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -912,9 +1012,29 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
           clearAllFilter={() => {
+            lab("")
+            analyteCode("")
+            analyteName("")
+            description("")
+            shortName("")
+            analyteMethod("")
+            calcyName("")
+            high("")
+            low("")
+            picture("")
+            units("")
+            usage("")
+            cptCode("")
+            resultType("")
+            analyteType("")
+            status("")
+            environment("")
+            enteredBy()
+            dateCreation()
             dateActive()
             dateExpire()
             version("")
+            price("")
           }}
         />
       </div>

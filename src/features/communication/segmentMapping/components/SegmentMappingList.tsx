@@ -5,8 +5,24 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as Models from "../../models"
 import { SegmentMapping } from "../models"
-
 import { useStores } from "@lp/stores"
+
+let dataFlowFrom
+let data_type
+let equipmentType
+let segments
+let field_no
+let item_no
+let element_name
+let transmitted_data
+let field_array
+let field_length
+let field_type
+let lims_descriptions
+let lims_tables
+let lims_fields
+let notes
+let environment
 
 interface SegmentMappingListProps {
   data: any
@@ -47,7 +63,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "EQUIPMENT TYPE",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                equipmentType = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -92,7 +112,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "DATA FLOW FROM",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                dataFlowFrom = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${
                 row.dataFlowFrom !== undefined
@@ -156,7 +180,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "DATA TYPE",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                data_type = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -202,7 +230,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "SEGMENTS",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                segments = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -290,7 +322,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD NO",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                field_no = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -328,7 +364,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "ITEM NO",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                item_no = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -405,7 +445,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "ELEMENT NAME",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                element_name = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.element_name !== undefined ? row.element_name : ""}`,
             editorRenderer: (
@@ -444,7 +488,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "TRANSMITTED DATA",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                transmitted_data = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.transmitted_data !== undefined ? row.transmitted_data : ""}`,
             editorRenderer: (
@@ -484,7 +532,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD ARRAY",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                field_array = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.field_array !== undefined ? row.field_array : ""}`,
             editorRenderer: (
@@ -523,7 +575,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD LENGTH",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                field_length = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.field_length !== undefined ? row.field_length : ""}`,
             editorRenderer: (
@@ -563,7 +619,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD TYPE",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                field_type = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.field_type !== undefined ? row.field_type : ""}`,
             editorRenderer: (
@@ -674,7 +734,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "LIMS DESCRIPTIONS",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                lims_descriptions = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.lims_descriptions !== undefined ? row.lims_descriptions : ""}`,
             editorRenderer: (
@@ -713,7 +777,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "LIMS TABLES",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                lims_tables = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.lims_tables !== undefined ? row.lims_tables : ""}`,
             editorRenderer: (
@@ -753,7 +821,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "LIMS FIELDS",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                lims_fields = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.lims_fields !== undefined ? row.lims_fields : ""}`,
             editorRenderer: (
@@ -832,7 +904,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "NOTES",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                notes = filter
+              }
+            }),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.notes !== undefined ? row.notes : ""}`,
             formatter: (cellContent, row) => (
@@ -954,7 +1030,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -1077,6 +1157,24 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          equipmentType("")
+          dataFlowFrom("")
+          data_type("")
+          segments("")
+          field_no("")
+          item_no("")
+          element_name("")
+          transmitted_data("")
+          field_array("")
+          field_length("")
+          field_type("")
+          lims_descriptions("")
+          lims_tables("")
+          lims_fields("")
+          notes("")
+          environment("")
         }}
       />
       <LibraryComponents.Molecules.ModalConfirm

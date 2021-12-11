@@ -6,6 +6,14 @@ import * as LibraryModels from "@lp/library/models"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
 
+let documentName
+let fieldName
+let arrValue
+let description
+let defaultItem
+let environment
+
+
 interface LookupListProps {
   data: any
   totalSize: number
@@ -52,7 +60,11 @@ const LookupList = (props: LookupListProps) => {
             text: "Document Name",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                documentName = filter
+              }
+            }),
             formatter: (cell, row) => {
               return <>{`${row.documentName.children.title}`}</>
             },
@@ -90,14 +102,22 @@ const LookupList = (props: LookupListProps) => {
             sort: true,
             style:{textTransform:"uppercase"},
             editorStyle:{textTransform:"uppercase"},
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                fieldName = filter
+              }
+            }),
           },
           {
             dataField: "arrValue",
             text: "Value & code",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                arrValue = filter
+              }
+            }),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -228,14 +248,22 @@ const LookupList = (props: LookupListProps) => {
             text: "Description",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                description = filter
+              }
+            }),
           },
           {
             dataField: "defaultItem",
             text: "Default Item",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                defaultItem = filter
+              }
+            }),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -264,7 +292,11 @@ const LookupList = (props: LookupListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -351,6 +383,14 @@ const LookupList = (props: LookupListProps) => {
         }
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          documentName("")
+          fieldName("")
+          arrValue("")
+          description("")
+          defaultItem("")
+          environment("")
         }}
       />
     </div>

@@ -8,7 +8,29 @@ import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectBillTo,
   AutoCompleteFilterSingleSelectCorporateName,AutoCompleteFilterSingleSelectInvoiceAc,
   AutoCompleteFilterSingleSelectPanelCode,AutoCompleteFilterSingleSelectPanelName} from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
-   
+
+let panelCode
+let panelName
+let priority
+let priceGroup
+let billTo
+let clientName
+let invoiceAc
+let lab
+let price
+let fixedPrice
+let minSp
+let maxSp
+let specialScheme
+let schemePrice
+let enteredBy
+let status
+let environment
+let dateCreation
+let dateActive
+let dateExpire
+let version
+
 interface PriceListProps {   
   data: any
   extraData: any
@@ -48,7 +70,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  panelCode = filter
+                }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -72,7 +98,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Panel Name",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  panelName = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -96,7 +126,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Priority",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  priority = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -135,7 +169,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Price Group",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  priceGroup = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -174,7 +212,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Bill To",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  billTo = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -198,7 +240,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Client Name",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  clientName = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -222,7 +268,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Invoice Ac",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  invoiceAc = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -246,7 +296,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Lab",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  lab = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -270,7 +324,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  price = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -281,7 +339,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Fixed Price",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  fixedPrice = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -292,7 +354,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Min Sp",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  minSp = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -303,7 +369,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Max Sp",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  maxSp = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -333,7 +403,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Special Scheme",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  specialScheme = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -376,7 +450,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Scheme Price",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  schemePrice = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -405,14 +483,22 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Entered By",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  enteredBy = filter
+                 }
+              }),
             },
             {
               dataField: "status",
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  status = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -451,7 +537,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  environment = filter
+                 }
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -491,7 +581,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateCreation = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -505,7 +599,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateActive = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -519,7 +617,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  dateExpire = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
@@ -533,7 +635,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) =>{
+                  version = filter
+                }
+              }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -631,6 +737,29 @@ const MasterAnalyteList = (props: PriceListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            panelCode("")
+            panelName("")
+            priority("")
+            priceGroup("")
+            billTo("")
+            clientName("")
+            invoiceAc("")
+            lab("")
+            price("")
+            fixedPrice("")
+            minSp("")
+            maxSp("")
+            specialScheme("")
+            schemePrice("")
+            enteredBy("")
+            status("")
+            environment("")
+            dateCreation()
+            dateActive()
+            dateExpire()
+            version("")
           }}
         />
       </div>

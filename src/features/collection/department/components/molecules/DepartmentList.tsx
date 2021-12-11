@@ -4,6 +4,21 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectHod} from '../orgransims'
+
+let lab;
+let code;
+let name;
+let shortName;
+let hod;
+let mobileNo;
+let contactNo;
+let openingTime;
+let closingTime;
+let fyiLine;
+let workLine;
+let status;
+let environment;
+
 interface DepartmentListProps {
   data: any
   totalSize: number
@@ -39,7 +54,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                lab = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -63,7 +82,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Code",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                code = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -71,7 +94,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Name",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                name = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -79,7 +106,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Short Name",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                shortName = filter
+              }
+            }),
             style : {textTransform:"uppercase"},
             editorStyle : {textTransform:"uppercase"},
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -89,7 +120,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "HOD",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                hod = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -111,9 +146,13 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "mobileNo",
             text: "Mobile No",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                mobileNo = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -121,7 +160,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Contact No",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                contactNo = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -210,7 +253,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Opening Time",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                openingTime = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -218,7 +265,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Closing Time",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                closingTime = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
@@ -227,7 +278,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Fyi Line",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                fyiLine = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -235,7 +290,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Work Line",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                workLine = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -243,7 +302,11 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Status",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                status = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -282,7 +345,12 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter)=>{
+                environment = filter
+              }
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -372,6 +440,21 @@ const DepartmentList = (props: DepartmentListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          lab("")
+          code("")
+          name("")
+          shortName("")
+          hod("")
+          mobileNo("")
+          contactNo("")
+          openingTime("")
+          closingTime("")
+          fyiLine("")
+          workLine("")
+          status("")
+          environment("")
         }}
       />
     </div>

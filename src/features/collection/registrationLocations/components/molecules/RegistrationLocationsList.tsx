@@ -8,6 +8,45 @@ import { Stores } from "../../stores"
 import {AutoCompleteFilterSingleSelectLabs} from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
+let dateCreation
+let dateActive
+let dateExpire
+let version
+let enteredBy
+let locationName
+let locationCode
+let address
+let city
+let state
+let country
+let postcode
+let customerGroup
+let category
+let telephone
+let mobileNo
+let email
+let deliveryType
+let deliveryMethod
+let corporateCode
+let invoiceAc
+let labLicence
+let methodColn
+let workHrs
+let salesTerritoRy
+let area
+let zone
+let route
+let lab
+let location
+let edi
+let ediAddress
+let schedule
+let reportFormat
+let info
+let fyiLine
+let workLine
+let status
+let environment
 interface RegistrationLocationsListProps {
   data: any
   totalSize: number
@@ -45,7 +84,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Location Code",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                locationCode = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -53,7 +96,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Location Name",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                locationName = filter
+              }
+            }),
             editable: false,
           },
           {
@@ -61,7 +108,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Address",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                address = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -69,7 +120,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "City",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                city = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -77,7 +132,10 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "State",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                state  = filter              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -85,7 +143,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Country",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                country = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -93,7 +155,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Postcode",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                postcode = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -104,7 +170,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Customer Group",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                customerGroup = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -143,7 +213,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Category",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                category = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -201,7 +275,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Telephone",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                telephone = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -209,7 +287,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Mobile No",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                mobileNo = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -217,7 +299,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Email",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                email = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -225,7 +311,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Delivery Type",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                deliveryType = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -264,7 +354,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Delivery Method",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                deliveryMethod = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -303,7 +397,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Corporate Code",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                corporateCode = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -339,7 +437,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Invoice Ac",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                invoiceAc = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -375,7 +477,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Lab Licence",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                labLicence = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -403,7 +509,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Method Coln",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                methodColn = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -442,7 +552,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Work Hrs",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                workHrs = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -453,7 +567,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Sales TerritoRy",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                salesTerritoRy = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -492,7 +610,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Area",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                area = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -500,7 +622,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Zone",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                zone = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -508,7 +634,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Route",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                route = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -516,7 +646,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                lab = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -540,7 +674,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "Location",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                location = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -565,7 +703,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "EDI",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                edi = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -573,7 +715,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "EDI Address",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                ediAddress = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
           
@@ -582,7 +728,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "EDI",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                edi = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -590,7 +740,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "EDI Address",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                ediAddress = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
@@ -619,7 +773,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Schedule",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                schedule = filter
+              }
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
@@ -643,7 +801,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "Report Format",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                reportFormat = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -651,7 +813,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "Info",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                info = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -659,7 +825,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "FYI Line",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                fyiLine = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -667,7 +837,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "Work Line",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                workLine = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -675,7 +849,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                status = filter
+              }
+            }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -714,7 +892,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                environment = filter
+              }
+            }),
             editorRenderer: (
               editorProps,
               value,
@@ -754,7 +936,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             headerClasses: "textHeader7",
             sort: true,
             editable: false,  
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateCreation = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -768,7 +954,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateActive = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -782,7 +972,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                dateExpire = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
@@ -796,7 +990,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             headerClasses: "textHeader4",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filter: LibraryComponents.Organisms.Utils.customFilter({
+              getFilter: (filter) =>{
+                version = filter
+              }
+            }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
@@ -806,7 +1004,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Entered By",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) =>{
+                enteredBy = filter
+              }
+            }),
             editable: false,
           },
 
@@ -900,6 +1102,47 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
         }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
+        }}
+        clearAllFilter={()=>{
+          dateCreation()
+          dateActive()
+          dateExpire()
+          version("")
+          enteredBy("")
+          locationName("")
+          locationCode("")
+          address("")
+          city("")
+          state("")
+          country("")
+          postcode("")
+          customerGroup("")
+          category("")
+          telephone("")
+          mobileNo("")
+          email("")
+          deliveryType("")
+          deliveryMethod("")
+          corporateCode("")
+          invoiceAc("")
+          labLicence("")
+          methodColn("")
+          workHrs("")
+          salesTerritoRy("")
+          area("")
+          zone("")
+          route("")
+          lab("")
+          location("")
+          edi("")
+          ediAddress("")
+          schedule("")
+          reportFormat("")
+          info("")
+          fyiLine("")
+          workLine("")
+          status("")
+          environment("")
         }}
       />
     </div>

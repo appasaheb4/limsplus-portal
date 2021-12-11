@@ -4,6 +4,12 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
+let methodsCode
+let methodsName
+let description
+let status
+let environment
+
 interface MethodsListProps {
   data: any
   totalSize: number
@@ -36,7 +42,11 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Methods Code",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              methodsCode  = filter
+            }
+          }),
           editable:false
         },
         {
@@ -44,7 +54,11 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Methods Name",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              methodsName  = filter
+            }
+          }),
           editable: false,
         },
         {
@@ -52,7 +66,11 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Description",
           headerClasses: "textHeader4",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              description  = filter
+            }
+          }),
           style:{textTransform:"uppercase"},
               editorStyle:{textTransform:"uppercase"}
         },
@@ -61,7 +79,11 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Status",
           headerClasses: "textHeader2",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              status  = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -97,7 +119,11 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Environment",
           headerClasses: "textHeader3",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          filter: LibraryComponents.Organisms.Utils.textFilter({
+            getFilter: (filter) =>{
+              environment  = filter
+            }
+          }),
           editorRenderer: (
             editorProps,
             value,
@@ -183,6 +209,13 @@ const MethodsList = (props: MethodsListProps) => {
       }}
       onFilter={(type, filter, page, size) => {
         props.onFilter && props.onFilter(type, filter, page, size)
+      }}
+      clearAllFilter={()=>{
+        methodsCode("")
+        methodsName("")
+        description("")
+        status("")
+        environment("")
       }}
     />
   )  
