@@ -39,7 +39,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
 
-  console.log({ routerStore })
+
 
   const onSubmitPatientManager = () => {
     patientManagerStore.patientManagerService

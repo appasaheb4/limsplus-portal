@@ -26,7 +26,7 @@ export class PatientVisitStore {
       filterPatientVisitList: action,
       updatePatientVisit: action,
     })
-  }
+  }  
 
   get patientVisitService() {
     return new PatientManagerService()
