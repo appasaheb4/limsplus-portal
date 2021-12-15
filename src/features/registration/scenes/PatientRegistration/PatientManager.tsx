@@ -39,14 +39,16 @@ const PatientManager = observer((props: PatientManagerProps) => {
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
 
-
-
   const onSubmitPatientManager = () => {
     patientManagerStore.patientManagerService
       .addPatientManager({
         input: {
           ...patientManagerStore.patientManger,
           documentType: "patientManager",
+          breed:
+            patientManagerStore.patientManger?.breed === null
+              ? undefined
+              : patientManagerStore.patientManger?.breed,
         },
       })
       .then((res) => {
@@ -54,11 +56,10 @@ const PatientManager = observer((props: PatientManagerProps) => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.createPatientManager.message}`,
           })
-        }
-        // setTimeout(() => {
-        //   // bannerStore.fetchListBanner()
-        //   window.location.reload()
-        // }, 1000)
+        }  
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       })
   }
   useEffect(() => {
@@ -105,6 +106,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 <LibraryComponents.Atoms.Form.Input
                   label="Pid"
                   name="txtPid"
+                  disabled={true}
                   placeholder={errors.pId ? "Please enter pid" : "Pid"}
                   hasError={errors.pId}
                   value={patientManagerStore.patientManger?.pId}
@@ -118,7 +120,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 />
               )}
               name="pId"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -339,6 +341,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       patientManagerStore.updatePatientManager({
                         ...patientManagerStore.patientManger,
                         species,
+                        breed: species === "H" ? null : undefined,
                       })
                     }}
                   >
@@ -358,27 +361,29 @@ const PatientManager = observer((props: PatientManagerProps) => {
               rules={{ required: true }}
               defaultValue=""
             />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Breed"
-                  placeholder={errors.breed ? "Please Enter Breed" : "Breed"}
-                  hasError={errors.breed}
-                  value={patientManagerStore.patientManger?.breed}
-                  onChange={(breed) => {
-                    onChange(breed)
-                    patientManagerStore.updatePatientManager({
-                      ...patientManagerStore.patientManger,
-                      breed,
-                    })
-                  }}
-                />
-              )}
-              name="breed"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+            {patientManagerStore.patientManger.breed !== null && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Breed"
+                    placeholder={errors.breed ? "Please Enter Breed" : "Breed"}
+                    hasError={errors.breed}
+                    value={patientManagerStore.patientManger?.breed}
+                    onChange={(breed) => {
+                      onChange(breed)
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        breed,
+                      })
+                    }}
+                  />
+                )}
+                name="breed"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+            )}
             {doctorsStore.listDoctors && (
               <Controller
                 control={control}

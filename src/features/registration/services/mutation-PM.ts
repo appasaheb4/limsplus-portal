@@ -83,15 +83,6 @@ export const UPDATE_PATIENT_MANAGER = gql`
   }
 `
 
-export const UPDATE_BANNER_IMAGE = gql`
-  mutation($input: UpdateBannerInput!) {
-    updateBannerImage(input: $input) {
-      success
-      message
-    }
-  }
-`
-
 export const FILTER_PATIENT_MANAGER = gql`
   mutation($input: PatientManagerInput!) {
     filterPatientManager(input: $input) {
@@ -144,6 +135,16 @@ export const FILTER_PATIENT_MANAGER = gql`
         dateOfEntry
         lastUpdated
       }
+    }
+  }
+`
+
+export const SEQUENCING_PATIENT_MANAGER_PID = gql`
+  mutation($input: SequencingInput!) {
+    sequencing(input: $input) {
+      message
+      success
+      data
     }
   }
 `
