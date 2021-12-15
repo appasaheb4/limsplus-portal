@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -56,7 +57,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.createPatientManager.message}`,
           })
-        }  
+        }
         setTimeout(() => {
           window.location.reload()
         }, 1000)
@@ -75,6 +76,17 @@ const PatientManager = observer((props: PatientManagerProps) => {
     }
     patientManagerStore.updatePatientManager({
       ...patientManagerStore.patientManger,
+      species: LibraryUtils.getDefaultLookupItem(
+        routerStore.lookupItems,
+        "PATIENT MANAGER - SPECIES"
+      ),
+      breed:
+        LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT MANAGER - SPECIES"
+        ) === "H"
+          ? null
+          : undefined,
       extraData: {
         ...patientManagerStore.patientManger?.extraData,
         enteredBy: loginStore.login.userId,
@@ -254,7 +266,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 />
               )}
               name="middleName"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -332,6 +344,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                   hasError={errors.species}
                 >
                   <select
+                    value={patientManagerStore.patientManger?.species}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.species ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
@@ -472,7 +485,10 @@ const PatientManager = observer((props: PatientManagerProps) => {
                             <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                               loader={loading}
                               data={{
-                                list: administrativeDivisions.listAdministrativeDiv,
+                                list: _.uniqBy(
+                                  administrativeDivisions.listAdministrativeDiv,
+                                  "country"
+                                ),
                                 displayKey: "country",
                                 findKey: "country",
                               }}
@@ -526,11 +542,14 @@ const PatientManager = observer((props: PatientManagerProps) => {
                                 !patientManagerStore.patientManger.extraData?.country
                               }
                               data={{
-                                list: administrativeDivisions.listAdministrativeDiv.filter(
-                                  (item) =>
-                                    item.country ===
-                                    patientManagerStore.patientManger.extraData
-                                      ?.country
+                                list: _.uniqBy(
+                                  administrativeDivisions.listAdministrativeDiv.filter(
+                                    (item) =>
+                                      item.country ===
+                                      patientManagerStore.patientManger.extraData
+                                        ?.country
+                                  ),
+                                  "state"
                                 ),
                                 displayKey: "state",
                                 findKey: "state",
@@ -588,14 +607,17 @@ const PatientManager = observer((props: PatientManagerProps) => {
                                 !patientManagerStore.patientManger.extraData?.state
                               }
                               data={{
-                                list: administrativeDivisions.listAdministrativeDiv.filter(
-                                  (item) =>
-                                    item.country ===
-                                      patientManagerStore.patientManger.extraData
-                                        ?.country &&
-                                    item.state ===
-                                      patientManagerStore.patientManger.extraData
-                                        ?.state
+                                list: _.uniqBy(
+                                  administrativeDivisions.listAdministrativeDiv.filter(
+                                    (item) =>
+                                      item.country ===
+                                        patientManagerStore.patientManger.extraData
+                                          ?.country &&
+                                      item.state ===
+                                        patientManagerStore.patientManger.extraData
+                                          ?.state
+                                  ),
+                                  "city"
                                 ),
                                 displayKey: "city",
                                 findKey: "city",
@@ -977,7 +999,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                         <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                           <select
                             value={
-                              patientManagerStore.patientManger?.extraData?.status
+                              patientManagerStore.patientManger.extraData?.status
                             }
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? "border-red-500  " : "border-gray-300"
@@ -1017,7 +1039,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                         <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                           <select
                             value={
-                              patientManagerStore.patientManger?.extraData
+                              patientManagerStore.patientManger.extraData
                                 ?.environment
                             }
                             disabled={
