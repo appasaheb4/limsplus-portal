@@ -49,7 +49,7 @@ import { ShortcutMenuStore } from "@lp/features/settings/shortcutMenu/stores/sho
 import { NoticeBoardStore } from "@lp/features/settings/noticeBoard/stores/noticeBoard-store"
 
 // registation
-import { PatientManagerStore } from "@lp/features/registration/stores/patientManager-store"
+import { PatientManagerStore, PatientVisitStore } from "@lp/features/registration/stores"
 
 import { Store } from "./Store"
 export class Stores extends Store {
@@ -103,6 +103,7 @@ export class Stores extends Store {
 
   // registation
   patientManagerStore!: PatientManagerStore
+  patientVisitStore!: PatientVisitStore
 
   constructor() {
     super()
@@ -155,6 +156,7 @@ export class Stores extends Store {
 
     // registation
     this.patientManagerStore = new PatientManagerStore()
+    this.patientVisitStore = new PatientVisitStore()
   }
 }
 

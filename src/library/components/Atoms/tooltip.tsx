@@ -49,7 +49,7 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
       className={`${className} relative flex items-center`}
       onMouseEnter={() => handleMouseEnter(tipRef)}
       onMouseLeave={() => handleMouseLeave(tipRef)}
-    >
+    >  
       <div
         className="absolute  whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150 z-50"
         style={getPosition(position)}

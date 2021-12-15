@@ -1,5 +1,5 @@
 export class PatientManger {
-  pId: string
+  pId: number
   mobileNo: string
   birthDate: Date
   title: string
@@ -8,7 +8,7 @@ export class PatientManger {
   lastName: string
   sex: string
   species: string
-  breed: string
+  breed: string | undefined | null
   usualDoctor: string
   history: boolean
 

@@ -25,13 +25,10 @@ let state
 let email
 let whatsappNumber
 let bloodGroup
-let height
-let weight
 let followUp
 let comments
 let fyiLine
 let balance
-let accountType
 let enteredBy
 let status
 let environment
@@ -214,36 +211,6 @@ const ExtraDataPatientManagerList = observer(
                 },
               },
               {
-                dataField: "height",
-                text: "Height",
-                headerClasses: "textHeader3",
-                sort: true,
-                csvFormatter: col => (col ? col : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    height = filter
-                  }
-                }),
-                formatter: (cell, row) => {
-                  return <span>{row.extraData.height}</span>
-                },
-              },
-              {
-                dataField: "weight",
-                text: "Weight",
-                headerClasses: "textHeader3",
-                sort: true,
-                csvFormatter: col => (col ? col : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    weight = filter
-                  }
-                }),
-                formatter: (cell, row) => {
-                  return <span>{row.extraData.weight}</span>
-                },
-              },
-              {
                 dataField: "followUp",
                 text: "FollowUp",
                 headerClasses: "textHeader3",
@@ -298,20 +265,6 @@ const ExtraDataPatientManagerList = observer(
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.balance}</span>
-                },
-              },
-              {
-                dataField: "accountType",
-                text: "Account Type",
-                headerClasses: "textHeader3",
-                sort: true,
-                csvFormatter: col => (col ? col : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    accountType = filter}
-                }),
-                formatter: (cell, row) => {
-                  return <span>{row.extraData.accountType}</span>
                 },
               },
               {
@@ -415,13 +368,10 @@ const ExtraDataPatientManagerList = observer(
               state("")
               email("")
               bloodGroup("")
-              height("")
-              weight("")
               followUp("")
               comments("")
               fyiLine("")
               balance("")
-              accountType("")
               enteredBy("")
               status("")
               environment("")

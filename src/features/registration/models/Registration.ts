@@ -1,173 +1,77 @@
+export class PatientOrder {
+  visitId?: string
+  packageCode?: string
+  packageName?: string
+  panelCode?: string
+  panelName?: string
+  bill?: string
+  serviceType?: string
+  department?: string
+  section?: string
+  rLab?: string
+  pLab?: string
+  outSourceLab?: string
+  currentDepartment?: string
+  dueDate?: Date
+  resultDate?: Date
+  status?: string
+  comments?: string
+  forceOutSource?: boolean
+  osStatus?: string
+  osReceivedDate?: string
+  osReceivedBy?: string
+  autoRelease?: boolean
+  abNormal?: boolean
+  critical?: boolean
+  reTest?: string
+  reRun?: string
+  qty?: string
+  rep?: string
+  instrumentType?: string
+  instrumentId?: string
+  methodOn?: string
+  methodName?: string
+  priority?: string
+  confidental?: boolean
+  packageVersion?: string
+  panelVersion?: string
+  environment?: string
 
-  
-  export class PatientVisit {
-    patient?: string
-    rLab?: string 
-    visitId?: string
-    visitDate?: Date
-    registrationDate?: Date
-    collectionDate?: Date
-    dueDate?: Date
-    birthDate?: Date
-    age?: number
-    ageUnits?: string
-    collectionCenter?: string
-    billTo?: string
-    acClass?: string
-    doctorId?: string
-    doctorName?: string
-    deliveryType?: string
-    history?: boolean
-    status?: string
-    additionalInfo?: string
-    invoiceAc?: string
-    billingMethod?: string
-    billNumber?: string
-    urgent?: boolean
-    confidental?: boolean
-    autoNumber?: string
-    methodCollection?: string
-    collectedBy?: string
-    pendingDataEntry?: boolean
-    receivedDate?: Date
-    resultDate?: Date
-    approvalDate?: Date
-    approvalStatus?: string
-    reportStatus?: string
-    reportedDate?: Date
-    enteredBy?: string
-    gestation?: string
-    height?: string
-    weight?: string
-    archieve?: string
-    loginInterface?: string
-    submittedSystem?: string
-    submittedOn?: string
-    balance?: string
-    environment?: string  
-    constructor(rawData: {[key in string]: any}){
-      this.patient = rawData.patient
-      this.rLab = rawData.rLab
-      this.visitId = rawData.visitId
-      this.visitDate = rawData.visitDate
-      this.registrationDate = rawData.registrationDate
-      this.collectionDate = rawData.collectionDate
-      this.dueDate = rawData.dueDate
-      this.birthDate = rawData.birthDate
-      this.age = rawData.age
-      this.ageUnits = rawData.ageUnits
-      this.collectionCenter = rawData.collectionCenter
-      this.billTo = rawData.billTo
-      this.acClass = rawData.acClass
-      this.doctorId = rawData.doctorId
-      this.doctorName = rawData.doctorName
-      this.deliveryType = rawData.deliveryType
-      this.history = rawData.history
-      this.status = rawData.status
-      this.additionalInfo = rawData.additionalInfo
-      this.invoiceAc = rawData.invoiceAc
-      this.billingMethod = rawData.billingMethod
-      this.billNumber = rawData.billNumber
-      this.urgent = rawData.urgent
-      this.confidental = rawData.confidental
-      this.autoNumber = rawData.autoNumber
-      this.methodCollection = rawData.methodCollection
-      this.collectedBy = rawData.collectedBy
-      this.pendingDataEntry = rawData.pendingDataEntry
-      this.receivedDate = rawData.receivedDate
-      this.resultDate = rawData.resultDate
-      this.approvalDate = rawData.approvalDate
-      this.approvalStatus = rawData.approvalStatus
-      this.reportStatus = rawData.reportStatus
-      this.reportedDate = rawData.reportedDate
-      this.enteredBy = rawData.enteredBy
-      this.gestation = rawData.gestation
-      this.height = rawData.height
-      this.weight = rawData.weight
-      this.archieve = rawData.archieve
-      this.loginInterface = rawData.loginInterface
-      this.submittedSystem = rawData.submittedSystem      
-      this.submittedOn = rawData.submittedOn
-      this.balance = rawData.balance
-      this.environment = rawData.environment
-    }
+  constructor(rawData: { [key in string]: any }) {
+    this.visitId = rawData.visitId
+    this.packageCode = rawData.packageCode
+    this.packageName = rawData.packageName
+    this.panelCode = rawData.panelCode
+    this.panelName = rawData.panelName
+    this.bill = rawData.bill
+    this.serviceType = rawData.serviceType
+    this.department = rawData.department
+    this.section = rawData.section
+    this.rLab = rawData.rLab
+    this.pLab = rawData.pLab
+    this.outSourceLab = rawData.outSourceLab
+    this.currentDepartment = rawData.currentDepartment
+    this.dueDate = rawData.dueDate
+    this.resultDate = rawData.resultDate
+    this.status = rawData.status
+    this.comments = rawData.comments
+    this.forceOutSource = rawData.forceOutSource
+    this.osReceivedBy = rawData.osReceivedBy
+    this.autoRelease = rawData.autoRelease
+    this.abNormal = rawData.abNormal
+    this.critical = rawData.critical
+    this.reTest = rawData.reTest
+    this.reRun = rawData.reRun
+    this.qty = rawData.qty
+    this.rep = rawData.rep
+    this.methodOn = rawData.methodOn
+    this.methodName = rawData.methodName
+    this.osStatus = rawData.osStatus
+    this.priority = rawData.priority
+    this.confidental = rawData.confidental
+    this.environment = rawData.environment
   }
-  
-  export class PatientOrder { 
-    visitId?: string
-    packageCode?: string
-    packageName?: string
-    panelCode?: string
-    panelName?: string
-    bill?: string
-    serviceType?: string
-    department?: string
-    section?: string
-    rLab?: string
-    pLab?: string
-    outSourceLab?: string
-    currentDepartment?: string
-    dueDate?: Date
-    resultDate?: Date
-    status?: string
-    comments?: string
-    forceOutSource?: boolean
-    osStatus?: string
-    osReceivedDate?: string
-    osReceivedBy?: string
-    autoRelease?: boolean
-    abNormal?: boolean
-    critical?: boolean
-    reTest?: string
-    reRun?: string
-    qty?: string
-    rep?: string
-    instrumentType?: string
-    instrumentId?: string
-    methodOn?: string
-    methodName?: string
-    priority?: string
-    confidental?: boolean
-    packageVersion?: string
-    panelVersion?: string
-    environment?: string
-    
-    constructor(rawData: {[key in string]: any}){
-      this.visitId = rawData.visitId
-      this.packageCode = rawData.packageCode
-      this.packageName = rawData.packageName
-      this.panelCode = rawData.panelCode
-      this.panelName = rawData.panelName
-      this.bill = rawData.bill
-      this.serviceType = rawData.serviceType
-      this.department = rawData.department
-      this.section = rawData.section
-      this.rLab = rawData.rLab
-      this.pLab = rawData.pLab
-      this.outSourceLab = rawData.outSourceLab
-      this.currentDepartment = rawData.currentDepartment
-      this.dueDate = rawData.dueDate
-      this.resultDate = rawData.resultDate
-      this.status = rawData.status
-      this.comments = rawData.comments
-      this.forceOutSource = rawData.forceOutSource
-      this.osReceivedBy = rawData.osReceivedBy
-      this.autoRelease = rawData.autoRelease
-      this.abNormal = rawData.abNormal
-      this.critical = rawData.critical
-      this.reTest = rawData.reTest
-      this.reRun = rawData.reRun
-      this.qty = rawData.qty
-      this.rep = rawData.rep
-      this.methodOn = rawData.methodOn
-      this.methodName = rawData.methodName
-      this.osStatus = rawData.osStatus
-      this.priority = rawData.priority
-      this.confidental = rawData.confidental
-      this.environment = rawData.environment
-        
-    }
-  }
+}
 
 export class InformationGroup {
   infoDate?: Date
@@ -181,21 +85,21 @@ export class InformationGroup {
   environment?: string
   enteredBy?: string
   status?: string
-  constructor(rawData: {[key in string]: any}){
-      this.infoDate = rawData.infoDate
-      this.infoRelatedTo = rawData.infoRelatedTo
-      this.keyField = rawData.keyField
-      this.infoType = rawData.infoType
-      this.infoLookup = rawData.infoLookup
-      this.lookupValue = rawData.lookupValue
-      this.information = rawData.information
-      this.attachment = rawData.attachment
-      this.environment = rawData.environment
-      this.enteredBy = rawData.enteredBy
-      this.status = rawData.status
+  constructor(rawData: { [key in string]: any }) {
+    this.infoDate = rawData.infoDate
+    this.infoRelatedTo = rawData.infoRelatedTo
+    this.keyField = rawData.keyField
+    this.infoType = rawData.infoType
+    this.infoLookup = rawData.infoLookup
+    this.lookupValue = rawData.lookupValue
+    this.information = rawData.information
+    this.attachment = rawData.attachment
+    this.environment = rawData.environment
+    this.enteredBy = rawData.enteredBy
+    this.status = rawData.status
   }
 }
-  
+
 export class PatientSample {
   specimenId?: string
   pLab?: string
@@ -215,7 +119,7 @@ export class PatientSample {
   dueDate?: string
   status?: string
   environment?: string
-  constructor(rawData: {[key in string]: any}){
+  constructor(rawData: { [key in string]: any }) {
     this.specimenId = rawData.specimenId
     this.pLab = rawData.pLab
     this.rLab = rawData.rLab
@@ -237,7 +141,7 @@ export class PatientSample {
   }
 }
 
-export class PatientResult{
+export class PatientResult {
   patientOrder?: string
   visitId?: string
   pLab?: string
@@ -296,7 +200,7 @@ export class PatientResult{
   byPassEln?: string
   color?: string
   environment?: string
-  constructor(rawData: {[key in string]: any}){
+  constructor(rawData: { [key in string]: any }) {
     this.patientOrder = rawData.patientOrder
     this.visitId = rawData.visitId
     this.pLab = rawData.pLab
@@ -325,7 +229,7 @@ export class PatientResult{
     this.testVersion = rawData.testVersion
     this.analyteVersion = rawData.analyteVersion
     this.calcFlag = rawData.calcFlag
-    this.calciName  = rawData.calciName
+    this.calciName = rawData.calciName
     this.calculation = rawData.calculation
     this.formula = rawData.formula
     this.reTest = rawData.reTest
@@ -347,17 +251,17 @@ export class PatientResult{
     this.pLaterUnno = rawData.pLaterUnno
     this.runno = rawData.runno
     this.cupno = rawData.cupno
-    this.species =  rawData.species
+    this.species = rawData.species
     this.deltaFlag = rawData.deltaFlag
     this.deltaValue = rawData.deltaValue
-    this.qcFlag  = rawData.qcFlag
+    this.qcFlag = rawData.qcFlag
     this.qcStatus = rawData.qcStatus
     this.byPassEln = rawData.byPassEln
     this.color = rawData.color
     this.environment = rawData.environment
   }
 }
-
+  
 export class SpecialResult {
   visitId?: string
   patientResult?: string
@@ -369,7 +273,7 @@ export class SpecialResult {
   abNormal?: boolean
   enteredBy?: string
   environment?: string
-  constructor(rawData: {[key in string]: any}){
+  constructor(rawData: { [key in string]: any }) {
     this.visitId = rawData.visitID
     this.patientResult = rawData.patientResult
     this.analyteCode = rawData.analyteCode
