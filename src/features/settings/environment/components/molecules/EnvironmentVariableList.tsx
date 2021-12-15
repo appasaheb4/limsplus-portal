@@ -10,7 +10,6 @@ let category
 let description
 let enteredBy
 
-
 interface EnvironmentVariableProps {
   data: any
   extraData: any
@@ -45,9 +44,9 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               editable: false,
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environmentVariable = filter
-                }
+                },
               }),
             },
             {
@@ -56,9 +55,9 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   category = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -97,9 +96,9 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Description",
               headerClasses: "textHeader3",
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   description = filter
-                }
+                },
               }),
               sort: true,
             },
@@ -109,9 +108,9 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               headerClasses: "textHeader3",
               editable: false,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   enteredBy = filter
-                }
+                },
               }),
               sort: true,
             },
@@ -122,12 +121,9 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               csvExport: false,
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
-                <>
+                <>  
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
-                      tooltipText="Delete"
-                      position="top"
-                    >
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -172,7 +168,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             environmentVariable("")
             category("")
             description("")

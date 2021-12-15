@@ -301,7 +301,6 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip
                       tooltipText="Delete"
-                      position="top"
                     >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"

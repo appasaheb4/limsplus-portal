@@ -258,7 +258,10 @@ const Lab = observer(() => {
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv,
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv,
+                            "country"
+                          ),
                           displayKey: "country",
                           findKey: "country",
                         }}
@@ -307,8 +310,11 @@ const Lab = observer(() => {
                         loader={loading}
                         disable={!labStore.labs.country}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv.filter(
-                            (item) => item.country === labStore.labs.country
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) => item.country === labStore.labs.country
+                            ),
+                            "state"
                           ),
                           displayKey: "state",
                           findKey: "state",
@@ -361,10 +367,13 @@ const Lab = observer(() => {
                         loader={loading}
                         disable={!labStore.labs.state}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv.filter(
-                            (item) =>
-                              item.country === labStore.labs.country &&
-                              item.state === labStore.labs.state
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state
+                            ),
+                            "district"
                           ),
                           displayKey: "district",
                           findKey: "district",
@@ -415,11 +424,14 @@ const Lab = observer(() => {
                         loader={loading}
                         disable={!labStore.labs.district}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv.filter(
-                            (item) =>
-                              item.country === labStore.labs.country &&
-                              item.state === labStore.labs.state &&
-                              item.district === labStore.labs.district
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state &&
+                                item.district === labStore.labs.district
+                            ),
+                            "city"
                           ),
                           displayKey: "city",
                           findKey: "city",
@@ -471,12 +483,15 @@ const Lab = observer(() => {
                         loader={loading}
                         disable={!labStore.labs.city}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv.filter(
-                            (item) =>
-                              item.country === labStore.labs.country &&
-                              item.state === labStore.labs.state &&
-                              item.district === labStore.labs.district &&
-                              item.city === labStore.labs.city
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state &&
+                                item.district === labStore.labs.district &&
+                                item.city === labStore.labs.city
+                            ),
+                            "area"
                           ),
                           selected: labStore.selectedItems?.area,
                           displayKey: "area",
@@ -530,14 +545,17 @@ const Lab = observer(() => {
                         loader={loading}
                         disable={!labStore.labs.area}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv.filter(
-                            (item) =>
-                              item.country === labStore.labs.country &&
-                              item.state === labStore.labs.state &&
-                              item.district === labStore.labs.district &&
-                              item.city === labStore.labs.city &&
-                              item.area === labStore.labs.area
-                          ),  
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state &&
+                                item.district === labStore.labs.district &&
+                                item.city === labStore.labs.city &&
+                                item.area === labStore.labs.area
+                            ),
+                            "postalCode"
+                          ),
                           displayKey: "postalCode",
                           findKey: "postalCode",
                         }}
