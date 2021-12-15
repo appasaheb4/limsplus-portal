@@ -47,6 +47,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             }),
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editorRenderer: (
               editorProps,
               value,
@@ -69,6 +70,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Analyte Name",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 analyteName = filter
@@ -81,6 +83,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Conclusion Result",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: (cell, row, rowIndex) =>
+              `Result:${row.conclusionResult.map(item => item.result)} - PossibleValue: ${row.conclusionResult.map(item => item.possibleValue)} - Ab Normal: ${row.conclusionResult.map(item => item.abNormal)},Critical: ${row.conclusionResult.map(item => item.critical)}`,
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 conclusionResult = filter
@@ -271,6 +275,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Defualt Conclusion",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: (cell, row, rowIndex) =>
+              `Result:${row.defaultConclusion && row.defaultConclusion.result} - PossibleValue: ${row.defaultConclusion&&row.defaultConclusion.possibleValue} - Ab Normal: ${row.defaultConclusion&&row.defaultConclusion.abNormal},Critical: ${row.defaultConclusion&&row.defaultConclusion.critical}`,
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 defaultConclusion = filter
@@ -294,6 +300,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Environment",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter
@@ -373,7 +380,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Lookup"
+        fileName="PossibleResult"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

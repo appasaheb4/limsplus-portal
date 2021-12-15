@@ -49,6 +49,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "lab",
               text: "Labs",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => `${row.lab.map(item => item.name)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -87,6 +88,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "user",
               text: "Users",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => `${row.user.map(item => item.fullName)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   user = filter
@@ -131,6 +133,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   department = filter
                 }
               }),
+              csvFormatter: (cell, row, rowIndex) => `${row.department && row.department.map(item => item.name)}`,
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -218,6 +221,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "description",
               text: "Description",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   description = filter
@@ -251,6 +255,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "environment",
               text: "Environment",
               headerClasses: "textHeader3",
+              csvFormatter: col => (col ? col : ""),
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -333,7 +338,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="Session_Environment_Settings"
+          fileName="EnvironmentSettings"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))

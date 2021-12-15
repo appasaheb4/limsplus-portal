@@ -63,6 +63,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "EQUIPMENT TYPE",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 equipmentType = filter
@@ -180,6 +181,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "DATA TYPE",
             headerClasses: "textHeader2",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 data_type = filter
@@ -230,6 +232,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "SEGMENTS",
             headerClasses: "textHeader2",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 segments = filter
@@ -322,6 +325,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD NO",
             headerClasses: "textHeader2",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 field_no = filter
@@ -364,6 +368,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "ITEM NO",
             headerClasses: "textHeader2",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 item_no = filter
@@ -1030,6 +1035,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter
@@ -1144,7 +1150,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Conversation Mapping"
+        fileName="Data Mapping"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

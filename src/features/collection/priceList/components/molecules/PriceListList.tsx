@@ -70,6 +70,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelCode = filter
@@ -98,6 +99,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Panel Name",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelName = filter
@@ -126,6 +128,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Priority",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   priority = filter
@@ -169,6 +172,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Price Group",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   priceGroup = filter
@@ -212,6 +216,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Bill To",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   billTo = filter
@@ -240,6 +245,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Client Name",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   clientName = filter
@@ -268,6 +274,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Invoice Ac",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   invoiceAc = filter
@@ -296,6 +303,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Lab",
               headerClasses: "textHeader",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -324,6 +332,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   price = filter
@@ -339,6 +348,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Fixed Price",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   fixedPrice = filter
@@ -354,6 +364,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Min Sp",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   minSp = filter
@@ -369,6 +380,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Max Sp",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   maxSp = filter
@@ -383,6 +395,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               dataField: "anyScheme",
               text: "Any Scheme",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -403,6 +416,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Special Scheme",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   specialScheme = filter
@@ -450,6 +464,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Scheme Price",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   schemePrice = filter
@@ -461,6 +476,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               dataField: "disOnScheme",
               text: "Dis On Scheme",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -483,6 +499,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Entered By",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
@@ -494,6 +511,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   status = filter
@@ -537,6 +555,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter
@@ -581,6 +600,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
@@ -599,6 +619,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateActive = filter
@@ -617,6 +638,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter
@@ -635,6 +657,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   version = filter

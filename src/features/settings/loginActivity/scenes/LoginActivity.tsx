@@ -42,6 +42,8 @@ const LoginActivity = observer(() => {
                   dataField: "userId",
                   text: "User details",
                   sort: true,
+                  csvFormatter: (cell, row, rowIndex) =>
+                    `UserId: ${row.user.userId}, User Name: ${row.user.fullName},  Lab: ${row.user.lab}, Role: ${row.user.role}`,
                   filter: LibraryComponents.Organisms.Utils.textFilter({
                     getFilter: (filter) =>{
                       userId = filter
@@ -69,6 +71,9 @@ const LoginActivity = observer(() => {
                       systemInfo = filter
                     }
                   }),
+                  csvFormatter: (cell, row, rowIndex) =>
+                    `Device:${row.systemInfo.device}, OS, name:${row.systemInfo?.workstation?.os?.name},  version:${row.systemInfo?.workstation?.os?.version}, Browser,name: ${row.systemInfo?.workstation?.browser?.name}
+                    version:${row.systemInfo?.workstation?.browser?.version}`,
                   headerClasses: "textHeader5",
                   formatter: (cell, row) => {
                     return (

@@ -60,6 +60,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 lab = filter
@@ -88,6 +89,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Package Code",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 packageCode = filter
@@ -101,6 +103,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Package Name",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 packageName = filter
@@ -114,6 +117,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Panel Code",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 panelCode = filter
@@ -126,6 +130,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Panel Name",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 panelName = filter
@@ -137,6 +142,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: "bill",
             text: "Bill",
             sort: true,
+            csvFormatter: col => (col ? col : false),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
@@ -156,6 +162,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Status",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 status = filter
@@ -199,6 +206,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Entered By",
             headerClasses: "textHeader2",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 enteredBy = filter
@@ -211,7 +219,8 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             editable: false,
             text: "Date Creation",
             headerClasses: "textHeader6",
-            sort: true,  
+            sort: true,
+            csvFormatter: col => (col ? col : ""),  
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
                 dateCreation = filter
@@ -229,6 +238,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -248,6 +258,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader11",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
                 dateExpire = filter
@@ -265,6 +276,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Version",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -280,6 +292,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter

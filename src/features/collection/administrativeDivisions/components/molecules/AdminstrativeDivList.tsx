@@ -47,6 +47,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Country",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter({
@@ -60,6 +61,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "State",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter({
@@ -73,6 +75,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "District",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter({
@@ -86,6 +89,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "City",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter({
@@ -99,6 +103,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Area",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter({
@@ -112,6 +117,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Postcode",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 postalCode = filter
@@ -144,6 +150,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "SBU",
             headerClasses: "textHeader",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 sbu = filter
@@ -187,6 +194,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Zone",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 zone = filter
@@ -229,6 +237,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter
@@ -310,7 +319,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Methods"
+        fileName="AdminstrativeDivisions"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

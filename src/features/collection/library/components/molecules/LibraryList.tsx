@@ -69,6 +69,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Code",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   code = filter
@@ -81,6 +82,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   description = filter
@@ -93,6 +95,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Usage Type",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   usageType = filter
@@ -136,6 +139,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Library Type",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   libraryType = filter
@@ -179,6 +183,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Comment Type",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   commentType = filter
@@ -222,6 +227,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -250,6 +256,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Department",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   department = filter
@@ -278,6 +285,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "CommentsTarget",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   commentsTarget = filter
@@ -325,6 +333,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Details",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   details = filter}
@@ -336,6 +345,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Parameter",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   parameter = filter
@@ -378,6 +388,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Action",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   action = filter
@@ -421,6 +432,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Aesults",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   results = filter}
@@ -463,6 +475,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Value",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   value = filter}
@@ -474,6 +487,9 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Reflex",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => 
+              `PanelCode${reflex.panelName} ,
+               PanelName${reflex.panelCode}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   reflex = filter}
@@ -528,6 +544,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Analyte",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   analyte = filter}
@@ -539,6 +556,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Rule",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   rule = filter}
@@ -549,6 +567,7 @@ export const LibraryList = (props: LibraryListProps) => {
               dataField: "abNormal",
               text: "AbNormal",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -569,6 +588,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   status = filter}
@@ -611,6 +631,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Organism Group",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   organismGroup = filter}
@@ -622,6 +643,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Organism Class",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   organismClass = filter}
@@ -633,6 +655,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "LO Age",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   loAge = filter
@@ -648,6 +671,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "HI Age",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   hiAge = filter
@@ -663,6 +687,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Sex",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sex = filter}
@@ -705,6 +730,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Sex Action",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sexAction = filter}
@@ -747,6 +773,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter}

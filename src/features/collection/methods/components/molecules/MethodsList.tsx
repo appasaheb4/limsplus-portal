@@ -42,6 +42,7 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Methods Code",
           headerClasses: "textHeader4",
           sort: true,
+           csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               methodsCode  = filter
@@ -54,6 +55,7 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Methods Name",
           headerClasses: "textHeader4",
           sort: true,
+           csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               methodsName  = filter
@@ -66,6 +68,7 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Description",
           headerClasses: "textHeader4",
           sort: true,
+           csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               description  = filter
@@ -79,6 +82,7 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Status",
           headerClasses: "textHeader2",
           sort: true,
+           csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               status  = filter
@@ -119,6 +123,7 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Environment",
           headerClasses: "textHeader3",
           sort: true,
+           csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               environment  = filter

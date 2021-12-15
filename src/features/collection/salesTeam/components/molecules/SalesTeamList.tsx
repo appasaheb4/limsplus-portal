@@ -42,6 +42,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Sales Hierarchy",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 salesHierarchy = filter
@@ -84,6 +85,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Sales Territory",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 salesTerritory = filter
@@ -114,6 +116,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Employee Code",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 empCode = filter
@@ -126,6 +129,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Employee Name",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 empName = filter
@@ -138,6 +142,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Reporting To",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 reportingTo = filter
@@ -165,6 +170,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter
@@ -246,7 +252,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Methods"
+        fileName="SalesTeam"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

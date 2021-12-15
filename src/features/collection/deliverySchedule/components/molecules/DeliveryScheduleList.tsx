@@ -49,6 +49,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sch Code",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   schCode = filter
@@ -60,6 +61,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "sundayProcessing",
               text: "Sunday Processing",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
                
@@ -76,6 +78,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Holiday Processing",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               // filter: LibraryComponents.Organisms.Utils.textFilter({
               //   getFilter: (filter) =>{
               //     holidayProcessing = filter
@@ -88,6 +91,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sunday Reporting",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               // filter: LibraryComponents.Organisms.Utils.textFilter({
               //   getFilter: (filter) =>{
               //     schCode = filter
@@ -99,6 +103,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "holidayReporting",
               text: "Holiday Reporting",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
                
@@ -116,6 +121,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "P Start Time",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   pStartTime = filter
@@ -127,6 +133,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "P End Time",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   pEndTime = filter
@@ -138,6 +145,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Cutof Time",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   cutofTime = filter
@@ -149,6 +157,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Secound Cutof Time",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   secoundCutofTime = filter
@@ -160,6 +169,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Processing Type",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   processingType = filter
@@ -204,6 +214,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sch Frequency",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => `${JSON.stringify(row.schFrequency)}`,
               //filter: LibraryComponents.Organisms.Utils.textFilter({})
               formatter: (cell, row) => {
                 return <>{JSON.stringify(row.schFrequency)}</>
@@ -214,6 +225,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Report On",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   reportOn = filter
@@ -225,6 +237,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Dynamic RT",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   dynamicRT = filter
@@ -236,6 +249,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Dynamic TU",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   dynamicTU = filter
@@ -281,6 +295,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Fixed RT",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   fixedRT = filter
@@ -291,6 +306,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "onTime",
               text: "On Time",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
                
@@ -307,6 +323,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sch For Dept",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   schForDept = filter
@@ -318,6 +335,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sch For Pat",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   schForPat = filter
@@ -329,6 +347,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter
