@@ -123,6 +123,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   description = filter
@@ -153,6 +154,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -173,6 +175,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Method",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   analyteMethod = filter
@@ -185,6 +188,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Short Name",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   shortName = filter
@@ -199,6 +203,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter)=>{
                   price = filter
@@ -239,6 +244,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
+               csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -259,6 +265,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "High",
               headerClasses: "textHeader1",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   high = filter
@@ -271,6 +278,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Low",
               headerClasses: "textHeader1",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   low = filter
@@ -282,6 +290,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "display",
               text: "Display",
               sort: true,
+               csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -302,6 +311,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Result Type",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   resultType = filter
@@ -344,6 +354,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "calculationFlag",
               text: "Calculation Flag",
               sort: true,
+               csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -368,6 +379,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Type",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   analyteType = filter
@@ -411,6 +423,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Units",
               headerClasses: "textHeader1",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   units = filter
@@ -454,6 +467,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Usage",
               headerClasses: "textHeader1",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   usage = filter
@@ -497,6 +511,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "picture",
               headerClasses: "textHeader1",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   picture = filter
@@ -536,6 +551,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "repetition",
               text: "Repetition",
               sort: true,
+               csvFormatter: col => (col ? col :false ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -555,6 +571,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
+               csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -574,6 +591,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
+               csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -593,6 +611,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
+               csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -613,6 +632,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
+               csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -711,6 +731,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Calcy Name",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   calcyName = filter
@@ -723,6 +744,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "CPT Code",
               headerClasses: "textHeader2",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   cptCode = filter
@@ -735,6 +757,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   status = filter
@@ -779,6 +802,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Entered By",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   enteredBy = filter
@@ -791,6 +815,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Creation",
               headerClasses: "textHeader11",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter)=>{
                   dateCreation = filter
@@ -809,6 +834,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Active",
               headerClasses: "textHeader11",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   dateActive = filter
@@ -827,6 +853,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Expire",
               headerClasses: "textHeader11",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               // filter: LibraryComponents.Organisms.Utils.dateFilter({
               //   comparators: [
               //     LibraryComponents.Organisms.Utils.Comparator.EQ,
@@ -857,6 +884,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               // filter: LibraryComponents.Organisms.Utils.numberFilter({
               //   numberStyle: { marginLeft: "2px" },
               //   style: { display: "inline" },
@@ -878,6 +906,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Environment",
               headerClasses: "textHeader4",
               sort: true,
+               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   environment = filter

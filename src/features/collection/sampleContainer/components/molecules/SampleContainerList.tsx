@@ -41,6 +41,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Container Code",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               containerCode = filter
@@ -53,6 +54,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Container Name",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               containerName = filter
@@ -65,6 +67,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Description",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               description = filter
@@ -113,6 +116,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Environment",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               environment = filter

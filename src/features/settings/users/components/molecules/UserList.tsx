@@ -77,6 +77,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "userId",
               text: "UserId",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   userId = filter
@@ -89,6 +90,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "empCode",
               text: "Emp Code",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   empCode = filter
@@ -101,6 +103,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "defaultLab",
               text: "Default Lab",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   defaultLab = filter
@@ -128,6 +131,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "lab",
               text: "Lab",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => `${row.lab.map(item=>item.name)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -171,6 +175,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "deginisation",
               text: "Deginisation",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   deginisation = filter
@@ -198,6 +203,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "department",
               text: "Department",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => `${row.department.map(item=>item.name)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   department = filter
@@ -235,6 +241,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "validationLevel",
               text: "Validation Level",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   validationLevel = filter
@@ -295,6 +302,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "fullName",
               text: "Full Name",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   fullName = filter
@@ -308,6 +316,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "mobileNo",
               text: "Mobile No",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   mobileNo = filter
@@ -319,6 +328,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "contactNo",
               text: "Contact No",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   contactNo = filter
@@ -330,6 +340,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "email",
               text: "Email",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   email = filter
@@ -341,6 +352,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "userDegree",
               text: "User Degree",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   userDegree = filter
@@ -352,6 +364,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateOfBirth = filter
@@ -390,6 +403,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   marriageAnniversary = filter
@@ -427,6 +441,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Exipre Date",
               dataField: "exipreDate",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   exipreDate = filter
@@ -465,6 +480,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "role",
               text: "Role",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => `${row.role.map(item=>item.code)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   role = filter
@@ -503,6 +519,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
@@ -519,6 +536,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateOfEntry = filter
@@ -537,6 +555,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "createdBy",
               text: "Created  By",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   createdBy = filter
@@ -619,6 +638,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Status",
               dataField: "status",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   status = filter
@@ -661,6 +681,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "environment",
               text: "Environment",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter
@@ -704,6 +725,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "confirguration",
               text: "Confirguration",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
@@ -720,6 +742,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "systemInfo",
               text: "System Info",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) => `Mobile:${
+                row.systemInfo.accessInfo &&
+                row.systemInfo.accessInfo?.mobile},Desktop:${
+                  row.systemInfo.accessInfo &&
+                  row.systemInfo.accessInfo?.desktop}`,
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper
