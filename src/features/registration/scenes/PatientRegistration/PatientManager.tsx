@@ -45,6 +45,10 @@ const PatientManager = observer((props: PatientManagerProps) => {
         input: {
           ...patientManagerStore.patientManger,
           documentType: "patientManager",
+          breed:
+            patientManagerStore.patientManger?.breed === null
+              ? undefined
+              : patientManagerStore.patientManger?.breed,
         },
       })
       .then((res) => {
@@ -52,11 +56,10 @@ const PatientManager = observer((props: PatientManagerProps) => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.createPatientManager.message}`,
           })
-        }
-        // setTimeout(() => {
-        //   // bannerStore.fetchListBanner()
-        //   window.location.reload()
-        // }, 1000)
+        }  
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       })
   }
   useEffect(() => {
@@ -78,7 +81,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
         status: LibraryUtils.getDefaultLookupItem(
           routerStore.lookupItems,
           "PATIENT MANAGER - STATUS"
-        ),   
+        ),
         environment: LibraryUtils.getDefaultLookupItem(
           routerStore.lookupItems,
           "PATIENT MANAGER - ENVIRONMENT"
@@ -103,6 +106,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 <LibraryComponents.Atoms.Form.Input
                   label="Pid"
                   name="txtPid"
+                  disabled={true}
                   placeholder={errors.pId ? "Please enter pid" : "Pid"}
                   hasError={errors.pId}
                   value={patientManagerStore.patientManger?.pId}
@@ -116,7 +120,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 />
               )}
               name="pId"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -337,6 +341,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       patientManagerStore.updatePatientManager({
                         ...patientManagerStore.patientManger,
                         species,
+                        breed: species === "H" ? null : undefined,
                       })
                     }}
                   >
@@ -356,27 +361,29 @@ const PatientManager = observer((props: PatientManagerProps) => {
               rules={{ required: true }}
               defaultValue=""
             />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Breed"
-                  placeholder={errors.breed ? "Please Enter Breed" : "Breed"}
-                  hasError={errors.breed}
-                  value={patientManagerStore.patientManger?.breed}
-                  onChange={(breed) => {
-                    onChange(breed)
-                    patientManagerStore.updatePatientManager({
-                      ...patientManagerStore.patientManger,
-                      breed,
-                    })
-                  }}
-                />
-              )}
-              name="breed"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+            {patientManagerStore.patientManger.breed !== null && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Breed"
+                    placeholder={errors.breed ? "Please Enter Breed" : "Breed"}
+                    hasError={errors.breed}
+                    value={patientManagerStore.patientManger?.breed}
+                    onChange={(breed) => {
+                      onChange(breed)
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        breed,
+                      })
+                    }}
+                  />
+                )}
+                name="breed"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+            )}
             {doctorsStore.listDoctors && (
               <Controller
                 control={control}
@@ -826,34 +833,6 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       rules={{ required: false }}
                       defaultValue=""
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
-                          label="Height"
-                          placeholder={
-                            errors.height ? "Please Enter Height" : "Height"
-                          }
-                          hasError={errors.height}
-                          value={
-                            patientManagerStore.patientManger?.extraData?.height
-                          }
-                          onChange={(height) => {
-                            onChange(height)
-                            patientManagerStore.updatePatientManager({
-                              ...patientManagerStore.patientManger,
-                              extraData: {
-                                ...patientManagerStore.patientManger?.extraData,
-                                height,
-                              },
-                            })
-                          }}
-                        />
-                      )}
-                      name="height"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    />
                   </LibraryComponents.Atoms.List>
                   <LibraryComponents.Atoms.List
                     direction="col"
@@ -861,34 +840,6 @@ const PatientManager = observer((props: PatientManagerProps) => {
                     justify="stretch"
                     fill
                   >
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
-                          label="Weight"
-                          placeholder={
-                            errors.weight ? "Please Enter Weight" : "Weight"
-                          }
-                          hasError={errors.weight}
-                          value={
-                            patientManagerStore.patientManger?.extraData?.weight
-                          }
-                          onChange={(weight) => {
-                            onChange(weight)
-                            patientManagerStore.updatePatientManager({
-                              ...patientManagerStore.patientManger,
-                              extraData: {
-                                ...patientManagerStore.patientManger?.extraData,
-                                weight,
-                              },
-                            })
-                          }}
-                        />
-                      )}
-                      name="weight"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
@@ -998,36 +949,6 @@ const PatientManager = observer((props: PatientManagerProps) => {
                         />
                       )}
                       name="balance"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
-                          label="Account Type"
-                          placeholder={
-                            errors.accountType
-                              ? "Please Enter Account Type"
-                              : "Account Type"
-                          }
-                          hasError={errors.accountType}
-                          value={
-                            patientManagerStore.patientManger?.extraData?.accountType
-                          }
-                          onChange={(accountType) => {
-                            onChange(accountType)
-                            patientManagerStore.updatePatientManager({
-                              ...patientManagerStore.patientManger,
-                              extraData: {
-                                ...patientManagerStore.patientManger?.extraData,
-                                accountType,
-                              },
-                            })
-                          }}
-                        />
-                      )}
-                      name="accountType"
                       rules={{ required: false }}
                       defaultValue=""
                     />

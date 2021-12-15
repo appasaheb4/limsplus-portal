@@ -3,7 +3,7 @@ export default class Singleton {
   public textFilterVal
   public numberFilterVal
   public dateFilterVal
-
+     
   /**
    * @returns {Singleton}
    */

@@ -4,7 +4,7 @@ import * as Models from "../models"
 
 class PatientRegistrationStore {
   patientManger!: Models.PatientManger
-  patientVisit?: Models.PatientVisit
+  patientVisit!: Models.PatientVisit
   patientOrder?: Models.PatientOrder
   patientResult?: Models.PatientResult
   informationGroup?: Models.InformationGroup
