@@ -12,9 +12,9 @@ import {
   REMOVE_PATIENT_MANAGER,
   UPDATE_PATIENT_MANAGER,
   CREATE_PATIENT_MANAGER,
-  UPDATE_BANNER_IMAGE,
   FILTER_PATIENT_MANAGER,
-} from "./mutation"
+  SEQUENCING_PATIENT_MANAGER_PID,
+} from "./mutation-PM"
 
 export class PatientManagerService {
   listPatientManager = (filter: any, page = 0, limit = 10) =>
@@ -49,7 +49,7 @@ export class PatientManagerService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   deletePatientManager = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -85,7 +85,7 @@ export class PatientManagerService {
       console.log({ variables })
       client
         .mutate({
-          mutation: UPDATE_BANNER_IMAGE,
+          mutation: UPDATE_PATIENT_MANAGER,
           variables,
         })
         .then((response: any) => {
@@ -109,6 +109,34 @@ export class PatientManagerService {
             return this.listPatientManager({ documentType: "patientManager" })
           stores.patientManagerStore.filterPatientManagerList(response.data)
           stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  sequencingPid = () =>
+    new Promise<any>((resolve, reject) => {
+      const variables = {
+        input: {
+          filter: {
+            _id: "pId",
+            collectionName: "patientregistrations",
+            documentType: "patientManager",
+          },
+        },
+      }
+      client
+        .mutate({
+          mutation: SEQUENCING_PATIENT_MANAGER_PID,
+          variables,
+        })
+        .then((response: any) => {
+          stores.patientManagerStore.updatePatientManager({
+            ...stores.patientManagerStore.patientManger,
+            pId: response.data.sequencing.data[0]?.seq + 1 || 1,
+          })
           resolve(response.data)
         })
         .catch((error) =>

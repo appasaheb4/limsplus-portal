@@ -53,12 +53,15 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Pid",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter)=>{
                   pId = filter
                 }
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editable: false,
             },
             {
               dataField: "mobileNo",
