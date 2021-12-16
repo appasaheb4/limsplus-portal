@@ -171,7 +171,6 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                           input: {
                             type: "filter",
                             filter: {
-                              
                               name: value,
                             },
                             page: 0,
@@ -403,6 +402,11 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               rules={{ required: true }}
               defaultValue=""
             />
+            <span className="text-red-500 text-xs">
+              {`Note:
+                 Off/False: 0 
+                 On/True: 1`}
+            </span>
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"

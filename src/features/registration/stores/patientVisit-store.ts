@@ -13,6 +13,10 @@ export class PatientVisitStore {
     this.listPatientVisitCount = 0
     this.patientVisit = {
       ...this.patientVisit,
+      visitDate: new Date(),
+      registrationDate: new Date(),
+      collectionDate: new Date(),
+      dueDate: new Date(),
       birthDate: new Date(dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD")),
     }
   
