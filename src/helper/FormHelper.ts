@@ -6,6 +6,7 @@ export class FormHelper {
     nonEmptyString: /^(?!\s*$).+/,
     userName: /^[a-z][a-z0-9_.]+$/,
     password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+    mobileNo: /^[0-9]{10}$/g
   }
 
   static isUserNameValid(userName: string): boolean {
@@ -20,9 +21,12 @@ export class FormHelper {
     if (!Number(month) || !Number(year)) {
       return !!Number(date) && Number(date) <= 31
     }
-
     const daysInMonth = new Date(Number(year), Number(month), 0).getDate()
     return Number(date) <= daysInMonth
+  }
+
+  static isMobileNoValid(number: string): boolean {
+    return this.patterns.mobileNo.test(number)
   }
 
   static isMonthValid(month: string): boolean {
