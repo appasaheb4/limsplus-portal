@@ -41,27 +41,33 @@ const PatientManager = observer((props: PatientManagerProps) => {
   const [modalConfirm, setModalConfirm] = useState<any>()
 
   const onSubmitPatientManager = () => {
-    patientManagerStore.patientManagerService
-      .addPatientManager({
-        input: {
-          ...patientManagerStore.patientManger,
-          documentType: "patientManager",
-          breed:
-            patientManagerStore.patientManger?.breed === null
-              ? undefined
-              : patientManagerStore.patientManger?.breed,
-        },
+    if (!patientManagerStore.checkExistsPatient) {
+      patientManagerStore.patientManagerService
+        .addPatientManager({
+          input: {
+            ...patientManagerStore.patientManger,
+            documentType: "patientManager",
+            breed:
+              patientManagerStore.patientManger?.breed === null
+                ? undefined
+                : patientManagerStore.patientManger?.breed,
+          },
+        })
+        .then((res) => {
+          if (res.createPatientManager.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createPatientManager.message}`,
+            })
+          }
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter diff patient`,
       })
-      .then((res) => {
-        if (res.createPatientManager.success) {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 ${res.createPatientManager.message}`,
-          })
-        }
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
-      })
+    }
   }
   useEffect(() => {
     if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
@@ -100,6 +106,10 @@ const PatientManager = observer((props: PatientManagerProps) => {
         ),
       },
     })
+    setValue("species", LibraryUtils.getDefaultLookupItem(
+      routerStore.lookupItems,
+      "PATIENT MANAGER - SPECIES"
+    ))
   }, [loginStore.login])
 
   return (
@@ -153,6 +163,25 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       mobileNo,
                     })
                   }}
+                  onBlur={(mobileNo) => {
+                    patientManagerStore.patientManagerService
+                      .checkExistsPatient({
+                        input: {
+                          firstName: patientManagerStore.patientManger?.firstName,
+                          lastName: patientManagerStore.patientManger?.lastName,
+                          mobileNo,
+                          birthDate: patientManagerStore.patientManger?.birthDate,
+                        },
+                      })
+                      .then((res) => {
+                        if (res.checkExistsPatientManager.success) {
+                          patientManagerStore.updateExistsPatient(true)
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.checkExistsPatientManager.message}`,
+                          })
+                        } else patientManagerStore.updateExistsPatient(false)
+                      })
+                  }}
                 />
               )}
               name="txtMobileNo"
@@ -179,6 +208,23 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       ...patientManagerStore.patientManger,
                       birthDate: new Date(formatDate),
                     })
+                    patientManagerStore.patientManagerService
+                      .checkExistsPatient({
+                        input: {
+                          firstName: patientManagerStore.patientManger?.firstName,
+                          lastName: patientManagerStore.patientManger?.lastName,
+                          mobileNo: patientManagerStore.patientManger?.mobileNo,
+                          birthDate,
+                        },
+                      })
+                      .then((res) => {
+                        if (res.checkExistsPatientManager.success) {
+                          patientManagerStore.updateExistsPatient(true)
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.checkExistsPatientManager.message}`,
+                          })
+                        } else patientManagerStore.updateExistsPatient(false)
+                      })
                   }}
                 />
               )}
@@ -240,6 +286,25 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       firstName: firstName.toUpperCase(),
                     })
                   }}
+                  onBlur={(firstName) => {
+                    patientManagerStore.patientManagerService
+                      .checkExistsPatient({
+                        input: {
+                          firstName,
+                          lastName: patientManagerStore.patientManger?.lastName,
+                          mobileNo: patientManagerStore.patientManger?.mobileNo,
+                          birthDate: patientManagerStore.patientManger?.birthDate,
+                        },
+                      })
+                      .then((res) => {
+                        if (res.checkExistsPatientManager.success) {
+                          patientManagerStore.updateExistsPatient(true)
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.checkExistsPatientManager.message}`,
+                          })
+                        } else patientManagerStore.updateExistsPatient(false)
+                      })
+                  }}
                 />
               )}
               name="firstName"
@@ -286,12 +351,36 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       lastName: lastName.toUpperCase(),
                     })
                   }}
+                  onBlur={(lastName) => {
+                    patientManagerStore.patientManagerService
+                      .checkExistsPatient({
+                        input: {
+                          firstName: patientManagerStore.patientManger?.firstName,
+                          lastName,
+                          mobileNo: patientManagerStore.patientManger?.mobileNo,
+                          birthDate: patientManagerStore.patientManger?.birthDate,
+                        },
+                      })
+                      .then((res) => {
+                        if (res.checkExistsPatientManager.success) {
+                          patientManagerStore.updateExistsPatient(true)
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.checkExistsPatientManager.message}`,
+                          })
+                        } else patientManagerStore.updateExistsPatient(false)
+                      })
+                  }}
                 />
               )}
               name="lastName"
               rules={{ required: true }}
               defaultValue=""
             />
+            {patientManagerStore.checkExistsPatient && (
+              <span className="text-red-600 font-medium relative">
+                Patient already exits. Please use other patient details.
+              </span>
+            )}
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
