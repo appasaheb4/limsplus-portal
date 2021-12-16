@@ -148,3 +148,12 @@ export const SEQUENCING_PATIENT_MANAGER_PID = gql`
     }
   }
 `
+  
+export const CHECK_EXISTS_PATIENT = gql`
+  mutation($input: PatientManagerInput!) {
+    checkExistsPatientManager(input: $input) {
+      success
+      message
+    }
+  }
+`

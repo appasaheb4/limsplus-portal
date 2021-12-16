@@ -14,6 +14,7 @@ import {
   CREATE_PATIENT_MANAGER,
   FILTER_PATIENT_MANAGER,
   SEQUENCING_PATIENT_MANAGER_PID,
+  CHECK_EXISTS_PATIENT
 } from "./mutation-PM"
 
 export class PatientManagerService {
@@ -137,6 +138,21 @@ export class PatientManagerService {
             ...stores.patientManagerStore.patientManger,
             pId: response.data.sequencing.data[0]?.seq + 1 || 1,
           })
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    checkExistsPatient = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_PATIENT,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data)
         })
         .catch((error) =>
