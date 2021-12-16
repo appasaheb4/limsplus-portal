@@ -53,6 +53,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Address",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     address = filter
@@ -67,6 +68,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "PostCode",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     postCode = filter
@@ -81,6 +83,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "City",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     city = filter
@@ -95,6 +98,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "State",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     state = filter
@@ -109,6 +113,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Country",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     country = filter
@@ -123,6 +128,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Email",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     email = filter
@@ -136,15 +142,18 @@ const ExtraDataPatientManagerList = observer(
                 dataField: "extraData.isMobileAndWhatsApp",
                 text: "IsMobileAndWhatsapp",
                 sort: true,
+                csvFormatter: col => (col ? col : false),
               },
               {
                 dataField: "extraData.confidental",
                 text: "Confidental",
                 sort: true,
+                csvFormatter: col => (col ? col : false),
               },
               {
                 dataField: "photograph",
                 text: "PhotoGraph",
+                csvExport : false,
                 headerClasses: "textHeader3",
                 formatter: (cell, row) => {
                   return (
@@ -167,6 +176,7 @@ const ExtraDataPatientManagerList = observer(
               {
                 dataField: "signature",
                 text: "Signature",
+                csvExport : false,
                 headerClasses: "textHeader3",
                 formatter: (cell, row) => {
                   return (
@@ -190,6 +200,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "BloodGroup",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     bloodGroup = filter
@@ -204,6 +215,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "FollowUp",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     followUp = filter
@@ -218,6 +230,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Comments",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     comments = filter}
@@ -231,6 +244,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "FyiLine",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     fyiLine = filter}
@@ -244,6 +258,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Balance",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     balance = filter}
@@ -257,6 +272,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Entered By",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     enteredBy = filter}
@@ -270,6 +286,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Status",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     status = filter}
@@ -283,6 +300,7 @@ const ExtraDataPatientManagerList = observer(
                 text: "Environment",
                 headerClasses: "textHeader3",
                 sort: true,
+                csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
                     environment = filter}

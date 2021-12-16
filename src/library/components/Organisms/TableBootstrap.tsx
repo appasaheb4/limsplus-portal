@@ -308,6 +308,8 @@ const TableBootstrap = ({
             )}.csv`,
             noAutoBOM: false,
             blobType: "text/csv;charset=ansi",
+            exportAll: false,
+            onlyExportFiltered: true
           }}
           columnToggle
         >

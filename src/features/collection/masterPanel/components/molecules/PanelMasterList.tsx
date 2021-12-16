@@ -84,6 +84,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "RLab",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   rLab = filter
@@ -126,6 +127,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "PLab",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   pLab = filter
@@ -155,6 +157,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Department",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   department = filter
@@ -221,6 +224,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Service Type",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   serviceType = filter
@@ -264,6 +268,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelCode = filter
@@ -276,6 +281,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Name",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelName = filter
@@ -288,6 +294,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Description",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   description = filter
@@ -299,6 +306,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -320,6 +328,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Method",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelMethod = filter
@@ -348,6 +357,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Short Name",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   shortName = filter
@@ -364,6 +374,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Price",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   price = filter
@@ -403,6 +414,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -424,6 +436,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Schedule",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   rLab = filter
@@ -468,6 +481,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "TAT",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   tat = filter
@@ -480,6 +494,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Validation Level",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   validationLevel = filter
@@ -525,6 +540,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Report Order",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   reportOrder = filter
@@ -537,6 +553,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Processing",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   processing = filter
@@ -580,6 +597,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Workflow",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   workflow = filter
@@ -592,6 +610,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Category",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   category = filter
@@ -635,6 +654,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Type",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelType = filter
@@ -678,6 +698,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -697,6 +718,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -717,6 +739,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -737,6 +760,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "urgent",
               text: "Urgent",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -756,6 +780,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -775,6 +800,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "repitation",
               text: "Repitation",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -794,6 +820,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -813,6 +840,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "cumulative",
               text: "Cumulative",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -833,6 +861,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Report Group",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   reportGroup = filter
@@ -850,6 +879,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "sex",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sex = filter
@@ -893,6 +923,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "sexAction",
               text: "Sex Action",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -913,6 +944,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Hi Age",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   hiAge = filter
@@ -925,6 +957,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Lo Age",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   loAge = filter
@@ -938,6 +971,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Suffix",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   suffix = filter
@@ -951,6 +985,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "TubeGroup",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   tubeGroup = filter
@@ -963,6 +998,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -983,6 +1019,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Report Template",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   reportTemplate = filter
@@ -995,6 +1032,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Sample Type",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sampleType = filter
@@ -1007,6 +1045,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Label Instruction",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   labelInstruction = filter
@@ -1020,6 +1059,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Specal Instructions",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   specalInstructions = filter
@@ -1037,6 +1077,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   status = filter
@@ -1080,6 +1121,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
@@ -1092,6 +1134,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1110,6 +1153,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1128,6 +1172,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1146,6 +1191,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1161,6 +1207,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Envirenvironmentonment",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter

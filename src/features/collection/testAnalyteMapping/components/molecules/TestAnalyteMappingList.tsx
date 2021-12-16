@@ -89,6 +89,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Test Code",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter:(filter) =>{
                   testCode = filter
@@ -101,6 +102,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Test Name",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter:(filter) =>{
                   testName = filter
@@ -113,6 +115,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Analyte Code",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter:(filter) =>{
                   analyteCode = filter
@@ -125,6 +128,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Analyte Name",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter:(filter) =>{
                   analyteName = filter
@@ -137,6 +141,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Description",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter:(filter) =>{
                   description = filter
@@ -148,6 +153,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -169,6 +175,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter:(filter) =>{
                   status = filter

@@ -40,6 +40,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "Hexa Decimal",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               hexadecimal = filter
@@ -66,6 +67,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "Binary",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               binary = filter
@@ -92,6 +94,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "ASCII",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               ascii = filter
@@ -118,6 +121,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: "Environment",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               environment = filter
@@ -196,7 +200,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
       ]}
       isEditModify={props.isEditModify}
       isSelectRow={true}
-      fileName="Conversation Mapping"
+      fileName="Data Conversion"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))
       }}

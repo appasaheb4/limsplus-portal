@@ -88,6 +88,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "RLab",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   rLab = filter
@@ -129,6 +130,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "PLab",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   pLab = filter
@@ -157,6 +159,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Department",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   department = filter
@@ -185,6 +188,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Section",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   section = filter
@@ -231,6 +235,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Test Code",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testCode = filter
@@ -243,6 +248,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Test NtestNameame",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testName = filter
@@ -255,6 +261,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   description = filter
@@ -266,6 +273,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -287,6 +295,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Short Name",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   shortName = filter
@@ -301,6 +310,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   price = filter
@@ -315,6 +325,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
+              csvFormatter: col => (col ? col :false ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -336,6 +347,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Schedule",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   schedule = filter
@@ -364,6 +376,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "TAT",
               headerClasses: "textHeader",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   tat = filter
@@ -376,6 +389,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Validation Level",
               headerClasses: "textHeader7",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   validationLevel = filter
@@ -425,6 +439,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Result Order",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   resultOrder = filter
@@ -437,6 +452,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Processing",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   processing = filter
@@ -482,6 +498,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Sample Run On",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sampleRunOn = filter
@@ -522,6 +539,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Workflow",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   workflow = filter
@@ -566,6 +584,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "disease",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   disease = filter
@@ -609,6 +628,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Category",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   category = filter
@@ -652,6 +672,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Test Type",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testType = filter
@@ -695,6 +716,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Workflow Code",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   workflowCode = filter
@@ -735,6 +757,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "CPT Code",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   cptCode = filter
@@ -747,6 +770,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "autoFinish",
               text: "Auto Finish",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -766,6 +790,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -786,6 +811,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -805,6 +831,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "urgent",
               text: "Urgent",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -825,6 +852,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -845,6 +873,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Report Group",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   reportGroup = filter
@@ -857,6 +886,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "accredited",
               text: "Accredited",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -876,6 +906,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "cretical",
               text: "Cretical",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -896,6 +927,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "repitation",
               text: "Repitation",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -915,6 +947,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -934,6 +967,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "cumulative",
               text: "Cumulative",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -954,6 +988,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Tube Group",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   tubeGroup = filter
@@ -967,6 +1002,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Label Instruction",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   labelInstruction = filter
@@ -980,6 +1016,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Panel Method",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelMethod = filter
@@ -993,6 +1030,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Sample Type",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sampleType = filter
@@ -1006,6 +1044,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Worklist Code",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   worklistCode = filter
@@ -1018,6 +1057,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "qcHold",
               text: "QC Hold",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -1037,6 +1077,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "oosHold",
               text: "OOS Hold",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -1056,6 +1097,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "deltaHold",
               text: "Delta Hold",
               sort: true,
+              csvFormatter: col => (col ? col :false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -1076,6 +1118,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Prefix",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   prefix = filter
@@ -1120,6 +1163,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Sufix",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sufix = filter
@@ -1163,6 +1207,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Speical Instructions",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   speicalInstructions = filter
@@ -1175,6 +1220,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Delevery Schedule",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   deleverySchedule = filter
@@ -1186,6 +1232,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "allowPartial",
               text: "Allow Partial",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -1206,6 +1253,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Collection Container",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   collectionContainer = filter
@@ -1218,6 +1266,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Holding Days",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   holdingDays = filter
@@ -1230,6 +1279,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   status = filter
@@ -1273,6 +1323,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
@@ -1285,6 +1336,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1303,6 +1355,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1322,6 +1375,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Expire",
               headerClasses: "textHeader11",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter
@@ -1339,6 +1393,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1354,6 +1409,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter

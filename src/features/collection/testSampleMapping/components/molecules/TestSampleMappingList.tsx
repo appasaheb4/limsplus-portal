@@ -58,6 +58,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Test Code",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testCode = filter
@@ -85,6 +86,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Code",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sampleCode = filter
@@ -112,6 +114,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Type",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sampleType = filter
@@ -139,6 +142,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Group",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sampleGroup = filter
@@ -166,6 +170,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Coll Container Code",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   collContainerCode = filter
@@ -193,6 +198,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Coll Container Name",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   collContainerName = filter
@@ -220,6 +226,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Test Container Code",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testContainerCode = filter
@@ -247,6 +254,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Test Container Name",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testContainerName = filter
@@ -273,6 +281,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "primaryContainer",
               text: "Primary Container",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -295,6 +304,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "uniqueContainer",
               text: "Unique Container",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -318,6 +328,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "centerIfuge",
               text: "CenterIfuge",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -336,6 +347,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "aliquot",
               text: "Aliquot",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -356,6 +368,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "labSpecfic",
               text: "Lab Specfic",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -375,6 +388,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "departmentSpecfic",
               text: "Department Specfic",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -398,6 +412,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "sharedSample",
               text: "Shared Sample",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -418,6 +433,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Draw Vol",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   minDrawVol = filter
@@ -430,6 +446,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Draw Vol Unit",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   minDrawVolUnit = filter
@@ -476,6 +493,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Test Vol",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   minTestVol = filter
@@ -487,6 +505,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Test Vol Unit",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   minTestVolUnit = filter
@@ -533,6 +552,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Condition",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   condition = filter
@@ -544,6 +564,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Repention Period",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   repentionPeriod = filter
@@ -556,6 +577,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Repention Units",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   repentionUnits = filter
@@ -602,6 +624,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Label Inst",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   labelInst = filter
@@ -613,6 +636,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "printLabels",
               text: "Print Labels",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -632,6 +656,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Info",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   info = filter
@@ -643,6 +668,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Environment",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter
@@ -722,7 +748,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="Sample Type"
+          fileName="TestSampleMapping"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))

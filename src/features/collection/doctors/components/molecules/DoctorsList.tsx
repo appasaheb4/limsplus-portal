@@ -85,6 +85,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Doctor Code",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 doctorCode = filter
@@ -97,6 +98,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Doctor Name",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 doctorName = filter
@@ -109,6 +111,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Sex",
             headerClasses: "textHeader",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 sex = filter
@@ -149,6 +152,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Title",
             headerClasses: "textHeader",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 title = filter
@@ -192,6 +196,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "First Name",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 firstName = filter
@@ -204,6 +209,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Middle Name",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 middleName = filter
@@ -216,6 +222,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Last Name",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 lastName = filter
@@ -228,6 +235,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Report Name",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 reportName = filter
@@ -240,6 +248,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Address",
             headerClasses: "textHeader2",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 address = filter
@@ -252,6 +261,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "City",
             headerClasses: "textHeader1",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 city = filter
@@ -264,6 +274,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "State",
             headerClasses: "textHeader1",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 state = filter
@@ -276,6 +287,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Country",
             headerClasses: "textHeader1",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 country = filter
@@ -288,6 +300,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Postcode",
             headerClasses: "textHeader6",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
                 postcode = filter
@@ -303,6 +316,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Doctor Type",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 doctorType = filter
@@ -316,6 +330,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Speciality",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 speciality = filter
@@ -358,6 +373,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
+             csvFormatter: col => (col ? col : false),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
@@ -379,6 +395,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Sales TerritoRy",
             headerClasses: "textHeader4",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 salesTerritoRy = filter
@@ -422,6 +439,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Area",
             headerClasses: "textHeader",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 area = filter
@@ -434,6 +452,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Zone",
             headerClasses: "textHeader1",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 zone = filter
@@ -446,6 +465,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Telephone",
             headerClasses: "textHeader1",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 telephone = filter
@@ -458,6 +478,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Mobile No",
             headerClasses: "textHeader2",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 mobileNo = filter
@@ -470,6 +491,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Email",
             headerClasses: "textHeader1",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 email = filter
@@ -482,6 +504,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Work Hours",
             headerClasses: "textHeader6",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
                 workHours = filter
@@ -497,6 +520,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Delivery Type",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 deliveryType = filter
@@ -540,6 +564,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Delivery Method",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 deliveryMethod = filter
@@ -583,6 +608,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "EDI",
             headerClasses: "textHeader",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 edi = filter
@@ -595,6 +621,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "EDI Address",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 ediAddress = filter
@@ -607,6 +634,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             dataField: "urgent",
             text: "Urgent",
             sort: true,
+             csvFormatter: col => (col ? col : false),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
@@ -627,6 +655,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Registration Location",
             headerClasses: "textHeader5",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 registrationLocation = filter
@@ -674,6 +703,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 lab = filter
@@ -702,6 +732,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Location",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 location = filter
@@ -730,6 +761,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Schedule",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 schedule = filter
@@ -758,6 +790,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Report Format",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 reportFormat = filter
@@ -770,6 +803,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Info",
             headerClasses: "textHeader",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 info = filter
@@ -782,6 +816,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "FYI Line",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 fyiLine = filter
@@ -794,6 +829,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Work Line",
             headerClasses: "textHeader2",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 workLine = filter
@@ -806,6 +842,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Status",
             headerClasses: "textHeader1",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 status = filter
@@ -849,6 +886,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter
@@ -892,6 +930,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader6",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -910,6 +949,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -928,6 +968,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader6",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -946,6 +987,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Version",
             headerClasses: "textHeader4",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -961,6 +1003,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Entered By",
             headerClasses: "textHeader2",
             sort: true,
+             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 enteredBy = filter
@@ -1046,7 +1089,7 @@ const DoctorsList = (props: DoctorsListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Methods"
+        fileName="Doctors"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

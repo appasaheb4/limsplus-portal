@@ -72,6 +72,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Analyte Code",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   analyteCode = filter
@@ -100,6 +101,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Analayte Name",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   analyteName = filter
@@ -128,6 +130,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Department",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   department = filter
@@ -156,6 +159,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Species",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   species = filter
@@ -199,6 +203,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Sex",
               headerClasses: "textHeader",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sex = filter
@@ -242,6 +247,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Range Set On",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   rangeSetOn = filter
@@ -285,6 +291,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Equipment Type",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   equipmentType = filter
@@ -330,6 +337,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -358,6 +366,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Rang Type",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   rangType = filter
@@ -401,6 +410,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Age",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   age = filter
@@ -416,6 +426,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Age Unit",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   ageUnit = filter
@@ -459,6 +470,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Low",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   low = filter
@@ -471,6 +483,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "High",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   high = filter
@@ -483,6 +496,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Alpha",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   alpha = filter
@@ -496,6 +510,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
@@ -507,6 +522,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   status = filter
@@ -550,6 +566,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter
@@ -594,6 +611,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
@@ -612,6 +630,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateActive = filter
@@ -630,6 +649,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter
@@ -648,6 +668,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Version",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   version = filter
@@ -662,6 +683,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Delta Rang Tetype",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   deltaRangTeType = filter
@@ -673,6 +695,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Delta Interval",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   deltaInterval = filter
@@ -684,6 +707,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Interval Unit",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   intervalUnit = filter
@@ -726,6 +750,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Formal Result Unit",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   formalResultUnit = filter
@@ -737,6 +762,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Report Default",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   reportDefault = filter

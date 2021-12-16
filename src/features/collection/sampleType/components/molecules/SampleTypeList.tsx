@@ -43,6 +43,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Sample Code",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 sampleCode = filter
@@ -55,6 +56,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Sample Type",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 sampleType = filter
@@ -67,6 +69,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Descriptions",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 descriptions = filter
@@ -78,6 +81,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Sample Group",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 sampleGroup = filter
@@ -89,6 +93,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter
