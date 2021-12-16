@@ -7,6 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import * as FeatureComponents from "../../components"
+import { FormHelper } from "@lp/helper"
 
 import "@lp/library/assets/css/accordion.css"
 import { useStores } from "@lp/stores"
@@ -106,10 +107,13 @@ const PatientManager = observer((props: PatientManagerProps) => {
         ),
       },
     })
-    setValue("species", LibraryUtils.getDefaultLookupItem(
-      routerStore.lookupItems,
-      "PATIENT MANAGER - SPECIES"
-    ))
+    setValue(
+      "species",
+      LibraryUtils.getDefaultLookupItem(
+        routerStore.lookupItems,
+        "PATIENT MANAGER - SPECIES"
+      )
+    )
   }, [loginStore.login])
 
   return (
@@ -183,9 +187,9 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       })
                   }}
                 />
-              )}
+              )}  
               name="txtMobileNo"
-              rules={{ required: true }}
+              rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
               defaultValue=""
             />
             <Controller
