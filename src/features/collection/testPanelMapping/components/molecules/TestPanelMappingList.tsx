@@ -61,6 +61,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Lab",
               headerClasses: "textHeader",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -89,6 +90,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelCode = filter
@@ -117,6 +119,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Test Code",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testCode = filter
@@ -129,6 +132,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Test Name",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testName = filter
@@ -141,6 +145,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   description = filter
@@ -152,6 +157,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -172,6 +178,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   status = filter
@@ -216,6 +223,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
@@ -229,6 +237,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
@@ -246,6 +255,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -264,6 +274,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -282,6 +293,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -297,6 +309,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Environment",
               headerClasses: "textHeader",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter

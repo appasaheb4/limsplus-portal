@@ -45,6 +45,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Interface Type",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               interfaceType = filter
@@ -77,6 +78,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Instrument Type",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               instrumentType = filter
@@ -109,6 +111,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Instrument Name",
           headerClasses: "textHeader5",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               instrumentName = filter
@@ -141,6 +144,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Data Flow From",
           headerClasses: "textHeader5",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               dataFlowFrom = filter
@@ -200,6 +204,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Communication Protocol",
           headerClasses: "textHeader6",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               communicationProtocol = filter
@@ -239,6 +244,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Block",
           headerClasses: "textHeader5",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               block = filter
@@ -351,6 +357,9 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Fileds",
           headerClasses: "textHeader4",
           sort: true,
+          csvFormatter: (cell,row,rowIndex) => `Filed:${row.fileds.map(item=>item.filed)},Value${row.fileds.map(item =>
+            item.value
+          )}`,
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               fileds = filter
@@ -532,6 +541,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           text: "Environment",
           headerClasses: "textHeader3",
           sort: true,
+          csvFormatter: col => (col ? col : ""),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               environment = filter

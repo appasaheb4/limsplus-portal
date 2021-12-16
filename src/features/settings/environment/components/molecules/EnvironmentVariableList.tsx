@@ -43,6 +43,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               headerClasses: "textHeader5",
               editable: false,
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   environmentVariable = filter
@@ -54,6 +55,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Category",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   category = filter
@@ -101,6 +103,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 },
               }),
               sort: true,
+              csvFormatter: col => (col ? col : ""),
             },
             {
               dataField: "enteredBy",
@@ -113,6 +116,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 },
               }),
               sort: true,
+              csvFormatter: col => (col ? col : ""),
             },
             {
               dataField: "opration",

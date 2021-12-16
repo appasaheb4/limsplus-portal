@@ -46,6 +46,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Labs",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -73,6 +74,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Header",
               headerClasses: "textHeader1",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   header = filter
@@ -83,6 +85,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               dataField: "message",
               text: "Message",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   message = filter
@@ -117,6 +120,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Action",
               headerClasses: "textHeader2",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   action = filter

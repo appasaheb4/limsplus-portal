@@ -60,6 +60,8 @@ const LookupList = (props: LookupListProps) => {
             text: "Document Name",
             headerClasses: "textHeader4",
             sort: true,
+            csvFormatter: (cell, row, rowIndex) =>
+            `${row.documentName.children.title}`,
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter)=>{
                 documentName = filter
@@ -100,6 +102,7 @@ const LookupList = (props: LookupListProps) => {
             text: "Field Name",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             style:{textTransform:"uppercase"},
             editorStyle:{textTransform:"uppercase"},
             filter: LibraryComponents.Organisms.Utils.textFilter({
@@ -113,6 +116,9 @@ const LookupList = (props: LookupListProps) => {
             text: "Value & code",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: (cell, row, rowIndex) =>
+            `Value:${row.arrValue.map(item => item.value)}- Code:${row.arrValue.map(item => item.code)}`
+            ,
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter)=>{
                 arrValue = filter
@@ -248,6 +254,7 @@ const LookupList = (props: LookupListProps) => {
             text: "Description",
             headerClasses: "textHeader2",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter)=>{
                 description = filter
@@ -259,6 +266,8 @@ const LookupList = (props: LookupListProps) => {
             text: "Default Item",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: (cell, row, rowIndex) =>
+            `Value:${row.defaultItem.map(item => item.value)} - Code:${row.defaultItem.map(item => item.code)}`,
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter)=>{
                 defaultItem = filter
@@ -292,6 +301,7 @@ const LookupList = (props: LookupListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter)=>{
                 environment = filter

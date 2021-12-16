@@ -68,6 +68,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Mobile No",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   mobileNo = filter
@@ -80,6 +81,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Birthdate",
               headerClasses: "textHeader11",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
@@ -98,6 +100,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Title",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   title = filter
@@ -141,6 +144,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "First Name",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   firstName = filter
@@ -153,6 +157,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Middle Name",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   middleName = filter
@@ -165,6 +170,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Last Name",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lastName = filter
@@ -177,6 +183,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Sex",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   sex = filter
@@ -220,6 +227,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Species",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   species = filter
@@ -263,6 +271,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Breed",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   breed = filter
@@ -275,6 +284,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Usual Doctor",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   usualDoctor = filter}
@@ -285,6 +295,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               dataField: "history",
               text: "Histroy",
               sort: true,
+              csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (

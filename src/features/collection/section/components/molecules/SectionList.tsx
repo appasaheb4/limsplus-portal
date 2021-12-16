@@ -52,6 +52,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Department Code",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 departmentCode = filter
@@ -80,6 +81,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Code",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 code = filter
@@ -92,6 +94,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Name",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 name = filter
@@ -104,6 +107,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Short Name",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 shortName = filter
@@ -118,6 +122,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Section In Charge",
             headerClasses: "textHeader5",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 sectionInCharge = filter
@@ -130,6 +135,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Mobie No",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 mobileNo = filter
@@ -142,6 +148,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Contact No",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 contactNo = filter
@@ -154,6 +161,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Fyi Line",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 fyiLine = filter
@@ -166,6 +174,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Work Line",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 workLine = filter
@@ -178,6 +187,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Status",
             headerClasses: "textHeader1",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 status = filter
@@ -221,6 +231,7 @@ export const SectionList = (props: SectionListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter
