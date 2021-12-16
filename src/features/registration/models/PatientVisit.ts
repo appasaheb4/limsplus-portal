@@ -1,5 +1,5 @@
 export class PatientVisit {
-  patient: string  
+  pId: number
   rLab: string
   visitId: string
   visitDate: Date
@@ -46,9 +46,13 @@ export class PatientVisit {
     submittedOn: string
     balance: string
     environment: string
-  }
+  }   
+  documentType: string
+  dateOfEntry: Date
+  lastUpdated: Date
+
   constructor(rawData: { [key in string]: any }) {
-    this.patient = rawData.patient
+    this.pId = rawData.pId
     this.rLab = rawData.rLab
     this.visitId = rawData.visitId
     this.visitDate = rawData.visitDate
@@ -67,5 +71,8 @@ export class PatientVisit {
     this.history = rawData.history
     this.status = rawData.status
     this.extraData = rawData.extraData
+    this.documentType = rawData.documentType
+    this.dateOfEntry = rawData.dateOfEntry
+    this.lastUpdated = rawData.lastUpdated
   }
 }

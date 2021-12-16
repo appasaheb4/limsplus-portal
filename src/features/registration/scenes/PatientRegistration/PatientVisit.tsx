@@ -119,7 +119,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 />
               )}
               name="visitId"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -132,15 +132,13 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     errors.visitDate ? "Please Enter VisitDate" : "VisitDate"
                   }
                   hasError={errors.visitDate}
-                  value={LibraryUtils.moment(
-                    patientVisitStore.patientVisit?.visitDate
-                  ).format("YYYY-MM-DD")}
+                  value={dayjs(patientVisitStore.patientVisit?.visitDate).format(
+                    "YYYY-MM-DD"
+                  )}
                   onChange={(e) => {
                     let visitDate = new Date(e.target.value)
                     onChange(visitDate)
-                    const formatDate = LibraryUtils.moment(visitDate).format(
-                      "YYYY-MM-DD HH:mm"
-                    )
+                    const formatDate = dayjs(visitDate).format("YYYY-MM-DD HH:mm")
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
                       visitDate: new Date(formatDate),
@@ -149,7 +147,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 />
               )}
               name="visitDate"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -170,7 +168,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                   onChange={(e) => {
                     let registrationDate = new Date(e.target.value)
                     onChange(registrationDate)
-                    const formatDate = LibraryUtils.moment(registrationDate).format(
+                    const formatDate = dayjs(registrationDate).format(
                       "YYYY-MM-DD HH:mm"
                     )
                     patientVisitStore.updatePatientVisit({
@@ -181,7 +179,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 />
               )}
               name="registrationDate"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -202,7 +200,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                   onChange={(e) => {
                     let collectionDate = new Date(e.target.value)
                     onChange(collectionDate)
-                    const formatDate = LibraryUtils.moment(collectionDate).format(
+                    const formatDate = dayjs(collectionDate).format(
                       "YYYY-MM-DD HH:mm"
                     )
                     patientVisitStore.updatePatientVisit({
@@ -213,7 +211,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 />
               )}
               name="dateReceived"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -224,15 +222,13 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                   name="txtDueDate"
                   placeholder={errors.dueDate ? "Please Enter Due Date" : "Due Date"}
                   hasError={errors.dueDate}
-                  value={LibraryUtils.moment(
-                    patientVisitStore.patientVisit?.dueDate
-                  ).format("YYYY-MM-DD")}
+                  value={dayjs(patientVisitStore.patientVisit?.dueDate).format(
+                    "YYYY-MM-DD"
+                  )}
                   onChange={(e) => {
                     let dueDate = new Date(e.target.value)
                     onChange(dueDate)
-                    const formatDate = LibraryUtils.moment(dueDate).format(
-                      "YYYY-MM-DD HH:mm"
-                    )
+                    const formatDate = dayjs(dueDate).format("YYYY-MM-DD HH:mm")
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
                       dueDate: new Date(formatDate),
@@ -241,7 +237,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 />
               )}
               name="dueDate"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -260,9 +256,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                   onChange={(e) => {
                     let birthDate = new Date(e.target.value)
                     onChange(birthDate)
-                    const formatDate = LibraryUtils.moment(birthDate).format(
-                      "YYYY-MM-DD HH:mm"
-                    )
+                    const formatDate = dayjs(birthDate).format("YYYY-MM-DD HH:mm")
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
                       birthDate: new Date(formatDate),
@@ -271,7 +265,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 />
               )}
               name="birthDate"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -637,7 +631,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="additionalInfo"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -676,7 +670,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         </LibraryComponents.Atoms.Form.InputWrapper>
                       )}
                       name="invoiceAc"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -707,7 +701,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="billingMethod"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -738,7 +732,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="billNumber"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -848,7 +842,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="receivedDate"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -869,7 +863,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                           onChange={(e) => {
                             let resultDate = new Date(e.target.value)
                             onChange(resultDate)
-                            const formatDate = LibraryUtils.moment(
+                            const formatDate = dayjs(
                               resultDate
                             ).format("YYYY-MM-DD HH:mm")
                             patientVisitStore.updatePatientVisit({
@@ -883,7 +877,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="resultDate"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <LibraryComponents.Atoms.Grid cols={3}>
@@ -1001,7 +995,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="approvalDate"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -1119,7 +1113,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="reportedDate"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -1165,7 +1159,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="height"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -1192,10 +1186,10 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="weight"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
-                     <Controller
+                    <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
                         <LibraryComponents.Atoms.Form.Input
@@ -1219,7 +1213,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="archieve"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                   </LibraryComponents.Atoms.List>
@@ -1229,7 +1223,6 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     fill
                     space={4}
                   >
-                   
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
@@ -1292,7 +1285,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="submittedSystem"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -1321,7 +1314,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="submittedOn"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -1349,7 +1342,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         />
                       )}
                       name="balance"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                     <Controller
@@ -1485,7 +1478,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         </LibraryComponents.Atoms.Form.InputWrapper>
                       )}
                       name="environment"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                   </LibraryComponents.Atoms.List>
