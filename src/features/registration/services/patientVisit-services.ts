@@ -8,28 +8,28 @@
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
-  LIST_PATIENT_MANAGER,
+  LIST_PATIENT_VISIT,
   REMOVE_PATIENT_MANAGER,
   UPDATE_PATIENT_MANAGER,
-  CREATE_PATIENT_MANAGER,
-  FILTER_PATIENT_MANAGER,
+  CREATE_PATIENT_VISIT,
+  FILTER_PATIENT_VISIT,
   SEQUENCING_PATIENT_VISIT_VISITID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_MANAGER,
 } from "./mutation-PV"
 
 export class PatientVisitService {
-  listPatientManager = (filter: any, page = 0, limit = 10) =>
+  listPatientVisit = (filter: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       client
         .mutate({
-          mutation: LIST_PATIENT_MANAGER,
+          mutation: LIST_PATIENT_VISIT,
           variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
-          stores.patientManagerStore.updatePatientManagerList(response.data)
+          stores.patientVisitStore.updatePatientVisitList(response.data)
           resolve(response.data)
         })
         .catch((error) =>
@@ -37,11 +37,13 @@ export class PatientVisitService {
         )
     })
 
-  addPatientManager = (variables: any) =>
+  addPatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
+      
       client
         .mutate({
-          mutation: CREATE_PATIENT_MANAGER,
+          mutation: CREATE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
@@ -50,7 +52,7 @@ export class PatientVisitService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })
+    })   
 
   deletePatientManager = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -103,12 +105,12 @@ export class PatientVisitService {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_PATIENT_MANAGER,
+          mutation: FILTER_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
           if (!response.data.filterPatientManager.success)
-            return this.listPatientManager({ documentType: "patientManager" })
+            return this.listPatientVisit({ documentType: "patientVisit" })
           stores.patientManagerStore.filterPatientManagerList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
@@ -171,7 +173,7 @@ export class PatientVisitService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPatientManager.success)
-            return this.listPatientManager({ documentType: "patientManager" })
+            return this.listPatientVisit({ documentType: "patientVisit" })
           stores.patientManagerStore.filterPatientManagerList({
             filterPatientManager: {
               data: response.data.filterByFieldsPatientManager.data,
