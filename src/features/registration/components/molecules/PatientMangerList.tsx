@@ -152,7 +152,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            {
+            {     
               dataField: "middleName",
               text: "Middle Name",
               headerClasses: "textHeader3",
@@ -165,7 +165,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            {
+            {    
               dataField: "lastName",
               text: "Last Name",
               headerClasses: "textHeader3",

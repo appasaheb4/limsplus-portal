@@ -13,12 +13,12 @@ import {
   UPDATE_PATIENT_MANAGER,
   CREATE_PATIENT_MANAGER,
   FILTER_PATIENT_MANAGER,
-  SEQUENCING_PATIENT_MANAGER_PID,
+  SEQUENCING_PATIENT_VISIT_VISITID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_MANAGER,
-} from "./mutation-PM"
+} from "./mutation-PV"
 
-export class PatientManagerService {
+export class PatientVisitService {
   listPatientManager = (filter: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -29,8 +29,6 @@ export class PatientManagerService {
           variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
-          console.log({response});
-          
           stores.patientManagerStore.updatePatientManagerList(response.data)
           resolve(response.data)
         })
@@ -120,26 +118,26 @@ export class PatientManagerService {
         )
     })
 
-  sequencingPid = () =>
+  sequencingVisitId = () =>
     new Promise<any>((resolve, reject) => {
       const variables = {
         input: {
           filter: {
-            _id: "pId",
+            _id: "visitId",
             collectionName: "patientregistrations",
-            documentType: "patientManager",
+            documentType: "patientVisit",
           },
         },
       }
       client
         .mutate({
-          mutation: SEQUENCING_PATIENT_MANAGER_PID,
+          mutation: SEQUENCING_PATIENT_VISIT_VISITID,
           variables,
         })
         .then((response: any) => {
-          stores.patientManagerStore.updatePatientManager({
-            ...stores.patientManagerStore.patientManger,
-            pId: response.data.sequencing.data[0]?.seq + 1 || 1,
+          stores.patientVisitStore.updatePatientVisit({
+            ...stores.patientVisitStore.patientVisit,
+            visitId: response.data.sequencing.data[0]?.seq + 1 || 1,
           })
           resolve(response.data)
         })
@@ -172,8 +170,6 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
-
           if (!response.data.filterByFieldsPatientManager.success)
             return this.listPatientManager({ documentType: "patientManager" })
           stores.patientManagerStore.filterPatientManagerList({

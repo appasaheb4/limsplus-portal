@@ -3,9 +3,14 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectTestCode
-,AutoCompleteFilterSingleSelectSampleCode,AutoCompleteFilterSingleSelectSampleType
-,AutoCompleteFilterSingleSelectSampleGroup,AutoCompleteFilterSingleSelectContainerCode,AutoCompleteFilterSingleSelectContainerName} from "../orgransims"
+import {
+  AutoCompleteFilterSingleSelectTestCode,
+  AutoCompleteFilterSingleSelectSampleCode,
+  AutoCompleteFilterSingleSelectSampleType,
+  AutoCompleteFilterSingleSelectSampleGroup,
+  AutoCompleteFilterSingleSelectContainerCode,
+  AutoCompleteFilterSingleSelectContainerName,
+} from "../orgransims"
 let testCode
 let sampleCode
 let sampleType
@@ -58,11 +63,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Test Code",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testCode = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -74,9 +79,10 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectTestCode
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.testCode,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.testCode, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -86,11 +92,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Code",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sampleCode = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -102,9 +108,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectSampleCode
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.sampleCode,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.sampleCode,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
@@ -114,11 +125,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Type",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sampleType = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -130,9 +141,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectSampleType
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.sampleType,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.sampleType,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
@@ -142,11 +158,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Sample Group",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sampleGroup = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -158,9 +174,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectSampleGroup
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.sampleGroup,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.sampleGroup,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
@@ -170,11 +191,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Coll Container Code",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   collContainerCode = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -186,9 +207,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectContainerCode
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.containerCode,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.containerCode,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
@@ -198,67 +224,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Coll Container Name",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   collContainerName = filter
-                }
-              }),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                 <AutoCompleteFilterSingleSelectContainerName
-                 onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.containerName,column.dataField,row._id)
-                 }} 
-                 />
-                </>
-              ),
-            },
-            {
-              dataField: "testContainerCode",
-              text: "Test Container Code",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
-                  testContainerCode = filter
-                }
-              }),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectContainerCode
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.containerCode,column.dataField,row._id)
-                  }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: "testContainerName",
-              text: "Test Container Name",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
-                  testContainerName = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -270,10 +240,81 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectContainerName
-                 onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.containerName,column.dataField,row._id)
-                 }} 
-                 />
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.containerName,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "testContainerCode",
+              text: "Test Container Code",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  testContainerCode = filter
+                },
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectContainerCode
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.containerCode,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "testContainerName",
+              text: "Test Container Name",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  testContainerName = filter
+                },
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectContainerName
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.containerName,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
+                  />
                 </>
               ),
             },
@@ -281,7 +322,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "primaryContainer",
               text: "Primary Container",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -304,7 +345,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "uniqueContainer",
               text: "Unique Container",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -328,7 +369,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "centerIfuge",
               text: "CenterIfuge",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -347,7 +388,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "aliquot",
               text: "Aliquot",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -368,7 +409,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "labSpecfic",
               text: "Lab Specfic",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -388,7 +429,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "departmentSpecfic",
               text: "Department Specfic",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -412,7 +453,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "sharedSample",
               text: "Shared Sample",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -433,11 +474,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Draw Vol",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   minDrawVol = filter
-                }
+                },
               }),
             },
 
@@ -446,11 +487,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Draw Vol Unit",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   minDrawVolUnit = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -493,11 +534,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Test Vol",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   minTestVol = filter
-                }
+                },
               }),
             },
             {
@@ -505,11 +546,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Min Test Vol Unit",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   minTestVolUnit = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -552,11 +593,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Condition",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   condition = filter
-                }
+                },
               }),
             },
             {
@@ -564,11 +605,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Repention Period",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   repentionPeriod = filter
-                }
+                },
               }),
             },
 
@@ -577,11 +618,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Repention Units",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   repentionUnits = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -624,11 +665,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Label Inst",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   labelInst = filter
-                }
+                },
               }),
             },
 
@@ -636,7 +677,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "printLabels",
               text: "Print Labels",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -656,11 +697,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Info",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   info = filter
-                }
+                },
               }),
             },
             {
@@ -668,11 +709,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Environment",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environment = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -717,7 +758,10 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -741,9 +785,9 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -762,7 +806,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             testCode("")
             sampleCode("")
             sampleType("")

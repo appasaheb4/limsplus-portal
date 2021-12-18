@@ -6,11 +6,13 @@ import dayjs from "dayjs"
 export class DoctorsStore {
   doctors!: Models.Doctors
   listDoctors: Models.Doctors[]
+  listDoctorsCopy: Models.Doctors[]
   listDoctorsCount: number
   checkExitsLabEnvCode: boolean
 
   constructor() {
     this.listDoctors = []
+    this.listDoctorsCopy = []
     this.listDoctorsCount = 0
     this.checkExitsLabEnvCode = false
     this.doctors = {
@@ -26,6 +28,7 @@ export class DoctorsStore {
     makeObservable<DoctorsStore, any>(this, {
       doctors: observable,
       listDoctors: observable,
+      listDoctorsCopy: observable,
       listDoctorsCount: observable,
       checkExitsLabEnvCode: observable,
 
@@ -46,9 +49,15 @@ export class DoctorsStore {
   }
    
   updateDoctorsList(res: any) {
-    if (!res.doctors.success) return alert(res.message)
-    this.listDoctors = res.doctors.data
-    this.listDoctorsCount = res.doctors.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.doctors.success) return alert(res.message)
+      this.listDoctors = res.doctors.data
+      this.listDoctorsCopy = res.doctors.data
+      this.listDoctorsCount = res.doctors.paginatorInfo.count
+    }else{
+      this.listDoctors= res
+    }
+
   }
 
   filterDoctorsList(res: any){

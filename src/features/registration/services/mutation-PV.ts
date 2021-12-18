@@ -139,7 +139,7 @@ export const FILTER_PATIENT_MANAGER = gql`
   }
 `
 
-export const SEQUENCING_PATIENT_MANAGER_PID = gql`
+export const SEQUENCING_PATIENT_VISIT_VISITID = gql`
   mutation($input: SequencingInput!) {
     sequencing(input: $input) {
       message

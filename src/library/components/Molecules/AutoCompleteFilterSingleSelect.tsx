@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 interface AutoCompleteFilterSingleSelectProps {
   loader?: boolean
   disable?: boolean
+  displayValue?: string
   placeholder?: string
   data: any
   hasError?: boolean
@@ -19,13 +20,14 @@ interface AutoCompleteFilterSingleSelectProps {
 export const AutoCompleteFilterSingleSelect = ({
   disable = false,
   loader = false,
+  displayValue = "",
   placeholder = "Search...",
   data,
   hasError = false,
   onFilter,
   onSelect,
 }: AutoCompleteFilterSingleSelectProps) => {
-  const [value, setValue] = useState<string>("")
+  const [value, setValue] = useState<string>(displayValue)
   const [options, setOptions] = useState<any[]>()
   const [isListOpen, setIsListOpen] = useState<boolean>(false)
 
@@ -48,8 +50,12 @@ export const AutoCompleteFilterSingleSelect = ({
   useOutsideAlerter(wrapperRef)
 
   useEffect(() => {
-    setOptions( data.list)
+    setOptions(data.list)
   }, [data])
+
+  useEffect(() => {
+    setValue(displayValue)
+  }, [displayValue])
 
   const onChange = (e) => {
     const search = e.target.value
