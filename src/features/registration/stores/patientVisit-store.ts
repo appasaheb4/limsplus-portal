@@ -7,10 +7,12 @@ export class PatientVisitStore {
   patientVisit!: Models.PatientVisit
   listPatientVisit: Models.PatientVisit[] = []
   listPatientVisitCount!: number
+  checkExistsVisitId!: boolean
 
   constructor() {
     this.listPatientVisit = []
     this.listPatientVisitCount = 0
+    this.checkExistsVisitId = false
     this.patientVisit = {
       ...this.patientVisit,
       visitDate: new Date(),
@@ -19,7 +21,7 @@ export class PatientVisitStore {
       dueDate: new Date(),
       birthDate: new Date(dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD")),
     }
-  
+
     makeObservable<PatientVisitStore, any>(this, {
       patientVisit: observable,
       listPatientVisit: observable,
@@ -30,16 +32,16 @@ export class PatientVisitStore {
       filterPatientVisitList: action,
       updatePatientVisit: action,
     })
-  }  
+  }
 
   get patientVisitService() {
     return new PatientVisitService()
   }
 
   updatePatientVisitList(res: any) {
-    if (!res.patientManagers.success) return alert(res.patientManagers.message)
-    this.listPatientVisit = res.patientManagers.data
-    this.listPatientVisitCount = res.patientManagers.paginatorInfo.count
+    if (!res.patientVisits.success) return alert(res.patientVisits.message)
+    this.listPatientVisit = res.patientVisits.data
+    this.listPatientVisitCount = res.patientVisits.paginatorInfo.count
   }
 
   filterPatientVisitList(res: any) {
@@ -49,5 +51,9 @@ export class PatientVisitStore {
 
   updatePatientVisit(input: Models.PatientVisit) {
     this.patientVisit = input
+  }
+  
+  updateExistsVisitId(flag: boolean) {
+    this.checkExistsVisitId = flag
   }
 }

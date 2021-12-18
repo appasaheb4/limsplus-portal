@@ -31,7 +31,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
     handleSubmit,
     formState: { errors },
     setValue,
-    clearErrors
+    clearErrors,
   } = useForm()
   const {
     loading,
@@ -44,7 +44,29 @@ const PatientVisit = observer((props: PatientVisitProps) => {
   } = useStores()
 
   const onSubmitPatientVisit = () => {
-    //  Add PatientVisit Api Calling.
+    if (!patientVisitStore.checkExistsVisitId) {
+      patientVisitStore.patientVisitService
+        .addPatientVisit({
+          input: {
+            ...patientVisitStore.patientVisit,
+            documentType: "patientVisit",
+          },
+        })
+        .then((res) => {
+          if (res.createPatientVisit.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createPatientVisit.message}`,
+            })
+          }
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter diff visitId`,
+      })
+    }
   }
 
   useEffect(() => {
@@ -75,6 +97,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
       ),
       extraData: {
         ...patientVisitStore.patientVisit.extraData,
+        enteredBy: loginStore.login.userId,
         accountType: LibraryUtils.getDefaultLookupItem(
           routerStore.lookupItems,
           "PATIENT VISIT - ACCOUNT_TYPE"
@@ -98,7 +121,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
         reportStatus: LibraryUtils.getDefaultLookupItem(
           routerStore.lookupItems,
           "PATIENT VISIT - REPORT_STATUS"
-        ),  
+        ),
         loginInterface: loginStore.login.systemInfo.device !== "Desktop" ? "M" : "D",
         registrationInterface: LibraryUtils.getDefaultLookupItem(
           routerStore.lookupItems,
@@ -1767,10 +1790,9 @@ const PatientVisit = observer((props: PatientVisitProps) => {
       >
         <FeatureComponents.Molecules.PatientVisitList
           data={patientVisitStore.listPatientVisit}
-          //totalSize={patientVisitStore.listPatientVisitCount}
+          totalSize={patientVisitStore.listPatientVisitCount}
           extraData={{
             lookupItems: routerStore.lookupItems,
-            // listAdministrativeDiv: AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -1802,7 +1824,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 title: "Are you sure?",
                 body: `Update recoard!`,
               })
-          }}
+          }}  
           // onPageSizeChange={(page, limit) => {
           //   // enviromentSettingsStore.fetchSessionManagementList(page, limit)
           // }}
@@ -1826,7 +1848,6 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     totalSize={patientVisitStore.listPatientVisitCount}
                     extraData={{
                       lookupItems: routerStore.lookupItems,
-                      // listAdministrativeDiv: AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv
                     }}
                     isDelete={RouterFlow.checkPermission(
                       toJS(routerStore.userPermission),

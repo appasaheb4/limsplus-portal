@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
 
-export const LIST_PATIENT_MANAGER = gql`
-  mutation($input: PatientManagerInput!) {
-    patientManagers(input: $input) {
+export const LIST_PATIENT_VISIT = gql`
+  mutation($input: PatientVisitInput!) {
+    patientVisits(input: $input) {
       paginatorInfo {
         count
       }
@@ -11,41 +11,52 @@ export const LIST_PATIENT_MANAGER = gql`
       data {
         _id
         pId
-        mobileNo
+        rLab
+        visitId
+        visitDate
+        registrationDate
+        collectionDate
+        dueDate
         birthDate
-        title
-        firstName
-        middleName
-        lastName
-        sex
-        species
-        breed
-        usualDoctor
+        age
+        ageUnits
+        collectionCenter
+        corporateCode
+        acClass
+        doctorId
+        doctorName
+        deliveryType
         history
+        status
         extraData {
-          address
-          postcode
-          city
-          state
-          country
-          email
-          isMobileAndWhatsApp
-          whatsappNumber
-          permanent
-          vip
+          accountType
+          deliveryMethod
+          additionalInfo
+          invoiceAc
+          billingMethod
+          billNumber
+          urgent
           confidental
-          photograph
-          signature
-          bloodGroup
+          autoNumber
+          methodCollection
+          collectedBy
+          pendingDataEntry
+          receivedDate
+          resultDate
+          approvalDate
+          approvalStatus
+          reportStatus
+          reportedDate
+          enteredBy
+          gestation
           height
           weight
-          followUp
-          comments
-          fyiLine
+          archieve
+          loginInterface
+          registrationInterface
+          submittedSystem
+          submittedOn
           balance
-          accountType
-          enteredBy
-          status
           environment
         }
         documentType
@@ -56,9 +67,9 @@ export const LIST_PATIENT_MANAGER = gql`
   }
 `
 
-export const CREATE_PATIENT_MANAGER = gql`
-  mutation($input: CreatePatientManagerInput!) {
-    createPatientManager(input: $input) {
+export const CREATE_PATIENT_VISIT = gql`
+  mutation($input: CreatePatientVisitInput!) {
+    createPatientVisit(input: $input) {
       success
       message
     }
@@ -83,7 +94,7 @@ export const UPDATE_PATIENT_MANAGER = gql`
   }
 `
 
-export const FILTER_PATIENT_MANAGER = gql`
+export const FILTER_PATIENT_VISIT = gql`
   mutation($input: PatientManagerInput!) {
     filterPatientManager(input: $input) {
       paginatorInfo {
@@ -94,41 +105,52 @@ export const FILTER_PATIENT_MANAGER = gql`
       data {
         _id
         pId
-        mobileNo
+        rLab
+        visitId
+        visitDate
+        registrationDate
+        collectionDate
+        dueDate
         birthDate
-        title
-        firstName
-        middleName
-        lastName
-        sex
-        species
-        breed
-        usualDoctor
+        age
+        ageUnits
+        collectionCenter
+        corporateCode
+        acClass
+        doctorId
+        doctorName
+        deliveryType
         history
+        status
         extraData {
-          address
-          postcode
-          city
-          state
-          country
-          email
-          isMobileAndWhatsApp
-          whatsappNumber
-          permanent
-          vip
+          accountType
+          deliveryMethod
+          additionalInfo
+          invoiceAc
+          billingMethod
+          billNumber
+          urgent
           confidental
-          photograph
-          signature
-          bloodGroup
+          autoNumber
+          methodCollection
+          collectedBy
+          pendingDataEntry
+          receivedDate
+          resultDate
+          approvalDate
+          approvalStatus
+          reportStatus
+          reportedDate
+          enteredBy
+          gestation
           height
           weight
-          followUp
-          comments
-          fyiLine
+          archieve
+          loginInterface
+          registrationInterface
+          submittedSystem
+          submittedOn
           balance
-          accountType
-          enteredBy
-          status
           environment
         }
         documentType
@@ -148,7 +170,7 @@ export const SEQUENCING_PATIENT_VISIT_VISITID = gql`
     }
   }
 `
-  
+
 export const CHECK_EXISTS_PATIENT = gql`
   mutation($input: PatientManagerInput!) {
     checkExistsPatientManager(input: $input) {
@@ -157,7 +179,6 @@ export const CHECK_EXISTS_PATIENT = gql`
     }
   }
 `
-
 
 export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
   mutation($input: PatientManagerInput!) {
@@ -170,41 +191,52 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
       data {
         _id
         pId
-        mobileNo
+        rLab
+        visitId
+        visitDate
+        registrationDate
+        collectionDate
+        dueDate
         birthDate
-        title
-        firstName
-        middleName
-        lastName
-        sex
-        species
-        breed
-        usualDoctor
+        age
+        ageUnits
+        collectionCenter
+        corporateCode
+        acClass
+        doctorId
+        doctorName
+        deliveryType
         history
+        status
         extraData {
-          address
-          postcode
-          city
-          state
-          country
-          email
-          isMobileAndWhatsApp
-          whatsappNumber
-          permanent
-          vip
+          accountType
+          deliveryMethod
+          additionalInfo
+          invoiceAc
+          billingMethod
+          billNumber
+          urgent
           confidental
-          photograph
-          signature
-          bloodGroup
+          autoNumber
+          methodCollection
+          collectedBy
+          pendingDataEntry
+          receivedDate
+          resultDate
+          approvalDate
+          approvalStatus
+          reportStatus
+          reportedDate
+          enteredBy
+          gestation
           height
           weight
-          followUp
-          comments
-          fyiLine
+          archieve
+          loginInterface
+          registrationInterface
+          submittedSystem
+          submittedOn
           balance
-          accountType
-          enteredBy
-          status
           environment
         }
         documentType
