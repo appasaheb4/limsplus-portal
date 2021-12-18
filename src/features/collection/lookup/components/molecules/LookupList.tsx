@@ -117,7 +117,7 @@ const LookupList = (props: LookupListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
-            `Value:${row.arrValue.map(item => item.value)}- Code:${row.arrValue.map(item => item.code)}`
+            `Value:${row.arrValue.map(item => item.value)} - Code:${row.arrValue.map(item => item.code)}`
             ,
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter)=>{
@@ -159,8 +159,8 @@ const LookupList = (props: LookupListProps) => {
                     placeholder="Code"
                     value={row.code}
                     onChange={(code) => {
-                      props.extraData.updateLookup({
-                        ...props.extraData.lookup,
+                      props.extraData.updateLocalInput({
+                        ...props.extraData.localInput,
                         code: code.toUpperCase(),
                       })
                     }}
@@ -170,8 +170,8 @@ const LookupList = (props: LookupListProps) => {
                     placeholder="Value"
                     value={row.value}
                     onChange={(value) => {
-                      props.extraData.updateLookup({
-                        ...props.extraData.lookup,
+                      props.extraData.updateLocalInput({
+                        ...props.extraData.localInput,
                         value,
                       })
                     }}
@@ -182,9 +182,9 @@ const LookupList = (props: LookupListProps) => {
                       size="medium"
                       type="solid"
                       onClick={() => {
-                        const value = props.extraData.lookup?.value
-                        const code = props.extraData.lookup?.code
-                        let arrValue = row.arrValue || []
+                        const value = props.extraData.localInput?.value
+                        const code = props.extraData.localInput?.code
+                        let arrValue = row?.arrValue || []
                         if (value === undefined || code === undefined)
                           return alert("Please enter value and code.")
                         if (value !== undefined) {
@@ -202,8 +202,8 @@ const LookupList = (props: LookupListProps) => {
                               ])
                           props.onUpdateItem &&
                             props.onUpdateItem(arrValue, "arrValue", row._id)
-                          props.extraData.updateLookup({
-                            ...props.extraData.lookup,
+                          props.extraData.updateLocalInput({
+                            ...props.extraData.localInput,
                             value: "",
                             code: "",
                           })

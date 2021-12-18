@@ -93,8 +93,9 @@ const Lookup = observer(() => {
                 data={lookupStore.listLookup || []}
                 totalSize={lookupStore.listLookupCount}
                 extraData={{
-                  lookup: lookupStore.lookup,
-                  updateLookup: lookupStore.updateLookup,
+                  localInput: lookupStore.localInput,
+                  updateLocalInput: lookupStore.updateLocalInput,
+                  updateLookup:lookupStore.updateLookup,
                   lookupItems: routerStore.lookupItems,
                 }}
                 isDelete={RouterFlow.checkPermission(
