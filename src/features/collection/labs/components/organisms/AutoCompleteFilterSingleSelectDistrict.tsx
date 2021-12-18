@@ -3,15 +3,18 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectDistrictProps {
+  state: string
+  country: string
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteFilterSingleSelectDistrict = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectDistrictProps) => {
-    const { loading, administrativeDivisions } = useStores()
+  ({state,country, onSelect }: AutoCompleteFilterSingleSelectDistrictProps) => {
+    const { loading, administrativeDivisions,labStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
     const [isListOpen, setIsListOpen] = useState<boolean>(false)
@@ -35,7 +38,14 @@ export const AutoCompleteFilterSingleSelectDistrict = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(administrativeDivisions.listAdministrativeDiv)
+      setOptions(_.uniqBy(
+        administrativeDivisions.listAdministrativeDiv.filter(
+          (item) =>
+            item.country === country &&
+            item.state === state
+        ),
+        "district"
+      ))
     }, [administrativeDivisions.listAdministrativeDiv])
 
     const onFilter = (value: string) => {
@@ -43,7 +53,9 @@ export const AutoCompleteFilterSingleSelectDistrict = observer(
         input: {
           filter: {
             type: "search",
-            ["district"]: value,
+            country: labStore.labs.country,
+            state: labStore.labs.state,
+            district: value,
           },
           page: 0,
           limit: 10,
@@ -89,7 +101,7 @@ export const AutoCompleteFilterSingleSelectDistrict = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
                   <ul>
                     {options?.map((item, index) => (
                       <>
@@ -99,9 +111,9 @@ export const AutoCompleteFilterSingleSelectDistrict = observer(
                           onClick={() => {
                             setValue(item.district)
                             setIsListOpen(false)
-                            administrativeDivisions.updateAdministrativeDivList(
-                              administrativeDivisions.listAdministrativeDivCopy
-                            )
+                            // administrativeDivisions.updateAdministrativeDivList(
+                            //   administrativeDivisions.listAdministrativeDivCopy
+                            // )
                             onSelect(item)
                           }}
                         >

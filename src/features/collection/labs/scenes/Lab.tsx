@@ -350,10 +350,8 @@ const Lab = observer(() => {
                   defaultValue=""
                 />
               )}
-              {((labStore.selectedItems &&
-                labStore.selectedItems?.district &&
-                labStore.selectedItems?.district.length > 0 &&
-                labStore.labs.district) ||
+              {(
+                labStore.labs.district ||
                 administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}

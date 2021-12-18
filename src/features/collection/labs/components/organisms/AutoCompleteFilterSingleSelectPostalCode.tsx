@@ -3,15 +3,21 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectPostalCodeProps {
+  country: string
+  state: string
+  district: string
+  city: string
+  area: string
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteFilterSingleSelectPostalCode = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectPostalCodeProps) => {
-    const { loading, administrativeDivisions } = useStores()
+  ({country,state,district,city,area, onSelect }: AutoCompleteFilterSingleSelectPostalCodeProps) => {
+    const { loading, administrativeDivisions,labStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
     const [isListOpen, setIsListOpen] = useState<boolean>(false)
@@ -35,7 +41,17 @@ export const AutoCompleteFilterSingleSelectPostalCode = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(administrativeDivisions.listAdministrativeDiv)
+      setOptions( _.uniqBy(
+        administrativeDivisions.listAdministrativeDiv.filter(
+          (item) =>
+            item.country === country &&
+            item.state === state &&
+            item.district === district &&
+            item.city === city &&
+            item.area === area
+        ),
+        "postalCode"
+      ))
     }, [administrativeDivisions.listAdministrativeDiv])
 
     const onFilter = (value: string) => {
@@ -43,7 +59,12 @@ export const AutoCompleteFilterSingleSelectPostalCode = observer(
         input: {
           filter: {
             type: "search",
-            ["postalCode"]: value,
+            country: labStore.labs.country,
+            state: labStore.labs.state,
+            district: labStore.labs.district,
+            city: labStore.labs.city,
+            area: labStore.labs.area,
+            postalCode: value,
           },
           page: 0,
           limit: 10,
@@ -89,7 +110,7 @@ export const AutoCompleteFilterSingleSelectPostalCode = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
                   <ul>
                     {options?.map((item, index) => (
                       <>

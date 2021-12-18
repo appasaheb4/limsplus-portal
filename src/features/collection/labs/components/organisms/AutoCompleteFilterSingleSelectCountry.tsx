@@ -1,6 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
+import _ from "lodash"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import * as LibraryComponents from "@lp/library/components"
@@ -9,7 +10,7 @@ interface AutoCompleteFilterSingleSelectProps {
   onSelect: (item: any) => void
 }
 
-export const AutoCompleteFilterSingleSelect = observer(
+export const AutoCompleteFilterSingleSelectCountry = observer(
   ({ onSelect }: AutoCompleteFilterSingleSelectProps) => {
     const { loading, administrativeDivisions } = useStores()
     const [value, setValue] = useState<string>("")
@@ -35,7 +36,10 @@ export const AutoCompleteFilterSingleSelect = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(administrativeDivisions.listAdministrativeDiv)
+      setOptions(_.uniqBy(
+        administrativeDivisions.listAdministrativeDiv,
+        "country"
+      ))
     }, [administrativeDivisions.listAdministrativeDiv])
 
     const onFilter = (value: string) => {
