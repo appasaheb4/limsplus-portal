@@ -3,15 +3,19 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectCityProps {
+  country: string
+  state: string
+  district: string
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteFilterSingleSelectCity = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectCityProps) => {
-    const { loading, administrativeDivisions } = useStores()
+  ({country,state,district, onSelect }: AutoCompleteFilterSingleSelectCityProps) => {
+    const { loading, administrativeDivisions,labStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
     const [isListOpen, setIsListOpen] = useState<boolean>(false)
@@ -35,7 +39,15 @@ export const AutoCompleteFilterSingleSelectCity = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(administrativeDivisions.listAdministrativeDiv)
+      setOptions(_.uniqBy(
+        administrativeDivisions.listAdministrativeDiv.filter(
+          (item) =>
+            item.country === country &&
+            item.state === state &&
+            item.district === district
+        ),
+        "city"
+      ))
     }, [administrativeDivisions.listAdministrativeDiv])
 
     const onFilter = (value: string) => {
@@ -43,7 +55,10 @@ export const AutoCompleteFilterSingleSelectCity = observer(
         input: {
           filter: {
             type: "search",
-            ["city"]: value,
+            country: labStore.labs.country,
+            state: labStore.labs.state,
+            district: labStore.labs.district,
+            city: value,
           },
           page: 0,
           limit: 10,
@@ -89,7 +104,7 @@ export const AutoCompleteFilterSingleSelectCity = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
                   <ul>
                     {options?.map((item, index) => (
                       <>

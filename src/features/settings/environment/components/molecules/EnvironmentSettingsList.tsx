@@ -49,7 +49,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "lab",
               text: "Labs",
               sort: true,
-              csvFormatter: (cell, row, rowIndex) => `${row.lab.map(item => item.name)}`,
+              csvFormatter: (cell, row, rowIndex) => `${row.lab.map(item => item.name).join(" , ")}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   lab = filter
@@ -88,7 +88,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "user",
               text: "Users",
               sort: true,
-              csvFormatter: (cell, row, rowIndex) => `${row.user.map(item => item.fullName)}`,
+              separator: '| ',
+              // csvFormatter: (cell, row, rowIndex) => `${row.user.map((item,index)=>{
+              // return ' '+item.fullName+' ';
+              // })}`,
+               csvFormatter: (cell, row, rowIndex) => `${row.user.map(item =>item.fullName).join(" , ")}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   user = filter
@@ -133,7 +137,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   department = filter
                 }
               }),
-              csvFormatter: (cell, row, rowIndex) => `${row.department && row.department.map(item => item.name)}`,
+              csvFormatter: (cell, row, rowIndex) => `${row.department && row.department.map(item => item.name).join(" , ")}`,
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
