@@ -1,6 +1,6 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import dayjs from "dayjs"
-import { PatientManagerService } from "../services"
+import { PatientVisitService } from "../services"
 import * as Models from "../models"
 
 export class PatientVisitStore {
@@ -33,7 +33,7 @@ export class PatientVisitStore {
   }  
 
   get patientVisitService() {
-    return new PatientManagerService()
+    return new PatientVisitService()
   }
 
   updatePatientVisitList(res: any) {

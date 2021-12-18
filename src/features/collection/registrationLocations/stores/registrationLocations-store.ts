@@ -6,11 +6,13 @@ import dayjs from "dayjs"
 export class RegistrationLocationsStore {
   registrationLocations!: Models.RegistrationLocations
   listRegistrationLocations: Models.RegistrationLocations[]
+  listRegistrationLocationsCopy: Models.RegistrationLocations[]
   listRegistrationLocationsCount: number
   checkExitsLabEnvCode: boolean
   
   constructor() {
     this.listRegistrationLocations = []
+    this.listRegistrationLocationsCopy = []
     this.listRegistrationLocationsCount = 0
     this.checkExitsLabEnvCode = false
     this.registrationLocations = {
@@ -28,6 +30,7 @@ export class RegistrationLocationsStore {
     makeObservable<RegistrationLocationsStore, any>(this, {
       registrationLocations: observable,
       listRegistrationLocations: observable,
+      listRegistrationLocationsCopy: observable,
       listRegistrationLocationsCount: observable,
       checkExitsLabEnvCode: observable,
 
@@ -49,11 +52,17 @@ export class RegistrationLocationsStore {
   }
 
   updateRegistrationLocationsList(res: any) {
-    if (!res.registrationLocations.success)
+    if(!Array.isArray(res)){
+      if (!res.registrationLocations.success)
       return alert(res.registrationLocations.message)
     this.listRegistrationLocationsCount =
       res.registrationLocations.paginatorInfo.count
     this.listRegistrationLocations = res.registrationLocations.data
+    this.listRegistrationLocationsCopy = res.registrationLocations.data
+    }else{
+      this.listRegistrationLocations = res;
+    }
+   
   }
 
   filterRegistrationLocationList(res: any){

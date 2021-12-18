@@ -1,9 +1,10 @@
 import { stores } from "@lp/stores"
 const startup = async () => {
+  stores.patientManagerStore.patientManagerService.sequencingPid();
   stores.patientManagerStore.patientManagerService.listPatientManager({
     documentType: "patientManager"
   })  
-  stores.patientManagerStore.patientManagerService.sequencingPid();
+  stores.patientVisitStore.patientVisitService.sequencingVisitId()
 }
 
 export default startup

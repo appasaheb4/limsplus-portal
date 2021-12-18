@@ -7,10 +7,6 @@ import * as LibraryUtils from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
 import * as FeatureComponents from "../../components"
 import { useForm, Controller } from "react-hook-form"
-
-import { useStores } from "@lp/stores"
-import { toJS } from "mobx"
-import { RouterFlow } from "@lp/flows"
 import {
   Accordion,
   AccordionItem,
@@ -19,6 +15,11 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
+
+import { useStores } from "@lp/stores"
+import { toJS } from "mobx"
+import { RouterFlow } from "@lp/flows"
+import { getAgeAndAgeUnit } from "../../utils"
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void
@@ -30,12 +31,16 @@ const PatientVisit = observer((props: PatientVisitProps) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    clearErrors
   } = useForm()
   const {
+    loading,
     patientVisitStore,
     loginStore,
     routerStore,
     corporateClientsStore,
+    registrationLocationsStore,
+    doctorsStore,
   } = useStores()
 
   const onSubmitPatientVisit = () => {
@@ -53,6 +58,54 @@ const PatientVisit = observer((props: PatientVisitProps) => {
       })
       setValue("environment", loginStore.login.environment)
     }
+    patientVisitStore.updatePatientVisit({
+      ...patientVisitStore.patientVisit,
+      rLab: loginStore.login.lab,
+      deliveryType: LibraryUtils.getDefaultLookupItem(
+        routerStore.lookupItems,
+        "PATIENT VISIT - DELIVERY_TYPE"
+      ),
+      ageUnits: LibraryUtils.getDefaultLookupItem(
+        routerStore.lookupItems,
+        "PATIENT VISIT - AGE_UNITS"
+      ),
+      status: LibraryUtils.getDefaultLookupItem(
+        routerStore.lookupItems,
+        "PATIENT VISIT - STATUS"
+      ),
+      extraData: {
+        ...patientVisitStore.patientVisit.extraData,
+        accountType: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - ACCOUNT_TYPE"
+        ),
+        deliveryMethod: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - DELIVERY_METHOD"
+        ),
+        environment: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - ENVIRONMENT"
+        ),
+        methodCollection: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - METHOD_COLLECTION"
+        ),
+        approvalStatus: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - APPROVAL_STATUS"
+        ),
+        reportStatus: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - REPORT_STATUS"
+        ),  
+        loginInterface: loginStore.login.systemInfo.device !== "Desktop" ? "M" : "D",
+        registrationInterface: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - REGISTRATION_INTERFACE"
+        ),
+      },
+    })
   }, [loginStore.login])
   return (
     <>
@@ -68,11 +121,41 @@ const PatientVisit = observer((props: PatientVisitProps) => {
               control={control}
               render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.InputWrapper
+                  label="PId"
+                  hasError={errors.pid}
+                >
+                  <FeatureComponents.Orgransims.AutoCompleteFilterSingleSelectPid
+                    hasError={errors.pid}
+                    onSelect={(item) => {
+                      onChange(item.pId)
+                      console.log({ item })
+                      const resultAge = LibraryUtils.calculateTimimg(
+                        Math.abs(dayjs(item.birthDate).diff(new Date(), "days"))
+                      )
+                      patientVisitStore.updatePatientVisit({
+                        ...patientVisitStore.patientVisit,
+                        pId: item.pId,
+                        age: getAgeAndAgeUnit(resultAge).age,
+                        ageUnits: getAgeAndAgeUnit(resultAge).ageUnit,
+                      })
+                    }}
+                  />
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="pid"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Rlab"
                   hasError={errors.rLab}
                 >
                   <select
                     value={patientVisitStore.patientVisit?.rLab}
+                    disabled={true}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.rLab ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
@@ -96,7 +179,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="rLab"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -268,51 +351,70 @@ const PatientVisit = observer((props: PatientVisitProps) => {
               rules={{ required: false }}
               defaultValue=""
             />
+
+            {patientVisitStore.patientVisit && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Age"
+                    name="txtAge"
+                    disabled={true}
+                    placeholder={errors.birthDate ? "Please Enter Age" : "Age"}
+                    hasError={errors.age}
+                    type="number"
+                    value={patientVisitStore.patientVisit?.age}
+                    onChange={(age) => {
+                      onChange(age)
+                      patientVisitStore.updatePatientVisit({
+                        ...patientVisitStore.patientVisit,
+                        age: parseInt(age),
+                      })
+                    }}
+                  />
+                )}
+                name="age"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+            )}
+
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Age"
-                  name="txtAge"
-                  placeholder={errors.birthDate ? "Please Enter Age" : "Age"}
-                  hasError={errors.age}
-                  type="number"
-                  value={patientVisitStore.patientVisit?.age}
-                  onChange={(age) => {
-                    onChange(age)
-                    patientVisitStore.updatePatientVisit({
-                      ...patientVisitStore.patientVisit,
-                      age,
-                    })
-                  }}
-                />
-              )}
-              name="age"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Age Units"
-                  name="txtAgeUnits"
-                  placeholder={
-                    errors.ageUnits ? "Please Enter AgeUnits" : "Age Units"
-                  }
                   hasError={errors.ageUnits}
-                  value={patientVisitStore.patientVisit?.ageUnits}
-                  onChange={(ageUnits) => {
-                    onChange(ageUnits)
-                    patientVisitStore.updatePatientVisit({
-                      ...patientVisitStore.patientVisit,
-                      ageUnits,
-                    })
-                  }}
-                />
+                >
+                  <select
+                    disabled={true}
+                    value={patientVisitStore.patientVisit?.ageUnits}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.ageUnits ? "border-red-500  " : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const ageUnits = e.target.value
+                      onChange(ageUnits)
+                      patientVisitStore.updatePatientVisit({
+                        ...patientVisitStore.patientVisit,
+                        ageUnits,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      routerStore.lookupItems,
+                      "PATIENT VISIT - AGE_UNITS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="ageUnits"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
           </LibraryComponents.Atoms.List>
@@ -322,171 +424,257 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             justify="stretch"
             fill
           >
+            {registrationLocationsStore.listRegistrationLocations && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Collection Center"
+                    hasError={errors.collectionCenter}
+                  >
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                      loader={loading}
+                      placeholder="Search by code"
+                      data={{
+                        list: registrationLocationsStore.listRegistrationLocations,
+                        displayKey: "locationCode",
+                        findKey: "locationCode",
+                      }}
+                      hasError={errors.collectionCenter}
+                      onFilter={(value: string) => {
+                        registrationLocationsStore.registrationLocationsService.filter(
+                          {
+                            input: {
+                              type: "filter",
+                              filter: {
+                                locationCode: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          }
+                        )
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.locationCode)
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          collectionCenter: item.locationCode,
+                          extraData: {
+                            ...patientVisitStore.patientVisit.extraData,
+                            methodCollection: item.methodColn,
+                          },
+                        })
+                        registrationLocationsStore.updateRegistrationLocationsList(
+                          registrationLocationsStore.listRegistrationLocationsCopy
+                        )
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="collectionCenter"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            )}
+            {corporateClientsStore.listCorporateClients && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Corporate Code"
+                    hasError={errors.corporateCode}
+                  >
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                      loader={loading}
+                      placeholder="Search by code"
+                      data={{
+                        list: corporateClientsStore.listCorporateClients,
+                        displayKey: "corporateCode",
+                        findKey: "corporateCode",
+                      }}
+                      hasError={errors.corporateCode}
+                      onFilter={(value: string) => {
+                        corporateClientsStore.corporateClientsService.filter({
+                          input: {
+                            type: "filter",
+                            filter: {
+                              corporateCode: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.corporateCode)
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          corporateCode: item.corporateCode,
+                          extraData: {
+                            ...patientVisitStore.patientVisit.extraData,
+                            invoiceAc: item.invoiceAc,
+                          },
+                        })
+                        corporateClientsStore.updateCorporateClientsList(
+                          corporateClientsStore.listCorporateClientsCopy
+                        )
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="corporateCode"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            )}
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Collection Center"
-                  id="optionCollectionCenter"
-                  hasError={errors.collectionCenter}
+                  label="AC Class"
+                  hasError={errors.acClass}
                 >
                   <select
-                    name="optionCollectionCenters"
+                    value={patientVisitStore.patientVisit?.acClass}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.collectionCenter
-                        ? "border-red-500  "
-                        : "border-gray-300"
+                      errors.acClass ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     onChange={(e) => {
-                      const collectionCenter = e.target.value as string
-                      onChange(collectionCenter)
+                      const acClass = e.target.value
+                      onChange(acClass)
                       patientVisitStore.updatePatientVisit({
                         ...patientVisitStore.patientVisit,
-                        collectionCenter,
+                        acClass,
                       })
                     }}
                   >
                     <option selected>Select</option>
-                    {["Collection 1"].map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
+                    {LibraryUtils.lookupItems(
+                      routerStore.lookupItems,
+                      "PATIENT VISIT - AC_CLASS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
                       </option>
                     ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="collectionCenter"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Bill To"
-                  hasError={errors.billTo}
-                >
-                  <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.billTo ? "border-red-500" : "border-gray-300"
-                    } rounded-md`}
-                    onChange={(e) => {
-                      const billTo = JSON.parse(e.target.value)
-                      onChange(billTo)
-                      patientVisitStore.updatePatientVisit({
-                        ...patientVisitStore.patientVisit,
-                        billTo,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {/* {corporateClientsStore.listCorporateClients &&
-                        corporateClientsStore.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.corporateCode} - ${item.corporateName}`}
-                            </option>
-                          )
-                        )} */}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="billTo"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Ac Class"
-                  name="txtAcClass"
-                  placeholder={errors.acClass ? "Please Enter Ac Class" : "Ac Class"}
-                  hasError={errors.acClass}
-                  value={patientVisitStore.patientVisit?.acClass}
-                  onChange={(acClass) => {
-                    onChange(acClass)
-                    patientVisitStore.updatePatientVisit({
-                      ...patientVisitStore.patientVisit,
-                      acClass,
-                    })
-                  }}
-                />
               )}
               name="acClass"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Doctor id"
-                  id="optionsDoctorId"
-                  hasError={errors.doctorId}
-                >
-                  <select
-                    name="optionsDoctorIds"
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.doctorId ? "border-red-500  " : "border-gray-300"
-                    } rounded-md`}
-                    onChange={(e) => {
-                      const doctorId = e.target.value as string
-                      onChange(doctorId)
-                      patientVisitStore.updatePatientVisit({
-                        ...patientVisitStore.patientVisit,
-                        doctorId,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {["Collection 1"].map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="doctorId"
               rules={{ required: false }}
               defaultValue=""
             />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Doctor Name"
-                  id="optionsDoctorName"
-                  hasError={errors.doctorName}
-                >
-                  <select
-                    name="optionsDoctorNames"
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.doctorName ? "border-red-500  " : "border-gray-300"
-                    } rounded-md`}
-                    onChange={(e) => {
-                      const doctorName = e.target.value as string
-                      onChange(doctorName)
-                      patientVisitStore.updatePatientVisit({
-                        ...patientVisitStore.patientVisit,
-                        doctorName,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {["Collection 1"].map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="doctorName"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+
+            {doctorsStore.listDoctors && (
+              <>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Doctor Id"
+                      hasError={errors.doctorId}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        placeholder={
+                          patientVisitStore.patientVisit.doctorId || `Search by code`
+                        }
+                        displayValue={patientVisitStore.patientVisit.doctorId}
+                        data={{
+                          list: doctorsStore.listDoctors,
+                          displayKey: "doctorCode",
+                          findKey: "doctorCode",
+                        }}
+                        hasError={errors.doctorId}
+                        onFilter={(value: string) => {
+                          doctorsStore.doctorsService.filter({
+                            input: {
+                              type: "filter",
+                              filter: {
+                                doctorCode: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.doctorCode)
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            doctorId: item.doctorCode,
+                            doctorName: item.doctorName,
+                          })
+                          setValue("doctorName", item.doctorName)
+                          clearErrors("doctorName")
+                          doctorsStore.updateDoctorsList(
+                            doctorsStore.listDoctorsCopy
+                          )
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="doctorId"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Doctor Name"
+                      hasError={errors.doctorName}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        placeholder={
+                          patientVisitStore.patientVisit.doctorName ||
+                          `Search by name`
+                        }
+                        displayValue={patientVisitStore.patientVisit.doctorName}
+                        data={{
+                          list: doctorsStore.listDoctors,
+                          displayKey: "doctorName",
+                          findKey: "doctorName",
+                        }}
+                        hasError={errors.doctorName}
+                        onFilter={(value: string) => {
+                          doctorsStore.doctorsService.filter({
+                            input: {
+                              type: "filter",
+                              filter: {
+                                doctorName: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.doctorName)
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            doctorId: item.doctorCode,
+                            doctorName: item.doctorName,
+                          })
+                          setValue("doctorId", item.doctorCode)
+                          clearErrors("doctorId")
+                          doctorsStore.updateDoctorsList(
+                            doctorsStore.listDoctorsCopy
+                          )
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="doctorName"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+              </>
+            )}
+
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
@@ -495,6 +683,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                   hasError={errors.deliveryType}
                 >
                   <select
+                    value={patientVisitStore.patientVisit.deliveryType}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.deliveryType ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
@@ -510,7 +699,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     <option selected>Select</option>
                     {LibraryUtils.lookupItems(
                       routerStore.lookupItems,
-                      "PATIENT MANAGER - DELIVERY_TYPE"
+                      "PATIENT VISIT - DELIVERY_TYPE"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {LibraryUtils.lookupValue(item)}
@@ -520,7 +709,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="deliveryType"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -553,7 +742,10 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Status"
+                  hasError={errors.status}
+                >
                   <select
                     value={patientVisitStore.patientVisit?.status}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -634,45 +826,54 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                       rules={{ required: false }}
                       defaultValue=""
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputWrapper
-                          label="Invoice Ac"
-                          hasError={errors.invoiceAc}
-                        >
-                          <select
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.invoiceAc ? "border-red-500" : "border-gray-300"
-                            } rounded-md`}
-                            onChange={(e) => {
-                              const invoice = JSON.parse(e.target.value)
-                              onChange(invoice)
-                              patientVisitStore.updatePatientVisit({
-                                ...patientVisitStore.patientVisit,
-                                extraData: {
-                                  ...patientVisitStore.patientVisit.extraData,
-                                  invoiceAc: invoice.invoiceAc,
-                                },
-                              })
-                            }}
+                    {patientVisitStore.patientVisit.extraData?.invoiceAc && (
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                          <LibraryComponents.Atoms.Form.InputWrapper
+                            label="Invoice Ac"
+                            hasError={errors.invoiceAc}
                           >
-                            <option selected>Select</option>
-                            {corporateClientsStore.listCorporateClients &&
-                              corporateClientsStore.listCorporateClients.map(
-                                (item: any, index: number) => (
-                                  <option key={index} value={JSON.stringify(item)}>
-                                    {`${item.invoiceAc}`}
-                                  </option>
-                                )
-                              )}
-                          </select>
-                        </LibraryComponents.Atoms.Form.InputWrapper>
-                      )}
-                      name="invoiceAc"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    />
+                            <select
+                              className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                                errors.invoiceAc
+                                  ? "border-red-500"
+                                  : "border-gray-300"
+                              } rounded-md`}
+                              disabled={true}
+                              value={
+                                patientVisitStore.patientVisit.extraData?.invoiceAc
+                              }
+                              onChange={(e) => {
+                                const invoice = e.target.value
+                                onChange(invoice)
+                                patientVisitStore.updatePatientVisit({
+                                  ...patientVisitStore.patientVisit,
+                                  extraData: {
+                                    ...patientVisitStore.patientVisit.extraData,
+                                    invoiceAc: invoice,
+                                  },
+                                })
+                              }}
+                            >
+                              <option selected>Select</option>
+                              {corporateClientsStore.listCorporateClients &&
+                                corporateClientsStore.listCorporateClients.map(
+                                  (item: any, index: number) => (
+                                    <option key={index} value={item.invoiceAc}>
+                                      {`${item.invoiceAc}`}
+                                    </option>
+                                  )
+                                )}
+                            </select>
+                          </LibraryComponents.Atoms.Form.InputWrapper>
+                        )}
+                        name="invoiceAc"
+                        rules={{ required: false }}
+                        defaultValue=""
+                      />
+                    )}
+
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
@@ -780,7 +981,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputWrapper label=" Collection By">
+                        <LibraryComponents.Atoms.Form.InputWrapper label="Collection By">
                           <select
                             value={
                               patientVisitStore.patientVisit.extraData?.collectedBy
@@ -863,9 +1064,9 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                           onChange={(e) => {
                             let resultDate = new Date(e.target.value)
                             onChange(resultDate)
-                            const formatDate = dayjs(
-                              resultDate
-                            ).format("YYYY-MM-DD HH:mm")
+                            const formatDate = dayjs(resultDate).format(
+                              "YYYY-MM-DD HH:mm"
+                            )
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               extraData: {
@@ -1250,10 +1451,61 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                             }}
                           >
                             <option selected>Select</option>
+                            {LibraryUtils.lookupItems(
+                              routerStore.lookupItems,
+                              "PATIENT VISIT - LOGIN_INTERFACE"
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ))}
                           </select>
                         </LibraryComponents.Atoms.Form.InputWrapper>
                       )}
                       name="loginInterface"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputWrapper label="Registration Interface">
+                          <select
+                            value={
+                              patientVisitStore.patientVisit.extraData
+                                ?.registrationInterface
+                            }
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.registrationInterface
+                                ? "border-red-500 "
+                                : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const registrationInterface = e.target.value
+                              onChange(registrationInterface)
+                              patientVisitStore.updatePatientVisit({
+                                ...patientVisitStore.patientVisit,
+                                extraData: {
+                                  ...patientVisitStore.patientVisit.extraData,
+                                  registrationInterface,
+                                },
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {LibraryUtils.lookupItems(
+                              routerStore.lookupItems,
+                              "PATIENT VISIT - REGISTRATION_INTERFACE"
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ))}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                      )}
+                      name="registrationInterface"
                       rules={{ required: false }}
                       defaultValue=""
                     />

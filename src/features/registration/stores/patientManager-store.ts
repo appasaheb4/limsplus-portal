@@ -6,11 +6,13 @@ import * as Models from "../models"
 export class PatientManagerStore {
   patientManger!: Models.PatientManger
   listPatientManger: Models.PatientManger[]
+  listPatientMangerCopy: Models.PatientManger[]
   listPatientMangerCount!: number
   checkExistsPatient!: boolean
 
   constructor() {
     this.listPatientManger = []
+    this.listPatientMangerCopy = []
     this.listPatientMangerCount = 0
     this.checkExistsPatient = false
     this.patientManger = {
@@ -20,6 +22,7 @@ export class PatientManagerStore {
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,
       listPatientManger: observable,
+      listPatientMangerCopy: observable,
       listPatientMangerCount: observable,
 
       patientManagerService: computed,
@@ -35,9 +38,14 @@ export class PatientManagerStore {
   }
 
   updatePatientManagerList(res: any) {
-    if (!res.patientManagers.success) return alert(res.patientManagers.message)
-    this.listPatientManger = res.patientManagers.data
-    this.listPatientMangerCount = res.patientManagers.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.patientManagers.success) return alert(res.patientManagers.message)
+      this.listPatientManger = res.patientManagers.data
+      this.listPatientMangerCopy = res.patientManagers.data
+      this.listPatientMangerCount = res.patientManagers.paginatorInfo.count
+    } else {
+      this.listPatientManger = res
+    }  
   }
 
   filterPatientManagerList(res: any) {

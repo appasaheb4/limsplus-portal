@@ -10,7 +10,7 @@ export class PatientVisit {
   age: number
   ageUnits: string
   collectionCenter: string
-  billTo: string
+  corporateCode: string
   acClass: string
   doctorId: string
   doctorName: string
@@ -42,6 +42,7 @@ export class PatientVisit {
     weight: string
     archieve: string
     loginInterface: string
+    registrationInterface: string
     submittedSystem: string
     submittedOn: string
     balance: string
@@ -63,7 +64,7 @@ export class PatientVisit {
     this.age = rawData.age
     this.ageUnits = rawData.ageUnits
     this.collectionCenter = rawData.collectionCenter
-    this.billTo = rawData.billTo
+    this.corporateCode = rawData.corporateCode
     this.acClass = rawData.acClass
     this.doctorId = rawData.doctorId
     this.doctorName = rawData.doctorName

@@ -172,6 +172,8 @@ const Dashboard = observer(({ children }) => {
         await PatientRegistration.startup()
         await Doctors.startup()
         await AdministrativeDivisions.startup()
+        await RegistrationLocations.startup()
+        await CorporateClients.startup()
       }
       stores
     }
