@@ -7,7 +7,7 @@ import * as Utils from "../../util"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { useStores } from "@lp/stores"
-import {AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectDistrict
+import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectDistrict
 ,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectPostalCode} from '../organisms'
 
 let code;
@@ -111,12 +111,14 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                    <AutoCompleteFilterSingleSelect
+                {props.extraData.listAdministrativeDiv && (
+                    <AutoCompleteFilterSingleSelectCountry
                       onSelect={(item) => {  
                         props.onUpdateItem &&
                           props.onUpdateItem(item.country, column.dataField, row._id)
                       }}
                     />
+                )}
                </>
               ),
             },
@@ -140,8 +142,9 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.state || props.extraData.listAdministrativeDiv)  && (
+                  {( props.extraData.listAdministrativeDiv)  && (
                     <AutoCompleteFilterSingleSelectState
+                    country={row.country}
                       onSelect={(item)=>{
                         props.onUpdateItem && props.onUpdateItem(item.state,column.dataField,row._id)
                       }}
@@ -170,8 +173,10 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.state ||  props.extraData.listAdministrativeDiv) && (
+                  {(props.extraData.listAdministrativeDiv) && (
                     <AutoCompleteFilterSingleSelectDistrict
+                    country={row.country}
+                    state={row.state}
                     onSelect={(item)=>{
                       props.onUpdateItem && props.onUpdateItem(item.district,column.dataField,row._id)
                     }}
@@ -202,8 +207,11 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.district || props.extraData.listAdministrativeDiv) && (
+                  {(props.extraData.listAdministrativeDiv) && (
                     <AutoCompleteFilterSingleSelectCity
+                    country={row.country}
+                    state={row.state}
+                    district={row.district}
                       onSelect={(item)=>{
                         props.onUpdateItem && props.onUpdateItem(item.city,column.dataField,row._id)
                       }}
@@ -234,9 +242,13 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.city || props.extraData.listAdministrativeDiv) && (
+                  {(props.extraData.listAdministrativeDiv) && (
                 
                     <AutoCompleteFilterSingleSelectArea
+                    country={row.country}
+                    state={row.state}
+                    district={row.district}
+                    city={row.city}
                       onSelect={(item)=>{
                         props.onUpdateItem && props.onUpdateItem(item.area,column.dataField,row._id)
                       }}
@@ -265,8 +277,13 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                 {(props.extraData.area || props.extraData.listAdministrativeDiv) && (
+                 {(props.extraData.listAdministrativeDiv) && (
                     <AutoCompleteFilterSingleSelectPostalCode
+                    country={row.country}
+                    state={row.state}
+                    district={row.district}
+                    city={row.city}
+                    area={row.area}
                     onSelect={(item)=>{
                       props.onUpdateItem && props.onUpdateItem(item.postalCode,column.dataField,row._id)
                     }}
