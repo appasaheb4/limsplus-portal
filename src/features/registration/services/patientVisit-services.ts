@@ -9,8 +9,8 @@ import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
   LIST_PATIENT_VISIT,
-  REMOVE_PATIENT_MANAGER,
-  UPDATE_PATIENT_MANAGER,
+  REMOVE_PATIENT_VISIT,
+  UPDATE_PATIENT_VISIT,
   CREATE_PATIENT_VISIT,
   FILTER_PATIENT_VISIT,
   SEQUENCING_PATIENT_VISIT_VISITID,
@@ -54,11 +54,11 @@ export class PatientVisitService {
         )
     })   
 
-  deletePatientManager = (variables: any) =>
+  deletePatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: REMOVE_PATIENT_MANAGER,
+          mutation: REMOVE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
@@ -73,7 +73,7 @@ export class PatientVisitService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: UPDATE_PATIENT_MANAGER,
+          mutation: UPDATE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
@@ -84,21 +84,6 @@ export class PatientVisitService {
         )
     })
 
-  updateImage = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      console.log({ variables })
-      client
-        .mutate({
-          mutation: UPDATE_PATIENT_MANAGER,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data)
-        })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -109,9 +94,9 @@ export class PatientVisitService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterPatientManager.success)
+          if (!response.data.filterPatientVisit.success)
             return this.listPatientVisit({ documentType: "patientVisit" })
-          stores.patientManagerStore.filterPatientManagerList(response.data)
+          stores.patientVisitStore.filterPatientVisitList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

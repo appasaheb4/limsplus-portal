@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
@@ -42,6 +42,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
     registrationLocationsStore,
     doctorsStore,
   } = useStores()
+  const [modalConfirm, setModalConfirm] = useState<any>()
 
   const onSubmitPatientVisit = () => {
     if (!patientVisitStore.checkExistsVisitId) {
@@ -122,7 +123,8 @@ const PatientVisit = observer((props: PatientVisitProps) => {
           routerStore.lookupItems,
           "PATIENT VISIT - REPORT_STATUS"
         ),
-        loginInterface: loginStore.login.systemInfo.device !== "Desktop" ? "M" : "D",
+        loginInterface:
+          loginStore.login.systemInfo?.device !== "Desktop" ? "M" : "D",
         registrationInterface: LibraryUtils.getDefaultLookupItem(
           routerStore.lookupItems,
           "PATIENT VISIT - REGISTRATION_INTERFACE"
@@ -585,7 +587,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="acClass"
-              rules={{ required: false }}
+              rules={{ required: true }}
               defaultValue=""
             />
 
@@ -1802,32 +1804,37 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             toJS(routerStore.userPermission),
             "Edit/Modify"
           )}
-          onDelete={(selectedUser) =>
-            props.onModalConfirm && props.onModalConfirm(selectedUser)
-          }
+          onDelete={(selectedItem) => setModalConfirm(selectedItem)}
           onSelectedRow={(rows) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
+            setModalConfirm({
+              show: true,
+              type: "delete",
+              id: rows,
+              title: "Are you sure?",
+              body: `Delete selected items!`,
+            })
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update recoard!`,
-              })
-          }}  
-          // onPageSizeChange={(page, limit) => {
-          //   // enviromentSettingsStore.fetchSessionManagementList(page, limit)
-          // }}
+            setModalConfirm({
+              show: true,
+              type: "update",
+              data: { value, dataField, id },
+              title: "Are you sure?",
+              body: `Update recoard!`,
+            })
+          }}
+          onPageSizeChange={(page, limit) => {
+            patientVisitStore.patientVisitService.listPatientVisit(
+              { documentType: "patientVisit" },
+              page,
+              limit
+            )
+          }}
+          onFilter={(type, filter, page, limit) => {
+            patientVisitStore.patientVisitService.filter({
+              input: { type, filter, page, limit },
+            })
+          }}
         />
       </div>
       <br />
@@ -1857,32 +1864,37 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                       toJS(routerStore.userPermission),
                       "Edit/Modify"
                     )}
-                    onDelete={(selectedUser) =>
-                      props.onModalConfirm && props.onModalConfirm(selectedUser)
-                    }
+                    onDelete={(selectedItem) => setModalConfirm(selectedItem)}
                     onSelectedRow={(rows) => {
-                      props.onModalConfirm &&
-                        props.onModalConfirm({
-                          show: true,
-                          type: "Delete",
-                          id: rows,
-                          title: "Are you sure?",
-                          body: `Delete selected items!`,
-                        })
+                      setModalConfirm({
+                        show: true,
+                        type: "delete",
+                        id: rows,
+                        title: "Are you sure?",
+                        body: `Delete selected items!`,
+                      })
                     }}
                     onUpdateItem={(value: any, dataField: string, id: string) => {
-                      props.onModalConfirm &&
-                        props.onModalConfirm({
-                          show: true,
-                          type: "Update",
-                          data: { value, dataField, id },
-                          title: "Are you sure?",
-                          body: `Update recoard!`,
-                        })
+                      setModalConfirm({
+                        show: true,
+                        type: "update",
+                        data: { value, dataField, id },
+                        title: "Are you sure?",
+                        body: `Update recoard!`,
+                      })
                     }}
-                    // onPageSizeChange={(page, limit) => {
-                    //   // enviromentSettingsStore.fetchSessionManagementList(page, limit)
-                    // }}
+                    onPageSizeChange={(page, limit) => {
+                      patientVisitStore.patientVisitService.listPatientVisit(
+                        { documentType: "patientVisit" },
+                        page,
+                        limit
+                      )
+                    }}
+                    onFilter={(type, filter, page, limit) => {
+                      patientVisitStore.patientVisitService.filter({
+                        input: { type, filter, page, limit },
+                      })
+                    }}
                   />
                 </div>
               </>
@@ -1890,6 +1902,46 @@ const PatientVisit = observer((props: PatientVisitProps) => {
           </AccordionItem>
         </Accordion>
       </div>
+      <LibraryComponents.Molecules.ModalConfirm
+        {...modalConfirm}
+        click={(type?: string) => {
+          if (type === "delete") {
+            patientVisitStore.patientVisitService
+              .deletePatientVisit({ input: { id: modalConfirm.id } })
+              .then((res: any) => {
+                if (res.removePatientVisit.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.removePatientVisit.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  patientVisitStore.patientVisitService.listPatientVisit({
+                    documentType: "patientVisit",
+                  })
+                }
+              })  
+          } else if (type === "update") {
+            patientVisitStore.patientVisitService
+              .updateSingleFiled({
+                input: {
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                },
+              })
+              .then((res: any) => {
+                if (res.updatePatientVisit.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updatePatientVisit.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  patientVisitStore.patientVisitService.listPatientVisit({
+                    documentType: "patientVisit",
+                  })
+                }
+              })
+          }
+        }}
+        onClose={() => setModalConfirm({ show: false })}
+      />
     </>
   )
 })

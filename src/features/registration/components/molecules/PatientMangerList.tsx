@@ -359,6 +359,9 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}   

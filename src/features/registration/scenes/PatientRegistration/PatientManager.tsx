@@ -1305,7 +1305,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
           }}
           onPageSizeChange={(page, limit) => {
             patientManagerStore.patientManagerService.listPatientManager(
-              { documentType: "environmentSettings" },
+              { documentType: "patientManager" },
               page,
               limit
             )
@@ -1365,7 +1365,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                     }}
                     onPageSizeChange={(page, limit) => {
                       patientManagerStore.patientManagerService.listPatientManager(
-                        { documentType: "environmentSettings" },
+                        { documentType: "patientManager" },
                         page,
                         limit
                       )

@@ -76,18 +76,18 @@ export const CREATE_PATIENT_VISIT = gql`
   }
 `
 
-export const REMOVE_PATIENT_MANAGER = gql`
-  mutation($input: PatientManagerRemoveInput!) {
-    removePatientManager(input: $input) {
+export const REMOVE_PATIENT_VISIT = gql`
+  mutation($input: PatientVisitRemoveInput!) {
+    removePatientVisit(input: $input) {
       success
       message
     }
   }
 `
-
-export const UPDATE_PATIENT_MANAGER = gql`
-  mutation($input: UpdatePatientManagerInput!) {
-    updatePatientManager(input: $input) {
+  
+export const UPDATE_PATIENT_VISIT = gql`
+  mutation($input: UpdatePatientVisitInput!) {
+    updatePatientVisit(input: $input) {
       success
       message
     }
@@ -95,8 +95,8 @@ export const UPDATE_PATIENT_MANAGER = gql`
 `
 
 export const FILTER_PATIENT_VISIT = gql`
-  mutation($input: PatientManagerInput!) {
-    filterPatientManager(input: $input) {
+  mutation($input: PatientVisitInput!) {
+    filterPatientVisit(input: $input) {
       paginatorInfo {
         count
       }
@@ -159,8 +159,8 @@ export const FILTER_PATIENT_VISIT = gql`
       }
     }
   }
-`
-
+`   
+   
 export const SEQUENCING_PATIENT_VISIT_VISITID = gql`
   mutation($input: SequencingInput!) {
     sequencing(input: $input) {
