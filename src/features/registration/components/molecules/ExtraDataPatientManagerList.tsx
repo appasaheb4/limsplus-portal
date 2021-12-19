@@ -349,13 +349,16 @@ const ExtraDataPatientManagerList = observer(
             ]}
             isEditModify={props.isEditModify}
             isSelectRow={true}
-            fileName="ExtraDataPatientManager"
+            fileName="Patient Manager ExtraData"
             onSelectedRow={(rows) => {
               props.onSelectedRow &&
                 props.onSelectedRow(rows.map((item: any) => item._id))
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
               props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+            }}
+            onPageSizeChange={(page, size) => {
+              props.onPageSizeChange && props.onPageSizeChange(page, size)
             }}
             onFilter={(type, filter, page, size) => {
               props.onFilter && props.onFilter(type, filter, page, size)

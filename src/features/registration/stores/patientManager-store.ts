@@ -36,7 +36,7 @@ export class PatientManagerStore {
   get patientManagerService() {
     return new PatientManagerService()
   }
-
+       
   updatePatientManagerList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.patientManagers.success) return alert(res.patientManagers.message)

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import dayjs from 'dayjs'
+import dayjs from "dayjs"
 import { observer } from "mobx-react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
@@ -16,6 +16,8 @@ interface PatientVisitProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 let pId
 
@@ -75,7 +77,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
               editable: false,
             },
-            {  
+            {
               dataField: "dateVisit",
               text: "Visit Date",
               headerClasses: "textHeader3",
@@ -93,7 +95,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            {  
+            {
               dataField: "registrationDate",
               text: "Registration Date",
               headerClasses: "textHeader3",
@@ -112,44 +114,58 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataField: "dateService",
-              text: "Date Service",
+              dataField: "collectionDate",
+              text: "Collection Date",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                // getFilter: (filter) => {
+                //   birthDate = filter
+                // },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.collectionDate).format("YYYY-MM-DD")}</>
+              },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataField: "dateReceived",
-              text: "Date Received",
-              headerClasses: "textHeader4",
+              dataField: "dueDate",
+              text: "Due Date",
+              headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "dateCollection",
-              text: "Date Collection",
-              headerClasses: "textHeader5",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "methodCollection",
-              text: "Method Collection",
-              headerClasses: "textHeader5",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                // getFilter: (filter) => {
+                //   birthDate = filter
+                // },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dueDate).format("YYYY-MM-DD")}</>
+              },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
             {
               dataField: "birthDate",
-              text: "BirthDate",
+              text: "BithDate",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                // getFilter: (filter) => {
+                //   birthDate = filter
+                // },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.birthDate).format("YYYY-MM-DD")}</>
+              },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -157,36 +173,44 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Age",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                // getFilter: (filter) => {
+                //   pId = filter
+                // },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editable: false,
             },
             {
               dataField: "ageUnits",
               text: "Age Units",
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
+
             {
               dataField: "collectionCenter",
               text: "Collection Center",
+              headerClasses: "textHeader4",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
+              dataField: "corporateCode",
+              text: "Corporate Code",
               headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataField: "billTo",
-              text: "Bill To",
-              headerClasses: "textHeader3",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "reportCenter",
-              text: "Report Center",
+              dataField: "acClass",
+              text: "AC Class",
               headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -220,28 +244,25 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               dataField: "history",
               text: "History",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                  <>  
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.history}
+                      onChange={(history) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(history, "history", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            {
-              dataField: "enteredBy",
-              text: "Entered By",
-              headerClasses: "textHeader3",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+
             {
               dataField: "status",
               text: "Status",
-              headerClasses: "textHeader3",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "environment",
-              text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -258,7 +279,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
@@ -279,18 +300,28 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                   </div>
                 </>
               ),
+              headerClasses: "sticky right-0  bg-gray-500 text-white",
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="AnalyteMaster"
+          fileName="Patient Visit"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))
-          }}
+          }} 
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
+          }} 
         />
       </div>
     </>

@@ -45,8 +45,8 @@ export class PatientVisitStore {
   }
 
   filterPatientVisitList(res: any) {
-    this.listPatientVisit = res.filterPatientManager.data
-    this.listPatientVisitCount = res.filterPatientManager.paginatorInfo.count
+    this.listPatientVisit = res.filterPatientVisit.data
+    this.listPatientVisitCount = res.filterPatientVisit.paginatorInfo.count
   }
 
   updatePatientVisit(input: Models.PatientVisit) {
