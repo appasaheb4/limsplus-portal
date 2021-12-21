@@ -289,6 +289,34 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 getFilter: (filter) =>{
                   usualDoctor = filter}
               }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                   <LibraryComponents.Atoms.Form.InputWrapper
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const usualDoctor = e.target.value
+                        props.onUpdateItem && props.onUpdateItem(usualDoctor,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listDoctors.map((item: any, index: number) => (
+                        <option key={index} value={item.doctorCode}>
+                          {`${item.doctorName} - ${item.doctorCode}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {

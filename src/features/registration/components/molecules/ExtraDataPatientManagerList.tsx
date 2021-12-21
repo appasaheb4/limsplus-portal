@@ -3,7 +3,8 @@ import React from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
+import * as LibraryUtils from "@lp/library/utils"
+import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../orgransims"
 interface ExtraDataPatientManagerProps {
   data: any
   totalSize: number
@@ -49,49 +50,35 @@ const ExtraDataPatientManagerList = observer(
                 csvExport: false,
               },
               {
-                dataField: "address",
-                text: "Address",
+                dataField: "country",
+                text: "Country",
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
-                    address = filter
+                    country = filter
                   }
                 }),
                 formatter: (cell, row) => {
-                  return <span>{row.extraData.address}</span>
+                  return <span>{row.extraData.country}</span>
                 },
-              },
-              {
-                dataField: "postCode",
-                text: "PostCode",
-                headerClasses: "textHeader3",
-                sort: true,
-                csvFormatter: col => (col ? col : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    postCode = filter
-                  }
-                }),
-                formatter: (cell, row) => {
-                  return <span>{row.extraData.postCode}</span>
-                },
-              },
-              {
-                dataField: "city",
-                text: "City",
-                headerClasses: "textHeader3",
-                sort: true,
-                csvFormatter: col => (col ? col : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    city = filter
-                  }
-                }),
-                formatter: (cell, row) => {
-                  return <span>{row.extraData.city}</span>
-                },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <AutoCompleteFilterSingleSelectCountry
+                    onSelect={(item)=>{
+                      props.onUpdateItem && props.onUpdateItem(item.country,column.dataField,row._id)
+                    }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: "state",
@@ -107,22 +94,113 @@ const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.state}</span>
                 },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                      <AutoCompleteFilterSingleSelectState
+                      country={row.extraData.country}
+                        onSelect={(item)=>{
+                          props.onUpdateItem && props.onUpdateItem(item.state,column.dataField,row._id)
+                        }}
+                      />
+                  </>
+                ),
               },
               {
-                dataField: "country",
-                text: "Country",
+                dataField: "city",
+                text: "City",
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: col => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
                   getFilter: (filter) =>{
-                    country = filter
+                    city = filter
                   }
                 }),
                 formatter: (cell, row) => {
-                  return <span>{row.extraData.country}</span>
+                  return <span>{row.extraData.city}</span>
+                },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    {(props.extraData.listAdministrativeDiv) && (
+                      <AutoCompleteFilterSingleSelectCity
+                      country={row.extraData.country}
+                      state={row.extraData.state}
+                        onSelect={(item)=>{
+                          props.onUpdateItem && props.onUpdateItem(item.city,column.dataField,row._id)
+                        }}
+                      />
+                      
+                    
+                )}
+                  </>
+                ),
+              },
+              {
+                dataField: "postCode",
+                text: "PostCode",
+                headerClasses: "textHeader3",
+                sort: true,
+                csvFormatter: col => (col ? col : ""),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    postCode = filter
+                  }
+                }),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.postCode}</span>
+                },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                   {(props.extraData.listAdministrativeDiv) && (
+                      <AutoCompleteFilterSingleSelectPostalCode
+                      country={row.extraData.country}
+                      state={row.extraData.state}
+                      city={row.extraData.city}
+                      onSelect={(item)=>{
+                        props.onUpdateItem && props.onUpdateItem(item.postalCode,column.dataField,row._id)
+                      }}
+                      />
+                )}
+                  </>
+                ),
+              },
+              {
+                dataField: "address",
+                text: "Address",
+                headerClasses: "textHeader3",
+                sort: true,
+                csvFormatter: col => (col ? col : ""),
+                filter: LibraryComponents.Organisms.Utils.textFilter({
+                  getFilter: (filter) =>{
+                    address = filter
+                  }
+                }),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.address}</span>
                 },
               },
+              
               {
                 dataField: "email",
                 text: "Email",
@@ -143,12 +221,42 @@ const ExtraDataPatientManagerList = observer(
                 text: "IsMobileAndWhatsapp",
                 sort: true,
                 csvFormatter: col => (col ? col : false),
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <LibraryComponents.Atoms.Form.Toggle
+                          value={
+                            row?.extraData
+                              ?.isMobileAndWhatsApp
+                          }
+                          onChange={(isMobileAndWhatsApp) => {
+                           props.onUpdateItem && props.onUpdateItem(isMobileAndWhatsApp,"extraData.isMobileAndWhatsApp",row._id)
+                          }}
+                        />
+                    </>
+                  )
+                },
               },
               {
                 dataField: "extraData.confidental",
                 text: "Confidental",
                 sort: true,
                 csvFormatter: col => (col ? col : false),
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <LibraryComponents.Atoms.Form.Toggle
+                          value={
+                            row?.extraData
+                              ?.confidental
+                          }
+                          onChange={(confidental) => {
+                           props.onUpdateItem && props.onUpdateItem(confidental,"extraData.confidental",row._id)
+                          }}
+                        />
+                    </>
+                  )
+                },
               },
               {
                 dataField: "photograph",
@@ -294,6 +402,39 @@ const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.status}</span>
                 },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                          <select
+                            value={
+                              row.extraData?.status
+                            }
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                            onChange={(e) => {
+                              const status = e.target.value
+                              props.onUpdateItem && props.onUpdateItem(status,column.dataField,row._id)
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {LibraryUtils.lookupItems(
+                              props.extraData.lookupItems,
+                              "PATIENT MANAGER - STATUS"
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ))}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                  </>
+                ),
               },
               {
                 dataField: "environment",
@@ -308,6 +449,42 @@ const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.environment}</span>
                 },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                          <select
+                            value={
+                             row.extraData
+                                ?.environment
+                            }
+                           
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                            onChange={(e) => {
+                              const environment = e.target.value
+                              props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
+                             
+                            }}
+                          >
+                            <option>Select</option>
+                            {LibraryUtils.lookupItems(
+                              props.extraData.lookupItems,
+                              "PATIENT MANAGER - ENVIRONMENT"
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ))}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                  </>
+                ),
               },
               {
                 dataField: "opration",

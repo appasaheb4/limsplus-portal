@@ -1275,6 +1275,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
           extraData={{
             lookupItems: routerStore.lookupItems,
             listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
+            listDoctors: doctorsStore.listDoctors,
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
