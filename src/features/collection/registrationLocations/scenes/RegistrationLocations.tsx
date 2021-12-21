@@ -230,7 +230,7 @@ const RegistrationLocation = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -238,9 +238,9 @@ const RegistrationLocation = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(
+                    value={
                       registrationLocationsStore.registrationLocations?.dateCreation
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -251,7 +251,7 @@ const RegistrationLocation = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive
@@ -259,10 +259,10 @@ const RegistrationLocation = observer(() => {
                         : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(
+                    value={
                       registrationLocationsStore.registrationLocations
                         ?.dateActive
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -273,15 +273,14 @@ const RegistrationLocation = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder="Date Expire"
                     hasError={errors.dateActiveTo}
-                    value={dayjs(
+                    value={
                       registrationLocationsStore.registrationLocations?.dateExpire
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    }
+                    onChange={(dateExpire) => {
                       registrationLocationsStore.updateRegistrationLocations({
                         ...registrationLocationsStore.registrationLocations,
                         dateExpire,
