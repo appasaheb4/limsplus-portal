@@ -187,7 +187,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       })
                   }}
                 />
-              )}  
+              )}
               name="txtMobileNo"
               rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
               defaultValue=""
@@ -1180,63 +1180,87 @@ const PatientManager = observer((props: PatientManagerProps) => {
                       rules={{ required: false }}
                       defaultValue=""
                     />
-                  </LibraryComponents.Atoms.List>
-                  <LibraryComponents.Atoms.Grid cols={4}>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Toggle
-                          label="Is Mobile WhatsApp"
-                          id="modeIsMobileAndWhatsApp"
-                          hasError={errors.isMobileAndWhatsApp}
-                          value={
-                            patientManagerStore.patientManger?.extraData
-                              ?.isMobileAndWhatsApp
-                          }
-                          onChange={(isMobileAndWhatsApp) => {
-                            onChange(isMobileAndWhatsApp)
-                            patientManagerStore.updatePatientManager({
-                              ...patientManagerStore.patientManger,
-                              extraData: {
-                                ...patientManagerStore.patientManger?.extraData,
-                                isMobileAndWhatsApp,
-                              },
-                            })
-                          }}
-                        />
-                      )}
-                      name="isMobileAndWhatsApp"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    />
+                    <LibraryComponents.Atoms.Grid cols={4}>
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                          <LibraryComponents.Atoms.Form.Toggle
+                            label="Is Mobile WhatsApp"
+                            hasError={errors.isMobileAndWhatsApp}
+                            value={
+                              patientManagerStore.patientManger?.extraData
+                                ?.isMobileAndWhatsApp
+                            }
+                            onChange={(isMobileAndWhatsApp) => {
+                              onChange(isMobileAndWhatsApp)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  isMobileAndWhatsApp,
+                                },
+                              })
+                            }}
+                          />
+                        )}
+                        name="isMobileAndWhatsApp"
+                        rules={{ required: false }}
+                        defaultValue=""
+                      />
 
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Toggle
-                          label="Confidental"
-                          id="modeConfidental"
-                          hasError={errors.confidental}
-                          value={
-                            patientManagerStore.patientManger?.extraData?.confidental
-                          }
-                          onChange={(confidental) => {
-                            onChange(confidental)
-                            patientManagerStore.updatePatientManager({
-                              ...patientManagerStore.patientManger,
-                              extraData: {
-                                ...patientManagerStore.patientManger?.extraData,
-                                confidental,
-                              },
-                            })
-                          }}
-                        />
-                      )}
-                      name="confidental"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    />
-                  </LibraryComponents.Atoms.Grid>
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                          <LibraryComponents.Atoms.Form.Toggle
+                            label="Confidental"
+                            hasError={errors.confidental}
+                            value={
+                              patientManagerStore.patientManger?.extraData
+                                ?.confidental
+                            }
+                            onChange={(confidental) => {
+                              onChange(confidental)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  confidental,
+                                },
+                              })
+                            }}
+                          />
+                        )}
+                        name="confidental"
+                        rules={{ required: false }}
+                        defaultValue=""
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                          <LibraryComponents.Atoms.Form.Toggle
+                            label="Permanent"
+                            hasError={errors.permanent}
+                            value={
+                              patientManagerStore.patientManger?.extraData?.permanent
+                            }
+                            onChange={(permanent) => {
+                              onChange(permanent)
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger?.extraData,
+                                  permanent,
+                                },
+                              })
+                            }}
+                          />
+                        )}
+                        name="permanent"
+                        rules={{ required: false }}
+                        defaultValue=""
+                      />
+                    </LibraryComponents.Atoms.Grid>
+                  </LibraryComponents.Atoms.List>
                 </LibraryComponents.Atoms.Grid>
               </>
             </AccordionItemPanel>

@@ -154,7 +154,7 @@ const Lookup = observer(() => {
                   lookupStore.LookupService.updateSingleFiled({
                     input: {
                       _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value
                     },
                   }).then((res: any) => {
                     if (res.updateLookup.success) {
