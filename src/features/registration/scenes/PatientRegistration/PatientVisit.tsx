@@ -271,16 +271,13 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                   hasError={errors.registrationDate}
                   value={dayjs(
                     patientVisitStore.patientVisit?.registrationDate
-                  ).format("YYYY-MM-DD")}
-                  onChange={(e) => {
-                    let registrationDate = new Date(e.target.value)
+                  )}
+                  onChange={(registrationDate) => {
+                    
                     onChange(registrationDate)
-                    const formatDate = dayjs(registrationDate).format(
-                      "YYYY-MM-DD HH:mm"
-                    )
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      registrationDate: new Date(formatDate),
+                      registrationDate: registrationDate,
                     })
                   }}
                 />
