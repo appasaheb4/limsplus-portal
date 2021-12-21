@@ -1510,7 +1510,7 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -1518,9 +1518,7 @@ const TestMater = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(testMasterStore.testMaster?.dateCreation).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={testMasterStore.testMaster?.dateCreation}
                     disabled={true}
                   />
                 )}
@@ -1531,15 +1529,13 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive ? "Please Enter dateActive" : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(testMasterStore.testMaster?.dateActive).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={testMasterStore.testMaster?.dateActive}
                     disabled={true}
                   />
                 )}
@@ -1550,17 +1546,14 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire ? "Please Enter dateExpire" : "Date Expire"
                     }
                     hasError={errors.dateExpire}
-                    value={dayjs(testMasterStore.testMaster?.dateExpire).format(
-                      "YYYY-MM-DD"
-                    )}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    value={testMasterStore.testMaster?.dateExpire}
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       testMasterStore.updateTestMaster({
                         ...testMasterStore.testMaster,

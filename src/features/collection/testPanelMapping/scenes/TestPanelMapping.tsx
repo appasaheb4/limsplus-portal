@@ -528,7 +528,7 @@ const TestPanelMapping = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -536,9 +536,9 @@ const TestPanelMapping = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(
+                    value={
                       testPanelMappingStore.testPanelMapping?.dateCreation
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -578,7 +578,7 @@ const TestPanelMapping = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive
@@ -586,9 +586,9 @@ const TestPanelMapping = observer(() => {
                         : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(
+                    value={
                       testPanelMappingStore.testPanelMapping?.dateActive
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -599,7 +599,7 @@ const TestPanelMapping = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire
@@ -607,11 +607,10 @@ const TestPanelMapping = observer(() => {
                         : "Date Expire"
                     }
                     hasError={errors.dateExpire}
-                    value={dayjs(
+                    value={
                       testPanelMappingStore.testPanelMapping?.dateExpire
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    }
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       testPanelMappingStore.updateTestPanelMapping({
                         ...testPanelMappingStore.testPanelMapping,

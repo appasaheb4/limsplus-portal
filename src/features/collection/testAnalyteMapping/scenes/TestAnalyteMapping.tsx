@@ -594,16 +594,16 @@ const TestAnalyteMapping = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
                         ? "Please Enter DateCreation"
                         : "Date Creation"
                     }
-                    value={dayjs(
+                    value={
                       testAnalyteMappingStore.testAnalyteMapping?.dateCreation
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -614,7 +614,7 @@ const TestAnalyteMapping = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     hasError={errors.dateActive}
                     placeholder={
@@ -622,9 +622,9 @@ const TestAnalyteMapping = observer(() => {
                         ? "Please Enter dateActive"
                         : "Date Active"
                     }
-                    value={dayjs(
+                    value={
                       testAnalyteMappingStore.testAnalyteMapping?.dateActive
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -635,18 +635,17 @@ const TestAnalyteMapping = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire
                         ? "Please Enter dateExpire"
                         : "Date Expire"
                     }
-                    value={dayjs(
+                    value={
                       testAnalyteMappingStore.testAnalyteMapping?.dateExpire
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    }
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       testAnalyteMappingStore.updateTestAnalyteMapping({
                         ...testAnalyteMappingStore.testAnalyteMapping,

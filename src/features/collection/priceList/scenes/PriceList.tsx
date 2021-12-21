@@ -897,7 +897,7 @@ export const PriceList = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -905,9 +905,7 @@ export const PriceList = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(priceListStore.priceList?.dateCreation).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={priceListStore.priceList?.dateCreation}
                     disabled={true}
                   />
                 )}
@@ -919,15 +917,13 @@ export const PriceList = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(priceListStore.priceList?.dateActive).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={priceListStore.priceList?.dateActive}
                     disabled={true}
                   />
                 )}
@@ -938,17 +934,14 @@ export const PriceList = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpiry ? "Please Enter schedule" : "Date Expire"
                     }
                     hasError={errors.dateExpiry}
-                    value={dayjs(priceListStore.priceList?.dateExpire).format(
-                      "YYYY-MM-DD"
-                    )}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    value={priceListStore.priceList?.dateExpire}
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       priceListStore.updatePriceList({
                         ...priceListStore.priceList,

@@ -225,7 +225,7 @@ const Doctors = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -233,9 +233,7 @@ const Doctors = observer(() => {
                         : "DateCreation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(doctorsStore.doctors?.dateCreation).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={doctorsStore.doctors?.dateCreation}
                     disabled={true}
                   />
                 )}
@@ -246,7 +244,7 @@ const Doctors = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive
@@ -254,9 +252,7 @@ const Doctors = observer(() => {
                         : "DateActiveFrom"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(doctorsStore.doctors?.dateActive).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={doctorsStore.doctors?.dateActive}
                     disabled={true}
                   />
                 )}
@@ -267,7 +263,7 @@ const Doctors = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateActiveTo
@@ -275,11 +271,8 @@ const Doctors = observer(() => {
                         : "DateActiveTo"
                     }
                     hasError={errors.dateActiveTo}
-                    value={dayjs(doctorsStore.doctors?.dateExpire).format(
-                      "YYYY-MM-DD"
-                    )}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    value={doctorsStore.doctors?.dateExpire}
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       doctorsStore.updateDoctors({
                         ...doctorsStore.doctors,
