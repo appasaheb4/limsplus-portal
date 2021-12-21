@@ -133,6 +133,10 @@ const PatientVisit = observer((props: PatientVisitProps) => {
           routerStore.lookupItems,
           "PATIENT VISIT - BILLING_METHOD"
         ),
+        archieve: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          "PATIENT VISIT - ARCHIVED"
+        ),
       },
     })
   }, [loginStore.login])
@@ -269,9 +273,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                       : "RegistrationDate"
                   }
                   hasError={errors.registrationDate}
-                  value={
-                    patientVisitStore.patientVisit?.registrationDate
-                  }
+                  value={patientVisitStore.patientVisit?.registrationDate}
                   onChange={(registrationDate) => {
                     onChange(registrationDate)
                     patientVisitStore.updatePatientVisit({
@@ -297,13 +299,11 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                       : "Collection Date"
                   }
                   hasError={errors.collectionDate}
-                  value={
-                    patientVisitStore.patientVisit?.collectionDate
-                  }
+                  value={patientVisitStore.patientVisit?.collectionDate}
                   onChange={(collectionDate) => {
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      collectionDate
+                      collectionDate,
                     })
                   }}
                 />
@@ -325,7 +325,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     onChange(dueDate)
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      dueDate
+                      dueDate,
                     })
                   }}
                 />
@@ -349,7 +349,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     onChange(birthDate)
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      birthDate
+                      birthDate,
                     })
                   }}
                 />
@@ -1024,7 +1024,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputDate
+                        <LibraryComponents.Atoms.Form.InputDateTime
                           label="Received Date"
                           name="txtReceivedDate"
                           placeholder={
@@ -1033,20 +1033,16 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                               : "Received Date"
                           }
                           hasError={errors.receivedDate}
-                          value={dayjs(
+                          value={
                             patientVisitStore.patientVisit.extraData?.receivedDate
-                          ).format("YYYY-MM-DD")}
-                          onChange={(e) => {
-                            let receivedDate = new Date(e.target.value)
+                          }
+                          onChange={(receivedDate) => {
                             onChange(receivedDate)
-                            const formatDate = dayjs(receivedDate).format(
-                              "YYYY-MM-DD HH:mm"
-                            )
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
-                                receivedDate: new Date(formatDate),
+                                receivedDate,
                               },
                             })
                           }}
@@ -1059,7 +1055,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputDate
+                        <LibraryComponents.Atoms.Form.InputDateTime
                           label="Result Date"
                           name="txtResultDate"
                           placeholder={
@@ -1068,20 +1064,16 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                               : "Result Date"
                           }
                           hasError={errors.resultDate}
-                          value={dayjs(
+                          value={
                             patientVisitStore.patientVisit.extraData?.resultDate
-                          ).format("YYYY-MM-DD")}
-                          onChange={(e) => {
-                            let resultDate = new Date(e.target.value)
+                          }
+                          onChange={(resultDate) => {
                             onChange(resultDate)
-                            const formatDate = dayjs(resultDate).format(
-                              "YYYY-MM-DD HH:mm"
-                            )
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
-                                resultDate: new Date(formatDate),
+                                resultDate,
                               },
                             })
                           }}
@@ -1177,7 +1169,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputDate
+                        <LibraryComponents.Atoms.Form.InputDateTime
                           label="Approval Date"
                           name="txtApprovalDate"
                           placeholder={
@@ -1186,20 +1178,16 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                               : "Result Date"
                           }
                           hasError={errors.approvalDate}
-                          value={dayjs(
+                          value={
                             patientVisitStore.patientVisit.extraData?.approvalDate
-                          ).format("YYYY-MM-DD")}
-                          onChange={(e) => {
-                            let approvalDate = new Date(e.target.value)
+                          }
+                          onChange={(approvalDate) => {
                             onChange(approvalDate)
-                            const formatDate = dayjs(approvalDate).format(
-                              "YYYY-MM-DD HH:mm"
-                            )
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
-                                approvalDate: new Date(formatDate),
+                                approvalDate,
                               },
                             })
                           }}
@@ -1295,7 +1283,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputDate
+                        <LibraryComponents.Atoms.Form.InputDateTime
                           label="Reported Date"
                           name="txtReportedDate"
                           placeholder={
@@ -1304,20 +1292,16 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                               : "Reported Date"
                           }
                           hasError={errors.reportedDate}
-                          value={dayjs(
+                          value={
                             patientVisitStore.patientVisit.extraData?.reportedDate
-                          ).format("YYYY-MM-DD")}
-                          onChange={(e) => {
-                            let reportedDate = new Date(e.target.value)
+                          }
+                          onChange={(reportedDate) => {
                             onChange(reportedDate)
-                            const formatDate = dayjs(reportedDate).format(
-                              "YYYY-MM-DD HH:mm"
-                            )
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
-                                reportedDate: new Date(formatDate),
+                                reportedDate,
                               },
                             })
                           }}
@@ -1326,7 +1310,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                       name="reportedDate"
                       rules={{ required: false }}
                       defaultValue=""
-                    />
+                    />   
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
@@ -1403,25 +1387,39 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
-                          label="Archieve"
-                          name="txtArchieve"
-                          placeholder={
-                            errors.archieve ? "Please Enter Archieve" : "Archieve"
-                          }
-                          hasError={errors.archieve}
-                          value={patientVisitStore.patientVisit.extraData?.archieve}
-                          onChange={(archieve) => {
-                            onChange(archieve)
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              extraData: {
-                                ...patientVisitStore.patientVisit.extraData,
-                                archieve,
-                              },
-                            })
-                          }}
-                        />
+                        <LibraryComponents.Atoms.Form.InputWrapper label="Archieve">
+                          <select
+                            value={
+                              patientVisitStore.patientVisit.extraData?.archieve
+                            }
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.archieve
+                                ? "border-red-500  "
+                                : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const archieve = e.target.value
+                              onChange(archieve)
+                              patientVisitStore.updatePatientVisit({
+                                ...patientVisitStore.patientVisit,
+                                extraData: {
+                                  ...patientVisitStore.patientVisit.extraData,
+                                  archieve,
+                                },
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {LibraryUtils.lookupItems(
+                              routerStore.lookupItems,
+                              "PATIENT VISIT - ARCHIVED"
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ))}
+                          </select>
+                        </LibraryComponents.Atoms.Form.InputWrapper>
                       )}
                       name="archieve"
                       rules={{ required: false }}
@@ -1443,6 +1441,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                               patientVisitStore.patientVisit.extraData
                                 ?.loginInterface
                             }
+                            disabled={true}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.loginInterface
                                 ? "border-red-500  "
@@ -1525,6 +1524,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         <LibraryComponents.Atoms.Form.Input
                           label="Submitted System"
                           name="txtSubmitted System"
+                          disabled={true}
                           placeholder={
                             errors.submittedSystem
                               ? "Please Enter Submitted System"
@@ -1556,6 +1556,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         <LibraryComponents.Atoms.Form.Input
                           label="Submitted On"
                           name="txtSubmittedOn"
+                          disabled={true}
                           placeholder={
                             errors.submittedOn ? "Please Enter Archieve" : "Archieve"
                           }
@@ -1585,6 +1586,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                         <LibraryComponents.Atoms.Form.Input
                           label="Balance"
                           name="txtBalance"
+                          disabled={true}
                           placeholder={
                             errors.balance ? "Please Enter Balance" : "Balance"
                           }
