@@ -163,6 +163,7 @@ export const InputDateTime = (props: InputDateProps) => {
   return (
     <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
       <DateTimePicker
+        disabled={props.disabled}
         onChange={(value) => props.onChange && props.onChange(value)}
         value={props.value}
         amPmAriaLabel="AM/PM"
