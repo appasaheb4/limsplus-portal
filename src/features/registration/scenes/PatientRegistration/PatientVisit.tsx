@@ -273,7 +273,6 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     patientVisitStore.patientVisit?.registrationDate
                   )}
                   onChange={(registrationDate) => {
-                    
                     onChange(registrationDate)
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
