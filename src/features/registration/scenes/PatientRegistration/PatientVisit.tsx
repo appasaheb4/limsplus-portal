@@ -44,6 +44,9 @@ const PatientVisit = observer((props: PatientVisitProps) => {
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
 
+  console.log({loginStore});
+  
+
   const onSubmitPatientVisit = () => {
     if (!patientVisitStore.checkExistsVisitId) {
       patientVisitStore.patientVisitService

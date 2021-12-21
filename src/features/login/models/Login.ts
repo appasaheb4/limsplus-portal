@@ -15,6 +15,7 @@ export class Login {
   accessToken: string
   refreshToken: string
   roleMapping: any
+  confidential: boolean
   picture: string
   shortcutMenu: any
   sessionTimeoutCount: number
@@ -30,7 +31,7 @@ export class Login {
     this.role = rawData.role
     this.roleList = rawData.roleList
     this.userId = rawData.userId
-    this.fullName = rawData.fullName
+    this.fullName = rawData.fullName  
     this.password = rawData.password
     this.passChanged = rawData.passChanged
     this.loginActivityId = rawData.loginActivityId
@@ -39,6 +40,7 @@ export class Login {
     this.accessToken = rawData.accessToken
     this.refreshToken = rawData.refreshToken
     this.roleMapping = rawData.roleMapping
+    this.confidential = rawData.confidential
     this.picture = rawData.picture
     this.shortcutMenu = rawData.shortcutMenu
     this.sessionTimeoutCount = rawData.sessionTimeoutCount
