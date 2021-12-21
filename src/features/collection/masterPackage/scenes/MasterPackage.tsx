@@ -576,7 +576,7 @@ const MasterPackage = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -584,9 +584,9 @@ const MasterPackage = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(
+                    value={
                       masterPackageStore.masterPackage?.dateCreation
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -625,7 +625,7 @@ const MasterPackage = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive
@@ -633,9 +633,8 @@ const MasterPackage = observer(() => {
                         : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(
-                      masterPackageStore.masterPackage?.dateActive
-                    ).format("YYYY-MM-DD")}
+                    value={
+                      masterPackageStore.masterPackage?.dateActive}
                     disabled={true}
                   />
                 )}
@@ -647,17 +646,16 @@ const MasterPackage = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
                     }
                     hasError={errors.dateExpire}
-                    value={dayjs(
+                    value={
                       masterPackageStore.masterPackage?.dateExpire
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                   }
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       masterPackageStore.updateMasterPackage({
                         ...masterPackageStore.masterPackage,

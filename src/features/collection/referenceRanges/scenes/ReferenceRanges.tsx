@@ -995,7 +995,7 @@ const ReferenceRanges = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -1003,9 +1003,9 @@ const ReferenceRanges = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(
+                    value={
                       refernceRangesStore.referenceRanges?.dateCreation
-                    ).format("YYYY-MM-DD")}
+                   }
                     disabled={true}
                   />
                 )}
@@ -1016,15 +1016,15 @@ const ReferenceRanges = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(
+                    value={
                       refernceRangesStore.referenceRanges?.dateActive
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -1042,17 +1042,16 @@ const ReferenceRanges = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
                     hasError={errors.dateExpiry}
-                    value={dayjs(
+                    value={
                       refernceRangesStore.referenceRanges?.dateExpire
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    }
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,

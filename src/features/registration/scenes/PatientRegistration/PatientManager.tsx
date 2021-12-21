@@ -195,22 +195,18 @@ const PatientManager = observer((props: PatientManagerProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <LibraryComponents.Atoms.Form.InputDateTime
                   label="Bithdate"
                   placeholder={
                     errors.birthDate ? "Please Enter BirthDate" : "BirthDate"
                   }
                   hasError={errors.birthDate}
-                  value={dayjs(patientManagerStore.patientManger?.birthDate).format(
-                    "YYYY-MM-DD"
-                  )}
-                  onChange={(e) => {
-                    let birthDate = new Date(e.target.value)
+                  value={patientManagerStore.patientManger?.birthDate}
+                  onChange={(birthDate) => {
                     onChange(birthDate)
-                    const formatDate = dayjs(birthDate).format("YYYY-MM-DD HH:mm")
                     patientManagerStore.updatePatientManager({
                       ...patientManagerStore.patientManger,
-                      birthDate: new Date(formatDate),
+                      birthDate
                     })
                     patientManagerStore.patientManagerService
                       .checkExistsPatient({
