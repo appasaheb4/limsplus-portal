@@ -260,7 +260,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <LibraryComponents.Atoms.Form.InputDateTime
                   label="Registration Date"
                   name="txtRegistrationDate"
                   placeholder={
@@ -269,14 +269,14 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                       : "RegistrationDate"
                   }
                   hasError={errors.registrationDate}
-                  value={dayjs(
+                  value={
                     patientVisitStore.patientVisit?.registrationDate
-                  )}
+                  }
                   onChange={(registrationDate) => {
                     onChange(registrationDate)
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      registrationDate: registrationDate,
+                      registrationDate,
                     })
                   }}
                 />
@@ -288,7 +288,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <LibraryComponents.Atoms.Form.InputDateTime
                   label="Collection Date"
                   name="txtCollectionDate"
                   placeholder={
@@ -297,18 +297,13 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                       : "Collection Date"
                   }
                   hasError={errors.collectionDate}
-                  value={dayjs(
+                  value={
                     patientVisitStore.patientVisit?.collectionDate
-                  ).format("YYYY-MM-DD")}
-                  onChange={(e) => {
-                    let collectionDate = new Date(e.target.value)
-                    onChange(collectionDate)
-                    const formatDate = dayjs(collectionDate).format(
-                      "YYYY-MM-DD HH:mm"
-                    )
+                  }
+                  onChange={(collectionDate) => {
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      collectionDate: new Date(formatDate),
+                      collectionDate
                     })
                   }}
                 />
@@ -320,21 +315,17 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <LibraryComponents.Atoms.Form.InputDateTime
                   label="Due Date"
                   name="txtDueDate"
                   placeholder={errors.dueDate ? "Please Enter Due Date" : "Due Date"}
                   hasError={errors.dueDate}
-                  value={dayjs(patientVisitStore.patientVisit?.dueDate).format(
-                    "YYYY-MM-DD"
-                  )}
-                  onChange={(e) => {
-                    let dueDate = new Date(e.target.value)
+                  value={patientVisitStore.patientVisit?.dueDate}
+                  onChange={(dueDate) => {
                     onChange(dueDate)
-                    const formatDate = dayjs(dueDate).format("YYYY-MM-DD HH:mm")
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      dueDate: new Date(formatDate),
+                      dueDate
                     })
                   }}
                 />
@@ -346,23 +337,19 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <LibraryComponents.Atoms.Form.InputDateTime
                   label="BithDate"
                   name="txtBirthDate"
                   placeholder={
                     errors.birthDate ? "Please Enter BirthDate" : "BirthDate"
                   }
                   hasError={errors.birthDate}
-                  value={dayjs(patientVisitStore.patientVisit?.birthDate).format(
-                    "YYYY-MM-DD"
-                  )}
-                  onChange={(e) => {
-                    let birthDate = new Date(e.target.value)
+                  value={patientVisitStore.patientVisit?.birthDate}
+                  onChange={(birthDate) => {
                     onChange(birthDate)
-                    const formatDate = dayjs(birthDate).format("YYYY-MM-DD HH:mm")
                     patientVisitStore.updatePatientVisit({
                       ...patientVisitStore.patientVisit,
-                      birthDate: new Date(formatDate),
+                      birthDate
                     })
                   }}
                 />

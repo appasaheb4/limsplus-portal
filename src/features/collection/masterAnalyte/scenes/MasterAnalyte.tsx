@@ -1070,15 +1070,15 @@ const MasterAnalyte = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation ? "Please Enter Date Creation" : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(
+                    value={
                       masterAnalyteStore.masterAnalyte?.dateCreation
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -1089,15 +1089,15 @@ const MasterAnalyte = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={dayjs(
+                    value={
                       masterAnalyteStore.masterAnalyte?.dateActive
-                    ).format("YYYY-MM-DD")}
+                   }
                     disabled={true}
                   />
                 )}
@@ -1108,20 +1108,20 @@ const MasterAnalyte = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
                     hasError={errors.schedule}
-                    value={dayjs(
+                    value={
                       masterAnalyteStore.masterAnalyte?.dateExpire
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      const schedule = new Date(e.target.value)
+                    }
+                    onChange={(dateExpire) => {
+                      onChange(dateExpire)
                       masterAnalyteStore.updateMasterAnalyte({
                         ...masterAnalyteStore.masterAnalyte,
-                        dateExpire: schedule,
+                        dateExpire
                       })
                     }}
                   />
