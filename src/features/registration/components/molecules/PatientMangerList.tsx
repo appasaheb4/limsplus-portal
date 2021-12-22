@@ -32,9 +32,11 @@ let breed
 let usualDoctor
 const PatientMangerList = observer((props: PatientMangerProps) => {
   const editorCell = (row: any) => {
-    return row.status !== "I" ? true : false
+    if (row.status === "I") return false
+    if (row.extraData?.confidental && !props.extraData.confidental) return false
+    return true
   }
-
+  
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -213,7 +215,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Last Name",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: (col, row) =>  
+              csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
                     ? "XXXXXXXX"
