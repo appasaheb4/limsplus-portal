@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
+import _ from "lodash"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -12,7 +13,6 @@ let arrValue
 let description
 let defaultItem
 let environment
-
 
 interface LookupListProps {
   data: any
@@ -61,11 +61,11 @@ const LookupList = (props: LookupListProps) => {
             headerClasses: "textHeader4",
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
-            `${row.documentName.children.title}`,
+              `${row.documentName.children.title}`,
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter)=>{
+              getFilter: (filter) => {
                 documentName = filter
-              }
+              },
             }),
             formatter: (cell, row) => {
               return <>{`${row.documentName.children.title}`}</>
@@ -102,13 +102,13 @@ const LookupList = (props: LookupListProps) => {
             text: "Field Name",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            style:{textTransform:"uppercase"},
-            editorStyle:{textTransform:"uppercase"},
+            csvFormatter: (col) => (col ? col : ""),
+            style: { textTransform: "uppercase" },
+            editorStyle: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter)=>{
+              getFilter: (filter) => {
                 fieldName = filter
-              }
+              },
             }),
           },
           {
@@ -117,12 +117,13 @@ const LookupList = (props: LookupListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
-            `Value:${row.arrValue.map(item => item.value)} - Code:${row.arrValue.map(item => item.code)}`
-            ,
+              `Value:${row.arrValue.map(
+                (item) => item.value
+              )} - Code:${row.arrValue.map((item) => item.code)}`,
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter)=>{
+              getFilter: (filter) => {
                 arrValue = filter
-              }
+              },
             }),
             formatter: (cellContent, row) => (
               <>
@@ -188,7 +189,6 @@ const LookupList = (props: LookupListProps) => {
                         if (value === undefined || code === undefined)
                           return alert("Please enter value and code.")
                         if (value !== undefined) {
-                          console.log({ len: arrValue.length })
                           arrValue !== undefined
                             ? arrValue.push({
                                 value,
@@ -200,6 +200,9 @@ const LookupList = (props: LookupListProps) => {
                                   code,
                                 },
                               ])
+                          arrValue = _.map(arrValue, (o) =>
+                            _.pick(o, ["code", "value"])
+                          )
                           props.onUpdateItem &&
                             props.onUpdateItem(arrValue, "arrValue", row._id)
                           props.extraData.updateLocalInput({
@@ -231,11 +234,14 @@ const LookupList = (props: LookupListProps) => {
                           onClick={() => {
                             const firstArr = row?.arrValue?.slice(0, index) || []
                             const secondArr = row.arrValue?.slice(index + 1) || []
-                            const finalArray = [...firstArr, ...secondArr]
+                            let finalArray = [...firstArr, ...secondArr]
                             props.extraData.updateLookup({
                               ...props.extraData.lookup,
                               arrValue: finalArray,
                             })
+                            finalArray = _.map(finalArray, (o) =>
+                              _.pick(o, ["code", "value"])
+                            )
                             props.onUpdateItem &&
                               props.onUpdateItem(finalArray, "arrValue", row._id)
                           }}
@@ -254,11 +260,11 @@ const LookupList = (props: LookupListProps) => {
             text: "Description",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter)=>{
+              getFilter: (filter) => {
                 description = filter
-              }
+              },
             }),
           },
           {
@@ -267,11 +273,13 @@ const LookupList = (props: LookupListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
-            `Value:${row.defaultItem.map(item => item.value)} - Code:${row.defaultItem.map(item => item.code)}`,
+              `Value:${row.defaultItem.map(
+                (item) => item.value
+              )} - Code:${row.defaultItem.map((item) => item.code)}`,
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter)=>{
+              getFilter: (filter) => {
                 defaultItem = filter
-              }
+              },
             }),
             formatter: (cellContent, row) => (
               <>
@@ -295,17 +303,49 @@ const LookupList = (props: LookupListProps) => {
                 </LibraryComponents.Atoms.List>
               </>
             ),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <select
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  onChange={(e) => {
+                    let defaultItem = JSON.parse(e.target.value)
+                    defaultItem = [
+                      {
+                        code: defaultItem.code,
+                        value: defaultItem.value,
+                      },
+                    ]
+                    props.onUpdateItem &&
+                      props.onUpdateItem(defaultItem, "defaultItem", row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {row.arrValue.map((item: any, index: number) => (
+                    <option key={item.name} value={JSON.stringify(item)}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ),
           },
           {
             dataField: "environment",
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter)=>{
+              getFilter: (filter) => {
                 environment = filter
-              }
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -349,7 +389,10 @@ const LookupList = (props: LookupListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top"> 
+                  <LibraryComponents.Atoms.Tooltip
+                    tooltipText="Delete"
+                    position="top"
+                  >
                     <LibraryComponents.Atoms.Icons.IconContext
                       color="#fff"
                       size="20"
@@ -373,9 +416,9 @@ const LookupList = (props: LookupListProps) => {
               </>
             ),
             headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+            classes: (cell, row, rowIndex, colIndex) => {
+              return "sticky right-0 bg-gray-500"
+            },
           },
         ]}
         isEditModify={props.isEditModify}
@@ -387,14 +430,14 @@ const LookupList = (props: LookupListProps) => {
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
-        }}  
+        }}
         onPageSizeChange={(page, size) =>
           props.onPageSizeChange && props.onPageSizeChange(page, size)
         }
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
         }}
-        clearAllFilter={()=>{
+        clearAllFilter={() => {
           documentName("")
           fieldName("")
           arrValue("")

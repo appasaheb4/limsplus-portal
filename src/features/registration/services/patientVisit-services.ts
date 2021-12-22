@@ -17,6 +17,9 @@ import {
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_MANAGER,
 } from "./mutation-PV"
+import dayjs from 'dayjs'
+import utc  from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 
 export class PatientVisitService {
   listPatientVisit = (filter: any, page = 0, limit = 10) =>
@@ -29,6 +32,8 @@ export class PatientVisitService {
           variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
+          // console.log({response});
+          // console.log({date:dayjs.utc(response.data.patientVisits.data[0].visitDate).local().format()})
           stores.patientVisitStore.updatePatientVisitList(response.data)
           resolve(response.data)
         })

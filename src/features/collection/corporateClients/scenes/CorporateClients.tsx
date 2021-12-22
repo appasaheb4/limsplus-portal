@@ -231,7 +231,7 @@ const CorporateClients = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -239,9 +239,9 @@ const CorporateClients = observer(() => {
                         : "Created By"
                     }
                     hasError={errors.dateCreation}
-                    value={dayjs(
+                    value={
                       corporateClientsStore.corporateClients?.dateCreation
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -253,15 +253,15 @@ const CorporateClients = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     hasError={errors.dateActive}
                     placeholder={
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
-                    value={dayjs(
+                    value={
                       corporateClientsStore.corporateClients?.dateActive
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -273,17 +273,16 @@ const CorporateClients = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     hasError={errors.dateExpire}
                     placeholder={
                       errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
                     }
-                    value={dayjs(
+                    value={
                       corporateClientsStore.corporateClients?.dateExpire
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    }
+                    onChange={(dateExpire) => {
                       corporateClientsStore.updateCorporateClients({
                         ...corporateClientsStore.corporateClients,
                         dateExpire,
