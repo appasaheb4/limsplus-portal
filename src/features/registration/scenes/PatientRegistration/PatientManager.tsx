@@ -206,7 +206,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                     onChange(birthDate)
                     patientManagerStore.updatePatientManager({
                       ...patientManagerStore.patientManger,
-                      birthDate
+                      birthDate,
                     })
                     patientManagerStore.patientManagerService
                       .checkExistsPatient({
@@ -1295,7 +1295,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
           extraData={{
             lookupItems: routerStore.lookupItems,
             listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
-            loginStore
+            confidential: loginStore.login?.confidential || false,
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),

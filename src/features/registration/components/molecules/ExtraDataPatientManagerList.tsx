@@ -53,11 +53,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Address",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col,row) => (col ? row.extraData.address : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     address = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.address}</span>
@@ -68,11 +68,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "PostCode",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     postCode = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.postCode}</span>
@@ -83,11 +83,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "City",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col,row) => (row.extraData?.city  ? row.extraData?.city : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     city = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.city}</span>
@@ -98,11 +98,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "State",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     state = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.state}</span>
@@ -113,11 +113,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Country",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     country = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.country}</span>
@@ -128,32 +128,81 @@ const ExtraDataPatientManagerList = observer(
                 text: "Email",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     email = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.email}</span>
                 },
               },
               {
-                dataField: "extraData.isMobileAndWhatsApp",
+                dataField: "isMobileAndWhatsApp",
                 text: "IsMobileAndWhatsapp",
                 sort: true,
-                csvFormatter: col => (col ? col : false),
+                csvFormatter: (col) => (col ? col : false),
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <LibraryComponents.Atoms.Form.Toggle
+                        value={row.extraData.isMobileAndWhatsApp}
+                        onChange={(isMobileAndWhatsApp) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(
+                              isMobileAndWhatsApp,
+                              "isMobileAndWhatsApp",
+                              row._id
+                            )
+                        }}
+                      />
+                    </>
+                  )
+                },
               },
               {
-                dataField: "extraData.confidental",
+                dataField: "confidental",
                 text: "Confidental",
                 sort: true,
-                csvFormatter: col => (col ? col : false),
+                csvFormatter: (col) => (col ? col : false),
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <LibraryComponents.Atoms.Form.Toggle
+                        value={row.extraData.confidental}
+                        onChange={(confidental) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(confidental, "confidental", row._id)
+                        }}
+                      />
+                    </>
+                  )
+                },
+              },
+              {
+                dataField: "permanent",
+                text: "Permanent",
+                sort: true,
+                csvFormatter: (col) => (col ? col : false),
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <LibraryComponents.Atoms.Form.Toggle
+                        value={row.extraData.permanent}
+                        onChange={(permanent) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(permanent, "permanent", row._id)
+                        }}
+                      />
+                    </>
+                  )
+                },
               },
               {
                 dataField: "photograph",
                 text: "PhotoGraph",
-                csvExport : false,
+                csvExport: false,
                 headerClasses: "textHeader3",
                 formatter: (cell, row) => {
                   return (
@@ -176,7 +225,7 @@ const ExtraDataPatientManagerList = observer(
               {
                 dataField: "signature",
                 text: "Signature",
-                csvExport : false,
+                csvExport: false,
                 headerClasses: "textHeader3",
                 formatter: (cell, row) => {
                   return (
@@ -200,11 +249,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "BloodGroup",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     bloodGroup = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.bloodGroup}</span>
@@ -215,11 +264,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "FollowUp",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
+                  getFilter: (filter) => {
                     followUp = filter
-                  }
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.followUp}</span>
@@ -230,10 +279,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Comments",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    comments = filter}
+                  getFilter: (filter) => {
+                    comments = filter
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.comments}</span>
@@ -244,10 +294,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "FyiLine",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    fyiLine = filter}
+                  getFilter: (filter) => {
+                    fyiLine = filter
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.fyiLine}</span>
@@ -258,10 +309,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Balance",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    balance = filter}
+                  getFilter: (filter) => {
+                    balance = filter
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.balance}</span>
@@ -272,10 +324,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Entered By",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    enteredBy = filter}
+                  getFilter: (filter) => {
+                    enteredBy = filter
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.enteredBy}</span>
@@ -286,10 +339,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Status",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    status = filter}
+                  getFilter: (filter) => {
+                    status = filter
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.status}</span>
@@ -300,10 +354,11 @@ const ExtraDataPatientManagerList = observer(
                 text: "Environment",
                 headerClasses: "textHeader3",
                 sort: true,
-                csvFormatter: col => (col ? col : ""),
+                csvFormatter: (col) => (col ? col : ""),
                 filter: LibraryComponents.Organisms.Utils.textFilter({
-                  getFilter: (filter) =>{
-                    environment = filter}
+                  getFilter: (filter) => {
+                    environment = filter
+                  },
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.environment}</span>
@@ -363,7 +418,7 @@ const ExtraDataPatientManagerList = observer(
             onFilter={(type, filter, page, size) => {
               props.onFilter && props.onFilter(type, filter, page, size)
             }}
-            clearAllFilter={()=>{
+            clearAllFilter={() => {
               address("")
               postCode("")
               city("")
