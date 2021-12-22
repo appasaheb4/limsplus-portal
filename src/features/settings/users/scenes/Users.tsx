@@ -24,7 +24,7 @@ export const Users = observer(() => {
     deginisationStore,
     departmentStore,
     roleStore,
-    loading
+    loading,
   } = useStores()
 
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -290,34 +290,32 @@ export const Users = observer(() => {
                     hasError={errors.defaultLab}
                     label="Default Lab"
                   >
-                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    placeholder="Search by default lab name"
-                    data={{
-                      list:labStore.listLabs,
-                      displayKey: "name",
-                      findKey: "name",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      labStore.LabService.filter(
-                        {
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                      loader={loading}
+                      placeholder="Search by default lab name"
+                      data={{
+                        list: labStore.listLabs,
+                        displayKey: "name",
+                        findKey: "name",
+                      }}
+                      hasError={errors.name}
+                      onFilter={(value: string) => {
+                        labStore.LabService.filter({
                           input: {
                             type: "filter",
                             filter: {
-                              name: value
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
                           },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.name)
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.name)
                         userStore.updateUser({
                           ...userStore.user,
-                          defaultLab:item.code,
+                          defaultLab: item.code,
                         })
                         const lab: any = labStore.listLabs.find(
                           (item) => item.code == item.code
@@ -327,10 +325,8 @@ export const Users = observer(() => {
                           ...userStore.user,
                           lab,
                         })
-                        labStore.updateLabList(
-                          labStore.listLabsCopy
-                        )
-                    }}
+                        labStore.updateLabList(labStore.listLabsCopy)
+                      }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -403,40 +399,37 @@ export const Users = observer(() => {
                     hasError={errors.deginisation}
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    placeholder="Search by deginisation name"
-                    data={{
-                      list:deginisationStore.listDeginisation,
-                      displayKey: "description",
-                      findKey: "description",
-                    }}
-                    hasError={errors.deginisation}
-                    onFilter={(value: string) => {
-                      deginisationStore.DeginisationService.filter(
-                        {
+                      loader={loading}
+                      placeholder="Search by deginisation name"
+                      data={{
+                        list: deginisationStore.listDeginisation,
+                        displayKey: "description",
+                        findKey: "description",
+                      }}
+                      hasError={errors.deginisation}
+                      onFilter={(value: string) => {
+                        deginisationStore.DeginisationService.filter({
                           input: {
                             type: "filter",
                             filter: {
-                              description: value
+                              description: value,
                             },
                             page: 0,
                             limit: 10,
                           },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.code)
-                      userStore.updateUser({
-                        ...userStore.user,
-                        deginisation:item.description,
-                      })
-                      deginisationStore.updateListDeginisation(
-                        deginisationStore.listDeginisationCopy
-                      )
-                    }}
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.code)
+                        userStore.updateUser({
+                          ...userStore.user,
+                          deginisation: item.description,
+                        })
+                        deginisationStore.updateListDeginisation(
+                          deginisationStore.listDeginisationCopy
+                        )
+                      }}
                     />
-
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="deginisation"
@@ -720,16 +713,14 @@ export const Users = observer(() => {
                       onChange(dateOfBirth)
                       userStore.updateUser({
                         ...userStore.user,
-                        dateOfBirth
+                        dateOfBirth,
                       })
                     }}
                   />
                 )}
                 name="dateOfBirth"
                 rules={{ required: true }}
-                defaultValue={dayjs(userStore && userStore.user.dateOfBirth).format(
-                  "YYYY-MM-DD"
-                )}
+                defaultValue={userStore && userStore.user.dateOfBirth}
               />
               <Controller
                 control={control}
@@ -737,14 +728,12 @@ export const Users = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDateTime
                     label="Marriage Anniversary Date"
                     hasError={errors.marriageAnniversary}
-                    value={
-                      userStore && userStore.user.marriageAnniversary
-                    }
+                    value={userStore && userStore.user.marriageAnniversary}
                     onChange={(marriageAnniversary) => {
                       onChange(marriageAnniversary)
                       userStore.updateUser({
                         ...userStore.user,
-                        marriageAnniversary
+                        marriageAnniversary,
                       })
                     }}
                   />
@@ -756,30 +745,29 @@ export const Users = observer(() => {
                 ).format("YYYY-MM-DD")}
               />
 
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    label="Exipre Date"
+                    hasError={errors.exipreDate}
+                    value={userStore && userStore.user.exipreDate}
+                    onChange={(exipreDate) => {
+                      onChange(exipreDate)
+                      userStore.updateUser({
+                        ...userStore.user,
+                        exipreDate,
+                      })
+                    }}
+                  />
+                )}
+                name="exipreDate"
+                rules={{ required: true }}
+                defaultValue={dayjs(userStore && userStore.user.exipreDate).format(
+                  "YYYY-MM-DD"
+                )}
+              />
               <LibraryComponents.Atoms.List space={4} direction="row">
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDateTime
-                      label="Exipre Date"
-                      hasError={errors.exipreDate}
-                      value={userStore && userStore.user.exipreDate}
-                      onChange={(exipreDate) => {
-                        onChange(exipreDate)
-                        userStore.updateUser({
-                          ...userStore.user,
-                          exipreDate
-                        })
-                      }}
-                    />
-                  )}
-                  name="exipreDate"
-                  rules={{ required: true }}
-                  defaultValue={dayjs(userStore && userStore.user.exipreDate).format(
-                    "YYYY-MM-DD"
-                  )}
-                />
-
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -806,24 +794,25 @@ export const Users = observer(() => {
                   rules={{ required: false }}
                   defaultValue={userStore && userStore.user.expireDays}
                 />
-
-                <LibraryComponents.Atoms.Buttons.Button
-                  size="small"
-                  type="solid"
-                  onClick={() => {
-                    const date = new Date(
-                      dayjs(userStore && userStore.user.exipreDate)
-                        .add(userStore && userStore.user.expireDays, "days")
-                        .format("YYYY-MM-DD HH:mm")
-                    )
-                    userStore.updateUser({
-                      ...userStore.user,
-                      exipreDate: date,
-                    })
-                  }}
-                >
-                  Apply Days
-                </LibraryComponents.Atoms.Buttons.Button>
+                <div className="mt-3">
+                  <LibraryComponents.Atoms.Buttons.Button
+                    size="medium"
+                    type="solid"
+                    onClick={() => {
+                      const date = new Date(
+                        dayjs(userStore && userStore.user.exipreDate)
+                          .add(userStore && userStore.user.expireDays, "days")
+                          .format("YYYY-MM-DD HH:mm")
+                      )
+                      userStore.updateUser({
+                        ...userStore.user,
+                        exipreDate: date,
+                      })
+                    }}
+                  >
+                    Apply Days
+                  </LibraryComponents.Atoms.Buttons.Button>
+                </div>
               </LibraryComponents.Atoms.List>
 
               <Controller

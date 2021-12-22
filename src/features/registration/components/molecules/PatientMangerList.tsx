@@ -34,6 +34,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
+
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -54,9 +55,9 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   pId = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -68,20 +69,34 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Mobile No",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col, row) =>
+                col
+                  ? row.extraData?.confidental && !props.extraData.confidental
+                    ? "XXXXXXXX"
+                    : col
+                  : "",
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   mobileNo = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.extraData?.confidental && !props.extraData.confidental
+                      ? "XXXXXXXX"
+                      : row.mobileNo}
+                  </>
+                )
+              },
             },
             {
               dataField: "birthDate",
               text: "Birthdate",
               headerClasses: "textHeader11",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
@@ -100,11 +115,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Title",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   title = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -144,50 +159,92 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "First Name",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col, row) =>
+                col
+                  ? row.extraData?.confidental && !props.extraData.confidental
+                    ? "XXXXXXXX"
+                    : col
+                  : "",
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   firstName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.extraData?.confidental && !props.extraData.confidental
+                      ? "XXXXXXXX"
+                      : row.firstName}
+                  </>
+                )
+              },
             },
-            {     
+            {
               dataField: "middleName",
               text: "Middle Name",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col, row) =>
+                col
+                  ? row.extraData?.confidental && !props.extraData.confidental
+                    ? "XXXXXXXX"
+                    : col
+                  : "",
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   middleName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.extraData?.confidental && !props.extraData.confidental
+                      ? "XXXXXXXX"
+                      : row.middleName}
+                  </>
+                )
+              },
             },
-            {    
+            {
               dataField: "lastName",
               text: "Last Name",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col, row) =>  
+                col
+                  ? row.extraData?.confidental && !props.extraData.confidental
+                    ? "XXXXXXXX"
+                    : col
+                  : "",
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   lastName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.extraData?.confidental && !props.extraData.confidental
+                      ? "XXXXXXXX"
+                      : row.lastName}
+                  </>
+                )
+              },
             },
             {
               dataField: "sex",
               text: "Sex",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sex = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -227,11 +284,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Species",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   species = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -271,11 +328,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Breed",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   breed = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -284,10 +341,11 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Usual Doctor",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
-                  usualDoctor = filter}
+                getFilter: (filter) => {
+                  usualDoctor = filter
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -323,7 +381,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               dataField: "history",
               text: "Histroy",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -392,7 +450,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
-          }}   
+          }}
           clearAllFilter={() => {
             pId("")
             mobileNo("")
