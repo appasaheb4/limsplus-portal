@@ -712,18 +712,15 @@ export const Users = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Birthday Date"
                     hasError={errors.dateOfBirth}
-                    value={dayjs(userStore && userStore.user.dateOfBirth).format(
-                      "YYYY-MM-DD"
-                    )}
-                    onChange={(e: any) => {
-                      let date = new Date(e.target.value)
-                      onChange(date)
+                    value={userStore && userStore.user.dateOfBirth}
+                    onChange={(dateOfBirth) => {
+                      onChange(dateOfBirth)
                       userStore.updateUser({
                         ...userStore.user,
-                        dateOfBirth: date,
+                        dateOfBirth
                       })
                     }}
                   />
@@ -737,18 +734,17 @@ export const Users = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Marriage Anniversary Date"
                     hasError={errors.marriageAnniversary}
-                    value={dayjs(
+                    value={
                       userStore && userStore.user.marriageAnniversary
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e: any) => {
-                      let date = new Date(e.target.value)
-                      onChange(date)
+                    }
+                    onChange={(marriageAnniversary) => {
+                      onChange(marriageAnniversary)
                       userStore.updateUser({
                         ...userStore.user,
-                        marriageAnniversary: date,
+                        marriageAnniversary
                       })
                     }}
                   />
@@ -760,22 +756,19 @@ export const Users = observer(() => {
                 ).format("YYYY-MM-DD")}
               />
 
-              <LibraryComponents.Atoms.List space={3} direction="row">
+              <LibraryComponents.Atoms.List space={4} direction="row">
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDate
+                    <LibraryComponents.Atoms.Form.InputDateTime
                       label="Exipre Date"
                       hasError={errors.exipreDate}
-                      value={dayjs(userStore && userStore.user.exipreDate).format(
-                        "YYYY-MM-DD"
-                      )}
-                      onChange={(e: any) => {
-                        let date = new Date(e.target.value)
-                        onChange(date)
+                      value={userStore && userStore.user.exipreDate}
+                      onChange={(exipreDate) => {
+                        onChange(exipreDate)
                         userStore.updateUser({
                           ...userStore.user,
-                          exipreDate: date,
+                          exipreDate
                         })
                       }}
                     />
@@ -862,19 +855,15 @@ export const Users = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     disabled={true}
-                    value={dayjs(userStore && userStore.user.dateOfEntry).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={userStore && userStore.user.dateOfEntry}
                   />
                 )}
                 name="dateOfEntry"
                 rules={{ required: false }}
-                defaultValue={dayjs(userStore && userStore.user.dateOfEntry).format(
-                  "YYYY-MM-DD"
-                )}
+                defaultValue={userStore && userStore.user.dateOfEntry}
               />
               <Controller
                 control={control}

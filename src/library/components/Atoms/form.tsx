@@ -3,6 +3,10 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import "./css/toggle.css"
 import classNames from "classnames"
+import DateTimePicker from "react-datetime-picker"
+// import "react-calendar/dist/Calendar.css"
+// import "react-clock/dist/Clock.css"
+ import "./css/DateTimePicker.css"
 
 interface LabelProps {
   htmlFor: string
@@ -155,6 +159,23 @@ export const InputDate = (props: InputDateProps) => (
   </InputWrapper>
 )
 
+export const InputDateTime = (props: InputDateProps) => {
+  return (
+    <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
+      <DateTimePicker
+        disabled={props.disabled}
+        onChange={(value) => props.onChange && props.onChange(value)}
+        value={props.value}
+        amPmAriaLabel="AM/PM"
+        format="dd-MM-yyyy hh:mm:ss a"
+        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+          props.hasError ? "border-red-500 " : "border-gray-300"
+        } rounded-md`}
+      />
+    </InputWrapper>
+  )
+}
+
 export const CheckBox = (props) => {
   return (
     <li>
@@ -256,7 +277,6 @@ export const Toggle = (props: ToggleProps) => {
       onChange(!toggle)
     }
   }
-
 
   const toggleClasses = classNames(
     "wrg-toggle ",

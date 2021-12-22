@@ -1416,16 +1416,14 @@ const MasterPanel = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
                         ? "Please Enter DateCreation"
                         : "Date Creation"
                     }
-                    value={daysjs(masterPanelStore.masterPanel?.dateCreation).format(
-                      "YYYY-MM-DD"
-                    )}
+                    value={masterPanelStore.masterPanel?.dateCreation}
                     disabled={true}
                   />
                 )}
@@ -1436,7 +1434,7 @@ const MasterPanel = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     hasError={errors.dateActive}
                     placeholder={
@@ -1444,9 +1442,9 @@ const MasterPanel = observer(() => {
                         ? "Please Enter dateActive"
                         : "Date Active"
                     }
-                    value={daysjs(
+                    value={
                       masterPanelStore.masterPanel?.dateActive
-                    ).format("YYYY-MM-DD")}
+                    }
                     disabled={true}
                   />
                 )}
@@ -1457,18 +1455,15 @@ const MasterPanel = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
+                  <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire
                         ? "Please Enter dateActiveTo"
                         : "Date Expire"
                     }
-                    value={daysjs(masterPanelStore.masterPanel?.dateExpire).format(
-                      "YYYY-MM-DD"
-                    )}
-                    onChange={(e) => {
-                      const dateExpire = new Date(e.target.value)
+                    value={masterPanelStore.masterPanel?.dateExpire}
+                    onChange={(dateExpire) => {
                       onChange(dateExpire)
                       masterPanelStore.updateMasterPanel({
                         ...masterPanelStore.masterPanel,
