@@ -19,13 +19,15 @@ export class UserStore {
     this.checkExistsEmpCode = false
     this.user = new Models.Users({
       ...this.user,
-      exipreDate: dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"),
+      exipreDate: new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD")),
       expireDays: 30,
       dateOfEntry: new Date(),
-      dateOfBirth: dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD"),
-      marriageAnniversary: dayjs(new Date())
-        .add(-5, "years")
-        .format("YYYY-MM-DD HH:mm:ss"),
+      dateOfBirth: new Date(
+        dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD")
+      ),
+      marriageAnniversary: new Date(
+        dayjs(new Date()).add(-5, "years").format("YYYY-MM-DD HH:mm:ss")
+      ),
       confidential: false,
       confirguration: false,
       systemInfo: {
@@ -36,7 +38,7 @@ export class UserStore {
       },
       validationLevel: 0,
     })
-  
+
     makeObservable<UserStore, any>(this, {
       user: observable,
       userList: observable,
@@ -46,7 +48,7 @@ export class UserStore {
       checkExitsUserId: observable,
       checkExistsEmpCode: observable,
       selectedItems: observable,
-    
+
       UsersService: computed,
       loadUser: action,
       updateUserList: action,
