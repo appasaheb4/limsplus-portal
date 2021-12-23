@@ -1,6 +1,5 @@
 /* eslint-disable no-prototype-builtins */
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
-import * as Config from "@lp/config"
 //import Session from "@lp/library/modules/session"
 import { ServiceResponse } from "./ServiceResponse"
 import _ from "lodash"
@@ -55,7 +54,7 @@ export class Http {
 
   initHttp() {
     const http = Axios.create({
-      baseURL: Config.Api.LIMSPLUS_API_HOST,
+      baseURL: 'restapi-hosturl',
       headers: {
         ...headers,
         Authorization: `x-limsplus-key ${

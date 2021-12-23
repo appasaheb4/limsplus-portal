@@ -37,7 +37,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (
     <button
       onClick={props.onClick}
       type="button"
-      disabled={!!props.disabled}  
+      disabled={!!props.disabled}
       title={props.disabled}
       className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
     >
@@ -100,6 +100,58 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
             height: 60,
             position: "fixed",
             bottom: 60,
+            right: 40,
+            zIndex: 1,
+          }}
+          onClick={() => props.onClick(false)}
+        >
+          <LibraryComponents.Atoms.Icon.EvaIcon
+            icon="minus-outline"
+            size="large"
+            color={Config.Styles.COLORS.WHITE}
+          />
+        </LibraryComponents.Atoms.CircleButton>
+      )}
+    </>
+  )
+}
+
+export const ButtonCircleAddRemoveBottom: React.FunctionComponent<ButtonCircleAddRemoveProps> = (
+  props
+) => {
+  return (  
+    <>
+      {props.show && (
+        <LibraryComponents.Atoms.CircleButton
+          style={{
+            backgroundColor: Config.Styles.COLORS.PRIMARY,
+            alignItems: "center",
+            width: 60,
+            height: 60,
+            position: "absolute",
+            bottom: props.style?.bottom || 60,
+            right: 40,
+            zIndex: 1,
+          }}
+          onClick={() => props.onClick(true)}
+        >
+          <LibraryComponents.Atoms.Icon.EvaIcon
+            icon="plus-outline"
+            size="large"
+            color={Config.Styles.COLORS.WHITE}
+          />
+        </LibraryComponents.Atoms.CircleButton>
+      )}
+
+      {!props.show && (
+        <LibraryComponents.Atoms.CircleButton
+          style={{
+            backgroundColor: Config.Styles.COLORS.PRIMARY,
+            alignItems: "center",
+            width: 60,
+            height: 60,
+            position: "absolute",
+            bottom: props.style?.bottom || 60,
             right: 40,
             zIndex: 1,
           }}
