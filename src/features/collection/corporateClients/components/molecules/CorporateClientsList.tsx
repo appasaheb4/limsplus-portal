@@ -128,7 +128,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Price List">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -144,7 +144,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -255,7 +255,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
+               
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -274,7 +274,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -299,7 +299,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -318,7 +318,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -398,7 +398,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -417,7 +417,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -441,7 +441,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -460,7 +460,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -484,7 +484,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -503,7 +503,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -671,7 +671,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -690,7 +690,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -714,7 +714,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                
                   <select
                     value={row.environment}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -734,7 +734,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },

@@ -184,10 +184,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Processing Type"
-                    
-                  >
+                  
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                       onChange={(e) => {
@@ -205,7 +202,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -264,10 +261,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Dynamic TU"
-              
-                  >
+                  
                     <select
                       value={row.dynamicTU}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
@@ -286,7 +280,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -362,7 +356,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  
                     <select
                       value={row.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -381,7 +375,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },

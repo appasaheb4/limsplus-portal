@@ -1844,6 +1844,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                     totalSize={patientVisitStore.listPatientVisitCount}
                     extraData={{
                       lookupItems: routerStore.lookupItems,
+                      listCorporateClients:  corporateClientsStore.listCorporateClients
                     }}
                     isDelete={RouterFlow.checkPermission(
                       toJS(routerStore.userPermission),
