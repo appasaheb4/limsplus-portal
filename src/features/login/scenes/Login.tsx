@@ -89,8 +89,6 @@ export const Login = observer(() => {
         },
       })
         .then((res) => {
-          console.log({res});
-          
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0)
             if (!res.login.data.user.passChanged) {

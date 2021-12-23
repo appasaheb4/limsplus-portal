@@ -69,8 +69,8 @@ export class PatientManagerService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-      
+      console.log({ variables })
+
       client
         .mutate({
           mutation: UPDATE_PATIENT_MANAGER,

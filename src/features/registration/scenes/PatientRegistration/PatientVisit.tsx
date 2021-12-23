@@ -44,6 +44,7 @@ const PatientVisit = PatientVisitHoc(
       registrationLocationsStore,
       doctorsStore,
     } = useStores()
+
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputDiv, setHideInputDiv] = useState<boolean>(true)
 
@@ -270,6 +271,7 @@ const PatientVisit = PatientVisitHoc(
                       placeholder={
                         errors.dueDate ? "Please Enter Due Date" : "Due Date"
                       }
+                      disabled={true}
                       hasError={errors.dueDate}
                       value={patientVisitStore.patientVisit?.dueDate}
                       onChange={(dueDate) => {
@@ -988,6 +990,7 @@ const PatientVisit = PatientVisitHoc(
                             <LibraryComponents.Atoms.Form.InputDateTime
                               label="Received Date"
                               name="txtReceivedDate"
+                              disabled={true}
                               placeholder={
                                 errors.receivedDate
                                   ? "Please Enter Received Date"
@@ -1020,6 +1023,7 @@ const PatientVisit = PatientVisitHoc(
                             <LibraryComponents.Atoms.Form.InputDateTime
                               label="Result Date"
                               name="txtResultDate"
+                              disabled={true}
                               placeholder={
                                 errors.resultDate
                                   ? "Please Enter Result Date"
@@ -1136,7 +1140,7 @@ const PatientVisit = PatientVisitHoc(
                           render={({ field: { onChange } }) => (
                             <LibraryComponents.Atoms.Form.InputDateTime
                               label="Approval Date"
-                              name="txtApprovalDate"
+                              disabled={true}
                               placeholder={
                                 errors.approvalDate
                                   ? "Please Enter Result Date"
@@ -1252,7 +1256,7 @@ const PatientVisit = PatientVisitHoc(
                           render={({ field: { onChange } }) => (
                             <LibraryComponents.Atoms.Form.InputDateTime
                               label="Reported Date"
-                              name="txtReportedDate"
+                              disabled={true}
                               placeholder={
                                 errors.reportedDate
                                   ? "Please Enter Reported Date"

@@ -18,7 +18,6 @@ export class PatientVisitStore {
       visitDate: new Date(),
       registrationDate: new Date(),
       collectionDate: new Date(),
-      dueDate: new Date(),
       birthDate: new Date(dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD")),
     }
 

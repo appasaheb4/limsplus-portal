@@ -43,6 +43,8 @@ const PatientManager = PatientManagerHoc(
       setValue,
     } = useForm()
     setValue("species", patientManagerStore.patientManger.species)
+    //console.log({species:patientManagerStore.patientManger.species});
+
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputDiv, setHideInputDiv] = useState<boolean>(true)
 
@@ -735,6 +737,83 @@ const PatientManager = PatientManagerHoc(
                             defaultValue=""
                           />
                         )}
+                        <Controller
+                          control={control}
+                          render={({ field: { onChange } }) => (
+                            <LibraryComponents.Atoms.Form.InputWrapper
+                              label="Postal Code"
+                              id="postalCode"
+                              hasError={errors.postalCode}
+                            >
+                              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                                loader={loading}
+                                disable={
+                                  !patientManagerStore.patientManger.extraData?.city
+                                }
+                                data={{
+                                  list: _.uniqBy(
+                                    administrativeDivisions.listAdministrativeDiv.filter(
+                                      (item) =>
+                                        item.country ===
+                                          patientManagerStore.patientManger.extraData
+                                            ?.country &&
+                                        item.state ===
+                                          patientManagerStore.patientManger.extraData
+                                            ?.state &&
+                                        item.city ===
+                                          patientManagerStore.patientManger.extraData
+                                            ?.city
+                                    ),
+                                    "postalCode"
+                                  ),
+                                  displayKey: "postalCode",
+                                  findKey: "postalCode",
+                                }}
+                                hasError={errors.postalCode}
+                                onFilter={(value: string) => {
+                                  administrativeDivisions.administrativeDivisionsService.filter(
+                                    {
+                                      input: {
+                                        filter: {
+                                          type: "search",
+                                          country:
+                                            patientManagerStore.patientManger
+                                              .extraData?.country,
+                                          state:
+                                            patientManagerStore.patientManger
+                                              .extraData?.state,
+                                          city:
+                                            patientManagerStore.patientManger
+                                              .extraData?.city,
+                                          postalCode: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
+                                      },
+                                    }
+                                  )
+                                }}
+                                onSelect={(item) => {
+                                  onChange(item.postalCode)
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    extraData: {
+                                      ...patientManagerStore.patientManger
+                                        ?.extraData,
+                                      postcode: item.postalCode[0],
+                                    },
+                                  })
+                                  administrativeDivisions.updateAdministrativeDivList(
+                                    administrativeDivisions.listAdministrativeDivCopy
+                                  )
+                                }}
+                              />
+                            </LibraryComponents.Atoms.Form.InputWrapper>
+                          )}
+                          name="postalCode"
+                          rules={{ required: false }}
+                          defaultValue=""
+                        />
 
                         <Controller
                           control={control}
@@ -765,39 +844,6 @@ const PatientManager = PatientManagerHoc(
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                        <Controller
-                          control={control}
-                          render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
-                              type="number"
-                              label="Postcode"
-                              placeholder={
-                                errors.postcode
-                                  ? "Please Enter Postcode"
-                                  : "Postcode"
-                              }
-                              hasError={errors.postcode}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.postcode
-                              }
-                              onChange={(postcode) => {
-                                onChange(postcode)
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger?.extraData,
-                                    postcode,
-                                  },
-                                })
-                              }}
-                            />
-                          )}
-                          name="postcode"
-                          rules={{ required: false }}
-                          defaultValue=""
-                        />
-
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
@@ -909,29 +955,41 @@ const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
-                              label="Blood Group"
-                              placeholder={
-                                errors.bloodGroup
-                                  ? "Please Enter Blood Group"
-                                  : "BloodGroup"
-                              }
-                              hasError={errors.bloodGroup}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.bloodGroup
-                              }
-                              onChange={(bloodGroup) => {
-                                onChange(bloodGroup)
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger?.extraData,
-                                    bloodGroup,
-                                  },
-                                })
-                              }}
-                            />
+                            <LibraryComponents.Atoms.Form.InputWrapper label="Blood Group">
+                              <select
+                                value={
+                                  patientManagerStore.patientManger.extraData
+                                    ?.bloodGroup
+                                }
+                                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                                  errors.bloodGroup
+                                    ? "border-red-500  "
+                                    : "border-gray-300"
+                                } rounded-md`}
+                                onChange={(e) => {
+                                  const bloodGroup = e.target.value
+                                  onChange(bloodGroup)
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    extraData: {
+                                      ...patientManagerStore.patientManger
+                                        ?.extraData,
+                                      bloodGroup,
+                                    },
+                                  })
+                                }}
+                              >
+                                <option selected>{`Select`}</option>
+                                {LibraryUtils.lookupItems(
+                                  routerStore.lookupItems,
+                                  "PATIENT VISIT - BLOOD_GROUP"
+                                ).map((item: any, index: number) => (
+                                  <option key={index} value={item.code}>
+                                    {`${item.value} - ${item.code}`}
+                                  </option>
+                                ))}
+                              </select>
+                            </LibraryComponents.Atoms.Form.InputWrapper>
                           )}
                           name="bloodGroup"
                           rules={{ required: false }}

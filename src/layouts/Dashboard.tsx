@@ -74,11 +74,11 @@ const Dashboard = observer(({ children }) => {
       // common use api
       await Deginisation.startup()
       await Lab.startup()
-      await Role.startup()
+      await Role.startup()  
       await Department.startup()
       await User.startup()
       await Lookup.startup()
-      // lookup item fetch
+      // lookup item fetch  
       RouterFlow.getLookupValues(pathname).then((items) => {
         stores.routerStore.updateLookupItems(items)
       })  
