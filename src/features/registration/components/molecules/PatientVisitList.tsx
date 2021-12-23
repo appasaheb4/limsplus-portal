@@ -6,7 +6,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
-
+import {AutoCompleteFilterSingleSelectCollectionCenter,AutoCompleteFilterSingleSelectCorporateCode,AutoCompleteFilterSingleSelectDoctorId, AutoCompleteFilterSingleSelectDoctorName} from "../orgransims"
 interface PatientVisitProps {
   data: any
   totalSize: number
@@ -20,6 +20,22 @@ interface PatientVisitProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 let pId
+let rLab
+let visitId
+let dateVisit
+let registrationDate
+let collectionDate
+let dueDate
+let birthDate
+let age
+let ageUnits
+let collectionCenter
+let corporateCode
+let acClass
+let doctorId
+let doctorName
+let deliveryType
+let status
 
 const PatientVisitList = observer((props: PatientVisitProps) => {
   const editorCell = (row: any) => {
@@ -44,6 +60,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Pid",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   pId = filter
@@ -59,7 +76,14 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Rlab",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    rLab = filter
+                  }
+                }
+              ),
               editable: false,
             },
             {
@@ -67,9 +91,10 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Visit Id",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
-                  pId = filter
+                  visitId = filter
                 },
               }),
               filterRenderer: (onFilter, column) => (
@@ -82,10 +107,11 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Visit Date",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (row.dateVisit ? dayjs(row.dateVisit).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                // getFilter: (filter) => {
-                //   birthDate = filter
-                // },
+                getFilter: (filter) => {
+                  dateVisit = filter
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -94,16 +120,33 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 return <>{dayjs(row.dateVisit).format("YYYY-MM-DD")}</>
               },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                  onChange={(dateVisit) => {
+                    props.onUpdateItem && props.onUpdateItem(dateVisit,column.dataField,row._id)
+                  }}
+                />
+                </>
+              )
             },
             {
               dataField: "registrationDate",
               text: "Registration Date",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                // getFilter: (filter) => {
-                //   birthDate = filter
-                // },
+                getFilter: (filter) => {
+                  registrationDate = filter
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -112,16 +155,33 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 return <>{dayjs(row.registrationDate).format("YYYY-MM-DD")}</>
               },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                  onChange={(registrationDate) => {
+                    props.onUpdateItem && props.onUpdateItem(registrationDate,column.dataField,row._id)
+                  }}
+                />
+                </>
+              )
             },
             {
               dataField: "collectionDate",
               text: "Collection Date",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                // getFilter: (filter) => {
-                //   birthDate = filter
-                // },
+                getFilter: (filter) => {
+                  collectionDate = filter
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -130,16 +190,33 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 return <>{dayjs(row.collectionDate).format("YYYY-MM-DD")}</>
               },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                  onChange={(collectionDate) => {
+                    props.onUpdateItem && props.onUpdateItem(collectionDate,column.dataField,row._id)
+                  }}
+                />
+                </>
+              )
             },
             {
               dataField: "dueDate",
               text: "Due Date",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                // getFilter: (filter) => {
-                //   birthDate = filter
-                // },
+                getFilter: (filter) => {
+                  dueDate = filter
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -148,6 +225,22 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 return <>{dayjs(row.dueDate).format("YYYY-MM-DD")}</>
               },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                  onChange={(dueDate) => {
+                    props.onUpdateItem && props.onUpdateItem(dueDate,column.dataField,row._id)
+                  }}
+                />
+                </>
+              )
             },
 
             {
@@ -155,10 +248,11 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "BithDate",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                // getFilter: (filter) => {
-                //   birthDate = filter
-                // },
+                getFilter: (filter) => {
+                  birthDate = filter
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -167,16 +261,33 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 return <>{dayjs(row.birthDate).format("YYYY-MM-DD")}</>
               },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                  onChange={(birthDate) => {
+                    props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
+                  }}
+                />
+                </>
+              )
             },
             {
               dataField: "age",
               text: "Age",
               headerClasses: "textHeader3",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                // getFilter: (filter) => {
-                //   pId = filter
-                // },
+                getFilter: (filter) => {
+                  age = filter
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -188,8 +299,45 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Age Units",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    ageUnits = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    disabled={true}
+                    value={row?.ageUnits}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const ageUnits = e.target.value
+                      props.onUpdateItem && props.onUpdateItem(ageUnits,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "PATIENT VISIT - AGE_UNITS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )
             },
 
             {
@@ -197,53 +345,224 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Collection Center",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    collectionCenter = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectCollectionCenter
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.locationCode,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "corporateCode",
               text: "Corporate Code",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    corporateCode = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectCorporateCode
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.corporateCode,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "acClass",
               text: "AC Class",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    acClass = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                >
+                  <select
+                    value={row?.acClass}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const acClass = e.target.value
+                      props.onUpdateItem && props.onUpdateItem(acClass,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "PATIENT VISIT - AC_CLASS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "doctorId",
               text: "Doctor Id",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    doctorId = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectDoctorId
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.doctorCode,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "doctorName",
               text: "Doctor Name",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    doctorName = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectDoctorName
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.doctorName,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "deliveryType",
               text: "Delivery Type",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    deliveryType = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                   <LibraryComponents.Atoms.Form.InputWrapper
+                >
+                  <select
+                    value={row.deliveryType}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const deliveryType = e.target.value as string
+                      props.onUpdateItem && props.onUpdateItem(deliveryType,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "PATIENT VISIT - DELIVERY_TYPE"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "history",
               text: "History",
               sort: true,
+              csvFormatter: (col,row) => (col ? col : false),
               formatter: (cell, row) => {
                 return (
                   <>  
@@ -265,8 +584,48 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Status",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              csvFormatter: (col,row) => (col ? col : false),
+              filter: LibraryComponents.Organisms.Utils.textFilter(
+                {
+                  getFilter: (filter) =>{
+                    status = filter
+                  }
+                }
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Status"
+                >
+                  <select
+                    value={row?.status}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem && props.onUpdateItem(status,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "PATIENT VISIT - STATUS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "opration",
@@ -322,6 +681,25 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }} 
+          clearAllFilter={()=>{
+            pId("")
+            rLab("")
+            visitId("")
+            dateVisit()
+            registrationDate()
+            collectionDate()
+            dueDate()
+            birthDate()
+            age("")
+            ageUnits("")
+            collectionCenter("")
+            corporateCode("")
+            acClass("")
+            doctorId("")
+            doctorName("")
+            deliveryType("")
+            status("")
+          }}
         />
       </div>
     </>

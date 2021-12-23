@@ -75,7 +75,7 @@ const RoleList = (props: RoleListProps) => {
             columnIndex
           ) => (
             <>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+              
                 <select
                   value={row.environment}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -94,7 +94,7 @@ const RoleList = (props: RoleListProps) => {
                     )
                   )}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              
             </>
           ),
         },

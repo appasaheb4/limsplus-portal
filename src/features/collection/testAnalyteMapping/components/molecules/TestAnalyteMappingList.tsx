@@ -191,7 +191,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  
                     <select
                       value={row.status}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -211,7 +211,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -327,7 +327,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  
                     <select
                       value={row.environment}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -347,7 +347,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },

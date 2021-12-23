@@ -175,7 +175,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -194,7 +194,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -219,7 +219,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -238,7 +238,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -263,7 +263,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Range Set On">
+                  
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                       onChange={(e) => {
@@ -282,7 +282,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -308,7 +308,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   {props.extraData.listInterfaceManager && (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Equipment Type">
+                    
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                         onChange={(e) => {
@@ -327,7 +327,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                             )
                           )}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    
                   )}
                 </>
               ),
@@ -382,7 +382,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -401,7 +401,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -442,7 +442,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -461,7 +461,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -538,7 +538,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -557,7 +557,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -582,7 +582,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -601,7 +601,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -722,7 +722,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -741,7 +741,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
