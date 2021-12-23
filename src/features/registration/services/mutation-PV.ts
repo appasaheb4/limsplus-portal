@@ -180,7 +180,7 @@ export const CHECK_EXISTS_PATIENT = gql`
   }
 `
 
-export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
+export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
   mutation($input: PatientManagerInput!) {
     filterByFieldsPatientManager(input: $input) {
       paginatorInfo {

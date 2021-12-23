@@ -7,7 +7,7 @@ import { configure } from "mobx";
 
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-    
+       
 // toast ui
 import "react-toastify/dist/ReactToastify.css"
 

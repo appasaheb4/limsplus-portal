@@ -15,7 +15,7 @@ import {
   FILTER_PATIENT_VISIT,
   SEQUENCING_PATIENT_VISIT_VISITID,
   CHECK_EXISTS_PATIENT,
-  FILTER_BY_FIELDS_PATIENT_MANAGER,
+  FILTER_BY_FIELDS_PATIENT_VISIT,
 } from "./mutation-PV"
 import dayjs from 'dayjs'
 import utc  from 'dayjs/plugin/utc'
@@ -160,7 +160,7 @@ export class PatientVisitService {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_BY_FIELDS_PATIENT_MANAGER,
+          mutation: FILTER_BY_FIELDS_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {

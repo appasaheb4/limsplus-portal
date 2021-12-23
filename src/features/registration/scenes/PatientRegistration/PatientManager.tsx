@@ -46,7 +46,7 @@ const PatientManager = PatientManagerHoc(
     //console.log({species:patientManagerStore.patientManger.species});
 
     const [modalConfirm, setModalConfirm] = useState<any>()
-    const [hideInputDiv, setHideInputDiv] = useState<boolean>(true)
+    const [hideInputView, setHideInputView] = useState<boolean>(true)
 
     const onSubmitPatientManager = () => {
       if (!patientManagerStore.checkExistsPatient) {
@@ -83,13 +83,13 @@ const PatientManager = PatientManagerHoc(
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 140 }}
-            show={hideInputDiv}
-            onClick={() => setHideInputDiv(!hideInputDiv)}
+            show={hideInputView}
+            onClick={() => setHideInputView(!hideInputView)}
           />
         )}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputDiv ? "hidden" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "shown")
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
