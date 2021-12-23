@@ -113,23 +113,21 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               control={control}
               render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Input
-                  label="Mobile No"
                   placeholder={
-                    errors.txtMobileNo ? "Please Enter MobileNo" : "Mobile No"
+                    errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
                   }
-                  hasError={errors.txtMobileNo}
+                  hasError={errors.mobileNo}
                   type="number"
-                  value={row.mobileNo}
-                  // onChange={(mobileNo) => {
-                  //   onChange(mobileNo)
-                  //   props.onUpdateItem && props.onUpdateItem(mobileNo,column.dataField,row._id)
-                  // }}
+                  defaultValue={row.mobileNo}
+                  onChange={(mobileNo) => {
+                    onChange(mobileNo)
+                  }}
                   onBlur={(mobileNo)=>{
                     props.onUpdateItem && props.onUpdateItem(mobileNo,column.dataField,row._id)
                   }}
                 />
               )}
-              name="txtMobileNo"
+              name="mobileNo"
               rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
               defaultValue=""
             />
@@ -164,7 +162,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
-                  value={row.birthDate}
+                  value={new Date(row.birthDate)}
                   onChange={(birthDate) => {
                     props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
                     

@@ -59,6 +59,7 @@ interface InputProps extends InputWrapperProps {
   className?: string
   rows?: number
   style?: any
+  defaultValue?: any
   hasError?: boolean
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
@@ -72,6 +73,7 @@ export const Input = (props: InputProps) => (
       id={props.id}
       name={props.name}
       style={props.style}
+      defaultValue={props.defaultValue}
       placeholder={props.placeholder}
       required={props.required || false}
       disabled={props.disabled || false}

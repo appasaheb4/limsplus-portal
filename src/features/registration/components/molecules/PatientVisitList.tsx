@@ -103,7 +103,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               editable: false,
             },
             {
-              dataField: "dateVisit",
+              dataField: "visitDate",
               text: "Visit Date",
               headerClasses: "textHeader3",
               sort: true,
@@ -117,7 +117,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateVisit).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.visitDate).format("YYYY-MM-DD")}</>
               },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -130,8 +130,9 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
-                  onChange={(dateVisit) => {
-                    props.onUpdateItem && props.onUpdateItem(dateVisit,column.dataField,row._id)
+                  value={new Date(row.visitDate)}
+                  onChange={(visitDate) => {
+                    props.onUpdateItem && props.onUpdateItem(visitDate,"visitDate",row._id)
                   }}
                 />
                 </>
@@ -165,6 +166,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
+                  value={new Date(row.registrationDate)}
                   onChange={(registrationDate) => {
                     props.onUpdateItem && props.onUpdateItem(registrationDate,column.dataField,row._id)
                   }}
@@ -200,6 +202,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
+                  value={new Date(row.collectionDate)}
                   onChange={(collectionDate) => {
                     props.onUpdateItem && props.onUpdateItem(collectionDate,column.dataField,row._id)
                   }}
@@ -271,6 +274,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
+                  value={new Date(row.birthDate)}
                   onChange={(birthDate) => {
                     props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
                   }}
