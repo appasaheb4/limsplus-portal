@@ -271,7 +271,8 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime   
+                  <LibraryComponents.Atoms.Form.InputDateTime  
+                  // value={new Date(row.receivedDate)} 
                           onChange={(receivedDate) => {
                            props.onUpdateItem && props.onUpdateItem(receivedDate,column.dataField,row._id)
                           }}
@@ -294,7 +295,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.extraData.birthDate).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.extraData.resultDate).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -306,8 +307,8 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime   
-                          onChange={(birthDate) => {
-                           props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
+                          onChange={(resultDate) => {
+                           props.onUpdateItem && props.onUpdateItem(resultDate,column.dataField,row._id)
                           }}
                         />
                 </>
@@ -550,6 +551,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               formatter: (cell, row) => {
                 return <>{row.extraData.enteredBy}</>
               },
+              editable: false
             },
             {
               dataField: "height",
