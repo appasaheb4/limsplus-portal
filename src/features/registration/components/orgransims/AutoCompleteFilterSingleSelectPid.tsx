@@ -41,8 +41,9 @@ export const AutoCompleteFilterSingleSelectPid = observer(
 
     const onFilter = (value: string) => {
       patientManagerStore.patientManagerService.filterByFields({
-        input: {
+        input: {  
           filter: {
+            fields: ["pId", "firstName", "middleName", "lastName", "mobileNo"],
             srText: value,
           },
         },

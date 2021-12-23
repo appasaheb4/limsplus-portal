@@ -16,3 +16,4 @@ export * from './AutoComplete';
 export * from './AutoCompleteGroupByCheck'  
 export * from './AutoCompleteFilterMutiSelect' 
 export * from './AutoCompleteFilterSingleSelect'
+export * from './AutoCompleteFilterSingleSelectMultiFieldsDisplay'

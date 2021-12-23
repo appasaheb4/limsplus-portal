@@ -171,9 +171,7 @@ export class PatientManagerService {
           mutation: FILTER_BY_FIELDS_PATIENT_MANAGER,
           variables,
         })
-        .then((response: any) => {
-          console.log({ response })
-
+        .then((response: any) => {  
           if (!response.data.filterByFieldsPatientManager.success)
             return this.listPatientManager({ documentType: "patientManager" })
           stores.patientManagerStore.filterPatientManagerList({

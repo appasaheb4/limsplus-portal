@@ -46,7 +46,7 @@ const PatientVisit = PatientVisitHoc(
     } = useStores()
 
     const [modalConfirm, setModalConfirm] = useState<any>()
-    const [hideInputDiv, setHideInputDiv] = useState<boolean>(true)
+    const [hideInputView, setHideInputView] = useState<boolean>(true)
 
     const onSubmitPatientVisit = () => {
       if (!patientVisitStore.checkExistsVisitId) {
@@ -79,13 +79,13 @@ const PatientVisit = PatientVisitHoc(
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 140 }}
-            show={hideInputDiv}
-            onClick={() => setHideInputDiv(!hideInputDiv)}
+            show={hideInputView}
+            onClick={() => setHideInputView(!hideInputView)}
           />
         )}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputDiv ? "hidden" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideInputView ? "shown" : "shown")
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
@@ -392,23 +392,22 @@ const PatientVisit = PatientVisitHoc(
                         label="Collection Center"
                         hasError={errors.collectionCenter}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
-                          placeholder="Search by code"
+                          placeholder="Search by code and name"
                           data={{
                             list:
                               registrationLocationsStore.listRegistrationLocations,
-                            displayKey: "locationCode",
-                            findKey: "locationCode",
+                            displayKey: ["locationCode", "locationName"],
                           }}
                           hasError={errors.collectionCenter}
                           onFilter={(value: string) => {
-                            registrationLocationsStore.registrationLocationsService.filter(
+                            registrationLocationsStore.registrationLocationsService.filterByFields(
                               {
                                 input: {
-                                  type: "filter",
-                                  filter: {
-                                    locationCode: value,
+                                  filter: {  
+                                    fields: ["locationCode", "locationName"],
+                                    srText: value,
                                   },
                                   page: 0,
                                   limit: 10,
