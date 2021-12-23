@@ -260,7 +260,7 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
+                  
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
                       onChange={(e) => {
@@ -280,7 +280,7 @@ export const UserList = observer((props: UserListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -387,7 +387,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
-                    label="Birthday Date"
+                    
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
                     value={dayjs(row.dateOfBirth).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
@@ -426,7 +426,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
-                    label="Marriage Anniversary Date"
+                    
                     value={dayjs(row.marriageAnniversary).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
@@ -464,7 +464,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
-                    label="Exipre Date"
+                   
                     id="exipreData"
                     value={dayjs(row.exipreDate).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
@@ -589,7 +589,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputFile
-                    label="File"
+                    
                     placeholder="File"
                     onChange={(e) => {
                       const signature = e.target.files[0]
@@ -624,7 +624,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputFile
-                    label="Picture"
+                    
                     onChange={(e) => {
                       const picture = e.target.files[0]
                       props.onUpdateImage &&
@@ -654,7 +654,7 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -673,7 +673,7 @@ export const UserList = observer((props: UserListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -697,7 +697,7 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                 
                     <select
                       value={row.environment}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -717,7 +717,7 @@ export const UserList = observer((props: UserListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },

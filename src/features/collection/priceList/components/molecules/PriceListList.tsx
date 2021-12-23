@@ -144,7 +144,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                       onChange={(e) => {
@@ -163,7 +163,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -188,7 +188,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                       onChange={(e) => {
@@ -207,7 +207,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -432,7 +432,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                       onChange={(e) => {
@@ -455,7 +455,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -527,7 +527,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                 
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -546,7 +546,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -571,7 +571,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -590,7 +590,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },

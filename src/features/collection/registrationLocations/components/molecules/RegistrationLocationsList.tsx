@@ -193,7 +193,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -212,7 +212,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -237,7 +237,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+               
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -256,7 +256,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -340,7 +340,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -359,7 +359,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -384,7 +384,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -403,7 +403,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -428,7 +428,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Corporate Code">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -444,7 +444,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -469,7 +469,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Invoice AC">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -485,7 +485,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -544,7 +544,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Method Coln">
+               
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -563,7 +563,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -604,7 +604,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -623,7 +623,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -903,7 +903,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                 columnIndex
               ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+               
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -922,7 +922,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             )
           },
@@ -946,7 +946,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                
                   <select
                     value={row.environment}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -966,7 +966,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },

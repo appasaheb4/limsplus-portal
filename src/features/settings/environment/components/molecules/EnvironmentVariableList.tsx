@@ -70,7 +70,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                       onChange={(e) => {
@@ -89,7 +89,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },

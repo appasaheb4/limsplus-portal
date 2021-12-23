@@ -327,7 +327,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
+                 
                     <select
                       className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -346,7 +346,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -395,7 +395,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
+                  
                     <select
                       className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -414,7 +414,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -439,7 +439,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Units">
+                  
                     <select
                       className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -458,7 +458,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -483,7 +483,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
+                  
                     <select
                       className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -502,7 +502,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -527,7 +527,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Picture">
+                  
                     <select
                       className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -543,7 +543,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -682,7 +682,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //             )
             //           )}
             //         </select>
-            //       </LibraryComponents.Atoms.Form.InputWrapper>
+            //       
             //     </>
             //   ),
             // },
@@ -721,7 +721,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //             </option>
             //           ))}
             //         </select>
-            //       </LibraryComponents.Atoms.Form.InputWrapper>
+            //       
             //     </>
             //   ),
             // },
@@ -773,7 +773,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  
                     <select
                       className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -792,7 +792,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -921,7 +921,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                 
                     <select
                       value={row.environment}
                       className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -941,7 +941,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },

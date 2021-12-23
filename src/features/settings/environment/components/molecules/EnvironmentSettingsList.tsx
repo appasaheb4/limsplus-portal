@@ -186,7 +186,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Variable">
+                 
                     <select
                       name="variable"
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -206,7 +206,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                           )
                         )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -275,7 +275,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                 
                     <select
                       value={row.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -295,7 +295,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },

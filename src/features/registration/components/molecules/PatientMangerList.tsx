@@ -5,6 +5,8 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import { FormHelper } from "@lp/helper"
+import { useForm, Controller } from "react-hook-form"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 interface PatientMangerProps {
@@ -31,6 +33,12 @@ let species
 let breed
 let usualDoctor
 const PatientMangerList = observer((props: PatientMangerProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -90,6 +98,41 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                   </>
                 )
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="Mobile No"
+                  placeholder={
+                    errors.txtMobileNo ? "Please Enter MobileNo" : "Mobile No"
+                  }
+                  hasError={errors.txtMobileNo}
+                  type="number"
+                  value={row.mobileNo}
+                  // onChange={(mobileNo) => {
+                  //   onChange(mobileNo)
+                  //   props.onUpdateItem && props.onUpdateItem(mobileNo,column.dataField,row._id)
+                  // }}
+                  onBlur={(mobileNo)=>{
+                    props.onUpdateItem && props.onUpdateItem(mobileNo,column.dataField,row._id)
+                  }}
+                />
+              )}
+              name="txtMobileNo"
+              rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+              defaultValue=""
+            />
+                </>
+              ),
             },
             {
               dataField: "birthDate",
@@ -109,6 +152,24 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.birthDate).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                  value={row.birthDate}
+                  onChange={(birthDate) => {
+                    props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
+                    
+                  }}
+                />
+                </>
+              )
             },
             {
               dataField: "title",
@@ -131,7 +192,6 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                       onChange={(e) => {
@@ -150,7 +210,6 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -256,7 +315,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -275,7 +334,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -300,7 +359,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -319,7 +378,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
             },
@@ -356,8 +415,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                   <LibraryComponents.Atoms.Form.InputWrapper
-                  >
+                   
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                       onChange={(e) => {
@@ -372,7 +430,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  
                 </>
               ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
