@@ -71,23 +71,6 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               formatter: (cell, row) => {
                 return <>{row.extraData.additionalInfo}</>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (   
-                <>
-                  <LibraryComponents.Atoms.Form.Input
-                    onBlur={(additionalInfo) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(additionalInfo, 'extraData.additionalInfo', row._id)
-                    }}
-                  />
-                </>
-              ),
             },
             {
               dataField: "invoiceAc",
@@ -350,7 +333,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               },
             },
             {
-              dataField: "confindental",
+              dataField: "confidental",
               text: "Confidental",
               sort: true,
               csvFormatter: (col,row) => (col ? col : false),
@@ -358,13 +341,13 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                      value={row.extraData.confindental}
-                      onChange={(confindental) => {
+                      value={row.extraData.confidental}
+                      onChange={(confidental) => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(confindental, "confindental", row._id)
+                          props.onUpdateItem(confidental, "confidental", row._id)
                       }}
                     />
-                  </>
+                  </>  
                 )
               },
             },

@@ -8,7 +8,6 @@ import "@lp/library/assets/css/accordion.css"
 
 import { useStores } from "@lp/stores"
 
-import * as Config from "@lp/config"  
 import * as FeatureComponents from "../components"
 import { HostCommunicationFlows, HexToAsciiFlow } from "../../flows"
 
@@ -31,7 +30,7 @@ const HostCommunication = observer(() => {
     true
   )
 
-  socket = io(Config.Api.LIMSPLUS_API_HOST.split("/api")[0], {
+  socket = io('restapi-hosturl'.split("/api")[0], {
     transports: ["websocket"],
   })
 
