@@ -315,7 +315,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                
                   <select
                     value={row.environment}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -335,7 +335,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+               
               </>
             ),
           },

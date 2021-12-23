@@ -127,7 +127,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -143,7 +143,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -168,7 +168,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Title">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -187,7 +187,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -346,7 +346,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Speciality">
+               
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -365,7 +365,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -411,7 +411,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -430,7 +430,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -536,7 +536,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -555,7 +555,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -580,7 +580,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -599,7 +599,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -671,7 +671,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Registartion Location">
+               
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -694,7 +694,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -858,7 +858,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                
                   <select
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -877,7 +877,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },
@@ -901,7 +901,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+               
                   <select
                     value={row.environment}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -921,7 +921,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },

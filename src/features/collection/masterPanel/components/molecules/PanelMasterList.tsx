@@ -100,7 +100,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -118,7 +118,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -199,7 +199,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             //     columnIndex
             //   ) => (
             //     <>
-            //       <LibraryComponents.Atoms.Form.InputWrapper label="Section">
+            //       
             //         <select
             //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
@@ -215,7 +215,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             //             </option>
             //           ))}
             //         </select>
-            //       </LibraryComponents.Atoms.Form.InputWrapper>
+            //      
             //     </>
             //   ),
             // },
@@ -240,7 +240,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Service Type">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -259,7 +259,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -452,10 +452,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Schedule"
-                    
-                  >
+                  
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                       onChange={(e) => {
@@ -472,7 +469,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -510,10 +507,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Validation Level"
-                   
-                  >
+                  
                     <select
                       value={row.validationLevel}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
@@ -531,7 +525,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -569,7 +563,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -588,7 +582,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -626,7 +620,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -645,7 +639,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -670,7 +664,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Type">
+                 
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -689,7 +683,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -895,7 +889,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -914,7 +908,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -1093,7 +1087,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -1112,7 +1106,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },
@@ -1222,7 +1216,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  
                     <select
                       value={row.environment}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -1242,7 +1236,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 
                 </>
               ),
             },

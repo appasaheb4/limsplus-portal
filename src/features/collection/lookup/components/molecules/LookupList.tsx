@@ -79,7 +79,7 @@ const LookupList = (props: LookupListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Document Name">
+                
                   <LibraryComponents.Molecules.AutocompleteGroupBy
                     data={router}
                     onChange={async (item: any, children: any) => {
@@ -93,7 +93,7 @@ const LookupList = (props: LookupListProps) => {
                         props.onUpdateItem(documentName, column.dataField, row._id)
                     }}
                   />
-                </LibraryComponents.Atoms.Form.InputWrapper>
+               
               </>
             ),
           },
@@ -356,7 +356,7 @@ const LookupList = (props: LookupListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                
                   <select
                     value={row.environment}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -376,7 +376,7 @@ const LookupList = (props: LookupListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+               
               </>
             ),
           },
