@@ -5,12 +5,12 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {DeginisationHoc} from "../hoc"
 import {  useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const Deginisation = observer(() => {
+const Deginisation = DeginisationHoc(observer(() => {
   const { loginStore,deginisationStore,routerStore } = useStores()
   const {
     control,
@@ -18,33 +18,9 @@ const Deginisation = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
- 
+  setValue("environment",deginisationStore.deginisation?.environment)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      deginisationStore.updateDescription({
-        ...deginisationStore.deginisation,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      deginisationStore && deginisationStore.updateDescription({
-        ...deginisationStore.deginisation,
-        environment: environment.code as string
-      })
-      setValue("environment",environment.code as string)
-    }
-  },[routerStore.lookupItems])
-
   const onSubmitDesginiation = () => {
     if (!deginisationStore.checkExitsCode) {
       deginisationStore.DeginisationService.addDeginisation({
@@ -333,6 +309,6 @@ const Deginisation = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Deginisation
