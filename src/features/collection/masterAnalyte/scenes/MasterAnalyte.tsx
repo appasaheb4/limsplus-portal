@@ -6,12 +6,14 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import dayjs from "dayjs"
-import { useStores, stores } from "@lp/stores"
+import {MasterAnalyteHoc} from "../hoc"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const MasterAnalyte = observer(() => {
+const MasterAnalyte = MasterAnalyteHoc(observer(() => {
+  const { loginStore, masterAnalyteStore, labStore,routerStore,loading } = useStores()
   const {
     control,
     handleSubmit,
@@ -19,47 +21,11 @@ const MasterAnalyte = observer(() => {
     setValue,
     clearErrors,
   } = useForm()
-  const { loginStore, masterAnalyteStore, labStore,routerStore,loading } = useStores()
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", masterAnalyteStore.masterAnalyte?.environment)
+  setValue("status", masterAnalyteStore.masterAnalyte?.status)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      masterAnalyteStore.updateMasterAnalyte({
-        ...masterAnalyteStore.masterAnalyte,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-
-  useEffect(()=>{
-    const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
-        ...masterAnalyteStore.masterAnalyte,
-        status: status.code as string,
-      })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
-      ...masterAnalyteStore.masterAnalyte,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
-
   const onSubmitMasterAnalyte = () => {
     if (!masterAnalyteStore.checkExitsLabEnvCode) {
       if (
@@ -88,7 +54,7 @@ const MasterAnalyte = observer(() => {
           .versionUpgradeAnalyteMaster({
             input: {
               ...masterAnalyteStore.masterAnalyte,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -107,7 +73,7 @@ const MasterAnalyte = observer(() => {
           .duplicateAnalyteMaster({
             input: {
               ...masterAnalyteStore.masterAnalyte,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -136,15 +102,15 @@ const MasterAnalyte = observer(() => {
             data={masterAnalyteStore.listMasterAnalyte || []}
             totalSize={masterAnalyteStore.listMasterAnalyteCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               listLabs: labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -202,12 +168,12 @@ const MasterAnalyte = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -632,7 +598,7 @@ const MasterAnalyte = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "RESULT_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -669,7 +635,7 @@ const MasterAnalyte = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ANALYTE_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -706,7 +672,7 @@ const MasterAnalyte = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "UNITS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -743,7 +709,7 @@ const MasterAnalyte = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "USAGE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -942,7 +908,7 @@ const MasterAnalyte = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1158,8 +1124,8 @@ const MasterAnalyte = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -1191,14 +1157,14 @@ const MasterAnalyte = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : masterAnalyteStore.masterAnalyte?.environment ||
                             `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1309,6 +1275,6 @@ const MasterAnalyte = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default MasterAnalyte
