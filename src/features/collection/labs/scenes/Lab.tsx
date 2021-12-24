@@ -32,6 +32,8 @@ const Lab = LabHoc(observer(() => {
   } = useForm()
   setValue("environment", labStore.labs?.environment)
   setValue("status", labStore.labs?.status)
+  setValue("deliveryType", labStore.labs?.deliveryType)
+  setValue("labType", labStore.labs?.labType)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const onSubmitLab = () => {
@@ -564,8 +566,10 @@ const Lab = LabHoc(observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Delivery Type"
                     hasError={errors.deliveryType}
+                    
                   >
                     <select
+                      value={labStore.labs?.deliveryType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.deliveryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -628,7 +632,7 @@ const Lab = LabHoc(observer(() => {
                         salesTeamStore.listSalesTeam.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.salesTerritory}>
-                              {`${item.salesTerritory.area}`}
+                              {`${item.salesTerritory}`}
                             </option>
                           )
                         )}
