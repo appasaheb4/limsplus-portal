@@ -32,6 +32,8 @@ const Lab = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
+ 
+
   useEffect(() => {
     if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
       labStore.updateLabs({
@@ -40,9 +42,6 @@ const Lab = observer(() => {
       })
       setValue("environment", loginStore.login.environment)
     }
-  }, [loginStore.login])
-
-  useEffect(() => {
     const status = routerStore.lookupItems
       .find((fileds) => {
         return fileds.fieldName === "STATUS"
@@ -69,7 +68,7 @@ const Lab = observer(() => {
         })
       setValue("environment", environment.code as string)
     }
-  }, [routerStore.lookupItems])
+  }, [loginStore.login, routerStore.lookupItems])
 
   const onSubmitLab = () => {
     if (!labStore.checkExitsEnvCode) {
