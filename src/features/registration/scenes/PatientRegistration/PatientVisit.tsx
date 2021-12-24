@@ -188,7 +188,7 @@ const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -406,7 +406,7 @@ const PatientVisit = PatientVisitHoc(
                             registrationLocationsStore.registrationLocationsService.filterByFields(
                               {
                                 input: {
-                                  filter: {  
+                                  filter: {
                                     fields: ["locationCode", "locationName"],
                                     srText: value,
                                   },
@@ -446,29 +446,30 @@ const PatientVisit = PatientVisitHoc(
                         label="Corporate Code"
                         hasError={errors.corporateCode}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
-                          placeholder="Search by code"
+                          placeholder="Search by code or name"
                           data={{
                             list: corporateClientsStore.listCorporateClients,
-                            displayKey: "corporateCode",
-                            findKey: "corporateCode",
+                            displayKey: ["corporateCode", "corporateName"],
                           }}
                           hasError={errors.corporateCode}
                           onFilter={(value: string) => {
-                            corporateClientsStore.corporateClientsService.filter({
-                              input: {
-                                type: "filter",
-                                filter: {
-                                  corporateCode: value,
+                            corporateClientsStore.corporateClientsService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ["corporateCode", "corporateName"],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
                                 },
-                                page: 0,
-                                limit: 10,
-                              },
-                            })
+                              }
+                            )
                           }}
                           onSelect={(item) => {
-                            onChange(item.corporateCode)
+                            onChange(item.locationCode)
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               corporateCode: item.corporateCode,
@@ -536,17 +537,16 @@ const PatientVisit = PatientVisitHoc(
                           label="Doctor Id"
                           hasError={errors.doctorId}
                         >
-                          <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                          <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder={
                               patientVisitStore.patientVisit.doctorId ||
-                              `Search by code`
+                              `Search by code or name`
                             }
                             displayValue={patientVisitStore.patientVisit.doctorId}
                             data={{
                               list: doctorsStore.listDoctors,
-                              displayKey: "doctorCode",
-                              findKey: "doctorCode",
+                              displayKey: ["doctorCode", "doctorName"],
                             }}
                             hasError={errors.doctorId}
                             onFilter={(value: string) => {
@@ -568,8 +568,6 @@ const PatientVisit = PatientVisitHoc(
                                 doctorId: item.doctorCode,
                                 doctorName: item.doctorName,
                               })
-                              setValue("doctorName", item.doctorName)
-                              clearErrors("doctorName")
                               doctorsStore.updateDoctorsList(
                                 doctorsStore.listDoctorsCopy
                               )
@@ -578,59 +576,6 @@ const PatientVisit = PatientVisitHoc(
                         </LibraryComponents.Atoms.Form.InputWrapper>
                       )}
                       name="doctorId"
-                      rules={{ required: true }}
-                      defaultValue=""
-                    />
-
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputWrapper
-                          label="Doctor Name"
-                          hasError={errors.doctorName}
-                        >
-                          <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                            loader={loading}
-                            placeholder={
-                              patientVisitStore.patientVisit.doctorName ||
-                              `Search by name`
-                            }
-                            displayValue={patientVisitStore.patientVisit.doctorName}
-                            data={{
-                              list: doctorsStore.listDoctors,
-                              displayKey: "doctorName",
-                              findKey: "doctorName",
-                            }}
-                            hasError={errors.doctorName}
-                            onFilter={(value: string) => {
-                              doctorsStore.doctorsService.filter({
-                                input: {
-                                  type: "filter",
-                                  filter: {
-                                    doctorName: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              })
-                            }}
-                            onSelect={(item) => {
-                              onChange(item.doctorName)
-                              patientVisitStore.updatePatientVisit({
-                                ...patientVisitStore.patientVisit,
-                                doctorId: item.doctorCode,
-                                doctorName: item.doctorName,
-                              })
-                              setValue("doctorId", item.doctorCode)
-                              clearErrors("doctorId")
-                              doctorsStore.updateDoctorsList(
-                                doctorsStore.listDoctorsCopy
-                              )
-                            }}
-                          />
-                        </LibraryComponents.Atoms.Form.InputWrapper>
-                      )}
-                      name="doctorName"
                       rules={{ required: true }}
                       defaultValue=""
                     />

@@ -84,6 +84,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
             disabled={disable}
+            onMouseDown={()=> setValue('')}
           />
           {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (
@@ -103,18 +104,20 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                         key={index}
                         className="text-gray-400 flex items-center"
                         onClick={() => {
-                          setValue(item[data.displayKey])
+                          setValue(item[data.displayKey[0]])
                           setIsListOpen(false)
                           onSelect(item)
                         }}
                       >
                         {" "}
                         <label className="ml-2 mt-1 text-black">
-                          {data.displayKey.map(
-                            (key) =>
-                              `${item[key]}
+                          {data.displayKey
+                            .map(
+                              (key) =>
+                                `${item[key]}
                               `
-                          ).join(' - ')}
+                            )
+                            .join(" - ")}
                         </label>
                       </li>
                     </>
