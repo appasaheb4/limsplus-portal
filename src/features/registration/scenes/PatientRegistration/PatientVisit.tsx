@@ -539,10 +539,7 @@ const PatientVisit = PatientVisitHoc(
                         >
                           <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
-                            placeholder={
-                              patientVisitStore.patientVisit.doctorId ||
-                              `Search by code or name`
-                            }
+                            placeholder="Search by code or name"
                             displayValue={patientVisitStore.patientVisit.doctorId}
                             data={{
                               list: doctorsStore.listDoctors,
@@ -550,11 +547,11 @@ const PatientVisit = PatientVisitHoc(
                             }}
                             hasError={errors.doctorId}
                             onFilter={(value: string) => {
-                              doctorsStore.doctorsService.filter({
+                              doctorsStore.doctorsService.filterByFields({
                                 input: {
-                                  type: "filter",
                                   filter: {
-                                    doctorCode: value,
+                                    fields: ["doctorCode", "doctorName"],
+                                    srText: value,
                                   },
                                   page: 0,
                                   limit: 10,
@@ -658,6 +655,7 @@ const PatientVisit = PatientVisitHoc(
                       >
                         <select
                           value={patientVisitStore.patientVisit?.status}
+                          disabled={true}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? "border-red-500  " : "border-gray-300"
                           } rounded-md`}
@@ -1251,8 +1249,9 @@ const PatientVisit = PatientVisitHoc(
                           control={control}
                           render={({ field: { onChange } }) => (
                             <LibraryComponents.Atoms.Form.Input
-                              label="Height"
+                              label="Height (cm)"
                               name="txtHeight"
+                              type="number"
                               placeholder={
                                 errors.height ? "Please Enter Height" : "Height"
                               }
@@ -1280,8 +1279,9 @@ const PatientVisit = PatientVisitHoc(
                           control={control}
                           render={({ field: { onChange } }) => (
                             <LibraryComponents.Atoms.Form.Input
-                              label="Weight"
+                              label="Weight (kg)"
                               name="txtWeight"
+                              type="number"
                               placeholder={
                                 errors.weight ? "Please Enter Weight" : "Weight"
                               }
@@ -1406,6 +1406,7 @@ const PatientVisit = PatientVisitHoc(
                                   patientVisitStore.patientVisit.extraData
                                     ?.registrationInterface
                                 }
+                                disabled={true}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.registrationInterface
                                     ? "border-red-500 "
