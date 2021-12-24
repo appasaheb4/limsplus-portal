@@ -44,7 +44,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
     if (row.extraData?.confidental && !props.extraData.confidental) return false
     return true
   }
-  
+
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -110,27 +110,28 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               ) => (
                 <>
                   <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  placeholder={
-                    errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
-                  }
-                  hasError={errors.mobileNo}
-                  type="number"
-                  defaultValue={row.mobileNo}
-                  onChange={(mobileNo) => {
-                    onChange(mobileNo)
-                  }}
-                  onBlur={(mobileNo)=>{
-                    props.onUpdateItem && props.onUpdateItem(mobileNo,column.dataField,row._id)
-                  }}
-                />
-              )}
-              name="mobileNo"
-              rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
-              defaultValue=""
-            />
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        placeholder={
+                          errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
+                        }
+                        hasError={errors.mobileNo}
+                        type="number"
+                        defaultValue={row.mobileNo}
+                        onChange={(mobileNo) => {
+                          onChange(mobileNo)
+                        }}
+                        onBlur={(mobileNo) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(mobileNo, column.dataField, row._id)
+                        }}
+                      />
+                    )}
+                    name="mobileNo"
+                    rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                    defaultValue=""
+                  />
                 </>
               ),
             },
@@ -162,14 +163,14 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
-                  value={new Date(row.birthDate)}
-                  onChange={(birthDate) => {
-                    props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
-                    
-                  }}
-                />
+                    value={new Date(row.birthDate)}
+                    onChange={(birthDate) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(birthDate, column.dataField, row._id)
+                    }}
+                  />
                 </>
-              )
+              ),
             },
             {
               dataField: "title",
@@ -192,24 +193,24 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const title = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(title, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "PATIENT MANAGER - TITLE"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {LibraryUtils.lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const title = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(title, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "PATIENT MANAGER - TITLE"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -315,26 +316,24 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sex = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sex, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "PATIENT MANAGER - SEX"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {LibraryUtils.lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sex = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sex, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "PATIENT MANAGER - SEX"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -359,26 +358,24 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const species = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(species, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "PATIENT MANAGER - SPECIES"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {LibraryUtils.lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const species = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(species, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "PATIENT MANAGER - SPECIES"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -415,22 +412,21 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                   
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                      onChange={(e) => {
-                        const usualDoctor = e.target.value
-                        props.onUpdateItem && props.onUpdateItem(usualDoctor,column.dataField,row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listDoctors.map((item: any, index: number) => (
-                        <option key={index} value={item.doctorCode}>
-                          {`${item.doctorName} - ${item.doctorCode}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const usualDoctor = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(usualDoctor, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {props.extraData.listDoctors.map((item: any, index: number) => (
+                      <option key={index} value={item.doctorCode}>
+                        {`${item.doctorName} - ${item.doctorCode}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),

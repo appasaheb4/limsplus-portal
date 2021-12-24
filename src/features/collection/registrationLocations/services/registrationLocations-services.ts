@@ -15,6 +15,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 import * as Model from "../models"
 
@@ -137,7 +138,7 @@ class RegistrationLocationsService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -145,18 +146,49 @@ class RegistrationLocationsService {
         .mutate({
           mutation: FILTER,
           variables,
-        })  
+        })
         .then((response: any) => {
           if (!response.data.filterRegistrationLocations.success)
             return this.listRegistrationLocations()
-          stores.registrationLocationsStore.filterRegistrationLocationList(response.data)
+          stores.registrationLocationsStore.filterRegistrationLocationList(
+            response.data
+          )
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })   
+    })
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsRegistrationLocations.success)
+            return this.listRegistrationLocations()
+          stores.registrationLocationsStore.filterRegistrationLocationList({
+            filterRegistrationLocations: {
+              data: response.data.filterByFieldsRegistrationLocations.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsRegistrationLocations.paginatorInfo
+                    .count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }
 
 export default RegistrationLocationsService

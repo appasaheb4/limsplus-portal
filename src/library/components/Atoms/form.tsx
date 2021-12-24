@@ -51,6 +51,7 @@ export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) 
 
 interface InputProps extends InputWrapperProps {
   value?: any
+  defaultValue?: any
   name?: string
   placeholder?: string
   type?: string
@@ -79,6 +80,7 @@ export const Input = (props: InputProps) => (
       disabled={props.disabled || false}
       autoComplete="given-name"
       value={props.value}
+      defaultValue={props.defaultValue}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
         props.hasError ? "border-red-500 " : "border-gray-300"
