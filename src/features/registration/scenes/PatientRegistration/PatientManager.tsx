@@ -1363,6 +1363,7 @@ const PatientManager = PatientManagerHoc(
               lookupItems: routerStore.lookupItems,
               listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
               confidential: loginStore.login?.confidential || false,
+              listDoctors:doctorsStore.listDoctors
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
