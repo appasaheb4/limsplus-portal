@@ -53,6 +53,8 @@ export const LIST = gql`
         info
         fyiLine
         workLine
+        acClass
+        accountType
         status
         environment
         dateOfEntry
@@ -169,6 +171,8 @@ export const FILTER = gql`
         info
         fyiLine
         workLine
+        acClass
+        accountType
         status
         environment
         dateOfEntry
@@ -177,7 +181,7 @@ export const FILTER = gql`
     }
   }
 `
-  
+
 export const FILTER_BY_FIELDS = gql`
   mutation($input: RegistrationLocationInput!) {
     filterByFieldsRegistrationLocations(input: $input) {
@@ -231,6 +235,8 @@ export const FILTER_BY_FIELDS = gql`
         info
         fyiLine
         workLine
+        acClass
+        accountType
         status
         environment
         dateOfEntry

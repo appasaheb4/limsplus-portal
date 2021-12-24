@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
@@ -23,7 +23,7 @@ const RegistrationLocation = observer(() => {
     labStore,
     corporateClientsStore,
     routerStore,
-    loading
+    loading,
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -38,30 +38,47 @@ const RegistrationLocation = observer(() => {
     }
   }, [loginStore.login])
 
-  useEffect(()=>{
+  useEffect(() => {
     const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    registrationLocationsStore && registrationLocationsStore.updateRegistrationLocations({
-        ...registrationLocationsStore.registrationLocations,
-        status: status.code as string,
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
       })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    registrationLocationsStore && registrationLocationsStore.updateRegistrationLocations({
-      ...registrationLocationsStore.registrationLocations,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      registrationLocationsStore &&
+        registrationLocationsStore.updateRegistrationLocations({
+          ...registrationLocationsStore.registrationLocations,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      registrationLocationsStore &&
+        registrationLocationsStore.updateRegistrationLocations({
+          ...registrationLocationsStore.registrationLocations,
+          environment: environment.code as string,
+          acClass: LibraryUtils.getDefaultLookupItem(
+            routerStore.lookupItems,
+            "AC_CLASS"
+          ),
+          accountType: LibraryUtils.getDefaultLookupItem(
+            routerStore.lookupItems,
+            "ACCOUNT_TYPE"
+          ),
+        })
+      setValue("environment", environment.code as string)
+      setValue("acClass", registrationLocationsStore.registrationLocations.acClass)
+      setValue(
+        "accountType",
+        registrationLocationsStore.registrationLocations.accountType
+      )
+    }
+  }, [routerStore.lookupItems])
 
   const onSubmitRegistrationLocation = () => {
     if (!registrationLocationsStore.checkExitsLabEnvCode) {
@@ -133,69 +150,66 @@ const RegistrationLocation = observer(() => {
   }
 
   const tableView = useMemo(
-    ()=>(
+    () => (
       <FeatureComponents.Molecules.RegistrationLocationsList
-            data={registrationLocationsStore.listRegistrationLocations || []}
-            totalSize={registrationLocationsStore.listRegistrationLocationsCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              listLabs:labStore.listLabs
-            }}
-            isDelete={RouterFlow.checkPermission(
-              routerStore.userPermission,
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              routerStore.userPermission,
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update Section!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              registrationLocationsStore.fetchRegistrationLocations(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              registrationLocationsStore.registrationLocationsService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+        data={registrationLocationsStore.listRegistrationLocations || []}
+        totalSize={registrationLocationsStore.listRegistrationLocationsCount}
+        extraData={{
+          lookupItems: routerStore.lookupItems,
+          listLabs: labStore.listLabs,
+        }}
+        isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
+        isEditModify={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          "Edit/Modify"
+        )}
+        // isEditModify={false}
+        onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+        onSelectedRow={(rows) => {
+          setModalConfirm({
+            show: true,
+            type: "Delete",
+            id: rows,
+            title: "Are you sure?",
+            body: `Delete selected items!`,
+          })
+        }}
+        onUpdateItem={(value: any, dataField: string, id: string) => {
+          setModalConfirm({
+            show: true,
+            type: "Update",
+            data: { value, dataField, id },
+            title: "Are you sure?",
+            body: `Update Section!`,
+          })
+        }}
+        onVersionUpgrade={(item) => {
+          setModalConfirm({
+            show: true,
+            type: "versionUpgrade",
+            data: item,
+            title: "Are you version upgrade?",
+            body: `Version upgrade this record`,
+          })
+        }}
+        onDuplicate={(item) => {
+          setModalConfirm({
+            show: true,
+            type: "duplicate",
+            data: item,
+            title: "Are you duplicate?",
+            body: `Duplicate this record`,
+          })
+        }}
+        onPageSizeChange={(page, limit) => {
+          registrationLocationsStore.fetchRegistrationLocations(page, limit)
+        }}
+        onFilter={(type, filter, page, limit) => {
+          registrationLocationsStore.registrationLocationsService.filter({
+            input: { type, filter, page, limit },
+          })
+        }}
+      />
     ),
     [registrationLocationsStore.listRegistrationLocations]
   )
@@ -254,14 +268,11 @@ const RegistrationLocation = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDateTime
                     label="Date Active"
                     placeholder={
-                      errors.dateActive
-                        ? "Please enter date Active"
-                        : "Date Active"
+                      errors.dateActive ? "Please enter date Active" : "Date Active"
                     }
                     hasError={errors.dateActive}
                     value={
-                      registrationLocationsStore.registrationLocations
-                        ?.dateActive
+                      registrationLocationsStore.registrationLocations?.dateActive
                     }
                     disabled={true}
                   />
@@ -1102,17 +1113,14 @@ const RegistrationLocation = observer(() => {
                     hasError={errors.lab}
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    
-                    data={{
-                      list:labStore.listLabs,
-                      displayKey: "name",
-                      findKey: "name",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      labStore.LabService.filter(
-                        {
+                      loader={loading}
+                      data={{
+                        list: labStore.listLabs,
+                        displayKey: "name",
+                      }}
+                      hasError={errors.lab}
+                      onFilter={(value: string) => {
+                        labStore.LabService.filter({
                           input: {
                             filter: {
                               type: "search",
@@ -1121,51 +1129,48 @@ const RegistrationLocation = observer(() => {
                             page: 0,
                             limit: 10,
                           },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.name)
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          lab: item.code,
+                        })
+                        labStore.updateLabList(labStore.listLabsCopy)
+                        if (
+                          !registrationLocationsStore.registrationLocations
+                            ?.existsVersionId
+                        ) {
+                          registrationLocationsStore.registrationLocationsService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  registrationLocationsStore.registrationLocations
+                                    ?.locationCode,
+                                env:
+                                  registrationLocationsStore.registrationLocations
+                                    ?.environment,
+                                lab: item.code,
+                              },
+                            })
+                            .then((res) => {
+                              if (
+                                res.checkRegistrationLocationExistsRecord.success
+                              ) {
+                                registrationLocationsStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
+                                })
+                              } else
+                                registrationLocationsStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
                         }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.name)
-                      registrationLocationsStore.updateRegistrationLocations({
-                        ...registrationLocationsStore.registrationLocations,
-                        lab:item.code,
-                      })
-                      labStore.updateLabList(
-                        labStore.listLabsCopy
-                      )
-                      if (
-                        !registrationLocationsStore.registrationLocations
-                          ?.existsVersionId
-                      ) {
-                        registrationLocationsStore.registrationLocationsService
-                          .checkExitsLabEnvCode({
-                            input: {
-                              code:
-                                registrationLocationsStore.registrationLocations
-                                  ?.locationCode,
-                              env:
-                                registrationLocationsStore.registrationLocations
-                                  ?.environment,
-                              lab:item.code,
-                            },
-                          })
-                          .then((res) => {
-                            if (
-                              res.checkRegistrationLocationExistsRecord.success
-                            ) {
-                              registrationLocationsStore.updateExistsLabEnvCode(
-                                true
-                              )
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
-                              })
-                            } else
-                              registrationLocationsStore.updateExistsLabEnvCode(
-                                false
-                              )
-                          })
-                      }
-                    }}
+                      }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -1252,17 +1257,16 @@ const RegistrationLocation = observer(() => {
                     hasError={errors.schedule}
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    placeholder="Search by name"
-                    data={{
-                      list:labStore.listLabs,
-                      displayKey: "name",
-                      findKey: "name",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      labStore.LabService.filter(
-                        {
+                      loader={loading}
+                      placeholder="Search by name"
+                      data={{
+                        list: labStore.listLabs,
+                        displayKey: "name",
+                        findKey: "name",
+                      }}
+                      hasError={errors.name}
+                      onFilter={(value: string) => {
+                        labStore.LabService.filter({
                           input: {
                             type: "filter",
                             filter: {
@@ -1271,20 +1275,16 @@ const RegistrationLocation = observer(() => {
                             page: 0,
                             limit: 10,
                           },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.name)
-                      registrationLocationsStore.updateRegistrationLocations({
-                        ...registrationLocationsStore.registrationLocations,
-                        schedule:item.code,
-                      })
-                      labStore.updateLabList(
-                        labStore.listLabsCopy
-                      )
-                      
-                    }}
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.name)
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          schedule: item.code,
+                        })
+                        labStore.updateLabList(labStore.listLabsCopy)
+                      }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -1392,11 +1392,92 @@ const RegistrationLocation = observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper
+                    label="AC Class"
+                    hasError={errors.acClass}
+                  >
+                    <select
+                      value={
+                        registrationLocationsStore.registrationLocations?.acClass
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.acClass ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const acClass = e.target.value
+                        onChange(acClass)
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          acClass,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        routerStore.lookupItems,
+                        "AC_CLASS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="acClass"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Account Type"
+                    hasError={errors.accountType}
+                  >
+                    <select
+                      value={
+                        registrationLocationsStore.registrationLocations?.accountType
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.accountType ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const accountType = e.target.value
+                        onChange(accountType)
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          accountType,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        routerStore.lookupItems,
+                        "ACCOUNT_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="accountType"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
                     <select
-                    value={registrationLocationsStore && registrationLocationsStore.registrationLocations?.status}
+                      value={
+                        registrationLocationsStore &&
+                        registrationLocationsStore.registrationLocations?.status
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1530,9 +1611,7 @@ const RegistrationLocation = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          {tableView}
-        </div>
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {

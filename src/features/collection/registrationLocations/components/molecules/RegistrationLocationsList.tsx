@@ -5,7 +5,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { Stores } from "../../stores"
-import {AutoCompleteFilterSingleSelectLabs} from "../organsims"
+import { AutoCompleteFilterSingleSelectLabs } from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let dateCreation
@@ -45,6 +45,8 @@ let reportFormat
 let info
 let fyiLine
 let workLine
+let acClass
+let accountType
 let status
 let environment
 interface RegistrationLocationsListProps {
@@ -84,11 +86,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Location Code",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 locationCode = filter
-              }
+              },
             }),
             editable: false,
           },
@@ -97,11 +99,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Location Name",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 locationName = filter
-              }
+              },
             }),
             editable: false,
           },
@@ -110,11 +112,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Address",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 address = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -123,11 +125,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "City",
             headerClasses: "textHeader",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 city = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -136,10 +138,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "State",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
-                state  = filter              }
+              getFilter: (filter) => {
+                state = filter
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -148,11 +151,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Country",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 country = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -161,11 +164,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Postcode",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.customFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 postcode = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
@@ -177,11 +180,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Customer Group",
             headerClasses: "textHeader4",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 customerGroup = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -193,26 +196,24 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const customerGroup = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(customerGroup, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "CUSTOMER_GROUP"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const customerGroup = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(customerGroup, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "CUSTOMER_GROUP"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -221,11 +222,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Category",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 category = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -237,26 +238,24 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-               
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const category = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(category, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "CATEGORY"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const category = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(category, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "CATEGORY"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -264,7 +263,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
@@ -285,11 +284,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Telephone",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 telephone = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -298,11 +297,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Mobile No",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 mobileNo = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -311,11 +310,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Email",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 email = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -324,11 +323,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Delivery Type",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 deliveryType = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -340,26 +339,24 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const deliveryType = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(deliveryType, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "DELIVERY_TYPE"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const deliveryType = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(deliveryType, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "DELIVERY_TYPE"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -368,11 +365,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Delivery Method",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 deliveryMethod = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -384,26 +381,24 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const deliveryMethod = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(deliveryMethod, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "DELIVERY_METHOD"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const deliveryMethod = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(deliveryMethod, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "DELIVERY_METHOD"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -412,11 +407,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Corporate Code",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 corporateCode = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -428,23 +423,21 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const corporateCode = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(corporateCode, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {[].map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const corporateCode = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(corporateCode, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[].map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -453,11 +446,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Invoice Ac",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 invoiceAc = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -469,23 +462,21 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const invoiceAc = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(invoiceAc, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {[].map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const invoiceAc = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(invoiceAc, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[].map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -494,11 +485,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Lab Licence",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 labLicence = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -506,7 +497,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             dataField: "printLabel",
             text: "Print Label",
             sort: true,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (col) => (col ? col : false),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
@@ -528,11 +519,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Method Coln",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 methodColn = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -544,26 +535,24 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-               
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const methodColn = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(methodColn, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "METHOD_COLN"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const methodColn = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(methodColn, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "METHOD_COLN"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -572,11 +561,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Work Hrs",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.customFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 workHrs = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
@@ -588,11 +577,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Sales TerritoRy",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 salesTerritoRy = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -604,26 +593,24 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const salesTerritoRy = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(salesTerritoRy, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "SPECIALITY"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const salesTerritoRy = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(salesTerritoRy, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "SPECIALITY"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -632,11 +619,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Area",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 area = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -645,11 +632,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Zone",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 zone = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -658,11 +645,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Route",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 route = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -671,11 +658,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 lab = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -687,82 +674,59 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                 <AutoCompleteFilterSingleSelectLabs
-                 onSelect={(item)=>{
-                  props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                 }}
-                 />       
-              </>
-            )
-            },
-            {
-              dataField: "location",
-              text: "Location",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
-                location = filter
-              }
-            }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "neverBill",
-              text: "Never Bill",
-              sort: true,
-              csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return <> <LibraryComponents.Atoms.Form.Toggle
-              
-                value={row.neverBill}
-                onChange={(neverBill) => {
+                <AutoCompleteFilterSingleSelectLabs
+                  onSelect={(item) => {
                     props.onUpdateItem &&
-                     props.onUpdateItem(neverBill,'neverBill',row._id)
-                }}
-              /></>
+                      props.onUpdateItem(item.code, column.dataField, row._id)
+                  }}
+                />
+              </>
+            ),
+          },
+          {
+            dataField: "location",
+            text: "Location",
+            headerClasses: "textHeader2",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
+                location = filter
               },
-             
-            },
-            {
-              dataField: "edi",
-              text: "EDI",
-              headerClasses: "textHeader",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
-                edi = filter
-              }
             }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: "neverBill",
+            text: "Never Bill",
+            sort: true,
+            csvFormatter: (col) => (col ? col : false),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {" "}
+                  <LibraryComponents.Atoms.Form.Toggle
+                    value={row.neverBill}
+                    onChange={(neverBill) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(neverBill, "neverBill", row._id)
+                    }}
+                  />
+                </>
+              )
             },
-            {
-              dataField: "ediAddress",
-              text: "EDI Address",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
-                ediAddress = filter
-              }
-            }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-          
+          },
           {
             dataField: "edi",
             text: "EDI",
             headerClasses: "textHeader",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 edi = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -771,11 +735,38 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "EDI Address",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 ediAddress = filter
-              }
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+
+          {
+            dataField: "edi",
+            text: "EDI",
+            headerClasses: "textHeader",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
+                edi = filter
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: "ediAddress",
+            text: "EDI Address",
+            headerClasses: "textHeader3",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
+                ediAddress = filter
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
@@ -784,7 +775,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             dataField: "urgent",
             text: "Urgent",
             sort: true,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (col) => (col ? col : false),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
@@ -806,11 +797,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Schedule",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 schedule = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -823,119 +814,202 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             ) => (
               <>
                 <AutoCompleteFilterSingleSelectLabs
-                 onSelect={(item)=>{
-                  props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                 }}
-                 />        
+                  onSelect={(item) => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(item.code, column.dataField, row._id)
+                  }}
+                />
               </>
-            )
-            },
-            {
-              dataField: "reportFormat",
-              text: "Report Format",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+            ),
+          },
+          {
+            dataField: "reportFormat",
+            text: "Report Format",
+            headerClasses: "textHeader3",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
                 reportFormat = filter
-              }
+              },
             }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "info",
-              text: "Info",
-              headerClasses: "textHeader",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: "info",
+            text: "Info",
+            headerClasses: "textHeader",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
                 info = filter
-              }
+              },
             }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "fyiLine",
-              text: "FYI Line",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: "fyiLine",
+            text: "FYI Line",
+            headerClasses: "textHeader3",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
                 fyiLine = filter
-              }
+              },
             }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "workLine",
-              text: "Work Line",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: "workLine",
+            text: "Work Line",
+            headerClasses: "textHeader3",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
                 workLine = filter
-              }
+              },
             }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "status",
-              text: "Status",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
-                status = filter
-              }
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: "acClass",
+            text: "Ac Class",
+            headerClasses: "textHeader3",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
+                acClass = filter
+              },
             }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
               <>
-               
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const status = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(status, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "STATUS"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const acClass = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(acClass, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "AC_CLASS"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
-            )
+            ),
+          },
+          {
+            dataField: "accountType",
+            text: "Account Type",
+            headerClasses: "textHeader3",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
+                accountType = filter
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>  
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const accountType = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(accountType, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "ACCOUNT_TYPE"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ),
+          },
+          {
+            dataField: "status",
+            text: "Status",
+            headerClasses: "textHeader2",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: LibraryComponents.Organisms.Utils.textFilter({
+              getFilter: (filter) => {
+                status = filter
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const status = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(status, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "STATUS"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ),
           },
           {
             dataField: "environment",
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 environment = filter
-              }
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -946,27 +1020,25 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    value={row.environment}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(environment, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "ENVIRONMENT"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                
+                <select
+                  value={row.environment}
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(environment, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "ENVIRONMENT"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -975,12 +1047,12 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader7",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            editable: false,  
+            csvFormatter: (col) => (col ? col : ""),
+            editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 dateCreation = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
@@ -994,12 +1066,12 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 dateActive = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
@@ -1013,12 +1085,12 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 dateExpire = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
@@ -1032,12 +1104,12 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Version",
             headerClasses: "textHeader4",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 version = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
@@ -1048,11 +1120,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Entered By",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
-              getFilter: (filter) =>{
+              getFilter: (filter) => {
                 enteredBy = filter
-              }
+              },
             }),
             editable: false,
           },
@@ -1148,7 +1220,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
         }}
-        clearAllFilter={()=>{
+        clearAllFilter={() => {
           dateCreation()
           dateActive()
           dateExpire()
@@ -1186,6 +1258,8 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
           info("")
           fyiLine("")
           workLine("")
+          acClass("")
+          accountType("")
           status("")
           environment("")
         }}
