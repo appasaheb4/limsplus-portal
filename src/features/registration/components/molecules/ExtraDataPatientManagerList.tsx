@@ -391,6 +391,7 @@ const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.enteredBy}</span>
                 },
+                editable: false
               },
               {
                 dataField: "status",
@@ -415,7 +416,6 @@ const ExtraDataPatientManagerList = observer(
                   columnIndex
                 ) => (
                   <>
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                           <select
                             value={
                               row.extraData?.status
@@ -436,7 +436,6 @@ const ExtraDataPatientManagerList = observer(
                               </option>
                             ))}
                           </select>
-                        </LibraryComponents.Atoms.Form.InputWrapper>
                   </>
                 ),
               },
@@ -463,7 +462,6 @@ const ExtraDataPatientManagerList = observer(
                   columnIndex
                 ) => (
                   <>
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                           <select
                             value={
                              row.extraData
@@ -487,7 +485,6 @@ const ExtraDataPatientManagerList = observer(
                               </option>
                             ))}
                           </select>
-                        </LibraryComponents.Atoms.Form.InputWrapper>
                   </>
                 ),
               },
