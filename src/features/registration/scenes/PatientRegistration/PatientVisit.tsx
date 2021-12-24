@@ -99,6 +99,31 @@ const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      label="Visit Id"
+                      name="txtVisitId"
+                      placeholder={
+                        errors.visitId ? "Please Enter Visit ID" : "Visit ID"
+                      }
+                      hasError={errors.visitId}
+                      disabled={true}
+                      value={patientVisitStore.patientVisit?.visitId}
+                      onChange={(visitId) => {
+                        onChange(visitId)
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          visitId,
+                        })
+                      }}
+                    />
+                  )}
+                  name="visitId"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
                       label="PId"
                       hasError={errors.pid}
@@ -163,31 +188,7 @@ const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
-                      label="Visit Id"
-                      name="txtVisitId"
-                      placeholder={
-                        errors.visitId ? "Please Enter Visit ID" : "Visit ID"
-                      }
-                      hasError={errors.visitId}
-                      disabled={true}
-                      value={patientVisitStore.patientVisit?.visitId}
-                      onChange={(visitId) => {
-                        onChange(visitId)
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          visitId,
-                        })
-                      }}
-                    />
-                  )}
-                  name="visitId"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -394,7 +395,7 @@ const PatientVisit = PatientVisitHoc(
                       >
                         <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
-                          placeholder="Search by code and name"
+                          placeholder="Search by code or name"
                           data={{
                             list:
                               registrationLocationsStore.listRegistrationLocations,
