@@ -1,5 +1,4 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import dayjs from "dayjs"
 import { PatientVisitService } from "../services"
 import * as Models from "../models"
 
@@ -18,8 +17,7 @@ export class PatientVisitStore {
       visitDate: new Date(),
       registrationDate: new Date(),
       collectionDate: new Date(),
-      birthDate: new Date(dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD")),
-    }
+    }  
 
     makeObservable<PatientVisitStore, any>(this, {
       patientVisit: observable,
@@ -51,7 +49,7 @@ export class PatientVisitStore {
   updatePatientVisit(input: Models.PatientVisit) {
     this.patientVisit = input
   }
-  
+
   updateExistsVisitId(flag: boolean) {
     this.checkExistsVisitId = flag
   }
