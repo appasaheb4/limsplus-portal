@@ -7,12 +7,12 @@ import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {DeginisationHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-export const Department = observer(() => {
+export const Department = DeginisationHoc(observer(() => {
   const {
     loading,
     loginStore,
@@ -28,7 +28,9 @@ export const Department = observer(() => {
     setValue,
     reset,
   } = useForm()
-
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", departmentStore.department?.environment)
+  setValue("status", departmentStore.department?.status)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
 
@@ -36,46 +38,7 @@ export const Department = observer(() => {
     reset()
   }, [labStore.listLabs, userStore && userStore.userList])
 
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      departmentStore.updateDepartment({
-        ...departmentStore.department,
-        lab: loginStore.login.lab,
-        environment: loginStore.login.environment,
-      })
-      setValue("lab", loginStore.login.lab)
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      departmentStore &&
-        departmentStore.updateDepartment({
-          ...departmentStore.department,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      departmentStore &&
-        departmentStore.updateDepartment({
-          ...departmentStore.department,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
+  
   const onSubmitDepartment = () => {
     if (!departmentStore.checkExitsCode) {
       departmentStore.DepartmentService.adddepartment({
@@ -760,6 +723,6 @@ export const Department = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Department
