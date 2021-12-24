@@ -70,7 +70,7 @@ export const REMOVE_RECORD = gql`
     }
   }
 `
-  
+
 export const CREATE_RECORD = gql`
   mutation($input: CreateDoctorInput!) {
     createDoctor(input: $input) {
@@ -116,7 +116,6 @@ export const CHECK_EXISTS_RECORD = gql`
   }
 `
 
-
 export const FILTER = gql`
   mutation($input: DoctorInput!) {
     filterDoctors(input: $input) {
@@ -125,7 +124,7 @@ export const FILTER = gql`
       }
       success
       message
-      data{
+      data {
         _id
         existsVersionId
         existsRecordId
@@ -175,6 +174,68 @@ export const FILTER = gql`
         dateOfEntry
         lastUpdated
       }
+    }
+  }
+`
+
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: DoctorInput!) {
+    filterByFieldsDoctor(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        doctorCode
+        doctorName
+        sex
+        title
+        firstName
+        middleName
+        lastName
+        reportName
+        address
+        city
+        state
+        country
+        postcode
+        doctorType
+        speciality
+        confidential
+        salesTerritoRy
+        area
+        zone
+        telephone
+        mobileNo
+        email
+        workHours
+        deliveryType
+        deliveryMethod
+        edi
+        ediAddress
+        urgent
+        registrationLocation
+        lab
+        location
+        schedule
+        reportFormat
+        info
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }   
     }
   }
 `
