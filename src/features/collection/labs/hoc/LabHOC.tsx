@@ -35,6 +35,22 @@ export const LabHoc = (Component: React.FC<any>) => {
                 "ENVIRONMENT"
               ),
             })
+            labStore &&
+            labStore.updateLabs({
+              ...labStore.labs,
+              deliveryType: LibraryUtils.getDefaultLookupItem(
+                routerStore.lookupItems,
+                "DELIVERY_TYPE"
+              ),
+            })
+            labStore &&
+            labStore.updateLabs({
+              ...labStore.labs,
+              labType: LibraryUtils.getDefaultLookupItem(
+                routerStore.lookupItems,
+                "LAB_TYPE"
+              ),
+            })
         
       }, [loginStore.login, routerStore.lookupItems])
       return <Component {...props} />
