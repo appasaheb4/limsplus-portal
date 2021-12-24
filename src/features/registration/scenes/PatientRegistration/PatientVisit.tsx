@@ -21,6 +21,7 @@ import { useStores } from "@lp/stores"
 import { toJS } from "mobx"
 import { RouterFlow } from "@lp/flows"
 import { getAgeAndAgeUnit } from "../../utils"
+import { FormHelper } from "@lp/helper"
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void
@@ -32,8 +33,6 @@ const PatientVisit = PatientVisitHoc(
       control,
       handleSubmit,
       formState: { errors },
-      setValue,
-      clearErrors,
     } = useForm()
     const {
       loading,
@@ -85,7 +84,7 @@ const PatientVisit = PatientVisitHoc(
         )}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputView ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "shown")
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
@@ -288,31 +287,6 @@ const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDateTime
-                      label="BithDate"
-                      name="txtBirthDate"
-                      placeholder={
-                        errors.birthDate ? "Please Enter BirthDate" : "BirthDate"
-                      }
-                      hasError={errors.birthDate}
-                      value={patientVisitStore.patientVisit?.birthDate}
-                      onChange={(birthDate) => {
-                        onChange(birthDate)
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          birthDate,
-                        })
-                      }}
-                    />
-                  )}
-                  name="birthDate"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-
                 {patientVisitStore.patientVisit && (
                   <Controller
                     control={control}
@@ -417,13 +391,19 @@ const PatientVisit = PatientVisitHoc(
                             )
                           }}
                           onSelect={(item) => {
+                            console.log({ item })
+
                             onChange(item.locationCode)
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               collectionCenter: item.locationCode,
+                              acClass: item.acClass,
+                              corporateCode: item.corporateCode,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
                                 methodCollection: item.methodColn,
+                                accountType: item.accountType,
+                                invoiceAc: item.invoiceAc,
                               },
                             })
                             registrationLocationsStore.updateRegistrationLocationsList(
@@ -517,7 +497,7 @@ const PatientVisit = PatientVisitHoc(
                           "PATIENT VISIT - AC_CLASS"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {`${item.code} - ${item.value}`}
                           </option>
                         ))}
                       </select>
@@ -992,7 +972,7 @@ const PatientVisit = PatientVisitHoc(
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                        <LibraryComponents.Atoms.Grid cols={3}>
+                        <LibraryComponents.Atoms.Grid cols={2}>
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
@@ -1015,32 +995,6 @@ const PatientVisit = PatientVisitHoc(
                               />
                             )}
                             name="urgent"
-                            rules={{ required: false }}
-                            defaultValue=""
-                          />
-                          <Controller
-                            control={control}
-                            render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.Toggle
-                                label="Confidental"
-                                id="toggleConfidental"
-                                hasError={errors.confidental}
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.confidental
-                                }
-                                onChange={(confidental) => {
-                                  patientVisitStore.updatePatientVisit({
-                                    ...patientVisitStore.patientVisit,
-                                    extraData: {
-                                      ...patientVisitStore.patientVisit.extraData,
-                                      confidental,
-                                    },
-                                  })
-                                }}
-                              />
-                            )}
-                            name="confidental"
                             rules={{ required: false }}
                             defaultValue=""
                           />
@@ -1250,7 +1204,6 @@ const PatientVisit = PatientVisitHoc(
                           render={({ field: { onChange } }) => (
                             <LibraryComponents.Atoms.Form.Input
                               label="Height (cm)"
-                              name="txtHeight"
                               type="number"
                               placeholder={
                                 errors.height ? "Please Enter Height" : "Height"
@@ -1271,8 +1224,11 @@ const PatientVisit = PatientVisitHoc(
                               }}
                             />
                           )}
+                          rules={{
+                            required: false,
+                            validate: (value) => FormHelper.isValidHeight(value),
+                          }}
                           name="height"
-                          rules={{ required: false }}
                           defaultValue=""
                         />
                         <Controller
@@ -1302,7 +1258,10 @@ const PatientVisit = PatientVisitHoc(
                             />
                           )}
                           name="weight"
-                          rules={{ required: false }}
+                          rules={{
+                            required: false,
+                            validate: (value) => FormHelper.isValidWeight(value),
+                          }}
                           defaultValue=""
                         />
                         <Controller
@@ -1610,7 +1569,7 @@ const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - DELIVERY_METHOD"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {`${item.code} - ${item.value}`}
                                   </option>
                                 ))}
                               </select>
@@ -1652,19 +1611,13 @@ const PatientVisit = PatientVisitHoc(
                                   })
                                 }}
                               >
-                                <option selected>
-                                  {loginStore.login &&
-                                  loginStore.login.role !== "SYSADMIN"
-                                    ? `Select`
-                                    : patientVisitStore.patientVisit.extraData
-                                        ?.environment || `Select`}
-                                </option>
+                                <option selected>Select</option>
                                 {LibraryUtils.lookupItems(
                                   routerStore.lookupItems,
-                                  "ENVIRONMENT"
+                                  "PATIENT VISIT - ENVIRONMENT"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {`${item.code} - ${item.value}`}
                                   </option>
                                 ))}
                               </select>
