@@ -118,7 +118,62 @@ export const FILTER = gql`
       }
       success
       message
-      data{
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        corporateCode
+        corporateName
+        invoiceAc
+        priceList
+        priceGroup
+        billingOn
+        address
+        city
+        state
+        country
+        postcode
+        customerGroup
+        category
+        confidential
+        telephone
+        mobileNo
+        email
+        deliveryType
+        deliveryMethod
+        salesTerritoRy
+        area
+        zone
+        edi
+        ediAddress
+        urgent
+        schedule
+        reportFormat
+        info
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: CorporateClientInput!) {
+    filterByFieldsCorporateClients(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
         _id
         existsVersionId
         existsRecordId

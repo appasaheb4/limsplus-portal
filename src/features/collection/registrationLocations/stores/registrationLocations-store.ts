@@ -19,7 +19,7 @@ export class RegistrationLocationsStore {
       ...this.registrationLocations,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD hh:mm:ss")),
       version: 1,
       confidential: false,
       printLabel: false,
