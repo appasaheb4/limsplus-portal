@@ -1,5 +1,6 @@
 export class PatientVisit {
   pId: number
+  patientName: string
   rLab: string
   visitId: string
   visitDate: Date
@@ -54,6 +55,7 @@ export class PatientVisit {
 
   constructor(rawData: { [key in string]: any }) {
     this.pId = rawData.pId
+    this.patientName = rawData.patientName
     this.rLab = rawData.rLab
     this.visitId = rawData.visitId
     this.visitDate = rawData.visitDate

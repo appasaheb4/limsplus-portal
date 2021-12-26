@@ -31,7 +31,7 @@ const PatientRegistation = observer(() => {
         <Accordion>
           {[
             { title: "PATIENT MANAGER" },
-            { title: "PATIENT VISIT" },
+            { title: "PATIENT VISIT" }, 
             { title: "PATIENT ORDER" },
             { title: "PATIENT SAMPLE" },
             { title: "PATIENT RESULT" },

@@ -8,28 +8,33 @@
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
-  LIST_PATIENT_MANAGER,
-  REMOVE_PATIENT_MANAGER,
-  UPDATE_PATIENT_MANAGER,
-  CREATE_PATIENT_MANAGER,
-  FILTER_PATIENT_MANAGER,
-  SEQUENCING_PATIENT_MANAGER_PID,
+  LIST_PATIENT_VISIT,
+  REMOVE_PATIENT_VISIT,
+  UPDATE_PATIENT_VISIT,
+  CREATE_PATIENT_VISIT,
+  FILTER_PATIENT_VISIT,
+  SEQUENCING_PATIENT_ORDER_ORDERID,
   CHECK_EXISTS_PATIENT,
-  FILTER_BY_FIELDS_PATIENT_MANAGER,
-} from "./mutation-PM"
+  FILTER_BY_FIELDS_PATIENT_VISIT,
+} from "./mutation-PO"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+dayjs.extend(utc)
 
-export class PatientManagerService {
-  listPatientManager = (filter: any, page = 0, limit = 10) =>
+export class PatientOrderService {
+  listPatientOrder = (filter: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       client
         .mutate({
-          mutation: LIST_PATIENT_MANAGER,
+          mutation: LIST_PATIENT_VISIT,
           variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
-          stores.patientManagerStore.updatePatientManagerList(response.data)
+          // console.log({response});
+          // console.log({date:dayjs.utc(response.data.patientOrders.data[0].visitDate).local().format()})
+          stores.patientOrderStore.updatePatientOrderList(response.data)
           resolve(response.data)
         })
         .catch((error) =>
@@ -37,11 +42,13 @@ export class PatientManagerService {
         )
     })
 
-  addPatientManager = (variables: any) =>
+  addPatientOrder = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables })
+
       client
         .mutate({
-          mutation: CREATE_PATIENT_MANAGER,
+          mutation: CREATE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
@@ -52,11 +59,11 @@ export class PatientManagerService {
         )
     })
 
-  deletePatientManager = (variables: any) =>
+  deletePatientOrder = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: REMOVE_PATIENT_MANAGER,
+          mutation: REMOVE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
@@ -73,23 +80,7 @@ export class PatientManagerService {
 
       client
         .mutate({
-          mutation: UPDATE_PATIENT_MANAGER,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data)
-        })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-
-  updateImage = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      console.log({ variables })
-      client
-        .mutate({
-          mutation: UPDATE_PATIENT_MANAGER,
+          mutation: UPDATE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
@@ -105,13 +96,13 @@ export class PatientManagerService {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_PATIENT_MANAGER,
+          mutation: FILTER_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterPatientManager.success)
-            return this.listPatientManager({ documentType: "patientManager" })
-          stores.patientManagerStore.filterPatientManagerList(response.data)
+          if (!response.data.filterPatientOrder.success)
+            return this.listPatientOrder({ documentType: "patientOrder" })
+          stores.patientOrderStore.filterPatientOrderList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
@@ -119,27 +110,27 @@ export class PatientManagerService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
-  sequencingPid = () =>
+  
+  sequencingOrderId = () =>
     new Promise<any>((resolve, reject) => {
       const variables = {
         input: {
           filter: {
-            _id: "patientManager_PId",
+            _id: "patientOrder_OrderId",
             collectionName: "patientregistrations",
-            documentType: "patientManager",
+            documentType: "patientOrder",
           },
         },
       }
       client
         .mutate({
-          mutation: SEQUENCING_PATIENT_MANAGER_PID,
+          mutation: SEQUENCING_PATIENT_ORDER_ORDERID,
           variables,
         })
         .then((response: any) => {
-          stores.patientManagerStore.updatePatientManager({
-            ...stores.patientManagerStore.patientManger,
-            pId: response.data.sequencing.data[0]?.seq + 1 || 1,
+          stores.patientOrderStore.updatePatientOrder({
+            ...stores.patientOrderStore.patientOrder,
+            orderId: response.data.sequencing.data[0]?.seq + 1 || 1,
           })
           resolve(response.data)
         })
@@ -168,12 +159,12 @@ export class PatientManagerService {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_BY_FIELDS_PATIENT_MANAGER,
+          mutation: FILTER_BY_FIELDS_PATIENT_VISIT,
           variables,
         })
-        .then((response: any) => {  
+        .then((response: any) => {
           if (!response.data.filterByFieldsPatientManager.success)
-            return this.listPatientManager({ documentType: "patientManager" })
+            return this.listPatientOrder({ documentType: "patientOrder" })
           stores.patientManagerStore.filterPatientManagerList({
             filterPatientManager: {
               data: response.data.filterByFieldsPatientManager.data,

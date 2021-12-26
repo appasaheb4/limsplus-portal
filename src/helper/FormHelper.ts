@@ -40,10 +40,10 @@ export class FormHelper {
     return this.patterns.password.test(password)
   }
 
-  static isValidHeight(height: string): boolean {
+  static isValidHeight(height?: string): boolean {
     return !!Number(height) && Number(height) <= 214
   }
-  static isValidWeight(weight: string): boolean {
+  static isValidWeight(weight?: string): boolean {
     return !!Number(weight) && Number(weight) <= 150
   }
 }
