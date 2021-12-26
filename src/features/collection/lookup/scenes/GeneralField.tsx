@@ -9,40 +9,23 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
-
-import { stores, useStores } from "@lp/stores"
+import {GeneralFieldHoc} from "../hoc"
+import { useStores } from "@lp/stores"
 import { toJS } from "mobx"
 
 interface GeneralFieldProps {
   onModalConfirm?: (item: any) => void
 }
 
-export const GeneralField = observer((props: GeneralFieldProps) => {
-  const { lookupStore, routerStore } = useStores()
+export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) => {
+  const { lookupStore, routerStore,loginStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-
-
-  useEffect(() => {
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      lookupStore &&
-        lookupStore.updateGlobalSettings({
-          ...lookupStore.globalSettings,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
-
+  setValue("environment",lookupStore.globalSettings?.environment)
   const onSubmitGeneralFiled = (data: any) => {
     lookupStore.LookupService.generalSettingsUpdate({
       input: {
@@ -337,8 +320,8 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                     errors.environment ? "border-red-500" : "border-gray-300"
                   } rounded-md`}
                   disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
+                    loginStore.login &&
+                    loginStore.login.role !== "SYSADMIN"
                       ? true
                       : false
                   }
@@ -352,13 +335,13 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   }}
                 >
                   <option selected>
-                    {stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
+                    {loginStore.login &&
+                    loginStore.login.role !== "SYSADMIN"
                       ? `Select`
                       : lookupStore.globalSettings?.environment || `Select`}
                   </option>
                   {LibraryUtils.lookupItems(
-                    stores.routerStore.lookupItems,
+                    routerStore.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
@@ -397,4 +380,4 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
       </LibraryComponents.Atoms.List>
     </>
   )
-})
+}))
