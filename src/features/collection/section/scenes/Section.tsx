@@ -8,11 +8,13 @@ import { useForm, Controller } from "react-hook-form"
 
 import { SectionList } from "../components/molecules"
 import {AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
-import { useStores, stores } from "@lp/stores"
+import {SectionHoc} from "../hoc"
+import { useStores, } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const Section = observer(() => {
+const Section = SectionHoc(observer(() => {
+  const { loginStore, sectionStore, departmentStore,routerStore,loading } = useStores()
   const {
     control,
     handleSubmit,
@@ -20,43 +22,10 @@ const Section = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore, sectionStore, departmentStore,routerStore,loading } = useStores()
+  setValue("environment",sectionStore.section?.environment)
+  setValue("status",sectionStore.section?.status)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      sectionStore.updateSection({
-        ...sectionStore.section,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-
-  useEffect(()=>{
-    const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    sectionStore && sectionStore.updateSection({
-        ...sectionStore.section,
-        status: status.code as string,
-      })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    sectionStore && sectionStore.updateSection({
-      ...sectionStore.section,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
 
   const onSubmitSection = () => {
     if (!sectionStore.checkExitsEnvCode) {
@@ -89,15 +58,15 @@ const Section = observer(() => {
             data={sectionStore.listSection || []}
             totalSize={sectionStore.listSectionCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               listDepartment:departmentStore.listDepartment
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -136,11 +105,11 @@ const Section = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -424,7 +393,7 @@ const Section = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -448,8 +417,8 @@ const Section = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -478,13 +447,13 @@ const Section = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : sectionStore.section?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -565,6 +534,6 @@ const Section = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Section
