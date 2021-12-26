@@ -8,19 +8,13 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod } from "../components/organsims"
-import { useStores, stores } from "@lp/stores"
+import {MasterPanelHoc} from "../hoc"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const MasterPanel = observer(() => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm()
-
+const MasterPanel = MasterPanelHoc(observer(() => {
   const {
     loginStore,
     departmentStore,
@@ -31,51 +25,27 @@ const MasterPanel = observer(() => {
     routerStore,
     loading
   } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  setValue("environment", masterPanelStore.masterPanel?.environment)
+  setValue("status", masterPanelStore.masterPanel?.status)
+  setValue("rLab", loginStore.login.lab)
+  setValue("pLab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("serviceType", masterPanelStore.masterPanel?.serviceType)
+  setValue("processing",masterPanelStore.masterPanel?.processing)
+  setValue("category",masterPanelStore.masterPanel?.category)
+  setValue("sex",masterPanelStore.masterPanel?.sex)
+  setValue("panelType",masterPanelStore.masterPanel?.panelType)
+  
+
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      masterPanelStore &&
-        masterPanelStore.updateMasterPanel({
-          ...masterPanelStore.masterPanel,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      masterPanelStore &&
-        masterPanelStore.updateMasterPanel({
-          ...masterPanelStore.masterPanel,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      masterPanelStore.updateMasterPanel({
-        ...masterPanelStore.masterPanel,
-        rLab: stores.loginStore.login.lab,
-        pLab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("rLab", stores.loginStore.login.lab)
-      setValue("pLab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-
   const onSubmitMasterPanel = () => {
     if (!masterPanelStore.checkExitsLabEnvCode) {
       if (
@@ -86,7 +56,7 @@ const MasterPanel = observer(() => {
           .addPanelMaster({
             input: {
               ...masterPanelStore.masterPanel,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
             },
           })
           .then((res) => {
@@ -104,7 +74,7 @@ const MasterPanel = observer(() => {
           .versionUpgradePanelMaster({
             input: {
               ...masterPanelStore.masterPanel,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -123,7 +93,7 @@ const MasterPanel = observer(() => {
           .duplicatePanelMaster({
             input: {
               ...masterPanelStore.masterPanel,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -151,7 +121,7 @@ const MasterPanel = observer(() => {
             data={masterPanelStore.listMasterPanel || []}
             totalSize={masterPanelStore.listMasterPanelCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               labList:loginStore.login?.labList,
               listLabs:labStore.listLabs,
               listDepartment:departmentStore.listDepartment,
@@ -159,11 +129,11 @@ const MasterPanel = observer(() => {
               listMethods:methodsStore.listMethods
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -221,12 +191,12 @@ const MasterPanel = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -255,8 +225,8 @@ const MasterPanel = observer(() => {
                    <select
                       value={masterPanelStore.masterPanel?.rLab}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -441,6 +411,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.serviceType}
                   >
                     <select
+                    value={masterPanelStore.masterPanel?.serviceType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.serviceType ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -455,7 +426,7 @@ const MasterPanel = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SERVICE_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -916,6 +887,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.processing}
                   >
                     <select
+                    value={masterPanelStore.masterPanel?.processing}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.processing ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -930,7 +902,7 @@ const MasterPanel = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "PROCESSING"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -975,6 +947,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.category}
                   >
                     <select
+                    value={masterPanelStore.masterPanel?.category}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.category ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -989,7 +962,7 @@ const MasterPanel = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1011,6 +984,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.panelType}
                   >
                     <select
+                    value={masterPanelStore.masterPanel?.panelType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.panelType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1025,7 +999,7 @@ const MasterPanel = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "PANEL_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1047,6 +1021,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.sex}
                   >
                     <select
+                    value={masterPanelStore.masterPanel?.sex}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.sex ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1061,7 +1036,7 @@ const MasterPanel = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SEX"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1376,7 +1351,7 @@ const MasterPanel = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1504,8 +1479,8 @@ const MasterPanel = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -1537,13 +1512,13 @@ const MasterPanel = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : masterPanelStore.masterPanel?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1679,6 +1654,6 @@ const MasterPanel = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default MasterPanel
