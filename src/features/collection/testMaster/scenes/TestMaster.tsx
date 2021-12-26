@@ -8,18 +8,14 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectDepartment } from "../components/organsims"
-import { useStores, stores } from "@lp/stores"
+
+import {TestMasterHOC} from "../hoc"
+import { useStores, } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const TestMater = observer(() => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm()
+const TestMater = TestMasterHOC(observer(() => {
   const {
     loginStore,
     testMasterStore,
@@ -29,50 +25,25 @@ const TestMater = observer(() => {
     routerStore,
     loading
   } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  setValue("rLab", loginStore.login.lab)
+  setValue("plab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("status", testMasterStore.testMaster?.status)
+  setValue("environment", testMasterStore.testMaster?.environment)
+  setValue("sufix", testMasterStore.testMaster?.sufix)
+  setValue("prefix", testMasterStore.testMaster?.prefix)
+  setValue("testType", testMasterStore.testMaster?.testType)
+  setValue("category", testMasterStore.testMaster?.category)
+  setValue("disease", testMasterStore.testMaster?.disease)
+  setValue("workflow", testMasterStore.testMaster?.workflow)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      testMasterStore.updateTestMaster({
-        ...testMasterStore.testMaster,
-        rLab: stores.loginStore.login.lab,
-        pLab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("rLab", stores.loginStore.login.lab)
-      setValue("plab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      testMasterStore &&
-        testMasterStore.updateTestMaster({
-          ...testMasterStore.testMaster,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      testMasterStore &&
-        testMasterStore.updateTestMaster({
-          ...testMasterStore.testMaster,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
   const onSubmitTestMaster = () => {
     if (!testMasterStore.checkExitsLabEnvCode) {
       if (
@@ -83,7 +54,7 @@ const TestMater = observer(() => {
           .addTestMaster({
             input: {
               ...testMasterStore.testMaster,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
             },
           })
           .then((res) => {
@@ -101,7 +72,7 @@ const TestMater = observer(() => {
           .versionUpgradeTestMaster({
             input: {
               ...testMasterStore.testMaster,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -120,7 +91,7 @@ const TestMater = observer(() => {
           .duplicateTestMaster({
             input: {
               ...testMasterStore.testMaster,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -149,18 +120,18 @@ const TestMater = observer(() => {
             data={testMasterStore.listTestMaster || []}
             totalSize={testMasterStore.listTestMasterCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               labList: loginStore.login?.labList,
               listLabs: labStore.listLabs,
               listDepartment: departmentStore.listDepartment,
               sectionListByDeptCode: testMasterStore.sectionListByDeptCode,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -218,12 +189,12 @@ const TestMater = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -252,8 +223,8 @@ const TestMater = observer(() => {
                     <select
                       value={testMasterStore.testMaster?.rLab}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -313,8 +284,8 @@ const TestMater = observer(() => {
                     loader={loading}
                     placeholder="Search by name"
                     disable={
-                      stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
                         ? true
                         : false
                     }
@@ -946,6 +917,7 @@ const TestMater = observer(() => {
                     hasError={errors.workflow}
                   >
                     <select
+                    value={testMasterStore.testMaster?.workflow}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.workflow ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -960,7 +932,7 @@ const TestMater = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "WORKFLOW"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1029,6 +1001,7 @@ const TestMater = observer(() => {
                     hasError={errors.disease}
                   >
                     <select
+                    value={testMasterStore.testMaster?.disease}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const disease = e.target.value as string
@@ -1041,7 +1014,7 @@ const TestMater = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "DISEASE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1063,6 +1036,7 @@ const TestMater = observer(() => {
                     hasError={errors.category}
                   >
                     <select
+                    value={testMasterStore.testMaster?.category}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const category = e.target.value as string
@@ -1075,7 +1049,7 @@ const TestMater = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1097,6 +1071,7 @@ const TestMater = observer(() => {
                     hasError={errors.testType}
                   >
                     <select
+                    value={testMasterStore.testMaster?.testType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.testType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1111,7 +1086,7 @@ const TestMater = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "TEST_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1208,6 +1183,7 @@ const TestMater = observer(() => {
                     hasError={errors.prefix}
                   >
                     <select
+                    value={testMasterStore.testMaster?.prefix}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.prefix ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1222,7 +1198,7 @@ const TestMater = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "PREFIX"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1244,6 +1220,7 @@ const TestMater = observer(() => {
                     hasError={errors.sufix}
                   >
                     <select
+                    value={testMasterStore.testMaster?.sufix}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.sufix ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1258,7 +1235,7 @@ const TestMater = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SUFIX"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1474,7 +1451,7 @@ const TestMater = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1594,8 +1571,8 @@ const TestMater = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -1627,13 +1604,13 @@ const TestMater = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : testMasterStore.testMaster?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1871,6 +1848,6 @@ const TestMater = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default TestMater
