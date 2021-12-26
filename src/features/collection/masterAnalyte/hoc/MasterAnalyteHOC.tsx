@@ -30,6 +30,35 @@ export const MasterAnalyteHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
+        masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
+          ...masterAnalyteStore.masterAnalyte,
+          usage:LibraryUtils.getDefaultLookupItem(
+            routerStore.lookupItems,
+            "USAGE"
+          ),
+        })
+        masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
+          ...masterAnalyteStore.masterAnalyte,
+          units:LibraryUtils.getDefaultLookupItem(
+            routerStore.lookupItems,
+            "UNITS"
+          ),
+        })
+        masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
+          ...masterAnalyteStore.masterAnalyte,
+          analyteType:LibraryUtils.getDefaultLookupItem(
+            routerStore.lookupItems,
+            "ANALYTE_TYPE"
+          ),
+        })
+        masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
+          ...masterAnalyteStore.masterAnalyte,
+          resultType:LibraryUtils.getDefaultLookupItem(
+            routerStore.lookupItems,
+            "RESULT_TYPE"
+          ),
+        })
+
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />
     }
