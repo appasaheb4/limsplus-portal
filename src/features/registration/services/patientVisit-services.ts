@@ -138,7 +138,7 @@ export class PatientVisitService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   checkExistsPatient = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -163,14 +163,14 @@ export class PatientVisitService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPatientManager.success)
+         if (!response.data.filterByFieldsPatientVisit.success)
             return this.listPatientVisit({ documentType: "patientVisit" })
-          stores.patientManagerStore.filterPatientManagerList({
-            filterPatientManager: {
-              data: response.data.filterByFieldsPatientManager.data,
+          stores.patientVisitStore.filterPatientVisitList({
+            filterPatientVisit: {
+              data: response.data.filterByFieldsPatientVisit.data,
               paginatorInfo: {
                 count:
-                  response.data.filterByFieldsPatientManager.paginatorInfo.count,
+                  response.data.filterByFieldsPatientVisit.paginatorInfo.count,
               },
             },
           })

@@ -6,7 +6,7 @@ import classNames from "classnames"
 import DateTimePicker from "react-datetime-picker"
 // import "react-calendar/dist/Calendar.css"
 // import "react-clock/dist/Clock.css"
- import "./css/DateTimePicker.css"
+import "./css/DateTimePicker.css"
 
 interface LabelProps {
   htmlFor: string
@@ -66,28 +66,30 @@ interface InputProps extends InputWrapperProps {
   onKeyDown?: (e: any) => void
 }
 
-export const Input = (props: InputProps) => (
-  <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
-    <input
-      type={props.type || "text"}
-      id={props.id}
-      name={props.name}
-      style={props.style}
-      defaultValue={props.defaultValue}
-      placeholder={props.placeholder}
-      required={props.required || false}
-      disabled={props.disabled || false}
-      autoComplete="given-name"
-      value={props.value}
-      onChange={(e) => props.onChange && props.onChange(e.target.value)}
-      className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
-        props.hasError ? "border-red-500 " : "border-gray-300"
-      } rounded-md`}
-      onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
-      onKeyDown={props.onKeyDown}
-    />
-  </InputWrapper>
-)
+export const Input = (props: InputProps) => {
+  return (
+    <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
+      <input
+        type={props.type || "text"}
+        id={props.id}
+        name={props.name}
+        style={props.style}
+        defaultValue={props.defaultValue}
+        placeholder={props.placeholder}
+        required={props.required || false}
+        disabled={props.disabled || false}
+        autoComplete="given-name"
+        value={props.value}
+        onChange={(e) => props.onChange && props.onChange(e.target.value)}
+        className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+          props.hasError ? "border-red-500 " : "border-gray-300"
+        } rounded-md`}
+        onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
+        onKeyDown={props.onKeyDown}
+      />
+    </InputWrapper>
+  )
+}
 
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id} className={props.className}>

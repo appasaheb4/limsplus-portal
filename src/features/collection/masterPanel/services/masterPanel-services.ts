@@ -16,7 +16,8 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
-  FILTER
+  FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 
 class MasterPanelService {
@@ -26,7 +27,7 @@ class MasterPanelService {
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
       client
-        .mutate({  
+        .mutate({
           mutation: LIST,
           variables: { input: { page, limit, env, role, lab } },
         })
@@ -120,8 +121,8 @@ class MasterPanelService {
 
   checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-      
+      console.log({ variables })
+
       client
         .mutate({
           mutation: CHECK_EXISTS_RECORD,
@@ -135,7 +136,6 @@ class MasterPanelService {
         )
     })
 
-
   findSectionListByDeptCode = (code: string) =>
     new Promise<any>((resolve) => {
       new SectionService()
@@ -146,7 +146,7 @@ class MasterPanelService {
         })
     })
 
-    filter = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
@@ -155,12 +155,38 @@ class MasterPanelService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterPanelMaster.success)
-            return this.listPanelMaster()
+          if (!response.data.filterPanelMaster.success) return this.listPanelMaster()
           stores.masterPanelStore.filterPanelMasterList(response.data)
           stores.uploadLoadingFlag(false)
           resolve(response.data)
-        })  
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsPanelMaster.success)
+            return this.listPanelMaster()
+          stores.masterPanelStore.filterPanelMasterList({
+            filterPanelMaster: {
+              data: response.data.filterByFieldsPanelMaster.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsPanelMaster.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

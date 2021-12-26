@@ -7,6 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectPidProps {
   hasError?: boolean
+  displayValue?: string
   onSelect: (item: any) => void
 }
 
@@ -41,7 +42,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
 
     const onFilter = (value: string) => {
       patientManagerStore.patientManagerService.filterByFields({
-        input: {  
+        input: {
           filter: {
             fields: ["pId", "firstName", "middleName", "lastName", "mobileNo"],
             srText: value,
@@ -98,7 +99,9 @@ export const AutoCompleteFilterSingleSelectPid = observer(
                           key={index}
                           className="text-gray-400 flex items-center"
                           onClick={() => {
-                            setValue(item.pId)
+                            setValue(
+                              `${item.pId} - ${item.firstName} ${item.lastName} - ${item.mobileNo}`
+                            )
                             setIsListOpen(false)
                             patientManagerStore.updatePatientManagerList(
                               patientManagerStore.listPatientMangerCopy

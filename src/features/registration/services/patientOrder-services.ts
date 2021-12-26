@@ -110,7 +110,7 @@ export class PatientOrderService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   sequencingOrderId = () =>
     new Promise<any>((resolve, reject) => {
       const variables = {
@@ -153,7 +153,7 @@ export class PatientOrderService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+   
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -163,14 +163,14 @@ export class PatientOrderService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPatientManager.success)
+          if (!response.data.filterByFieldsPatientVisit.success)
             return this.listPatientOrder({ documentType: "patientOrder" })
-          stores.patientManagerStore.filterPatientManagerList({
-            filterPatientManager: {
-              data: response.data.filterByFieldsPatientManager.data,
+          stores.patientOrderStore.filterPatientOrderList({
+            filterPatientOrder: {
+              data: response.data.filterByFieldsPatientVisit.data,
               paginatorInfo: {
                 count:
-                  response.data.filterByFieldsPatientManager.paginatorInfo.count,
+                  response.data.filterByFieldsPatientVisit.paginatorInfo.count,
               },
             },
           })
