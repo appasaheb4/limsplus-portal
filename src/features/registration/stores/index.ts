@@ -9,6 +9,7 @@ export const Stores = {
 export const Contexts = {
   patientRegistrationContext: React.createContext(Stores.patientRegistationStore),
 }
-      
+
 export * from "./patientManager-store"
 export * from "./patientVisit-store"
+export * from "./patientOrder-store"

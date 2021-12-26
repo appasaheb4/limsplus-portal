@@ -15,5 +15,6 @@ const PageHeading: React.FunctionComponent<PageHeadingProps> = (props) => (
     )}
   </div>
 )
-
 export default PageHeading
+
+

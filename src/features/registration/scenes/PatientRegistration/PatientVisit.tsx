@@ -33,6 +33,8 @@ const PatientVisit = PatientVisitHoc(
       control,
       handleSubmit,
       formState: { errors },
+      setValue,
+      clearErrors,
     } = useForm()
     const {
       loading,
@@ -75,6 +77,11 @@ const PatientVisit = PatientVisitHoc(
 
     return (
       <>
+        {patientVisitStore.patientVisit.patientName && (
+          <LibraryComponents.Atoms.Heading
+            title={`${patientVisitStore.patientVisit.pId} - ${patientVisitStore.patientVisit.patientName}`}
+          />
+        )}
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 140 }}
@@ -100,7 +107,6 @@ const PatientVisit = PatientVisitHoc(
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
                       label="Visit Id"
-                      name="txtVisitId"
                       placeholder={
                         errors.visitId ? "Please Enter Visit ID" : "Visit ID"
                       }
@@ -138,6 +144,9 @@ const PatientVisit = PatientVisitHoc(
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
+                            patientName: `${item.firstName} ${
+                              item.middleName ? item.middleName : ""
+                            } ${item.lastName}`,
                             age: getAgeAndAgeUnit(resultAge).age,
                             ageUnits: getAgeAndAgeUnit(resultAge).ageUnit,
                           })
@@ -391,8 +400,6 @@ const PatientVisit = PatientVisitHoc(
                             )
                           }}
                           onSelect={(item) => {
-                            console.log({ item })
-
                             onChange(item.locationCode)
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
@@ -406,6 +413,14 @@ const PatientVisit = PatientVisitHoc(
                                 invoiceAc: item.invoiceAc,
                               },
                             })
+                            if (item.corporateCode) {
+                              setValue("corporateCode", item.corporateCode)
+                              clearErrors("corporateCode")
+                            }
+                            if (item.acClass) {
+                              setValue("acClass", item.acClass)
+                              clearErrors("acClass")
+                            }
                             registrationLocationsStore.updateRegistrationLocationsList(
                               registrationLocationsStore.listRegistrationLocationsCopy
                             )
@@ -418,58 +433,59 @@ const PatientVisit = PatientVisitHoc(
                     defaultValue=""
                   />
                 )}
-                {corporateClientsStore.listCorporateClients && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
-                        label="Corporate Code"
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Corporate Code"
+                      hasError={errors.corporateCode}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
+                        displayValue={
+                          patientVisitStore.patientVisit?.corporateCode || ""
+                        }
+                        data={{
+                          list: corporateClientsStore.listCorporateClients,
+                          displayKey: ["corporateCode", "corporateName"],
+                        }}
                         hasError={errors.corporateCode}
-                      >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder="Search by code or name"
-                          data={{
-                            list: corporateClientsStore.listCorporateClients,
-                            displayKey: ["corporateCode", "corporateName"],
-                          }}
-                          hasError={errors.corporateCode}
-                          onFilter={(value: string) => {
-                            corporateClientsStore.corporateClientsService.filterByFields(
-                              {
-                                input: {
-                                  filter: {
-                                    fields: ["corporateCode", "corporateName"],
-                                    srText: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          corporateClientsStore.corporateClientsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ["corporateCode", "corporateName"],
+                                  srText: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.locationCode)
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              corporateCode: item.corporateCode,
-                              extraData: {
-                                ...patientVisitStore.patientVisit.extraData,
-                                invoiceAc: item.invoiceAc,
+                                page: 0,
+                                limit: 10,
                               },
-                            })
-                            corporateClientsStore.updateCorporateClientsList(
-                              corporateClientsStore.listCorporateClientsCopy
-                            )
-                          }}
-                        />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
-                    )}
-                    name="corporateCode"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                )}
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.corporateCode)
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            corporateCode: item.corporateCode,
+                            extraData: {
+                              ...patientVisitStore.patientVisit.extraData,
+                              invoiceAc: item.invoiceAc,
+                            },
+                          })
+                          corporateClientsStore.updateCorporateClientsList(
+                            corporateClientsStore.listCorporateClientsCopy
+                          )
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="corporateCode"
+                  rules={{ required: true }}
+                  defaultValue={patientVisitStore.patientVisit?.corporateCode}
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -505,7 +521,7 @@ const PatientVisit = PatientVisitHoc(
                   )}
                   name="acClass"
                   rules={{ required: true }}
-                  defaultValue=""
+                  defaultValue={patientVisitStore.patientVisit?.acClass}
                 />
 
                 {doctorsStore.listDoctors && (
@@ -716,55 +732,60 @@ const PatientVisit = PatientVisitHoc(
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                        {patientVisitStore.patientVisit.extraData?.invoiceAc && (
-                          <Controller
-                            control={control}
-                            render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.InputWrapper
-                                label="Invoice Ac"
+                        <Controller
+                          control={control}
+                          render={({ field: { onChange } }) => (
+                            <LibraryComponents.Atoms.Form.InputWrapper
+                              label="Invoice Ac"
+                              hasError={errors.invoiceAc}
+                            >
+                              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                                loader={loading}
+                                placeholder="Search by code"
+                                displayValue={
+                                  patientVisitStore.patientVisit.extraData
+                                    ?.invoiceAc || ""
+                                }
+                                disable={true}
+                                data={{
+                                  list: corporateClientsStore.listCorporateClients,
+                                  displayKey: "invoiceAc",
+                                }}
                                 hasError={errors.invoiceAc}
-                              >
-                                <select
-                                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                    errors.invoiceAc
-                                      ? "border-red-500"
-                                      : "border-gray-300"
-                                  } rounded-md`}
-                                  disabled={true}
-                                  value={
-                                    patientVisitStore.patientVisit.extraData
-                                      ?.invoiceAc
-                                  }
-                                  onChange={(e) => {
-                                    const invoice = e.target.value
-                                    onChange(invoice)
-                                    patientVisitStore.updatePatientVisit({
-                                      ...patientVisitStore.patientVisit,
-                                      extraData: {
-                                        ...patientVisitStore.patientVisit.extraData,
-                                        invoiceAc: invoice,
+                                onFilter={(value: string) => {
+                                  corporateClientsStore.corporateClientsService.filterByFields(
+                                    {
+                                      input: {
+                                        filter: {
+                                          fields: ["invoiceAc"],
+                                          srText: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
                                       },
-                                    })
-                                  }}
-                                >
-                                  <option selected>Select</option>
-                                  {corporateClientsStore.listCorporateClients &&
-                                    corporateClientsStore.listCorporateClients.map(
-                                      (item: any, index: number) => (
-                                        <option key={index} value={item.invoiceAc}>
-                                          {`${item.invoiceAc}`}
-                                        </option>
-                                      )
-                                    )}
-                                </select>
-                              </LibraryComponents.Atoms.Form.InputWrapper>
-                            )}
-                            name="invoiceAc"
-                            rules={{ required: false }}
-                            defaultValue=""
-                          />
-                        )}
-
+                                    }
+                                  )
+                                }}
+                                onSelect={(item) => {
+                                  onChange(item.invoice)
+                                  patientVisitStore.updatePatientVisit({
+                                    ...patientVisitStore.patientVisit,
+                                    extraData: {
+                                      ...patientVisitStore.patientVisit.extraData,
+                                      invoiceAc: item.invoice,
+                                    },
+                                  })
+                                  corporateClientsStore.updateCorporateClientsList(
+                                    corporateClientsStore.listCorporateClientsCopy
+                                  )
+                                }}
+                              />
+                            </LibraryComponents.Atoms.Form.InputWrapper>
+                          )}
+                          name="invoiceAc"
+                          rules={{ required: false }}
+                          defaultValue=""
+                        />
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
@@ -1229,7 +1250,7 @@ const PatientVisit = PatientVisitHoc(
                             validate: (value) => FormHelper.isValidHeight(value),
                           }}
                           name="height"
-                          defaultValue=""
+                          defaultValue="1"
                         />
                         <Controller
                           control={control}
@@ -1262,7 +1283,7 @@ const PatientVisit = PatientVisitHoc(
                             required: false,
                             validate: (value) => FormHelper.isValidWeight(value),
                           }}
-                          defaultValue=""
+                          defaultValue="1"
                         />
                         <Controller
                           control={control}

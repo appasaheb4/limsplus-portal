@@ -7,7 +7,12 @@ import * as LibraryUtils from "@lp/library/utils"
 export const PatientManagerHoc = (Component: React.FC<any>) => {
   return observer(
     (props: any): JSX.Element => {
-      const { loginStore, patientManagerStore, routerStore } = useStores()
+      const {
+        loginStore,
+        patientManagerStore,
+        routerStore,
+        environmentStore,
+      } = useStores()
       useEffect(() => {
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           patientManagerStore.updatePatientManager({
@@ -31,7 +36,7 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
             ) === "H"
               ? null
               : undefined,
-          extraData: {  
+          extraData: {
             ...patientManagerStore.patientManger?.extraData,
             bloodGroup: LibraryUtils.getDefaultLookupItem(
               routerStore.lookupItems,
@@ -48,8 +53,30 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
             ),
           },
         })
-      }, [loginStore.login, routerStore.lookupItems])
 
+        if (!patientManagerStore.patientManger.extraData?.country) {
+          // DEFAULT_COUNTRY
+          environmentStore.EnvironmentService.filterByFields({
+            input: {
+              filter: {
+                fields: ["variable"],
+                srText: "DEFAULT_COUNTRY",
+              },
+              page: 0,
+              limit: 10,
+            },
+          }).then((res) => {
+            console.log({ res })
+            patientManagerStore.updatePatientManager({
+              ...patientManagerStore.patientManger,
+              extraData: {
+                ...patientManagerStore.patientManger.extraData,
+                country: res.filterByFieldsEnviroment.data[0].value,
+              },
+            })
+          })
+        }
+      }, [loginStore.login, routerStore.lookupItems])
       return <Component {...props} />
     }
   )

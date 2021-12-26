@@ -49,7 +49,11 @@ import { ShortcutMenuStore } from "@lp/features/settings/shortcutMenu/stores/sho
 import { NoticeBoardStore } from "@lp/features/settings/noticeBoard/stores/noticeBoard-store"
 
 // registation
-import { PatientManagerStore, PatientVisitStore } from "@lp/features/registration/stores"
+import {
+  PatientManagerStore,
+  PatientVisitStore,
+  PatientOrderStore,
+} from "@lp/features/registration/stores"
 
 import { Store } from "./Store"
 export class Stores extends Store {
@@ -104,6 +108,7 @@ export class Stores extends Store {
   // registation
   patientManagerStore!: PatientManagerStore
   patientVisitStore!: PatientVisitStore
+  patientOrderStore!: PatientOrderStore
 
   constructor() {
     super()
@@ -153,10 +158,11 @@ export class Stores extends Store {
     this.roleMappingStore = new RoleMappingStore()
     this.shortcutMenuStore = new ShortcutMenuStore()
     this.noticeBoardStore = new NoticeBoardStore()
-
+  
     // registation
     this.patientManagerStore = new PatientManagerStore()
     this.patientVisitStore = new PatientVisitStore()
+    this.patientOrderStore = new PatientOrderStore()
   }
 }
 

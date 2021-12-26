@@ -563,6 +563,10 @@ const PatientManager = PatientManagerHoc(
                                     displayKey: "country",
                                     findKey: "country",
                                   }}
+                                  displayValue={
+                                    patientManagerStore.patientManger.extraData
+                                      ?.country
+                                  }
                                   hasError={errors.country}
                                   onFilter={(value: string) => {
                                     administrativeDivisions.administrativeDivisionsService.filter(
@@ -1363,7 +1367,7 @@ const PatientManager = PatientManagerHoc(
               lookupItems: routerStore.lookupItems,
               listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
               confidential: loginStore.login?.confidential || false,
-              listDoctors:doctorsStore.listDoctors
+              listDoctors: doctorsStore.listDoctors,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),

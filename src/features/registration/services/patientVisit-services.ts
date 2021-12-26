@@ -17,8 +17,8 @@ import {
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
 } from "./mutation-PV"
-import dayjs from 'dayjs'
-import utc  from 'dayjs/plugin/utc'
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 
 export class PatientVisitService {
@@ -44,8 +44,8 @@ export class PatientVisitService {
 
   addPatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-      
+      console.log({ variables })
+
       client
         .mutate({
           mutation: CREATE_PATIENT_VISIT,
@@ -57,7 +57,7 @@ export class PatientVisitService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })   
+    })
 
   deletePatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -76,8 +76,8 @@ export class PatientVisitService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-         
+      console.log({ variables })
+
       client
         .mutate({
           mutation: UPDATE_PATIENT_VISIT,
@@ -90,7 +90,6 @@ export class PatientVisitService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -117,7 +116,7 @@ export class PatientVisitService {
       const variables = {
         input: {
           filter: {
-            _id: "visitId",
+            _id: "patientVisit_VisitId",
             collectionName: "patientregistrations",
             documentType: "patientVisit",
           },
@@ -139,7 +138,7 @@ export class PatientVisitService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+  
   checkExistsPatient = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
