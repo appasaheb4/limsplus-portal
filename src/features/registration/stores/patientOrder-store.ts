@@ -12,9 +12,9 @@ export class PatientOrderStore {
     this.listPatientOrder = []
     this.listPatientOrderCount = 0
     this.checkExistsOrderId = false
-    this.patientOrder = {
-      ...this.patientOrder,
-    }
+    // this.patientOrder = {
+    //   ...this.patientOrder,
+    // }
 
     makeObservable<PatientOrderStore, any>(this, {
       patientOrder: observable,

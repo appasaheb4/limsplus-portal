@@ -15,7 +15,8 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
-  FILTER
+  FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 
 class MasterPackageService {
@@ -113,7 +114,7 @@ class MasterPackageService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-   
+
   checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -129,7 +130,7 @@ class MasterPackageService {
         )
     })
 
-    filter = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
@@ -143,7 +144,34 @@ class MasterPackageService {
           stores.masterPackageStore.filterPackageMasterList(response.data)
           stores.uploadLoadingFlag(false)
           resolve(response.data)
-        })  
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+   
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {  
+          if (!response.data.filterByFieldsPackageMaster.success)
+            return this.listPackageMaster()
+          stores.masterPackageStore.filterPackageMasterList({
+            filterPackageMaster: {
+              data: response.data.filterByFieldsPackageMaster.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsPackageMaster.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

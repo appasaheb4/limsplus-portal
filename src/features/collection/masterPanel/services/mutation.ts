@@ -187,3 +187,71 @@ export const FILTER = gql`
     }
   }
 `
+
+
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: PanelMasterInput!) {
+    filterByFieldsPanelMaster(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        rLab
+        pLab
+        department
+        section
+        panelCode
+        panelName
+        description
+        shortName
+        bill
+        price
+        schedule
+        tat
+        autoRelease
+        holdOOS
+        validationLevel
+        confidential
+        urgent
+        instantResult
+        reportGroup
+        reportOrder
+        sex
+        sexAction
+        hiAge
+        loAge
+        processing
+        category
+        suffix
+        serviceType
+        panelType
+        repitation
+        tubeGroup
+        printLabel
+        labelInstruction
+        pageBreak
+        method
+        panelMethod
+        workflow
+        cumulative
+        reportTemplate
+        sampleType
+        specalInstructions
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }   
+    }
+  }
+`

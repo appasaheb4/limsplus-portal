@@ -8,26 +8,27 @@ import dayjs from "dayjs"
 export class MasterPackageStore {
   masterPackage!: Models.MasterPackage
   listMasterPackage!: Models.MasterPackage[]
+  listMasterPackageCopy!: Models.MasterPackage[]
   listMasterPackageCount!: number
   checkExitsLabEnvCode!: boolean
 
   constructor() {
     this.listMasterPackage = []
+    this.listMasterPackageCopy = []
     this.listMasterPackageCount = 0
     this.checkExitsLabEnvCode = false
     this.masterPackage = {
       ...this.masterPackage,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
-      ),
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
     }
     makeObservable<MasterPackageStore, any>(this, {
       masterPackage: observable,
       listMasterPackage: observable,
+      listMasterPackageCopy: observable,
       listMasterPackageCount: observable,
       checkExitsLabEnvCode: observable,
 
@@ -36,7 +37,7 @@ export class MasterPackageStore {
       updatePackageMasterList: action,
       updateMasterPackage: action,
       updateExistsLabEnvCode: action,
-      filterPackageMasterList:action
+      filterPackageMasterList: action,
     })
   }
 
@@ -49,9 +50,14 @@ export class MasterPackageStore {
   }
 
   updatePackageMasterList(res: any) {
-    if (!res.packageMasters.success) return alert(res.packageMasters.message)
-    this.listMasterPackage = res.packageMasters.data
-    this.listMasterPackageCount = res.packageMasters.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.packageMasters.success) return alert(res.packageMasters.message)
+      this.listMasterPackage = res.packageMasters.data
+      this.listMasterPackageCopy = res.packageMasters.data
+      this.listMasterPackageCount = res.packageMasters.paginatorInfo.count
+    } else {
+      this.listMasterPackage = res
+    }
   }
 
   filterPackageMasterList(res: any) {

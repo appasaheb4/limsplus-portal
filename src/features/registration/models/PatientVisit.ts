@@ -11,7 +11,9 @@ export class PatientVisit {
   age: number
   ageUnits: string
   collectionCenter: string
+  collectionCenterName: string
   corporateCode: string
+  corporateName: string
   acClass: string
   doctorId: string
   doctorName: string
@@ -66,7 +68,9 @@ export class PatientVisit {
     this.age = rawData.age
     this.ageUnits = rawData.ageUnits
     this.collectionCenter = rawData.collectionCenter
+    this.collectionCenterName = rawData.collectionCenterName
     this.corporateCode = rawData.corporateCode
+    this.corporateName = rawData.corporateName
     this.acClass = rawData.acClass
     this.doctorId = rawData.doctorId
     this.doctorName = rawData.doctorName

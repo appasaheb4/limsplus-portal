@@ -11,7 +11,10 @@ const startup = async () => {
   })
   stores.patientVisitStore.patientVisitService.sequencingVisitId()
   // patient order
-  stores.patientOrderStore.patientOrderService.sequencingOrderId()
+  setTimeout(() => {
+    stores.patientOrderStore.patientOrderService.sequencingOrderId()
+  }, 2000);
+ 
 }  
 
 export default startup

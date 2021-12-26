@@ -5,11 +5,13 @@ import * as Models from "../models"
 export class PatientVisitStore {
   patientVisit!: Models.PatientVisit
   listPatientVisit: Models.PatientVisit[] = []
+  listPatientVisitCopy: Models.PatientVisit[] = []
   listPatientVisitCount!: number
   checkExistsVisitId!: boolean
 
   constructor() {
     this.listPatientVisit = []
+    this.listPatientVisitCopy = []
     this.listPatientVisitCount = 0
     this.checkExistsVisitId = false
     this.patientVisit = {
@@ -17,11 +19,12 @@ export class PatientVisitStore {
       visitDate: new Date(),
       registrationDate: new Date(),
       collectionDate: new Date(),
-    }  
+    }
 
     makeObservable<PatientVisitStore, any>(this, {
       patientVisit: observable,
       listPatientVisit: observable,
+      listPatientVisitCopy: observable,
       listPatientVisitCount: observable,
 
       patientVisitService: computed,
@@ -36,9 +39,14 @@ export class PatientVisitStore {
   }
 
   updatePatientVisitList(res: any) {
-    if (!res.patientVisits.success) return alert(res.patientVisits.message)
-    this.listPatientVisit = res.patientVisits.data
-    this.listPatientVisitCount = res.patientVisits.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.patientVisits.success) return alert(res.patientVisits.message)
+      this.listPatientVisit = res.patientVisits.data
+      this.listPatientVisitCopy = res.patientVisits.data
+      this.listPatientVisitCount = res.patientVisits.paginatorInfo.count
+    } else {
+      this.listPatientVisit = res
+    }
   }
 
   filterPatientVisitList(res: any) {

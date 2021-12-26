@@ -59,7 +59,7 @@ export const VERSION_UPGRADE = gql`
     }
   }
 `
-   
+
 export const DUPLICATE_RECORD = gql`
   mutation($input: CreatePackageMasterInput!) {
     duplicatePackageMaster(input: $input) {
@@ -68,7 +68,7 @@ export const DUPLICATE_RECORD = gql`
     }
   }
 `
-   
+
 export const UPDATE_RECORD = gql`
   mutation($input: UpdatePackageMasterInput!) {
     updatePackageMaster(input: $input) {
@@ -117,5 +117,38 @@ export const FILTER = gql`
         lastUpdated
       }
     }
+  }
+`
+    
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: PackageMasterInput!) {
+    filterByFieldsPackageMaster(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        lab
+        packageCode
+        packageName
+        panelCode
+        panelName
+        bill
+        status
+        serviceType
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }  
   }
 `

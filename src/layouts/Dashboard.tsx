@@ -74,14 +74,14 @@ const Dashboard = observer(({ children }) => {
       // common use api
       await Deginisation.startup()
       await Lab.startup()
-      await Role.startup()  
+      await Role.startup()
       await Department.startup()
       await User.startup()
       await Lookup.startup()
-      // lookup item fetch  
+      // lookup item fetch
       RouterFlow.getLookupValues(pathname).then((items) => {
         stores.routerStore.updateLookupItems(items)
-      })  
+      })
 
       // specific api load
       if (pathname === "/collection/banner") await Banner.startup()
@@ -166,7 +166,7 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/communication/mapping/segmentMapping") {
         await InterfaceManager.startup()
         await SegmentMapping.startup()
-      }
+      }  
       // registration
       if (pathname === "/registration/patient") {
         await PatientRegistration.startup()
@@ -174,6 +174,7 @@ const Dashboard = observer(({ children }) => {
         await AdministrativeDivisions.startup()
         await RegistrationLocations.startup()
         await CorporateClients.startup()
+        await PanelMaster.startup()
       }
       stores
     }

@@ -136,7 +136,6 @@ const PatientVisit = PatientVisitHoc(
                       <FeatureComponents.Orgransims.AutoCompleteFilterSingleSelectPid
                         hasError={errors.pid}
                         onSelect={(item) => {
-                          onChange(item.pId)
                           console.log({ item })
                           const resultAge = LibraryUtils.calculateTimimg(
                             Math.abs(dayjs(item.birthDate).diff(new Date(), "days"))
@@ -384,6 +383,11 @@ const PatientVisit = PatientVisitHoc(
                               registrationLocationsStore.listRegistrationLocations,
                             displayKey: ["locationCode", "locationName"],
                           }}
+                          displayValue={
+                            patientVisitStore.patientVisit?.collectionCenter
+                              ? `${patientVisitStore.patientVisit?.collectionCenter} - ${patientVisitStore.patientVisit?.collectionCenterName}`
+                              : ""
+                          }
                           hasError={errors.collectionCenter}
                           onFilter={(value: string) => {
                             registrationLocationsStore.registrationLocationsService.filterByFields(
@@ -404,6 +408,7 @@ const PatientVisit = PatientVisitHoc(
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
                               collectionCenter: item.locationCode,
+                              collectionCenterName: item.locationName,
                               acClass: item.acClass,
                               corporateCode: item.corporateCode,
                               extraData: {
@@ -444,7 +449,12 @@ const PatientVisit = PatientVisitHoc(
                         loader={loading}
                         placeholder="Search by code or name"
                         displayValue={
-                          patientVisitStore.patientVisit?.corporateCode || ""
+                          patientVisitStore.patientVisit?.corporateCode &&
+                          patientVisitStore.patientVisit?.corporateName
+                            ? `${patientVisitStore.patientVisit?.corporateCode} - ${patientVisitStore.patientVisit?.corporateName}`
+                            : patientVisitStore.patientVisit?.corporateCode
+                            ? `${patientVisitStore.patientVisit?.corporateCode}`
+                            : ""
                         }
                         data={{
                           list: corporateClientsStore.listCorporateClients,
@@ -470,6 +480,7 @@ const PatientVisit = PatientVisitHoc(
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             corporateCode: item.corporateCode,
+                            corporateName: item.corporateName,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
                               invoiceAc: item.invoiceAc,
@@ -536,7 +547,11 @@ const PatientVisit = PatientVisitHoc(
                           <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder="Search by code or name"
-                            displayValue={patientVisitStore.patientVisit.doctorId}
+                            displayValue={
+                              patientVisitStore.patientVisit.doctorId
+                                ? `${patientVisitStore.patientVisit.doctorId} - ${patientVisitStore.patientVisit.doctorName}`
+                                : ""
+                            }
                             data={{
                               list: doctorsStore.listDoctors,
                               displayKey: ["doctorCode", "doctorName"],

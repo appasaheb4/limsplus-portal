@@ -13,6 +13,7 @@ export const LIST_PATIENT_VISIT = gql`
         pId
         rLab
         visitId
+        patientName
         visitDate
         registrationDate
         collectionDate
@@ -107,6 +108,7 @@ export const FILTER_PATIENT_VISIT = gql`
         pId
         rLab
         visitId
+        patientName
         visitDate
         registrationDate
         collectionDate
@@ -181,8 +183,8 @@ export const CHECK_EXISTS_PATIENT = gql`
 `
 
 export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
-  mutation($input: PatientManagerInput!) {
-    filterByFieldsPatientManager(input: $input) {
+  mutation($input: PatientVisitInput!) {
+    filterByFieldsPatientVisit(input: $input) {
       paginatorInfo {
         count
       }
@@ -193,6 +195,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         pId
         rLab
         visitId
+        patientName
         visitDate
         registrationDate
         collectionDate
