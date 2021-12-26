@@ -4,8 +4,7 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { Stores } from "../../stores"
-import { AutoCompleteFilterSingleSelectLabs } from "../organsims"
+import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectCorparateCode } from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let dateCreation
@@ -423,21 +422,11 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const corporateCode = e.target.value
-                    props.onUpdateItem &&
-                      props.onUpdateItem(corporateCode, column.dataField, row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[].map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
-                    </option>
-                  ))}
-                </select>
+                <AutoCompleteFilterSingleSelectCorparateCode
+                onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item.corporateCode,column.dataField,row._id)
+                }}
+                />
               </>
             ),
           },
