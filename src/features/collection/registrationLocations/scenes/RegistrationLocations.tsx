@@ -6,7 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectCorparateCode} from "../components/organsims"
 import { useStores } from "@lp/stores"
 import { RouterFlow } from "@lp/flows"
 
@@ -767,30 +767,16 @@ const RegistrationLocation = observer(() => {
                     label="Corporate Code"
                     hasError={errors.corporateCode}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.corporateCode ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const corporateDetails = JSON.parse(e.target.value)
-                        onChange(corporateDetails.corporateCode)
+                    <AutoCompleteFilterSingleSelectCorparateCode
+                    onSelect={(item)=>{
+                      onChange(item.corporateCode)
                         registrationLocationsStore.updateRegistrationLocations({
                           ...registrationLocationsStore.registrationLocations,
-                          corporateCode: corporateDetails.corporateCode,
-                          invoiceAc: corporateDetails.invoiceAc,
+                          corporateCode: item.corporateCode,
+                          invoiceAc: item.invoiceAc,
                         })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {corporateClientsStore.listCorporateClients &&
-                        corporateClientsStore.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.corporateCode} - ${item.corporateName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="corporateCode"
