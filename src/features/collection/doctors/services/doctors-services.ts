@@ -16,6 +16,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS
 } from "./mutation"
 
 class DoctorsService {
@@ -139,6 +140,35 @@ class DoctorsService {
         .then((response: any) => {  
           if (!response.data.filterDoctors.success) return this.listDoctors()
           stores.doctorsStore.filterDoctorsList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsDoctor.success)
+            return this.listDoctors()
+          stores.doctorsStore.filterDoctorsList({
+            filterDoctors: {
+              data: response.data.filterByFieldsDoctor.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsDoctor.paginatorInfo
+                    .count,
+              },
+            },
+          })
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

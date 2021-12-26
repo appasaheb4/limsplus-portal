@@ -6,7 +6,7 @@ export class FormHelper {
     nonEmptyString: /^(?!\s*$).+/,
     userName: /^[a-z][a-z0-9_.]+$/,
     password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
-    mobileNo: /^[0-9]{10}$/g
+    mobileNo: /^[0-9]{10}$/g,
   }
 
   static isUserNameValid(userName: string): boolean {
@@ -38,5 +38,12 @@ export class FormHelper {
   }
   static isPasswordValid(password: string): boolean {
     return this.patterns.password.test(password)
-  }  
+  }
+
+  static isValidHeight(height: string): boolean {
+    return !!Number(height) && Number(height) <= 214
+  }
+  static isValidWeight(weight: string): boolean {
+    return !!Number(weight) && Number(weight) <= 150
+  }
 }
