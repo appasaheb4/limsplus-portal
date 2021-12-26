@@ -7,68 +7,35 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectTestName} from "../components/organsims"
-import { useStores, stores } from "@lp/stores"
+import {TestAnalyteMappingHoc} from "../hoc"
+import { useStores, } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const TestAnalyteMapping = observer(() => {
+const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
+  const {
+    loginStore,
+    testAnalyteMappingStore,
+    labStore,
+    masterAnalyteStore,
+    routerStore,
+    loading
+  } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const {
-    loginStore,
-    testAnalyteMappingStore,
-    labStore,
-    testMasterStore,
-    masterAnalyteStore,
-    routerStore,
-    loading
-  } = useStores()
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("status", testAnalyteMappingStore.testAnalyteMapping?.status)
+  setValue("environment", testAnalyteMappingStore.testAnalyteMapping?.environment)
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      testAnalyteMappingStore &&
-        testAnalyteMappingStore.updateTestAnalyteMapping({
-          ...testAnalyteMappingStore.testAnalyteMapping,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      testAnalyteMappingStore.updateTestAnalyteMapping({
-        ...testAnalyteMappingStore.testAnalyteMapping,
-        environment: environment.code as string,
-      })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      testAnalyteMappingStore.updateTestAnalyteMapping({
-        ...testAnalyteMappingStore.testAnalyteMapping,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
 
   const onSubmitTestAnalyteMapping = () => {
     if (!testAnalyteMappingStore.checkExitsLabEnvCode) {
@@ -80,7 +47,7 @@ const TestAnalyteMapping = observer(() => {
           .addTestAnalyteMapping({
             input: {
               ...testAnalyteMappingStore.testAnalyteMapping,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
             },
           })
           .then((res) => {
@@ -98,7 +65,7 @@ const TestAnalyteMapping = observer(() => {
           .versionUpgradeTestAnalyteMapping({
             input: {
               ...testAnalyteMappingStore.testAnalyteMapping,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -117,7 +84,7 @@ const TestAnalyteMapping = observer(() => {
           .duplicateTestAnalyteMapping({
             input: {
               ...testAnalyteMappingStore.testAnalyteMapping,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -146,15 +113,15 @@ const TestAnalyteMapping = observer(() => {
             data={testAnalyteMappingStore.listTestAnalyteMapping || []}
             totalSize={testAnalyteMappingStore.listTestAnalyteMappingCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               listsLabs: labStore.listLabs,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -211,12 +178,12 @@ const TestAnalyteMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -526,7 +493,7 @@ const TestAnalyteMapping = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -689,8 +656,8 @@ const TestAnalyteMapping = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -728,14 +695,14 @@ const TestAnalyteMapping = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : testAnalyteMappingStore.testAnalyteMapping
                               ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -850,7 +817,7 @@ const TestAnalyteMapping = observer(() => {
         />
       </div>
     </>
-  )
-})
+)
+}))
 
 export default TestAnalyteMapping
