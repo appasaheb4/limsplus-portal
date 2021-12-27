@@ -5,45 +5,25 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {RolesHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const Role = observer(() => {
+const Role = RolesHoc(observer(() => {
+  const { loginStore, roleStore, routerStore } = useStores()
   const {
     control,
     formState: { errors },
     handleSubmit,
     setValue,
   } = useForm()
-  const { loginStore, roleStore, routerStore } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", roleStore.role?.environment)
+ 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      roleStore.updateRole({
-        ...roleStore.role,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-  useEffect(() => {
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      roleStore &&
-        roleStore.updateRole({
-          ...roleStore.role,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
+ 
   const onSubmitRoles = () => {
     if (!roleStore.checkExitsCode) {
       roleStore.RoleService.addrole({ input: { ...roleStore.role } }).then((res) => {
@@ -320,6 +300,6 @@ const Role = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Role
