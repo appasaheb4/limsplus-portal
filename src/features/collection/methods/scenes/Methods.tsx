@@ -6,60 +6,24 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {MethodsHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const Methods = observer(() => {
+const Methods = MethodsHoc(observer(() => {
+  const { loginStore, methodsStore, routerStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, methodsStore, routerStore } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("status",methodsStore.methods?.status)
+  setValue("environment", methodsStore.methods?.environment)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      methodsStore.updateMethods({
-        ...methodsStore.methods,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      methodsStore &&
-        methodsStore.updateMethods({
-          ...methodsStore.methods,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      methodsStore &&
-        methodsStore.updateMethods({
-          ...methodsStore.methods,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
-
   const onSubmitMethods = () => {
     if (!methodsStore.checkExitsEnvCode) {
       methodsStore.methodsService
@@ -413,6 +377,6 @@ const Methods = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Methods
