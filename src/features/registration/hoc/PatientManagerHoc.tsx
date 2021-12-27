@@ -66,7 +66,6 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
               limit: 10,
             },
           }).then((res) => {
-            console.log({ res })
             patientManagerStore.updatePatientManager({
               ...patientManagerStore.patientManger,
               extraData: {

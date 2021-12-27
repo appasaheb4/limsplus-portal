@@ -3,10 +3,11 @@ export class PatientOrder {
   visitId: string
   patientName: string
   labId: string
-  panelCode: string
-  panelName: string
-  packageCode: string
-  packageName: string
+  panelCode: string[]
+  panelName: string[]
+  package: any[]
+  packageCode: string[]
+  packageName: string[]
   department: string
   section: string
   bill: string
@@ -74,12 +75,15 @@ export class PatientOrder {
   constructor(rawData: { [key in string]: any }) {
     this.orderId = rawData.orderId
     this.visitId = rawData.visitId
+    this.panelCode = rawData.panelCode
+    this.panelName = rawData.panelName
+    this.package = rawData.package
+    
     this.patientName = rawData.patientName
     this.labId = rawData.labId
     this.packageCode = rawData.packageCode
     this.packageName = rawData.packageName
-    this.panelCode = rawData.panelCode
-    this.panelName = rawData.panelName
+   
     this.bill = rawData.bill
     this.containerId = rawData.containerId
     this.serviceType = rawData.serviceType
@@ -118,5 +122,14 @@ export class PatientOrder {
     this.packageVersion = rawData.packageVersion
     this.panelVersion = rawData.panelVersion
     this.environment = rawData.environment
+  }
+}  
+  
+export class SelectedItems {
+  panels: any[]
+  serviceTypes: string[]
+  constructor(rawData: { [key in string]: any }) {
+    this.panels = rawData.panels
+    this.serviceTypes = rawData.serviceTypes
   }
 }

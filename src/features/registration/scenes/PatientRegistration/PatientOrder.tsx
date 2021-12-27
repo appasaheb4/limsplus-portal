@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
@@ -152,49 +153,109 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+              {((patientOrderStore.selectedItems &&
+                patientOrderStore.selectedItems?.panels &&
+                patientOrderStore.selectedItems?.panels.length > 0) ||
+                masterPanelStore.listMasterPanel) && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Panel"
+                      hasError={errors.panel}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
+                        data={{
+                          list: masterPanelStore.listMasterPanel,
+                          selected: patientOrderStore.selectedItems?.panels,
+                          displayKey: ["panelCode", "panelName"],
+                        }}
+                        hasError={errors.panel}
+                        onUpdate={(item) => {
+                          const panels = patientOrderStore.selectedItems?.panels
+                          onChange(panels)
+                          patientOrderStore.updatePatientOrder({
+                            ...patientOrderStore.patientOrder,
+                            panelCode: _.map(panels, "panelCode"),
+                            panelName: _.map(panels, "panelName"),
+                          })
 
+                          masterPanelStore.updatePanelMasterList(
+                            masterPanelStore.listMasterPanelCopy
+                          )
+                        }}
+                        onFilter={(value: string) => {
+                          masterPanelStore.masterPanelService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["panelCode", "panelName"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          let panels = patientOrderStore.selectedItems?.panels
+                          if (!item.selected) {
+                            if (panels && panels.length > 0) {
+                              panels.push(item)
+                            }
+                            if (!panels) panels = [item]
+                          } else {
+                            panels = panels.filter((items) => {
+                              return items._id !== item._id
+                            })
+                          }
+                          patientOrderStore.updateSelectedItems({
+                            ...patientOrderStore.selectedItems,
+                            panels,
+                            serviceTypes: _.union(_.map(panels, "serviceType")),
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="panel"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Panel"
-                    hasError={errors.panel}
+                    label="Service Type"
+                    hasError={errors.serviceType}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder="Search by code or name"
-                      data={{
-                        list: masterPanelStore.listMasterPanel,
-                        displayKey: ["panelCode", "panelName"],
-                      }}
-                      hasError={errors.collectionCenter}
-                      onFilter={(value: string) => {
-                        masterPanelStore.masterPanelService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ["panelCode", "panelName"],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        })
-                      }}
-                      onSelect={(item) => {
-                        onChange(item.panelCode)
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.serviceType ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const serviceType = e.target.value
+                        onChange(serviceType)
                         patientOrderStore.updatePatientOrder({
                           ...patientOrderStore.patientOrder,
-                          panelCode: item.panelCode,
-                          panelName: item.panelName,
+                          serviceType,
                         })
-                        masterPanelStore.updatePanelMasterList(
-                          masterPanelStore.listMasterPanelCopy
-                        )
                       }}
-                    />
+                    >
+                      <option selected>Select</option>
+                      {patientOrderStore.selectedItems?.serviceTypes.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {`${item}`}
+                          </option>
+                        )
+                      )}
+                    </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="panel"
+                name="serviceType"
                 rules={{ required: true }}
                 defaultValue=""
               />
@@ -206,61 +267,24 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                     label="Package"
                     hasError={errors.package}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder="Search by code or name"
-                      data={{
-                        list: masterPackageStore.listMasterPackage,
-                        displayKey: ["packageCode", "packageName"],
-                      }}
-                      hasError={errors.collectionCenter}
-                      onFilter={(value: string) => {
-                        masterPackageStore.masterPackageService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ["packageCode", "packageName"],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        })
-                      }}
-                      onSelect={(item) => {
-                        onChange(item.panelCode)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          packageCode: item.packageCode,
-                          packageName: item.packageName,
-                        })
-                        masterPackageStore.updatePackageMasterList(
-                          masterPackageStore.listMasterPackageCopy
-                        )
-                      }}
-                    />
+                    <LibraryComponents.Atoms.List
+                      space={2}
+                      direction="row"
+                      justify="center"
+                    >
+                      <div>  
+                        {patientOrderStore.patientOrder?.package?.map(
+                          (item, index) => (
+                            <div className="mb-2" key={index}>
+                              {`${item.packageCode} - ${item.packageName}`}
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </LibraryComponents.Atoms.List>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="package"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Package Name"
-                    name="txtPackageName"
-                    disabled={true}
-                    value={patientOrderStore.patientOrder?.packageName}
-                    placeholder={
-                      errors.packageName
-                        ? "Please Enter Package Name"
-                        : "Package Name"
-                    }
-                    hasError={errors.packageName}
-                  />
-                )}
-                name="packageName"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -303,43 +327,6 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 defaultValue=""
               />
 
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Service Type"
-                    hasError={errors.serviceType}
-                  >
-                    <select
-                      // value={patientOrderStore.patientOrder?.serviceType}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.serviceType ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const service = JSON.parse(e.target.value) as any
-                        onChange(service)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          serviceType: service.serviceType,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {masterPanelStore.listMasterPanel &&
-                        masterPanelStore.listMasterPanel.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.serviceType}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="serviceType"
-                rules={{ required: true }}
-                defaultValue=""
-              />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
