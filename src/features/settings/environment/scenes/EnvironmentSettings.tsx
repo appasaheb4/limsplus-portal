@@ -27,6 +27,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(observer((props: Envir
     departmentStore,
     routerStore,
   } = useStores()
+  console.log({routerStore})
   const {
     control,
     handleSubmit,
@@ -477,7 +478,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(observer((props: Envir
                       </option>
                       {LibraryUtils.lookupItems(
                         routerStore.lookupItems,
-                        "SESSION_ENVIRONMENT"
+                        "ENVIRONMENT SETTING - ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}

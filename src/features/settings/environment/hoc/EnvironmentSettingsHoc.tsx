@@ -19,7 +19,7 @@ export const EnvironmentSettingsHoc = (Component: React.FC<any>) => {
           ...environmentStore.environmentSettings,
           environment: LibraryUtils.getDefaultLookupItem(
             routerStore.lookupItems,
-            "SESSION_ENVIRONMENT"
+            "ENVIRONMENT SETTING - ENVIRONMENT"
           ),
         })
       }, [loginStore.login, routerStore.lookupItems])
