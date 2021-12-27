@@ -32,8 +32,6 @@ const Lab = LabHoc(observer(() => {
   } = useForm()
   setValue("environment", labStore.labs?.environment)
   setValue("status", labStore.labs?.status)
-  setValue("deliveryType", labStore.labs?.deliveryType)
-  setValue("labType", labStore.labs?.labType)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const onSubmitLab = () => {
