@@ -7,48 +7,27 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { ScheduleFrequency } from "../components/molecules"
-
+import {DeliveryScheduleHoc}  from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const DeliverySchedule = observer(() => {
+const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
+  const { loginStore, deliveryScheduleStore, routerStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, deliveryScheduleStore, routerStore } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", deliveryScheduleStore.deliverySchedule?.environment)
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      deliveryScheduleStore.updateDeliverySchedule({
-        ...deliveryScheduleStore.deliverySchedule,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      deliveryScheduleStore &&
-      deliveryScheduleStore.updateDeliverySchedule({
-          ...deliveryScheduleStore.deliverySchedule,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  },[routerStore.lookupItems])
+ 
   const onSubmitDeliverySchedule = () => {
     if (!deliveryScheduleStore.checkExistsEnvCode) {
       deliveryScheduleStore.deliveryScheduleService
@@ -227,6 +206,7 @@ const DeliverySchedule = observer(() => {
                     hasError={errors.processingType}
                   >
                     <select
+                    value={deliveryScheduleStore.deliverySchedule?.processingType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.processingType
                           ? "border-red-500  "
@@ -716,6 +696,6 @@ const DeliverySchedule = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default DeliverySchedule
