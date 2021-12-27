@@ -9,25 +9,27 @@ import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
 import { SegmentMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {SegmentMappingHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const SegmentMapping = observer(() => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm()
+const SegmentMapping = SegmentMappingHoc(observer(() => {
   const {
     loginStore,
     interfaceManagerStore,
     segmentMappingStore,
     routerStore,
   } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", segmentMappingStore.segmentMapping?.environment)
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddSegmentMapping, setHideAddSegmentMapping] = useState<boolean>(true)
   const [saveTitle, setSaveTitle] = useState("Save")
@@ -169,31 +171,7 @@ const SegmentMapping = observer(() => {
     reader.readAsBinaryString(file)
   }
 
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      segmentMappingStore.updateSegmentMapping({
-        ...segmentMappingStore.segmentMapping,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(() => {
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      segmentMappingStore &&
-        segmentMappingStore.updateSegmentMapping({
-          ...segmentMappingStore.segmentMapping,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
+  
 
   const onSubmitSegmentMapiing = () => {
     if (segmentMappingStore.segmentMappingService) {
@@ -988,6 +966,6 @@ const SegmentMapping = observer(() => {
       />
     </>
   )
-})
+}))
 
 export default SegmentMapping
