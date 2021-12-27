@@ -8,19 +8,14 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectAnalyteCode,AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
+
+import {ReferenceRangesHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const ReferenceRanges = observer(() => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    clearErrors,
-  } = useForm()
+const ReferenceRanges = ReferenceRangesHoc(observer(() => {
   const {
     loginStore,
     interfaceManagerStore,
@@ -31,50 +26,19 @@ const ReferenceRanges = observer(() => {
     routerStore,
     loading
   } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    clearErrors,
+  } = useForm()
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("status", refernceRangesStore.referenceRanges?.status)
+  setValue("environment", refernceRangesStore.referenceRanges?.environment)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      refernceRangesStore.updateReferenceRanges({
-        ...refernceRangesStore.referenceRanges,
-        lab: loginStore.login.lab,
-        environment: loginStore.login.environment,
-      })
-      setValue("lab", loginStore.login.lab)
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      refernceRangesStore &&
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      refernceRangesStore &&
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
-
   const onSubmitReferenceRanges = () => {
     if (!refernceRangesStore.checkExitsRecord) {
       if (
@@ -344,6 +308,7 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.species}
                   >
                     <select
+                    value={refernceRangesStore.referenceRanges?.species}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.species ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -406,6 +371,7 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.sex}
                   >
                     <select
+                    value={refernceRangesStore.referenceRanges?.sex}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.sex ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -441,6 +407,7 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.rangeSetOn}
                   >
                     <select
+                    value={refernceRangesStore.referenceRanges?.rangeSetOn}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.rangeSetOn ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -625,6 +592,7 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.rangType}
                   >
                     <select
+                    value={refernceRangesStore &&refernceRangesStore.referenceRanges?.rangType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.rangType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -743,6 +711,7 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.ageUnit}
                   >
                     <select
+                    value={refernceRangesStore.referenceRanges?.ageUnit}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.ageUnit ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1137,6 +1106,7 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.intervalUnit}
                   >
                     <select
+                    value={refernceRangesStore.referenceRanges?.intervalUnit}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.intervalUnit ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1337,5 +1307,5 @@ const ReferenceRanges = observer(() => {
       </div>
     </>
   )
-})
+}))
 export default ReferenceRanges
