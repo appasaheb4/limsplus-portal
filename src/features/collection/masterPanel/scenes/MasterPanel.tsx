@@ -35,15 +35,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
   setValue("status", masterPanelStore.masterPanel?.status)
   setValue("rLab", loginStore.login.lab)
   setValue("pLab", loginStore.login.lab)
-  setValue("environment", loginStore.login.environment)
-  setValue("serviceType", masterPanelStore.masterPanel?.serviceType)
-  setValue("processing",masterPanelStore.masterPanel?.processing)
-  setValue("category",masterPanelStore.masterPanel?.category)
-  setValue("sex",masterPanelStore.masterPanel?.sex)
-  setValue("panelType",masterPanelStore.masterPanel?.panelType)
-  
-
-  
+  setValue("environment", loginStore.login.environment)  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const onSubmitMasterPanel = () => {

@@ -25,7 +25,6 @@ const MasterPackage = MasterPackageHOC(observer(() => {
   setValue("environment", loginStore.login.environment)
   setValue("status", masterPackageStore.masterPackage?.status)
   setValue("environment",masterPackageStore.masterPackage?.environment)
-  setValue("serviceType",masterPackageStore.masterPackage?.serviceType)
 
 
   const [modalConfirm, setModalConfirm] = useState<any>()

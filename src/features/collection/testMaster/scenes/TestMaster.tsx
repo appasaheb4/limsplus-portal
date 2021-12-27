@@ -36,12 +36,6 @@ const TestMater = TestMasterHOC(observer(() => {
   setValue("environment", loginStore.login.environment)
   setValue("status", testMasterStore.testMaster?.status)
   setValue("environment", testMasterStore.testMaster?.environment)
-  setValue("sufix", testMasterStore.testMaster?.sufix)
-  setValue("prefix", testMasterStore.testMaster?.prefix)
-  setValue("testType", testMasterStore.testMaster?.testType)
-  setValue("category", testMasterStore.testMaster?.category)
-  setValue("disease", testMasterStore.testMaster?.disease)
-  setValue("workflow", testMasterStore.testMaster?.workflow)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const onSubmitTestMaster = () => {

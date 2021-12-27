@@ -23,12 +23,6 @@ const Doctors = DoctorsHoc(observer(() => {
   setValue("environment", loginStore.login.environment)
   setValue("status", doctorsStore.doctors?.status)
   setValue("environment", doctorsStore.doctors?.environment)
-  setValue("title",doctorsStore.doctors?.title)
-  setValue("speciality",doctorsStore.doctors?.speciality)
-  setValue("salesTerritoRy",doctorsStore.doctors?.salesTerritoRy)
-  setValue("deliveryType",doctorsStore.doctors?.deliveryType)
-  setValue("deliveryMethod",doctorsStore.doctors?.deliveryMethod)
-  setValue("registrationLocation",doctorsStore.doctors?.registrationLocation)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const onSubmitDoctors = () => {

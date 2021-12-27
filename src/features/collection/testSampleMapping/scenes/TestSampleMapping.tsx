@@ -29,9 +29,7 @@ const TestSampleMapping = TestSampleMappingHoc(observer(() => {
   } = useForm()
   setValue("environment", loginStore.login.environment)
   setValue("environment",testSampleMappingStore.testSampleMapping?.environment)
-  setValue("repentionUnits",testSampleMappingStore.testSampleMapping?.repentionUnits)
-  setValue("minDrawVolUnit",testSampleMappingStore.testSampleMapping?.minDrawVolUnit)
-  setValue("minTestVolUnit",testSampleMappingStore.testSampleMapping?.minTestVolUnit)
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const onSubmitTestSampleMapping = () => {
