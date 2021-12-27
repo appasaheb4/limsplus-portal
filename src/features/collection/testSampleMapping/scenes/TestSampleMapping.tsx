@@ -5,20 +5,13 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {TestSampleMappingHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const TestSampleMapping = observer(() => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm()
-
+const TestSampleMapping = TestSampleMappingHoc(observer(() => {
   const {
     loginStore,
     testMasterStore,
@@ -28,32 +21,19 @@ const TestSampleMapping = observer(() => {
     routerStore,
     loading
   } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment",testSampleMappingStore.testSampleMapping?.environment)
+  setValue("repentionUnits",testSampleMappingStore.testSampleMapping?.repentionUnits)
+  setValue("minDrawVolUnit",testSampleMappingStore.testSampleMapping?.minDrawVolUnit)
+  setValue("minTestVolUnit",testSampleMappingStore.testSampleMapping?.minTestVolUnit)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      testSampleMappingStore.updateSampleType({
-        ...testSampleMappingStore.testSampleMapping,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      testSampleMappingStore && testSampleMappingStore.updateSampleType({
-        ...testSampleMappingStore.testSampleMapping,
-        environment: environment.code as string
-      })
-      setValue("environment",environment.code as string)
-    }
-  },[routerStore.lookupItems])
-
   const onSubmitTestSampleMapping = () => {
     if (!testSampleMappingStore.checkExitsTestSampleEnvCode) {
       testSampleMappingStore.testSampleMappingService
@@ -737,6 +717,7 @@ const TestSampleMapping = observer(() => {
                     hasError={errors.minDrawVolUnit}
                   >
                     <select
+                    value={testSampleMappingStore.testSampleMapping?.minDrawVolUnit}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const minDrawVolUnit = e.target.value as string
@@ -794,6 +775,7 @@ const TestSampleMapping = observer(() => {
                     hasError={errors.minTestVolUnit}
                   >
                     <select
+                    value={testSampleMappingStore.testSampleMapping?.minTestVolUnit}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const minTestVolUnit = e.target.value as string
@@ -876,6 +858,7 @@ const TestSampleMapping = observer(() => {
                     hasError={errors.repentionUnits}
                   >
                     <select
+                    value={testSampleMappingStore.testSampleMapping?.repentionUnits}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const repentionUnits = e.target.value as string
@@ -1165,6 +1148,6 @@ const TestSampleMapping = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default TestSampleMapping
