@@ -7,57 +7,30 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {DoctorsHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const Doctors = observer(() => {
+const Doctors = DoctorsHoc(observer(() => {
+  const { loginStore, labStore, routerStore, doctorsStore ,loading} = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, labStore, routerStore, doctorsStore ,loading} = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("status", doctorsStore.doctors?.status)
+  setValue("environment", doctorsStore.doctors?.environment)
+  setValue("title",doctorsStore.doctors?.title)
+  setValue("speciality",doctorsStore.doctors?.speciality)
+  setValue("salesTerritoRy",doctorsStore.doctors?.salesTerritoRy)
+  setValue("deliveryType",doctorsStore.doctors?.deliveryType)
+  setValue("deliveryMethod",doctorsStore.doctors?.deliveryMethod)
+  setValue("registrationLocation",doctorsStore.doctors?.registrationLocation)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      doctorsStore.updateDoctors({
-        ...doctorsStore.doctors,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    doctorsStore && doctorsStore.updateDoctors({
-        ...doctorsStore.doctors,
-        status: status.code as string,
-      })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    doctorsStore && doctorsStore.updateDoctors({
-      ...doctorsStore.doctors,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
-
   const onSubmitDoctors = () => {
     if (!doctorsStore.checkExitsLabEnvCode) {
       if (
@@ -432,6 +405,7 @@ const Doctors = observer(() => {
                     hasError={errors.title}
                   >
                     <select
+                    value={doctorsStore.doctors?.title}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.title ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -697,6 +671,7 @@ const Doctors = observer(() => {
                     hasError={errors.speciality}
                   >
                     <select
+                    value={doctorsStore.doctors?.speciality}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.speciality ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -733,6 +708,7 @@ const Doctors = observer(() => {
                     hasError={errors.salesTerritoRy}
                   >
                     <select
+                    value={doctorsStore.doctors?.salesTerritoRy}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.salesTerritoRy
                           ? "border-red-500  "
@@ -904,6 +880,7 @@ const Doctors = observer(() => {
                     hasError={errors.deliveryType}
                   >
                     <select
+                    value={doctorsStore.doctors?.deliveryType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.deliveryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -990,6 +967,7 @@ const Doctors = observer(() => {
                     hasError={errors.deliveryMethod}
                   >
                     <select
+                    value={doctorsStore.doctors?.deliveryMethod}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.deliveryMethod
                           ? "border-red-500  "
@@ -1072,7 +1050,7 @@ const Doctors = observer(() => {
                     hasError={errors.registrationLocation}
                   >
                     <select
-
+                      value={doctorsStore.doctors?.registrationLocation}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.registrationLocation
                           ? "border-red-500  "
@@ -1551,6 +1529,6 @@ const Doctors = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Doctors
