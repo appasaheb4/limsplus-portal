@@ -8,9 +8,11 @@ export class PatientOrderStore {
   listPatientOrderCount!: number
   checkExistsOrderId!: boolean
   selectedItems!: Models.SelectedItems
+  packageList!: any
 
   constructor() {
     this.listPatientOrder = []
+    this.packageList =[]
     this.listPatientOrderCount = 0
     this.checkExistsOrderId = false 
     // this.patientOrder = {
@@ -22,12 +24,14 @@ export class PatientOrderStore {
       listPatientOrder: observable,
       listPatientOrderCount: observable,
       selectedItems: observable,
+      packageList: observable,
 
       patientOrderService: computed,
       updatePatientOrderList: action,
       filterPatientOrderList: action,
       updatePatientOrder: action,
       updateSelectedItems: action,
+      updatePackageList: action
     })
   }
 
@@ -56,5 +60,9 @@ export class PatientOrderStore {
 
   updateSelectedItems(res: Models.SelectedItems) {
     this.selectedItems = res
-  }   
+  }  
+  
+  updatePackageList(list: any[]){
+    this.packageList = list;
+  }
 }

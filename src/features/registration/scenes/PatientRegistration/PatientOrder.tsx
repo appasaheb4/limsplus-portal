@@ -20,6 +20,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
+import { PackagesList } from "../../components/molecules"
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void
@@ -178,13 +179,33 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                           onChange(panels)
                           patientOrderStore.updatePatientOrder({
                             ...patientOrderStore.patientOrder,
-                            panelCode: _.map(panels, "panelCode"),
-                            panelName: _.map(panels, "panelName"),
+                            panelCode: _.map(panels, (o) =>
+                              _.pick(o, ["panelCode", "serviceType"])
+                            ),
+                            panelName: _.map(panels, (o) =>
+                              _.pick(o, ["panelName", "serviceType"])
+                            ),
                           })
-
                           masterPanelStore.updatePanelMasterList(
                             masterPanelStore.listMasterPanelCopy
                           )
+                          //get packages list
+                          patientOrderStore.patientOrderService.getPackageList({
+                            input: {
+                              filter: {
+                                panel: _.map(panels, (o) =>
+                                  _.pick(o, [
+                                    "_id",
+                                    "panelCode",
+                                    "panelName",
+                                    "serviceType",
+                                  ])
+                                ),
+                                serviceTypes:
+                                  patientOrderStore.selectedItems.serviceTypes,
+                              },
+                            },
+                          })
                         }}
                         onFilter={(value: string) => {
                           masterPanelStore.masterPanelService.filterByFields({
@@ -260,34 +281,22 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 defaultValue=""
               />
 
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Package"
-                    hasError={errors.package}
-                  >
-                    <LibraryComponents.Atoms.List
-                      space={2}
-                      direction="row"
-                      justify="center"
+              {patientOrderStore.packageList && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Package"
+                      hasError={errors.package}
                     >
-                      <div>  
-                        {patientOrderStore.patientOrder?.package?.map(
-                          (item, index) => (
-                            <div className="mb-2" key={index}>
-                              {`${item.packageCode} - ${item.packageName}`}
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </LibraryComponents.Atoms.List>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="package"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+                      <PackagesList data={patientOrderStore.packageList} />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="package"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
 
               <Controller
                 control={control}
