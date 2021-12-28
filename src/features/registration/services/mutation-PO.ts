@@ -246,3 +246,13 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
     }
   }
 `
+  
+export const GET_PACKAGES_LIST = gql`
+  mutation($input: PatientOrderInput!) {
+    getPatientOrderPackagesList(input: $input) {
+      success
+      message
+      packageList
+    }
+  }
+`

@@ -16,6 +16,7 @@ import {
   SEQUENCING_PATIENT_ORDER_ORDERID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
+  GET_PACKAGES_LIST,
 } from "./mutation-PO"
 import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
@@ -153,7 +154,7 @@ export class PatientOrderService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-   
+
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -169,12 +170,30 @@ export class PatientOrderService {
             filterPatientOrder: {
               data: response.data.filterByFieldsPatientVisit.data,
               paginatorInfo: {
-                count:
-                  response.data.filterByFieldsPatientVisit.paginatorInfo.count,
+                count: response.data.filterByFieldsPatientVisit.paginatorInfo.count,
               },
             },
           })
           stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  getPackageList = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: GET_PACKAGES_LIST,
+          variables,
+        })
+        .then((response: any) => {
+          console.log({ response })
+          stores.patientOrderStore.updatePackageList(
+            response.data.getPatientOrderPackagesList.packageList
+          )  
           resolve(response.data)
         })
         .catch((error) =>

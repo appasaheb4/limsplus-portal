@@ -3,8 +3,8 @@ export class PatientOrder {
   visitId: string
   patientName: string
   labId: string
-  panelCode: string[]
-  panelName: string[]
+  panelCode: any[]
+  panelName: any[]
   package: any[]
   packageCode: string[]
   packageName: string[]
