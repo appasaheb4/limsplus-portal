@@ -1,18 +1,18 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import "@lp/library/assets/css/accordion.css"
 import * as Models from "../models"
 import { useForm, Controller } from "react-hook-form"
-
+import {NoticeBoardHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const NoticeBoard = observer(() => {
+const NoticeBoard = NoticeBoardHoc(observer(() => {
   const { loginStore, labStore, noticeBoardStore, routerStore,loading } = useStores()
   const {
     control,
@@ -20,22 +20,8 @@ const NoticeBoard = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
+  setValue("lab", loginStore.login.lab)
   const [modalConfirm, setModalConfirm] = useState<any>()
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      noticeBoardStore.updateNoticeBoard({
-        ...noticeBoardStore.noticeBoard,
-        lab: loginStore.login.lab,
-      })
-      setValue("lab", loginStore.login.lab)
-    }
-  }, [loginStore.login])
-
-  useEffect(() => {
-    noticeBoardStore.fetchNoticeBoards()
-  }, [])
-
   const onNoticeBoardSubmit = () => {
     noticeBoardStore.NoticeBoardService.addNoticeBoard({
       input: {
@@ -334,5 +320,5 @@ const NoticeBoard = observer(() => {
       />
     </>
   )
-})
+}))
 export default NoticeBoard
