@@ -8,61 +8,25 @@ import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 
 import { useForm, Controller } from "react-hook-form"
-
+import {CorporateClientsHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const CorporateClients = observer(() => {
+const CorporateClients = CorporateClientsHoc(observer(() => {
+  const { loginStore, labStore, corporateClientsStore, routerStore,loading } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-
-  const { loginStore, labStore, corporateClientsStore, routerStore,loading } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("status", corporateClientsStore.corporateClients?.status)
+  setValue("environment", corporateClientsStore.corporateClients?.environment)
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      corporateClientsStore.updateCorporateClients({
-        ...corporateClientsStore.corporateClients,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      corporateClientsStore &&
-      corporateClientsStore.updateCorporateClients({
-          ...corporateClientsStore.corporateClients,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      corporateClientsStore &&
-      corporateClientsStore.updateCorporateClients({
-          ...corporateClientsStore.corporateClients,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  },[routerStore.lookupItems])
   const onSubmitCoporateClients = () => {
     if (!corporateClientsStore.checkExistsEnvCode) {
       if (
@@ -632,6 +596,7 @@ const CorporateClients = observer(() => {
                     hasError={errors.customerGroup}
                   >
                     <select
+                    value={corporateClientsStore.corporateClients?.customerGroup}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.customerGroup ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -669,6 +634,7 @@ const CorporateClients = observer(() => {
                     hasError={errors.category}
                   >
                     <select
+                    value={corporateClientsStore.corporateClients?.category}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.category ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -772,6 +738,7 @@ const CorporateClients = observer(() => {
                     hasError={errors.deliveryType}
                   >
                     <select
+                    value={corporateClientsStore.corporateClients?.deliveryType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.deliveryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -808,6 +775,7 @@ const CorporateClients = observer(() => {
                     hasError={errors.deliveryMethod}
                   >
                     <select
+                    value={corporateClientsStore.corporateClients?.deliveryMethod}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.deliveryMethod
                           ? "border-red-500  "
@@ -846,6 +814,7 @@ const CorporateClients = observer(() => {
                     hasError={errors.salesTerritoRy}
                   >
                     <select
+                    value={corporateClientsStore.corporateClients?.salesTerritoRy}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.salesTerritoRy
                           ? "border-red-500  "
@@ -1344,6 +1313,6 @@ const CorporateClients = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default CorporateClients

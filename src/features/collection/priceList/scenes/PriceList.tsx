@@ -7,19 +7,13 @@ import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import dayjs from "dayjs"
 import {AutoCompleteFilterSingleSelectPanelCode} from "../components/organsims"
+import {PriceListHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-export const PriceList = observer(() => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    // clearErrors,
-  } = useForm()
+export const PriceList = PriceListHoc(observer(() => {
   const {
     loginStore,
     labStore,
@@ -29,44 +23,19 @@ export const PriceList = observer(() => {
     routerStore,
     loading
   } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    // clearErrors,
+  } = useForm()
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("status", priceListStore.priceList?.status)
+  setValue("environment",priceListStore.priceList?.environment)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      priceListStore.updatePriceList({
-        ...priceListStore.priceList,
-        lab: loginStore.login.lab,
-        environment: loginStore.login.environment,
-      })
-      setValue("lab", loginStore.login.lab)
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    priceListStore && priceListStore.updatePriceList({
-        ...priceListStore.priceList,
-        status: status.code as string,
-      })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    priceListStore && priceListStore.updatePriceList({
-      ...priceListStore.priceList,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
   const onSubmitPriceList = async () => {
     if (!priceListStore.checkExitsPriceGEnvLabCode) {
       if (
@@ -311,6 +280,7 @@ export const PriceList = observer(() => {
                     hasError={errors.priority}
                   >
                     <select
+                    value={priceListStore.priceList?.priority}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.priority ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -347,6 +317,7 @@ export const PriceList = observer(() => {
                     hasError={errors.priceGroup}
                   >
                     <select
+                    value={priceListStore.priceList?.priceGroup}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.priceGroup ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -668,6 +639,7 @@ export const PriceList = observer(() => {
                     hasError={errors.speicalScheme}
                   >
                     <select
+                    value={priceListStore.priceList?.speicalScheme}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.speicalScheme ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1073,6 +1045,6 @@ export const PriceList = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default PriceList

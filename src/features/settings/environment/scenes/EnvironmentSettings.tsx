@@ -7,6 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
+import {EnvironmentSettingsHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -16,13 +17,7 @@ interface EnvironmentSettingsProps {
   onModalConfirm?: (item: any) => void
 }
 
-export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm()
+export const EnvironmentSettings = EnvironmentSettingsHoc(observer((props: EnvironmentSettingsProps) => {
   const {
     loading,
     environmentStore,
@@ -32,16 +27,16 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     departmentStore,
     routerStore,
   } = useStores()
+  console.log({routerStore})
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  setValue("environment", loginStore.login.environment)
+  
   const [hideInputView, setHideInputView] = useState<boolean>(true)
-  useEffect(() => {
-    if (loginStore.login) {
-      environmentStore.updateEnvironmentSettings({
-        ...environmentStore.environmentSettings,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
 
   const onSubmitSessionManagement = () => {
     environmentStore.EnvironmentService.addEnvironment({
@@ -483,7 +478,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                       </option>
                       {LibraryUtils.lookupItems(
                         routerStore.lookupItems,
-                        "SESSION_ENVIRONMENT"
+                        "ENVIRONMENT SETTING - ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
@@ -530,4 +525,4 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
       </div>
     </>
   )
-})
+}))

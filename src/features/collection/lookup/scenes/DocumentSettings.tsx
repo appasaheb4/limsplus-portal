@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { observer } from "mobx-react"
 import { useForm, Controller } from "react-hook-form"
 
@@ -8,14 +8,14 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
-
-import { stores, useStores } from "@lp/stores"
+import {DocumentSettingHoc}  from "../hoc"
+import {  useStores } from "@lp/stores"
 
 interface NewFieldProps {
   onModalConfirm?: (item: any) => void
 }
 
-export const DocumentSettings = observer((props: NewFieldProps) => {
+export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProps) => {
   const { loginStore, lookupStore,routerStore } = useStores()
   const {
     control,
@@ -23,31 +23,8 @@ export const DocumentSettings = observer((props: NewFieldProps) => {
     formState: { errors },
     setValue,
   } = useForm()
-
-  useEffect(() => {
-    if (stores.loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      lookupStore.updateLookup({
-        ...lookupStore.lookup,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-  useEffect(()=>{
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      lookupStore &&
-      lookupStore.updateLookup({
-        ...lookupStore.lookup,
-        environment: environment.code as string,
-      })
-      setValue("environment", environment.code as string)
-    }
-  },[routerStore.lookupItems])
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", lookupStore.lookup?.environment)
   const onSubmitNewField = (data: any) => {
     if (lookupStore.localInput.value === "" && lookupStore.localInput.value === "") {
       lookupStore.LookupService.addLookup({ input: { ...lookupStore.lookup } }).then(
@@ -340,12 +317,12 @@ export const DocumentSettings = observer((props: NewFieldProps) => {
                   }}
                 >
                   <option selected>
-                    {stores.loginStore.login && loginStore.login.role !== "SYSADMIN"
+                    {loginStore.login && loginStore.login.role !== "SYSADMIN"
                       ? `Select`
                       : lookupStore.lookup?.environment || `Select`}
                   </option>
                   {LibraryUtils.lookupItems(
-                    stores.routerStore.lookupItems,
+                    routerStore.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
@@ -384,4 +361,4 @@ export const DocumentSettings = observer((props: NewFieldProps) => {
       </LibraryComponents.Atoms.List>
     </div>
   )
-})
+}))

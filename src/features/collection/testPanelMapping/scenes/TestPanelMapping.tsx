@@ -8,18 +8,14 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectPanelCode} from "../components/organsims"
-import { useStores, stores } from "@lp/stores"
+
+import {TestPanelMappingHoc} from "../hoc"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const TestPanelMapping = observer(() => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm()
+const TestPanelMapping = TestPanelMappingHoc(observer(() => {
   const {
     loginStore,
     labStore,
@@ -29,49 +25,20 @@ const TestPanelMapping = observer(() => {
     routerStore,
     loading
   } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("status", testPanelMappingStore.testPanelMapping?.status)
+  setValue("environment", testPanelMappingStore.testPanelMapping?.environment)
+
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      testPanelMappingStore.updateTestPanelMapping({
-        ...testPanelMappingStore.testPanelMapping,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      testPanelMappingStore &&
-        testPanelMappingStore.updateTestPanelMapping({
-          ...testPanelMappingStore.testPanelMapping,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      testPanelMappingStore &&
-        testPanelMappingStore.updateTestPanelMapping({
-          ...testPanelMappingStore.testPanelMapping,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
   const onSubmitTestPanelMapping = () => {
     if (!testPanelMappingStore.checkExitsLabEnvCode) {
       if (
@@ -147,16 +114,16 @@ const TestPanelMapping = observer(() => {
       data={testPanelMappingStore.listTestPanelMapping || []}
       totalSize={testPanelMappingStore.listTestPanelMappingCount}
       extraData={{
-        lookupItems: stores.routerStore.lookupItems,
+        lookupItems: routerStore.lookupItems,
         listLabs: labStore.listLabs,
         listMasterPanel: masterPanelStore.listMasterPanel,
       }}
       isDelete={RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Delete"
       )}
       isEditModify={RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Edit/Modify"
       )}
       // isEditModify={false}
@@ -214,12 +181,12 @@ const TestPanelMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -488,7 +455,7 @@ const TestPanelMapping = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -652,8 +619,8 @@ const TestPanelMapping = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -689,14 +656,14 @@ const TestPanelMapping = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : testPanelMappingStore.testPanelMapping?.environment ||
                             `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -811,6 +778,6 @@ const TestPanelMapping = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default TestPanelMapping

@@ -9,13 +9,13 @@ import { Container } from "reactstrap"
 import { FormHelper } from "@lp/helper"
 
 import { useForm, Controller } from "react-hook-form"
-
+import {UsersHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-export const Users = observer(() => {
+export const Users = UsersHoc(observer(() => {
   const {
     loginStore,
     routerStore,
@@ -37,46 +37,10 @@ export const Users = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-
-  useEffect(() => {
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      userStore &&
-        userStore.updateUser({
-          ...userStore.user,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      userStore &&
-        userStore.updateUser({
-          ...userStore.user,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      userStore &&
-        userStore.updateUser({
-          ...userStore.user,
-          environment: loginStore.login.environment,
-        })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
+  setValue("environment", loginStore.login.environment)
+  setValue("status", userStore.user?.status)
+  setValue("environment", userStore.user?.environment)
+  
 
   const onSubmitUser = (data: any) => {
     if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
@@ -1199,6 +1163,6 @@ export const Users = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Users

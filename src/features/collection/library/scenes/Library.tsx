@@ -6,13 +6,13 @@ import * as LibraryUtils from "@lp/library/utils"
 import { LibraryList } from "../components"
 
 import { useForm, Controller } from "react-hook-form"
-
+import {LibraryHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 import {AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-export const Library = observer(() => {
+export const Library = LibraryHoc(observer(() => {
   const {
     loginStore,
     libraryStore,
@@ -32,43 +32,10 @@ export const Library = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      libraryStore.updateLibrary({
-        ...libraryStore.library,
-        lab: loginStore.login.lab,
-        environment: loginStore.login.environment,
-      })
-      setValue("lab", loginStore.login.lab)
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    libraryStore && libraryStore.updateLibrary({
-        ...libraryStore.library,
-        status: status.code as string,
-      })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    libraryStore && libraryStore.updateLibrary({
-      ...libraryStore.library,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("status", libraryStore.library?.status)
+  setValue("environment",libraryStore.library?.environment)
 
   const onSubmitLibrary = (data) => {
     if (!libraryStore.checkExistsLabEnvCode) {
@@ -263,6 +230,7 @@ export const Library = observer(() => {
                     hasError={errors.usageType}
                   >
                     <select
+                    value={libraryStore.library?.usageType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.usageType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -299,6 +267,7 @@ export const Library = observer(() => {
                     hasError={errors.libraryType}
                   >
                     <select
+                    value={libraryStore.library?.libraryType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.libraryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -335,6 +304,7 @@ export const Library = observer(() => {
                     hasError={errors.commentType}
                   >
                     <select
+                    value={libraryStore &&libraryStore.library?.commentType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.commentType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -462,6 +432,7 @@ export const Library = observer(() => {
                     hasError={errors.commentsTarget}
                   >
                     <select
+                    value={libraryStore &&libraryStore.library?.commentsTarget}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.commentsTarget
                           ? "border-red-500  "
@@ -529,6 +500,7 @@ export const Library = observer(() => {
                     hasError={errors.parameter}
                   >
                     <select
+                    value={libraryStore.library?.parameter}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.parameter ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -565,6 +537,7 @@ export const Library = observer(() => {
                     hasError={errors.action}
                   >
                     <select
+                    value={libraryStore.library?.action}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.action ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -601,6 +574,7 @@ export const Library = observer(() => {
                     hasError={errors.results}
                   >
                     <select
+                    value={libraryStore.library?.results}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.results ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -885,6 +859,7 @@ export const Library = observer(() => {
                     hasError={errors.sex}
                   >
                     <select
+                    value={libraryStore.library?.sex}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.sex ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -920,6 +895,7 @@ export const Library = observer(() => {
                     hasError={errors.sexAction}
                   >
                     <select
+                    value={libraryStore.library?.sexAction}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.sexAction ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1078,6 +1054,6 @@ export const Library = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Library

@@ -1,26 +1,32 @@
 /* eslint-disable */
-import React, { useState, useEffect,useMemo } from "react"
+import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-import dayjs from "dayjs"
+
 
 import { useForm, Controller } from "react-hook-form"
-import { useStores, stores } from "@lp/stores"
+import {MasterPackageHOC} from "../hoc"
+import { useStores, } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const MasterPackage = observer(() => {
+const MasterPackage = MasterPackageHOC(observer(() => {
+  const { loginStore, masterPackageStore, labStore, masterPanelStore,routerStore,loading} = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
+  setValue("lab", loginStore.login.lab)
+  setValue("environment", loginStore.login.environment)
+  setValue("status", masterPackageStore.masterPackage?.status)
+  setValue("environment",masterPackageStore.masterPackage?.environment)
 
-  const { loginStore, masterPackageStore, labStore, masterPanelStore,routerStore,loading} = useStores()
+
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [arrPackageItems, setArrPackageItems] = useState<Array<any>>()
@@ -35,44 +41,6 @@ const MasterPackage = observer(() => {
     }
     return []
   }
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      masterPackageStore.updateMasterPackage({
-        ...masterPackageStore.masterPackage,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-
-
-  useEffect(()=>{
-    const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    masterPackageStore && masterPackageStore.updateMasterPackage({
-        ...masterPackageStore.masterPackage,
-        status: status.code as string,
-      })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    masterPackageStore && masterPackageStore.updateMasterPackage({
-      ...masterPackageStore.masterPackage,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
-
   const onSubmitMasterPackage = () => {
     if (!masterPackageStore.checkExitsLabEnvCode) {
       if (
@@ -83,7 +51,7 @@ const MasterPackage = observer(() => {
           .addPackageMaster({
             input: {
               ...masterPackageStore.masterPackage,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
             },
           })
           .then((res) => {
@@ -101,7 +69,7 @@ const MasterPackage = observer(() => {
           .versionUpgradePackageMaster({
             input: {
               ...masterPackageStore.masterPackage,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -120,7 +88,7 @@ const MasterPackage = observer(() => {
           .duplicatePackageMaster({
             input: {
               ...masterPackageStore.masterPackage,
-              enteredBy: stores.loginStore.login.userId,
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -148,15 +116,15 @@ const MasterPackage = observer(() => {
             data={masterPackageStore.listMasterPackage || []}
             totalSize={masterPackageStore.listMasterPackageCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               listLabs:labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -214,12 +182,12 @@ const MasterPackage = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -318,6 +286,7 @@ const MasterPackage = observer(() => {
                     hasError={errors.serviceType}
                   >
                     <select
+                    value={masterPackageStore.masterPackage?.serviceType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.serviceType ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -354,9 +323,9 @@ const MasterPackage = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {stores.routerStore.lookupItems.length > 0 &&
+                      {routerStore.lookupItems.length > 0 &&
                         getServiceTypes(
-                          stores.routerStore.lookupItems.find((item) => {
+                          routerStore.lookupItems.find((item) => {
                             return item.fieldName === "SERVICE_TYPE"
                           })
                         ).map((item: any, index: number) => (
@@ -542,7 +511,7 @@ const MasterPackage = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -698,8 +667,8 @@ const MasterPackage = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -731,14 +700,14 @@ const MasterPackage = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : masterPackageStore.masterPackage?.environment ||
                             `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -845,6 +814,6 @@ const MasterPackage = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default MasterPackage

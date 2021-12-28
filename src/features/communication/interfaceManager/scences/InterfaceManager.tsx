@@ -5,48 +5,27 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {InterfaceManagerHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
-const InterfaceManager = observer(() => {
+const InterfaceManager = InterfaceManagerHoc(observer(() => {
+  const { loginStore, interfaceManagerStore, routerStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, interfaceManagerStore, routerStore } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", interfaceManagerStore.interfaceManager?.environment)
+ 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddInterfaceManager, setHideAddInterfaceManager] = useState<boolean>(
     true
   )
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      interfaceManagerStore.updateInterfaceManager({
-        ...interfaceManagerStore.interfaceManager,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(() => {
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      interfaceManagerStore &&
-        interfaceManagerStore.updateInterfaceManager({
-          ...interfaceManagerStore.interfaceManager,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
+  
 
   const onSubmitInterfaceManager = () => {
     if (
@@ -579,6 +558,6 @@ const InterfaceManager = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default InterfaceManager

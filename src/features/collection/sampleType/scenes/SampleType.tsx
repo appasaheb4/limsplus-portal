@@ -5,43 +5,26 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
+import {SampleTypeHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const SampleType = observer(() => {
+const SampleType = SampleTypeHoc(observer(() => {
+  const { loginStore, sampleTypeStore, routerStore } = useStores()
   const {
     control,
     formState: { errors },
     handleSubmit,
     setValue,
   } = useForm()
-  const { loginStore, sampleTypeStore, routerStore } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", sampleTypeStore.sampleType?.environment)
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      sampleTypeStore.updateSampleType({
-        ...sampleTypeStore.sampleType,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      sampleTypeStore && sampleTypeStore.updateSampleType({
-        ...sampleTypeStore.sampleType,
-        environment: environment.code as string
-      })
-      setValue("environment",environment.code as string)
-    }
-  },[routerStore.lookupItems])
+  
   const onSubmitSampleType = () => {
     if (!sampleTypeStore.checkExitsEnvCode) {
       sampleTypeStore.sampleTypeService
@@ -380,6 +363,6 @@ const SampleType = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default SampleType
