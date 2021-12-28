@@ -7,46 +7,24 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
 import { useForm, Controller } from "react-hook-form"
+import {SampleContainerHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const SampleContainer = observer(() => {
+const SampleContainer = SampleContainerHoc(observer(() => {
+  const { loginStore, sampleContainerStore, routerStore } = useStores()
   const {
     control,
     formState: { errors },
     handleSubmit,
     setValue,
   } = useForm()
-
-  const { loginStore, sampleContainerStore, routerStore } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment",sampleContainerStore.sampleContainer?.environment)
 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      sampleContainerStore.updateSampleContainer({
-        ...sampleContainerStore.sampleContainer,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      sampleContainerStore && sampleContainerStore.updateSampleContainer({
-        ...sampleContainerStore.sampleContainer,
-        environment: environment.code as string
-      })
-      setValue("environment",environment.code as string)
-    }
-  },[routerStore.lookupItems])
-
   const onSubmitSampleContainer = () => {
     if (!sampleContainerStore.checkExitsEnvCode) {
       sampleContainerStore.sampleContainerService
@@ -415,6 +393,6 @@ const SampleContainer = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default SampleContainer

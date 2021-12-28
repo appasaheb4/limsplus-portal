@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
@@ -8,18 +8,20 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
+import  {LabHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const Lab = observer(() => {
+const Lab = LabHoc(observer(() => {
   const {
     labStore,
     salesTeamStore,
     routerStore,
     administrativeDivisions,
     loading,
+    loginStore
   } = useStores()
 
   const {
@@ -28,48 +30,10 @@ const Lab = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  setValue("environment", labStore.labs?.environment)
+  setValue("status", labStore.labs?.status)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
- 
-
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      labStore.updateLabs({
-        ...labStore.labs,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-    const status = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "STATUS"
-      })
-      ?.arrValue?.find((statusItem) => statusItem.code === "A")
-    if (status) {
-      labStore &&
-        labStore.updateLabs({
-          ...labStore.labs,
-          status: status.code as string,
-        })
-      setValue("status", status.code as string)
-    }
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      labStore &&
-        labStore.updateLabs({
-          ...labStore.labs,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [loginStore.login, routerStore.lookupItems])
-
   const onSubmitLab = () => {
     if (!labStore.checkExitsEnvCode) {
       labStore.LabService.addLab({ input: { ...labStore.labs } }).then((res) => {
@@ -600,8 +564,10 @@ const Lab = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Delivery Type"
                     hasError={errors.deliveryType}
+                    
                   >
                     <select
+                      value={labStore.labs?.deliveryType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.deliveryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -664,7 +630,7 @@ const Lab = observer(() => {
                         salesTeamStore.listSalesTeam.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.salesTerritory}>
-                              {`${item.salesTerritory.area}`}
+                              {`${item.salesTerritory}`}
                             </option>
                           )
                         )}
@@ -1253,6 +1219,6 @@ const Lab = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default Lab

@@ -6,70 +6,34 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectAnalyteCode} from "../components/organsims"
+import { PossibleResultHoc } from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-let router = dashboardRoutes
 
-export const PossibleResults = observer(() => {
+
+export const PossibleResults = PossibleResultHoc(observer(() => {
+  const {
+    loginStore,
+    possibleResultsStore,
+    masterAnalyteStore,
+    routerStore,
+  } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-
-  const {
-    loginStore,
-    possibleResultsStore,
-    masterAnalyteStore,
-    routerStore,
-    loading
-  } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment",possibleResultsStore.possibleResults?.environment)
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
-
-  useEffect(() => {
-    router = router.filter((item: any) => {
-      if (item.name !== "Dashboard") {
-        item.toggle = false
-        item.title = item.name
-        item = item.children.filter((childernItem) => {
-          childernItem.title = childernItem.name
-          childernItem.toggle = false
-          return childernItem
-        })
-        return item
-      }
-    })
-  }, [])
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      possibleResultsStore.updatePossibleResults({
-        ...possibleResultsStore.possibleResults,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      possibleResultsStore && possibleResultsStore.updatePossibleResults({
-        ...possibleResultsStore.possibleResults,
-        environment: environment.code as string
-      })
-      setValue("environment",environment.code as string)
-    }
-  },[routerStore.lookupItems])
-
   const onSubmitPossibleResult = () => {
     if (!possibleResultsStore.checkExistsEnvCode) {
       possibleResultsStore.possibleResultsService
@@ -594,6 +558,6 @@ export const PossibleResults = observer(() => {
         </div>
     </>
   )
-})
+}))
 
 export default PossibleResults

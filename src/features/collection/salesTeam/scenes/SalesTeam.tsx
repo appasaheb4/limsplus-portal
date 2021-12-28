@@ -6,8 +6,9 @@ import { SalesTeamList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as Utils from "../util"
+import {SalesTeamHoc} from "../hoc"
 import { useForm, Controller } from "react-hook-form"
-import { stores, useStores } from "@lp/stores"
+import {  useStores } from "@lp/stores"
 import {AutoCompleteFilterSingleSelectSalesTerrority
   ,AutoCompleteFilterSingleSelectEmpolyeCode,
   AutoCompleteFilterSingleSelectReportingTo
@@ -16,7 +17,7 @@ from "../components/organsims"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-export const SalesTeam = observer(() => {
+export const SalesTeam = SalesTeamHoc(observer(() => {
   const {
     loginStore,
     userStore,
@@ -31,34 +32,10 @@ export const SalesTeam = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", salesTeamStore.salesTeam?.environment)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      salesTeamStore.updateSalesTeam({
-        ...salesTeamStore.salesTeam,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
-
-  useEffect(() => {
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      salesTeamStore &&
-        salesTeamStore.updateSalesTeam({
-          ...salesTeamStore.salesTeam,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
   const onSubmitSalesTeam = () => {
     if (!salesTeamStore.checkExistsEnvCode) {
       salesTeamStore.salesTeamService
@@ -86,18 +63,18 @@ export const SalesTeam = observer(() => {
             data={salesTeamStore.listSalesTeam || []}
             totalSize={salesTeamStore.listSalesTeamCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
               userList: userStore.userList,
               userStore: userStore,
               filterUsersItems: Utils.filterUsersItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -138,11 +115,11 @@ export const SalesTeam = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -169,6 +146,7 @@ export const SalesTeam = observer(() => {
                     hasError={errors.salesHierarchy}
                   >
                     <select
+                    value={salesTeamStore.salesTeam?.salesHierarchy}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.salesHierarchy ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -183,7 +161,7 @@ export const SalesTeam = observer(() => {
                     >
                       <option selected>Select </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SALES_HIERARCHY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -326,8 +304,8 @@ export const SalesTeam = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -356,13 +334,13 @@ export const SalesTeam = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : salesTeamStore.salesTeam?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -442,5 +420,5 @@ export const SalesTeam = observer(() => {
       </div>
     </>
   )
-})
+}))
 export default SalesTeam

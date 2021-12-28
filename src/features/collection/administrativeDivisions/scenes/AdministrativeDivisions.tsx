@@ -6,47 +6,26 @@ import * as LibraryComponents from "@lp/library/components"
 import { AdminstrativeDivList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-
-import { useStores, stores } from "@lp/stores"
+import {AdministrativeDivisionsHoc} from "../hoc"
+import { useStores, } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-export const AdministrativeDivisions = observer(() => {
+export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() => {
+  const { loginStore, administrativeDivisions, routerStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, administrativeDivisions, routerStore } = useStores()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment", administrativeDivisions.administrativeDiv?.environment)
+ 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      administrativeDivisions.updateAdministrativeDiv({
-        ...administrativeDivisions.administrativeDiv,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
 
-  useEffect(() => {
-    const environment = routerStore.lookupItems
-      .find((fileds) => {
-        return fileds.fieldName === "ENVIRONMENT"
-      })
-      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
-    if (environment) {
-      administrativeDivisions &&
-        administrativeDivisions.updateAdministrativeDiv({
-          ...administrativeDivisions.administrativeDiv,
-          environment: environment.code as string,
-        })
-      setValue("environment", environment.code as string)
-    }
-  }, [routerStore.lookupItems])
   const onSubmitAdministrativeDivision = () => {
     if (administrativeDivisions.administrativeDiv) {
       if (!administrativeDivisions.administrativeDiv.postalCode)
@@ -78,11 +57,11 @@ export const AdministrativeDivisions = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -344,6 +323,7 @@ export const AdministrativeDivisions = observer(() => {
                     hasError={errors.sbu}
                   >
                     <select
+                    value={administrativeDivisions.administrativeDiv?.sbu}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.sbu ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -358,7 +338,7 @@ export const AdministrativeDivisions = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SBU"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -381,6 +361,7 @@ export const AdministrativeDivisions = observer(() => {
                     hasError={errors.zone}
                   >
                     <select
+                    value={administrativeDivisions.administrativeDiv?.zone}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.zone ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -395,7 +376,7 @@ export const AdministrativeDivisions = observer(() => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ZONE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -419,8 +400,8 @@ export const AdministrativeDivisions = observer(() => {
                     <select
                       value={administrativeDivisions.administrativeDiv?.environment}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -437,14 +418,14 @@ export const AdministrativeDivisions = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : administrativeDivisions.administrativeDiv?.environment ||
                             `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -487,7 +468,7 @@ export const AdministrativeDivisions = observer(() => {
             data={administrativeDivisions.listAdministrativeDiv || []}
             totalSize={administrativeDivisions.listAdministrativeDivCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
               updateAdministrativeDiv:
                 administrativeDivisions.updateAdministrativeDiv,
               administrativeDiv: administrativeDivisions.administrativeDiv,
@@ -499,11 +480,11 @@ export const AdministrativeDivisions = observer(() => {
               updateLocalPostalCode: administrativeDivisions.updateLocalPostalCode,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -575,5 +556,5 @@ export const AdministrativeDivisions = observer(() => {
       </div>
     </>
   )
-})
+}))
 export default AdministrativeDivisions

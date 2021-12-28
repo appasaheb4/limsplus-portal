@@ -6,12 +6,13 @@ import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 
 import { useForm, Controller } from "react-hook-form"
+import {DataConversationHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const DataConversation = observer(() => {
+const DataConversation = DataConversationHoc(observer(() => {
   const { loginStore, dataConversationStore, routerStore } = useStores()
   const {
     control,
@@ -19,32 +20,13 @@ const DataConversation = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
+  setValue("environment", loginStore.login.environment)
+  setValue("environment",dataConversationStore.dataConversation?.environment)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDataConversation, setHideAddDataConversation] = useState<boolean>(
     true
   )
-  useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-      dataConversationStore.updateDataConversation({
-        ...dataConversationStore.dataConversation,
-        environment: loginStore.login.environment,
-      })
-      setValue("environment", loginStore.login.environment)
-    }
-  }, [loginStore.login])
-
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      dataConversationStore && dataConversationStore.updateDataConversation({
-        ...dataConversationStore.dataConversation,
-        environment: environment.code as string
-      })
-      setValue("environment",environment.code as string)
-    }
-  },[routerStore.lookupItems])
+  
   const onSubmitDataConversation = () => {
     if (dataConversationStore.dataConversation !== undefined) {
       dataConversationStore.dataConversationService
@@ -322,6 +304,6 @@ const DataConversation = observer(() => {
       </div>
     </>
   )
-})
+}))
 
 export default DataConversation
