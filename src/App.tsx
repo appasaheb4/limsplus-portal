@@ -15,18 +15,18 @@ import { stores } from "@lp/stores"
 
 import hydrateStore from "@lp/library/modules/startup"
 import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
-
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-const firebaseConfig = {
-  apiKey: "AIzaSyBSEVfJAzr5qYLFmpF3yZQUp-bm56YtXbE",
-  authDomain: "lims-plus-854e4.firebaseapp.com",
-  projectId: "lims-plus-854e4",
-  storageBucket: "lims-plus-854e4.appspot.com",
-  messagingSenderId: "723104013699",
-  appId: "1:723104013699:web:52a9edfd4c898101216ab6",
-  measurementId: "G-46WKN1KLQM"
-};
+  
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBSEVfJAzr5qYLFmpF3yZQUp-bm56YtXbE",
+//   authDomain: "lims-plus-854e4.firebaseapp.com",
+//   projectId: "lims-plus-854e4",
+//   storageBucket: "lims-plus-854e4.appspot.com",
+//   messagingSenderId: "723104013699",
+//   appId: "1:723104013699:web:52a9edfd4c898101216ab6",
+//   measurementId: "G-46WKN1KLQM"
+// };
 
 configure({
   reactionScheduler: (f): void => {
@@ -70,6 +70,6 @@ const App = observer(() => {
   )
 })
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
 export default App
