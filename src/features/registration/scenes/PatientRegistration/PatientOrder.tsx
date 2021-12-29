@@ -88,30 +88,6 @@ const PatientOrder = observer((props: PatientOrderProps) => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Order Id"
-                    placeholder={
-                      errors.orderId ? "Please Enter order id" : "Order Id"
-                    }
-                    hasError={errors.orderId}
-                    disabled={true}
-                    value={patientOrderStore.patientOrder?.orderId}
-                    onChange={(orderId) => {
-                      onChange(orderId)
-                      patientOrderStore.updatePatientOrder({
-                        ...patientOrderStore.patientOrder,
-                        orderId,
-                      })
-                    }}
-                  />
-                )}
-                name="orderId"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Visit Id"
                     hasError={errors.visitId}
@@ -196,6 +172,11 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                                 panel: _.map(panels, (o) =>
                                   _.pick(o, [
                                     "_id",
+                                    "department",
+                                    "section",
+                                    "bill",
+                                    "rLab",
+                                    "pLab",
                                     "panelCode",
                                     "panelName",
                                     "serviceType",
@@ -219,11 +200,11 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                         }}
                         onSelect={(item) => {
                           let panels = patientOrderStore.selectedItems?.panels
+                          console.log({ item, panels })
                           if (!item.selected) {
                             if (panels && panels.length > 0) {
                               panels.push(item)
-                            }
-                            if (!panels) panels = [item]
+                            } else panels = [item]
                           } else {
                             panels = panels.filter((items) => {
                               return items._id !== item._id
@@ -243,284 +224,6 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                   defaultValue=""
                 />
               )}
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Service Type"
-                    hasError={errors.serviceType}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.serviceType ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const serviceType = e.target.value
-                        onChange(serviceType)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          serviceType,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {patientOrderStore.selectedItems?.serviceTypes.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="serviceType"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-
-              {patientOrderStore.packageList && (
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Package"
-                      hasError={errors.package}
-                    >
-                      <PackagesList
-                        data={patientOrderStore.packageList}
-                        onDeletePackage={(id) => {
-                          let panels = patientOrderStore.selectedItems?.panels
-                          panels = panels.filter((items) => {
-                            return items._id !== id
-                          })
-                          patientOrderStore.updateSelectedItems({
-                            ...patientOrderStore.selectedItems,
-                            panels,
-                            serviceTypes: _.union(_.map(panels, "serviceType")),
-                          })
-                          //get packages list
-                          patientOrderStore.patientOrderService.getPackageList({
-                            input: {
-                              filter: {
-                                panel: _.map(panels, (o) =>
-                                  _.pick(o, [
-                                    "_id",
-                                    "panelCode",
-                                    "panelName",
-                                    "serviceType",
-                                  ])
-                                ),
-                              },
-                            },
-                          })
-                        }}
-                        onRemoveItem={(serviceType, packageCode, index) => {
-                          const packageList = patientOrderStore.packageList
-                          let pacakgeListS: any[] = []
-                          let pacakgeListM: any[] = []
-                          if (serviceType == "M") {
-                            pacakgeListM = packageList.pacakgeListM.filter(
-                              (item) => {
-                                if (item.packageCode != packageCode) return item
-                                else {
-                                  if (
-                                    item.index == index &&
-                                    item.packageCode == packageCode
-                                  )
-                                    return
-                                  else return item
-                                }
-                              }
-                            )
-                          } else {
-                            pacakgeListS = packageList.pacakgeListS.filter(
-                              (item) => item.packageCode == packageCode
-                            )
-                            let panels = patientOrderStore.selectedItems?.panels
-                            _.compact(_.map(pacakgeListS, "_id")).filter((id) => {
-                              panels = panels.filter((items) => {
-                                return items._id !== id
-                              })
-                            })
-                            patientOrderStore.updateSelectedItems({
-                              ...patientOrderStore.selectedItems,
-                              panels,
-                              serviceTypes: _.union(_.map(panels, "serviceType")),
-                            })
-                            //get packages list
-                            patientOrderStore.patientOrderService.getPackageList({
-                              input: {
-                                filter: {
-                                  panel: _.map(panels, (o) =>
-                                    _.pick(o, [
-                                      "_id",
-                                      "panelCode",
-                                      "panelName",
-                                      "serviceType",
-                                    ])
-                                  ),
-                                },
-                              },
-                            })
-                          }
-                          patientOrderStore.updatePackageList({
-                            ...patientOrderStore.packageList,
-                            pacakgeListM,
-                          })
-                        }}
-                      />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="package"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-              )}
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Bill"
-                    hasError={errors.bill}
-                  >
-                    <select
-                      value={patientOrderStore.patientOrder?.bill}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.bill ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const panel = JSON.parse(e.target.value) as any
-                        onChange(panel)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          bill: panel.bill,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {masterPanelStore.listMasterPanel &&
-                        masterPanelStore.listMasterPanel.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.bill}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="bill"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Department"
-                    hasError={errors.department}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.department ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const department = e.target.value as string
-                        onChange(department)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          department,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {departmentStore.listDepartment.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="department"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Section"
-                    hasError={errors.section}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.section ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const section = e.target.value as string
-                        onChange(section)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          section,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {sectionStore.listSection &&
-                        sectionStore.listSection.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="section"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Rlab"
-                    hasError={errors.rLab}
-                  >
-                    <select
-                      value={patientOrderStore.patientOrder?.rLab}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.bill ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const rLab = JSON.parse(e.target.value) as any
-                        onChange(rLab)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          rLab,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {loginStore.login.labList &&
-                        loginStore.login.labList.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="rLab"
-                rules={{ required: true }}
-                defaultValue=""
-              />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -531,233 +234,27 @@ const PatientOrder = observer((props: PatientOrderProps) => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="PLab"
-                    hasError={errors.pLab}
-                  >
-                    <select
-                      value={patientOrderStore.patientOrder?.pLab}
-                      disabled={
-                        loginStore.login && loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.pLab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const pLab = e.target.value as string
-                        onChange(pLab)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          pLab,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="pLab"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Out Source Lab"
-                    hasError={errors.outSourceLab}
-                  >
-                    <select
-                      value={patientOrderStore.patientOrder?.outSourceLab}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.outSourceLab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const outSourceLab = e.target.value as string
-                        onChange(outSourceLab)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          outSourceLab,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {/* //coming from Panel Master */}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="outSourceLab"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Current Department"
-                    hasError={errors.currentDepartment}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.currentDepartment
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const currentDepartment = e.target.value as string
-                        onChange(currentDepartment)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          currentDepartment,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {departmentStore.listDepartment.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="currentDepartment"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
-                    label="Due Date"
-                    name="txtDueDate"
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Order Id"
                     placeholder={
-                      errors.dueDate ? "Please Enter DueDate" : "Due Date"
+                      errors.orderId ? "Please Enter order id" : "Order Id"
                     }
-                    hasError={errors.dueDate}
-                    value={LibraryUtils.moment(
-                      patientOrderStore.patientOrder?.dueDate
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      let dueDate = new Date(e.target.value)
-                      onChange(dueDate)
-                      const formatDate = LibraryUtils.moment(dueDate).format(
-                        "YYYY-MM-DD HH:mm"
-                      )
+                    hasError={errors.orderId}
+                    disabled={true}
+                    value={patientOrderStore.patientOrder?.orderId}
+                    onChange={(orderId) => {
+                      onChange(orderId)
                       patientOrderStore.updatePatientOrder({
                         ...patientOrderStore.patientOrder,
-                        dueDate: new Date(formatDate),
+                        orderId,
                       })
                     }}
                   />
                 )}
-                name="dueDate"
+                name="orderId"
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDate
-                    label="Result Date"
-                    name="txtResultDate"
-                    placeholder={
-                      errors.resultDate ? "Please Enter DueDate" : "Due Date"
-                    }
-                    hasError={errors.resultDate}
-                    value={LibraryUtils.moment(
-                      patientOrderStore.patientOrder?.resultDate
-                    ).format("YYYY-MM-DD")}
-                    onChange={(e) => {
-                      let resultDate = new Date(e.target.value)
-                      onChange(resultDate)
-                      const formatDate = LibraryUtils.moment(resultDate).format(
-                        "YYYY-MM-DD HH:mm"
-                      )
-                      patientOrderStore.updatePatientOrder({
-                        ...patientOrderStore.patientOrder,
-                        resultDate: new Date(formatDate),
-                      })
-                    }}
-                  />
-                )}
-                name="resultDate"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Status"
-                    hasError={errors.status}
-                  >
-                    <select
-                      value={patientOrderStore.patientOrder?.status}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const status = e.target.value as string
-                        onChange(status)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          status,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        routerStore.lookupItems,
-                        "PATIENT ORDER - STATUS"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="status"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
-                    rows={4}
-                    label="Comments"
-                    name="txtComments"
-                    placeholder={
-                      errors.comments ? "Please Enter Comments" : "Comments"
-                    }
-                    hasError={errors.comments}
-                    value={patientOrderStore.patientOrder?.comments}
-                    onChange={(comments) => {
-                      onChange(comments)
-                      patientOrderStore.updatePatientOrder({
-                        ...patientOrderStore.patientOrder,
-                        comments,
-                      })
-                    }}
-                  />
-                )}
-                name="comments"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -781,20 +278,16 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                         })
                       }}
                     >
-                      <option selected>
-                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : patientOrderStore.patientOrder?.environment || `Select`}
-                      </option>
+                      <option selected>Select</option>
                       {LibraryUtils.lookupItems(
                         routerStore.lookupItems,
-                        "ENVIRONMENT"
+                        "PATIENT ORDER - ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
+                      ))}   
+                    </select>   
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="environment"
@@ -803,6 +296,14 @@ const PatientOrder = observer((props: PatientOrderProps) => {
               />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
+          <div
+            className="rounded-lg shadow-xl overflow-scroll mt-2"
+            style={{ overflowX: "scroll" }}
+          >
+            {patientOrderStore.packageList && (
+              <PackagesList data={patientOrderStore.packageList} />
+            )}
+          </div>
         </div>
         <br />
         <div className="extra" style={{ border: "1px solid yellow" }}>
