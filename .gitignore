@@ -16,7 +16,7 @@ tsconfig.json
 /coverage
 
 # production
-# /build
+/build
  /build.zip
 
 # misc
