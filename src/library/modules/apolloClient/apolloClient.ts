@@ -26,7 +26,7 @@ const authLink = setContext(async (_, { headers }) => {
   }
 })
 
-// depoly 1
+// depoly 2
 const UploadLink = createUploadLink({
   //uri: "http://localhost:8080/graphql",
   //uri: "https://957b-2409-4042-4e93-86ea-187b-1cf6-88f0-78d5.ngrok.io/graphql",
