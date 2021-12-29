@@ -201,8 +201,6 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                                     "serviceType",
                                   ])
                                 ),
-                                serviceTypes:
-                                  patientOrderStore.selectedItems.serviceTypes,
                               },
                             },
                           })
@@ -289,7 +287,89 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                       label="Package"
                       hasError={errors.package}
                     >
-                      <PackagesList data={patientOrderStore.packageList} />
+                      <PackagesList
+                        data={patientOrderStore.packageList}
+                        onDeletePackage={(id) => {
+                          let panels = patientOrderStore.selectedItems?.panels
+                          panels = panels.filter((items) => {
+                            return items._id !== id
+                          })
+                          patientOrderStore.updateSelectedItems({
+                            ...patientOrderStore.selectedItems,
+                            panels,
+                            serviceTypes: _.union(_.map(panels, "serviceType")),
+                          })
+                          //get packages list
+                          patientOrderStore.patientOrderService.getPackageList({
+                            input: {
+                              filter: {
+                                panel: _.map(panels, (o) =>
+                                  _.pick(o, [
+                                    "_id",
+                                    "panelCode",
+                                    "panelName",
+                                    "serviceType",
+                                  ])
+                                ),
+                              },
+                            },
+                          })
+                        }}
+                        onRemoveItem={(serviceType, packageCode, index) => {
+                          const packageList = patientOrderStore.packageList
+                          let pacakgeListS: any[] = []
+                          let pacakgeListM: any[] = []
+                          if (serviceType == "M") {
+                            pacakgeListM = packageList.pacakgeListM.filter(
+                              (item) => {
+                                if (item.packageCode != packageCode) return item
+                                else {
+                                  if (
+                                    item.index == index &&
+                                    item.packageCode == packageCode
+                                  )
+                                    return
+                                  else return item
+                                }
+                              }
+                            )
+                          } else {
+                            pacakgeListS = packageList.pacakgeListS.filter(
+                              (item) => item.packageCode == packageCode
+                            )
+                            let panels = patientOrderStore.selectedItems?.panels
+                            _.compact(_.map(pacakgeListS, "_id")).filter((id) => {
+                              panels = panels.filter((items) => {
+                                return items._id !== id
+                              })
+                            })
+                            patientOrderStore.updateSelectedItems({
+                              ...patientOrderStore.selectedItems,
+                              panels,
+                              serviceTypes: _.union(_.map(panels, "serviceType")),
+                            })
+                            //get packages list
+                            patientOrderStore.patientOrderService.getPackageList({
+                              input: {
+                                filter: {
+                                  panel: _.map(panels, (o) =>
+                                    _.pick(o, [
+                                      "_id",
+                                      "panelCode",
+                                      "panelName",
+                                      "serviceType",
+                                    ])
+                                  ),
+                                },
+                              },
+                            })
+                          }
+                          patientOrderStore.updatePackageList({
+                            ...patientOrderStore.packageList,
+                            pacakgeListM,
+                          })
+                        }}
+                      />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="package"
