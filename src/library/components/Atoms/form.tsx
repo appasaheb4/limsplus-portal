@@ -98,6 +98,7 @@ export const MultilineInput = (props: InputProps) => (
       autoComplete="given-name"
       value={props.value}
       disabled={props.disabled}
+      style={props.style}
       rows={props.rows}
       placeholder={props.placeholder}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}

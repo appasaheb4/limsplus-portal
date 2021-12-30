@@ -67,9 +67,9 @@ export const LIST_PATIENT_VISIT = gql`
   }
 `
 
-export const CREATE_PATIENT_VISIT = gql`
-  mutation($input: CreatePatientVisitInput!) {
-    createPatientVisit(input: $input) {
+export const CREATE_PATIENT_ORDER = gql`
+  mutation($input: CreatePatientOrderInput!) {
+    createPatientOrder(input: $input) {
       success
       message
     }
@@ -246,7 +246,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
     }
   }
 `
-  
+
 export const GET_PACKAGES_LIST = gql`
   mutation($input: PatientOrderInput!) {
     getPatientOrderPackagesList(input: $input) {

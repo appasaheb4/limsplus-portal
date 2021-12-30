@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
@@ -21,7 +21,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
-import { PackagesList } from "../../components/molecules"
+import { PackagesList, ExtraDataPackagesList } from "../../components/molecules"
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void
@@ -35,11 +35,7 @@ const PatientOrder = PatientOrderHoc(
       patientVisitStore,
       loginStore,
       routerStore,
-      masterPackageStore,
       masterPanelStore,
-      departmentStore,
-      sectionStore,
-      labStore,
     } = useStores()
     const {
       control,
@@ -50,10 +46,32 @@ const PatientOrder = PatientOrderHoc(
     setValue("orderId", patientOrderStore.patientOrder?.orderId)
     setValue("environment", patientOrderStore.patientOrder?.environment)
 
-
     const [hideInputView, setHideInputView] = useState<boolean>(true)
     const onSubmitPatientOrder = () => {
-      // Add PatientOrder Api Calling
+      const packageList = [
+        ...patientOrderStore.packageList.pacakgeListS,
+        ...patientOrderStore.packageList.pacakgeListM,
+        ...patientOrderStore.packageList.pacakgeListN,
+        ...patientOrderStore.packageList.pacakgeListK,
+      ]
+      patientOrderStore.patientOrderService
+        .addPatientOrder({
+          input: {
+            ...patientOrderStore.patientOrder,
+            packageList,
+            documentType: "patientOrder",
+          },
+        })
+        .then((res) => {
+          if (res.createPatientOrder.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createPatientOrder.message}`,
+            })
+          }
+          // setTimeout(() => {
+          //   window.location.reload()
+          // }, 1000)
+        })
     }
     return (
       <>
@@ -154,9 +172,6 @@ const PatientOrder = PatientOrderHoc(
                               ...patientOrderStore.patientOrder,
                               panelCode: _.map(panels, (o) =>
                                 _.pick(o, ["panelCode", "serviceType"])
-                              ),
-                              panelName: _.map(panels, (o) =>
-                                _.pick(o, ["panelName", "serviceType"])
                               ),
                             })
                             masterPanelStore.updatePanelMasterList(
@@ -311,14 +326,16 @@ const PatientOrder = PatientOrderHoc(
                 </AccordionItemHeading>
                 <AccordionItemPanel>
                   <>
-                    <LibraryComponents.Atoms.Grid cols={2}>
-                      <LibraryComponents.Atoms.List
-                        direction="col"
-                        justify="stretch"
-                        fill
-                        space={4}
-                      ></LibraryComponents.Atoms.List>
-                    </LibraryComponents.Atoms.Grid>
+                    <div
+                      className="rounded-lg shadow-xl overflow-scroll mt-2"
+                      style={{ overflowX: "scroll" }}
+                    >
+                      {patientOrderStore.packageList && (
+                        <ExtraDataPackagesList
+                          data={patientOrderStore.packageList}
+                        />
+                      )}
+                    </div>
                   </>
                 </AccordionItemPanel>
               </AccordionItem>
@@ -356,7 +373,6 @@ const PatientOrder = PatientOrderHoc(
             totalSize={patientOrderStore.listPatientOrderCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
-              // listAdministrativeDiv: AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
@@ -396,6 +412,6 @@ const PatientOrder = PatientOrderHoc(
         </div>
       </>
     )
-  })  
+  })
 )
 export default PatientOrder

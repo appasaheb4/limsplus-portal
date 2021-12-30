@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -13,6 +13,50 @@ interface PackagesListProps {
 
 export const PackagesList = observer(({ data }: PackagesListProps) => {
   const { patientOrderStore, routerStore } = useStores()
+  const [packages, setPackages] = useState(data)
+
+  useEffect(() => {
+    const panelStatus = LibraryUtils.getDefaultLookupItem(
+      routerStore.lookupItems,
+      "PATIENT ORDER - PANEL_STATUS"
+    )
+    const orderStatus = LibraryUtils.getDefaultLookupItem(
+      routerStore.lookupItems,
+      "PATIENT ORDER - ORDER_STATUS"
+    )
+    let pacakgeListS = data?.pacakgeListS
+    if (data.pacakgeListS) {
+      pacakgeListS = _.map(data.pacakgeListS, (o) =>
+        _.extend({ panelStatus, orderStatus }, o)
+      )
+    }
+    let pacakgeListM = data.pacakgeListM
+    if (data.pacakgeListM) {
+      pacakgeListM = _.map(data.pacakgeListM, (o) =>
+        _.extend({ panelStatus, orderStatus }, o)
+      )
+    }
+    let pacakgeListN = data.pacakgeListN
+    if (data.pacakgeListN) {
+      pacakgeListN = _.map(data.pacakgeListN, (o) =>
+        _.extend({ panelStatus, orderStatus }, o)
+      )
+    }
+    let pacakgeListK = data.pacakgeListK
+    if (data.pacakgeListK) {
+      pacakgeListK = _.map(data.pacakgeListK, (o) =>
+        _.extend({ panelStatus, orderStatus }, o)
+      )
+    }
+    data = {
+      ...data,
+      pacakgeListS,
+      pacakgeListM,
+      pacakgeListN,
+      pacakgeListK,
+    }
+    setPackages(data)
+  }, [data])
 
   const onDeletePackage = (id) => {
     let panels = patientOrderStore.selectedItems?.panels
@@ -103,7 +147,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
           </tr>
         </thead>
         <tbody className="text-xs">
-          {data?.pacakgeListS?.map((item, index) => (
+          {packages?.pacakgeListS?.map((item, index) => (
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
                 <LibraryComponents.Atoms.Icons.IconContext
@@ -151,7 +195,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   value={item.grossAmt}
                   onChange={(grossAmt) => {
                     const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                    pacakgeListS[index] = Object.assign(item, { grossAmt })
+                    pacakgeListS[index] = Object.assign(item, { grossAmt: parseFloat(grossAmt) })
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListS,
@@ -168,7 +212,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   value={item.netAmt}
                   onChange={(netAmt) => {
                     const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                    pacakgeListS[index] = Object.assign(item, { netAmt })
+                    pacakgeListS[index] = Object.assign(item, { netAmt:parseFloat(netAmt) })
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListS,
@@ -185,7 +229,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   value={item.discount}
                   onChange={(discount) => {
                     const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                    pacakgeListS[index] = Object.assign(item, { discount })
+                    pacakgeListS[index] = Object.assign(item, { discount: parseFloat(discount) })
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListS,
@@ -279,7 +323,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               </td>
             </tr>
           ))}
-          {data?.pacakgeListM?.map((item, index) => (
+          {packages?.pacakgeListM?.map((item, index) => (
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
                 {" "}
@@ -457,7 +501,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               </td>
             </tr>
           ))}
-          {data?.pacakgeListN?.map((item) => (
+          {packages?.pacakgeListN?.map((item, index) => (
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
                 {" "}
@@ -486,6 +530,14 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   label=""
                   value={item?.bill || false}
                   disabled={true}
+                  onChange={(bill) => {
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { bill })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
+                  }}
                 />
               </td>
               <td>
@@ -496,7 +548,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   style={{ width: 120 }}
                   value={item.grossAmt}
                   onChange={(grossAmt) => {
-                    console.log({ grossAmt })
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { grossAmt })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
                   }}
                 />
               </td>
@@ -506,9 +563,14 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   placeholder="Net Amt"
                   type="number"
                   style={{ width: 120 }}
-                  value={item.grossAmt}
-                  onChange={(grossAmt) => {
-                    console.log({ grossAmt })
+                  value={item.netAmt}
+                  onChange={(netAmt) => {
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { netAmt })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
                   }}
                 />
               </td>
@@ -518,9 +580,14 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   placeholder="Discount"
                   type="number"
                   style={{ width: 120 }}
-                  value={item.grossAmt}
-                  onChange={(grossAmt) => {
-                    console.log({ grossAmt })
+                  value={item.discount}
+                  onChange={(discount) => {
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { discount })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
                   }}
                 />
               </td>
@@ -528,11 +595,16 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                 <LibraryComponents.Atoms.Form.InputDateTime
                   label=""
                   disabled={true}
-                  style={{ width: 280 }}
+                  style={{ width: 300 }}
                   placeholder="Due Date"
                   value={item.dueDate}
                   onChange={(dueDate) => {
-                    console.log({ dueDate })
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { dueDate })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
                   }}
                 />
               </td>
@@ -540,11 +612,16 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                 <LibraryComponents.Atoms.Form.InputDateTime
                   label=""
                   disabled={true}
-                  style={{ width: 280 }}
+                  style={{ width: 300 }}
                   placeholder="Result Date"
                   value={item.resultDate}
                   onChange={(resultDate) => {
-                    console.log({ resultDate })
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { resultDate })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
                   }}
                 />
               </td>
@@ -554,7 +631,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const orderStatus = e.target.value
-                    console.log({ orderStatus })
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { orderStatus })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -574,7 +656,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const panelStatus = e.target.value
-                    console.log({ panelStatus })
+                    const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    pacakgeListN[index] = Object.assign(item, { panelStatus })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListN,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -590,7 +677,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               </td>
             </tr>
           ))}
-          {data?.pacakgeListK?.map((item) => (
+          {packages?.pacakgeListK?.map((item, index) => (
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
                 {item.serviceType === "K" && (
@@ -620,6 +707,14 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   label=""
                   value={item?.bill || false}
                   disabled={true}
+                  onChange={(bill) => {
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { bill })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
+                  }}
                 />
               </td>
               <td>
@@ -630,7 +725,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   style={{ width: 120 }}
                   value={item.grossAmt}
                   onChange={(grossAmt) => {
-                    console.log({ grossAmt })
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { grossAmt })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
                   }}
                 />
               </td>
@@ -640,9 +740,14 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   placeholder="Net Amt"
                   type="number"
                   style={{ width: 120 }}
-                  value={item.grossAmt}
-                  onChange={(grossAmt) => {
-                    console.log({ grossAmt })
+                  value={item.netAmt}
+                  onChange={(netAmt) => {
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { netAmt })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
                   }}
                 />
               </td>
@@ -652,9 +757,14 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   placeholder="Discount"
                   type="number"
                   style={{ width: 120 }}
-                  value={item.grossAmt}
-                  onChange={(grossAmt) => {
-                    console.log({ grossAmt })
+                  value={item.discount}
+                  onChange={(discount) => {
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { discount })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
                   }}
                 />
               </td>
@@ -662,11 +772,16 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                 <LibraryComponents.Atoms.Form.InputDateTime
                   label=""
                   disabled={true}
-                  style={{ width: 280 }}
+                  style={{ width: 300 }}
                   placeholder="Due Date"
                   value={item.dueDate}
                   onChange={(dueDate) => {
-                    console.log({ dueDate })
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { dueDate })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
                   }}
                 />
               </td>
@@ -674,11 +789,16 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                 <LibraryComponents.Atoms.Form.InputDateTime
                   label=""
                   disabled={true}
-                  style={{ width: 280 }}
+                  style={{ width: 300 }}
                   placeholder="Result Date"
                   value={item.resultDate}
                   onChange={(resultDate) => {
-                    console.log({ resultDate })
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { resultDate })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
                   }}
                 />
               </td>
@@ -688,7 +808,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const orderStatus = e.target.value
-                    console.log({ orderStatus })
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { orderStatus })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -708,7 +833,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const panelStatus = e.target.value
-                    console.log({ panelStatus })
+                    const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    pacakgeListK[index] = Object.assign(item, { panelStatus })
+                    patientOrderStore.updatePackageList({
+                      ...patientOrderStore.packageList,
+                      pacakgeListK,
+                    })
                   }}
                 >
                   <option selected>Select</option>

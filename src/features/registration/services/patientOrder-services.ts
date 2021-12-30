@@ -11,7 +11,7 @@ import {
   LIST_PATIENT_VISIT,
   REMOVE_PATIENT_VISIT,
   UPDATE_PATIENT_VISIT,
-  CREATE_PATIENT_VISIT,
+  CREATE_PATIENT_ORDER,
   FILTER_PATIENT_VISIT,
   SEQUENCING_PATIENT_ORDER_ORDERID,
   CHECK_EXISTS_PATIENT,
@@ -45,11 +45,11 @@ export class PatientOrderService {
 
   addPatientOrder = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
-
+      console.log({variables});
+      
       client
         .mutate({
-          mutation: CREATE_PATIENT_VISIT,
+          mutation: CREATE_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {
