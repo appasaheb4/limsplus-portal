@@ -137,7 +137,6 @@ export const ExtraDataPackagesList = observer(
               <th className="text-white">OS ReceivedBy</th>
               <th className="text-white">Out source Status</th>
               <th className="text-white">Recevied ByDept</th>
-              <th className="text-white">Due Date</th>
               <th className="text-white">Analysis Done Date</th>
               <th className="text-white">Auto Release</th>
               <th className="text-white">ABNormal</th>
@@ -310,28 +309,6 @@ export const ExtraDataPackagesList = observer(
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           receviedByDept,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListS,
-                      })
-                    }}
-                  />
-                </td>
-                <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
-                    placeholder="Due Date"
-                    value={item?.extraData?.dueDate}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(dueDate) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                      pacakgeListS[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListS[index].extraData,
-                          dueDate,
                         },
                       })
                       patientOrderStore.updatePackageList({
@@ -923,28 +900,6 @@ export const ExtraDataPackagesList = observer(
                 <td>
                   <LibraryComponents.Atoms.Form.Input
                     label=""
-                    placeholder="Due Date"
-                    value={item?.extraData?.dueDate}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(dueDate) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
-                      pacakgeListM[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListM[index].extraData,
-                          dueDate,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListM,
-                      })
-                    }}
-                  />
-                </td>
-                <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
                     placeholder="Analysis Done Date"
                     value={item?.extraData?.analysisDoneDate}
                     style={{ width: 100 }}
@@ -1524,28 +1479,6 @@ export const ExtraDataPackagesList = observer(
                 <td>
                   <LibraryComponents.Atoms.Form.Input
                     label=""
-                    placeholder="Due Date"
-                    value={item?.extraData?.dueDate}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(dueDate) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
-                      pacakgeListN[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListN[index].extraData,
-                          dueDate,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListN,
-                      })
-                    }}
-                  />
-                </td>
-                <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
                     placeholder="Analysis Done Date"
                     value={item?.extraData?.analysisDoneDate}
                     style={{ width: 100 }}
@@ -2113,28 +2046,6 @@ export const ExtraDataPackagesList = observer(
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           receviedByDept,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListK,
-                      })
-                    }}
-                  />
-                </td>
-                <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
-                    placeholder="Due Date"
-                    value={item?.extraData?.dueDate}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(dueDate) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
-                      pacakgeListK[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListK[index].extraData,
-                          dueDate,
                         },
                       })
                       patientOrderStore.updatePackageList({

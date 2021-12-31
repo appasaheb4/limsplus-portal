@@ -1,12 +1,8 @@
 /* eslint-disable */
-import React, { useEffect, useState, useRef } from "react"
+import React, { useState } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import _ from "lodash"
-import ToolkitProvider, {
-  Search,
-  CSVExport,
-  ColumnToggle,
-} from "react-bootstrap-table2-toolkit"
+import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory, {
   PaginationProvider,
@@ -16,7 +12,7 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
-import "./style.css"
+import "@lp/library/components/Organisms/style.css"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -26,7 +22,7 @@ import * as Config from "@lp/config"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-interface TableBootstrapProps {
+interface TableBootstrapExpandPackageListProps {
   id: string
   data: any
   totalSize?: number
@@ -34,18 +30,13 @@ interface TableBootstrapProps {
   page?: number
   sizePerPage?: number
   columns: any
-  fileName: string
-  isDelete?: boolean
-  isEditModify?: boolean
-  isSelectRow?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
   clearAllFilter?: () => void
 }
-const TableBootstrap = ({
+export const TableBootstrapExpandPackageList = ({
   id,
   data,
   totalSize = 10,
@@ -53,15 +44,12 @@ const TableBootstrap = ({
   page = 0,
   sizePerPage = 10,
   columns,
-  fileName,
-  isEditModify,
-  isSelectRow,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
   onFilter,
   clearAllFilter,
-}: TableBootstrapProps) => {
+}: TableBootstrapExpandPackageListProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
@@ -82,27 +70,6 @@ const TableBootstrap = ({
     onSizePerPageChange,
   }) => (
     <div className="btn-group items-center" role="group">
-      {isSelectRow && (
-        <LibraryComponents.Atoms.Buttons.Button
-          style={{ height: 10, width: 200 }}
-          size="small"
-          type="solid"
-          onClick={() => {
-            if (selectedRow) {
-              onSelectedRow && onSelectedRow(selectedRow)
-            } else {
-              alert("Please select any item.")
-            }
-          }}
-        >
-          <LibraryComponents.Atoms.Icon.EvaIcon
-            icon="trash-outline"
-            size="large"
-            color={Config.Styles.COLORS.BLACK}
-          />
-          Remove Selected
-        </LibraryComponents.Atoms.Buttons.Button>
-      )}
       <input
         type="number"
         min="0"
@@ -193,7 +160,7 @@ const TableBootstrap = ({
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
     //console.log({ type, filters })
-    if (type === "cellEdit" && isEditModify) {
+    if (type === "cellEdit") {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
     }
@@ -279,6 +246,17 @@ const TableBootstrap = ({
     </div>
   )
 
+  const expandRow = {
+    renderer: row => (
+      <div>
+        <p>{ `This Expand row is belong to rowKey ${row._id}` }</p>
+        <p>You can render anything here, also you can add additional data on every row object</p>
+        <p>expandRow.renderer callback will pass the origin row object to you</p>
+      </div>
+    ),
+    showExpandColumn: true
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -295,20 +273,11 @@ const TableBootstrap = ({
           data={data}
           columns={columns}
           search
-          exportCSV={{
-            fileName: `${fileName}_${dayjs(new Date()).format(
-              "YYYY-MM-DD HH:mm"
-            )}.csv`,
-            noAutoBOM: false,
-            blobType: "text/csv;charset=ansi",
-            exportAll: false,
-            onlyExportFiltered: true
-          }}
           columnToggle
         >
           {(props) => (
             <div>
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <SearchBar
                   {...searchProps}
                   {...props.searchProps}
@@ -353,8 +322,8 @@ const TableBootstrap = ({
                     <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
                   </LibraryComponents.Atoms.Buttons.Button>
                 )}
-              </div>
-              {isFilterOpen && (
+              </div> */}
+              {/* {isFilterOpen && (
                 <div className={"mb-2 overflow-auto h-10"}>
                   <CustomToggleList
                     contextual="primary"
@@ -363,8 +332,8 @@ const TableBootstrap = ({
                     {...props.columnToggleProps}
                   />
                 </div>
-              )}
-              <div className="scrollTable">
+              )} */}
+              <div>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -372,32 +341,12 @@ const TableBootstrap = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
-                  selectRow={
-                    isSelectRow
-                      ? {
-                          mode: "checkbox",
-                          onSelect: handleOnSelect,
-                          onSelectAll: handleOnSelectAll,
-                        }
-                      : undefined
-                  }
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: "dbclick",
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
                   headerClasses="bg-gray-500 text-white whitespace-nowrap"
                   onTableChange={handleTableChange}
-                  // options={{
-                  //   hideSizePerPage: true,
-                  //   showTotal: false,
-                  // }}
+                  //expandRow={ expandRow }
                 />
               </div>
-              <div className="flex items-center gap-2 mt-2">
+              {/* <div className="flex items-center gap-2 mt-2">
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
@@ -408,7 +357,7 @@ const TableBootstrap = ({
               </div>
               <div className="flex items-center gap-2 mt-2">
                 <PaginationTotalStandalone {...paginationProps} />
-              </div>
+              </div> */}
             </div>
           )}
         </ToolkitProvider>
@@ -416,5 +365,3 @@ const TableBootstrap = ({
     </PaginationProvider>
   )
 }
-
-export default TableBootstrap

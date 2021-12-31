@@ -12,9 +12,9 @@ export class PatientOrderStore {
 
   constructor() {
     this.listPatientOrder = []
-    this.packageList =[]
+    this.packageList = []
     this.listPatientOrderCount = 0
-    this.checkExistsOrderId = false 
+    this.checkExistsOrderId = false
     // this.patientOrder = {
     //   ...this.patientOrder,
     // }
@@ -31,7 +31,7 @@ export class PatientOrderStore {
       filterPatientOrderList: action,
       updatePatientOrder: action,
       updateSelectedItems: action,
-      updatePackageList: action
+      updatePackageList: action,
     })
   }
 
@@ -44,7 +44,7 @@ export class PatientOrderStore {
     this.listPatientOrder = res.patientOrders.data
     this.listPatientOrderCount = res.patientOrders.paginatorInfo.count
   }
-
+    
   filterPatientOrderList(res: any) {
     this.listPatientOrder = res.filterPatientOrder.data
     this.listPatientOrderCount = res.filterPatientOrder.paginatorInfo.count
@@ -60,9 +60,9 @@ export class PatientOrderStore {
 
   updateSelectedItems(res: Models.SelectedItems) {
     this.selectedItems = res
-  }  
-  
-  updatePackageList(list: any[]){
-    this.packageList = list;
+  }
+
+  updatePackageList(list: any[]) {
+    this.packageList = list
   }
 }

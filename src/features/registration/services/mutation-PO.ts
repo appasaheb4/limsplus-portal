@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
 
-export const LIST_PATIENT_VISIT = gql`
-  mutation($input: PatientVisitInput!) {
-    patientVisits(input: $input) {
+export const LIST_PATIENT_ORDER = gql`
+  mutation($input: PatientOrderInput!) {
+    patientOrders(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,55 +10,58 @@ export const LIST_PATIENT_VISIT = gql`
       message
       data {
         _id
-        pId
-        rLab
+        orderId
         visitId
-        visitDate
-        registrationDate
-        collectionDate
-        dueDate
-        birthDate
-        age
-        ageUnits
-        collectionCenter
-        corporateCode
-        acClass
-        doctorId
-        doctorName
-        deliveryType
-        history
-        status
-        extraData {
-          accountType
-          deliveryMethod
-          additionalInfo
-          invoiceAc
-          billingMethod
-          billNumber
-          urgent
-          confidental
-          autoNumber
-          methodCollection
-          collectedBy
-          pendingDataEntry
-          receivedDate
+        patientName
+        panelCode
+        packageList {
+          panelCode
+          panelName
+          packageCode
+          serviceType
+          service
+          department
+          section
+          pLab
+          rLab
+          bill
+          grossAmt
+          netAmt
+          discount
+          dueDate
           resultDate
-          approvalDate
-          approvalStatus
-          reportStatus
-          reportedDate
-          enteredBy
-          gestation
-          height
-          weight
-          archieve
-          loginInterface
-          registrationInterface
-          submittedSystem
-          submittedOn
-          balance
-          environment
+          orderStatus
+          panelStatus
+          extraData {
+            priority
+            outsourceLab
+            forceOutSource
+            osReceivedDate
+            osReceivedBy
+            outsourceStatus
+            receviedByDept
+            analysisDoneDate
+            autoRelease
+            abNormal
+            critical
+            rep
+            eqid
+            eqtype
+            methodOn
+            methodName
+            porder
+            confidential
+            workflow
+            loginServgrp
+            currentServgrp
+            routingStatus
+            recvTime
+            outSourceOrdno
+            deptOutSource
+            comment
+          }
         }
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -76,9 +79,9 @@ export const CREATE_PATIENT_ORDER = gql`
   }
 `
 
-export const REMOVE_PATIENT_VISIT = gql`
-  mutation($input: PatientVisitRemoveInput!) {
-    removePatientVisit(input: $input) {
+export const REMOVE_PATIENT_ORDER = gql`
+  mutation($input: PatientOrderRemoveInput!) {
+    removePatientOrder(input: $input) {
       success
       message
     }
@@ -93,10 +96,10 @@ export const UPDATE_PATIENT_VISIT = gql`
     }
   }
 `
-
-export const FILTER_PATIENT_VISIT = gql`
-  mutation($input: PatientVisitInput!) {
-    filterPatientVisit(input: $input) {
+     
+export const FILTER_PATIENT_ORDER = gql`
+  mutation($input: PatientOrderInput!) {
+    filterPatientOrder(input: $input) {
       paginatorInfo {
         count
       }
@@ -104,55 +107,58 @@ export const FILTER_PATIENT_VISIT = gql`
       message
       data {
         _id
-        pId
-        rLab
+        orderId
         visitId
-        visitDate
-        registrationDate
-        collectionDate
-        dueDate
-        birthDate
-        age
-        ageUnits
-        collectionCenter
-        corporateCode
-        acClass
-        doctorId
-        doctorName
-        deliveryType
-        history
-        status
-        extraData {
-          accountType
-          deliveryMethod
-          additionalInfo
-          invoiceAc
-          billingMethod
-          billNumber
-          urgent
-          confidental
-          autoNumber
-          methodCollection
-          collectedBy
-          pendingDataEntry
-          receivedDate
+        patientName
+        panelCode
+        packageList {
+          panelCode
+          panelName
+          packageCode
+          serviceType
+          service
+          department
+          section
+          pLab
+          rLab
+          bill
+          grossAmt
+          netAmt
+          discount
+          dueDate
           resultDate
-          approvalDate
-          approvalStatus
-          reportStatus
-          reportedDate
-          enteredBy
-          gestation
-          height
-          weight
-          archieve
-          loginInterface
-          registrationInterface
-          submittedSystem
-          submittedOn
-          balance
-          environment
+          orderStatus
+          panelStatus
+          extraData {
+            priority
+            outsourceLab
+            forceOutSource
+            osReceivedDate
+            osReceivedBy
+            outsourceStatus
+            receviedByDept
+            analysisDoneDate
+            autoRelease
+            abNormal
+            critical
+            rep
+            eqid
+            eqtype
+            methodOn
+            methodName
+            porder
+            confidential
+            workflow
+            loginServgrp
+            currentServgrp
+            routingStatus
+            recvTime
+            outSourceOrdno
+            deptOutSource
+            comment
+          }
         }
+        environment
         documentType
         dateOfEntry
         lastUpdated

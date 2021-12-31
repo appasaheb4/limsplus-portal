@@ -165,7 +165,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               </td>
               <td>{item?.panelCode}</td>
               <td>{item?.panelName}</td>
-              <td>{item.serviceType !== "M" && item?.packageCode}</td>
+              <td>{item.serviceType !== "M" ? item?.packageCode :''}</td>
               <td>{item.serviceType}</td>
               <td>{item.department}</td>
               <td>{item.section?.code}</td>
@@ -193,9 +193,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.grossAmt}
+                  disabled={true}
                   onChange={(grossAmt) => {
                     const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                    pacakgeListS[index] = Object.assign(item, { grossAmt: parseFloat(grossAmt) })
+                    pacakgeListS[index] = Object.assign(item, {
+                      grossAmt: parseFloat(grossAmt),
+                    })
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListS,
@@ -210,9 +213,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.netAmt}
+                  disabled={true}
                   onChange={(netAmt) => {
                     const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                    pacakgeListS[index] = Object.assign(item, { netAmt:parseFloat(netAmt) })
+                    pacakgeListS[index] = Object.assign(item, {
+                      netAmt: parseFloat(netAmt),
+                    })
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListS,
@@ -227,9 +233,12 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.discount}
+                  disabled={true}
                   onChange={(discount) => {
                     const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                    pacakgeListS[index] = Object.assign(item, { discount: parseFloat(discount) })
+                    pacakgeListS[index] = Object.assign(item, {
+                      discount: parseFloat(discount),
+                    })
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListS,
@@ -257,7 +266,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               <td>
                 <LibraryComponents.Atoms.Form.InputDateTime
                   label=""
-                  //disabled={true}
+                  disabled={true}
                   style={{ width: 300 }}
                   placeholder="Result Date"
                   value={item.resultDate}
@@ -274,6 +283,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               <td>
                 <select
                   value={item.orderStatus}
+                  disabled={true}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const orderStatus = e.target.value
@@ -299,6 +309,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               <td>
                 <select
                   value={item.panelStatus}
+                  disabled={true}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const panelStatus = e.target.value
@@ -343,8 +354,8 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               </td>
               <td>{item?.panelCode}</td>
               <td>{item?.panelName}</td>
-              <td>{item?.packageCode}</td>
-              <td>{item.serviceType !== "M" ? item.serviceType : ""}</td>
+              <td>{item?.serviceType !== "M" ? item.packageCode : ""}</td>
+              <td>{item.serviceType}</td>
               <td>{item.department}</td>
               <td>{item.section?.code}</td>
               <td>{item.pLab}</td>
@@ -371,6 +382,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.grossAmt}
+                  disabled={true}
                   onChange={(grossAmt) => {
                     const pacakgeListM = patientOrderStore.packageList.pacakgeListM
                     pacakgeListM[index] = Object.assign(item, { grossAmt })
@@ -388,6 +400,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.netAmt}
+                  disabled={true}
                   onChange={(netAmt) => {
                     const pacakgeListM = patientOrderStore.packageList.pacakgeListM
                     pacakgeListM[index] = Object.assign(item, { netAmt })
@@ -405,6 +418,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.discount}
+                  disabled={true}
                   onChange={(discount) => {
                     const pacakgeListM = patientOrderStore.packageList.pacakgeListM
                     pacakgeListM[index] = Object.assign(item, { discount })
@@ -453,6 +467,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                 <select
                   value={item.orderStatus}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  disabled={true}
                   onChange={(e) => {
                     const orderStatus = e.target.value
                     const pacakgeListM = patientOrderStore.packageList.pacakgeListM
@@ -478,6 +493,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                 <select
                   value={item.panelStatus}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  disabled={true}
                   onChange={(e) => {
                     const panelStatus = e.target.value
                     const pacakgeListM = patientOrderStore.packageList.pacakgeListM
@@ -547,6 +563,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.grossAmt}
+                  disabled={true}
                   onChange={(grossAmt) => {
                     const pacakgeListN = patientOrderStore.packageList.pacakgeListN
                     pacakgeListN[index] = Object.assign(item, { grossAmt })
@@ -564,6 +581,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.netAmt}
+                  disabled={true}
                   onChange={(netAmt) => {
                     const pacakgeListN = patientOrderStore.packageList.pacakgeListN
                     pacakgeListN[index] = Object.assign(item, { netAmt })
@@ -581,6 +599,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.discount}
+                  disabled={true}
                   onChange={(discount) => {
                     const pacakgeListN = patientOrderStore.packageList.pacakgeListN
                     pacakgeListN[index] = Object.assign(item, { discount })
@@ -628,6 +647,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               <td>
                 <select
                   value={item.orderStatus}
+                  disabled={true}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const orderStatus = e.target.value
@@ -653,6 +673,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               <td>
                 <select
                   value={item.panelStatus}
+                  disabled={true}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const panelStatus = e.target.value
@@ -724,6 +745,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.grossAmt}
+                  disabled={true}
                   onChange={(grossAmt) => {
                     const pacakgeListK = patientOrderStore.packageList.pacakgeListK
                     pacakgeListK[index] = Object.assign(item, { grossAmt })
@@ -741,6 +763,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.netAmt}
+                  disabled={true}
                   onChange={(netAmt) => {
                     const pacakgeListK = patientOrderStore.packageList.pacakgeListK
                     pacakgeListK[index] = Object.assign(item, { netAmt })
@@ -758,6 +781,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
                   type="number"
                   style={{ width: 120 }}
                   value={item.discount}
+                  disabled={true}
                   onChange={(discount) => {
                     const pacakgeListK = patientOrderStore.packageList.pacakgeListK
                     pacakgeListK[index] = Object.assign(item, { discount })
@@ -805,6 +829,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               <td>
                 <select
                   value={item.orderStatus}
+                  disabled={true}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const orderStatus = e.target.value
@@ -830,6 +855,7 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               <td>
                 <select
                   value={item.panelStatus}
+                  disabled={true}
                   className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
                   onChange={(e) => {
                     const panelStatus = e.target.value
