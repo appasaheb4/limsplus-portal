@@ -46,6 +46,7 @@ const PatientOrder = PatientOrderHoc(
     setValue("orderId", patientOrderStore.patientOrder?.orderId)
     setValue("environment", patientOrderStore.patientOrder?.environment)
 
+    const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputView, setHideInputView] = useState<boolean>(true)
     const onSubmitPatientOrder = () => {
       const packageList = [
@@ -60,6 +61,7 @@ const PatientOrder = PatientOrderHoc(
             ...patientOrderStore.patientOrder,
             packageList,
             documentType: "patientOrder",
+            __typename: undefined,
           },
         })
         .then((res) => {
@@ -68,9 +70,9 @@ const PatientOrder = PatientOrderHoc(
               message: `😊 ${res.createPatientOrder.message}`,
             })
           }
-          // setTimeout(() => {
-          //   window.location.reload()
-          // }, 1000)
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
         })
     }
     return (
@@ -382,34 +384,51 @@ const PatientOrder = PatientOrderHoc(
               toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
-            onDelete={(selectedUser) =>
-              props.onModalConfirm && props.onModalConfirm(selectedUser)
-            }
+            onDelete={(selectedUser) => setModalConfirm(selectedUser)}
             onSelectedRow={(rows) => {
-              props.onModalConfirm &&
-                props.onModalConfirm({
-                  show: true,
-                  type: "Delete",
-                  id: rows,
-                  title: "Are you sure?",
-                  body: `Delete selected items!`,
-                })
+              setModalConfirm({
+                show: true,
+                type: "delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
             }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              props.onModalConfirm &&
-                props.onModalConfirm({
-                  show: true,
-                  type: "Update",
-                  data: { value, dataField, id },
-                  title: "Are you sure?",
-                  body: `Update recoard!`,
-                })
+            onPageSizeChange={(page, limit) => {
+              patientOrderStore.patientOrderService.listPatientOrder(
+                { documentType: "patientOrder" },
+                page,  
+                limit
+              )
             }}
-            // onPageSizeChange={(page, limit) => {
-            //   // enviromentSettingsStore.fetchSessionManagementList(page, limit)
-            // }}
+            onFilter={(type, filter, page, limit) => {
+              patientOrderStore.patientOrderService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
+        <LibraryComponents.Molecules.ModalConfirm
+          {...modalConfirm}
+          click={(type?: string) => {
+            if (type === "delete") {
+              patientOrderStore.patientOrderService
+                .deletePatientOrder({ input: { id: modalConfirm.id } })
+                .then((res: any) => {
+                  if (res.removePatientOrder.success) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.removePatientOrder.message}`,
+                    })
+                    setModalConfirm({ show: false })
+                    patientOrderStore.patientOrderService.listPatientOrder({
+                      documentType: "patientOrder",
+                    })
+                  }
+                })
+            }
+          }}
+          onClose={() => setModalConfirm({ show: false })}
+        />
       </>
     )
   })

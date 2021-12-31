@@ -8,11 +8,11 @@
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
-  LIST_PATIENT_VISIT,
-  REMOVE_PATIENT_VISIT,
+  LIST_PATIENT_ORDER,
+  REMOVE_PATIENT_ORDER,
   UPDATE_PATIENT_VISIT,
   CREATE_PATIENT_ORDER,
-  FILTER_PATIENT_VISIT,
+  FILTER_PATIENT_ORDER,
   SEQUENCING_PATIENT_ORDER_ORDERID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
@@ -29,12 +29,10 @@ export class PatientOrderService {
       const role = stores.loginStore.login && stores.loginStore.login.role
       client
         .mutate({
-          mutation: LIST_PATIENT_VISIT,
+          mutation: LIST_PATIENT_ORDER,
           variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
-          // console.log({response});
-          // console.log({date:dayjs.utc(response.data.patientOrders.data[0].visitDate).local().format()})
           stores.patientOrderStore.updatePatientOrderList(response.data)
           resolve(response.data)
         })
@@ -45,8 +43,8 @@ export class PatientOrderService {
 
   addPatientOrder = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-      
+      console.log({ variables })
+
       client
         .mutate({
           mutation: CREATE_PATIENT_ORDER,
@@ -64,7 +62,7 @@ export class PatientOrderService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: REMOVE_PATIENT_VISIT,
+          mutation: REMOVE_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {
@@ -97,8 +95,8 @@ export class PatientOrderService {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_PATIENT_VISIT,
-          variables,
+          mutation: FILTER_PATIENT_ORDER,
+          variables,   
         })
         .then((response: any) => {
           if (!response.data.filterPatientOrder.success)
@@ -190,11 +188,11 @@ export class PatientOrderService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
-          
+          console.log({ response })
+
           stores.patientOrderStore.updatePackageList(
             response.data.getPatientOrderPackagesList.packageList
-          )  
+          )
           resolve(response.data)
         })
         .catch((error) =>

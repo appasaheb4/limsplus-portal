@@ -1,4 +1,5 @@
 export class PatientOrder {
+  _id: string
   orderId: number
   visitId: string
   patientName: string
@@ -9,6 +10,7 @@ export class PatientOrder {
       panelName: string
       packageCode: string
       serviceType: string
+      service:string
       department: string
       section: string
       pLab: string
@@ -29,7 +31,6 @@ export class PatientOrder {
         osReceivedBy: string
         outsourceStatus: string
         receviedByDept: string
-        dueDate: string
         analysisDoneDate: string
         autoRelease: string
         abNormal: string
@@ -56,8 +57,9 @@ export class PatientOrder {
   documentType: string
   dateOfEntry: Date
   lastUpdated: Date
-  
+
   constructor(rawData: { [key in string]: any }) {
+    this._id = rawData._id
     this.orderId = rawData.orderId
     this.visitId = rawData.visitId
     this.patientName = rawData.patientName

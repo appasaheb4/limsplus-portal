@@ -47,7 +47,7 @@ export class PatientVisitStore {
     } else {
       this.listPatientVisit = res
     }
-  }
+  }   
 
   filterPatientVisitList(res: any) {
     this.listPatientVisit = res.filterPatientVisit.data

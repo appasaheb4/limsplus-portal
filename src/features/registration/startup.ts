@@ -11,9 +11,10 @@ const startup = async () => {
   })
   stores.patientVisitStore.patientVisitService.sequencingVisitId()
   // patient order
-  setTimeout(() => {
+  stores.patientOrderStore.patientOrderService.listPatientOrder({
+    documentType: "patientOrder",
+  })
     stores.patientOrderStore.patientOrderService.sequencingOrderId()
-  }, 2000);
  
 }  
 
