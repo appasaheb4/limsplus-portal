@@ -13,6 +13,7 @@ export const LIST_PATIENT_VISIT = gql`
         pId
         rLab
         visitId
+        labId
         patientName
         visitDate
         registrationDate
@@ -22,7 +23,9 @@ export const LIST_PATIENT_VISIT = gql`
         age
         ageUnits
         collectionCenter
+        collectionCenterName
         corporateCode
+        corporateName
         acClass
         doctorId
         doctorName
@@ -85,7 +88,7 @@ export const REMOVE_PATIENT_VISIT = gql`
     }
   }
 `
-  
+
 export const UPDATE_PATIENT_VISIT = gql`
   mutation($input: UpdatePatientVisitInput!) {
     updatePatientVisit(input: $input) {
@@ -108,6 +111,7 @@ export const FILTER_PATIENT_VISIT = gql`
         pId
         rLab
         visitId
+        labId
         patientName
         visitDate
         registrationDate
@@ -117,7 +121,9 @@ export const FILTER_PATIENT_VISIT = gql`
         age
         ageUnits
         collectionCenter
+        collectionCenterName
         corporateCode
+        corporateName
         acClass
         doctorId
         doctorName
@@ -161,8 +167,8 @@ export const FILTER_PATIENT_VISIT = gql`
       }
     }
   }
-`   
-   
+`
+
 export const SEQUENCING_PATIENT_VISIT_VISITID = gql`
   mutation($input: SequencingInput!) {
     sequencing(input: $input) {
@@ -195,6 +201,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         pId
         rLab
         visitId
+        labId
         patientName
         visitDate
         registrationDate
@@ -204,7 +211,9 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         age
         ageUnits
         collectionCenter
+        collectionCenterName
         corporateCode
+        corporateName
         acClass
         doctorId
         doctorName

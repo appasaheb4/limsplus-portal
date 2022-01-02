@@ -52,8 +52,6 @@ export const REMOVE_RECORDS = gql`
   }
 `
 
-
-
 export const UPDATE_RECORD = gql`
   mutation($input: UpdateDepartmentInput!) {
     updateDepartment(input: $input) {
@@ -76,6 +74,40 @@ export const FILTER = gql`
   mutation($input: DepartmentInput!) {
     filterDepartments(input: $input) {
       paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        lab
+        code
+        name
+        shortName
+        hod
+        mobileNo
+        contactNo
+        autoRelease
+        requireReceveInLab
+        requireScainIn
+        routingDept
+        openingTime
+        closingTime
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
+  
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: DepartmentInput!) {
+    filterByFieldsDepartments(input: $input) {
+      paginatorInfo {  
         count
       }
       success

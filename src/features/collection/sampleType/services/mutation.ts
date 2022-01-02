@@ -88,3 +88,27 @@ export const FILTER = gql`
     }
   }
 `
+
+
+
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: SampleTypeInput!) {
+    filterByFieldsSampleTypes(input: $input) {
+      paginatorInfo {
+        count
+      }  
+      success
+      message
+      data {
+        _id
+        sampleCode
+        sampleType
+        descriptions
+        sampleGroup
+        environment
+        dateOfEntry
+        lastUpdated
+      }   
+    }
+  }
+`

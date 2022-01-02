@@ -7,7 +7,8 @@ export class TestSampleMappingStore {
   listTestSampleMappingCount: number
   testSampleMapping!: Models.TestSampleMapping
   checkExitsTestSampleEnvCode: boolean
-    
+  departments: any
+
   constructor() {
     this.listTestSampleMapping = []
     this.listTestSampleMappingCount = 0
@@ -23,12 +24,13 @@ export class TestSampleMappingStore {
       sharedSample: false,
       printLabels: false,
     }
-  
+
     makeObservable<TestSampleMappingStore, any>(this, {
       listTestSampleMapping: observable,
       listTestSampleMappingCount: observable,
       testSampleMapping: observable,
       checkExitsTestSampleEnvCode: observable,
+      departments: observable,
 
       testSampleMappingService: computed,
       fetchSampleTypeList: action,
@@ -36,9 +38,10 @@ export class TestSampleMappingStore {
       updateSampleType: action,
       updateExitsTestSampleEnvCode: action,
       filterTestSampleMappingList: action,
-    })  
-  }  
-   
+      updateDepartments: action,
+    })
+  }
+
   get testSampleMappingService() {
     return new Services.TestSampleMappingService()
   }
@@ -55,14 +58,19 @@ export class TestSampleMappingStore {
 
   filterTestSampleMappingList(res: any) {
     this.listTestSampleMapping = res.filterTestSampleMappings.data
-    this.listTestSampleMappingCount = res.filterTestSampleMappings.paginatorInfo.count
+    this.listTestSampleMappingCount =
+      res.filterTestSampleMappings.paginatorInfo.count
   }
 
   updateSampleType = (sampleMapping: Models.TestSampleMapping) => {
     this.testSampleMapping = sampleMapping
   }
-  
+
   updateExitsTestSampleEnvCode = (status: boolean) => {
     this.checkExitsTestSampleEnvCode = status
   }
-}  
+
+  updateDepartments = (department: any) => {
+    this.departments = department
+  }
+}

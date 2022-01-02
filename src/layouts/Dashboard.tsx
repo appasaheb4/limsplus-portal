@@ -120,8 +120,10 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testSampleMapping"
       )
         await SampleType.startup()
-      if (pathname === "/collection/testSampleMapping")
+      if (pathname === "/collection/testSampleMapping") {
         await TestSampleMapping.startup()
+        await Department.startup()
+      }  
       if (pathname === "/collection/testAnalyteMapping")
         await TestAnalyteMapping.startup()
       if (pathname === "/collection/testPanelMapping")
@@ -166,7 +168,7 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/communication/mapping/segmentMapping") {
         await InterfaceManager.startup()
         await SegmentMapping.startup()
-      }  
+      }
       // registration
       if (pathname === "/registration/patient") {
         await PatientRegistration.startup()

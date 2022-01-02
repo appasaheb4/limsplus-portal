@@ -502,30 +502,24 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const minDrawVolUnit = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            minDrawVolUnit,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "MIN_DRAW_VOL_UNIT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
+                    onChange={(e) => {
+                      const minDrawVolUnit = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(minDrawVolUnit, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "MIN_DRAW_VOL_UNIT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -561,30 +555,24 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const minTestVolUnit = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            minTestVolUnit,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "MIN_TEST_VOL_UNIT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
+                    onChange={(e) => {
+                      const minTestVolUnit = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(minTestVolUnit, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "MIN_TEST_VOL_UNIT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -633,30 +621,24 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const repentionUnits = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            repentionUnits,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "RETENTION_UNITS"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
+                    onChange={(e) => {
+                      const repentionUnits = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(repentionUnits, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "RETENTION_UNITS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -705,6 +687,45 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               }),
             },
             {
+              dataField: "departments",
+              text: "Departments",
+              headerClasses: "textHeader5",
+              sort: true,
+              editable: false,
+              // csvFormatter: (cell, row, rowIndex) =>
+              //   `Value:${row.arrValue.map(
+              //     (item) => item.value
+              //   )} - Code:${row.arrValue.map((item) => item.code)}`,
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  // arrValue = filter
+                },
+              }),
+              formatter: (cellContent, row) => (
+                <>
+                  <LibraryComponents.Atoms.List
+                    space={2}
+                    direction="row"
+                    justify="center"
+                  >
+                    {row.departments?.map((item) => (
+                      <div className="mb-2">
+                        <LibraryComponents.Atoms.Buttons.Button
+                          size="medium"
+                          type="solid"
+                          onClick={() => {}}
+                        >
+                          {`${item.code} - ${item.name}`}
+                          {`  ${item.prefrence}`}
+                          {`  ${item.tatInMin}`}
+                        </LibraryComponents.Atoms.Buttons.Button>
+                      </div>
+                    ))}
+                  </LibraryComponents.Atoms.List>
+                </>
+              ),
+            },
+            {
               dataField: "environment",
               text: "Environment",
               headerClasses: "textHeader4",
@@ -724,27 +745,25 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      value={row.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    value={row.environment}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },

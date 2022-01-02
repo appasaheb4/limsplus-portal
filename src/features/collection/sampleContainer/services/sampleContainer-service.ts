@@ -14,7 +14,8 @@ import {
   UPDATE_RECORD,
   UPDATE_IMAGE,
   CHECK_EXISTS_RECORD,
-  FILTER
+  FILTER,
+  FILTER_BY_FIELDS
 } from "./mutation"
 
 class SampleContainerService {
@@ -125,6 +126,33 @@ class SampleContainerService {
         .then((response: any) => {  
           if (!response.data.filterSampleContainers.success) return this.listSampleContainer()
           stores.sampleContainerStore.filterSampleContainerList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsSampleContainers.success)
+            return this.listSampleContainer()
+          stores.sampleContainerStore.filterSampleContainerList({
+            filterSampleContainers: {
+              data: response.data.filterByFieldsSampleContainers.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsSampleContainers.paginatorInfo.count,
+              },
+            },
+          })
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

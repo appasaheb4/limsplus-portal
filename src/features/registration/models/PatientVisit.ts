@@ -3,6 +3,7 @@ export class PatientVisit {
   patientName: string
   rLab: string
   visitId: string
+  labId: number
   visitDate: Date
   registrationDate: Date
   collectionDate: Date
@@ -11,7 +12,7 @@ export class PatientVisit {
   age: number
   ageUnits: string
   collectionCenter: string
-  collectionCenterName: string
+  collectionCenterName: string  
   corporateCode: string
   corporateName: string
   acClass: string
@@ -60,6 +61,7 @@ export class PatientVisit {
     this.patientName = rawData.patientName
     this.rLab = rawData.rLab
     this.visitId = rawData.visitId
+    this.labId = rawData.labId
     this.visitDate = rawData.visitDate
     this.registrationDate = rawData.registrationDate
     this.collectionDate = rawData.collectionDate
