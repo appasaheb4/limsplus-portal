@@ -27,13 +27,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(observer((props: Envir
     departmentStore,
     routerStore,
   } = useStores()
-  console.log({routerStore})
   const {
     control,
-    handleSubmit,
+    handleSubmit,   
     formState: { errors },
     setValue,
-  } = useForm()
+  } = useForm()  
   setValue("environment", loginStore.login.environment)
   
   const [hideInputView, setHideInputView] = useState<boolean>(true)

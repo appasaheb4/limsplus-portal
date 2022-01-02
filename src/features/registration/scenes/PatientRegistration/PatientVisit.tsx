@@ -125,7 +125,29 @@ const PatientVisit = PatientVisitHoc(
                   name="visitId"
                   rules={{ required: false }}
                   defaultValue=""
-                />
+                />   
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      label="Lab Id"
+                      placeholder={errors.labId ? "Please Enter Lab ID" : "Lab ID"}
+                      hasError={errors.labId}
+                      type="number"  
+                      value={patientVisitStore.patientVisit?.labId}
+                      onChange={(labId) => {
+                        onChange(labId)
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          labId,
+                        })
+                      }}
+                    />
+                  )}
+                  name="labId"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />  
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -136,7 +158,7 @@ const PatientVisit = PatientVisitHoc(
                       <FeatureComponents.Orgransims.AutoCompleteFilterSingleSelectPid
                         hasError={errors.pid}
                         onSelect={(item) => {
-                          console.log({ item })
+                          onChange(item.pId)
                           const resultAge = LibraryUtils.calculateTimimg(
                             Math.abs(dayjs(item.birthDate).diff(new Date(), "days"))
                           )

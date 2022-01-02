@@ -83,7 +83,7 @@ export const REMOVE_RECORD = gql`
     }
   }
 `
-   
+
 export const CREATE_RECORD = gql`
   mutation($input: CreateTestMasterInput!) {
     createTestMaster(input: $input) {
@@ -137,7 +137,82 @@ export const FILTER = gql`
       }
       success
       message
-      data{
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        rLab
+        pLab
+        department
+        section
+        testCode
+        testName
+        description
+        shortName
+        bill
+        price
+        schedule
+        tat
+        autoFinish
+        holdOOS
+        validationLevel
+        confidential
+        urgent
+        instantResult
+        reportGroup
+        resultOrder
+        accredited
+        cretical
+        processing
+        repitation
+        tubeGroup
+        printLabel
+        labelInstruction
+        method
+        panelMethod
+        sampleRunOn
+        workflow
+        cumulative
+        sampleType
+        speicalInstructions
+        disease
+        category
+        testType
+        workflowCode
+        worklistCode
+        cptCode
+        qcHold
+        oosHold
+        deltaHold
+        prefix
+        sufix
+        deleverySchedule
+        allowPartial
+        collectionContainer
+        holdingDays
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
+  
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: TestMasterInput!) {
+    filterByFieldsTestMaster(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
         _id
         existsVersionId
         existsRecordId

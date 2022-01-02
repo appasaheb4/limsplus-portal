@@ -14,6 +14,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 
 class SampleTypeService {
@@ -97,7 +98,7 @@ class SampleTypeService {
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
-      client    
+      client
         .mutate({
           mutation: FILTER,
           variables,
@@ -107,7 +108,34 @@ class SampleTypeService {
           stores.sampleTypeStore.filterSampleTypeList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
-        })  
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsSampleTypes.success)
+            return this.listSampleType()
+          stores.sampleTypeStore.filterSampleTypeList({
+            filterSampleTypes: {
+              data: response.data.filterByFieldsSampleTypes.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsSampleTypes.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

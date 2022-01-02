@@ -41,7 +41,6 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               dataField: "environmentVariable",
               text: "Environment Variable",
               headerClasses: "textHeader5",
-              editable: false,
               sort: true,
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({

@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import * as Model from '../models'
+import * as Model from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
@@ -13,7 +13,8 @@ import {
   REMOVE_RECORDS,
   UPDATE_RECORD,
   EXISTS_RECORD,
-  FILTER
+  FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 
 class DepartmentService {
@@ -97,8 +98,8 @@ class DepartmentService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
-    filter = (variables: any) =>
+
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
@@ -107,12 +108,38 @@ class DepartmentService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterDepartments.success)
-            return this.listDepartment()
+          if (!response.data.filterDepartments.success) return this.listDepartment()
           stores.departmentStore.filterDepartmentList(response.data)
           stores.uploadLoadingFlag(false)
           resolve(response.data)
-        })  
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsDepartments.success)
+            return this.listDepartment()
+          stores.departmentStore.filterDepartmentList({
+            filterDepartments: {   
+              data: response.data.filterByFieldsDepartments.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsDepartments.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

@@ -11,6 +11,7 @@ export const LIST = gql`
       data {
         _id
         testCode
+        testName
         sampleCode
         sampleType
         sampleGroup
@@ -35,6 +36,7 @@ export const LIST = gql`
         labelInst
         printLabels
         info
+        departments
         environment
         dateOfEntry
         lastUpdated
@@ -90,6 +92,7 @@ export const FILTER = gql`
       data{
         _id
         testCode
+        testName
         sampleCode
         sampleType
         sampleGroup
@@ -114,6 +117,7 @@ export const FILTER = gql`
         labelInst
         printLabels
         info
+        departments
         environment
         dateOfEntry
         lastUpdated

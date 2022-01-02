@@ -1,6 +1,7 @@
 export class TestSampleMapping {
   _id: string
   testCode: string
+  testName: string
   sampleCode: string
   sampleType: string
   sampleGroup: string
@@ -25,6 +26,7 @@ export class TestSampleMapping {
   labelInst: string
   printLabels: boolean
   info: string
+  departments: any[]
   environment: string
   dateOfEntry: Date
   lastUpdated: Date
@@ -32,6 +34,7 @@ export class TestSampleMapping {
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.testCode = rawData.testCode
+    this.testName = rawData.testName
     this.sampleCode = rawData.sampleCode
     this.sampleType = rawData.sampleType
     this.sampleGroup = rawData.sampleGroup
@@ -56,6 +59,7 @@ export class TestSampleMapping {
     this.labelInst = rawData.labelInst
     this.printLabels = rawData.printLabels
     this.info = rawData.info
+    this.departments = rawData.departments
     this.environment = rawData.environment
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated

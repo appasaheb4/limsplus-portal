@@ -19,6 +19,7 @@ interface PatientVisitProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
+let labId
 let pId
 let rLab
 let visitId
@@ -54,6 +55,22 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Id",
               hidden: true,
               csvExport: false,
+            },
+            {
+              dataField: "labId",
+              text: "Lab Id",
+              headerClasses: "textHeader3",
+              sort: true,
+              csvFormatter: (col,row) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  labId = filter
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editable: false,
             },
             {
               dataField: "pId",
@@ -684,8 +701,9 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
-          }} 
-          clearAllFilter={()=>{
+          }}   
+          clearAllFilter={()=>{   
+            labId("")
             pId("")
             rLab("")
             visitId("")

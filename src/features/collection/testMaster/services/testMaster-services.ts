@@ -16,6 +16,7 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 
 import * as Model from "../models"
@@ -153,6 +154,33 @@ class TestMasterService {
         .then((response: any) => {
           if (!response.data.filterTestMaster.success) return this.listTestMaster()
           stores.testMasterStore.filterTestMasterList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsTestMaster.success)
+            return this.listTestMaster()
+          stores.testMasterStore.filterTestMasterList({
+            filterTestMaster: {
+              data: response.data.filterByFieldsTestMaster.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsTestMaster.paginatorInfo.count,
+              },
+            },
+          })
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
