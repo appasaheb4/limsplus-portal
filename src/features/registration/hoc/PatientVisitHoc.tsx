@@ -7,7 +7,13 @@ import * as LibraryUtils from "@lp/library/utils"
 export const PatientVisitHoc = (Component: React.FC<any>) => {
   return observer(
     (props: any): JSX.Element => {
-      const { loginStore, patientVisitStore, routerStore } = useStores()
+      const {
+        loginStore,
+        patientVisitStore,
+        routerStore,
+        environmentStore,
+        appStore,
+      } = useStores()
       useEffect(() => {
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           patientVisitStore.updatePatientVisit({
@@ -77,6 +83,24 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           },
         })
       }, [loginStore.login, routerStore.lookupItems])
+
+      useEffect(() => {
+        // get Environment value
+        environmentStore.EnvironmentService.findValue({
+          input: {
+            filter: {
+              variable: "LABID_AUTO_GENERATE",
+              lab: loginStore.login.lab,
+            },
+          },
+        }).then((res) => {
+          if (!res.getEnviromentValue.success) return
+          appStore.updateEnvironmentValue({
+            ...appStore.environmentValues,
+            LABID_AUTO_GENERATE: res.getEnviromentValue.data[0].value,
+          })
+        })
+      }, [loginStore.login])
 
       return <Component {...props} />
     }

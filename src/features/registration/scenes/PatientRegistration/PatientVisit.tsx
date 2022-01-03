@@ -91,7 +91,7 @@ const PatientVisit = PatientVisitHoc(
         )}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideInputView ? "shown" : "shown")
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
@@ -139,7 +139,7 @@ const PatientVisit = PatientVisitHoc(
                         onChange(labId)
                         patientVisitStore.updatePatientVisit({
                           ...patientVisitStore.patientVisit,
-                          labId,
+                          labId: parseFloat(labId),
                         })
                       }}
                     />

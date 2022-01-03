@@ -13,6 +13,7 @@ import {
   UPDATE_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
+  FIND_VALUE,
 } from "./mutation"
 import { stores } from "@lp/stores"
 
@@ -141,7 +142,7 @@ export class EnvironmentService {
               data: response.data.filterByFieldsEnviroment.data,
               paginatorInfo: {
                 count: response.data.filterByFieldsEnviroment.paginatorInfo.count,
-              },  
+              },
             },
           })
           stores.uploadLoadingFlag(true)
@@ -150,5 +151,19 @@ export class EnvironmentService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })   
+    })  
+  findValue = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_VALUE,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }

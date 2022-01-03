@@ -21,7 +21,8 @@ import {
   CHANGE_PASSWORD_BY_ADMIN,
   SWITCH_ACCESS,
   FILTER_USERS_BY_KEY,
-  FILTER
+  FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 
 export class UserService {
@@ -218,9 +219,8 @@ export class UserService {
         })
     })
 
-
-    // endpoint /userFilterByKey
-    // input {filter:{fullName:'appa'}}
+  // endpoint /userFilterByKey
+  // input {filter:{fullName:'appa'}}
   userFilterByKey = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -233,23 +233,49 @@ export class UserService {
           stores.userStore.updateUserFilterList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
-        })  
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-    filter = (variables: any) =>
-    new Promise<any>((resolve, reject) => {  
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
           mutation: FILTER,
           variables,
-        })     
+        })
         .then((response: any) => {
           if (!response.data.filterUsers.success) return this.userList()
           stores.userStore.filterUserList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        }) 
+        .then((response: any) => {
+          if (!response.data.filterByFieldsUser.success) return this.userList()
+          stores.userStore.filterUserList({
+            filterUsers: {
+              data: response.data.filterByFieldsUser.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsUser.paginatorInfo.count,
+              },
+            },
+          })
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

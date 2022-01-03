@@ -71,3 +71,17 @@ export const FILTER = gql`
     }
   }  
 `
+
+
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: LabInput!) {
+    filterByFieldsLab(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data  
+    }
+  }
+`

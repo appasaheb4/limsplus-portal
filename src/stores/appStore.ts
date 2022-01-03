@@ -1,4 +1,6 @@
 import { makeObservable, action, observable } from "mobx"
+import { EnvironmentValue } from "../models"
+
 interface ApplicationSetting {
   sideBarColor?: string
   shortCutBarColor?: string
@@ -10,6 +12,7 @@ interface ApplicationSetting {
 export class AppStore {
   applicationSetting!: ApplicationSetting
   loadApi: { count: number; path?: string }
+  environmentValues!: EnvironmentValue
 
   constructor() {
     this.loadApi = { count: 0 }
@@ -20,17 +23,23 @@ export class AppStore {
     makeObservable<AppStore, any>(this, {
       applicationSetting: observable,
       loadApi: observable,
+      environmentValues: observable,
 
       updateApplicationSetting: action,
       updateLoadApi: action,
+      updateEnvironmentValue: action,
     })
   }
 
   updateApplicationSetting(setting: ApplicationSetting) {
     this.applicationSetting = setting
   }
-  
-  updateLoadApi = (value: { count, path? }) => {
+
+  updateLoadApi = (value: { count; path? }) => {
     this.loadApi = value
+  }
+
+  updateEnvironmentValue(value: EnvironmentValue) {
+    this.environmentValues = value
   }
 }
