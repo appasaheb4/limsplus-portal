@@ -19,7 +19,9 @@ interface PatientOrderListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }      
-
+let visitId
+let orderId
+let panelCode
 const PatientOrderList = observer((props: PatientOrderListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
@@ -45,7 +47,7 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
-                  //pId = filter
+                  visitId = filter
                 },
               }),
               filterRenderer: (onFilter, column) => (
@@ -59,7 +61,7 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
-                  //pId = filter
+                  orderId = filter
                 },
               }),
               filterRenderer: (onFilter, column) => (
@@ -71,7 +73,11 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader4 z-10",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  panelCode = filter
+                },
+              }),
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -136,6 +142,11 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
+          }}
+          clearAllFilter={()=>{
+            visitId("")
+            orderId("")
+            panelCode("")
           }}
         />
       </div>
