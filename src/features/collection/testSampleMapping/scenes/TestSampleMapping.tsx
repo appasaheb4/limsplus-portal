@@ -65,7 +65,13 @@ const TestSampleMapping = TestSampleMappingHoc(
             lookupItems: routerStore.lookupItems,
             listTestMaster: testMasterStore.listTestMaster,
             listSampleType: sampleTypeStore.listSampleType,
+            listDepartment:departmentStore.listDepartment,
+            departments:testSampleMappingStore.departments,
             listSampleContainer: sampleContainerStore.listSampleContainer,
+            updateDepartments:testSampleMappingStore.updateDepartments,
+            updateSampleType:testSampleMappingStore.updateSampleType,
+            testSampleMapping:testSampleMappingStore.testSampleMapping,
+            filterByFields:departmentStore.DepartmentService.filterByFields
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -555,7 +561,9 @@ const TestSampleMapping = TestSampleMappingHoc(
                         type="solid"
                         onClick={() => {
                           const code = testSampleMappingStore.departments?.code
+                          console.log({code})
                           const name = testSampleMappingStore.departments?.name
+                          console.log({name})
                           const prefrence =
                             testSampleMappingStore.departments?.prefrence
                           const tatInMin =

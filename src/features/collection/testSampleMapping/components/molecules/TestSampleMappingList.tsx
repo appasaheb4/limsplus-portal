@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from "react"
+import _ from "lodash"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -10,6 +11,7 @@ import {
   AutoCompleteFilterSingleSelectSampleGroup,
   AutoCompleteFilterSingleSelectContainerCode,
   AutoCompleteFilterSingleSelectContainerName,
+  AutoCompleteFilterSingleSelectDepartment
 } from "../orgransims"
 let testCode
 let sampleCode
@@ -691,7 +693,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Departments",
               headerClasses: "textHeader5",
               sort: true,
-              editable: false,
               // csvFormatter: (cell, row, rowIndex) =>
               //   `Value:${row.arrValue.map(
               //     (item) => item.value
@@ -724,6 +725,150 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                   </LibraryComponents.Atoms.List>
                 </>
               ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                 <LibraryComponents.Atoms.Grid cols={3}>
+                    <div className="mt-1">
+                      <AutoCompleteFilterSingleSelectDepartment
+                      onSelect={(item)=>{
+                        props.extraData.updateDepartments({
+                          ...props.extraData.departments,
+                          code: item.code,
+                          name: item.name,
+                        })
+                      }}
+                      />
+                    </div>
+                        <LibraryComponents.Atoms.Form.Input
+                          placeholder="Prefrence"
+                          type="number"
+                          value={row.prefrence}
+                          onChange={(prefrence) => {
+                            props.extraData.updateDepartments({
+                              ...props.extraData.departments,
+                              prefrence: parseFloat(prefrence),
+                            })
+                          }}
+                        />
+                        <LibraryComponents.Atoms.Form.Input
+                          placeholder="TAT IN MIN"
+                          type="number"
+                          value={row.tatInMin}
+                          onChange={(tatInMin) => {
+                            props.extraData.updateDepartments({
+                              ...props.extraData.departments,
+                              tatInMin: parseFloat(tatInMin),
+                            })
+                          }}
+                        />
+                    <div className="mt-1 flex flex-row justify-between">
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="medium"
+                        type="solid"
+                        onClick={() => {
+                          const code = props.extraData.departments?.code
+                          console.log({code})
+                          const name = props.extraData.departments?.name
+                          console.log({name})
+                          const prefrence =
+                          row?.prefrence
+                          const tatInMin =
+                          row?.tatInMin
+                          let departments =
+                          row?.departments ||
+                            []
+                            // console.log({departments})
+                          if (
+                            code === undefined ||
+                            prefrence === undefined ||
+                            tatInMin === undefined
+                          )
+                            return alert("Please enter all values.")
+                          if (code !== undefined) {
+                            departments !== undefined
+                              ? departments.push({
+                                  code,
+                                  name,
+                                  prefrence,
+                                  tatInMin,
+                                })
+                              : (departments = [
+                                  {
+                                    code,
+                                    name,
+                                    prefrence,
+                                    tatInMin,
+                                  },
+                                ])
+                                
+                            props.onUpdateItem && props.onUpdateItem(departments,"departments",row._id)
+                           props.extraData.updateDepartments({
+                              code: undefined,
+                              name: undefined,
+                              prefrence: undefined,
+                              tatInMin: undefined,
+                            })
+                          }
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                        {`Add`}
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </div>
+                    <div className="clearfix"></div>
+                  </LibraryComponents.Atoms.Grid>
+                  <LibraryComponents.Atoms.List
+                    space={2}
+                    direction="row"
+                    justify="center"
+                  >
+                    <div>
+                      {row?.departments.map(
+                        (item, index) => (
+                          <div className="mb-2" key={index}>
+                            <LibraryComponents.Atoms.Buttons.Button
+                              size="medium"
+                              type="solid"
+                              icon={LibraryComponents.Atoms.Icon.Remove}
+                              onClick={() => {
+                                const firstArr =
+                                  row?.departments?.slice(
+                                    0,
+                                    index
+                                  ) || []
+                                const secondArr =
+                                  row?.departments?.slice(
+                                    index + 1
+                                  ) || []
+                                const finalArray = [...firstArr, ...secondArr]
+                                props.extraData.updateSampleType({
+                                  ...props.extraData.testSampleMapping,
+                                  departments: finalArray,
+                                })
+                              //   finalArray = _.map(finalArray, (o) =>
+                              // _.pick(o, ["code", "value"])
+                              //    )
+                                props.onUpdateItem && props.onUpdateItem(finalArray,"departments",row._id)
+                              }}
+                            >
+                              {`${item.code} - ${item.name}`}
+                              {`  ${item.prefrence}`}
+                              {`  ${item.tatInMin}`}
+                            </LibraryComponents.Atoms.Buttons.Button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </LibraryComponents.Atoms.List>
+                </>
+              )
             },
             {
               dataField: "environment",
