@@ -97,7 +97,10 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           if (!res.getEnviromentValue.success) return
           appStore.updateEnvironmentValue({
             ...appStore.environmentValues,
-            LABID_AUTO_GENERATE: res.getEnviromentValue.data[0].value,
+            LABID_AUTO_GENERATE: {
+              ...appStore.environmentValues.LABID_AUTO_GENERATE,
+              value: res.getEnviromentValue.data[0].value,
+            },
           })
         })
       }, [loginStore.login])

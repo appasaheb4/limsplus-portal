@@ -38,6 +38,7 @@ const PatientVisit = PatientVisitHoc(
     } = useForm()
     const {
       loading,
+      appStore,
       patientVisitStore,
       loginStore,
       routerStore,
@@ -125,7 +126,7 @@ const PatientVisit = PatientVisitHoc(
                   name="visitId"
                   rules={{ required: false }}
                   defaultValue=""
-                />   
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -133,7 +134,11 @@ const PatientVisit = PatientVisitHoc(
                       label="Lab Id"
                       placeholder={errors.labId ? "Please Enter Lab ID" : "Lab ID"}
                       hasError={errors.labId}
-                      type="number"  
+                      disabled={
+                        appStore.environmentValues.LABID_AUTO_GENERATE.value.toLowerCase() !==
+                        "no"
+                      }
+                      type="number"
                       value={patientVisitStore.patientVisit?.labId}
                       onChange={(labId) => {
                         onChange(labId)
@@ -147,7 +152,7 @@ const PatientVisit = PatientVisitHoc(
                   name="labId"
                   rules={{ required: true }}
                   defaultValue=""
-                />  
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
