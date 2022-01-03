@@ -123,7 +123,7 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/testSampleMapping") {
         await TestSampleMapping.startup()
         await Department.startup()
-      }  
+      }
       if (pathname === "/collection/testAnalyteMapping")
         await TestAnalyteMapping.startup()
       if (pathname === "/collection/testPanelMapping")
@@ -185,9 +185,16 @@ const Dashboard = observer(({ children }) => {
 
   const router = async () => {
     let router: any = toJS(loginStore.login)
-    if (router && !stores.routerStore.userRouter) {
-      router = JSON.parse(router.roleMapping.router[0])
-      stores.routerStore.updateUserRouter(router)
+    // console.log({router});
+    if (router?.userId) {
+      if (router && !stores.routerStore.userRouter) {
+        router = JSON.parse(router.roleMapping.router[0])
+        stores.routerStore.updateUserRouter(router)
+      }
+    } else {
+      loginStore.removeLocalSession().then(() => {
+        history.push("/")
+      })
     }
   }
   const permission = async () => {

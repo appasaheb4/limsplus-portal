@@ -716,9 +716,9 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           type="solid"
                           onClick={() => {}}
                         >
-                          {`${item.code} - ${item.name}`}
-                          {`  ${item.prefrence}`}
-                          {`  ${item.tatInMin}`}
+                          {`Department: ${item.code} - ${item.name}`}
+                          {` Prefrence: ${item.prefrence}`}
+                          {` Tat In Min: ${item.tatInMin}`}
                         </LibraryComponents.Atoms.Buttons.Button>
                       </div>
                     ))}

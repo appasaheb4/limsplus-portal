@@ -49,20 +49,25 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "lab",
               text: "Labs",
               sort: true,
-              csvFormatter: (cell, row, rowIndex) => `${row.lab.map(item => item.name).join(" , ")}`,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.lab.map((item) => item.name).join(" , ")}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   lab = filter
-                }
+                },
               }),
               headerClasses: "textHeader4",
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{ listStyle: "inside" }}>
-                    {row.lab.map((item, index) => (
-                      <li key={index}>{item.name}</li>
-                    ))}
-                  </ul>
+                  {row?.allLabs ? (
+                    "*"
+                  ) : (
+                    <ul style={{ listStyle: "inside" }}>
+                      {row?.lab.map((item, index) => (
+                        <li key={index}>{item.name}</li>
+                      ))}
+                    </ul>
+                  )}
                 </>
               ),
               editorRenderer: (
@@ -88,24 +93,29 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "user",
               text: "Users",
               sort: true,
-              separator: '| ',
+              separator: "| ",
               // csvFormatter: (cell, row, rowIndex) => `${row.user.map((item,index)=>{
               // return ' '+item.fullName+' ';
               // })}`,
-               csvFormatter: (cell, row, rowIndex) => `${row.user.map(item =>item.fullName).join(" , ")}`,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.user.map((item) => item.fullName).join(" , ")}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   user = filter
-                }
+                },
               }),
               headerClasses: "textHeader4",
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{ listStyle: "inside" }}>
-                    {row.user.map((item, index) => (
-                      <li key={index}>{item.fullName}</li>
-                    ))}
-                  </ul>
+                  {row?.allUsers ? (
+                    "*"
+                  ) : (
+                    <ul style={{ listStyle: "inside" }}>
+                      {row?.user.map((item, index) => (
+                        <li key={index}>{item.fullName}</li>
+                      ))}
+                    </ul>
+                  )}
                 </>
               ),
               editorRenderer: (
@@ -133,19 +143,27 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               sort: true,
               headerClasses: "textHeader4",
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   department = filter
-                }
+                },
               }),
-              csvFormatter: (cell, row, rowIndex) => `${row.department && row.department.map(item => item.name).join(" , ")}`,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.department &&
+                  row.department.map((item) => item.name).join(" , ")
+                }`,
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{ listStyle: "inside" }}>
-                    {row.department &&
-                      row.department.map((item, index) => (
-                        <li key={index}>{item.name}</li>
-                      ))}
-                  </ul>
+                  {row?.allDepartment ? (
+                    "*"
+                  ) : (
+                    <ul style={{ listStyle: "inside" }}>
+                      {row.department &&
+                        row?.department.map((item, index) => (
+                          <li key={index}>{item.name}</li>
+                        ))}
+                    </ul>
+                  )}
                 </>
               ),
               editorRenderer: (
@@ -172,9 +190,9 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               text: "Variable",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   variable = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editorRenderer: (
@@ -186,27 +204,25 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      name="variable"
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const variable = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(variable, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.environmentVariableList &&
-                        props.extraData.environmentVariableList.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.environmentVariable}>
-                              {item.environmentVariable}
-                            </option>
-                          )
-                        )}
-                    </select>
-                 
+                  <select
+                    name="variable"
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const variable = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(variable, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {props.extraData.environmentVariableList &&
+                      props.extraData.environmentVariableList.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.environmentVariable}>
+                            {item.environmentVariable}
+                          </option>
+                        )
+                      )}
+                  </select>
                 </>
               ),
             },
@@ -215,9 +231,9 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               text: "Value",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   value = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
             },
@@ -225,11 +241,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "description",
               text: "Description",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   description = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editorRenderer: (
@@ -259,12 +275,12 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "environment",
               text: "Environment",
               headerClasses: "textHeader3",
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environment = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -275,27 +291,25 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      value={row.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT SETTING - ENVIRONMENT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    value={row.environment}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT SETTING - ENVIRONMENT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -308,9 +322,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
-                      tooltipText="Delete"
-                    >
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -355,7 +367,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             lab("")
             user("")
             department("")

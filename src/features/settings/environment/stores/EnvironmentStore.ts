@@ -19,6 +19,14 @@ export class EnvironmentStore {
     this.environmentSettingsListCount = 0
     this.environmentVariableList = []
     this.environmentVariableListCount = 0
+
+    this.environmentSettings = {
+      ...this.environmentSettings,
+      allLabs: true,
+      allDepartment: true,
+      allUsers: true,
+    }
+
     makeObservable<EnvironmentStore, any>(this, {
       environmentSettings: observable,
       environmentVariable: observable,

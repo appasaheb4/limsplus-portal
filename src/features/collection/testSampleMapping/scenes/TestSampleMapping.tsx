@@ -47,7 +47,7 @@ const TestSampleMapping = TestSampleMappingHoc(
             }
             setTimeout(() => {
               window.location.reload()
-            }, 2000);
+            }, 2000)
           })
       } else {
         LibraryComponents.Atoms.Toast.warning({
@@ -188,9 +188,6 @@ const TestSampleMapping = TestSampleMappingHoc(
                               .checkExitsTestSampleEnvCode({
                                 input: {
                                   testCode: item.testCode,
-                                  sampleCode:
-                                    testSampleMappingStore.testSampleMapping
-                                      ?.sampleCode,
                                   env:
                                     testSampleMappingStore.testSampleMapping
                                       ?.environment,
@@ -263,30 +260,6 @@ const TestSampleMapping = TestSampleMappingHoc(
                           sampleTypeStore.updateSampleTypeList(
                             sampleTypeStore.listSampleTypeCopy
                           )
-                          testSampleMappingStore.testSampleMappingService
-                            .checkExitsTestSampleEnvCode({
-                              input: {
-                                testCode:
-                                  testSampleMappingStore.testSampleMapping?.testCode,
-                                sampleCode: item.sampleCode,
-                                env:
-                                  testSampleMappingStore.testSampleMapping
-                                    ?.environment,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkTestSampleMappingsExistsRecord.success) {
-                                testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                  true
-                                )
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
-                                })
-                              } else
-                                testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                  false
-                                )
-                            })
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -295,11 +268,6 @@ const TestSampleMapping = TestSampleMappingHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                {testSampleMappingStore.checkExitsTestSampleEnvCode && (
-                  <span className="text-red-600 font-medium relative">
-                    Test code or sample code already exits. Please use other code.
-                  </span>
-                )}
                 {sampleTypeStore.listSampleType && (
                   <Controller
                     control={control}
@@ -845,6 +813,299 @@ const TestSampleMapping = TestSampleMappingHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
+                {testSampleMappingStore.testSampleMapping.sharedSample && (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Departments & Prefrence">
+                    <LibraryComponents.Atoms.Grid cols={4}>
+                      <div className="mt-1">
+                        <Controller
+                          control={control}
+                          render={({ field: { onChange } }) => (
+                            <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                              loader={loading}
+                              placeholder="Search by code or name"
+                              data={{
+                                list: departmentStore.listDepartment,
+                                displayKey: ["code", "name"],
+                              }}
+                              displayValue={
+                                testSampleMappingStore.departments?.code
+                                  ? `${testSampleMappingStore.departments.code} - ${testSampleMappingStore.departments.name}`
+                                  : ""
+                              }
+                              hasError={errors.name}
+                              onFilter={(value: string) => {
+                                departmentStore.DepartmentService.filterByFields({
+                                  input: {
+                                    filter: {
+                                      fields: ["code", "name"],
+                                      srText: value,
+                                    },
+                                    page: 0,
+                                    limit: 10,
+                                  },
+                                })
+                              }}
+                              onSelect={(item) => {
+                                onChange(item.code)
+                                testSampleMappingStore.updateDepartments({
+                                  ...testSampleMappingStore.departments,
+                                  code: item.code,
+                                  name: item.name,
+                                })
+                              }}
+                            />
+                          )}
+                          name="code"
+                          rules={{ required: false }}
+                          defaultValue=""
+                        />
+                      </div>
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                          <LibraryComponents.Atoms.Form.Input
+                            placeholder="Prefrence"
+                            type="number"
+                            value={
+                              testSampleMappingStore.departments?.prefrence || ""
+                            }
+                            onChange={(prefrence) => {
+                              onChange(prefrence)
+                              testSampleMappingStore.updateDepartments({
+                                ...testSampleMappingStore.departments,
+                                prefrence: parseFloat(prefrence),
+                              })
+                            }}
+                          />
+                        )}
+                        name="prefrence"
+                        rules={{ required: false }}
+                        defaultValue=""
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange } }) => (
+                          <LibraryComponents.Atoms.Form.Input
+                            placeholder="TAT IN MIN"
+                            type="number"
+                            value={
+                              testSampleMappingStore.departments?.tatInMin || ""
+                            }
+                            onChange={(tatInMin) => {
+                              onChange(tatInMin)
+                              testSampleMappingStore.updateDepartments({
+                                ...testSampleMappingStore.departments,
+                                tatInMin: parseFloat(tatInMin),
+                              })
+                            }}
+                          />
+                        )}
+                        name="value"
+                        rules={{ required: false }}
+                        defaultValue=""
+                      />
+                      <div className="mt-1 flex flex-row justify-between">
+                        <LibraryComponents.Atoms.Buttons.Button
+                          size="medium"
+                          type="solid"
+                          onClick={() => {
+                            const code = testSampleMappingStore.departments?.code
+                            const name = testSampleMappingStore.departments?.name
+                            const prefrence =
+                              testSampleMappingStore.departments?.prefrence
+                            const tatInMin =
+                              testSampleMappingStore.departments?.tatInMin
+                            let departments =
+                              testSampleMappingStore.testSampleMapping
+                                ?.departments || []
+                            if (
+                              code === undefined ||
+                              prefrence === undefined ||
+                              tatInMin === undefined
+                            )
+                              return alert("Please enter all values.")
+                            if (code !== undefined) {
+                              departments !== undefined
+                                ? departments.push({
+                                    code,
+                                    name,
+                                    prefrence,
+                                    tatInMin,
+                                  })
+                                : (departments = [
+                                    {
+                                      code,
+                                      name,
+                                      prefrence,
+                                      tatInMin,
+                                    },
+                                  ])
+                              testSampleMappingStore.updateSampleType({
+                                ...testSampleMappingStore.testSampleMapping,
+                                departments,
+                              })
+                              testSampleMappingStore.updateDepartments({
+                                code: undefined,
+                                name: undefined,
+                                prefrence: undefined,
+                                tatInMin: undefined,
+                              })
+                            }
+                          }}
+                        >
+                          <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                          {`Add`}
+                        </LibraryComponents.Atoms.Buttons.Button>
+                      </div>
+                      <div className="clearfix"></div>
+                    </LibraryComponents.Atoms.Grid>
+
+                    <LibraryComponents.Atoms.List
+                      space={2}
+                      direction="row"
+                      justify="center"
+                    >
+                      <div>
+                        {testSampleMappingStore.testSampleMapping?.departments?.map(
+                          (item, index) => (
+                            <div className="mb-2" key={index}>
+                              <LibraryComponents.Atoms.Buttons.Button
+                                size="medium"
+                                type="solid"
+                                icon={LibraryComponents.Atoms.Icon.Remove}
+                                onClick={() => {
+                                  const firstArr =
+                                    testSampleMappingStore.testSampleMapping?.departments?.slice(
+                                      0,
+                                      index
+                                    ) || []
+                                  const secondArr =
+                                    testSampleMappingStore.testSampleMapping?.departments?.slice(
+                                      index + 1
+                                    ) || []
+                                  const finalArray = [...firstArr, ...secondArr]
+                                  testSampleMappingStore.updateSampleType({
+                                    ...testSampleMappingStore.testSampleMapping,
+                                    departments: finalArray,
+                                  })
+                                }}
+                              >
+                                {`Department: ${item.code} - ${item.name}`}
+                                {` Prefrence: ${item.prefrence}`}
+                                {` Tat In Min: ${item.tatInMin}`}
+                              </LibraryComponents.Atoms.Buttons.Button>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </LibraryComponents.Atoms.List>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                <LibraryComponents.Atoms.Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Shared Sample"
+                        hasError={errors.sharedSample}
+                        value={
+                          testSampleMappingStore.testSampleMapping?.sharedSample
+                        }
+                        onChange={(sharedSample) => {
+                          onChange(sharedSample)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            sharedSample,
+                          })
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            departments:[]
+                          })
+                          testSampleMappingStore.updateDepartments({
+                            code: undefined,
+                            name: undefined,
+                            prefrence: undefined,
+                            tatInMin: undefined,
+                          })
+                        }}
+                      />
+                    )}
+                    name="sharedSample"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Primary Container"
+                        hasError={errors.primaryContainer}
+                        value={
+                          testSampleMappingStore.testSampleMapping?.primaryContainer
+                        }
+                        onChange={(primaryContainer) => {
+                          onChange(primaryContainer)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            primaryContainer,
+                          })
+                        }}
+                      />
+                    )}
+                    name="primaryContainer"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Unique Container"
+                        hasError={errors.uniqueContainer}
+                        value={
+                          testSampleMappingStore.testSampleMapping?.uniqueContainer
+                        }
+                        onChange={(uniqueContainer) => {
+                          onChange(uniqueContainer)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            uniqueContainer,
+                          })
+                        }}
+                      />
+                    )}
+                    name="uniqueContainer"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Centrifue"
+                        hasError={errors.centerIfuge}
+                        value={testSampleMappingStore.testSampleMapping?.centerIfuge}
+                        onChange={(centerIfuge) => {
+                          onChange(centerIfuge)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            centerIfuge,
+                          })
+                        }}
+                      />
+                    )}
+                    name="centerIfuge"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </LibraryComponents.Atoms.Grid>
+              </LibraryComponents.Atoms.List>
+              <LibraryComponents.Atoms.List
+                direction="col"
+                space={4}
+                justify="stretch"
+                fill
+              >
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1002,9 +1263,6 @@ const TestSampleMapping = TestSampleMappingHoc(
                               input: {
                                 testCode:
                                   testSampleMappingStore.testSampleMapping?.testCode,
-                                sampleCode:
-                                  testSampleMappingStore.testSampleMapping
-                                    ?.sampleCode,
                                 env: environment,
                               },
                             })
@@ -1091,21 +1349,19 @@ const TestSampleMapping = TestSampleMappingHoc(
                     control={control}
                     render={({ field: { onChange } }) => (
                       <LibraryComponents.Atoms.Form.Toggle
-                        label="Shared Sample"
-                        hasError={errors.sharedSample}
-                        value={
-                          testSampleMappingStore.testSampleMapping?.sharedSample
-                        }
-                        onChange={(sharedSample) => {
-                          onChange(sharedSample)
+                        label="Aliquot"
+                        hasError={errors.aliquot}
+                        value={testSampleMappingStore.testSampleMapping?.aliquot}
+                        onChange={(aliquot) => {
+                          onChange(aliquot)
                           testSampleMappingStore.updateSampleType({
                             ...testSampleMappingStore.testSampleMapping,
-                            sharedSample,
+                            aliquot,
                           })
                         }}
                       />
                     )}
-                    name="sharedSample"
+                    name="aliquot"
                     rules={{ required: false }}
                     defaultValue=""
                   />

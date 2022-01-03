@@ -77,9 +77,9 @@ const PatientOrder = PatientOrderHoc(
     }
     return (
       <>
-        {patientOrderStore.patientOrder?.visitId && (
+        {patientOrderStore.patientOrder?.labId && (
           <LibraryComponents.Atoms.Heading
-            title={`${patientOrderStore.patientOrder.visitId} - ${patientOrderStore.patientOrder.patientName}`}
+            title={`${patientOrderStore.patientOrder.labId} - ${patientOrderStore.patientOrder.patientName}`}
           />
         )}
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
@@ -106,22 +106,22 @@ const PatientOrder = PatientOrderHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Visit Id"
+                      label="Lab Id"
                       hasError={errors.visitId}
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by visit id or name"
+                        placeholder="Search by lab id, visit id or name"
                         data={{
                           list: patientVisitStore.listPatientVisit,
-                          displayKey: ["visitId", "patientName"],
+                          displayKey: ["labId", "patientName"],
                         }}
                         hasError={errors.visitId}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
                               filter: {
-                                fields: ["visitId", "patientName"],
+                                fields: ["labId", "visitId", "patientName"],
                                 srText: value,
                               },
                               page: 0,
@@ -134,6 +134,7 @@ const PatientOrder = PatientOrderHoc(
                           patientOrderStore.updatePatientOrder({
                             ...patientOrderStore.patientOrder,
                             visitId: item.visitId,
+                            labId: item.labId,
                             patientName: item.patientName,
                           })
                           patientVisitStore.updatePatientVisitList(
@@ -397,7 +398,7 @@ const PatientOrder = PatientOrderHoc(
             onPageSizeChange={(page, limit) => {
               patientOrderStore.patientOrderService.listPatientOrder(
                 { documentType: "patientOrder" },
-                page,  
+                page,
                 limit
               )
             }}
