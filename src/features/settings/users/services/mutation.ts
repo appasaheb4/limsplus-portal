@@ -96,7 +96,6 @@ export const CHANGE_PASSWORD_BY_ADMIN = gql`
   }
 `
 
-
 export const SWITCH_ACCESS = gql`
   mutation($input: UserInput!) {
     userSwitchAccess(input: $input) {
@@ -120,6 +119,19 @@ export const FILTER_USERS_BY_KEY = gql`
 export const FILTER = gql`
   mutation($input: UserInput!) {
     filterUsers(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data
+    }
+  }
+`
+
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: UserInput!) {
+    filterByFieldsUser(input: $input) {
       paginatorInfo {
         count
       }

@@ -15,6 +15,7 @@ import {
   UPDATE_LAB_IMAGE,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS,
 } from "./mutation"
 
 export class LabService {
@@ -132,5 +133,31 @@ export class LabService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })   
+    })
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsLab.success) return this.listLabs()
+          stores.labStore.filterLabList({
+            filterLabs: {  
+              data: response.data.filterByFieldsLab.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsLab.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }

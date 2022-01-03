@@ -8,6 +8,7 @@ interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
   placeholder?: string
   data: any
   hasError?: boolean
+  disable?:boolean
   onFilter: (value: string) => void
   onUpdate: (item: any) => void
   onSelect: (item: any) => any
@@ -18,6 +19,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   placeholder = "Search...",
   data,
   hasError = false,
+  disable = false,
   onFilter,
   onUpdate,
   onSelect,
@@ -90,7 +92,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
 
   return (
     <>
-      <div ref={wrapperRef}>
+      <div ref={wrapperRef} className="w-full">
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
             hasError ? "border-red-500" : "border-gray-300"
@@ -98,6 +100,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
         >
           <input
             placeholder={placeholder}
+            disabled={disable}
             value={
               !isListOpen
                 ? `${(data.selected && data.selected.length) || 0} Items`
