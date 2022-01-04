@@ -66,7 +66,11 @@ const TestSampleMapping = TestSampleMappingHoc(
             listTestMaster: testMasterStore.listTestMaster,
             listSampleType: sampleTypeStore.listSampleType,
             listSampleContainer: sampleContainerStore.listSampleContainer,
-            departments: testSampleMappingStore.departments
+            departments: testSampleMappingStore.departments,
+            updateLocalInput: testSampleMappingStore.updateLocalInput,
+            localInput: testSampleMappingStore.localInput,
+            updateSampleType:testSampleMappingStore.updateSampleType,
+            testSampleMapping:testSampleMappingStore.testSampleMapping
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),

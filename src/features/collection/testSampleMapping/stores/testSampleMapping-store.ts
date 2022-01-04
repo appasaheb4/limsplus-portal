@@ -5,6 +5,7 @@ import * as Services from "../services"
 export class TestSampleMappingStore {
   listTestSampleMapping: Models.TestSampleMapping[]
   listTestSampleMappingCount: number
+  localInput!: Models.LocalInput
   testSampleMapping!: Models.TestSampleMapping
   checkExitsTestSampleEnvCode: boolean
   departments: any
@@ -13,6 +14,7 @@ export class TestSampleMappingStore {
     this.listTestSampleMapping = []
     this.listTestSampleMappingCount = 0
     this.checkExitsTestSampleEnvCode = false
+    this.localInput = new Models.LocalInput({})
     this.testSampleMapping = {
       ...this.testSampleMapping,
       primaryContainer: false,
@@ -31,11 +33,13 @@ export class TestSampleMappingStore {
       testSampleMapping: observable,
       checkExitsTestSampleEnvCode: observable,
       departments: observable,
+      localInput: observable,
 
       testSampleMappingService: computed,
       fetchSampleTypeList: action,
       updateTestSampleMappingList: action,
       updateSampleType: action,
+      updateLocalInput: action,
       updateExitsTestSampleEnvCode: action,
       filterTestSampleMappingList: action,
       updateDepartments: action,
@@ -72,5 +76,8 @@ export class TestSampleMappingStore {
 
   updateDepartments = (department: any) => {
     this.departments = department
+  }
+  updateLocalInput(input: Models.LocalInput) {
+    this.localInput = input
   }
 }
