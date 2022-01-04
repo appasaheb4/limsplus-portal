@@ -56,7 +56,6 @@ export class EnvironmentService {
 
   deleteRecord = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
       client
         .mutate({
           mutation: REMOVE_RECORD,
