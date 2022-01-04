@@ -697,11 +697,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               csvFormatter: (cell, row, rowIndex) =>
               `Prefrence:${row.departments?.map(item => item.prefrence)} - Department:${row.departments?.map(item => item.name)} - TatInMin:${row.departments?.map(item => item.tatInMin)}` 
               ,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  departments = filter
-                },
-              }),
+              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              //   getFilter: (filter) => {
+              //     departments = filter
+              //   },
+              // }),
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.List

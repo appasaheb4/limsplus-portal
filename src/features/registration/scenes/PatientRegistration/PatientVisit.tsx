@@ -45,7 +45,10 @@ const PatientVisit = PatientVisitHoc(
       corporateClientsStore,
       registrationLocationsStore,
       doctorsStore,
+      environmentStore,
     } = useStores()
+
+    console.log({ appStore })
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputView, setHideInputView] = useState<boolean>(true)
@@ -147,10 +150,25 @@ const PatientVisit = PatientVisitHoc(
                           labId: parseFloat(labId),
                         })
                       }}
+                      onBlur={(labId) => {
+                        environmentStore.EnvironmentService.checkExistsRecord({
+                          input: {
+                            filter: {
+                              labId,
+                            },
+                          },
+                        }).then((res) => {
+                          console.log({ res })
+                        })
+                      }}
                     />
                   )}
                   name="labId"
-                  rules={{ required: true }}
+                  rules={{
+                    required: true,
+                    minLength: appStore.environmentValues.LABID_LENGTH.value || 4,
+                    maxLength: appStore.environmentValues.LABID_LENGTH.value || 4,
+                  }}
                   defaultValue=""
                 />
                 <Controller
