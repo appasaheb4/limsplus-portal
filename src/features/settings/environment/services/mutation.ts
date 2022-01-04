@@ -87,7 +87,7 @@ export const FILTER = gql`
     }
   }
 `
-  
+
 export const FILTER_BY_FIELDS = gql`
   mutation($input: EnviromentInput!) {
     filterByFieldsEnviroment(input: $input) {
@@ -122,30 +122,18 @@ export const FILTER_BY_FIELDS = gql`
 export const FIND_VALUE = gql`
   mutation($input: EnviromentInput!) {
     getEnviromentValue(input: $input) {
-      paginatorInfo {
-        count
-      }
       success
       message
-      data {
-        _id
-        lab
-        user
-        department
-        variable
-        value
-        descriptions
-        allLabs
-        allUsers
-        allDepartment
-        environment
-        environmentVariable
-        category
-        enteredBy
-        documentType
-        dateOfEntry
-        lastUpdated
-      }
+      enviromentValues
+    }
+  }
+`
+
+export const CHECK_EXISTS_RECORD = gql`
+  mutation($input: EnviromentInput!) {
+    checkExistsEnviromentRecord(input: $input) {
+      success
+      message
     }
   }
 `

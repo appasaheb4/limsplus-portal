@@ -87,26 +87,40 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
 
       useEffect(() => {
         // get Environment value
-        if (!_.isBoolean(appStore.environmentValues.LABID_AUTO_GENERATE.allLabs)) {
-          environmentStore.EnvironmentService.findValue({
-            input: {
-              filter: {
-                variable: "LABID_AUTO_GENERATE",
-                lab: loginStore.login.lab,
-              },
+        // if (!_.isBoolean(appStore.environmentValues.LABID_AUTO_GENERATE.allLabs)) {
+        environmentStore.EnvironmentService.findValue({
+          input: {
+            filter: {
+              variable: ["LABID_AUTO_GENERATE", "LABID_LENGTH"],
+              lab: loginStore.login.lab,
             },
-          }).then((res) => {
-            if (!res.getEnviromentValue.success) return
-            appStore.updateEnvironmentValue({
-              ...appStore.environmentValues,
-              LABID_AUTO_GENERATE: {
-                ...appStore.environmentValues.LABID_AUTO_GENERATE,
-                allLabs: res.getEnviromentValue.data[0].allLabs,
-                value: res.getEnviromentValue.data[0].value,
-              },
-            })
+          },
+        }).then((res) => {
+          console.log({ res })
+          if (!res.getEnviromentValue.success) return
+          appStore.updateEnvironmentValue({
+            ...appStore.environmentValues,
+            LABID_AUTO_GENERATE: {
+              ...appStore.environmentValues.LABID_AUTO_GENERATE,
+              allLabs: res.getEnviromentValue.enviromentValues.filter(
+                (item) => item.variable === "LABID_AUTO_GENERATE"
+              )[0].data[0].allLabs,
+              value: res.getEnviromentValue.enviromentValues.filter(
+                (item) => item.variable === "LABID_AUTO_GENERATE"
+              )[0].data[0].value,
+            },
+            LABID_LENGTH: {
+              ...appStore.environmentValues.LABID_LENGTH,
+              allLabs: res.getEnviromentValue.enviromentValues.filter(
+                (item) => item.variable === "LABID_LENGTH"
+              )[0].data[0].allLabs,
+              value: res.getEnviromentValue.enviromentValues.filter(
+                (item) => item.variable === "LABID_LENGTH"
+              )[0].data[0].value,
+            },
           })
-        }
+        })
+        // }
       }, [loginStore.login])
 
       return <Component {...props} />
