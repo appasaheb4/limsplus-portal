@@ -99,9 +99,9 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
                           onClick={() => {
                             setValue(item.name)
                             setIsListOpen(false)
-                            departmentStore.updateDepartmentList(
-                                departmentStore.listDepartmentCopy
-                            )
+                            // departmentStore.updateDepartmentList(
+                            //     departmentStore.listDepartmentCopy
+                            // )
                             onSelect(item)
                           }}
                         >

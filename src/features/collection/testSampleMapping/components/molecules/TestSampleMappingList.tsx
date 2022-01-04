@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from "react"
+import _ from "lodash"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -29,6 +30,7 @@ let repentionPeriod
 let repentionUnits
 let labelInst
 let info
+let departments
 let environment
 
 interface TestSampleMappingListProps {
@@ -435,7 +437,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                      label="Department Specfic"
+                      
                       value={row.departmentSpecfic}
                       onChange={(departmentSpecfic) => {
                         props.onUpdateItem &&
@@ -459,7 +461,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                      label="Shared Sample"
+                    
                       value={row.sharedSample}
                       onChange={(sharedSample) => {
                         props.onUpdateItem &&
@@ -692,13 +694,12 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: "Departments",
               headerClasses: "textHeader5",
               sort: true, 
-              // csvFormatter: (cell, row, rowIndex) =>
-              //   `Value:${row.arrValue.map(
-              //     (item) => item.value
-              //   )} - Code:${row.arrValue.map((item) => item.code)}`,
+              csvFormatter: (cell, row, rowIndex) =>
+              `Prefrence:${row.departments?.map(item => item.prefrence)} - Department:${row.departments?.map(item => item.name)} - TatInMin:${row.departments?.map(item => item.tatInMin)}` 
+              ,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
-                  // arrValue = filter
+                  departments = filter
                 },
               }),
               formatter: (cellContent, row) => (
@@ -733,17 +734,16 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Grid cols={3}>
-                    <div className="mt-1">
+                <LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Grid cols={4}>
+                  <div className="mt-1">
                       <AutoCompleteFilterSingleSelectDepartment
                         onSelect={(item) => {
-                          console.log({item});
-                            
-                          // props.extraData.updateDepartments({
-                          //   ...props.extraData.departments,
-                          //   code: item.code,
-                          //   name: item.name,
-                          // })
+                          props.extraData.updateLocalInput({
+                            ...props.extraData.localInput,
+                            code: item.code,
+                            name: item.name,
+                          })
                         }}
                       />
                     </div>
@@ -752,8 +752,8 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       type="number"
                       value={row.prefrence}
                       onChange={(prefrence) => {
-                        props.extraData.updateDepartments({
-                          ...props.extraData.departments,
+                        props.extraData.updateLocalInput({
+                          ...props.extraData.localInput,
                           prefrence: parseFloat(prefrence),
                         })
                       }}
@@ -763,25 +763,22 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       type="number"
                       value={row.tatInMin}
                       onChange={(tatInMin) => {
-                        props.extraData.updateDepartments({
-                          ...props.extraData.departments,
+                        props.extraData.updateLocalInput({
+                          ...props.extraData.localInput,
                           tatInMin: parseFloat(tatInMin),
                         })
                       }}
                     />
-                    <div className="mt-1 flex flex-row justify-between">
+                    <div className="mt-1">
                       <LibraryComponents.Atoms.Buttons.Button
                         size="medium"
                         type="solid"
                         onClick={() => {
-                          const code = props.extraData.departments?.code
-                          console.log({ code })
-                          const name = props.extraData.departments?.name
-                          console.log({ name })
-                          const prefrence = row?.prefrence
-                          const tatInMin = row?.tatInMin
+                          const code = props.extraData.localInput?.code
+                          const name = props.extraData.localInput?.name
+                          const prefrence = props.extraData.localInput?.prefrence
+                          const tatInMin = props.extraData.localInput?.tatInMin
                           let departments = row?.departments || []
-                          // console.log({departments})
                           if (
                             code === undefined ||
                             prefrence === undefined ||
@@ -804,15 +801,17 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                                     tatInMin,
                                   },
                                 ])
-
+                                departments = _.map(departments, (o) =>
+                                _.pick(o, ["code", "name","prefrence","tatInMin"])
+                              )     
                             props.onUpdateItem &&
                               props.onUpdateItem(departments, "departments", row._id)
-                            props.extraData.updateDepartments({
-                              code: undefined,
-                              name: undefined,
-                              prefrence: undefined,
-                              tatInMin: undefined,
-                            })
+                              props.extraData.updateLocalInput({
+                                code: undefined,
+                                value: undefined,
+                                prefrence:undefined,
+                                tatInMin:undefined,
+                              })
                           }
                         }}
                       >
@@ -820,15 +819,16 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         {`Add`}
                       </LibraryComponents.Atoms.Buttons.Button>
                     </div>
-                    <div className="clearfix"></div>
+                    <div className="clearfix"></div>           
                   </LibraryComponents.Atoms.Grid>
+                  <br/>
                   <LibraryComponents.Atoms.List
                     space={2}
                     direction="row"
                     justify="center"
                   >
                     <div>
-                      {row?.departments.map((item, index) => (
+                      {row.departments?.map((item, index) => (
                         <div className="mb-2" key={index}>
                           <LibraryComponents.Atoms.Buttons.Button
                             size="medium"
@@ -839,14 +839,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                                 row?.departments?.slice(0, index) || []
                               const secondArr =
                                 row?.departments?.slice(index + 1) || []
-                              const finalArray = [...firstArr, ...secondArr]
+                              let finalArray = [...firstArr, ...secondArr]
                               props.extraData.updateSampleType({
                                 ...props.extraData.testSampleMapping,
                                 departments: finalArray,
                               })
-                              //   finalArray = _.map(finalArray, (o) =>
-                              // _.pick(o, ["code", "value"])
-                              //    )
+                                finalArray = _.map(finalArray, (o) =>
+                              _.pick(o, ["code", "name","prefrence","tatInMin"])
+                                 )
                               props.onUpdateItem &&
                                 props.onUpdateItem(
                                   finalArray,
@@ -863,6 +863,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       ))}
                     </div>
                   </LibraryComponents.Atoms.List>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -984,6 +985,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             repentionUnits("")
             labelInst("")
             info("")
+            departments("")
             environment("")
           }}
         />
