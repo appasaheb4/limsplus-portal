@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import { useStores } from "@lp/stores"
 import * as LibraryUtils from "@lp/library/utils"
 
@@ -86,23 +87,26 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
 
       useEffect(() => {
         // get Environment value
-        environmentStore.EnvironmentService.findValue({
-          input: {
-            filter: {
-              variable: "LABID_AUTO_GENERATE",
-              lab: loginStore.login.lab,
+        if (!_.isBoolean(appStore.environmentValues.LABID_AUTO_GENERATE.allLabs)) {
+          environmentStore.EnvironmentService.findValue({
+            input: {
+              filter: {
+                variable: "LABID_AUTO_GENERATE",
+                lab: loginStore.login.lab,
+              },
             },
-          },
-        }).then((res) => {
-          if (!res.getEnviromentValue.success) return
-          appStore.updateEnvironmentValue({
-            ...appStore.environmentValues,
-            LABID_AUTO_GENERATE: {
-              ...appStore.environmentValues.LABID_AUTO_GENERATE,
-              value: res.getEnviromentValue.data[0].value,
-            },
+          }).then((res) => {
+            if (!res.getEnviromentValue.success) return
+            appStore.updateEnvironmentValue({
+              ...appStore.environmentValues,
+              LABID_AUTO_GENERATE: {
+                ...appStore.environmentValues.LABID_AUTO_GENERATE,
+                allLabs: res.getEnviromentValue.data[0].allLabs,
+                value: res.getEnviromentValue.data[0].value,
+              },
+            })
           })
-        })
+        }
       }, [loginStore.login])
 
       return <Component {...props} />
