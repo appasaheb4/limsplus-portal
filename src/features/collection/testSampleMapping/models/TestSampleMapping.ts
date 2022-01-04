@@ -65,3 +65,15 @@ export class TestSampleMapping {
     this.lastUpdated = rawData.lastUpdated
   }  
 }
+export class LocalInput{
+  code: string
+  name: string
+  prefrence: number
+  tatInMin: number
+  constructor(rawData: { [key in string]: any }) {
+    this.code = rawData.code
+    this.name = rawData.name
+    this.prefrence = rawData.prefrence
+    this.tatInMin = rawData.tatInMin
+  }
+}
