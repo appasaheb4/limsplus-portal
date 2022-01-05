@@ -8,12 +8,14 @@ export class PatientVisitStore {
   listPatientVisitCopy: Models.PatientVisit[] = []
   listPatientVisitCount!: number
   checkExistsVisitId!: boolean
+  checkExistsLabId!: boolean
 
   constructor() {
     this.listPatientVisit = []
     this.listPatientVisitCopy = []
     this.listPatientVisitCount = 0
     this.checkExistsVisitId = false
+    this.checkExistsLabId = false
     this.patientVisit = {
       ...this.patientVisit,
       visitDate: new Date(),
@@ -47,7 +49,7 @@ export class PatientVisitStore {
     } else {
       this.listPatientVisit = res
     }
-  }   
+  }
 
   filterPatientVisitList(res: any) {
     this.listPatientVisit = res.filterPatientVisit.data
@@ -60,5 +62,9 @@ export class PatientVisitStore {
 
   updateExistsVisitId(flag: boolean) {
     this.checkExistsVisitId = flag
+  }
+  
+  updateExistsLabId(flag: boolean) {
+    this.checkExistsLabId = flag
   }
 }

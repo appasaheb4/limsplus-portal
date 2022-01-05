@@ -16,6 +16,7 @@ import {
   SEQUENCING_PATIENT_VISIT_VISITID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
+  CHECK_EXISTS_RECORD,
 } from "./mutation-PV"
 import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
@@ -163,18 +164,32 @@ export class PatientVisitService {
           variables,
         })
         .then((response: any) => {
-         if (!response.data.filterByFieldsPatientVisit.success)
+          if (!response.data.filterByFieldsPatientVisit.success)
             return this.listPatientVisit({ documentType: "patientVisit" })
           stores.patientVisitStore.filterPatientVisitList({
             filterPatientVisit: {
               data: response.data.filterByFieldsPatientVisit.data,
               paginatorInfo: {
-                count:
-                  response.data.filterByFieldsPatientVisit.paginatorInfo.count,
+                count: response.data.filterByFieldsPatientVisit.paginatorInfo.count,
               },
             },
           })
           stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExistsRecord = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data)
         })
         .catch((error) =>
