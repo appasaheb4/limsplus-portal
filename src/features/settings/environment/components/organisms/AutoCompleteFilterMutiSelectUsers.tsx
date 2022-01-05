@@ -86,11 +86,11 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
     }, [userStore.userList, environmentStore.selectedItems?.users])
    
     const onFilter = (value: string) => {
-      userStore.UsersService.filter({
+      userStore.UsersService.filterByFields({
         input: {
-          type: "filter",
           filter: {
-            fullName: value,
+            fields: ["userId", "fullName"],
+            srText: value,
           },
           page: 0,
           limit: 10,
@@ -131,12 +131,29 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
 
     return (
       <>
+      <div className="flex flex-row gap-2 w-full">
+      <LibraryComponents.Atoms.Form.Toggle
+          
+          value={environmentStore.environmentSettings?.allUsers}
+          onChange={(allUsers) => {
+            environmentStore.updateEnvironmentSettings({
+              ...environmentStore.environmentSettings,
+              allUsers,
+              user: [],
+            })
+            environmentStore.updateSelectedItems({
+              ...environmentStore.selectedItems,
+              users: selected,
+            })
+          }}
+        />                    
         <div ref={wrapperRef}>
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
               placeholder="Search by name..."
+              disabled={environmentStore.environmentSettings.allUsers}
               value={
                 !isListOpen
                   ? `${
@@ -173,7 +190,7 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
                           />{" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.fullName}
+                           {item.userId} - {item.fullName}
                           </label>
                         </li>
                       </>
@@ -182,6 +199,7 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
                 </div>
               )
             : null}
+        </div>
         </div>
       </>
     )
