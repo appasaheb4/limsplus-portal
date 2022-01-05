@@ -40,6 +40,15 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "PATIENT VISIT - STATUS"
           ),
+          labId:
+            appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+            "no"
+              ? parseFloat(
+                  LibraryUtils.uuidv4(
+                    appStore.environmentValues?.LABID_LENGTH?.value || 4
+                  )
+                )
+              : undefined,
           extraData: {
             ...patientVisitStore.patientVisit.extraData,
             enteredBy: loginStore.login.userId,
@@ -87,7 +96,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
 
       useEffect(() => {
         // get Environment value
-        // if (!_.isBoolean(appStore.environmentValues.LABID_AUTO_GENERATE.allLabs)) {
+        //if (!_.isBoolean(appStore.environmentValues.LABID_AUTO_GENERATE.allLabs)) {
         environmentStore.EnvironmentService.findValue({
           input: {
             filter: {
@@ -101,7 +110,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           appStore.updateEnvironmentValue({
             ...appStore.environmentValues,
             LABID_AUTO_GENERATE: {
-              ...appStore.environmentValues.LABID_AUTO_GENERATE,
+              ...appStore.environmentValues?.LABID_AUTO_GENERATE,
               allLabs: res.getEnviromentValue.enviromentValues.filter(
                 (item) => item.variable === "LABID_AUTO_GENERATE"
               )[0].data[0].allLabs,
@@ -110,7 +119,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
               )[0].data[0].value,
             },
             LABID_LENGTH: {
-              ...appStore.environmentValues.LABID_LENGTH,
+              ...appStore.environmentValues?.LABID_LENGTH,
               allLabs: res.getEnviromentValue.enviromentValues.filter(
                 (item) => item.variable === "LABID_LENGTH"
               )[0].data[0].allLabs,
@@ -120,9 +129,8 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             },
           })
         })
-        // }
+        //}
       }, [loginStore.login])
-
       return <Component {...props} />
     }
   )
