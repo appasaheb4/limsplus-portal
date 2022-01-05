@@ -83,11 +83,11 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
       }, [labStore.listLabs, environmentStore.selectedItems?.labs])
 
       const onFilter = (value: string) => {
-        labStore.LabService.filter({
+        labStore.LabService.filterByFields({
           input: {
-            type: "filter",
             filter: {
-              name: value,
+              fields: ["code", "name"],
+              srText: value,
             },
             page: 0,
             limit: 10,
@@ -137,7 +137,7 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
               })
               environmentStore.updateSelectedItems({
                 ...environmentStore.selectedItems,
-                labs: [],
+                labs:selected,
               })
             }}
           />                                  
@@ -184,7 +184,7 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
                             />{" "}
                             <label className="ml-2 mt-1 text-black">
                               {" "}
-                              {item.name}
+                              {item.code} - {item.name}
                             </label>
                           </li>
                         </>
