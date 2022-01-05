@@ -258,3 +258,12 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
     }
   }
 `
+
+export const CHECK_EXISTS_RECORD = gql`
+  mutation($input: PatientVisitInput!) {
+    checkExistsPatientVisitRecord(input: $input) {
+      success
+      message
+    }
+  }
+`
