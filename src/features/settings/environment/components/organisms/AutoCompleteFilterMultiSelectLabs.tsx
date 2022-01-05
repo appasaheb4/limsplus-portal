@@ -126,12 +126,28 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
 
       return (
         <>
+        <div className="flex flex-row gap-2 w-full">
+        <LibraryComponents.Atoms.Form.Toggle
+            value={environmentStore.environmentSettings?.allLabs}
+            onChange={(allLabs) => {
+              environmentStore.updateEnvironmentSettings({
+                ...environmentStore.environmentSettings,
+                allLabs,
+                lab: [],
+              })
+              environmentStore.updateSelectedItems({
+                ...environmentStore.selectedItems,
+                labs: [],
+              })
+            }}
+          />                                  
           <div ref={wrapperRef}>
             <div
               className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
             >
               <input
                 placeholder="Search by name"
+                disabled={environmentStore.environmentSettings.allLabs}
                 value={
                   !isListOpen
                     ? `${
@@ -177,6 +193,7 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
                   </div>
                 )
               : null}
+          </div>
           </div>
         </>
       )
