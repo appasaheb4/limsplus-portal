@@ -105,7 +105,6 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             },
           },
         }).then((res) => {
-          console.log({ res })
           if (!res.getEnviromentValue.success) return
           appStore.updateEnvironmentValue({
             ...appStore.environmentValues,
