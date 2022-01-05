@@ -30,13 +30,6 @@ interface PatientVisitProps {
 const PatientVisit = PatientVisitHoc(
   observer((props: PatientVisitProps) => {
     const {
-      control,
-      handleSubmit,
-      formState: { errors },
-      setValue,
-      clearErrors,
-    } = useForm()
-    const {
       loading,
       appStore,
       patientVisitStore,
@@ -44,17 +37,30 @@ const PatientVisit = PatientVisitHoc(
       routerStore,
       corporateClientsStore,
       registrationLocationsStore,
-      doctorsStore,
-      environmentStore,
+      doctorsStore
     } = useStores()
+    const {
+      control,
+      handleSubmit,
+      formState: { errors },
+      setValue,
+      clearErrors,
+    } = useForm()
+    if (
+      appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !== "no"
+    )
+      setValue("labId", patientVisitStore.patientVisit.labId)
 
-    console.log({ appStore })
+    //console.log({ appStore })
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputView, setHideInputView] = useState<boolean>(true)
 
     const onSubmitPatientVisit = () => {
-      if (!patientVisitStore.checkExistsVisitId) {
+      if (
+        !patientVisitStore.checkExistsVisitId &&
+        !patientVisitStore.checkExistsLabId
+      ) {
         patientVisitStore.patientVisitService
           .addPatientVisit({
             input: {
@@ -74,7 +80,7 @@ const PatientVisit = PatientVisitHoc(
           })
       } else {
         LibraryComponents.Atoms.Toast.warning({
-          message: `😔 Please enter diff visitId`,
+          message: `😔 Please enter diff visitId or labId`,
         })
       }
     }
@@ -138,7 +144,7 @@ const PatientVisit = PatientVisitHoc(
                       placeholder={errors.labId ? "Please Enter Lab ID" : "Lab ID"}
                       hasError={errors.labId}
                       disabled={
-                        appStore.environmentValues.LABID_AUTO_GENERATE.value.toLowerCase() !==
+                        appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
                         "no"
                       }
                       type="number"
@@ -151,26 +157,39 @@ const PatientVisit = PatientVisitHoc(
                         })
                       }}
                       onBlur={(labId) => {
-                        environmentStore.EnvironmentService.checkExistsRecord({
-                          input: {
-                            filter: {
-                              labId,
+                        patientVisitStore.patientVisitService
+                          .checkExistsRecord({
+                            input: {
+                              filter: {
+                                labId: parseFloat(labId),
+                                documentType: "patientVisit",
+                              },
                             },
-                          },
-                        }).then((res) => {
-                          console.log({ res })
-                        })
+                          })
+                          .then((res) => {
+                            if (res.checkExistsPatientVisitRecord.success) {
+                              patientVisitStore.updateExistsLabId(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkExistsPatientVisitRecord.message}`,
+                              })
+                            } else patientVisitStore.updateExistsLabId(false)
+                          })
                       }}
                     />
                   )}
                   name="labId"
                   rules={{
                     required: true,
-                    minLength: appStore.environmentValues.LABID_LENGTH.value || 4,
-                    maxLength: appStore.environmentValues.LABID_LENGTH.value || 4,
+                    minLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
+                    maxLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
                   }}
                   defaultValue=""
                 />
+                {patientVisitStore.checkExistsLabId && (
+                  <span className="text-red-600 font-medium relative">
+                    Lab Id already exits. Please use diff lab Id.
+                  </span>
+                )}
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
