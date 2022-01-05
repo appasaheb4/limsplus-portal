@@ -84,11 +84,11 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(({ selected, onUp
       }, [departmentStore.listDepartment, environmentStore.selectedItems?.department])
 
       const onFilter = (value: string) => {
-        departmentStore.DepartmentService.filter({
+        departmentStore.DepartmentService.filterByFields({
           input: {
-            type: "filter",
             filter: {
-              name: value,
+              fields: ["code", "name"],
+              srText: value,
             },
             page: 0,
             limit: 10,
@@ -127,12 +127,31 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(({ selected, onUp
       }
     return(
         <>
+        <div className="flex flex-row gap-2 w-full">
+        <LibraryComponents.Atoms.Form.Toggle
+          label="All"
+          value={
+            environmentStore.environmentSettings?.allDepartment
+          }
+          onChange={(allDepartment) => {
+            environmentStore.updateEnvironmentSettings({
+              ...environmentStore.environmentSettings,
+              allDepartment,
+              department: [],
+            })
+            environmentStore.updateSelectedItems({
+              ...environmentStore.selectedItems,
+              department: selected,
+            })
+          }}
+        />                                  
             <div ref={wrapperRef}>
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
               placeholder="Search by name"
+              disabled={environmentStore.environmentSettings?.allDepartment}
               value={
                 !isListOpen
                   ? `${
@@ -169,7 +188,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(({ selected, onUp
                           />{" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.name}
+                            {item.code} - {item.name}
                           </label>
                         </li>
                       </>
@@ -178,6 +197,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(({ selected, onUp
                 </div>
               )
             : null}
+        </div>
         </div>
         </>
     )
