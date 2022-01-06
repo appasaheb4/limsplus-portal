@@ -133,7 +133,7 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
               environmentStore.updateEnvironmentSettings({
                 ...environmentStore.environmentSettings,
                 allLabs,
-                lab: [],
+                lab:[],
               })
               environmentStore.updateSelectedItems({
                 ...environmentStore.selectedItems,
@@ -147,7 +147,7 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
             >
               <input
                 placeholder="Search by name"
-                disabled={environmentStore.environmentSettings.allLabs}
+                disabled={environmentStore.environmentSettings.allLabs || false}
                 value={
                   !isListOpen
                     ? `${
