@@ -1,3 +1,3 @@
 export * from './AutoCompleteFilterMutiSelectUsers'
-export * from './AutoCompleteFilterMultiSelectLabs'
+export * from './AutoCompleteLabs'
 export * from './AutoCompleteFilterMultiSelectDepartment'

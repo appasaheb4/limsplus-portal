@@ -53,7 +53,6 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
             ),
           },
         })
-
         if (!patientManagerStore.patientManger.extraData?.country) {
           // DEFAULT_COUNTRY
           environmentStore.EnvironmentService.filterByFields({
@@ -66,11 +65,13 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
               limit: 10,
             },
           }).then((res) => {
+            console.log({res});
+            
             patientManagerStore.updatePatientManager({
               ...patientManagerStore.patientManger,
               extraData: {
                 ...patientManagerStore.patientManger.extraData,
-                country: res.filterByFieldsEnviroment.data[0].value,
+                country: res.filterByFieldsEnviroment.data[0]?.value,
               },
             })
           })
