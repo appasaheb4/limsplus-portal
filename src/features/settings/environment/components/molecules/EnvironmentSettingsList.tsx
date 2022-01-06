@@ -4,9 +4,9 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryModels from "@lp/library/models"
 import {
-  AutoCompleteFilterMutiSelectUsers,
+  AutoCompleteUsers,
   AutoCompleteLabs,
-  AutoCompleteFilterMutiSelectDepartment,
+  AutoCompleteDepartment,
 } from "../organisms"
 let lab
 let user
@@ -127,11 +127,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <AutoCompleteFilterMutiSelectUsers
-                    selected={row.user}
+                  <AutoCompleteUsers
+                    selected={row}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
+                        props.onUpdateItem(items?.allUsers ? items?.allUsers : items?.user, items?.allUsers ? 'allUsers' : 'user', row._id)
                     }}
                   />
                 </>
@@ -175,11 +175,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <AutoCompleteFilterMutiSelectDepartment
-                    selected={row.department}
+                  <AutoCompleteDepartment
+                    selected={row}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
+                        props.onUpdateItem(items?.allDepartment ? items?.allDepartment : items?.department, items?.allDepartment ? 'allDepartment' : 'department', row._id)
                     }}
                   />
                 </>
