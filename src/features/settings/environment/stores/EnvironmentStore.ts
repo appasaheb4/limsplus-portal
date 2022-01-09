@@ -8,6 +8,7 @@ export class EnvironmentStore {
 
   environmentSettingsList: Models.EnvironmentSettings[]
   environmentSettingsListCount: number
+  checkExistsEnvSettingsRecord!: boolean
 
   environmentVariableList: Models.EnvironmentVariable[]
   environmentVariableListCopy: Models.EnvironmentVariable[]
@@ -21,6 +22,8 @@ export class EnvironmentStore {
   constructor() {
     this.environmentSettingsList = []
     this.environmentSettingsListCount = 0
+    this.checkExistsEnvSettingsRecord = false
+
     this.environmentVariableList = []
     this.environmentVariableListCopy = []
     this.environmentVariableListCount = 0
@@ -35,6 +38,7 @@ export class EnvironmentStore {
 
     makeObservable<EnvironmentStore, any>(this, {
       environmentSettings: observable,
+      checkExistsEnvSettingsRecord: observable,
       environmentVariable: observable,
       environmentSettingsList: observable,
       environmentSettingsListCount: observable,
@@ -126,7 +130,11 @@ export class EnvironmentStore {
 
   updateExistsEnvVariable(flag: boolean) {
     this.checkExistsEnvVariable = flag
-  }  
+  }
+
+  updateExistsEnvSettingRecord(flag: boolean) {
+    this.checkExistsEnvSettingsRecord = flag
+  }
 
   updatePermision(permission: Models.Permission) {
     this.permission = permission

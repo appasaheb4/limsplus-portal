@@ -37,7 +37,7 @@ const PatientVisit = PatientVisitHoc(
       routerStore,
       corporateClientsStore,
       registrationLocationsStore,
-      doctorsStore
+      doctorsStore,
     } = useStores()
     const {
       control,
@@ -185,6 +185,16 @@ const PatientVisit = PatientVisitHoc(
                   }}
                   defaultValue=""
                 />
+                {appStore.environmentValues?.LABID_LENGTH?.value ? (
+                  <span className="text-red-600 font-medium relative">
+                    {`Lab id must be ${appStore.environmentValues?.LABID_LENGTH?.value} digit`}
+                  </span>
+                ) : (
+                  <span className="text-red-600 font-medium relative">
+                    Lab id must be 4 digit.
+                  </span>
+                )}
+
                 {patientVisitStore.checkExistsLabId && (
                   <span className="text-red-600 font-medium relative">
                     Lab Id already exits. Please use diff lab Id.

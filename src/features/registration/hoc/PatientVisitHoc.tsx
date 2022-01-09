@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import { useStores } from "@lp/stores"
@@ -15,6 +15,12 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         environmentStore,
         appStore,
       } = useStores()
+      let labId: any
+      useMemo(() => {
+        labId = parseFloat(
+          LibraryUtils.uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4)
+        )
+      }, [appStore.environmentValues?.LABID_AUTO_GENERATE])
       useEffect(() => {
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           patientVisitStore.updatePatientVisit({
@@ -43,12 +49,8 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           labId:
             appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
             "no"
-              ? parseFloat(
-                  LibraryUtils.uuidv4(
-                    appStore.environmentValues?.LABID_LENGTH?.value || 4
-                  )
-                )
-              : undefined,
+              ? labId
+              : "",
           extraData: {
             ...patientVisitStore.patientVisit.extraData,
             enteredBy: loginStore.login.userId,
@@ -92,7 +94,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             ),
           },
         })
-      }, [loginStore.login, routerStore.lookupItems])
+      }, [loginStore.login, routerStore.lookupItems, appStore.environmentValues])
 
       useEffect(() => {
         // get Environment value

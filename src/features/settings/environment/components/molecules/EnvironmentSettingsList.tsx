@@ -78,12 +78,16 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 rowIndex,
                 columnIndex
               ) => (
-                <>  
+                <>
                   <AutoCompleteLabs
                     selected={row}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items?.allLabs ? items?.allLabs : items?.lab, items?.allLabs ? 'allLabs' : 'lab', row._id)
+                        props.onUpdateItem(
+                          items?.allLabs ? items?.allLabs : items?.lab,
+                          items?.allLabs ? "allLabs" : "lab",
+                          row._id
+                        )
                     }}
                   />
                 </>
@@ -131,7 +135,11 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                     selected={row}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items?.allUsers ? items?.allUsers : items?.user, items?.allUsers ? 'allUsers' : 'user', row._id)
+                        props.onUpdateItem(
+                          items?.allUsers ? items?.allUsers : items?.user,
+                          items?.allUsers ? "allUsers" : "user",
+                          row._id
+                        )
                     }}
                   />
                 </>
@@ -179,7 +187,13 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                     selected={row}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items?.allDepartment ? items?.allDepartment : items?.department, items?.allDepartment ? 'allDepartment' : 'department', row._id)
+                        props.onUpdateItem(
+                          items?.allDepartment
+                            ? items?.allDepartment
+                            : items?.department,
+                          items?.allDepartment ? "allDepartment" : "department",
+                          row._id
+                        )
                     }}
                   />
                 </>
@@ -236,6 +250,31 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 },
               }),
               headerClasses: "textHeader3",
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.Input
+                    name=""
+                    style={{ textTransform: "uppercase" }}
+                    onBlur={(value) => {
+                      if (row.value !== value) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            value.toUpperCase(),
+                            column.dataField,
+                            row._id
+                          )
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "description",

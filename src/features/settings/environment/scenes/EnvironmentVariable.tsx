@@ -211,67 +211,69 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={4}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="Lab"
-                      hasError={errors.lab}
-                      value={environmentStore.environmentVariable?.allLabs}
-                      onChange={(allLabs) => {
-                        onChange(allLabs)
-                        environmentStore.updatEnvironmentVariable({
-                          ...environmentStore.environmentVariable,
-                          allLabs,
-                        })
-                      }}
-                    />
-                  )}
-                  name="lab"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Scope">
+                <LibraryComponents.Atoms.Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Lab"
+                        hasError={errors.lab}
+                        value={environmentStore.environmentVariable?.allLabs}
+                        onChange={(allLabs) => {
+                          onChange(allLabs)
+                          environmentStore.updatEnvironmentVariable({
+                            ...environmentStore.environmentVariable,
+                            allLabs,
+                          })
+                        }}
+                      />
+                    )}
+                    name="lab"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
 
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="User"
-                      value={environmentStore.environmentVariable?.allUsers}
-                      onChange={(allUsers) => {
-                        onChange(allUsers)
-                        environmentStore.updatEnvironmentVariable({
-                          ...environmentStore.environmentVariable,
-                          allUsers,
-                        })
-                      }}
-                    />
-                  )}
-                  name="user"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="Departmetn"
-                      value={environmentStore.environmentVariable?.allDepartment}
-                      onChange={(allDepartment) => {
-                        onChange(allDepartment)
-                        environmentStore.updatEnvironmentVariable({
-                          ...environmentStore.environmentVariable,
-                          allDepartment,
-                        })
-                      }}
-                    />
-                  )}
-                  name="department"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-              </LibraryComponents.Atoms.Grid>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="User"
+                        value={environmentStore.environmentVariable?.allUsers}
+                        onChange={(allUsers) => {
+                          onChange(allUsers)
+                          environmentStore.updatEnvironmentVariable({
+                            ...environmentStore.environmentVariable,
+                            allUsers,
+                          })
+                        }}
+                      />
+                    )}
+                    name="user"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Departmetn"
+                        value={environmentStore.environmentVariable?.allDepartment}
+                        onChange={(allDepartment) => {
+                          onChange(allDepartment)
+                          environmentStore.updatEnvironmentVariable({
+                            ...environmentStore.environmentVariable,
+                            allDepartment,
+                          })
+                        }}
+                      />
+                    )}
+                    name="department"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </LibraryComponents.Atoms.Grid>
+              </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
