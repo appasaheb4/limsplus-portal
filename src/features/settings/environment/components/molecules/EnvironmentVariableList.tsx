@@ -42,7 +42,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Environment Variable",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   environmentVariable = filter
@@ -54,7 +54,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Category",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   category = filter
@@ -69,26 +69,24 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                      onChange={(e) => {
-                        const category = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(category, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT_VARIABLES_CATEGORY"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const category = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(category, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT_VARIABLES_CATEGORY"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -102,7 +100,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 },
               }),
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
             },
             {
               dataField: "enteredBy",
@@ -115,7 +113,50 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 },
               }),
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
+            },
+            {
+              dataField: "permission",
+              text: "Permission",
+              headerClasses: "textHeader3",
+              editable: false,
+              sort: true,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <div className="flex flex-row gap-2">
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Lab"
+                        value={row?.allLabs || false}
+                        onChange={(allLabs) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(allLabs, "allLabs", row._id)
+                        }}
+                      />  
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="User"
+                        value={row?.allUsers || false}
+                        onChange={(allUsers) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(allUsers, "allUsers", row._id)
+                        }}
+                      />
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Department"
+                        value={row?.allDepartment || false}
+                        onChange={(allDepartment) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(
+                              allDepartment,
+                              "allDepartment",
+                              row._id
+                            )
+                        }}
+                      />
+                    </div>
+                  </>
+                )
+              },
             },
             {
               dataField: "opration",
@@ -124,7 +165,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               csvExport: false,
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
-                <>  
+                <>
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                       <LibraryComponents.Atoms.Icons.IconContext

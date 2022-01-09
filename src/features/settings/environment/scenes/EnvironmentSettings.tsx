@@ -143,6 +143,63 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 justify="stretch"
                 fill
               >
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                      loader={loading}
+                      placeholder="Search by variable"
+                      data={{
+                        list: environmentStore.environmentVariableList.filter(
+                          (item) => item.documentType === "environmentVariable"
+                        ),
+                        displayKey: "environmentVariable",
+                      }}
+                      hasError={errors.name}
+                      onFilter={(value: string) => {
+                        environmentStore.EnvironmentService.filter(
+                          {
+                            input: {
+                              type: "filter",
+                              filter: {
+                                environmentVariable: value,
+                                documentType: "environmentVariable",
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          },
+                          "environmentVariable"
+                        ).then((res) => {
+                          console.log({ res })
+                        })
+                      }}
+                      onSelect={(item) => {
+                        console.log({ item })
+                        onChange(item.environmentVariable)
+                        environmentStore.updateEnvironmentSettings({
+                          ...environmentStore.environmentSettings,
+                          variable: item.environmentVariable,
+                          allLabs: item.allLabs,
+                          allUsers: item.allUsers,
+                          allDepartment: item.allDepartment,
+                        })
+                        environmentStore.updatePermision({
+                          ...environmentStore.permission,
+                          allLabs: item.allLabs || false,
+                          allUsers: item.allUsers || false,
+                          allDepartment: item.allDepartment || false,
+                        })
+                        environmentStore.updateEnvVariableList(
+                          environmentStore.environmentVariableListCopy
+                        )
+                      }}
+                    />
+                  )}
+                  name="variable"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
                 {(environmentStore.environmentSettings ||
                   (environmentStore.selectedItems &&
                     environmentStore.selectedItems?.labs &&
@@ -159,6 +216,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         <div className="flex flex-row gap-2 w-full">
                           <LibraryComponents.Atoms.Form.Toggle
                             label="All"
+                            disabled={!environmentStore.permission?.allLabs}
                             value={environmentStore.environmentSettings?.allLabs}
                             onChange={(allLabs) => {
                               environmentStore.updateEnvironmentSettings({
@@ -245,6 +303,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         <div className="flex flex-row gap-2 w-full">
                           <LibraryComponents.Atoms.Form.Toggle
                             label="All"
+                            disabled={!environmentStore.permission?.allUsers}
                             value={environmentStore.environmentSettings?.allUsers}
                             onChange={(allUsers) => {
                               environmentStore.updateEnvironmentSettings({
@@ -330,7 +389,8 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         <div className="flex flex-row gap-2 w-full">
                           <LibraryComponents.Atoms.Form.Toggle
                             label="All"
-                            value={
+                            disabled={!environmentStore.permission?.allDepartment}
+                            value={  
                               environmentStore.environmentSettings?.allDepartment
                             }
                             onChange={(allDepartment) => {
@@ -407,45 +467,6 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                     defaultValue=""
                   />
                 )}
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Variable"
-                      id="lblVariable"
-                      hasError={errors.variable}
-                    >
-                      <select
-                        name="variable"
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.variable ? "border-red-500" : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const variable = e.target.value as string
-                          onChange(variable)
-                          environmentStore.updateEnvironmentSettings({
-                            ...environmentStore.environmentSettings,
-                            variable,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {environmentStore.environmentVariableList &&
-                          environmentStore.environmentVariableList.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.environmentVariable}>
-                                {item.environmentVariable}
-                              </option>
-                            )
-                          )}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="variable"
-                  rules={{ required: true }}
-                  defaultValue=""
-                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
