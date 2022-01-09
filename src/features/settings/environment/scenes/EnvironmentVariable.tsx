@@ -28,22 +28,28 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
   const [hideInputView, setHideInputView] = useState<boolean>(true)
 
   const onSubmitEnvironmentVariable = () => {
-    environmentStore.EnvironmentService.addEnvironment({
-      input: {
-        ...environmentStore.environmentVariable,
-        enteredBy: loginStore.login.userId,
-        documentType: "environmentVariable",
-      },
-    }).then((res) => {
-      if (res.createEnviroment.success) {
-        LibraryComponents.Atoms.Toast.success({
-          message: `😊 ${res.createEnviroment.message}`,
-        })
-        setTimeout(() => {
-          window.location.reload()
-        }, 2000)
-      }
-    })
+    if (!environmentStore.checkExistsEnvVariable) {
+      environmentStore.EnvironmentService.addEnvironment({
+        input: {
+          ...environmentStore.environmentVariable,
+          enteredBy: loginStore.login.userId,
+          documentType: "environmentVariable",
+        },
+      }).then((res) => {
+        if (res.createEnviroment.success) {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 ${res.createEnviroment.message}`,
+          })
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        }
+      })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: "😔 Please enter diff variable",
+      })
+    }
   }
   return (
     <>
@@ -56,7 +62,9 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
       )}
 
       <div
-        className={"p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "shown")}
+        className={
+          "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "shown")
+        }
       >
         <div className="p-2 rounded-lg shadow-xl">
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -86,12 +94,35 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                         environmentVariable: environmentVariable.toUpperCase(),
                       })
                     }}
+                    onBlur={(environmentVariable) => {
+                      if (environmentVariable)
+                        environmentStore.EnvironmentService.checkExistsRecord({
+                          input: {
+                            filter: {
+                              environmentVariable,
+                              documentType: "environmentVariable",
+                            },
+                          },
+                        }).then((res) => {
+                          if (res.checkExistsEnviromentRecord.success) {
+                            environmentStore.updateExistsEnvVariable(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.checkExistsEnviromentRecord.message}`,
+                            })
+                          } else environmentStore.updateExistsEnvVariable(false)
+                        })
+                    }}
                   />
                 )}
                 name="environmentVariable"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {environmentStore.checkExistsEnvVariable && (
+                <span className="text-red-600 font-medium relative">
+                  Environment variable already exits. Please use other variable.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -179,6 +210,68 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 rules={{ required: false }}
                 defaultValue=""
               />
+
+              <LibraryComponents.Atoms.Grid cols={4}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Lab"
+                      hasError={errors.lab}
+                      value={environmentStore.environmentVariable?.allLabs}
+                      onChange={(allLabs) => {
+                        onChange(allLabs)
+                        environmentStore.updatEnvironmentVariable({
+                          ...environmentStore.environmentVariable,
+                          allLabs,
+                        })
+                      }}
+                    />
+                  )}
+                  name="lab"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="User"
+                      value={environmentStore.environmentVariable?.allUsers}
+                      onChange={(allUsers) => {
+                        onChange(allUsers)
+                        environmentStore.updatEnvironmentVariable({
+                          ...environmentStore.environmentVariable,
+                          allUsers,
+                        })
+                      }}
+                    />
+                  )}
+                  name="user"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Departmetn"
+                      value={environmentStore.environmentVariable?.allDepartment}
+                      onChange={(allDepartment) => {
+                        onChange(allDepartment)
+                        environmentStore.updatEnvironmentVariable({
+                          ...environmentStore.environmentVariable,
+                          allDepartment,
+                        })
+                      }}
+                    />
+                  )}
+                  name="department"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />

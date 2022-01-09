@@ -126,6 +126,33 @@ export class EnvironmentService {
         )
     })
 
+  filterByFieldsVariableList = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsEnviroment.success)
+            return this.listEnvironment({ documentType: "environmentVariable" })
+          stores.environmentStore.filterEnvVariableList({
+            filterEnviroment: {
+              data: response.data.filterByFieldsEnviroment.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsEnviroment.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -152,6 +179,7 @@ export class EnvironmentService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
   findValue = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

@@ -10,21 +10,27 @@ export class EnvironmentStore {
   environmentSettingsListCount: number
 
   environmentVariableList: Models.EnvironmentVariable[]
+  environmentVariableListCopy: Models.EnvironmentVariable[]
   environmentVariableListCount: number
+  checkExistsEnvVariable: boolean
 
   selectedItems!: Models.SelectedItems
+
+  permission!: Models.Permission
 
   constructor() {
     this.environmentSettingsList = []
     this.environmentSettingsListCount = 0
     this.environmentVariableList = []
+    this.environmentVariableListCopy = []
     this.environmentVariableListCount = 0
+    this.checkExistsEnvVariable = false
 
     this.environmentSettings = {
       ...this.environmentSettings,
-      allLabs: true,
-      allDepartment: true,
-      allUsers: true,
+      allLabs: false,
+      allDepartment: false,
+      allUsers: false,
     }
 
     makeObservable<EnvironmentStore, any>(this, {
@@ -33,8 +39,10 @@ export class EnvironmentStore {
       environmentSettingsList: observable,
       environmentSettingsListCount: observable,
       environmentVariableList: observable,
+      environmentVariableListCopy: observable,
       environmentVariableListCount: observable,
       selectedItems: observable,
+      permission: observable,
 
       EnvironmentService: computed,
       fetchEnvironment: action,
@@ -61,9 +69,14 @@ export class EnvironmentStore {
   }
 
   updateEnvVariableList(res: any) {
-    if (!res.enviroments.success) return alert(res.enviroments.message)
-    this.environmentVariableList = res.enviroments.data
-    this.environmentVariableListCount = res.enviroments.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.enviroments.success) return alert(res.enviroments.message)
+      this.environmentVariableList = res.enviroments.data
+      this.environmentVariableListCopy = res.enviroments.data
+      this.environmentVariableListCount = res.enviroments.paginatorInfo.count
+    } else {
+      this.environmentVariableList = res
+    }
   }
 
   filterEnvVariableList(res: any) {
@@ -109,5 +122,13 @@ export class EnvironmentStore {
   updateSelectedItems(items: Models.SelectedItems | undefined) {
     if (items) this.selectedItems = items
     else this.selectedItems = new Models.SelectedItems({})
+  }
+
+  updateExistsEnvVariable(flag: boolean) {
+    this.checkExistsEnvVariable = flag
+  }  
+
+  updatePermision(permission: Models.Permission) {
+    this.permission = permission
   }
 }
