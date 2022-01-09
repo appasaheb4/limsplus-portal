@@ -535,7 +535,8 @@ export const PackagesList = observer(({ data }: PackagesListProps) => {
               </td>
               <td>{item?.panelCode}</td>
               <td>{item?.panelName}</td>
-              <td>{item?.packageCode}</td>
+              {/* <td>{item?.packageCode}</td> */}
+              <td>{''}</td>
               <td>{item.serviceType}</td>
               <td>{item.department}</td>
               <td>{item.section?.code}</td>

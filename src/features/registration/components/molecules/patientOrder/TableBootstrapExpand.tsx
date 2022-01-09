@@ -329,6 +329,8 @@ export const TableBootstrapExpand = ({
                   <span>
                     {row.service === "S" || row.service === "M"
                       ? row.serviceType !== "M" && row.packageCode
+                      : row.service === "N"
+                      ? ""
                       : row.packageCode}
                   </span>
                 </>
@@ -360,7 +362,10 @@ export const TableBootstrapExpand = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle value={row.bill} disabled={true} />
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.bill}
+                      disabled={true}
+                    />
                   </>
                 )
               },

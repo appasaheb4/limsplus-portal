@@ -39,22 +39,24 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     const [hideInputView, setHideInputView] = useState<boolean>(true)
 
     const onSubmitSessionManagement = () => {
-      environmentStore.EnvironmentService.addEnvironment({
-        input: {
-          ...environmentStore.environmentSettings,
-          enteredBy: loginStore.login.userId,
-          documentType: "environmentSettings",
-        },
-      }).then((res) => {
-        if (res.createEnviroment.success) {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 ${res.createEnviroment.message}`,
-          })
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
-        }
-      })
+      if (!environmentStore.checkExistsEnvSettingsRecord) {
+        environmentStore.EnvironmentService.addEnvironment({
+          input: {
+            ...environmentStore.environmentSettings,
+            enteredBy: loginStore.login.userId,
+            documentType: "environmentSettings",
+          },
+        }).then((res) => {
+          if (res.createEnviroment.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createEnviroment.message}`,
+            })
+            setTimeout(() => {
+              window.location.reload()
+            }, 2000)
+          }
+        })
+      }
     }
 
     const table = useMemo(
@@ -193,6 +195,23 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         environmentStore.updateEnvVariableList(
                           environmentStore.environmentVariableListCopy
                         )
+                        environmentStore.EnvironmentService.checkExistsRecord({
+                          input: {
+                            filter: {
+                              variable: item.environmentVariable,
+                              documentType: "environmentSettings",
+                              environment:
+                                environmentStore.environmentSettings?.environment,
+                            },
+                          },
+                        }).then((res) => {
+                          if (res.checkExistsEnviromentRecord.success) {
+                            environmentStore.updateExistsEnvSettingRecord(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.checkExistsEnviromentRecord.message}`,
+                            })
+                          } else environmentStore.updateExistsEnvSettingRecord(false)
+                        })
                       }}
                     />
                   )}
@@ -200,6 +219,11 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
+                {environmentStore.checkExistsEnvSettingsRecord && (
+                  <span className="text-red-600 font-medium relative">
+                    Environment variable already exits. Please select other variable.
+                  </span>
+                )}
                 {(environmentStore.environmentSettings ||
                   (environmentStore.selectedItems &&
                     environmentStore.selectedItems?.labs &&
@@ -390,7 +414,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           <LibraryComponents.Atoms.Form.Toggle
                             label="All"
                             disabled={!environmentStore.permission?.allDepartment}
-                            value={  
+                            value={
                               environmentStore.environmentSettings?.allDepartment
                             }
                             onChange={(allDepartment) => {
@@ -473,12 +497,13 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                     <LibraryComponents.Atoms.Form.Input
                       label="Value"
                       hasError={errors.value}
+                      value={environmentStore.environmentSettings?.value}
                       placeholder={errors.value ? "Please Enter Value" : "Value"}
                       onChange={(value) => {
                         onChange(value)
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
-                          value,
+                          value: value.toUpperCase(),
                         })
                       }}
                     />
@@ -541,6 +566,24 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           environmentStore.updateEnvironmentSettings({
                             ...environmentStore.environmentSettings,
                             environment,
+                          })
+                          environmentStore.EnvironmentService.checkExistsRecord({
+                            input: {
+                              filter: {
+                                variable:
+                                  environmentStore.environmentSettings.variable,
+                                documentType: "environmentSettings",
+                                environment,
+                              },
+                            },
+                          }).then((res) => {
+                            if (res.checkExistsEnviromentRecord.success) {
+                              environmentStore.updateExistsEnvSettingRecord(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkExistsEnviromentRecord.message}`,
+                              })
+                            } else
+                              environmentStore.updateExistsEnvSettingRecord(false)
                           })
                         }}
                       >

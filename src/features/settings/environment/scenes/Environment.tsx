@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, {  useState } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 
 import { useStores } from "@lp/stores"
-   
+
 import { EnvironmentVariable } from "./EnvironmentVariable"
 import { EnvironmentSettings } from "./EnvironmentSettings"
 
@@ -18,7 +18,7 @@ const Environment = observer(() => {
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
           title={routerStore.selectedComponents?.title || ""}
-        />   
+        />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       <Accordion>
@@ -60,8 +60,12 @@ const Environment = observer(() => {
                   message: `😊 ${res.removeEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
-                environmentStore.fetchEnvironment({ documentType: "environmentVariable" })
-                environmentStore.fetchEnvironment({ documentType: "environmentSettings" })
+                environmentStore.fetchEnvironment({
+                  documentType: "environmentVariable",
+                })
+                environmentStore.fetchEnvironment({
+                  documentType: "environmentSettings",
+                })
               }
             })
           } else if (type === "update") {
@@ -76,7 +80,10 @@ const Environment = observer(() => {
                   message: `😊 ${res.updateEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
-                environmentStore.updateSelectedItems(undefined)  
+                environmentStore.updateSelectedItems(undefined)
+                // setTimeout(() => {   
+                //   window.location.reload()
+                // }, 2000)
                 environmentStore.fetchEnvironment({ documentType: "environmentVariable" })
                 environmentStore.fetchEnvironment({ documentType: "environmentSettings" })
               }
