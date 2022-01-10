@@ -7,6 +7,7 @@ import {
   AutoCompleteUsers,
   AutoCompleteLabs,
   AutoCompleteDepartment,
+  AutoCompleteFilterSingleSelectVariable
 } from "../organisms"
 let lab
 let user
@@ -44,6 +45,40 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               text: "Id",
               hidden: true,
               csvExport: false,
+            },
+            {
+              dataField: "variable",
+              text: "Variable",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  variable = filter
+                },
+              }),
+              headerClasses: "textHeader3",
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectVariable
+                  selected={row}
+                  onUpdate={(items)=>{
+                    props.onUpdateItem &&
+                        props.onUpdateItem(
+                          items.variable.environmentVariable,
+                          column.dataField,
+                          row._id
+                        )
+                    
+                  }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "lab",
@@ -196,47 +231,6 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                         )
                     }}
                   />
-                </>
-              ),
-            },
-            {
-              dataField: "variable",
-              text: "Variable",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  variable = filter
-                },
-              }),
-              headerClasses: "textHeader3",
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <select
-                    name="variable"
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                    onChange={(e) => {
-                      const variable = e.target.value as string
-                      props.onUpdateItem &&
-                        props.onUpdateItem(variable, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.environmentVariableList &&
-                      props.extraData.environmentVariableList.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.environmentVariable}>
-                            {item.environmentVariable}
-                          </option>
-                        )
-                      )}
-                  </select>
                 </>
               ),
             },

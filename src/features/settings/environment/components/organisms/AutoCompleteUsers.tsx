@@ -26,7 +26,8 @@ export const AutoCompleteUsers = observer(
       <>
         <div className="flex flex-row gap-2 w-full">
           <LibraryComponents.Atoms.Form.Toggle
-            value={data?.allUsers || false}
+            value={environmentStore.permission?.allUsers||false}
+            disabled={!environmentStore.permission?.allUsers||false}
             onChange={(allUsers) => {
               if (!defaultData?.allUsers) {
                 if (allUsers) {
@@ -42,7 +43,7 @@ export const AutoCompleteUsers = observer(
 
         <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
             loader={loading}
-            disable={data?.allUsers || false}
+            disable={data?.allUsers?data?.allUsers:environmentStore.permission?.allUsers||false}
             placeholder="Search by userId or name..."
             data={{
               list: userStore.userList,
