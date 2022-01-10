@@ -28,7 +28,8 @@ export const AutoCompleteLabs = observer(
         <div className="flex flex-row gap-2 w-full">
           <LibraryComponents.Atoms.Form.Toggle
             label="All"
-            value={data?.allLabs || false}
+            value={environmentStore.permission?.allLabs||false}
+            disabled={data?.allLabs||false?data?.allLabs||false:!environmentStore.permission?.allLabs||false}
             onChange={(allLabs) => {
               if (!defaultData?.allLabs) {
                 if (allLabs) {
@@ -44,7 +45,11 @@ export const AutoCompleteLabs = observer(
 
           <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
             loader={loading}
-            disable={data?.allLabs || false}
+            disable={data?.allLabs 
+              ? 
+              environmentStore.permission?.allLabs
+              :
+              environmentStore.permission?.allLabs}
             placeholder="Search by code or name"
             data={{
               list: labStore.listLabs,

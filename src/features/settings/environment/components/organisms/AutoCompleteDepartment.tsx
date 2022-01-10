@@ -26,7 +26,8 @@ export const AutoCompleteDepartment = observer(
       <>
         <div className="flex flex-row gap-2 w-full">
           <LibraryComponents.Atoms.Form.Toggle
-            value={data?.allDepartment || false}
+            value={environmentStore.permission?.allDepartment||false}
+            disabled={!environmentStore.permission?.allDepartment||false}
             onChange={(allDepartment) => {
               if (!defaultData?.allDepartment) {
                 if (allDepartment) {
@@ -43,7 +44,7 @@ export const AutoCompleteDepartment = observer(
           <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
              loader={loading}
              disable={
-              data?.allDepartment || false
+              data?.allDepartment?data?.allDepartment:environmentStore.permission?.allDepartment||false
              }
              placeholder="Search by code or name"
              data={{
