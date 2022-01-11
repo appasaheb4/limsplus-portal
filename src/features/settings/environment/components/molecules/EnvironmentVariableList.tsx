@@ -42,6 +42,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Environment Variable",
               headerClasses: "textHeader5",
               sort: true,
+              editable:(content, row, rowIndex, columnIndex) => row.isModify,
               csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
@@ -54,6 +55,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Category",
               headerClasses: "textHeader3",
               sort: true,
+              editable:(content, row, rowIndex, columnIndex) => row.isModify,
               csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
@@ -94,6 +96,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               dataField: "description",
               text: "Description",
               headerClasses: "textHeader3",
+              editable:(content, row, rowIndex, columnIndex) => row.isModify,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   description = filter
@@ -127,6 +130,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                     <div className="flex flex-row gap-2">
                       <LibraryComponents.Atoms.Form.Toggle
                         label="Lab"
+                        disabled={!row.isModify}
                         value={row?.allLabs || false}
                         onChange={(allLabs) => {
                           props.onUpdateItem &&
@@ -135,6 +139,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                       />  
                       <LibraryComponents.Atoms.Form.Toggle
                         label="User"
+                        disabled={!row.isModify}
                         value={row?.allUsers || false}
                         onChange={(allUsers) => {
                           props.onUpdateItem &&
@@ -143,6 +148,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                       />
                       <LibraryComponents.Atoms.Form.Toggle
                         label="Department"
+                        disabled={!row.isModify}
                         value={row?.allDepartment || false}
                         onChange={(allDepartment) => {
                           props.onUpdateItem &&

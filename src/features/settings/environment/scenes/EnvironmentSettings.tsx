@@ -257,7 +257,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
                           <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
-                            disable={environmentStore.environmentSettings.allLabs}
+                            disable={!environmentStore.environmentSettings.allLabs && !environmentStore.permission?.allLabs}
                             placeholder="Search by code or name"
                             data={{
                               list: labStore.listLabs,
@@ -344,7 +344,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
                           <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
-                            disable={environmentStore.environmentSettings.allUsers}
+                            disable={!environmentStore.environmentSettings.allUsers && !environmentStore.permission?.allUsers}
                             placeholder="Search by userId or name..."
                             data={{
                               list: userStore.userList,
@@ -432,7 +432,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             disable={
-                              environmentStore.environmentSettings?.allDepartment
+                              !environmentStore.environmentSettings?.allDepartment && !environmentStore.permission?.allDepartment
                             }
                             placeholder="Search by code or name"
                             data={{
