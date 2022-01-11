@@ -23,6 +23,7 @@ export const LIST = gql`
         environmentVariable
         category
         enteredBy
+        isModify
         documentType
         dateOfEntry
         lastUpdated
@@ -79,6 +80,7 @@ export const FILTER = gql`
         environment
         environmentVariable
         category
+        isModify
         enteredBy
         documentType
         dateOfEntry
@@ -110,6 +112,7 @@ export const FILTER_BY_FIELDS = gql`
         environment
         environmentVariable
         category
+        isModify
         enteredBy
         documentType
         dateOfEntry

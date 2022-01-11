@@ -7,6 +7,7 @@ export class EnvironmentVariable {
   allLabs: boolean
   allUsers: boolean
   allDepartment: boolean
+  isModify: boolean
   documentType: string
   dateOfEntry: Date
   lastUpdated: Date
@@ -20,6 +21,7 @@ export class EnvironmentVariable {
     this.allLabs = rawData.allLabs
     this.allDepartment = rawData.allDepartment
     this.allUsers = rawData.allUsers
+    this.isModify = rawData.isModify
     this.documentType = rawData.documentType
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated

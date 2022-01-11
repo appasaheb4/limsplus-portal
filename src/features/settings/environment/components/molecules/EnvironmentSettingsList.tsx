@@ -84,6 +84,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "lab",
               text: "Labs",
               sort: true,
+              editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.lab.map((item) => item.name).join(" , ")}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
@@ -133,6 +134,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               text: "Users",
               sort: true,
               separator: "| ",
+              editable: false,
               // csvFormatter: (cell, row, rowIndex) => `${row.user.map((item,index)=>{
               // return ' '+item.fullName+' ';
               // })}`,
@@ -184,6 +186,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "department",
               text: "Departments",
               sort: true,
+              editable: false,
               headerClasses: "textHeader4",
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {

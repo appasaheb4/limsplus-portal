@@ -19,6 +19,7 @@ interface PatientOrderListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }      
+let labid;
 let visitId
 let orderId
 let panelCode
@@ -39,6 +40,20 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: "Id",
               hidden: true,
               csvExport: false,
+            },
+            {
+              dataField: "labId",
+              text: "Lab Id",
+              headerClasses: "textHeader4 z-10",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  labid = filter
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
             },
             {
               dataField: "visitId",
@@ -144,6 +159,7 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
           clearAllFilter={()=>{
+            labid("")
             visitId("")
             orderId("")
             panelCode("")

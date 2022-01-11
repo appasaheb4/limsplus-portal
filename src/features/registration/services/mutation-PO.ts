@@ -10,6 +10,7 @@ export const LIST_PATIENT_ORDER = gql`
       message
       data {
         _id
+        labId,
         orderId
         visitId
         patientName
@@ -107,6 +108,7 @@ export const FILTER_PATIENT_ORDER = gql`
       message
       data {
         _id
+        labId
         orderId
         visitId
         patientName
@@ -198,6 +200,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         _id
         pId
         rLab
+        labId
         visitId
         visitDate
         registrationDate

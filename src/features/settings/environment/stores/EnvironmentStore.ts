@@ -34,6 +34,17 @@ export class EnvironmentStore {
       allLabs: false,
       allDepartment: false,
       allUsers: false,
+      lab:[],
+      user:[],
+      department:[]
+    }
+
+    this.environmentVariable = {
+      ...this.environmentVariable,
+      allLabs: false,
+      allUsers: false,
+      allDepartment: false,
+      isModify: true
     }
 
     makeObservable<EnvironmentStore, any>(this, {
