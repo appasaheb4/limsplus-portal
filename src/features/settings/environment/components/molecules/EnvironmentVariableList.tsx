@@ -123,6 +123,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               text: "Permission",
               headerClasses: "textHeader3",
               editable: false,
+              csvFormatter: (col) => (col ? col : false),
               sort: true,
               formatter: (cell, row) => {
                 return (
