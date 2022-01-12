@@ -88,6 +88,8 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader4 z-10",
               sort: true,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.panelCode.map((item) => item.panelCode)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   panelCode = filter
@@ -106,6 +108,8 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
             {
               dataField: "packageList",
               text: "packageList",
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.packageList.map((item) => item.packageCode)}`,
               hidden: true,
             },
             {
