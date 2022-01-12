@@ -1128,7 +1128,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateCreation ? daysjs(row.dateCreation).format("YYYY-MM-DD") : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1147,7 +1147,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateActive ? daysjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1166,7 +1166,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateExpire ? daysjs(row.dateExpire || 0).format("YYYY-MM-DD"): ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{

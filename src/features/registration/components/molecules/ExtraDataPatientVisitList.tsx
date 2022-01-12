@@ -250,7 +250,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               text: "Received Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData.receivedDate ? row.extraData.receivedDate : ""),
+              csvFormatter: (col,row) => (row.extraData.receivedDate ? dayjs(row.extraData.receivedDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   receivedDate = filter
@@ -285,7 +285,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               text: "Result Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData?.resultDate ? row.extraData.resultDate : ""),
+              csvFormatter: (col,row) => (row.extraData?.resultDate ? dayjs(row.extraData?.resultDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   resultDate = filter
@@ -381,7 +381,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               text: "Approval Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData?.approvalDate ? row.extraData.approvalDate : ""),
+              csvFormatter: (col,row) => (row.extraData?.approvalDate ? dayjs(row.extraData.approvalDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   approvalDate = filter
@@ -509,7 +509,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               text: "Reported Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData?.reportedDate ? row.extraData.reportedDate : ""),
+              csvFormatter: (col,row) => (row.extraData?.reportedDate ? dayjs(row.extraData.reportedDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   reportedDate = filter

@@ -364,7 +364,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateOfBirth ? dayjs(row.dateOfBirth).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateOfBirth = filter
@@ -403,7 +403,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.marriageAnniversary ? dayjs(row.marriageAnniversary).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   marriageAnniversary = filter
@@ -441,7 +441,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Exipre Date",
               dataField: "exipreDate",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.exipreDate ? dayjs(row.exipreDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   exipreDate = filter
@@ -536,7 +536,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateOfEntry ? dayjs(row.dateOfEntry).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateOfEntry = filter

@@ -220,7 +220,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: col => (col ? col : ""),  
+            csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),  
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
                 dateCreation = filter
@@ -238,7 +238,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
             editable: false,
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -258,7 +258,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader11",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
                 dateExpire = filter
@@ -307,7 +307,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                
                   <select
                     value={row.environment}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -327,7 +327,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
               </>
             ),
           },

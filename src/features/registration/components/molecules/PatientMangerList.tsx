@@ -140,7 +140,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Birthdate",
               headerClasses: "textHeader11",
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: (col,row) => (row.birthDate ? dayjs(row.birthDate).format("YYYY-MM-DD") : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
