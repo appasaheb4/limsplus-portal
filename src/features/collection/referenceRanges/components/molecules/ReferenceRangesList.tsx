@@ -611,7 +611,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
@@ -630,7 +630,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateActive = filter
@@ -649,7 +649,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter
