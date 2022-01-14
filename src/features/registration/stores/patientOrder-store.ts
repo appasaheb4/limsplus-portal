@@ -38,12 +38,16 @@ export class PatientOrderStore {
   get patientOrderService() {
     return new PatientOrderService()
   }
-
+   
   updatePatientOrderList(res: any) {
-    if (!res.patientOrders.success) return alert(res.patientOrders.message)
-    this.listPatientOrder = res.patientOrders.data
-    this.listPatientOrderCount = res.patientOrders.paginatorInfo.count
-  }
+    if(!Array.isArray(res)){
+      if (!res.patientOrders.success) return alert(res.patientOrders.message)
+      this.listPatientOrder = res.patientOrders.data
+      this.listPatientOrderCount = res.patientOrders.paginatorInfo.count
+    }else{
+      this.listPatientOrder = res
+    }
+  }   
     
   filterPatientOrderList(res: any) {
     this.listPatientOrder = res.filterPatientOrder.data

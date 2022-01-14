@@ -53,6 +53,7 @@ import {
   PatientManagerStore,
   PatientVisitStore,
   PatientOrderStore,
+  PatientTestStore
 } from "@lp/features/registration/stores"
 
 import { Store } from "./Store"
@@ -109,6 +110,7 @@ export class Stores extends Store {
   patientManagerStore!: PatientManagerStore
   patientVisitStore!: PatientVisitStore
   patientOrderStore!: PatientOrderStore
+  patientTestStore!: PatientTestStore
 
   constructor() {
     super()
@@ -163,6 +165,7 @@ export class Stores extends Store {
     this.patientManagerStore = new PatientManagerStore()
     this.patientVisitStore = new PatientVisitStore()
     this.patientOrderStore = new PatientOrderStore()
+    this.patientTestStore = new PatientTestStore()
   }
 }
 

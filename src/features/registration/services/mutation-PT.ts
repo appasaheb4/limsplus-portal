@@ -188,9 +188,9 @@ export const CHECK_EXISTS_PATIENT = gql`
   }
 `
 
-export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderInput!) {
-    filterByFieldsPatientOrder(input: $input) {
+export const FILTER_BY_FIELDS_PATIENT_TEST = gql`
+  mutation($input: PatientManagerInput!) {
+    filterByFieldsPatientManager(input: $input) {
       paginatorInfo {
         count
       }
@@ -249,7 +249,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
             deptOutSource
             comment
           }
-        }  
+        }
         environment
         documentType
         dateOfEntry

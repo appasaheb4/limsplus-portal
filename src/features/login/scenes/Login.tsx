@@ -172,6 +172,8 @@ export const Login = observer(() => {
                     render={({ field: { onChange } }) => (
                       <LibraryComponents.Atoms.Form.Input
                         label="User Id"
+                        id="userId"
+                        name="userId"
                         placeholder={
                           errors.userId ? "Please enter userId" : "UserId"
                         }
