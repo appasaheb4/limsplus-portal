@@ -1508,9 +1508,10 @@ const Doctors = DoctorsHoc(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActive: new Date(),
               })
+              setHideAddSection(!hideAddSection)
               setValue("doctorCode", modalConfirm.data.doctorCode)
               setValue("doctorName", modalConfirm.data.doctorName)
               setValue("lab", modalConfirm.data.lab)

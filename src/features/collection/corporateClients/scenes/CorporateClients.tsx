@@ -1299,9 +1299,10 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActive: new Date(),
               })
+              setHideAddSection(!hideAddSection)
               setValue("corporateCode", modalConfirm.data.corporateCode)
               setValue("corporateName", modalConfirm.data.corporateName)
               setValue("status", modalConfirm.data.status)

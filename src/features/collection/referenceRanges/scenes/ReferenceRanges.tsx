@@ -1278,8 +1278,9 @@ const ReferenceRanges = ReferenceRangesHoc(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
               })
+              setHideAddLab(!hideAddLab)
               setValue("analyteCode", modalConfirm.data.analyteCode)
               setValue("analyteName", modalConfirm.data.analyteName)
               setValue("department", modalConfirm.data.department)
