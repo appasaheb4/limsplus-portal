@@ -1822,9 +1822,10 @@ const TestMater = TestMasterHOC(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: new Date(),
               })
+              setHideAddLab(!hideAddLab)
               setValue("rLab", modalConfirm.data.rLab)
               setValue("pLab", modalConfirm.data.pLab)
               setValue("department", modalConfirm.data.department)

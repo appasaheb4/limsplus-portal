@@ -799,9 +799,10 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActive: LibraryUtils.moment().unix(),
               })
+              setHideAddLab(!hideAddLab)
               setValue("lab", modalConfirm.data.lab)
               setValue("environment", modalConfirm.data.environment)
               setValue("status", modalConfirm.data.status)
