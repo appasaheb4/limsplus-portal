@@ -15,7 +15,7 @@ import {
   FILTER_PATIENT_ORDER,
   SEQUENCING_PATIENT_ORDER_ORDERID,
   CHECK_EXISTS_PATIENT,
-  FILTER_BY_FIELDS_PATIENT_VISIT,
+  FILTER_BY_FIELDS_PATIENT_ORDER,
   GET_PACKAGES_LIST,
 } from "./mutation-PO"
 import dayjs from "dayjs"
@@ -158,18 +158,19 @@ export class PatientOrderService {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_BY_FIELDS_PATIENT_VISIT,
+          mutation: FILTER_BY_FIELDS_PATIENT_ORDER,
           variables,
-        })
-        .then((response: any) => {
-          if (!response.data.filterByFieldsPatientVisit.success)
-            return this.listPatientOrder({ documentType: "patientOrder" })
+        })  
+        .then((response: any) => {     
+          console.log({response});
+          // if (!response.data.filterByFieldsPatientOrder.success)
+          //    return this.listPatientOrder({ documentType: "patientOrder" })
           stores.patientOrderStore.filterPatientOrderList({
             filterPatientOrder: {
-              data: response.data.filterByFieldsPatientVisit.data,
+              data: response.data.filterByFieldsPatientOrder.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsPatientVisit.paginatorInfo.count,
-              },
+                count: response.data.filterByFieldsPatientOrder.paginatorInfo.count,
+              },   
             },
           })
           stores.uploadLoadingFlag(true)
