@@ -1,2 +1,2 @@
-export * from './ExtraDataPatientTestTable'
-export * from './PatientTestTable'
+export * from './PanelListTable'
+export * from './ExtraDataPanelListTable'

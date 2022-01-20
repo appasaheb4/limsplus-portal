@@ -52,7 +52,8 @@ export const LIST = gql`
         labelInstruction
         pageBreak
         method
-        panelMethod
+        panelMethodCode
+        panelMethodName
         workflow
         cumulative
         reportTemplate
@@ -173,7 +174,8 @@ export const FILTER = gql`
         labelInstruction
         pageBreak
         method
-        panelMethod
+        panelMethodCode
+        panelMethodName
         workflow
         cumulative
         reportTemplate
@@ -241,7 +243,8 @@ export const FILTER_BY_FIELDS = gql`
         labelInstruction
         pageBreak
         method
-        panelMethod
+        panelMethodCode
+        panelMethodName
         workflow
         cumulative
         reportTemplate

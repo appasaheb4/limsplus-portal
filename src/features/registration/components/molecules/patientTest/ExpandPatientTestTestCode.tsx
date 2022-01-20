@@ -134,26 +134,6 @@ export const ExpandPatientTestTestCode = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   }
-  let searchProps: any = {
-    placeholder: searchPlaceholder,
-  }
-  const handleOnSelect = (rows: any, isSelect) => {
-    if (isSelect) {
-      if (selectedRow) {
-        let itemSelected: any[] = selectedRow
-        itemSelected.push(rows)
-        setSelectedRow(itemSelected)
-      } else {
-        setSelectedRow([rows])
-      }
-    }
-  }
-
-  const handleOnSelectAll = (isSelect, rows) => {
-    if (isSelect) {
-      setSelectedRow(rows)
-    }
-  }
 
   const handleTableChange = (
     type,
@@ -218,44 +198,6 @@ export const ExpandPatientTestTestCode = ({
     }
   }
 
-  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className="btn-group btn-group-toggle" data-toggle="buttons">
-      {columns
-        .map((column) => ({
-          ...column,
-          toggle: toggles[column.dataField],
-        }))
-        .map((column, index) => {
-          if (index > 0) {
-            return (
-              <button
-                type="button"
-                key={column.dataField}
-                className={` btn btn-primary btn-sm whitespace-nowrap ${
-                  column.toggle ? "active" : ""
-                }`}
-                data-toggle="button"
-                aria-pressed={column.toggle ? "true" : "false"}
-                onClick={() => onColumnToggle(column.dataField)}
-              >
-                {column.text}
-              </button>
-            )
-          }
-        })}
-    </div>
-  )
-
-  const expandRow = {
-    renderer: row => (
-      <div>
-        <p>{ `This Expand row is belong to rowKey ${row._id}` }</p>
-        <p>You can render anything here, also you can add additional data on every row object</p>
-        <p>expandRow.renderer callback will pass the origin row object to you</p>
-      </div>
-    ),
-    showExpandColumn: true
-  };
 
   return (
     <PaginationProvider
@@ -277,62 +219,6 @@ export const ExpandPatientTestTestCode = ({
         >
           {(props) => (
             <div>
-              {/* <div className="flex items-center">
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={(value) => {
-                    console.log({ value })
-                  }}
-                />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                {isFilterOpen ? (
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="medium"
-                    type="outline"
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen)
-                    }}
-                  >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
-                  </LibraryComponents.Atoms.Buttons.Button>
-                ) : (
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="medium"
-                    type="outline"
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen)
-                    }}
-                  >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
-                  </LibraryComponents.Atoms.Buttons.Button>
-                )}
-              </div> */}
-              {/* {isFilterOpen && (
-                <div className={"mb-2 overflow-auto h-10"}>
-                  <CustomToggleList
-                    contextual="primary"
-                    className="list-custom-class"
-                    btnClassName="list-btn-custom-class"
-                    {...props.columnToggleProps}
-                  />
-                </div>
-              )} */}
               <div>
                 <BootstrapTable
                   remote
@@ -346,18 +232,6 @@ export const ExpandPatientTestTestCode = ({
                   //expandRow={ expandRow }
                 />
               </div>
-              {/* <div className="flex items-center gap-2 mt-2">
-                <SizePerPageDropdownStandalone
-                  {...Object.assign(
-                    {},
-                    { ...paginationProps, hideSizePerPage: false }
-                  )}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <PaginationTotalStandalone {...paginationProps} />
-              </div> */}
             </div>
           )}
         </ToolkitProvider>

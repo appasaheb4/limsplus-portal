@@ -23,7 +23,7 @@ import { ExpandPatientTestTestCode } from "./ExpandPatientTestTestCode"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-interface ExpandPatientTestPanelCodeProps {
+interface ExpandExtraDataPatientTestTableProps {
   id: string
   data: any
   totalSize?: number
@@ -42,7 +42,7 @@ interface ExpandPatientTestPanelCodeProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
   clearAllFilter?: () => void
 }
-export const ExpandPatientTestPanelCode = ({
+export const ExpandExtraDataPatientTestTable = ({
   id,
   data,
   totalSize = 10,
@@ -58,7 +58,7 @@ export const ExpandPatientTestPanelCode = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
-}: ExpandPatientTestPanelCodeProps) => {
+}: ExpandExtraDataPatientTestTableProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
@@ -238,83 +238,162 @@ export const ExpandPatientTestPanelCode = ({
           totalSize={row.testMasterList.length}
           columns={[
             {
-              dataField: "testCode",
-              text: "Test Code",
-            },
-            {
-              dataField: "testName",
-              text: "Test Name",
-            },
-            {
-              dataField: "confidential",
-              text: "Confidential",
+              dataField: "department",
+              text: "Department",
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
-                      value={row.confidential}
-                      disabled={true}
-                    />
+                    <span>{row.extraData?.department}</span>
+                  </>
+                )
+              },
+            },
+
+            {
+              dataField: "section",
+              text: "Section",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.section.code}</span>
                   </>
                 )
               },
             },
             {
-              dataField: "urgent",
-              text: "Urgent",
+              dataField: "methodCode",
+              text: "Method Code",
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
-                      value={row.urgent}
-                      disabled={true}
-                    />
+                    <span>{row.extraData?.methodCode}</span>
                   </>
                 )
               },
             },
             {
-              dataField: "cretical",
-              text: "Cretical",
+              dataField: "methodName",
+              text: "Method Name",
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
-                      value={row.cretical}
-                      disabled={true}
-                    />
+                    <span>{row.extraData?.methodName}</span>
                   </>
                 )
               },
             },
             {
-              dataField: "sampleCode",
-              text: "Sample Code",
+              dataField: "validationLevel",
+              text: "Validation Level",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.validationLevel}</span>
+                  </>
+                )
+              },
             },
             {
-              dataField: "sampleType",
-              text: "Sample Type",
+              dataField: "resultOrder",
+              text: "Result Order",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.resultOrder}</span>
+                  </>
+                )
+              },
             },
             {
-              dataField: "collContainerCode",
-              text: "Coll Container Code",
+              dataField: "prefix",
+              text: "Prefix",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.prefix}</span>
+                  </>
+                )
+              },
+            },
+
+            {
+              dataField: "sufix",
+              text: "Sufix",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.sufix}</span>
+                  </>
+                )
+              },
             },
             {
-              dataField: "collContainerName",
-              text: "Coll Container Name",
+              dataField: "deleverySchedule",
+              text: "Delevery Schedule",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.deleverySchedule}</span>
+                  </>
+                )
+              },
+            },
+
+            {
+              dataField: "holdingDays",
+              text: "Holding Days",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.holdingDays}</span>
+                  </>
+                )
+              },
             },
             {
-              dataField: "rLab",
-              text: "RLab",
+              dataField: "tat",
+              text: "Tat",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.tat}</span>
+                  </>
+                )
+              },
             },
-            
             {
-              dataField: "pLab",
-              text: "PLab",
+              dataField: "workListCode",
+              text: "Work List Code",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.workListCode}</span>
+                  </>
+                )
+              },
             },
             {
-              dataField: "status",
-              text: "Status",
+              dataField: "version",
+              text: "Version",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.version}</span>
+                  </>
+                )
+              },
+            },
+
+            {
+              dataField: "environment",
+              text: "Environment",
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.extraData?.environment}</span>
+                  </>
+                )
+              },
             },
           ]}
           onSelectedRow={(rows) => {

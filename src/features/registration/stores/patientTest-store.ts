@@ -6,6 +6,7 @@ export class PatientTestStore {
   patientTest!: Models.PatientTest
   patientListTest: Models.PatientTest[] = []
   patientListTestCount!: number   
+ 
 //   checkExistsOrderId!: boolean
 //   selectedItems!: Models.SelectedItems
 //   packageList!: any
@@ -53,6 +54,7 @@ export class PatientTestStore {
   updateTest(input: Models.PatientTest) {
     this.patientTest = input
   }
+
    
 //   updateExistsOrderId(flag: boolean) {
 //     this.checkExistsOrderId = flag

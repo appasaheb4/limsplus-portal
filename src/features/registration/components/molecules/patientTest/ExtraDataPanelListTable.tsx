@@ -3,11 +3,11 @@ import React from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { ExpandPatientTestPanelCode } from "./ExpandPatientTestPanelCode"
+import { ExpandExtraDataPatientTestTable } from "./ExpandExtraDataPatientTestTable"
   
 import { NumberFilter } from "@lp/library/components/Organisms"
 
-interface PatientTestTableProps {
+interface ExtraDataPanelListTableProps {
   data: any
   totalSize: number
   extraData?: any
@@ -23,11 +23,11 @@ let labid;
 let visitId
 let orderId
 let panelCode
-export const PatientTestTable = observer((props: PatientTestTableProps) => {
+export const ExtraDataPanelListTable = observer((props: ExtraDataPanelListTableProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <ExpandPatientTestPanelCode
+        <ExpandExtraDataPatientTestTable
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -39,24 +39,19 @@ export const PatientTestTable = observer((props: PatientTestTableProps) => {
               csvExport: false,
             },
             {
-              dataField: "labId",
-              text: "Lab Id",
+              dataField: "panelCode",
+              text: "Panel Code",
               headerClasses: "textHeader4 z-10",
             },
             {
-              dataField: "visitId",
-              text: "Visit Id",
-              headerClasses: "textHeader4 z-10",
-            },
-            {
-              dataField: "orderId",
-              text: "Order Id",
+              dataField: "panelName",
+              text: "Panel Name",
               headerClasses: "textHeader4 z-10",
             }
           ]}
           isEditModify={false}
           isSelectRow={true}
-          fileName="PatientOrder"
+          fileName="Panel List"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))
