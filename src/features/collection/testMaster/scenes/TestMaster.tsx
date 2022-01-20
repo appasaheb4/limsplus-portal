@@ -392,7 +392,7 @@ const TestMater = TestMasterHOC(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Test Method Code"
+                    label="Test Code"
                     placeholder={
                       errors.testCode ? "Please Enter testCode" : "Test Code"
                     }
@@ -440,7 +440,7 @@ const TestMater = TestMasterHOC(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Test Method Name"
+                    label="Test  Name"
                     placeholder={
                       errors.testName ? "Please Enter testName" : "Test Name"
                     }

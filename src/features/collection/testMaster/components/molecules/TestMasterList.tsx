@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectDeliverySchedule} from '../organsims'
+import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectDeliverySchedule,AutoCompleteFilterSingleSelectTestMethod} from '../organsims'
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let dateCreation
@@ -28,6 +28,8 @@ let reportGroup
 let resultOrder
 let processing
 let tubeGroup
+let testMethodCode
+let testMethodName
 let labelInstruction
 let panelMethod
 let sampleRunOn
@@ -232,7 +234,7 @@ const TestMasterList = (props: TestMasterProps) => {
             },
             {
               dataField: "testCode",
-              text: "Test Method Code",
+              text: "Test  Code",
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
@@ -245,7 +247,7 @@ const TestMasterList = (props: TestMasterProps) => {
             },
             {
               dataField: "testName",
-              text: "Test Method Name",
+              text: "Test  Name",
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
@@ -867,6 +869,62 @@ const TestMasterList = (props: TestMasterProps) => {
                   </>
                 )
               },
+            },
+            {
+              dataField: "testMethodCode",
+              text: "Test Method Code",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: col => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testMethodCode = filter
+                }
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectTestMethod
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.methodsCode,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              )
+            },
+            {
+              dataField: "testMethodName",
+              text: "Test Method Name",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: col => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  testMethodName = filter
+                }
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectTestMethod
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.methodsName,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              ) 
             },
             {
               dataField: "reportGroup",
@@ -1563,6 +1621,8 @@ const TestMasterList = (props: TestMasterProps) => {
             reportGroup("")
             resultOrder("")
             processing("")
+            testMethodCode("")
+            testMethodName("")
             tubeGroup("")
             labelInstruction("")
             panelMethod("")

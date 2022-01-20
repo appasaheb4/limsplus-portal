@@ -1218,26 +1218,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="Method"
-                      hasError={errors.method}
-                      value={masterPanelStore.masterPanel?.method}
-                      onChange={(method) => {
-                        onChange(method)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          method,
-                        })
-                      }}
-                    />
-                  )}
-                  name="method"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -1530,6 +1511,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              <LibraryComponents.Atoms.Grid cols={3}>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1550,6 +1532,28 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Method"
+                      hasError={errors.method}
+                      value={masterPanelStore.masterPanel?.method}
+                      onChange={(method) => {
+                        onChange(method)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          method,
+                        })
+                      }}
+                    />
+                  )}
+                  name="method"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              </LibraryComponents.Atoms.Grid>
+              
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
