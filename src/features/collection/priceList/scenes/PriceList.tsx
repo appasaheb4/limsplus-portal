@@ -1025,9 +1025,10 @@ export const PriceList = PriceListHoc(observer(() => {
                 __typename: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateCreation: new Date(),
               })
+              setHideAddLab(!hideAddLab)
               setValue("panelCode", modalConfirm.data.panelCode)
               setValue("panelName", modalConfirm.data.panelName)
               setValue("billTo", modalConfirm.data.billTo)

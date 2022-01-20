@@ -760,9 +760,10 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: new Date(),
               })
+              setHideAddLab(!hideAddLab)
               setValue("lab", modalConfirm.data.lab)
               setValue("panelCode", modalConfirm.data.panelCode)
               setValue("testCode", modalConfirm.data.testCode)

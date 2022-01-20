@@ -129,6 +129,7 @@ const LoginActivity = observer(() => {
                   text: "In",
                   headerClasses: "textHeader4",
                   sort: true,
+                  csvFormatter: (cell, row, rowIndex) => (row.dateOfEntry ? dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a"):""),
                   filter: LibraryComponents.Organisms.Utils.customFilter(),
                   filterRenderer: (onFilter, column) => (
                     <DateFilter onFilter={onFilter} column={column} />
@@ -142,6 +143,7 @@ const LoginActivity = observer(() => {
                   text: "Out",
                   headerClasses: "textHeader4",
                   sort: true,
+                  csvFormatter: (cell, row, rowIndex) => (row.lastUpdated ? dayjs(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a"):""),
                   filter: LibraryComponents.Organisms.Utils.customFilter(),
                   filterRenderer: (onFilter, column) => (
                     <DateFilter onFilter={onFilter} column={column} />

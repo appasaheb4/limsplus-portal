@@ -1336,7 +1336,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1355,7 +1355,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
               editable: false,
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -1375,7 +1375,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Expire",
               headerClasses: "textHeader11",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter

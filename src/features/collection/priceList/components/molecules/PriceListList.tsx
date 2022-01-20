@@ -600,7 +600,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
@@ -619,7 +619,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateActive = filter
@@ -638,7 +638,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter

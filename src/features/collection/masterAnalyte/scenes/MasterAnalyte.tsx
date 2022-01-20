@@ -1258,9 +1258,10 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: (modalConfirm.data.version + 1),
                 dateActive: new Date(),
               })
+              setHideAddLab(!hideAddLab)
               setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)
               setValue("analyteName", modalConfirm.data.analyteName)

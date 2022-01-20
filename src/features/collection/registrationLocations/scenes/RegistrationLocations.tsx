@@ -1608,9 +1608,10 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
-                version: 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: new Date(),
               })
+              setHideAddSection(!hideAddSection)
               setValue("locationCode", modalConfirm.data.locationCode)
               setValue("locationName", modalConfirm.data.locationName)
               setValue("lab", modalConfirm.data.lab)
