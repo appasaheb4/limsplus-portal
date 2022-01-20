@@ -232,7 +232,7 @@ const TestMasterList = (props: TestMasterProps) => {
             },
             {
               dataField: "testCode",
-              text: "Test Code",
+              text: "Test Method Code",
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
@@ -245,7 +245,7 @@ const TestMasterList = (props: TestMasterProps) => {
             },
             {
               dataField: "testName",
-              text: "Test NtestNameame",
+              text: "Test Method Name",
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
