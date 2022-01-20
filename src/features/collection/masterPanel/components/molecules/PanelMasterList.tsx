@@ -11,6 +11,8 @@ import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 let rLab
 let pLab
 let department
+let panelCode
+let panelName
 let panelMethodCode
 let panelMethodName
 let description
@@ -264,27 +266,27 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               ),
             },
             {
-              dataField: "panelMethodCode",
-              text: "Panel Method Code",
+              dataField: "panelCode",
+              text: "Panel Code",
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
-                  panelMethodCode = filter
+                  panelCode = filter
                 }
               }),
               editable: false,
             },
             {
-              dataField: "panelMethodName",
-              text: "Panel Method Name",
+              dataField: "panelName",
+              text: "Panel Name",
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
-                  panelMethodName = filter
+                  panelName = filter
                 }
               }),
               editable:false,
@@ -301,6 +303,62 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 }
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
+              dataField: "panelMethodCode",
+              text: "Panel Method Code",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: col => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  panelMethodCode = filter
+                }
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectPanelMethod
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.methodsCode,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              )
+            },
+            {
+              dataField: "panelMethodName",
+              text: "Panel Method Name",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: col => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) =>{
+                  panelMethodName = filter
+                }
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectPanelMethod
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.methodsName,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              )
             },
             {
               dataField: "method",
@@ -1310,6 +1368,8 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             rLab("")
             pLab("")
             department("")
+            panelCode("")
+            panelName("")
             panelMethodCode("")
             panelMethodName("")
             description("")

@@ -5,12 +5,12 @@ import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import * as LibraryComponents from "@lp/library/components"
 
-interface AutoCompleteFilterSingleSelectPanelMethodProps {
+interface AutoCompleteFilterSingleSelectTestMethodProps {
   onSelect: (item: any) => void
 }
 
-export const AutoCompleteFilterSingleSelectPanelMethod = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectPanelMethodProps) => {
+export const AutoCompleteFilterSingleSelectTestMethod = observer(
+  ({ onSelect }: AutoCompleteFilterSingleSelectTestMethodProps) => {
     const { loading, methodsStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
