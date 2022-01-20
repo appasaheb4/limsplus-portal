@@ -47,31 +47,23 @@ const PatientTest = PatientOrderHoc(
     } = useForm()
 
 
-    setValue("orderId", patientOrderStore.patientOrder?.orderId)
     setValue("environment", patientOrderStore.patientOrder?.environment)
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputView, setHideInputView] = useState<boolean>(true)
     const onSubmitPatientOrder = () => {
-      const packageList = [
-        ...patientOrderStore.packageList.pacakgeListS,
-        ...patientOrderStore.packageList.pacakgeListM,
-        ...patientOrderStore.packageList.pacakgeListN,
-        ...patientOrderStore.packageList.pacakgeListK,
-      ]
-      patientOrderStore.patientOrderService
-        .addPatientOrder({
+      patientTestStore.patientTestService
+        .addPatientTest({
           input: {
-            ...patientOrderStore.patientOrder,
-            packageList,
-            documentType: "patientTest_TestId",
+            ...patientTestStore.patientTest,
+            documentType: "patientTest",
             __typename: undefined,
           },
         })
         .then((res) => {
-          if (res.createPatientOrder.success) {
+          if (res.createPatientTest.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 ${res.createPatientOrder.message}`,
+              message: `😊 ${res.createPatientTest.message}`,
             })
           }
           setTimeout(() => {
@@ -144,6 +136,7 @@ const PatientTest = PatientOrderHoc(
                               patientName: item.patientName,
                               panelCode: item.panelCode
                             })
+                            setValue("labId",item.labId)
                             patientOrderStore.updatePatientOrderList(
                               patientOrderStore.listPatientOrderCopy
                             )
@@ -202,7 +195,7 @@ const PatientTest = PatientOrderHoc(
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
                       label="Lab Id"
-                      hasError={errors.visitId}
+                      hasError={errors.labId}
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -224,12 +217,11 @@ const PatientTest = PatientOrderHoc(
                               limit: 10,
                             },
                           })
-                        }}
+                        }}   
                         onSelect={(item) => {
                           onChange(item.visitId)
                           patientTestStore.updateTest({
                             ...patientTestStore.patientTest,
-                            visitId: item.visitId,
                             labId: item.labId,
                             patientName: item.patientName,
                           })
@@ -332,9 +324,9 @@ const PatientTest = PatientOrderHoc(
           className="p-2 rounded-lg shadow-xl overflow-scroll"
           style={{ overflowX: "scroll" }}
         >
-          {/* <FeatureComponents.Molecules.PatientOrderList
-            data={patientOrderStore.listPatientOrder}
-            totalSize={patientOrderStore.listPatientOrderCount}
+          <FeatureComponents.Molecules.PatientTestList
+            data={patientTestStore.patientListTest}
+            totalSize={patientTestStore.patientListTestCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
             }}
@@ -368,7 +360,7 @@ const PatientTest = PatientOrderHoc(
                 input: { type, filter, page, limit },
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

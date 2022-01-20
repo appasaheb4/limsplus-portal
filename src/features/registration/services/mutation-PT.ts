@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
-
-export const LIST_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderInput!) {
-    patientOrders(input: $input) {
+  
+export const LIST_PATIENT_TEST = gql`
+  mutation($input: PatientTestInput!) {
+    patientTests(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,59 +10,12 @@ export const LIST_PATIENT_ORDER = gql`
       message
       data {
         _id
-        labId,
         orderId
-        visitId
+        labId
         patientName
+        testId
         panelCode
-        packageList {
-          panelCode
-          panelName
-          packageCode
-          serviceType
-          service
-          department
-          section
-          pLab
-          rLab
-          bill
-          grossAmt
-          netAmt
-          discount
-          dueDate
-          resultDate
-          orderStatus
-          panelStatus
-          extraData {
-            priority
-            outsourceLab
-            forceOutSource
-            osReceivedDate
-            osReceivedBy
-            outsourceStatus
-            receviedByDept
-            analysisDoneDate
-            autoRelease
-            abNormal
-            critical
-            rep
-            eqid
-            eqtype
-            methodOn
-            methodName
-            porder
-            confidential
-            workflow
-            loginServgrp
-            currentServgrp
-            routingStatus
-            recvTime
-            outSourceOrdno
-            deptOutSource
-            comment
-          }
-        }
-        environment
+        panelList
         documentType
         dateOfEntry
         lastUpdated
@@ -70,10 +23,10 @@ export const LIST_PATIENT_ORDER = gql`
     }
   }
 `
-
-export const CREATE_PATIENT_ORDER = gql`
-  mutation($input: CreatePatientOrderInput!) {
-    createPatientOrder(input: $input) {
+  
+export const CREATE_PATIENT_TEST = gql`
+  mutation($input: CreatePatientTestInput!) {
+    createPatientTest(input: $input) {
       success
       message
     }
@@ -97,7 +50,7 @@ export const UPDATE_PATIENT_VISIT = gql`
     }
   }
 `
-     
+
 export const FILTER_PATIENT_ORDER = gql`
   mutation($input: PatientOrderInput!) {
     filterPatientOrder(input: $input) {
@@ -108,59 +61,12 @@ export const FILTER_PATIENT_ORDER = gql`
       message
       data {
         _id
-        labId
         orderId
-        visitId
+        labId
         patientName
+        testId
         panelCode
-        packageList {
-          panelCode
-          panelName
-          packageCode
-          serviceType
-          service
-          department
-          section
-          pLab
-          rLab
-          bill
-          grossAmt
-          netAmt
-          discount
-          dueDate
-          resultDate
-          orderStatus
-          panelStatus
-          extraData {
-            priority
-            outsourceLab
-            forceOutSource
-            osReceivedDate
-            osReceivedBy
-            outsourceStatus
-            receviedByDept
-            analysisDoneDate
-            autoRelease
-            abNormal
-            critical
-            rep
-            eqid
-            eqtype
-            methodOn
-            methodName
-            porder
-            confidential
-            workflow
-            loginServgrp
-            currentServgrp
-            routingStatus
-            recvTime
-            outSourceOrdno
-            deptOutSource
-            comment
-          }
-        }
-        environment
+        panelList
         documentType
         dateOfEntry
         lastUpdated
@@ -193,64 +99,17 @@ export const FILTER_BY_FIELDS_PATIENT_TEST = gql`
     filterByFieldsPatientManager(input: $input) {
       paginatorInfo {
         count
-      }
+      }  
       success
       message
       data {
         _id
-        labId,
         orderId
-        visitId
+        labId
         patientName
+        testId
         panelCode
-        packageList {
-          panelCode
-          panelName
-          packageCode
-          serviceType
-          service
-          department
-          section
-          pLab
-          rLab
-          bill
-          grossAmt
-          netAmt
-          discount
-          dueDate
-          resultDate
-          orderStatus
-          panelStatus
-          extraData {
-            priority
-            outsourceLab
-            forceOutSource
-            osReceivedDate
-            osReceivedBy
-            outsourceStatus
-            receviedByDept
-            analysisDoneDate
-            autoRelease
-            abNormal
-            critical
-            rep
-            eqid
-            eqtype
-            methodOn
-            methodName
-            porder
-            confidential
-            workflow
-            loginServgrp
-            currentServgrp
-            routingStatus
-            recvTime
-            outSourceOrdno
-            deptOutSource
-            comment
-          }
-        }
-        environment
+        panelList
         documentType
         dateOfEntry
         lastUpdated
