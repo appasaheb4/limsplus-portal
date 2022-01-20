@@ -392,7 +392,7 @@ const TestMater = TestMasterHOC(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Test Code"
+                    label="Test Method Code"
                     placeholder={
                       errors.testCode ? "Please Enter testCode" : "Test Code"
                     }
@@ -440,7 +440,7 @@ const TestMater = TestMasterHOC(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Test Name"
+                    label="Test Method Name"
                     placeholder={
                       errors.testName ? "Please Enter testName" : "Test Name"
                     }
@@ -847,51 +847,51 @@ const TestMater = TestMasterHOC(observer(() => {
                 }}
               /> */}
 
-<Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Test Method"
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Test Method"
+                    hasError={errors.testMethod}
+                  >
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      placeholder="Search by code or name"
+                      data={{
+                        list: methodsStore.listMethods,
+                        displayKey: ["methodsCode", "methodsName"],
+                      }}
                       hasError={errors.testMethod}
-                    >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder="Search by code or name"
-                        data={{
-                          list: methodsStore.listMethods,
-                          displayKey: ["methodsCode", "methodsName"],
-                        }}
-                        hasError={errors.testMethod}
-                        onFilter={(value: string) => {
-                          methodsStore.methodsService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ["methodsCode", "methodsName"],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
+                      onFilter={(value: string) => {
+                        methodsStore.methodsService.filterByFields({
+                          input: {
+                            filter: {
+                              fields: ["methodsCode", "methodsName"],
+                              srText: value,
                             },
-                          })
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.methodsCode)
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            testMethodCode: item.methodsCode,
-                            testMethodName: item.methodsName,
-                          })
-                          methodsStore.updateMethodsList(
-                            methodsStore.listMethodsCopy
-                          )
-                        }}
-                      />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="testMethod"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                            page: 0,
+                            limit: 10,
+                          },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.methodsCode)
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
+                          testMethodCode: item.methodsCode,
+                          testMethodName: item.methodsName,
+                        })
+                        methodsStore.updateMethodsList(
+                          methodsStore.listMethodsCopy
+                        )
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="testMethod"
+                rules={{ required: false }}
+                defaultValue=""
+              />
 
               {/* <Controller
                 control={control}
