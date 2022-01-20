@@ -322,36 +322,6 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 )
               },
             },
-
-            {
-              dataField: "panelMethod",
-              text: "Panel Method",
-              headerClasses: "textHeader4",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
-                  panelMethod = filter
-                }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectPanelMethod
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.methodsName,column.dataField,row._id)
-                  }}
-                  />
-                </>
-              ),
-            },
             {
               dataField: "shortName",
               text: "Short Name",
