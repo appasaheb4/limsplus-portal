@@ -5,21 +5,7 @@ export class PatientTest {
     patientName: string
     testId: number
     panelCode: any[]
-    extraData: {
-      department: string
-      section: string
-      methodCode: string
-      methodName: string
-      resultOrder: string
-      prefix: string
-      surfix: string
-      deliverySchedule: string
-      holdingDays: number
-      tat: string
-      worklistCode: string
-      version: number
-      environment: string
-    }
+    panelList: any[]
     documentType: string
     dateOfEntry: Date
     lastUpdated: Date
@@ -31,7 +17,7 @@ export class PatientTest {
       this.patientName = rawData.patientName
       this.orderId = rawData.orderId
       this.panelCode = rawData.panelCode
-      this.extraData = rawData.extraData
+      this.panelList = rawData.panelList
       this.documentType = rawData.documentType
       this.dateOfEntry = rawData.dateOfEntry
       this.lastUpdated = rawData.lastUpdated

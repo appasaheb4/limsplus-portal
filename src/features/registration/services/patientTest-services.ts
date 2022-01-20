@@ -189,10 +189,10 @@
          })
          .then((response: any) => {
            console.log({ response })
- 
-          //  stores.patientOrderStore.updatePackageList(
-          //    response.data.getPatientOrderPackagesList.packageList
-          //  )
+           stores.patientTestStore.updateTest({
+             ...stores.patientTestStore.patientTest,
+             panelList: response.data.getPatientTestPanelListByPanelCodes.panelList
+           })
            resolve(response.data)
          })
          .catch((error) =>

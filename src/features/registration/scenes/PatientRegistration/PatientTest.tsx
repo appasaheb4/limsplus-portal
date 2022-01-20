@@ -21,7 +21,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
-import { PatientTestTable, ExtraDataPatientTestTable } from "../../components/molecules"
+import { PanelListTable, ExtraDataPanelListTable } from "../../components/molecules"
 
 interface PatientTestProps {
   onModalConfirm?: (item: any) => void
@@ -275,9 +275,9 @@ const PatientTest = PatientOrderHoc(
               className="rounded-lg shadow-xl overflow-scroll mt-2"
               style={{ overflowX: "scroll" }}
             >
-              {/* {patientOrderStore.packageList && (
-                <PatientTestTable data={patientOrderStore.packageList} totalSize={0} />
-              )} */}
+              {patientOrderStore.packageList && (
+                <PanelListTable data={patientTestStore.patientTest?.panelList ||[]} totalSize={patientTestStore.patientTest?.panelList?.length} />
+              )}
             </div>
           </div>
           <br />
@@ -293,11 +293,12 @@ const PatientTest = PatientOrderHoc(
                       className="rounded-lg shadow-xl overflow-scroll mt-2"
                       style={{ overflowX: "scroll" }}
                     >
-                      {/* {patientOrderStore.packageList && (
-                        <ExtraDataPatientTestTable
-                          data={patientOrderStore.packageList}
+                      {patientOrderStore.packageList && (
+                        <ExtraDataPanelListTable
+                          data={patientTestStore.patientTest?.panelList ||[]}
+                          totalSize={patientTestStore.patientTest?.panelList?.length}
                         />
-                      )} */}
+                      )}
                     </div>
                   </>
                 </AccordionItemPanel>
