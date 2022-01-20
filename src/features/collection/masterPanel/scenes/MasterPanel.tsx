@@ -236,7 +236,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                           masterPanelStore.masterPanelService
                             .checkExitsLabEnvCode({
                               input: {
-                                code: masterPanelStore.masterPanel?.panelCode,
+                                code: masterPanelStore.masterPanel?.panelMethodCode,
                                 env: masterPanelStore.masterPanel?.environment,
                                 lab: rLab,
                               },
@@ -437,17 +437,17 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Panel Code"
+                    label="Panel Method Code"
                     placeholder={
-                      errors.panelCode ? "Please Enter PanelCode" : "Panel Code"
+                      errors.panelMethodCode ? "Please Enter Panel Method Code" : "Panel Method Code"
                     }
-                    hasError={errors.panelCode}
-                    value={masterPanelStore.masterPanel?.panelCode}
+                    hasError={errors.panelMethodCode}
+                    value={masterPanelStore.masterPanel?.panelMethodCode}
                     onChange={(panelCode) => {
                       onChange(panelCode)
                       masterPanelStore.updateMasterPanel({
                         ...masterPanelStore.masterPanel,
-                        panelCode: panelCode.toUpperCase(),
+                        panelMethodCode: panelCode.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
@@ -472,7 +472,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                     }}
                   />
                 )}
-                name="panelCode"
+                name="panelMethodCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
@@ -486,17 +486,17 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Panel Name"
+                    label="Panel Method Name"
                     placeholder={
-                      errors.panelName ? "Please Enter Panel Name" : "Panel Name"
+                      errors.panelName ? "Please Enter Panel Method Name" : "Panel Method Name"
                     }
                     hasError={errors.panelName}
-                    value={masterPanelStore.masterPanel?.panelName}
+                    value={masterPanelStore.masterPanel?.panelMethodName}
                     onChange={(panelName) => {
                       onChange(panelName)
                       masterPanelStore.updateMasterPanel({
                         ...masterPanelStore.masterPanel,
-                        panelName: panelName.toUpperCase(),
+                        panelMethodName: panelName.toUpperCase(),
                       })
                     }}
                   />
@@ -538,14 +538,37 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                     label="Panel Method"
                     hasError={errors.panelMethod}
                   >
-                    <AutoCompleteFilterSingleSelectPanelMethod
-                    onSelect={(item)=>{
-                      onChange(item.methodsCode)
-                      masterPanelStore.updateMasterPanel({
-                        ...masterPanelStore.masterPanel,
-                        panelMethod:item.methodsCode
-                      })
-                    }}
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      placeholder="Search by code or name"
+                      data={{
+                        list: methodsStore.listMethods,
+                        displayKey: ["methodsCode", "methodsName"],
+                      }}
+                      hasError={errors.testMethod}
+                      onFilter={(value: string) => {
+                        methodsStore.methodsService.filterByFields({
+                          input: {
+                            filter: {
+                              fields: ["methodsCode", "methodsName"],
+                              srText: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.methodsCode)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          panelMethodCode:item.methodsCode,
+                          panelMethodName:item.methodsName,
+                        })
+                        methodsStore.updateMethodsList(
+                          methodsStore.listMethodsCopy
+                        )
+                      }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -1487,7 +1510,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                           masterPanelStore.masterPanelService
                             .checkExitsLabEnvCode({
                               input: {
-                                code: masterPanelStore.masterPanel?.panelCode,
+                                code: masterPanelStore.masterPanel?.panelMethodCode,
                                 env: environment,
                                 lab: masterPanelStore.masterPanel?.rLab,
                               },

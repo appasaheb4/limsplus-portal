@@ -11,8 +11,8 @@ export class MasterPanel {
   pLab: string
   department: string
   section: Record<string, any>
-  panelCode: string
-  panelName: string
+  panelMethodCode: string
+  panelMethodName: string
   description: string
   shortName: string
   bill: boolean
@@ -66,8 +66,8 @@ export class MasterPanel {
     this.pLab = rawData.pLab
     this.department = rawData.department
     this.section = rawData.section
-    this.panelCode = rawData.panelCode
-    this.panelName = rawData.panelName
+    this.panelMethodCode = rawData.panelCode
+    this.panelMethodName = rawData.panelName
     this.description = rawData.description
     this.shortName = rawData.shortName
     this.bill = rawData.bill
