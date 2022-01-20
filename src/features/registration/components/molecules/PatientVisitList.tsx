@@ -124,7 +124,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Visit Date",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: (col,row) => (row.dateVisit ? dayjs(row.dateVisit).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col,row) => (row.visitDate ? dayjs(row.visitDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   dateVisit = filter
@@ -160,7 +160,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Registration Date",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : ""),
+              csvFormatter: (col,row) => (row.registrationDate ? dayjs(row.registrationDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   registrationDate = filter
@@ -196,7 +196,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Collection Date",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : ""),
+              csvFormatter: (col,row) => (row.collectionDate ? dayjs(row.collectionDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   collectionDate = filter
@@ -232,7 +232,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "Due Date",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : ""),
+              csvFormatter: (col,row) => (row.dueDate ? dayjs(row.dueDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   dueDate = filter
@@ -268,7 +268,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               text: "BithDate",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : ""),
+              csvFormatter: (col,row) => (row.birthDate ? dayjs(row.birthDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   birthDate = filter

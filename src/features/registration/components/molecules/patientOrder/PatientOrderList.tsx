@@ -108,8 +108,7 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
             {
               dataField: "packageList",
               text: "packageList",
-              csvFormatter: (cell, row, rowIndex) =>
-                `${row.packageList.map((item) => item.packageCode)}`,
+              csvExport: false,
               hidden: true,
             },
             {
