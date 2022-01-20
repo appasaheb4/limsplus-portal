@@ -433,78 +433,6 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 defaultValue=""
               />
 
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Panel Method Code"
-                    placeholder={
-                      errors.panelMethodCode ? "Please Enter Panel Method Code" : "Panel Method Code"
-                    }
-                    hasError={errors.panelMethodCode}
-                    value={masterPanelStore.masterPanel?.panelMethodCode}
-                    onChange={(panelCode) => {
-                      onChange(panelCode)
-                      masterPanelStore.updateMasterPanel({
-                        ...masterPanelStore.masterPanel,
-                        panelMethodCode: panelCode.toUpperCase(),
-                      })
-                    }}
-                    onBlur={(code) => {
-                      if (!masterPanelStore.masterPanel?.existsVersionId) {
-                        masterPanelStore.masterPanelService
-                          .checkExitsLabEnvCode({
-                            input: {
-                              code,
-                              env: masterPanelStore.masterPanel?.environment,
-                              lab: masterPanelStore.masterPanel?.rLab,
-                            },
-                          })
-                          .then((res) => {
-                            if (res.checkPanelMasterExistsRecord.success) {
-                              masterPanelStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
-                              })
-                            } else masterPanelStore.updateExistsLabEnvCode(false)
-                          })
-                      }
-                    }}
-                  />
-                )}
-                name="panelMethodCode"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              {masterPanelStore.checkExitsLabEnvCode && (
-                <span className="text-red-600 font-medium relative">
-                  Code already exits. Please use other code.
-                </span>
-              )}
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Panel Method Name"
-                    placeholder={
-                      errors.panelName ? "Please Enter Panel Method Name" : "Panel Method Name"
-                    }
-                    hasError={errors.panelName}
-                    value={masterPanelStore.masterPanel?.panelMethodName}
-                    onChange={(panelName) => {
-                      onChange(panelName)
-                      masterPanelStore.updateMasterPanel({
-                        ...masterPanelStore.masterPanel,
-                        panelMethodName: panelName.toUpperCase(),
-                      })
-                    }}
-                  />
-                )}
-                name="panelName"
-                rules={{ required: true }}
-                defaultValue=""
-              />
 
               <Controller
                 control={control}
@@ -568,6 +496,27 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         methodsStore.updateMethodsList(
                           methodsStore.listMethodsCopy
                         )
+
+                        if (!masterPanelStore.masterPanel?.existsVersionId) {
+                          masterPanelStore.masterPanelService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:item.methodsCode,
+                                env: masterPanelStore.masterPanel?.environment,
+                                lab: masterPanelStore.masterPanel?.rLab,
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkPanelMasterExistsRecord.success) {
+                                masterPanelStore.updateExistsLabEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
+                                })
+                              } else masterPanelStore.updateExistsLabEnvCode(false)
+                            })
+                        }
+
+
                       }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
