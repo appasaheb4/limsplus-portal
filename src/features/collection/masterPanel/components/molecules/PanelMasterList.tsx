@@ -11,8 +11,8 @@ import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 let rLab
 let pLab
 let department
-let panelCode
-let panelName
+let panelMethodCode
+let panelMethodName
 let description
 let shortName
 let price
@@ -264,27 +264,27 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               ),
             },
             {
-              dataField: "panelCode",
-              text: "Panel Code",
-              headerClasses: "textHeader2",
+              dataField: "panelMethodCode",
+              text: "Panel Method Code",
+              headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
-                  panelCode = filter
+                  panelMethodCode = filter
                 }
               }),
               editable: false,
             },
             {
-              dataField: "panelName",
-              text: "Panel Name",
-              headerClasses: "textHeader3",
+              dataField: "panelMethodName",
+              text: "Panel Method Name",
+              headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
-                  panelName = filter
+                  panelMethodName = filter
                 }
               }),
               editable:false,
@@ -1340,8 +1340,8 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             rLab("")
             pLab("")
             department("")
-            panelCode("")
-            panelName("")
+            panelMethodCode("")
+            panelMethodName("")
             description("")
             shortName("")
             price("")
