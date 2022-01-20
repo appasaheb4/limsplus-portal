@@ -4,14 +4,14 @@
  
  * @author limsplus
  */
-
+       
  import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
  import { stores } from "@lp/stores"
  import {
-   LIST_PATIENT_ORDER,
+  LIST_PATIENT_TEST,
    REMOVE_PATIENT_ORDER,
    UPDATE_PATIENT_VISIT,
-   CREATE_PATIENT_ORDER,
+   CREATE_PATIENT_TEST,
    FILTER_PATIENT_ORDER,
    SEQUENCING_PATIENT_TEST_TESTID,
    CHECK_EXISTS_PATIENT,
@@ -23,17 +23,19 @@
  dayjs.extend(utc)
  
  export class PatientTestService {
-   listPatientOrder = (filter: any, page = 0, limit = 10) =>
+   listPatientTest = (filter: any, page = 0, limit = 10) =>
      new Promise<any>((resolve, reject) => {
        const env = stores.loginStore.login && stores.loginStore.login.environment
        const role = stores.loginStore.login && stores.loginStore.login.role
        client
          .mutate({
-           mutation: LIST_PATIENT_ORDER,
+           mutation: LIST_PATIENT_TEST,
            variables: { input: { filter, page, limit, env, role } },
          })
          .then((response: any) => {
-           stores.patientOrderStore.updatePatientOrderList(response.data)
+           console.log({response});
+           
+           stores.patientTestStore.updateTestList(response.data)
            resolve(response.data)
          })
          .catch((error) =>
@@ -41,13 +43,11 @@
          )
      })
  
-   addPatientOrder = (variables: any) =>
+   addPatientTest = (variables: any) =>
      new Promise<any>((resolve, reject) => {
-       console.log({ variables })
- 
        client
          .mutate({
-           mutation: CREATE_PATIENT_ORDER,
+           mutation: CREATE_PATIENT_TEST,
            variables,
          })
          .then((response: any) => {
@@ -100,7 +100,7 @@
          })
          .then((response: any) => {
            if (!response.data.filterPatientOrder.success)
-             return this.listPatientOrder({ documentType: "patientTest" })
+             return this.listPatientTest({ documentType: "patientTest" })
            stores.patientOrderStore.filterPatientOrderList(response.data)
            stores.uploadLoadingFlag(true)
            resolve(response.data)
@@ -163,7 +163,7 @@
          })
          .then((response: any) => {
            if (!response.data.filterByFieldsPatientVisit.success)
-             return this.listPatientOrder({ documentType: "patientTest" })
+             return this.listPatientTest({ documentType: "patientTest" })
            stores.patientOrderStore.filterPatientOrderList({
              filterPatientOrder: {
                data: response.data.filterByFieldsPatientVisit.data,
@@ -199,5 +199,5 @@
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
- }
+ }   
  

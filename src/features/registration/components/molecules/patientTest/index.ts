@@ -1,2 +1,2 @@
-export * from './PanelListTable'
-export * from './ExtraDataPanelListTable'
+export * from './input/PanelListTable'
+export * from './input/ExtraDataPanelListTable'

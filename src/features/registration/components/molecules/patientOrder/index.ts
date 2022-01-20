@@ -1,2 +1,2 @@
-export * from './TableExtraDataPackages'
-export * from './TablePackagesList'
+export * from './input/TableExtraDataPackages'
+export * from './input/TablePackagesList'

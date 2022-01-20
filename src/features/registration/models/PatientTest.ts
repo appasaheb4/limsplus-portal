@@ -1,7 +1,7 @@
 export class PatientTest {
+  _id: string
     orderId: number
     labId: number
-    visitId: number
     patientName: string
     testId: number
     panelCode: any[]
@@ -11,9 +11,9 @@ export class PatientTest {
     lastUpdated: Date
   
     constructor(rawData: { [key in string]: any }) {
+      this._id = rawData._id
       this.testId = rawData.testId
       this.labId = rawData.labId
-      this.visitId = rawData.visitId
       this.patientName = rawData.patientName
       this.orderId = rawData.orderId
       this.panelCode = rawData.panelCode

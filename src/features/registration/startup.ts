@@ -17,7 +17,9 @@ const startup = async () => {
     stores.patientOrderStore.patientOrderService.sequencingOrderId()
 
     // patient test
-
+    stores.patientTestStore.patientTestService.listPatientTest({
+      documentType: "patientTest",
+    })
     stores.patientTestStore.patientTestService.sequencingTestId()
 
  
