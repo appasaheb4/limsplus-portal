@@ -15,6 +15,11 @@ const startup = async () => {
     documentType: "patientOrder",
   })
     stores.patientOrderStore.patientOrderService.sequencingOrderId()
+
+    // patient test
+
+    stores.patientTestStore.patientTestService.sequencingTestId()
+
  
 }  
 

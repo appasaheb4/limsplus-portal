@@ -21,7 +21,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
-import { PackagesList, ExtraDataPackagesList } from "../../components/molecules"
+import { PatientTestTable, ExtraDataPatientTestTable } from "../../components/molecules"
 
 interface PatientTestProps {
   onModalConfirm?: (item: any) => void
@@ -38,13 +38,14 @@ const PatientTest = PatientOrderHoc(
       routerStore,
       masterPanelStore,
     } = useStores()
-    
+
     const {
       control,
       handleSubmit,
       formState: { errors },
       setValue,
     } = useForm()
+
 
     setValue("orderId", patientOrderStore.patientOrder?.orderId)
     setValue("environment", patientOrderStore.patientOrder?.environment)
@@ -63,7 +64,7 @@ const PatientTest = PatientOrderHoc(
           input: {
             ...patientOrderStore.patientOrder,
             packageList,
-            documentType: "patientOrder",
+            documentType: "patientTest_TestId",
             __typename: undefined,
           },
         })
@@ -105,52 +106,97 @@ const PatientTest = PatientOrderHoc(
                 justify="stretch"
                 fill
               >
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Order Id"
-                      hasError={errors.orderId}
-                    >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder="Search by orderId or patient name"
-                        data={{
-                          list: patientOrderStore.listPatientOrder,
-                          displayKey: ["orderId", "patientName"],
-                        }}
+                {patientOrderStore.listPatientOrder &&
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.InputWrapper
+                        label="Order Id"
                         hasError={errors.orderId}
-                        onFilter={(value: string) => {
-                          patientOrderStore.patientOrderService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ["orderId", "patientName"],
-                                srText: value,
+                      >
+                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder="Search by orderId or patient name"
+                          data={{
+                            list: patientOrderStore.listPatientOrder,
+                            displayKey: ["orderId", "patientName"],
+                          }}
+                          hasError={errors.orderId}
+                          onFilter={(value: string) => {
+                            patientOrderStore.patientOrderService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ["orderId", "patientName"],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
                               },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.orderId)
-                          patientTestStore.updateTest({
-                            ...patientTestStore.patientTest,
-                            orderId: item.orderId,
-                            labId: item.labId,
-                            patientName: item.patientName,
-                          })
-                          patientOrderStore.updatePatientOrderList(
-                            patientVisitStore.listPatientVisitCopy
-                          )
-                        }}  
-                      />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="orderId"
-                  rules={{ required: true }}
-                  defaultValue=""
-                />
+                            })
+                          }}
+                          onSelect={(item) => {
+                            console.log({ item });
+                            onChange(item.orderId)
+                            patientTestStore.updateTest({
+                              ...patientTestStore.patientTest,
+                              orderId: item.orderId,
+                              labId: item.labId,
+                              patientName: item.patientName,
+                              panelCode: item.panelCode
+                            })
+                            patientOrderStore.updatePatientOrderList(
+                              patientOrderStore.listPatientOrderCopy
+                            )
+                            // get panelcode list
+                            patientTestStore.patientTestService.getPanelList({
+                              input: {
+                                filter:
+                                {  
+                                  panels: _.map(item.panelCode, (o) =>
+                                    _.pick(o, [
+                                      "panelCode",
+                                      "confidential"
+                                    ])
+                                  ),
+                                },
+                              }
+                            })
+                          }}
+                        />
+                      </LibraryComponents.Atoms.Form.InputWrapper>
+                    )}
+                    name="orderId"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
+                }
+                <LibraryComponents.Atoms.Form.InputWrapper label="Panels">
+                  <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
+                    <div className="flex flex-row gap-2 flex-wrap">
+                      {patientTestStore.patientTest?.panelCode?.map((item, index) => (
+                        <div className="mb-2" key={index}>
+                          <LibraryComponents.Atoms.Buttons.Button
+                            size="medium"
+                            type="solid"
+                          >
+                            {`${item.panelCode}`}
+                          </LibraryComponents.Atoms.Buttons.Button>
+                        </div>
+                      ))}
+                    </div>
+                  </LibraryComponents.Atoms.List>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+
+
+
+
+              </LibraryComponents.Atoms.List>
+              <LibraryComponents.Atoms.List
+                direction="col"
+                space={4}
+                justify="stretch"
+                fill
+              >
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -161,11 +207,12 @@ const PatientTest = PatientOrderHoc(
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by lab id, visit id or name"
+                        displayValue={`${patientTestStore.patientTest?.labId || ''} - ${patientTestStore.patientTest?.patientName || ''}`}
                         data={{
                           list: patientVisitStore.listPatientVisit,
                           displayKey: ["labId", "patientName"],
                         }}
-                        hasError={errors.visitId}
+                        hasError={errors.labId}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
@@ -180,8 +227,8 @@ const PatientTest = PatientOrderHoc(
                         }}
                         onSelect={(item) => {
                           onChange(item.visitId)
-                          patientOrderStore.updatePatientOrder({
-                            ...patientOrderStore.patientOrder,
+                          patientTestStore.updateTest({
+                            ...patientTestStore.patientTest,
                             visitId: item.visitId,
                             labId: item.labId,
                             patientName: item.patientName,
@@ -193,180 +240,44 @@ const PatientTest = PatientOrderHoc(
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
-                  name="visitId"
+                  name="labId"
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                {((patientOrderStore.selectedItems &&
-                  patientOrderStore.selectedItems?.panels &&
-                  patientOrderStore.selectedItems?.panels.length > 0) ||
-                  masterPanelStore.listMasterPanel) && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
-                        label="Panel"
-                        hasError={errors.panel}
-                      >
-                        <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder="Search by code or name"
-                          data={{
-                            list: masterPanelStore.listMasterPanel,
-                            selected: patientOrderStore.selectedItems?.panels,
-                            displayKey: ["panelCode", "panelName"],
-                          }}
-                          hasError={errors.panel}
-                          onUpdate={(item) => {
-                            const panels = patientOrderStore.selectedItems?.panels
-                            onChange(panels)
-                            patientOrderStore.updatePatientOrder({
-                              ...patientOrderStore.patientOrder,
-                              panelCode: _.map(panels, (o) =>
-                                _.pick(o, ["panelCode", "serviceType"])
-                              ),
-                            })
-                            masterPanelStore.updatePanelMasterList(
-                              masterPanelStore.listMasterPanelCopy
-                            )
-                            //get packages list
-                            patientOrderStore.patientOrderService.getPackageList({
-                              input: {
-                                filter: {
-                                  panel: _.map(panels, (o) =>
-                                    _.pick(o, [
-                                      "_id",
-                                      "department",
-                                      "section",
-                                      "bill",
-                                      "rLab",
-                                      "pLab",
-                                      "panelCode",
-                                      "panelName",
-                                      "serviceType",
-                                    ])
-                                  ),
-                                },
-                              },
-                            })
-                          }}
-                          onFilter={(value: string) => {
-                            masterPanelStore.masterPanelService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ["panelCode", "panelName"],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            })
-                          }}
-                          onSelect={(item) => {
-                            let panels = patientOrderStore.selectedItems?.panels
-                            console.log({ item, panels })
-                            if (!item.selected) {
-                              if (panels && panels.length > 0) {
-                                panels.push(item)
-                              } else panels = [item]
-                            } else {
-                              panels = panels.filter((items) => {
-                                return items._id !== item._id
-                              })
-                            }
-                            patientOrderStore.updateSelectedItems({
-                              ...patientOrderStore.selectedItems,
-                              panels,
-                              serviceTypes: _.union(_.map(panels, "serviceType")),
-                            })
-                          }}
-                        />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
-                    )}
-                    name="panel"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                )}
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
-                      label="Order Id"
+                      label="Test Id"
                       placeholder={
-                        errors.orderId ? "Please Enter order id" : "Order Id"
+                        errors.testId ? "Please enter test id" : "Test Id"
                       }
-                      hasError={errors.orderId}
+                      hasError={errors.testId}
                       disabled={true}
-                      value={patientOrderStore.patientOrder?.orderId}
-                      onChange={(orderId) => {
-                        onChange(orderId)
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          orderId,
+                      value={patientTestStore.patientTest?.testId}
+                      onChange={(testId) => {
+                        onChange(testId)
+                        patientTestStore.updateTest({
+                          ...patientTestStore.patientTest,
+                          testId,
                         })
                       }}
                     />
                   )}
-                  name="orderId"
+                  name="testId"
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                      <select
-                        value={patientOrderStore.patientOrder?.environment}
-                        disabled={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
-                            ? true
-                            : false
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const environment = e.target.value
-                          onChange(environment)
-                          patientOrderStore.updatePatientOrder({
-                            ...patientOrderStore.patientOrder,
-                            environment,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
-                          routerStore.lookupItems,
-                          "PATIENT ORDER - ENVIRONMENT"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="environment"
-                  rules={{ required: true }}
-                  defaultValue=""
-                />
+
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <div
               className="rounded-lg shadow-xl overflow-scroll mt-2"
               style={{ overflowX: "scroll" }}
             >
-              {patientOrderStore.packageList && (
-                <PackagesList data={patientOrderStore.packageList} />
-              )}
+              {/* {patientOrderStore.packageList && (
+                <PatientTestTable data={patientOrderStore.packageList} totalSize={0} />
+              )} */}
             </div>
           </div>
           <br />
@@ -382,11 +293,11 @@ const PatientTest = PatientOrderHoc(
                       className="rounded-lg shadow-xl overflow-scroll mt-2"
                       style={{ overflowX: "scroll" }}
                     >
-                      {patientOrderStore.packageList && (
-                        <ExtraDataPackagesList
+                      {/* {patientOrderStore.packageList && (
+                        <ExtraDataPatientTestTable
                           data={patientOrderStore.packageList}
                         />
-                      )}
+                      )} */}
                     </div>
                   </>
                 </AccordionItemPanel>
@@ -420,7 +331,7 @@ const PatientTest = PatientOrderHoc(
           className="p-2 rounded-lg shadow-xl overflow-scroll"
           style={{ overflowX: "scroll" }}
         >
-          <FeatureComponents.Molecules.PatientOrderList
+          {/* <FeatureComponents.Molecules.PatientOrderList
             data={patientOrderStore.listPatientOrder}
             totalSize={patientOrderStore.listPatientOrderCount}
             extraData={{
@@ -456,7 +367,7 @@ const PatientTest = PatientOrderHoc(
                 input: { type, filter, page, limit },
               })
             }}
-          />
+          /> */}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

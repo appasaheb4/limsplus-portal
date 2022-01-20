@@ -3,17 +3,17 @@ import { PatientTestService } from "../services"
 import * as Models from "../models"
   
 export class PatientTestStore {
-  patientTest!: Models.Test
-  listTest: Models.Test[] = []
-     listTestCount!: number
+  patientTest!: Models.PatientTest
+  patientListTest: Models.PatientTest[] = []
+  patientListTestCount!: number   
 //   checkExistsOrderId!: boolean
 //   selectedItems!: Models.SelectedItems
 //   packageList!: any
-
+  
   constructor() {
-    this.listTest = []
+    this.patientListTest = []
      //this.packageList = []
-     this.listTestCount = 0
+     this.patientListTestCount = 0
     // this.checkExistsOrderId = false
     // this.patientTest = {
     //   ...this.patientTest,
@@ -21,8 +21,8 @@ export class PatientTestStore {
 
     makeObservable<PatientTestStore, any>(this, {
       patientTest: observable,
-      listTest: observable,
-    //   listTestCount: observable,
+      patientListTest: observable,
+    //   patientListTestCount: observable,
     //   selectedItems: observable,
     //   packageList: observable,
 
@@ -41,19 +41,19 @@ export class PatientTestStore {
 
   updateTestList(res: any) {
     if (!res.patientTests.success) return alert(res.patientTests.message)
-    this.listTest = res.patientTests.data
-    this.listTestCount = res.patientTests.paginatorInfo.count
+    this.patientListTest = res.patientTests.data
+    this.patientListTestCount = res.patientTests.paginatorInfo.count
   }
     
   filterTestList(res: any) {
-    this.listTest = res.filterTest.data
-    this.listTestCount = res.filterTest.paginatorInfo.count
+    this.patientListTest = res.filterTest.data
+    this.patientListTestCount = res.filterTest.paginatorInfo.count
   }
 
-  updateTest(input: Models.Test) {
+  updateTest(input: Models.PatientTest) {
     this.patientTest = input
   }
-
+   
 //   updateExistsOrderId(flag: boolean) {
 //     this.checkExistsOrderId = flag
 //   }
@@ -62,7 +62,7 @@ export class PatientTestStore {
 //     this.selectedItems = res
 //   }
 
-//   updatePackageList(list: any[]) {
-//     this.packageList = list
+//   updatePackageList(patientList: any[]) {
+//     this.packageList = patientList
 //   }
 }

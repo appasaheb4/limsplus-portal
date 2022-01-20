@@ -18,12 +18,12 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import * as Config from "@lp/config"
-import { TableBootstrapExpandPackageList } from "./TableBootstrapExpandPackageList"
+import { ExpandPatientTestTestCode } from "./ExpandPatientTestTestCode"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-interface TableBootstrapExpandProps {
+interface ExpandPatientTestPanelCodeProps {
   id: string
   data: any
   totalSize?: number
@@ -35,14 +35,14 @@ interface TableBootstrapExpandProps {
   isDelete?: boolean
   isEditModify?: boolean
   isSelectRow?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  //onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
   clearAllFilter?: () => void
 }
-export const TableBootstrapExpand = ({
+export const ExpandPatientTestPanelCode = ({
   id,
   data,
   totalSize = 10,
@@ -58,7 +58,7 @@ export const TableBootstrapExpand = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
-}: TableBootstrapExpandProps) => {
+}: ExpandPatientTestPanelCodeProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
@@ -291,24 +291,10 @@ export const TableBootstrapExpand = ({
     }
   }
 
-  const handleOnExpand = (row, isExpand, rowIndex, e) => {
-    console.log({ row })
-
-    if (isExpand) {
-      // this.setState(() => ({
-      //   expanded: [...this.state.expanded, row.id]
-      // }));
-    } else {
-      // this.setState(() => ({
-      //   expanded: this.state.expanded.filter(x => x !== row.id)
-      // }));
-    }
-  }
-
   const expandRow = {
     renderer: (row) => (
       <div className="z-0">
-        <TableBootstrapExpandPackageList
+        <ExpandPatientTestTestCode
           id="_id"
           data={row.packageList}
           totalSize={row.packageList.length}
@@ -737,62 +723,7 @@ export const TableBootstrapExpand = ({
         >
           {(props) => (
             <div>
-              <div className="flex items-center">
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={(value) => {
-                    console.log({ value })
-                  }}
-                />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                {isFilterOpen ? (
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="medium"
-                    type="outline"
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen)
-                    }}
-                  >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
-                  </LibraryComponents.Atoms.Buttons.Button>
-                ) : (
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="medium"
-                    type="outline"
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen)
-                    }}
-                  >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
-                  </LibraryComponents.Atoms.Buttons.Button>
-                )}
-              </div>
-              {isFilterOpen && (
-                <div className={"mb-2 overflow-auto h-10"}>
-                  <CustomToggleList
-                    contextual="primary"
-                    className="list-custom-class"
-                    btnClassName="list-btn-custom-class"
-                    {...props.columnToggleProps}
-                  />
-                </div>
-              )}
+             
               <div className="scrollTable">
                 <BootstrapTable
                   remote
@@ -801,23 +732,6 @@ export const TableBootstrapExpand = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
-                  selectRow={
-                    isSelectRow
-                      ? {
-                          mode: "checkbox",
-                          onSelect: handleOnSelect,
-                          onSelectAll: handleOnSelectAll,
-                        }
-                      : undefined
-                  }
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: "dbclick",
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
                   headerClasses="bg-gray-500 text-white whitespace-nowrap z-0"
                   onTableChange={handleTableChange}
                   expandRow={expandRow}

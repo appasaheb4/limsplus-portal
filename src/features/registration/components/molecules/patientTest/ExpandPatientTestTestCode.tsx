@@ -22,7 +22,7 @@ import * as Config from "@lp/config"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-interface TableBootstrapExpandPackageListProps {
+interface ExpandPatientTestTestCodeProps {
   id: string
   data: any
   totalSize?: number
@@ -36,7 +36,7 @@ interface TableBootstrapExpandPackageListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
   clearAllFilter?: () => void
 }
-export const TableBootstrapExpandPackageList = ({
+export const ExpandPatientTestTestCode = ({
   id,
   data,
   totalSize = 10,
@@ -49,7 +49,7 @@ export const TableBootstrapExpandPackageList = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
-}: TableBootstrapExpandPackageListProps) => {
+}: ExpandPatientTestTestCodeProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
 
