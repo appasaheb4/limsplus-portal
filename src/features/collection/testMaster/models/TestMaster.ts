@@ -35,7 +35,8 @@ export class TestMaster {
     printLabel: boolean
     labelInstruction: string
     method: boolean
-    panelMethod: string
+    testMethodCode: string
+    testMethodName: string
     sampleRunOn: string
     workflow: string
     cumulative: boolean
@@ -94,8 +95,9 @@ export class TestMaster {
         this.cretical = rawData.cretical 
         this.repitation= rawData.repitation  
         this.sampleRunOn = rawData.sampleRunOn 
-        this.method = rawData.method 
-        this.panelMethod = rawData.panelMethod 
+        this.method = rawData.method   
+        this.testMethodCode = rawData.testMethodCode     
+        this.testMethodName = rawData.testMethodName
         this.speicalInstructions = rawData.speicalInstructions 
         this.disease = rawData.disease
         this.category = rawData.category 

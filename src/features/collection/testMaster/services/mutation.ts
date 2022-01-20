@@ -45,7 +45,8 @@ export const LIST = gql`
         printLabel
         labelInstruction
         method
-        panelMethod
+        testMethodCode
+        testMethodName
         sampleRunOn
         workflow
         cumulative
@@ -174,7 +175,8 @@ export const FILTER = gql`
         printLabel
         labelInstruction
         method
-        panelMethod
+        testMethodCode
+        testMethodName
         sampleRunOn
         workflow
         cumulative
@@ -249,7 +251,8 @@ export const FILTER_BY_FIELDS = gql`
         printLabel
         labelInstruction
         method
-        panelMethod
+        testMethodCode
+        testMethodName
         sampleRunOn
         workflow
         cumulative

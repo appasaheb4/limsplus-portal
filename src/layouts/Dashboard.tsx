@@ -97,15 +97,17 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testSampleMapping" ||
         pathname === "/collection/testAnalyteMapping" ||
         pathname === "/collection/testPanelMapping"
-      )
+      ){
         await TestMaster.startup()
+        await Methods.startup()
+      }
       if (
         pathname === "/collection/masterPanel" ||
         pathname === "/collection/testPanelMapping" ||
         pathname === "/collection/masterPackage" ||
         pathname === "/collection/library" ||
         pathname === "/collection/priceList"
-      ) {
+      ) {  
         await PanelMaster.startup()
         await Methods.startup()
       }
