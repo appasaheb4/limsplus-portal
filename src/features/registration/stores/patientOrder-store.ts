@@ -4,7 +4,8 @@ import * as Models from "../models"
 
 export class PatientOrderStore {
   patientOrder!: Models.PatientOrder
-  listPatientOrder: Models.PatientOrder[] = []
+  listPatientOrder: Models.PatientOrder[]
+   listPatientOrderCopy: Models.PatientOrder[]
   listPatientOrderCount!: number
   checkExistsOrderId!: boolean
   selectedItems!: Models.SelectedItems
@@ -12,6 +13,7 @@ export class PatientOrderStore {
 
   constructor() {
     this.listPatientOrder = []
+    this.listPatientOrderCopy = []
     this.packageList = []
     this.listPatientOrderCount = 0
     this.checkExistsOrderId = false
@@ -22,6 +24,7 @@ export class PatientOrderStore {
     makeObservable<PatientOrderStore, any>(this, {
       patientOrder: observable,
       listPatientOrder: observable,
+      listPatientOrderCopy: observable,
       listPatientOrderCount: observable,
       selectedItems: observable,
       packageList: observable,
@@ -43,6 +46,7 @@ export class PatientOrderStore {
     if(!Array.isArray(res)){
       if (!res.patientOrders.success) return alert(res.patientOrders.message)
       this.listPatientOrder = res.patientOrders.data
+      this.listPatientOrderCopy = res.patientOrders.data
       this.listPatientOrderCount = res.patientOrders.paginatorInfo.count
     }else{
       this.listPatientOrder = res

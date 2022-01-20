@@ -3,7 +3,7 @@ import React from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { TableBootstrapExpand } from "./TableBootstrapExpand"
+import { PatientOrderExpand } from "./PatientOrderExpand"
 
 import { NumberFilter } from "@lp/library/components/Organisms"
 
@@ -30,7 +30,7 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <TableBootstrapExpand
+        <PatientOrderExpand
           id="_id"
           data={props.data}
           totalSize={props.totalSize}

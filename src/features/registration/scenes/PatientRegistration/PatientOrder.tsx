@@ -21,7 +21,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
-import { PackagesList, ExtraDataPackagesList } from "../../components/molecules"
+import { TablePackagesList, TableExtraDataPackages } from "../../components/molecules"
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void
@@ -61,7 +61,7 @@ const PatientOrder = PatientOrderHoc(
             ...patientOrderStore.patientOrder,
             packageList,
             documentType: "patientOrder",
-            __typename: undefined,
+            __typename: undefined,  
           },
         })
         .then((res) => {
@@ -171,10 +171,12 @@ const PatientOrder = PatientOrderHoc(
                           onUpdate={(item) => {
                             const panels = patientOrderStore.selectedItems?.panels
                             onChange(panels)
+                            console.log({panels});
+                            
                             patientOrderStore.updatePatientOrder({
                               ...patientOrderStore.patientOrder,
                               panelCode: _.map(panels, (o) =>
-                                _.pick(o, ["panelCode", "serviceType"])
+                                _.pick(o, ["panelCode", "serviceType","confidential"])
                               ),
                             })
                             masterPanelStore.updatePanelMasterList(
@@ -195,6 +197,7 @@ const PatientOrder = PatientOrderHoc(
                                       "panelCode",
                                       "panelName",
                                       "serviceType",
+                                      "confidential"
                                     ])
                                   ),
                                 },
@@ -316,7 +319,7 @@ const PatientOrder = PatientOrderHoc(
               style={{ overflowX: "scroll" }}
             >
               {patientOrderStore.packageList && (
-                <PackagesList data={patientOrderStore.packageList} />
+                <TablePackagesList data={patientOrderStore.packageList} />
               )}
             </div>
           </div>
@@ -334,7 +337,7 @@ const PatientOrder = PatientOrderHoc(
                       style={{ overflowX: "scroll" }}
                     >
                       {patientOrderStore.packageList && (
-                        <ExtraDataPackagesList
+                        <TableExtraDataPackages
                           data={patientOrderStore.packageList}
                         />
                       )}

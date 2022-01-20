@@ -163,8 +163,8 @@ export class PatientOrderService {
         })  
         .then((response: any) => {     
           console.log({response});
-          // if (!response.data.filterByFieldsPatientOrder.success)
-          //    return this.listPatientOrder({ documentType: "patientOrder" })
+          if (!response.data.filterByFieldsPatientOrder.success)
+             return this.listPatientOrder({ documentType: "patientOrder" })
           stores.patientOrderStore.filterPatientOrderList({
             filterPatientOrder: {
               data: response.data.filterByFieldsPatientOrder.data,

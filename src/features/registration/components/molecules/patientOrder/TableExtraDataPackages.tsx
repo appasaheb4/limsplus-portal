@@ -7,12 +7,12 @@ import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import _ from "lodash"
 
-interface ExtraDataPackagesListProps {
+interface TableExtraDataPackagesProps {
   data: any
 }
 
-export const ExtraDataPackagesList = observer(
-  ({ data }: ExtraDataPackagesListProps) => {
+export const TableExtraDataPackages = observer(
+  ({ data }: TableExtraDataPackagesProps) => {
     const { patientOrderStore, routerStore } = useStores()
     const [packages, setPackages] = useState(data)
 
@@ -539,26 +539,23 @@ export const ExtraDataPackagesList = observer(
                   />
                 </td>
                 <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
-                    placeholder="Confidential"
-                    value={item?.extraData?.confidential}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(confidential) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                      pacakgeListS[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListS[index].extraData,
-                          confidential,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListS,
-                      })
-                    }}
-                  />
+                  <LibraryComponents.Atoms.Form.Toggle
+                      value={item?.extraData?.confidential}
+                      disabled={true}
+                      onChange={(confidential) => {
+                        const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                        pacakgeListS[index] = Object.assign(item, {
+                          extraData: {
+                            ...pacakgeListS[index].extraData,
+                            confidential,
+                          },
+                        })
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListS,
+                        })
+                      }}
+                    />
                 </td>
                 <td>
                   <LibraryComponents.Atoms.Form.Input
@@ -1118,26 +1115,24 @@ export const ExtraDataPackagesList = observer(
                   />
                 </td>
                 <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
-                    placeholder="Confidential"
-                    value={item?.extraData?.confidential}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(confidential) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
-                      pacakgeListM[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListM[index].extraData,
-                          confidential,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListM,
-                      })
-                    }}
-                  />
+
+                <LibraryComponents.Atoms.Form.Toggle
+                      value={item?.extraData?.confidential}
+                      disabled={true}
+                      onChange={(confidential) => {
+                        const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                        pacakgeListM[index] = Object.assign(item, {
+                          extraData: {
+                            ...pacakgeListM[index].extraData,
+                            confidential,
+                          },
+                        })
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListM,
+                        })
+                      }}
+                    />
                 </td>
                 <td>
                   <LibraryComponents.Atoms.Form.Input
@@ -1697,26 +1692,23 @@ export const ExtraDataPackagesList = observer(
                   />
                 </td>
                 <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
-                    placeholder="Confidential"
-                    value={item?.extraData?.confidential}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(confidential) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
-                      pacakgeListN[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListN[index].extraData,
-                          confidential,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListN,
-                      })
-                    }}
-                  />
+                <LibraryComponents.Atoms.Form.Toggle
+                      value={item?.extraData?.confidential}
+                      disabled={true}
+                      onChange={(confidential) => {
+                        const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                        pacakgeListN[index] = Object.assign(item, {
+                          extraData: {
+                            ...pacakgeListN[index].extraData,
+                            confidential,
+                          },
+                        })
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListN,
+                        })
+                      }}
+                    />
                 </td>
                 <td>
                   <LibraryComponents.Atoms.Form.Input
@@ -2276,26 +2268,25 @@ export const ExtraDataPackagesList = observer(
                   />
                 </td>
                 <td>
-                  <LibraryComponents.Atoms.Form.Input
-                    label=""
-                    placeholder="Confidential"
-                    value={item?.extraData?.confidential}
-                    style={{ width: 100 }}
-                    disabled={true}
-                    onChange={(confidential) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
-                      pacakgeListK[index] = Object.assign(item, {
-                        extraData: {
-                          ...pacakgeListK[index].extraData,
-                          confidential,
-                        },
-                      })
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListK,
-                      })
-                    }}
-                  />
+
+
+                <LibraryComponents.Atoms.Form.Toggle
+                      value={item?.extraData?.confidential}
+                      disabled={true}
+                      onChange={(confidential) => {
+                        const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                        pacakgeListK[index] = Object.assign(item, {
+                          extraData: {
+                            ...pacakgeListK[index].extraData,
+                            confidential,
+                          },
+                        })
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListK,
+                        })
+                      }}
+                      />
                 </td>
                 <td>
                   <LibraryComponents.Atoms.Form.Input

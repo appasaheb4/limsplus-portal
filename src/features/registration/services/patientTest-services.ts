@@ -13,10 +13,10 @@
    UPDATE_PATIENT_VISIT,
    CREATE_PATIENT_ORDER,
    FILTER_PATIENT_ORDER,
-   SEQUENCING_PATIENT_ORDER_ORDERID,
+   SEQUENCING_PATIENT_TEST_TESTID,
    CHECK_EXISTS_PATIENT,
    FILTER_BY_FIELDS_PATIENT_TEST,
-   GET_PACKAGES_LIST,
+   GET_PANEL_LIST,
  } from "./mutation-PT"
  import dayjs from "dayjs"
  import utc from "dayjs/plugin/utc"
@@ -109,27 +109,27 @@
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
- 
-   sequencingOrderId = () =>
+   
+   sequencingTestId = () =>
      new Promise<any>((resolve, reject) => {
        const variables = {
          input: {
            filter: {
-             _id: "patientOrder_OrderId",
+             _id: "patientTest_TestId",
              collectionName: "patientregistrations",
-             documentType: "patientOrder",
+             documentType: "patientTest",
            },
          },
        }
        client
          .mutate({
-           mutation: SEQUENCING_PATIENT_ORDER_ORDERID,
+           mutation: SEQUENCING_PATIENT_TEST_TESTID,
            variables,
          })
          .then((response: any) => {
-           stores.patientOrderStore.updatePatientOrder({
-             ...stores.patientOrderStore.patientOrder,
-             orderId: response.data.sequencing.data[0]?.seq + 1 || 1,
+           stores.patientTestStore.updateTest({
+             ...stores.patientTestStore.patientTest,
+             testId: response.data.sequencing.data[0]?.seq + 1 || 1,
            })
            resolve(response.data)
          })
@@ -137,7 +137,7 @@
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
- 
+   
    checkExistsPatient = (variables: any) =>
      new Promise<any>((resolve, reject) => {
        client
@@ -179,20 +179,20 @@
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
- 
-   getPackageList = (variables: any) =>
+   
+   getPanelList = (variables: any) =>
      new Promise<any>((resolve, reject) => {
        client
          .mutate({
-           mutation: GET_PACKAGES_LIST,
+           mutation: GET_PANEL_LIST,
            variables,
          })
          .then((response: any) => {
            console.log({ response })
  
-           stores.patientOrderStore.updatePackageList(
-             response.data.getPatientOrderPackagesList.packageList
-           )
+          //  stores.patientOrderStore.updatePackageList(
+          //    response.data.getPatientOrderPackagesList.packageList
+          //  )
            resolve(response.data)
          })
          .catch((error) =>

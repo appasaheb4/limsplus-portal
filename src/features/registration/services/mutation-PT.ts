@@ -169,7 +169,7 @@ export const FILTER_PATIENT_ORDER = gql`
   }
 `
 
-export const SEQUENCING_PATIENT_ORDER_ORDERID = gql`
+export const SEQUENCING_PATIENT_TEST_TESTID = gql`
   mutation($input: SequencingInput!) {
     sequencing(input: $input) {
       message
@@ -259,12 +259,12 @@ export const FILTER_BY_FIELDS_PATIENT_TEST = gql`
   }
 `
 
-export const GET_PACKAGES_LIST = gql`
-  mutation($input: PatientOrderInput!) {
-    getPatientOrderPackagesList(input: $input) {
+export const GET_PANEL_LIST = gql`
+  mutation($input: PatientTestInput!) {
+    getPatientTestPanelListByPanelCodes(input: $input) {
       success
       message
-      packageList
+      panelList
     }
   }
 `

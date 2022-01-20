@@ -7,13 +7,16 @@ import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import _ from "lodash"
 
-interface PackagesListProps {
+interface TablePackagesListProps {
   data: any
 }
 
-export const PackagesList = observer(({ data }: PackagesListProps) => {
+export const TablePackagesList = observer(({ data }: TablePackagesListProps) => {
   const { patientOrderStore, routerStore } = useStores()
   const [packages, setPackages] = useState(data)
+
+ 
+  
 
   useEffect(() => {
     const panelStatus = LibraryUtils.getDefaultLookupItem(
