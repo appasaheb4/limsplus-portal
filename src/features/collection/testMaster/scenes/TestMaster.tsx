@@ -23,7 +23,8 @@ const TestMater = TestMasterHOC(observer(() => {
     departmentStore,
     deliveryScheduleStore,
     routerStore,
-    loading
+    loading,
+    methodsStore
   } = useStores()
   const {
     control,
@@ -845,7 +846,54 @@ const TestMater = TestMasterHOC(observer(() => {
                   })
                 }}
               /> */}
-              <Controller
+
+<Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Test Method"
+                      hasError={errors.testMethod}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
+                        data={{
+                          list: methodsStore.listMethods,
+                          displayKey: ["methodsCode", "methodsName"],
+                        }}
+                        hasError={errors.testMethod}
+                        onFilter={(value: string) => {
+                          methodsStore.methodsService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["methodsCode", "methodsName"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.methodsCode)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            testMethodCode: item.methodsCode,
+                            testMethodName: item.methodsName,
+                          })
+                          methodsStore.updateMethodsList(
+                            methodsStore.listMethodsCopy
+                          )
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="testMethod"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+
+              {/* <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
@@ -869,7 +917,7 @@ const TestMater = TestMasterHOC(observer(() => {
                 name="panelMethod"
                 rules={{ required: false }}
                 defaultValue=""
-              />
+              /> */}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (

@@ -14,6 +14,7 @@ import {
   REMOVE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS
 } from "./mutation"
 
 class MethodsService {
@@ -113,6 +114,34 @@ class MethodsService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
+
+  filterByFields = (variables: any) =>
+  new Promise<any>((resolve, reject) => {
+    stores.uploadLoadingFlag(false)
+    client
+      .mutate({
+        mutation: FILTER_BY_FIELDS,
+        variables,
+      })
+      .then((response: any) => {
+        if (!response.data.filterByFieldsMethods.success)
+          return this.listMethods()
+        stores.methodsStore.filterMethodsList({
+          filterMethods: {
+            data: response.data.filterByFieldsMethods.data,
+            paginatorInfo: {
+              count: response.data.filterByFieldsMethods.paginatorInfo.count,
+            },
+          },
+        })
+        stores.uploadLoadingFlag(true)
+        resolve(response.data)
+      })
+      .catch((error) =>
+        reject(new ServiceResponse<any>(0, error.message, undefined))
+      )
+  })
 }
 
 export default MethodsService
