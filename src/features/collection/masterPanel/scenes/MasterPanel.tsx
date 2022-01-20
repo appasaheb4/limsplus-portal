@@ -433,6 +433,61 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 defaultValue=""
               />
 
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Panel Code"
+                    placeholder={
+                      errors.panelCode ? "Please Enter Panel  Code" : "Panel  Code"
+                    }
+                    hasError={errors.panelCode}
+                    value={masterPanelStore.masterPanel?.panelCode}
+                    onChange={(panelCode) => {
+                      onChange(panelCode)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        panelCode: panelCode.toUpperCase(),
+                      })
+                    }}
+                    onBlur={(code) => {
+                      
+                    }}
+                  />
+                )}
+                name="panelCode"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              {masterPanelStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Panel Name"
+                    placeholder={
+                      errors.panelName ? "Please Enter Panel  Name" : "Panel  Name"
+                    }
+                    hasError={errors.panelName}
+                    value={masterPanelStore.masterPanel?.panelName}
+                    onChange={(panelName) => {
+                      onChange(panelName)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        panelName: panelName.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="panelName"
+                rules={{ required: true }}
+                defaultValue=""
+              />
 
               <Controller
                 control={control}
@@ -496,27 +551,6 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         methodsStore.updateMethodsList(
                           methodsStore.listMethodsCopy
                         )
-
-                        if (!masterPanelStore.masterPanel?.existsVersionId) {
-                          masterPanelStore.masterPanelService
-                            .checkExitsLabEnvCode({
-                              input: {
-                                code:item.methodsCode,
-                                env: masterPanelStore.masterPanel?.environment,
-                                lab: masterPanelStore.masterPanel?.rLab,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkPanelMasterExistsRecord.success) {
-                                masterPanelStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
-                                })
-                              } else masterPanelStore.updateExistsLabEnvCode(false)
-                            })
-                        }
-
-
                       }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
