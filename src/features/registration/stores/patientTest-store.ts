@@ -47,8 +47,8 @@ export class PatientTestStore {
   }
     
   filterTestList(res: any) {
-    this.patientListTest = res.filterTest.data
-    this.patientListTestCount = res.filterTest.paginatorInfo.count
+    this.patientListTest = res.filterPatientTest.data
+    this.patientListTestCount = res.filterPatientTest.paginatorInfo.count
   }
 
   updateTest(input: Models.PatientTest) {

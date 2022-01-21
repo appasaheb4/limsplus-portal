@@ -349,14 +349,14 @@ const PatientTest = PatientOrderHoc(
               })
             }}
             onPageSizeChange={(page, limit) => {
-              patientOrderStore.patientOrderService.listPatientOrder(
-                { documentType: "patientOrder" },
+              patientTestStore.patientTestService.listPatientTest(
+                { documentType: "patientTest" },
                 page,
                 limit
               )
             }}
             onFilter={(type, filter, page, limit) => {
-              patientOrderStore.patientOrderService.filter({
+              patientTestStore.patientTestService.filter({
                 input: { type, filter, page, limit },
               })
             }}
@@ -366,18 +366,18 @@ const PatientTest = PatientOrderHoc(
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
-              patientOrderStore.patientOrderService
-                .deletePatientOrder({ input: { id: modalConfirm.id } })
+              patientTestStore.patientTestService
+                .deletePatientTest({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.removePatientOrder.success) {
+                  if (res.removePatientTest.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.removePatientOrder.message}`,
-                    })
+                      message: `😊 ${res.removePatientTest.message}`,
+                    }) 
                     setModalConfirm({ show: false })
-                    patientOrderStore.patientOrderService.listPatientOrder({
-                      documentType: "patientOrder",
+                    patientTestStore.patientTestService.listPatientTest({
+                      documentType: "patientTest",
                     })
-                  }
+                  }  
                 })
             }
           }}
