@@ -145,7 +145,16 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 type: "Update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
-                body: `Update lab!`,
+                body: `Update record!`,
+              })
+            }}
+            onUpdateFileds={(fileds:any,id: string)=>{
+              setModalConfirm({
+                show: true,
+                type: "UpdateFileds",
+                data: { fileds, id },
+                title: "Are you sure?",
+                body: `Update records!`,
               })
             }}
             onVersionUpgrade={(item) => {
@@ -1598,7 +1607,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 })
             } else if (type === "Update") {
               masterPanelStore.masterPanelService
-                .updateSingleFiled({
+                .updateFileds({
                   input: {
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
@@ -1613,7 +1622,26 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                     masterPanelStore.fetchPanelMaster()
                   }
                 })
-            } else if (type === "versionUpgrade") {
+            }else if(type === 'UpdateFileds'){
+              masterPanelStore.masterPanelService
+              .updateFileds({
+                input: {
+                  ...modalConfirm.data.fileds,
+                  _id: modalConfirm.data.id,
+                },
+              })
+              .then((res: any) => {
+                if (res.updatePanelMaster.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updatePanelMaster.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  masterPanelStore.fetchPanelMaster()
+                }
+              })
+            }
+            
+            else if (type === "versionUpgrade") {
               masterPanelStore.updateMasterPanel({
                 ...modalConfirm.data,
                 _id: undefined,
