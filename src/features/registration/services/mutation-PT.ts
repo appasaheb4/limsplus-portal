@@ -33,9 +33,9 @@ export const CREATE_PATIENT_TEST = gql`
   }
 `
 
-export const REMOVE_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderRemoveInput!) {
-    removePatientOrder(input: $input) {
+export const REMOVE_PATIENT_TEST = gql`
+  mutation($input: PatientTestRemoveInput!) {
+    removePatientTest(input: $input) {
       success
       message
     }
@@ -51,9 +51,9 @@ export const UPDATE_PATIENT_VISIT = gql`
   }
 `
 
-export const FILTER_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderInput!) {
-    filterPatientOrder(input: $input) {
+export const FILTER_PATIENT_TEST = gql`
+  mutation($input: PatientTestInput!) {
+    filterPatientTest(input: $input) {
       paginatorInfo {
         count
       }

@@ -9,10 +9,10 @@
  import { stores } from "@lp/stores"
  import {
   LIST_PATIENT_TEST,
-   REMOVE_PATIENT_ORDER,
+  REMOVE_PATIENT_TEST,
    UPDATE_PATIENT_VISIT,
    CREATE_PATIENT_TEST,
-   FILTER_PATIENT_ORDER,
+   FILTER_PATIENT_TEST,
    SEQUENCING_PATIENT_TEST_TESTID,
    CHECK_EXISTS_PATIENT,
    FILTER_BY_FIELDS_PATIENT_TEST,
@@ -57,12 +57,12 @@
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
- 
-   deletePatientOrder = (variables: any) =>
+    
+   deletePatientTest = (variables: any) =>
      new Promise<any>((resolve, reject) => {
        client
          .mutate({
-           mutation: REMOVE_PATIENT_ORDER,
+           mutation: REMOVE_PATIENT_TEST,
            variables,
          })
          .then((response: any) => {
@@ -72,7 +72,7 @@
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
- 
+     
    updateSingleFiled = (variables: any) =>
      new Promise<any>((resolve, reject) => {
        console.log({ variables })
@@ -89,19 +89,19 @@
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
- 
+    
    filter = (variables: any) =>
      new Promise<any>((resolve, reject) => {
        stores.uploadLoadingFlag(false)
        client
          .mutate({
-           mutation: FILTER_PATIENT_ORDER,
+           mutation: FILTER_PATIENT_TEST,
            variables,   
          })
          .then((response: any) => {
-           if (!response.data.filterPatientOrder.success)
+           if (!response.data.filterPatientTest.success)
              return this.listPatientTest({ documentType: "patientTest" })
-           stores.patientOrderStore.filterPatientOrderList(response.data)
+           stores.patientTestStore.filterTestList(response.data)
            stores.uploadLoadingFlag(true)
            resolve(response.data)
          })
