@@ -149,6 +149,15 @@ const TestMater = TestMasterHOC(observer(() => {
                 body: `Update lab!`,
               })
             }}
+            onUpdateFileds={(fileds:any,id: string)=>{
+              setModalConfirm({
+                show: true,
+                type: "UpdateFileds",
+                data: { fileds, id },
+                title: "Are you sure?",
+                body: `Update records!`,
+              })
+            }}
             onVersionUpgrade={(item) => {
               setModalConfirm({
                 show: true,
@@ -1832,12 +1841,12 @@ const TestMater = TestMasterHOC(observer(() => {
                 })
             } else if (type === "Update") {
               testMasterStore.testMasterService
-                .updateSingleFiled({
+                .updateFileds({
                   input: {
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
                   },
-                })
+                }) 
                 .then((res: any) => {
                   if (res.updateTestMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
@@ -1847,7 +1856,25 @@ const TestMater = TestMasterHOC(observer(() => {
                     testMasterStore.fetchTestMaster()
                   }
                 })
-            } else if (type === "versionUpgrade") {
+          }else if(type === 'UpdateFileds'){
+            testMasterStore.testMasterService
+            .updateFileds({
+              input: {
+                ...modalConfirm.data.fileds,
+                _id: modalConfirm.data.id,
+              },
+            })
+            .then((res: any) => {
+              if (res.updateTestMaster.success) {
+                LibraryComponents.Atoms.Toast.success({
+                  message: `😊 ${res.updateTestMaster.message}`,
+                })
+                setModalConfirm({ show: false })
+                testMasterStore.fetchTestMaster()
+              }
+            })
+          }
+            else if (type === "versionUpgrade") {
               testMasterStore.updateTestMaster({
                 ...modalConfirm.data,
                 _id: undefined,

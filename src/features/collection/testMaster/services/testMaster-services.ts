@@ -103,7 +103,7 @@ class TestMasterService {
         )
     })
 
-  updateSingleFiled = (variables: any) =>
+  updateFileds = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({

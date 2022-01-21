@@ -60,6 +60,7 @@ interface TestMasterProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?:(fileds:any,id:string)=>void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -892,7 +893,7 @@ const TestMasterList = (props: TestMasterProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectTestMethod
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.methodsCode,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({testMethodCode:item.methodsCode,testMethodName:item.methodsName},row._id)
                   }}
                   />
                 </>
@@ -920,7 +921,7 @@ const TestMasterList = (props: TestMasterProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectTestMethod
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.methodsName,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({testMethodCode:item.methodsCode,testMethodName:item.methodsName},row._id)
                   }}
                   />
                 </>

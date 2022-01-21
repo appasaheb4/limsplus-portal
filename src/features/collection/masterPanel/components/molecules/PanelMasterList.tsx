@@ -56,6 +56,7 @@ interface PanelMasterListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?:(fileds:any,id:string)=>void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -326,7 +327,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectPanelMethod
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.methodsCode,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({panelMethodCode:item.methodsCode,panelMethodName:item.methodsName},row._id)
                   }}
                   />
                 </>
@@ -354,7 +355,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectPanelMethod
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.methodsName,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({panelMethodCode:item.methodsCode,panelMethodName:item.methodsName},row._id)
                   }}
                   />
                 </>
