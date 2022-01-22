@@ -1,5 +1,4 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import dayjs from "dayjs"
 import { PatientManagerService } from "../services"
 import * as Models from "../models"
 
@@ -17,7 +16,6 @@ export class PatientManagerStore {
     this.checkExistsPatient = false
     this.patientManger = {
       ...this.patientManger,
-      birthDate: new Date(dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD")),
     }
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,

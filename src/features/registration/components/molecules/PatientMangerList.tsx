@@ -164,7 +164,7 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
                     value={new Date(row.birthDate)}
-                    onChange={(birthDate) => {
+                    onFocusRemove={(birthDate) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(birthDate, column.dataField, row._id)
                     }}
