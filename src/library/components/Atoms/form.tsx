@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect,useRef } from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import "./css/toggle.css"
@@ -34,10 +34,11 @@ interface InputWrapperProps {
   className?: string
   hasError?: boolean
   style?: any
+  ref?: any;
 }
 
 export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
-  <div className={props.className}>
+  <div className={props.className} ref={props.ref}>
     <Label
       htmlFor={props.id || ""}
       hasError={props.hasError}
@@ -146,6 +147,7 @@ interface InputDateProps extends InputWrapperProps {
   disabled?: boolean
   hasError?: boolean
   onChange?: (e: any) => void
+  onFocusRemove?: (date: any) => void
 }
 
 export const InputDate = (props: InputDateProps) => (
@@ -165,18 +167,29 @@ export const InputDate = (props: InputDateProps) => (
 )
 
 export const InputDateTime = (props: InputDateProps) => {
+  const [date,setDate] = useState(props.value);
+
   return (
-    <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
+    <InputWrapper label={props.label} id={props.id} hasError={props.hasError} >
       <div style={props.style}>
-        <DateTimePicker
+        <DateTimePicker  
           disabled={props.disabled}
-          onChange={(value) => props.onChange && props.onChange(value)}
+          onChange={(value) =>{
+            setDate(value)
+            props.onChange && props.onChange(value)
+          }}
+          onCalendarClose={()=>{
+           if(props.value !== date)  props.onFocusRemove && props.onFocusRemove(date)
+          }}
+          onClockClose={()=>{
+            if(props.value !== date)  props.onFocusRemove && props.onFocusRemove(date)
+          }}
           value={props.value}
           amPmAriaLabel="AM/PM"
           format="dd-MM-yyyy hh:mm:ss a"
           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
             props.hasError ? "border-red-500 " : "border-gray-300"
-          } rounded-md`}
+          } rounded-md `}
         />
       </div>
     </InputWrapper>

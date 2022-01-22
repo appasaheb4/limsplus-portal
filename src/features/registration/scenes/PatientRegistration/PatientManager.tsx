@@ -206,7 +206,7 @@ const PatientManager = PatientManagerHoc(
                     />
                   )}
                   name="birthDate"
-                  rules={{ required: false }}
+                  rules={{ required: true }}
                   defaultValue=""
                 />
                 <Controller
