@@ -47,14 +47,6 @@ const PatientVisit = PatientVisitHoc(
       clearErrors,
     } = useForm()
      
-    useEffect(()=>{
-      if (
-        appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !== "no"
-      ){
-        setValue("labId", patientVisitStore.patientVisit.labId)
-        clearErrors("labId")
-      }
-    },[patientVisitStore.patientVisit.labId])
          
     //console.log({ appStore })
     const [modalConfirm, setModalConfirm] = useState<any>()
@@ -180,10 +172,11 @@ const PatientVisit = PatientVisitHoc(
                           })
                       }}
                     />
-                  )}
+                  )}   
                   name="labId"
-                  rules={{
-                    required: true,
+                  rules={{  
+                    required: appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+                    "no" ? false : true,
                     minLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
                     maxLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
                   }}
