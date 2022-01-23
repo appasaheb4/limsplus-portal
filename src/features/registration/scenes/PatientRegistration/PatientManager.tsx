@@ -1260,6 +1260,7 @@ const PatientManager = PatientManagerHoc(
                                       ...patientManagerStore.patientManger
                                         ?.extraData,
                                       isMobileAndWhatsApp,
+                                      whatsappNumber: isMobileAndWhatsApp ? patientManagerStore.patientManger.mobileNo : ''
                                     },
                                   })
                                 }}

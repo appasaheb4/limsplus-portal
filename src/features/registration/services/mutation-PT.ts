@@ -8,18 +8,7 @@ export const LIST_PATIENT_TEST = gql`
       }
       success
       message
-      data {
-        _id
-        orderId
-        labId
-        patientName
-        testId
-        panelCode
-        panelList
-        documentType
-        dateOfEntry
-        lastUpdated
-      }
+      panelTestList
     }
   }
 `
@@ -59,18 +48,7 @@ export const FILTER_PATIENT_TEST = gql`
       }
       success
       message
-      data {
-        _id
-        orderId
-        labId
-        patientName
-        testId
-        panelCode
-        panelList
-        documentType
-        dateOfEntry
-        lastUpdated
-      }
+      panelTestList
     }
   }
 `
@@ -102,18 +80,7 @@ export const FILTER_BY_FIELDS_PATIENT_TEST = gql`
       }  
       success
       message
-      data {
-        _id
-        orderId
-        labId
-        patientName
-        testId
-        panelCode
-        panelList
-        documentType
-        dateOfEntry
-        lastUpdated
-      }
+      panelTestList
     }
   }
 `
@@ -123,7 +90,7 @@ export const GET_PANEL_LIST = gql`
     getPatientTestPanelListByPanelCodes(input: $input) {
       success
       message
-      panelList
+      panelTestList
     }
   }
 `

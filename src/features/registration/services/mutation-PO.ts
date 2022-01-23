@@ -179,9 +179,9 @@ export const SEQUENCING_PATIENT_ORDER_ORDERID = gql`
   }
 `
 
-export const CHECK_EXISTS_PATIENT = gql`
-  mutation($input: PatientManagerInput!) {
-    checkExistsPatientManager(input: $input) {
+export const CHECK_EXISTS_PATIENT_ORDER = gql`
+  mutation($input: PatientOrderInput!) {
+    checkExistsRecordsPatientOrder(input: $input) {
       success
       message
     }

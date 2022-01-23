@@ -79,27 +79,6 @@ export const PatientTestExpandPanel = ({
     onSizePerPageChange,
   }) => (
     <div className="btn-group items-center" role="group">
-      {isSelectRow && (
-        <LibraryComponents.Atoms.Buttons.Button
-          style={{ height: 10, width: 200 }}
-          size="small"
-          type="solid"
-          onClick={() => {
-            if (selectedRow) {
-              onSelectedRow && onSelectedRow(selectedRow)
-            } else {
-              alert("Please select any item.")
-            }
-          }}
-        >
-          <LibraryComponents.Atoms.Icon.EvaIcon
-            icon="trash-outline"
-            size="large"
-            color={Config.Styles.COLORS.BLACK}
-          />
-          Remove Selected
-        </LibraryComponents.Atoms.Buttons.Button>
-      )}
       <input
         type="number"
         min="0"
@@ -276,29 +255,14 @@ export const PatientTestExpandPanel = ({
     </div>
   )
 
-  
-
-  const handleOnExpand = (row, isExpand, rowIndex, e) => {
-    console.log({ row })
-
-    if (isExpand) {
-      // this.setState(() => ({
-      //   expanded: [...this.state.expanded, row.id]
-      // }));
-    } else {
-      // this.setState(() => ({
-      //   expanded: this.state.expanded.filter(x => x !== row.id)
-      // }));
-    }
-  }
 
   const expandRow = {
     renderer: (row) => (
       <div className="z-0">
         <PatientTestExpandByTestId
           id="_id"
-          data={row.panelList}
-          totalSize={row.panelList.length}
+          data={row.panelMasterList||[]}
+          totalSize={row.panelMasterList?.length}
           columns={[
             {
               dataField: "panelCode",
@@ -414,15 +378,15 @@ export const PatientTestExpandPanel = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
-                  selectRow={
-                    isSelectRow
-                      ? {
-                          mode: "checkbox",
-                          onSelect: handleOnSelect,
-                          onSelectAll: handleOnSelectAll,
-                        }
-                      : undefined
-                  }
+                  // selectRow={
+                  //   isSelectRow
+                  //     ? {
+                  //         mode: "checkbox",
+                  //         onSelect: handleOnSelect,
+                  //         onSelectAll: handleOnSelectAll,
+                  //       }
+                  //     : undefined
+                  // }
                   cellEdit={
                     isEditModify
                       ? cellEditFactory({

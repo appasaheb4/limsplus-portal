@@ -254,8 +254,8 @@ export const PatientTestExpandByTestId = ({
       <div className="z-0">
         <PatientTestExpandExtraData
           id="_id"
-          data={row.testMasterList}
-          totalSize={row.testMasterList.length}
+          data={row.testMasterList ||[]}
+          totalSize={row.testMasterList?.length}
           columns={[
             {
               dataField: "testCode",

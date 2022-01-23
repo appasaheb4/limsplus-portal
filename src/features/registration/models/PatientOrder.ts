@@ -3,6 +3,7 @@ export class PatientOrder {
   orderId: number
   labId: number
   visitId: string
+  rLab:string
   patientName: string
   panelCode: any[]
   packageList: [
@@ -64,6 +65,7 @@ export class PatientOrder {
     this.orderId = rawData.orderId
     this.labId = rawData.labId
     this.visitId = rawData.visitId
+    this.rLab = rawData.rLab
     this.patientName = rawData.patientName
     this.panelCode = rawData.panelCode
     this.packageList = rawData.packageList
