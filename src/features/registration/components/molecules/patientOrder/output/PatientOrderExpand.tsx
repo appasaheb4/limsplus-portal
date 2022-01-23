@@ -347,6 +347,13 @@ export const PatientOrderExpand = ({
             {
               dataField: "section",
               text: "Section",
+              formatter: (cellContent, row) => (
+                <>
+                  <span>
+                    {row.section?.code ||''}
+                  </span>
+                </>
+              ),
             },
             {
               dataField: "pLab",
