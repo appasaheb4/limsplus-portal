@@ -159,8 +159,10 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/possibleResults") await PossibleResults.startup()
       if (pathname === "/collection/library") await Library.startup()
       if (pathname === "/collection/priceList") await PriceList.startup()
-      if (pathname === "/collection/referenceRanges") await ReferenceRanges.startup()
-
+      if (pathname === "/collection/referenceRanges"){
+        await ReferenceRanges.startup()
+        await InterfaceManager.startup()
+      }  
       if (pathname === "/settings/environment") await Environment.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
       if (pathname === "/communication/interfaceManager")
