@@ -198,7 +198,7 @@ const PatientOrder = PatientOrderHoc(
                             loader={loading}
                             placeholder="Search by code or name"
                             data={{
-                              list: masterPanelStore.listMasterPanel.filter((item)=> item.rLab === patientOrderStore.patientOrder.rLab),
+                              list: masterPanelStore.listMasterPanel.filter((item)=> item.rLab === patientOrderStore.patientOrder?.rLab),
                               selected: patientOrderStore.selectedItems?.panels,
                               displayKey: ["panelCode", "panelName"],
                             }}   

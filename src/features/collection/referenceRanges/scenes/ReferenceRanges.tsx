@@ -2,16 +2,15 @@
 import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectAnalyteCode,AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
-
+   
 import {ReferenceRangesHoc} from "../hoc"
 import { useStores } from "@lp/stores"
-
+   
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -26,6 +25,7 @@ const ReferenceRanges = ReferenceRangesHoc(observer(() => {
     routerStore,
     loading
   } = useStores()
+  
   const {
     control,
     handleSubmit,
@@ -33,6 +33,7 @@ const ReferenceRanges = ReferenceRangesHoc(observer(() => {
     setValue,
     clearErrors,
   } = useForm()
+
   setValue("lab", loginStore.login.lab)
   setValue("environment", loginStore.login.environment)
   setValue("status", refernceRangesStore.referenceRanges?.status)
