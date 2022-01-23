@@ -137,6 +137,8 @@ const PatientOrder = PatientOrderHoc(
                           })
                         }}
                         onSelect={(item) => {
+                          console.log({item});
+                          
                           onChange(item.visitId)
                           patientOrderStore.updatePatientOrder({
                             ...patientOrderStore.patientOrder,
