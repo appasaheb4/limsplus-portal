@@ -38,7 +38,7 @@ export class PatientTestStore {
 
   get patientTestService() {
     return new PatientTestService()
-  }
+  }  
 
   updateTestList(res: any) {
     if (!res.patientTests.success) return alert(res.patientTests.message)
@@ -47,6 +47,8 @@ export class PatientTestStore {
   }  
        
   filterTestList(res: any) {
+    console.log({res});
+    
     this.patientListTest = res.filterPatientTest.panelTestList
     this.patientListTestCount = res.filterPatientTest.paginatorInfo.count
   }
