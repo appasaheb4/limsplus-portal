@@ -46,7 +46,7 @@ const PatientVisit = PatientVisitHoc(
       setValue,
       clearErrors,
     } = useForm()
-   
+     
     useEffect(()=>{
       if (
         appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !== "no"
