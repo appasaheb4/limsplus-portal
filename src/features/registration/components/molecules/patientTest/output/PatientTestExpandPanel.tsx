@@ -397,7 +397,7 @@ export const PatientTestExpandPanel = ({
                   }
                   headerClasses="bg-gray-500 text-white whitespace-nowrap z-0"
                   onTableChange={handleTableChange}
-                  expandRow={expandRow}
+                  //expandRow={expandRow}
                 />
               </div>
               <div className="flex items-center gap-2 mt-2">

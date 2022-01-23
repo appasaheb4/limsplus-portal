@@ -3,7 +3,7 @@ export class PatientVisit {
   patientName: string
   rLab: string
   visitId: string
-  labId: number | string | undefined
+  labId: number | string
   visitDate: Date
   registrationDate: Date
   collectionDate: Date

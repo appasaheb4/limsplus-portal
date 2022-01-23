@@ -14,8 +14,8 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         routerStore,
         environmentStore,
         appStore,
-      } = useStores()
-      let labId: any
+      } = useStores()  
+      let labId: any = parseFloat(LibraryUtils.uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4))
       useMemo(() => {
         labId = parseFloat(
           LibraryUtils.uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4)
@@ -30,7 +30,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
               environment: loginStore.login.environment,
             },
           })
-        }
+        }  
         patientVisitStore.updatePatientVisit({
           ...patientVisitStore.patientVisit,
           rLab: loginStore.login.lab,
