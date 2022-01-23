@@ -14,7 +14,7 @@ import {
   CREATE_PATIENT_ORDER,
   FILTER_PATIENT_ORDER,
   SEQUENCING_PATIENT_ORDER_ORDERID,
-  CHECK_EXISTS_PATIENT,
+  CHECK_EXISTS_PATIENT_ORDER,
   FILTER_BY_FIELDS_PATIENT_ORDER,
   GET_PACKAGES_LIST,
 } from "./mutation-PO"
@@ -138,11 +138,11 @@ export class PatientOrderService {
         )
     })
 
-  checkExistsPatient = (variables: any) =>
+  checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: CHECK_EXISTS_PATIENT,
+          mutation: CHECK_EXISTS_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {

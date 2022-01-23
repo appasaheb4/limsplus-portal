@@ -99,15 +99,15 @@
          .then((response: any) => {
            if (!response.data.filterPatientTest.success)
              return this.listPatientTest({ documentType: "patientTest" })
-           stores.patientTestStore.filterTestList(response.data)
+          stores.patientTestStore.filterTestList(response.data)
            stores.uploadLoadingFlag(true)
            resolve(response.data)
-         })
+         })  
          .catch((error) =>
            reject(new ServiceResponse<any>(0, error.message, undefined))
          )
      })
-   
+     
    sequencingTestId = () =>
      new Promise<any>((resolve, reject) => {
        const variables = {

@@ -73,7 +73,7 @@ const PatientTest = PatientOrderHoc(
     }
     return (
       <>
-        {patientOrderStore.patientOrder?.labId && (
+        {/* {patientOrderStore.patientOrder?.labId && (
           <LibraryComponents.Atoms.Heading
             title={`${patientOrderStore.patientOrder.labId} - ${patientOrderStore.patientOrder.patientName}`}
           />
@@ -84,10 +84,10 @@ const PatientTest = PatientOrderHoc(
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
           />
-        )}
+        )} */}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputView ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "hidden")
           }
         >
           <div className="p-2 rounded-lg shadow-xl">

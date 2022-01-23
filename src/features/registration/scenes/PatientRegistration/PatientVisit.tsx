@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, {  useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
@@ -46,13 +46,17 @@ const PatientVisit = PatientVisitHoc(
       setValue,
       clearErrors,
     } = useForm()
-    if (
-      appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !== "no"
-    )
-      setValue("labId", patientVisitStore.patientVisit.labId)
-
+   
+    useEffect(()=>{
+      if (
+        appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !== "no"
+      ){
+        setValue("labId", patientVisitStore.patientVisit.labId)
+        clearErrors("labId")
+      }
+    },[patientVisitStore.patientVisit.labId])
+         
     //console.log({ appStore })
-
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputView, setHideInputView] = useState<boolean>(true)
 

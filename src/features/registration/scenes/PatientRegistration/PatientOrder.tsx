@@ -49,31 +49,38 @@ const PatientOrder = PatientOrderHoc(
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputView, setHideInputView] = useState<boolean>(true)
     const onSubmitPatientOrder = () => {
-      const packageList = [
-        ...patientOrderStore.packageList.pacakgeListS,
-        ...patientOrderStore.packageList.pacakgeListM,
-        ...patientOrderStore.packageList.pacakgeListN,
-        ...patientOrderStore.packageList.pacakgeListK,
-      ]
-      patientOrderStore.patientOrderService
-        .addPatientOrder({
-          input: {
-            ...patientOrderStore.patientOrder,
-            packageList,
-            documentType: "patientOrder",
-            __typename: undefined,  
-          },
-        })
-        .then((res) => {
-          if (res.createPatientOrder.success) {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 ${res.createPatientOrder.message}`,
-            })
-          }
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
-        })
+      if(!patientOrderStore.checkExistsRecord){
+        const packageList = [
+          ...patientOrderStore.packageList.pacakgeListS,
+          ...patientOrderStore.packageList.pacakgeListM,
+          ...patientOrderStore.packageList.pacakgeListN,
+          ...patientOrderStore.packageList.pacakgeListK,
+        ]
+        patientOrderStore.patientOrderService
+          .addPatientOrder({
+            input: {
+              ...patientOrderStore.patientOrder,
+              packageList,
+              documentType: "patientOrder",
+              __typename: undefined,
+            },
+          })
+          .then((res) => {
+            if (res.createPatientOrder.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createPatientOrder.message}`,
+              })
+            }
+            setTimeout(() => {
+              window.location.reload()
+            }, 1000)
+          })
+        } else {  
+          LibraryComponents.Atoms.Toast.warning({
+            message: `😔 Please select different lab id`,
+          })
+        }
+    
     }
     return (
       <>
@@ -135,11 +142,32 @@ const PatientOrder = PatientOrderHoc(
                             ...patientOrderStore.patientOrder,
                             visitId: item.visitId,
                             labId: item.labId,
+                            rLab: item.rLab,
                             patientName: item.patientName,
                           })
                           patientVisitStore.updatePatientVisitList(
                             patientVisitStore.listPatientVisitCopy
                           )
+                          if(item.labId)
+                          patientOrderStore.patientOrderService
+                          .checkExistsRecords({
+                            input: {
+                              filter:{
+                                fildes:{
+                                  labId: item.labId,
+                                  documentType: 'patientOrder'
+                                }
+                              }
+                            },
+                          })
+                          .then((res) => {
+                            if (res.checkExistsRecordsPatientOrder.success) {
+                              patientOrderStore.updateExistsRecords(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
+                              })
+                            } else patientOrderStore.updateExistsRecords(false)
+                          })
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -148,100 +176,107 @@ const PatientOrder = PatientOrderHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
+                 {patientOrderStore.checkExistsRecord && (
+                  <span className="text-red-600 font-medium relative">
+                    Lab Id already exits. Please use other lab id.
+                  </span>
+                )}
                 {((patientOrderStore.selectedItems &&
                   patientOrderStore.selectedItems?.panels &&
                   patientOrderStore.selectedItems?.panels.length > 0) ||
                   masterPanelStore.listMasterPanel) && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
-                        label="Panel"
-                        hasError={errors.panel}
-                      >
-                        <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder="Search by code or name"
-                          data={{
-                            list: masterPanelStore.listMasterPanel,
-                            selected: patientOrderStore.selectedItems?.panels,
-                            displayKey: ["panelCode", "panelName"],
-                          }}
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.InputWrapper
+                          label="Panel"
                           hasError={errors.panel}
-                          onUpdate={(item) => {
-                            const panels = patientOrderStore.selectedItems?.panels
-                            onChange(panels)
-                            console.log({panels});
-                            
-                            patientOrderStore.updatePatientOrder({
-                              ...patientOrderStore.patientOrder,
-                              panelCode: _.map(panels, (o) =>
-                                _.pick(o, ["panelCode", "serviceType","confidential"])
-                              ),
-                            })
-                            masterPanelStore.updatePanelMasterList(
-                              masterPanelStore.listMasterPanelCopy
-                            )
-                            //get packages list
-                            patientOrderStore.patientOrderService.getPackageList({
-                              input: {
-                                filter: {
-                                  panel: _.map(panels, (o) =>
-                                    _.pick(o, [
-                                      "_id",
-                                      "department",
-                                      "section",
-                                      "bill",
-                                      "rLab",
-                                      "pLab",
-                                      "panelCode",
-                                      "panelName",
-                                      "serviceType",
-                                      "confidential"
-                                    ])
-                                  ),
-                                },
-                              },
-                            })
-                          }}
-                          onFilter={(value: string) => {
-                            masterPanelStore.masterPanelService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ["panelCode", "panelName"],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            })
-                          }}
-                          onSelect={(item) => {
-                            let panels = patientOrderStore.selectedItems?.panels
-                            console.log({ item, panels })
-                            if (!item.selected) {
-                              if (panels && panels.length > 0) {
-                                panels.push(item)
-                              } else panels = [item]
-                            } else {
-                              panels = panels.filter((items) => {
-                                return items._id !== item._id
+                        >
+                          <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                            loader={loading}
+                            placeholder="Search by code or name"
+                            data={{
+                              list: masterPanelStore.listMasterPanel.filter((item)=> item.rLab === patientOrderStore.patientOrder.rLab),
+                              selected: patientOrderStore.selectedItems?.panels,
+                              displayKey: ["panelCode", "panelName"],
+                            }}   
+                            disable={!patientOrderStore.patientOrder?.rLab}
+                            hasError={errors.panel}
+                            onUpdate={(item) => {
+                              const panels = patientOrderStore.selectedItems?.panels
+                              onChange(panels)
+                              console.log({ panels });
+
+                              patientOrderStore.updatePatientOrder({
+                                ...patientOrderStore.patientOrder,
+                                panelCode: _.map(panels, (o) =>
+                                  _.pick(o, ["panelCode", "serviceType", "confidential"])
+                                ),
                               })
-                            }
-                            patientOrderStore.updateSelectedItems({
-                              ...patientOrderStore.selectedItems,
-                              panels,
-                              serviceTypes: _.union(_.map(panels, "serviceType")),
-                            })
-                          }}
-                        />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
-                    )}
-                    name="panel"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                )}
+                              masterPanelStore.updatePanelMasterList(
+                                masterPanelStore.listMasterPanelCopy
+                              )  
+                              //get packages list
+                              if (panels?.length > 0)
+                                patientOrderStore.patientOrderService.getPackageList({
+                                  input: {
+                                    filter: {
+                                      panel: _.map(panels, (o) =>
+                                        _.pick(o, [
+                                          "_id",
+                                          "department",
+                                          "section",
+                                          "bill",
+                                          "rLab",
+                                          "pLab",
+                                          "panelCode",
+                                          "panelName",
+                                          "serviceType",
+                                          "confidential"
+                                        ])
+                                      ),
+                                    },
+                                  },
+                                })
+                            }}
+                            onFilter={(value: string) => {
+                              masterPanelStore.masterPanelService.filterByFields({
+                                input: {
+                                  filter: {
+                                    fields: ["panelCode", "panelName"],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              })
+                            }}
+                            onSelect={(item) => {
+                              let panels = patientOrderStore.selectedItems?.panels
+                              console.log({ item, panels })
+                              if (!item.selected) {
+                                if (panels && panels.length > 0) {
+                                  panels.push(item)
+                                } else panels = [item]
+                              } else {
+                                panels = panels.filter((items) => {
+                                  return items._id !== item._id
+                                })
+                              }
+                              patientOrderStore.updateSelectedItems({
+                                ...patientOrderStore.selectedItems,
+                                panels,
+                                serviceTypes: _.union(_.map(panels, "serviceType")),
+                              })
+                            }}
+                          />
+                        </LibraryComponents.Atoms.Form.InputWrapper>
+                      )}
+                      name="panel"
+                      rules={{ required: true }}
+                      defaultValue=""
+                    />
+                  )}
               </LibraryComponents.Atoms.List>
               <LibraryComponents.Atoms.List
                 direction="col"
@@ -284,9 +319,8 @@ const PatientOrder = PatientOrderHoc(
                             ? true
                             : false
                         }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${errors.environment ? "border-red-500  " : "border-gray-300"
+                          } rounded-md`}
                         onChange={(e) => {
                           const environment = e.target.value
                           onChange(environment)

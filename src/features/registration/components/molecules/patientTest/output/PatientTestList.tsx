@@ -56,20 +56,6 @@ const PatientTestList = observer((props: PatientTestListProps) => {
               ),
             },
             {
-              dataField: "testId",
-              text: "Test Id",
-              headerClasses: "textHeader4 z-10",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter) => {
-                  testId = filter
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
-            },
-            {
               dataField: "orderId",
               text: "Order Id",
               headerClasses: "textHeader4 z-10",
@@ -98,52 +84,13 @@ const PatientTestList = observer((props: PatientTestListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
-                    {row.panelCode.map((item, index) => (
+                    {row.panelCodes.map((item, index) => (
                       <li key={index}>{item.panelCode}</li>
                     ))}
                   </ul>
                 </>
               ),  
-            },
-            {
-              dataField: "packageList",
-              text: "packageList",
-              csvExport: false,
-              hidden: true,
-            },
-            {
-              dataField: "opration",
-              text: "Action",
-              headerClasses: "z-10",
-              csvExport: false,
-              hidden: !props.isDelete,
-              formatter: (cellContent, row) => (
-                <>
-                  <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
-                        size="20"
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: "delete",
-                            show: true,
-                            id: [row._id],
-                            title: "Are you sure?",
-                            body: `Delete item`,
-                          })
-                        }
-                      >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                  </div>
-                </>
-              ),
-            },
+            },  
           ]}
           isEditModify={false}
           isSelectRow={true}

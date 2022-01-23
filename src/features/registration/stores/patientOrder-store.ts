@@ -7,20 +7,17 @@ export class PatientOrderStore {
   listPatientOrder: Models.PatientOrder[]
    listPatientOrderCopy: Models.PatientOrder[]
   listPatientOrderCount!: number
-  checkExistsOrderId!: boolean
   selectedItems!: Models.SelectedItems
   packageList!: any
+  checkExistsRecord!: boolean
 
   constructor() {
     this.listPatientOrder = []
     this.listPatientOrderCopy = []
     this.packageList = []
     this.listPatientOrderCount = 0
-    this.checkExistsOrderId = false
-    // this.patientOrder = {
-    //   ...this.patientOrder,
-    // }
-
+    this.checkExistsRecord = false
+   
     makeObservable<PatientOrderStore, any>(this, {
       patientOrder: observable,
       listPatientOrder: observable,
@@ -28,6 +25,7 @@ export class PatientOrderStore {
       listPatientOrderCount: observable,
       selectedItems: observable,
       packageList: observable,
+      checkExistsRecord:observable,
 
       patientOrderService: computed,
       updatePatientOrderList: action,
@@ -35,6 +33,7 @@ export class PatientOrderStore {
       updatePatientOrder: action,
       updateSelectedItems: action,
       updatePackageList: action,
+      updateExistsRecords: action
     })
   }
 
@@ -62,8 +61,8 @@ export class PatientOrderStore {
     this.patientOrder = input
   }
 
-  updateExistsOrderId(flag: boolean) {
-    this.checkExistsOrderId = flag
+  updateExistsRecords(flag: boolean){
+    this.checkExistsRecord = flag
   }
 
   updateSelectedItems(res: Models.SelectedItems) {
