@@ -10,7 +10,7 @@ class PatientRegistrationStore {
   informationGroup?: Models.InformationGroup
   patientSample?: Models.PatientSample
   specialResult?: Models.SpecialResult
-  listPatientManger?: Models.PatientManger[] = []
+  listPatientManger?: Models.PatientManger[] = []  
   listPatientVisit?: Models.PatientVisit[] = []
   listPatientOrder?: Models.PatientOrder[] = []
   listPatientSample?: Models.PatientSample[] = []
