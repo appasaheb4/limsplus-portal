@@ -4,4 +4,7 @@
     flex-shrink: 0;
     border: none;
   }
-  
+  .react-calendar {
+    position: fixed;
+    top: 404px;
+  }
