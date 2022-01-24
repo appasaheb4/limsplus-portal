@@ -34,8 +34,8 @@ const PatientRegistation = observer(() => {
             { title: "PATIENT VISIT" }, 
             { title: "PATIENT ORDER" },
             { title: "PATIENT TEST" },
-            { title: "PATIENT SAMPLE" },
             { title: "PATIENT RESULT" },
+            { title: "PATIENT SAMPLE" },
           ].map((item) => {
             return (
               <AccordionItem
@@ -46,8 +46,8 @@ const PatientRegistation = observer(() => {
                 {item.title === "PATIENT VISIT" && <PatientVisit />}
                 {item.title === "PATIENT ORDER" && <PatientOrder />}
                 {item.title === "PATIENT TEST" && <PatientTest/>}
-                {item.title === "PATIENT SAMPLE" && <PatientSample />}
                 {item.title === "PATIENT RESULT" && <PatientResult />}
+                {item.title === "PATIENT SAMPLE" && <PatientSample />}
               </AccordionItem>
             )
           })}
