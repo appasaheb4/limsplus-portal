@@ -5,6 +5,6 @@
     border: none;
   }
   .react-calendar {
-    position: fixed;
-    top: 404px;
+    overflow-y: scroll;
+    height: inherit;
   }
