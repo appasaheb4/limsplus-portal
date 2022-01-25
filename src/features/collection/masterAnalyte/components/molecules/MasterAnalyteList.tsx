@@ -825,6 +825,24 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateCreation)}
+                    onFocusRemove={(dateCreation) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateCreation, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "dateActive",
@@ -844,6 +862,24 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateActive)}
+                    onFocusRemove={(dateActive) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateActive, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "dateExpire",
@@ -875,6 +911,24 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateExpire)}
+                    onFocusRemove={(dateExpire) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateExpire, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "version",

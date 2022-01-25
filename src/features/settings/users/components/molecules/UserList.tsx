@@ -386,14 +386,11 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDate
-                    
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
-                    value={dayjs(row.dateOfBirth).format("YYYY-MM-DD")}
-                    onChange={(e: any) => {
-                      let date = new Date(e.target.value)
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateOfBirth)}
+                    onFocusRemove={(dateOfBirth) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(date, column.dataField, row._id)
+                        props.onUpdateItem(dateOfBirth, column.dataField, row._id)
                     }}
                   />
                 </>
@@ -425,13 +422,11 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDate
-                    
-                    value={dayjs(row.marriageAnniversary).format("YYYY-MM-DD")}
-                    onChange={(e: any) => {
-                      let date = new Date(e.target.value)
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.marriageAnniversary)}
+                    onFocusRemove={(marriageAnniversary) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(date, column.dataField, row._id)
+                        props.onUpdateItem(marriageAnniversary, column.dataField, row._id)
                     }}
                   />
                 </>
@@ -463,14 +458,11 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDate
-                   
-                    id="exipreData"
-                    value={dayjs(row.exipreDate).format("YYYY-MM-DD")}
-                    onChange={(e: any) => {
-                      let date = new Date(e.target.value)
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.exipreDate)}
+                    onFocusRemove={(exipreDate) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(new Date(date), column.dataField, row._id)
+                        props.onUpdateItem(exipreDate, column.dataField, row._id)
                     }}
                   />
                 </>
@@ -550,6 +542,24 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateOfEntry).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateOfEntry)}
+                    onFocusRemove={(dateOfEntry) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(new Date(dateOfEntry), column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },  
             {
               dataField: "createdBy",
@@ -656,6 +666,7 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   
                     <select
+                    value={row.status}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const status = e.target.value

@@ -148,7 +148,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
                   value={new Date(row.visitDate)}
-                  onChange={(visitDate) => {
+                  onFocusRemove={(visitDate) => {
                     props.onUpdateItem && props.onUpdateItem(visitDate,"visitDate",row._id)
                   }}
                 />
@@ -184,7 +184,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
                   value={new Date(row.registrationDate)}
-                  onChange={(registrationDate) => {
+                  onFocusRemove={(registrationDate) => {
                     props.onUpdateItem && props.onUpdateItem(registrationDate,column.dataField,row._id)
                   }}
                 />
@@ -220,7 +220,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
                   value={new Date(row.collectionDate)}
-                  onChange={(collectionDate) => {
+                  onFocusRemove={(collectionDate) => {
                     props.onUpdateItem && props.onUpdateItem(collectionDate,column.dataField,row._id)
                   }}
                 />
@@ -255,7 +255,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
-                  onChange={(dueDate) => {
+                  onFocusRemove={(dueDate) => {
                     props.onUpdateItem && props.onUpdateItem(dueDate,column.dataField,row._id)
                   }}
                 />
@@ -292,7 +292,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime
                   value={new Date(row.birthDate)}
-                  onChange={(birthDate) => {
+                  onFocusRemove={(birthDate) => {
                     props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
                   }}
                 />
@@ -446,8 +446,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                >
+                  
                   <select
                     value={row?.acClass}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
@@ -466,7 +465,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
                 </>
               ),
             },
@@ -555,8 +554,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                   <LibraryComponents.Atoms.Form.InputWrapper
-                >
+                   
                   <select
                     value={row.deliveryType}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
@@ -575,7 +573,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
                 </>
               ),
             },
@@ -623,9 +621,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Status"
-                >
+                  
                   <select
                     value={row?.status}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -644,7 +640,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                
                 </>
               ),
             },
