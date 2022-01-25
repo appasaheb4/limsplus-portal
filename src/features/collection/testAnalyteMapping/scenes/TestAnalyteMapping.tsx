@@ -2,6 +2,7 @@
 import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
+import _ from 'lodash'
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
@@ -379,8 +380,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                       }
                       hasError={errors.analyteCode}
                       data={{
-                        defulatValues: [],
-                        list: masterAnalyteStore.listMasterAnalyte || [],
+                        defulatValues: [],  
+                        list: _.uniqBy(masterAnalyteStore.listMasterAnalyte, v => [v.analyteName, v.analyteCode, v.lab].join()) || [],
                         displayKey: ["analyteName", "analyteCode"],
                         findKey: ["analyteName", "analyteCode"],
                       }}
