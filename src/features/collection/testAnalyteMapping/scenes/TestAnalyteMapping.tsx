@@ -787,7 +787,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActiveFrom: new Date(),
+                dateCreation: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("testCode", modalConfirm.data.testCode)
@@ -802,7 +802,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActiveFrom: new Date(),
+                dateCreation: new Date(),
               })
               setHideAddLab(!hideAddLab)
               setValue("lab", modalConfirm.data.lab)

@@ -30,6 +30,8 @@ class MasterAnalyteService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
+          console.log({response});
+          
           stores.masterAnalyteStore.updateMasterAnalyteList(response.data)
           resolve(response.data)
         })
@@ -69,6 +71,8 @@ class MasterAnalyteService {
     })
   duplicateAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
+         
       client
         .mutate({
           mutation: DUPLICATE_RECORD,

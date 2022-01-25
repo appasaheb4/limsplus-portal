@@ -1,9 +1,9 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import { PatientTestService } from "../services"
-import * as Models from "../models"
+import { PatientResultService } from "../services"
+import {PatientResult} from "../models"
   
 export class PatientResultStore {
-  patientResultList: Models.PatientResult[] = []
+  patientResultList: PatientResult[] = []
   patientResultTestCount!: number   
  
  constructor() {
@@ -21,7 +21,7 @@ export class PatientResultStore {
   }
 
   get patientResultService() {
-    return new PatientTestService()
+    return new PatientResultService()
   }  
 
   updatePatientResultList(res: any) {

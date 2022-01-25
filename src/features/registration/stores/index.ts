@@ -14,3 +14,4 @@ export * from "./patientManager-store"
 export * from "./patientVisit-store"
 export * from "./patientOrder-store"
 export * from './patientTest-store'
+export * from './patientResult-store'

@@ -23,14 +23,14 @@
  dayjs.extend(utc)
  
  export class PatientTestService {
-   listPatientTest = (filter: any, page = 0, limit = 10) =>
-     new Promise<any>((resolve, reject) => {
+   listPatientTest = (page = 0, limit = 10) =>
+     new Promise<any>((resolve, reject) => {  
        const env = stores.loginStore.login && stores.loginStore.login.environment
        const role = stores.loginStore.login && stores.loginStore.login.role
        client
          .mutate({
            mutation: LIST_PATIENT_TEST,
-           variables: { input: { filter, page, limit, env, role } },
+           variables: { input: { page, limit, env, role } },
          })  
          .then((response: any) => {
            stores.patientTestStore.updateTestList(response.data)
@@ -98,7 +98,7 @@
          })
          .then((response: any) => {
            if (!response.data.filterPatientTest.success)
-             return this.listPatientTest({ documentType: "patientTest" })
+             return this.listPatientTest()
           stores.patientTestStore.filterTestList(response.data)
            stores.uploadLoadingFlag(true)
            resolve(response.data)
@@ -161,7 +161,7 @@
          })
          .then((response: any) => {
            if (!response.data.filterByFieldsPatientVisit.success)
-             return this.listPatientTest({ documentType: "patientTest" })
+             return this.listPatientTest()
            stores.patientOrderStore.filterPatientOrderList({
              filterPatientOrder: {
                data: response.data.filterByFieldsPatientVisit.data,
