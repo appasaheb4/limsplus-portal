@@ -273,7 +273,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime  
                   // value={new Date(row.receivedDate)} 
-                          onChange={(receivedDate) => {
+                          onFocusRemove={(receivedDate) => {
                            props.onUpdateItem && props.onUpdateItem(receivedDate,column.dataField,row._id)
                           }}
                         />
@@ -307,7 +307,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime   
-                          onChange={(resultDate) => {
+                          onFocusRemove={(resultDate) => {
                            props.onUpdateItem && props.onUpdateItem(resultDate,column.dataField,row._id)
                           }}
                         />
@@ -403,7 +403,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime   
-                          onChange={(approvalDate) => {
+                          onFocusRemove={(approvalDate) => {
                            props.onUpdateItem && props.onUpdateItem(approvalDate,column.dataField,row._id)
                           }}
                         />
@@ -531,7 +531,7 @@ const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitProps) =
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDateTime   
-                          onChange={(reportedDate) => {
+                          onFocusRemove={(reportedDate) => {
                            props.onUpdateItem && props.onUpdateItem(reportedDate,column.dataField,row._id)
                           }}
                         />

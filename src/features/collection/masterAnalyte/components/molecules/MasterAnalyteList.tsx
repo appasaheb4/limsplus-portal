@@ -775,7 +775,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   
                     <select
-                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const status = e.target.value
                         props.onUpdateItem &&
@@ -827,6 +827,24 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateCreation)}
+                    onFocusRemove={(dateCreation) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateCreation, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "dateActive",
@@ -846,6 +864,24 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateActive)}
+                    onFocusRemove={(dateActive) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateActive, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "dateExpire",
@@ -877,6 +913,24 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateExpire)}
+                    onFocusRemove={(dateExpire) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateExpire, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "version",
