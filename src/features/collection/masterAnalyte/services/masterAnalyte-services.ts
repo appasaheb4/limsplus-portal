@@ -30,8 +30,6 @@ class MasterAnalyteService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          console.log({response});
-          
           stores.masterAnalyteStore.updateMasterAnalyteList(response.data)
           resolve(response.data)
         })
