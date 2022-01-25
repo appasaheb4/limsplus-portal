@@ -350,7 +350,6 @@ const PatientTest = PatientOrderHoc(
             }}
             onPageSizeChange={(page, limit) => {
               patientTestStore.patientTestService.listPatientTest(
-                { documentType: "patientTest" },
                 page,
                 limit
               )
@@ -374,9 +373,7 @@ const PatientTest = PatientOrderHoc(
                       message: `😊 ${res.removePatientTest.message}`,
                     }) 
                     setModalConfirm({ show: false })
-                    patientTestStore.patientTestService.listPatientTest({
-                      documentType: "patientTest",
-                    })
+                    patientTestStore.patientTestService.listPatientTest()
                   }  
                 })
             }

@@ -5,4 +5,4 @@ export class PatientResult {
       this.pLab = rawData.pLab
       this.labId = rawData.labId
     }
-  }
+  }   

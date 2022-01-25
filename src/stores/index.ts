@@ -53,7 +53,8 @@ import {
   PatientManagerStore,
   PatientVisitStore,
   PatientOrderStore,
-  PatientTestStore
+  PatientTestStore,
+  PatientResultStore
 } from "@lp/features/registration/stores"
 
 import { Store } from "./Store"
@@ -111,6 +112,7 @@ export class Stores extends Store {
   patientVisitStore!: PatientVisitStore
   patientOrderStore!: PatientOrderStore
   patientTestStore!: PatientTestStore
+  patientResultStore!: PatientResultStore
 
   constructor() {
     super()
@@ -118,7 +120,7 @@ export class Stores extends Store {
     this.appStore = new AppStore()
     this.routerStore = new RouterStore()
     this.loginStore = new LoginStore()
-
+ 
     this.bannerStore = new BannerStore()
     this.labStore = new LabStore()
     this.lookupStore = new LookupStore()
@@ -160,12 +162,13 @@ export class Stores extends Store {
     this.roleMappingStore = new RoleMappingStore()
     this.shortcutMenuStore = new ShortcutMenuStore()
     this.noticeBoardStore = new NoticeBoardStore()
-  
-    // registation
+     
+    // registation   
     this.patientManagerStore = new PatientManagerStore()
     this.patientVisitStore = new PatientVisitStore()
     this.patientOrderStore = new PatientOrderStore()
-    this.patientTestStore = new PatientTestStore()
+    this.patientTestStore = new PatientTestStore()  
+    this.patientResultStore = new PatientResultStore()
   }
 }
 

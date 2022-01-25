@@ -14,15 +14,13 @@ const startup = async () => {
   stores.patientOrderStore.patientOrderService.listPatientOrder({
     documentType: "patientOrder",
   })
-    stores.patientOrderStore.patientOrderService.sequencingOrderId()
+  stores.patientOrderStore.patientOrderService.sequencingOrderId()
 
-    // patient test
-    stores.patientTestStore.patientTestService.listPatientTest({
-      documentType: "patientTest",
-    })
-    stores.patientTestStore.patientTestService.sequencingTestId()
+  // patient test
+  stores.patientTestStore.patientTestService.listPatientTest()
 
- 
-}  
+  // patient result
+  stores.patientResultStore.patientResultService.listPatientResult()
+}
 
 export default startup

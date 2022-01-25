@@ -773,7 +773,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
@@ -792,7 +791,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         </option>
                       ))}
                     </select>
-                  
                 </>
               ),
             },
