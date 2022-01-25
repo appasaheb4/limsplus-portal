@@ -154,12 +154,12 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Bill",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
                     {" "}
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
