@@ -249,6 +249,24 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   </>
                 )
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateCreation)}
+                    onFocusRemove={(dateCreation) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateCreation, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {  
               dataField: "dateActive",
@@ -272,6 +290,24 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   </>
                 )
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateActive)}
+                    onFocusRemove={(dateActive) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateActive, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {  
               dataField: "dateExpire",
@@ -295,6 +331,24 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   </>
                 )
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateActive)}
+                    onFocusRemove={(dateActive) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(dateActive, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {  
               dataField: "version",
