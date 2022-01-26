@@ -287,19 +287,19 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataField: "display",
-              text: "Display",
+              dataField: "reportable",
+              text: "Reportable",
               sort: true,
                csvFormatter: col => (col ? col : false),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
-                  <>
+                  <> 
                     <LibraryComponents.Atoms.Form.Toggle
-                      value={row.display}
-                      onChange={(display) => {
+                      value={row.reportable}
+                      onChange={(reportable) => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(display, "display", row._id)
+                          props.onUpdateItem(reportable, "reportable", row._id)
                       }}
                     />
                   </>
