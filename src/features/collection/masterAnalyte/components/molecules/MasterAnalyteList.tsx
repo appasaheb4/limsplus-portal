@@ -155,11 +155,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Method",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
                         props.onUpdateItem &&
@@ -223,7 +224,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.Input
-                    label="Price"
                     name="txtPrice"
                     placeholder="Price"
                     type="number"
@@ -245,11 +245,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Bill",
               sort: true,
                csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -291,12 +292,13 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Reportable",
               sort: true,
                csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <> 
                     <LibraryComponents.Atoms.Form.Toggle
-                      value={row.reportable}
+                    disabled={row.status ==='I'? true: false}
+                   value={row.reportable}
                       onChange={(reportable) => {
                         props.onUpdateItem &&
                           props.onUpdateItem(reportable, "reportable", row._id)
@@ -355,11 +357,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Calculation Flag",
               sort: true,
                csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.calculationFlag}
                       onChange={(calculationFlag) => {
                         props.onUpdateItem &&
@@ -552,11 +555,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Repetition",
               sort: true,
                csvFormatter: col => (col ? col :false ),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.repetition}
                       onChange={(repetition) => {
                         props.onUpdateItem &&
@@ -572,11 +576,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Auto Release",
               sort: true,
                csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
                         props.onUpdateItem &&
@@ -592,11 +597,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Hold OOS",
               sort: true,
                csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
                         props.onUpdateItem &&
@@ -612,12 +618,13 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Instant Result",
               sort: true,
                csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     {" "}
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
                         props.onUpdateItem &&
@@ -633,11 +640,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Page Break",
               sort: true,
                csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.pageBreak}
                       onChange={(pageBreak) => {
                         props.onUpdateItem &&
@@ -959,6 +967,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
+               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
                   environment = filter
@@ -976,7 +985,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                  
                     <select
                       value={row.environment}
-                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const environment = e.target.value
                         props.onUpdateItem &&
