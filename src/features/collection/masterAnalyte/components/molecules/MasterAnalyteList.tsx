@@ -298,8 +298,8 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   <> 
                     <LibraryComponents.Atoms.Form.Toggle
                      disabled={!editorCell(row)}
-                     value={row.display}
-                     onChange={(display) => {
+                     value={row.reportable}
+                     onChange={(reportable) => {
                         props.onUpdateItem &&
                           props.onUpdateItem(reportable, "reportable", row._id)
                       }}
