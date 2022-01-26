@@ -232,6 +232,7 @@ export const SectionList = (props: SectionListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter

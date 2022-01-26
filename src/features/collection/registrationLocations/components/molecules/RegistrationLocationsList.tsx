@@ -263,11 +263,12 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Confidential",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
                       props.onUpdateItem &&
@@ -487,12 +488,13 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Print Label",
             sort: true,
             csvFormatter: (col) => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.printLabel}
                     onChange={(printLabel) => {
                       props.onUpdateItem &&
@@ -690,12 +692,13 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Never Bill",
             sort: true,
             csvFormatter: (col) => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.neverBill}
                     onChange={(neverBill) => {
                       props.onUpdateItem &&
@@ -765,12 +768,13 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             text: "Urgent",
             sort: true,
             csvFormatter: (col) => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.urgent}
                     onChange={(urgent) => {
                       props.onUpdateItem &&
@@ -995,6 +999,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) => {
                 environment = filter

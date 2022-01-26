@@ -396,11 +396,12 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Any Scheme",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.anyScheme}
                       onChange={(anyScheme) => {
                         props.onUpdateItem &&
@@ -477,11 +478,12 @@ const MasterAnalyteList = (props: PriceListProps) => {
               text: "Dis On Scheme",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.disOnScheme}
                       onChange={(disOnScheme) => {
                         props.onUpdateItem &&

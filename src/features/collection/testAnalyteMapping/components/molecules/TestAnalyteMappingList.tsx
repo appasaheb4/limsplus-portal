@@ -154,6 +154,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Bill",
               sort: true,
               csvFormatter: col => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -375,6 +376,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   environment = filter
                 }
               }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,

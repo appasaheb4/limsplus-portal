@@ -24,7 +24,9 @@ interface MethodsListProps {
 }
 
 const MethodsList = (props: MethodsListProps) => {
- 
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -75,7 +77,8 @@ const MethodsList = (props: MethodsListProps) => {
             }
           }),
           style:{textTransform:"uppercase"},
-              editorStyle:{textTransform:"uppercase"}
+              editorStyle:{textTransform:"uppercase"},
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
         },
         {
           dataField: "status",
@@ -88,6 +91,7 @@ const MethodsList = (props: MethodsListProps) => {
               status  = filter
             }
           }),
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           editorRenderer: (
             editorProps,
             value,
@@ -124,6 +128,7 @@ const MethodsList = (props: MethodsListProps) => {
           headerClasses: "textHeader3",
           sort: true,
            csvFormatter: col => (col ? col : ""),
+           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           filter: LibraryComponents.Organisms.Utils.textFilter({
             getFilter: (filter) =>{
               environment  = filter
