@@ -57,6 +57,9 @@ interface CorporateClientListProps {
 }
 
 const CorporateClient = (props: CorporateClientListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -101,6 +104,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Invoice Ac",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -113,6 +117,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Price List",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -153,6 +158,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Price Group",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -165,6 +171,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Billing On",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -177,6 +184,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Address",
             headerClasses: "textHeader2",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -189,6 +197,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "City",
             headerClasses: "textHeader",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -201,6 +210,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "State",
             headerClasses: "textHeader1",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -213,6 +223,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Country",
             headerClasses: "textHeader2",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -225,6 +236,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Postcode",
             headerClasses: "textHeader6",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.customFilter({
               getFilter: (filter) =>{
@@ -240,6 +252,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Customer Group",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -284,6 +297,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Category",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -326,12 +340,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
+            editable: false,
             csvFormatter: col => (col ? col : false),
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
                       props.onUpdateItem &&
@@ -347,6 +363,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Telephone",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -359,6 +376,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Mobile No",
             headerClasses: "textHeader2",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -371,6 +389,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Email",
             headerClasses: "textHeader2",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -383,6 +402,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Delivery Type",
             headerClasses: "textHeader4",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -426,6 +446,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Delivery Method",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -469,6 +490,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Sales TerritoRy",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -512,6 +534,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Area",
             headerClasses: "textHeader1",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -524,6 +547,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Zone",
             headerClasses: "textHeader1",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -536,6 +560,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "EDI",
             headerClasses: "textHeader",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -548,6 +573,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "EDI Address",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -559,12 +585,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
             dataField: "urgent",
             text: "Urgent",
             sort: true,
+            editable: false,
             csvFormatter: col => (col ? col : false),
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.urgent}
                     onChange={(urgent) => {
                       props.onUpdateItem &&
@@ -580,6 +608,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Schedule",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -608,6 +637,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Report Format",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -620,6 +650,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Info",
             headerClasses: "textHeader",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -632,6 +663,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "FYI Line",
             headerClasses: "textHeader5",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -644,6 +676,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Work Line",
             headerClasses: "textHeader4",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -656,6 +689,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Status",
             headerClasses: "textHeader2",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
@@ -699,6 +733,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{

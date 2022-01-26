@@ -59,6 +59,9 @@ export const UserList = observer((props: UserListProps) => {
       </div>
     )
   }
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -103,6 +106,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "defaultLab",
               text: "Default Lab",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -131,6 +135,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "lab",
               text: "Lab",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: (cell, row, rowIndex) => `${row.lab.map(item=>item.name)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -175,6 +180,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "deginisation",
               text: "Deginisation",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -203,6 +209,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "department",
               text: "Department",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: (cell, row, rowIndex) => `${row.department.map(item=>item.name)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -241,6 +248,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "validationLevel",
               text: "Validation Level",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -288,6 +296,7 @@ export const UserList = observer((props: UserListProps) => {
             //   dataField: "workStation",
             //   text: "Work Station",
             //   sort: true,
+            
             //   filter: LibraryComponents.Organisms.Utils.textFilter({
             //   headerClasses: "textHeader3",
             // },
@@ -295,6 +304,7 @@ export const UserList = observer((props: UserListProps) => {
             //   dataField: "ipAddress",
             //   text: "IP Address",
             //   sort: true,
+            
             //   filter: LibraryComponents.Organisms.Utils.textFilter({
             //   headerClasses: "textHeader3",
             // },
@@ -302,6 +312,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "fullName",
               text: "Full Name",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -316,6 +327,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "mobileNo",
               text: "Mobile No",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -328,6 +340,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "contactNo",
               text: "Contact No",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -340,6 +353,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "email",
               text: "Email",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -352,6 +366,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "userDegree",
               text: "User Degree",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -364,6 +379,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: (col,row) => (row.dateOfBirth ? dayjs(row.dateOfBirth).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -400,6 +416,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: (col,row) => (row.marriageAnniversary ? dayjs(row.marriageAnniversary).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -436,6 +453,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Exipre Date",
               dataField: "exipreDate",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: (col,row) => (row.exipreDate ? dayjs(row.exipreDate).format("YYYY-MM-DD") : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) =>{
@@ -472,6 +490,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "role",
               text: "Role",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: (cell, row, rowIndex) => `${row.role.map(item=>item.code)}`,
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -511,10 +530,12 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
+              editable: false,
               csvFormatter: col => (col ? col : false),
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
                       props.onUpdateItem &&
@@ -578,6 +599,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "signature",
               text: "Signature",
               csvExport: false,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -614,6 +636,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "picture",
               text: "Picture",
               csvExport: false,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -648,6 +671,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Status",
               dataField: "status",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -692,6 +716,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "environment",
               text: "Environment",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
@@ -736,10 +761,12 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "confirguration",
               text: "Confirguration",
               sort: true,
+              editable: false,
               csvFormatter: col => (col ? col : false),
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.confirguration}
                     onChange={(confirguration) => {
                       props.onUpdateItem &&
@@ -753,6 +780,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "systemInfo",
               text: "System Info",
               sort: true,
+              editable: false,
               csvFormatter: (cell, row, rowIndex) => `Mobile:${
                 row.systemInfo.accessInfo &&
                 row.systemInfo.accessInfo?.mobile},Desktop:${
@@ -766,6 +794,7 @@ export const UserList = observer((props: UserListProps) => {
                   >
                     <div className="flex flex-row gap-4">
                       <LibraryComponents.Atoms.Form.Toggle
+                      disabled={!editorCell(row)}
                         label="Mobile"
                         value={
                           row.systemInfo &&
@@ -789,6 +818,7 @@ export const UserList = observer((props: UserListProps) => {
                       />
 
                       <LibraryComponents.Atoms.Form.Toggle
+                      disabled={!editorCell(row)}
                         label="Desktop"
                         value={
                           row.systemInfo &&
