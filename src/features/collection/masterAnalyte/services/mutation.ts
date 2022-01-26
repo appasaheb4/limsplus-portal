@@ -34,7 +34,7 @@ export const LIST = gql`
         analyteMethod
         workflow
         sampleType
-        display
+        reportable
         calculationFlag
         calcyName
         high
@@ -143,7 +143,7 @@ export const FILTER = gql`
         analyteMethod
         workflow
         sampleType
-        display
+        reportable
         calculationFlag
         calcyName
         high

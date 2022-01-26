@@ -528,20 +528,20 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Toggle
-                      label="Display"
+                      label="Reportable"
                       id="modeDisplay"
-                      hasError={errors.display}
-                      value={masterAnalyteStore.masterAnalyte?.display}
-                      onChange={(display) => {
-                        onChange(display)
+                      hasError={errors.reportable}
+                      value={masterAnalyteStore.masterAnalyte?.reportable}
+                      onChange={(reportable) => {
+                        onChange(reportable)
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
-                          display,
+                          reportable,
                         })
                       }}
                     />
                   )}
-                  name="display"
+                  name="reportable"
                   rules={{ required: false }}
                   defaultValue=""
                 />

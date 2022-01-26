@@ -24,7 +24,7 @@ export class MasterAnalyte {
   analyteMethod: string
   workflow: string
   sampleType: string
-  display: boolean
+  reportable: boolean
   calculationFlag: boolean
   calcyName: string
   high: string
@@ -67,7 +67,7 @@ export class MasterAnalyte {
     this.analyteMethod = rawData.analyteMethod 
      this.workflow = rawData.workflow 
     this.sampleType = rawData.sampleType 
-    this.display = rawData.display 
+    this.reportable = rawData.reportable 
     this.calculationFlag = rawData.calculationFlag 
     this.calcyName = rawData.calcyName 
     this.high = rawData.high

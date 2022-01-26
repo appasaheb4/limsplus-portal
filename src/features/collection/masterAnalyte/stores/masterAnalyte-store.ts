@@ -28,7 +28,7 @@ export class MasterAnalyteStore {
       holdOOS: false,
       instantResult: false,
       method: false,
-      display: true,
+      reportable: true,
       calculationFlag: false,
       repetition: false,
     }
