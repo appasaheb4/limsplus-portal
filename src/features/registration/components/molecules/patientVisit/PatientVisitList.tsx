@@ -4,9 +4,9 @@ import dayjs from "dayjs"
 import { observer } from "mobx-react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import * as LibraryModels from "@lp/library/models"  
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
-import {AutoCompleteFilterSingleSelectCollectionCenter,AutoCompleteFilterSingleSelectCorporateCode,AutoCompleteFilterSingleSelectDoctorId, AutoCompleteFilterSingleSelectDoctorName} from "../orgransims"
+import {AutoCompleteFilterSingleSelectCollectionCenter,AutoCompleteFilterSingleSelectCorporateCode,AutoCompleteFilterSingleSelectDoctorId, AutoCompleteFilterSingleSelectDoctorName} from "../../orgransims"
 interface PatientVisitProps {
   data: any
   totalSize: number
