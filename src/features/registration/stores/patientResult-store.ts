@@ -26,12 +26,12 @@ export class PatientResultStore {
 
   updatePatientResultList(res: any) {
     if (!res.patientResults.success) return alert(res.patientResults.message)
-    this.patientResultList = res.patientResults.panelTestList
+    this.patientResultList = res.patientResults.patientResultList
     this.patientResultTestCount = res.patientResults.paginatorInfo.count
   }  
        
   filterPatientResultList(res: any) {
-    this.patientResultList = res.filterPatientTest.panelTestList
-    this.patientResultTestCount = res.filterPatientTest.paginatorInfo.count
+    this.patientResultList = res.filterPatientResult.patientResultList
+    this.patientResultTestCount = res.filterPatientResult.paginatorInfo.count
   }
 }

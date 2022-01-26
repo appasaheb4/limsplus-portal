@@ -7,7 +7,7 @@
 
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LIST_PATIENT_RESULT } from "./mutation-PR"
+import { LIST_PATIENT_RESULT,FILTER_PATIENT_RESULT } from "./mutation-PR"
 
 export class PatientResultService {
   listPatientResult = (page = 0, limit = 10) =>
@@ -20,6 +20,8 @@ export class PatientResultService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
+          console.log({response});
+          
           stores.patientResultStore.updatePatientResultList(response.data)
           resolve(response.data)
         })
@@ -27,4 +29,24 @@ export class PatientResultService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
+    filter = (variables: any) =>
+     new Promise<any>((resolve, reject) => {
+       stores.uploadLoadingFlag(false)
+       client
+         .mutate({
+           mutation: FILTER_PATIENT_RESULT,
+           variables,   
+         })
+         .then((response: any) => {
+           if (!response.data.filterPatientResult.success)
+             return this.listPatientResult()
+          stores.patientResultStore.filterPatientResultList(response.data)
+           stores.uploadLoadingFlag(true)
+           resolve(response.data)
+         })  
+         .catch((error) =>
+           reject(new ServiceResponse<any>(0, error.message, undefined))
+         )
+     })
 }

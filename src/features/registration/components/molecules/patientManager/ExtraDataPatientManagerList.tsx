@@ -4,13 +4,13 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
-import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../orgransims"
+import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../../orgransims"
 interface ExtraDataPatientManagerProps {
   data: any
-  totalSize: number
+  totalSize: number  
   extraData: any
   isDelete?: boolean
-  isEditModify?: boolean
+  isEditModify?: boolean  
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
