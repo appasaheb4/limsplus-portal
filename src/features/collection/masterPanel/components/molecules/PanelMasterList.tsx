@@ -311,6 +311,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelMethodCode = filter
@@ -339,6 +340,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   panelMethodName = filter
@@ -366,11 +368,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Method",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
                         props.onUpdateItem &&
@@ -423,7 +426,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.Input
-                    label="Price"
+                    
                     placeholder="Price"
                     type="number"
                     value={row.price}
@@ -444,11 +447,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Bill",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -722,11 +726,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Auto Release",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
                         props.onUpdateItem &&
@@ -742,11 +747,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Hold OOS",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
                         props.onUpdateItem &&
@@ -763,11 +769,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Confidential",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.confidential}
                       onChange={(confidential) => {
                         props.onUpdateItem &&
@@ -784,11 +791,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Urgent",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.urgent}
                       onChange={(urgent) => {
                         props.onUpdateItem &&
@@ -804,11 +812,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Instant Result",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
                         props.onUpdateItem &&
@@ -824,11 +833,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Repitation",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.repitation}
                       onChange={(repitation) => {
                         props.onUpdateItem &&
@@ -844,11 +854,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Print Label",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.printLabel}
                       onChange={(printLabel) => {
                         props.onUpdateItem &&
@@ -864,11 +875,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Cumulative",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.cumulative}
                       onChange={(cumulative) => {
                         props.onUpdateItem &&
@@ -947,11 +959,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Sex Action",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.sexAction}
                       onChange={(sexAction) => {
                         props.onUpdateItem &&
@@ -1022,11 +1035,12 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Page Break",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.pageBreak}
                       onChange={(pageBreak) => {
                         props.onUpdateItem &&
@@ -1285,6 +1299,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter
