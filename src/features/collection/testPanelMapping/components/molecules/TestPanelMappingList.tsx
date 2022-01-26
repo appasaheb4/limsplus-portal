@@ -158,11 +158,12 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Bill",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -364,6 +365,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter

@@ -143,11 +143,12 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Bill",
             sort: true,
             csvFormatter: col => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.bill}
                     onChange={(bill) => {
                       props.onUpdateItem && props.onUpdateItem(bill, "bill", row._id)
@@ -347,6 +348,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter

@@ -277,11 +277,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Method",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
                         props.onUpdateItem &&
@@ -329,11 +330,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Bill",
               sort: true,
               csvFormatter: col => (col ? col :false ),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -774,11 +776,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Auto Finish",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.autoFinish}
                       onChange={(autoFinish) => {
                         props.onUpdateItem &&
@@ -794,11 +797,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Hold OOS",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
                         props.onUpdateItem &&
@@ -815,11 +819,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Confidential",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.confidential}
                       onChange={(confidential) => {
                         props.onUpdateItem &&
@@ -835,11 +840,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Urgent",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.urgent}
                       onChange={(urgent) => {
                         props.onUpdateItem &&
@@ -856,11 +862,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Instant Result",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
                         props.onUpdateItem &&
@@ -877,6 +884,7 @@ const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testMethodCode = filter
@@ -905,6 +913,7 @@ const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   testMethodName = filter
@@ -946,11 +955,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Accredited",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.accredited}
                       onChange={(accredited) => {
                         props.onUpdateItem &&
@@ -966,11 +976,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Cretical",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.cretical}
                       onChange={(cretical) => {
                         props.onUpdateItem &&
@@ -987,11 +998,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Repitation",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.repitation}
                       onChange={(repitation) => {
                         props.onUpdateItem &&
@@ -1007,11 +1019,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Print Label",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.printLabel}
                       onChange={(printLabel) => {
                         props.onUpdateItem &&
@@ -1027,11 +1040,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Cumulative",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.cumulative}
                       onChange={(cumulative) => {
                         props.onUpdateItem &&
@@ -1117,11 +1131,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "QC Hold",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.qcHold}
                       onChange={(qcHold) => {
                         props.onUpdateItem &&
@@ -1137,11 +1152,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "OOS Hold",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.oosHold}
                       onChange={(oosHold) => {
                         props.onUpdateItem &&
@@ -1157,11 +1173,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Delta Hold",
               sort: true,
               csvFormatter: col => (col ? col :false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.deltaHold}
                       onChange={(deltaHold) => {
                         props.onUpdateItem &&
@@ -1292,11 +1309,12 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Allow Partial",
               sort: true,
               csvFormatter: col => (col ? col : false),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.allowPartial}
                       onChange={(allowPartial) => {
                         props.onUpdateItem &&
@@ -1523,6 +1541,7 @@ const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter

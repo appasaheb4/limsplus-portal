@@ -346,6 +346,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   parameter = filter
@@ -486,6 +487,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Reflex",
               headerClasses: "textHeader4",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: (cell, row, rowIndex) => 
               `PanelCode${reflex.panelName} ,
                PanelName${reflex.panelCode}`,
@@ -567,11 +569,13 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "AbNormal",
               sort: true,
               csvFormatter: col => (col ? col :false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     {" "}
                     <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.abNormal}
                       onChange={(abNormal) => {
                         props.onUpdateItem &&
@@ -772,6 +776,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) =>{
                   environment = filter}

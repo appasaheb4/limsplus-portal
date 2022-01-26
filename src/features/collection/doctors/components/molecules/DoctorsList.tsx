@@ -374,12 +374,13 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Confidential",
             sort: true,
              csvFormatter: col => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
                       props.onUpdateItem &&
@@ -635,11 +636,12 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Urgent",
             sort: true,
              csvFormatter: col => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.urgent}
                     onChange={(urgent) => {
                       props.onUpdateItem &&
@@ -887,6 +889,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
+             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: LibraryComponents.Organisms.Utils.textFilter({
               getFilter: (filter) =>{
                 environment = filter

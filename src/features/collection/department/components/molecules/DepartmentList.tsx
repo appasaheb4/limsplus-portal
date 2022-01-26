@@ -176,11 +176,12 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Auto Release",
             sort: true,
             csvFormatter: col => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.autoRelease}
                     onChange={(autoRelease) => {
                       props.onUpdateItem &&
@@ -197,11 +198,12 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Require Receve In Lab",
             sort: true,
             csvFormatter: col => (col ? col :false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                    disabled={!editorCell(row)}
                     value={row.requireReceveInLab}
                     onChange={(requireReceveInLab) => {
                       props.onUpdateItem &&
@@ -221,11 +223,12 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Require Scain In",
             sort: true,
             csvFormatter: col => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.requireScainIn}
                     onChange={(requireScainIn) => {
                       props.onUpdateItem &&
@@ -241,11 +244,12 @@ const DepartmentList = (props: DepartmentListProps) => {
             text: "Routing Dept",
             sort: true,
             csvFormatter: col => (col ? col : false),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
+                  disabled={!editorCell(row)}
                     value={row.routingDept}
                     onChange={(routingDept) => {
                       props.onUpdateItem &&
