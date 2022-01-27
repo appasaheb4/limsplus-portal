@@ -74,18 +74,17 @@ const Default = observer(() => {
         <LibraryComponents.Molecules.ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
-            let exipreDate: any = new Date(
-              moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
-            )
-            exipreDate = dayjs(exipreDate).unix()
-            let body: any = Object.assign(loginStore.login, userStore.changePassword)
-            body = {
-              ...body,
-              exipreDate,
-            }
-            userStore.UsersService.changePassword(body).then((res) => {
-              console.log({ res })
-              if (res.status === 200) {
+            let exipreDate = new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"))
+            userStore.UsersService.changePassword({
+              input: {
+                _id: loginStore.login._id,
+                userId: loginStore.login.userId,
+                oldPassword: userStore.changePassword.oldPassword,
+                newPassword: userStore.changePassword.confirmPassword,
+                exipreDate,
+              },
+            }).then((res) => {
+              if (res.userChnagePassword.success) {
                 loginStore.updateLogin({
                   ...loginStore.login,
                   exipreDate,
@@ -96,19 +95,15 @@ const Default = observer(() => {
                   tempHide: true,
                 })
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊 Password changed!`,
+                  message: `😊 ${res.userChnagePassword.message}`,
                 })
                 setModalChangePassword({ show: false })
-              } else if (res.status === 203) {
+              } else  {
                 LibraryComponents.Atoms.Toast.error({
                   message: `😔 ${res.data.data.message}`,
                 })
-              } else {
-                LibraryComponents.Atoms.Toast.error({
-                  message: `😔 Please enter correct old password`,
-                })
-              }
-            })
+            }
+          });
           }}
           onClose={() => {
             loginStore.updateLogin({

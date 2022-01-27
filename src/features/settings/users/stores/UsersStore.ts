@@ -89,7 +89,7 @@ export class UserStore {
   updateUser(user: Models.Users) {
     this.user = user
   }
-
+ 
   updateChangePassword(password: Models.ChangePassword) {
     this.changePassword = password
   }

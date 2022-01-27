@@ -7,7 +7,7 @@
 import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import * as Model from "../models/User"
+import * as Models from "../models"
 import {
   CHECK_EXISTS_USERID,
   USER_LIST,
@@ -75,7 +75,7 @@ export class UserService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.userStore.updateUser(new Model.Users({}))
+          stores.userStore.updateUser(new Models.Users({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -106,7 +106,7 @@ export class UserService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.userStore.updateUser(new Model.Users({}))
+          stores.userStore.updateUser(new Models.Users({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -138,7 +138,7 @@ export class UserService {
         .then((response: any) => {
           console.log({ response })
           resolve(response.data)
-          stores.userStore.updateUser(new Model.Users({}))
+          stores.userStore.updateUser(new Models.Users({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -170,12 +170,13 @@ export class UserService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.userStore.updateChangePassword(new Models.ChangePassword({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+     
   changepasswordByAdmin = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -185,12 +186,13 @@ export class UserService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.userStore.updateChangePassword(new Models.ChangePassword({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+   
   switchAccess = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
