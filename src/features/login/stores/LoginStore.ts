@@ -4,18 +4,19 @@ import { Login, ForgotPassword } from "../models"
 import * as Services from "../services"
 import { stores } from "@lp/stores"
 import Storage from "@lp/library/modules/storage"
+import { ignore } from "mobx-sync"
 
 export class LoginStore {
-  inputLogin!: Login
+  @ignore inputLogin!: Login
   login!: Login
   loginFailedCount: number
   forgotPassword!: ForgotPassword
-
+    
   constructor() {
     this.login = new Login({})
     this.loginFailedCount = 0
     makeObservable<LoginStore, any>(this, {
-      inputLogin: observable,
+      inputLogin: observable ,
       login: observable,
       loginFailedCount: observable,
       forgotPassword: observable,
