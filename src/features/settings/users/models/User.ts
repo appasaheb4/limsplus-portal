@@ -1,5 +1,5 @@
-import * as ModelsLab from "@lp/features/collection/labs/models"
-import * as ModelsDepartment from "@lp/features/collection/department/models"
+import * as ModelsLab from "@lp/features/master/labs/models"
+import * as ModelsDepartment from "@lp/features/master/department/models"
 import * as ModelsRole from "@lp/features/settings/roles/models"
 export class Users {
   _id: string

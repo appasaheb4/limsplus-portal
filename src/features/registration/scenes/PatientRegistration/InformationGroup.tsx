@@ -6,13 +6,13 @@ import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import * as FeatureComponents from "../../components"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as AdministrativeDivisionStore } from "@lp/features/collection/administrativeDivisions/stores"
+import { Stores as AdministrativeDivisionStore } from "@lp/features/master/administrativeDivisions/stores"
 import "@lp/library/assets/css/accordion.css"
 import { stores } from "@lp/stores"
 import { toJS } from "mobx"
 import { Stores } from "../../stores"
 import { RouterFlow } from "@lp/flows"
-import { AdministrativeDivisions } from "@lp/features/collection/administrativeDivisions/scenes"
+import { AdministrativeDivisions } from "@lp/features/master/administrativeDivisions/scenes"
 
 interface InformationGroupProps {
   onModalConfirm?: (item: any) => void

@@ -8,80 +8,80 @@ import PrivacyPolicy from "@lp/features/privacyPolicy/scences/PrivacyPolicy"
 const DefaultDashboard = async(() => import("@lp/features/defaultDashboard"))
 
 // Collection
-const Banner = async(() => import("@lp/features/collection/banner/scenes/banner"))
-const CollectionLab = async(() => import("@lp/features/collection/labs/scenes/Lab"))
+const Banner = async(() => import("@lp/features/master/banner/scenes/banner"))
+const CollectionLab = async(() => import("@lp/features/master/labs/scenes/Lab"))
 const CollectionDeginisation = async(
-  () => import("@lp/features/collection/deginisation/scenes/deginisation")
+  () => import("@lp/features/master/deginisation/scenes/deginisation")
 )
 
 const CollectionDepartment = async(
-  () => import("@lp/features/collection/department/scenes/Department")
+  () => import("@lp/features/master/department/scenes/Department")
 )
 
 // master
 const MasterAnalyte = async(
-  () => import("@lp/features/collection/masterAnalyte/scenes/MasterAnalyte")
+  () => import("@lp/features/master/masterAnalyte/scenes/MasterAnalyte")
 )
 const TestAnalyteMapping = async(
   () =>
-    import("@lp/features/collection/testAnalyteMapping/scenes/TestAnalyteMapping")
+    import("@lp/features/master/testAnalyteMapping/scenes/TestAnalyteMapping")
 )
 const MasterPanel = async(
-  () => import("@lp/features/collection/masterPanel/scenes/MasterPanel")
+  () => import("@lp/features/master/masterPanel/scenes/MasterPanel")
 )
 const TestPanelMapping = async(
-  () => import("@lp/features/collection/testPanelMapping/scenes/TestPanelMapping")
+  () => import("@lp/features/master/testPanelMapping/scenes/TestPanelMapping")
 )
 const MasterPackage = async(
-  () => import("@lp/features/collection/masterPackage/scenes/MasterPackage")
+  () => import("@lp/features/master/masterPackage/scenes/MasterPackage")
 )
 const TestMaster = async(
-  () => import("@lp/features/collection/testMaster/scenes/TestMaster")
+  () => import("@lp/features/master/testMaster/scenes/TestMaster")
 )
-const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
-const Section = async(() => import("@lp/features/collection/section/scenes/Section"))
+const Lookup = async(() => import("@lp/features/master/lookup/scenes/Lookup"))
+const Section = async(() => import("@lp/features/master/section/scenes/Section"))
 const SampleContainer = async(
-  () => import("@lp/features/collection/sampleContainer/scenes/SampleContainer")
+  () => import("@lp/features/master/sampleContainer/scenes/SampleContainer")
 )
 const SampleType = async(
-  () => import("@lp/features/collection/sampleType/scenes/SampleType")
+  () => import("@lp/features/master/sampleType/scenes/SampleType")
 )
 const TestSampleMapping = async(
-  () => import("@lp/features/collection/testSampleMapping/scenes/TestSampleMapping")
+  () => import("@lp/features/master/testSampleMapping/scenes/TestSampleMapping")
 )
-const Methods = async(() => import("@lp/features/collection/methods/scenes/Methods"))
-const Doctors = async(() => import("@lp/features/collection/doctors/scenes/Doctors"))
+const Methods = async(() => import("@lp/features/master/methods/scenes/Methods"))
+const Doctors = async(() => import("@lp/features/master/doctors/scenes/Doctors"))
 const RegistrationLocation = async(
   () =>
     import(
-      "@lp/features/collection/registrationLocations/scenes/RegistrationLocations"
+      "@lp/features/master/registrationLocations/scenes/RegistrationLocations"
     )
 )
 const CorporateClients = async(
-  () => import("@lp/features/collection/corporateClients/scenes/CorporateClients")
+  () => import("@lp/features/master/corporateClients/scenes/CorporateClients")
 )
 const DeliverySchedule = async(
-  () => import("@lp/features/collection/deliverySchedule/scenes/DeliverySchedule")
+  () => import("@lp/features/master/deliverySchedule/scenes/DeliverySchedule")
 )
 
 const AdministrativeDivisions = async(
   () =>
     import(
-      "@lp/features/collection/administrativeDivisions/scenes/AdministrativeDivisions"
+      "@lp/features/master/administrativeDivisions/scenes/AdministrativeDivisions"
     )
 )
 const SalesTeam = async(
-  () => import("@lp/features/collection/salesTeam/scenes/SalesTeam")
+  () => import("@lp/features/master/salesTeam/scenes/SalesTeam")
 )
 const PossibleResults = async(
-  () => import("@lp/features/collection/possibleResults/scenes/PossibleResults")
+  () => import("@lp/features/master/possibleResults/scenes/PossibleResults")
 )
-const Library = async(() => import("@lp/features/collection/library/scenes/Library"))
+const Library = async(() => import("@lp/features/master/library/scenes/Library"))
 const PriceList = async(
-  () => import("@lp/features/collection/priceList/scenes/PriceList")
+  () => import("@lp/features/master/priceList/scenes/PriceList")
 )
 const ReferenceRanges = async(
-  () => import("@lp/features/collection/referenceRanges/scenes/ReferenceRanges")
+  () => import("@lp/features/master/referenceRanges/scenes/ReferenceRanges")
 )
 
 // Communication
