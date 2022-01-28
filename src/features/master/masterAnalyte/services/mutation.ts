@@ -31,7 +31,8 @@ export const LIST = gql`
         tubeGroups
         pageBreak
         method
-        analyteMethod
+        analyteMethodCode
+        analyteMethodName
         workflow
         sampleType
         reportable
@@ -140,7 +141,8 @@ export const FILTER = gql`
         tubeGroups
         pageBreak
         method
-        analyteMethod
+        analyteMethodCode
+        analyteMethodName
         workflow
         sampleType
         reportable

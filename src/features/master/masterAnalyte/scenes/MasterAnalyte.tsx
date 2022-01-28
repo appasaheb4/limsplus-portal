@@ -13,7 +13,7 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const MasterAnalyte = MasterAnalyteHoc(observer(() => {
-  const { loginStore, masterAnalyteStore, labStore,routerStore,loading } = useStores()
+  const { loginStore, masterAnalyteStore, methodsStore, labStore,routerStore,loading } = useStores()
   const {
     control,
     handleSubmit,
@@ -366,24 +366,46 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Analyte Method"
-                    name="txtAnalyteMethod"
-                    placeholder={
-                      errors.analyteMethod
-                        ? "Please Enter Analyte Method"
-                        : "Analyte Method"
-                    }
-                    hasError={errors.analyteMethod}
-                    value={masterAnalyteStore.masterAnalyte?.analyteMethod}
-                    onChange={(analyteMethod) => {
-                      onChange(analyteMethod)
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Analyte Method"
+                  hasError={errors.collectionCenter}
+                >
+                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
+                    placeholder="Search by code or name"
+                    data={{
+                      list:
+                        methodsStore.listMethods,
+                      displayKey: ["methodsCode", "methodsName"],
+                    }}
+                    hasError={errors.collectionCenter}
+                    onFilter={(value: string) => {
+                      methodsStore.methodsService.filterByFields(
+                        {
+                          input: {
+                            filter: {
+                              fields: ["methodsCode", "methodsName"],
+                              srText: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.methodsCode)
                       masterAnalyteStore.updateMasterAnalyte({
                         ...masterAnalyteStore.masterAnalyte,
-                        analyteMethod,
+                        analyteMethodCode: item.methodsCode,
+                        analyteMethodName: item.methodsName
                       })
+                      methodsStore.updateMethodsList(
+                        methodsStore.listMethodsCopy
+                      )
                     }}
                   />
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="analyteMethod"
                 rules={{ required: false }}
@@ -523,7 +545,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                   name="bill"
                   rules={{ required: false }}
                   defaultValue=""
-                />
+                />  
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (

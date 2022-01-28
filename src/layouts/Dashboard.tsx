@@ -90,8 +90,10 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testAnalyteMapping" ||
         pathname === "/collection/possibleResults" ||
         pathname === "/collection/referenceRanges"
-      )
+      ){
         await MasterAnalyte.startup()
+        await Methods.startup()
+      }
       if (
         pathname === "/collection/testMaster" ||
         pathname === "/collection/testSampleMapping" ||

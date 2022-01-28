@@ -21,7 +21,8 @@ export class MasterAnalyte {
   tubeGroups: string
   pageBreak: boolean
   method: boolean
-  analyteMethod: string
+  analyteMethodCode: string
+  analyteMethodName: string
   workflow: string
   sampleType: string
   reportable: boolean
@@ -64,8 +65,9 @@ export class MasterAnalyte {
     this.tubeGroups = rawData.tubeGroups 
     this.pageBreak = rawData.pageBreak 
     this.method = rawData.method 
-    this.analyteMethod = rawData.analyteMethod 
-     this.workflow = rawData.workflow 
+    this.analyteMethodCode = rawData.analyteMethodCode 
+    this.analyteMethodName = rawData.analyteMethodName
+    this.workflow = rawData.workflow 
     this.sampleType = rawData.sampleType 
     this.reportable = rawData.reportable 
     this.calculationFlag = rawData.calculationFlag 
