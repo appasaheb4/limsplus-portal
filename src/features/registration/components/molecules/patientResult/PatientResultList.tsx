@@ -7,7 +7,6 @@ import TableBootstrap from './TableBootstrap'
 
 import { NumberFilter } from "@lp/library/components/Organisms"
 
-
 interface PatientResultProps {
   data: any
   totalSize: number
@@ -19,7 +18,7 @@ interface PatientResultProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
-}
+}  
 
 let labId;
 const PatientResult = observer((props: PatientResultProps) => {
@@ -302,6 +301,139 @@ const PatientResult = observer((props: PatientResultProps) => {
               headerClasses: "textHeader4",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            // extra Data
+            {
+              dataField: "method",
+              text: "Method",
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.extraData.method}
+                      // onChange={(method) => {
+                      //   props.onUpdateItem &&
+                      //     props.onUpdateItem(method, "showRanges", row._id)
+                      // }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "analyteMethod",
+              text: "Analyte Method",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.analyteMethod}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "runno",
+              text: "Runno",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.runno}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "platerunno",
+              text: "Platerunno",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.platerunno}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "plateno",
+              text: "Plateno",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.plateno}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "repetation",
+              text: "Repetation",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.repetation}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "version",
+              text: "Version",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.version}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "enteredBy",
+              text: "Entered By",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.enteredBy}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "environment",
+              text: "Environment",
+              headerClasses: "textHeader4",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                   <span>{row.extraData.environment}</span>
+                  </>
+                )
+              },
             },
           ]}
           isEditModify={props.isEditModify}

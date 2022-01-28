@@ -4,10 +4,11 @@
  
  * @author limsplus
  */
+import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { SectionService } from "@lp/features/collection/section/services"
+import { SectionService } from "@lp/features/master/section/services"
 import { stores } from "@lp/stores"
-import {
+import {  
   LIST,
   CREATE_RECORD,
   REMOVE_RECORD,
@@ -19,10 +20,8 @@ import {
   FILTER_BY_FIELDS,
 } from "./mutation"
 
-import * as Model from "../models"
-
-class TestMasterService {
-  listTestMaster = (page = 0, limit = 10) =>
+class MasterPanelService {
+  listPanelMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
@@ -33,14 +32,15 @@ class TestMasterService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          stores.testMasterStore.updateTestMasterList(response.data)
+          stores.masterPanelStore.updatePanelMasterList(response.data)
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  addTestMaster = (variables: any) =>
+
+  addPanelMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -49,14 +49,14 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-  versionUpgradeTestMaster = (variables: any) =>
+  versionUpgradePanelMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -65,14 +65,14 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-  duplicateTestMaster = (variables: any) =>
+  duplicatePanelMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -81,14 +81,14 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-  deleteTestMaster = (variables: any) =>
+  deletePanelMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -112,7 +112,7 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -121,6 +121,8 @@ class TestMasterService {
 
   checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables })
+
       client
         .mutate({
           mutation: CHECK_EXISTS_RECORD,
@@ -139,10 +141,11 @@ class TestMasterService {
       new SectionService()
         .findSectionListByDeptCode({ input: { code } })
         .then((res) => {
-          stores.testMasterStore.updateSectionListByDeptCode(res)
+          stores.masterPanelStore.updateSectionListByDeptCode(res)
           resolve(res)
         })
     })
+
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -152,16 +155,16 @@ class TestMasterService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterTestMaster.success) return this.listTestMaster()
-          stores.testMasterStore.filterTestMasterList(response.data)
-          stores.uploadLoadingFlag(true)
+          if (!response.data.filterPanelMaster.success) return this.listPanelMaster()
+          stores.masterPanelStore.filterPanelMasterList(response.data)
+          stores.uploadLoadingFlag(false)
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -171,13 +174,13 @@ class TestMasterService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsTestMaster.success)
-            return this.listTestMaster()
-          stores.testMasterStore.filterTestMasterList({
-            filterTestMaster: {
-              data: response.data.filterByFieldsTestMaster.data,
+          if (!response.data.filterByFieldsPanelMaster.success)
+            return this.listPanelMaster()
+          stores.masterPanelStore.filterPanelMasterList({
+            filterPanelMaster: {
+              data: response.data.filterByFieldsPanelMaster.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsTestMaster.paginatorInfo.count,
+                count: response.data.filterByFieldsPanelMaster.paginatorInfo.count,
               },
             },
           })
@@ -190,4 +193,4 @@ class TestMasterService {
     })
 }
 
-export default TestMasterService
+export default MasterPanelService

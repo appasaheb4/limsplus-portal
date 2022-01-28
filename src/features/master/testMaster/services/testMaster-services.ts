@@ -4,9 +4,8 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { SectionService } from "@lp/features/collection/section/services"
+import { SectionService } from "@lp/features/master/section/services"
 import { stores } from "@lp/stores"
 import {
   LIST,
@@ -20,8 +19,10 @@ import {
   FILTER_BY_FIELDS,
 } from "./mutation"
 
-class MasterPanelService {
-  listPanelMaster = (page = 0, limit = 10) =>
+import * as Model from "../models"
+
+class TestMasterService {
+  listTestMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
@@ -32,15 +33,14 @@ class MasterPanelService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          stores.masterPanelStore.updatePanelMasterList(response.data)
+          stores.testMasterStore.updateTestMasterList(response.data)
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
-  addPanelMaster = (variables: any) =>
+  addTestMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -49,14 +49,14 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-  versionUpgradePanelMaster = (variables: any) =>
+  versionUpgradeTestMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -65,14 +65,14 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-  duplicatePanelMaster = (variables: any) =>
+  duplicateTestMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -81,14 +81,14 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-  deletePanelMaster = (variables: any) =>
+  deleteTestMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -112,7 +112,7 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -121,8 +121,6 @@ class MasterPanelService {
 
   checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
-
       client
         .mutate({
           mutation: CHECK_EXISTS_RECORD,
@@ -141,11 +139,10 @@ class MasterPanelService {
       new SectionService()
         .findSectionListByDeptCode({ input: { code } })
         .then((res) => {
-          stores.masterPanelStore.updateSectionListByDeptCode(res)
+          stores.testMasterStore.updateSectionListByDeptCode(res)
           resolve(res)
         })
     })
-
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -155,16 +152,16 @@ class MasterPanelService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterPanelMaster.success) return this.listPanelMaster()
-          stores.masterPanelStore.filterPanelMasterList(response.data)
-          stores.uploadLoadingFlag(false)
+          if (!response.data.filterTestMaster.success) return this.listTestMaster()
+          stores.testMasterStore.filterTestMasterList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+  
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -174,13 +171,13 @@ class MasterPanelService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPanelMaster.success)
-            return this.listPanelMaster()
-          stores.masterPanelStore.filterPanelMasterList({
-            filterPanelMaster: {
-              data: response.data.filterByFieldsPanelMaster.data,
+          if (!response.data.filterByFieldsTestMaster.success)
+            return this.listTestMaster()
+          stores.testMasterStore.filterTestMasterList({
+            filterTestMaster: {
+              data: response.data.filterByFieldsTestMaster.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsPanelMaster.paginatorInfo.count,
+                count: response.data.filterByFieldsTestMaster.paginatorInfo.count,
               },
             },
           })
@@ -193,4 +190,4 @@ class MasterPanelService {
     })
 }
 
-export default MasterPanelService
+export default TestMasterService
