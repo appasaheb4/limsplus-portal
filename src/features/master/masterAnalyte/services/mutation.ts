@@ -165,3 +165,60 @@ export const FILTER = gql`
     }
   }
 `
+
+
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: AnalyteMasterInput!) {
+    filterByFieldsAnalyteMaster(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        lab
+        analyteCode
+        analyteName
+        description
+        shortName
+        bill
+        price
+        schedule
+        autoRelease
+        holdOOS
+        instantResult
+        tubeGroups
+        pageBreak
+        method
+        analyteMethodCode
+        analyteMethodName
+        workflow
+        sampleType
+        reportable
+        calculationFlag
+        calcyName
+        high
+        low
+        repetition
+        picture
+        units
+        usage
+        cptCode
+        resultType
+        analyteType
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

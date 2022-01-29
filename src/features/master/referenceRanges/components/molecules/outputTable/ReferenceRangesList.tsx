@@ -54,7 +54,7 @@ interface ReferenceRangesProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const ReferenceRangesList = (props: ReferenceRangesProps) => {
+export const ReferenceRangesList = (props: ReferenceRangesProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -958,4 +958,3 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
     </>
   )
 }
-export default ReferenceRangesList

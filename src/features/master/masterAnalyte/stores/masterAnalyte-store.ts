@@ -1,7 +1,7 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
-import * as Services from "../services"
+import {MasterAnalyteService} from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
@@ -49,7 +49,7 @@ export class MasterAnalyteStore {
   }
 
   get masterAnalyteService() {
-    return new Services.MasterAnalyteService()
+    return new MasterAnalyteService()
   }
 
   fetchAnalyteMaster(page?, limit?) {

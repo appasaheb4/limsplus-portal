@@ -15,6 +15,7 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS
 } from "./mutation"
 import * as Models from "../models"
 export class ReferenceRangesService {
@@ -160,4 +161,32 @@ export class ReferenceRangesService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })  
+
+
+    filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsReferenceRanges.success)
+            return this.listReferenceRanges()
+          stores.refernceRangesStore.filterReferenceRangesList({
+            filterReferenceRange: {
+              data: response.data.filterByFieldsReferenceRanges.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsReferenceRanges.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }
