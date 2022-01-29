@@ -24,16 +24,16 @@ const authLink = setContext(async (_, { headers }) => {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   }
-}) 
-                        
-// depoly 2  
-const UploadLink = createUploadLink({  
-  uri: "http://localhost:8080/graphql",
-  //uri: "http://bcde-2409-4042-4cb1-5161-2037-da93-5cf7-5ffa.ngrok.io/graphql",
-  //uri: "https://limsplus-api.azurewebsites.net/graphql",
-  fetch: customFetch,  
-})  
-       
+})
+
+// depoly 2
+const UploadLink = createUploadLink({
+  // uri: "http://localhost:8080/graphql",
+  // uri: " http://c3cb-2409-4042-4c17-20a0-358b-efda-a9c5-43cb.ngrok.io/graphql",
+  uri: "https://limsplus-api.azurewebsites.net/graphql",
+  fetch: customFetch,
+})
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path, extensions }) => {
