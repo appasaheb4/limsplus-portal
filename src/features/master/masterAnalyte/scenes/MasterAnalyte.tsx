@@ -132,6 +132,15 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 body: `Update item!`,
               })
             }}
+            onUpdateFileds={(fileds: any,id: string)=>{
+              setModalConfirm({
+                show: true,
+                type: "Update Fields",
+                data :{fileds,id},
+                title: "Are you sure?",
+                body: "Update records"
+              })
+            }}
             onVersionUpgrade={(item) => {
               setModalConfirm({
                 show: true,
@@ -1260,7 +1269,25 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                     masterAnalyteStore.fetchAnalyteMaster()
                   }
                 })
-            } else if (type === "versionUpgrade") {
+            }else if(type === 'UpdateFileds'){
+              masterAnalyteStore.masterAnalyteService.updateSingleFiled
+              ({
+                input: {
+                  ...modalConfirm.data.fileds,
+                  _id: modalConfirm.data.id,
+                },
+              })
+              .then((res: any) => {
+                if (res.updateAnalyteMaster.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updateAnalyteMaster.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  masterAnalyteStore.fetchAnalyteMaster()
+                }
+              })
+            }
+             else if (type === "versionUpgrade") {
               masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,
                 _id: undefined,

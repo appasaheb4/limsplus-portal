@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { AutoCompleteFilterSingleSelectLabs } from "../organsims"
+import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectAnalayteMethod} from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let lab
@@ -13,7 +13,8 @@ let analyteName
 let description
 let shortName
 let price
-let analyteMethod
+let analyteMethodCode
+let analyteMethodName
 let calcyName
 let high
 let low
@@ -40,6 +41,7 @@ interface MasterAnalyteProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?:(fileds:any,id:string)=>void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -172,17 +174,62 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               },
             },
             {
-              dataField: "analyteMethod",
-              text: "Analyte Method",
-              headerClasses: "textHeader4",
+              dataField: "analyteMethodCode",
+              text: "Analyte Method Code",
+              headerClasses: "textHeader6",
               sort: true,
                csvFormatter: col => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter)=>{
-                  analyteMethod = filter
+                  analyteMethodCode = filter
                 }
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectAnalayteMethod
+                  onSelect={(item)=>{
+                    props.onUpdateFileds && props.onUpdateFileds({analyteMethodCode:item.methodsCode,analyteMethodName:item.methodsName},row._id)
+                  }}
+                  />
+                </>
+              )
+            },
+            {
+              dataField: "analyteMethodName",
+              text: "Analyte Method Name",
+              headerClasses: "textHeader6",
+              sort: true,
+               csvFormatter: col => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter)=>{
+                  analyteMethodName = filter
+                }
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectAnalayteMethod
+                  onSelect={(item)=>{
+                    props.onUpdateFileds && props.onUpdateFileds({analyteMethodCode:item.methodsCode,analyteMethodName:item.methodsName},row._id)
+                  }}
+                  />
+                </>
+              )
             },
             {
               dataField: "shortName",
@@ -1107,7 +1154,8 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             analyteName("")
             description("")
             shortName("")
-            analyteMethod("")
+            analyteMethodCode("")
+            analyteMethodName("")
             calcyName("")
             high("")
             low("")

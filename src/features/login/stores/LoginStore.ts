@@ -4,10 +4,10 @@ import { Login, ForgotPassword } from "../models"
 import * as Services from "../services"
 import { stores } from "@lp/stores"
 import Storage from "@lp/library/modules/storage"
-import { ignore } from "mobx-sync"
+// import { ignore } from "mobx-sync"
 
 export class LoginStore {
-  @ignore inputLogin!: Login
+ inputLogin!: Login
   login!: Login
   loginFailedCount: number
   forgotPassword!: ForgotPassword
