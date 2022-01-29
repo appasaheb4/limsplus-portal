@@ -135,8 +135,8 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
             onUpdateFileds={(fileds: any,id: string)=>{
               setModalConfirm({
                 show: true,
-                type: "Update Fields",
-                data :{fileds,id},
+                type: "updateFileds",
+                data: {fileds,id},
                 title: "Are you sure?",
                 body: "Update records"
               })
@@ -1240,6 +1240,8 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
+            console.log(type);
+            
             if (type === "Delete") {
               masterAnalyteStore.masterAnalyteService
                 .deleteAnalyteMaster({ input: { id: modalConfirm.id } })
@@ -1269,7 +1271,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                     masterAnalyteStore.fetchAnalyteMaster()
                   }
                 })
-            }else if(type === 'UpdateFileds'){
+            }else if(type === 'updateFileds'){
               masterAnalyteStore.masterAnalyteService.updateSingleFiled
               ({
                 input: {
