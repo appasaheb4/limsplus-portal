@@ -11,15 +11,18 @@ interface UpdateItem {
 export class InterfaceManagerStore {
   interfaceManager!: Models.InterfaceManager
   listInterfaceManager: Models.InterfaceManager[]
+  listInterfaceManagerCopy: Models.InterfaceManager[]
   listInterfaceManagerCount: number
   updateItem!: UpdateItem
 
   constructor() {
     this.listInterfaceManager = []
+    this.listInterfaceManagerCopy = []
     this.listInterfaceManagerCount = 0
     makeObservable<InterfaceManagerStore, any>(this, {
       interfaceManager: observable,
       listInterfaceManager: observable,
+      listInterfaceManagerCopy: observable,
       listInterfaceManagerCount: observable,
       updateItem: observable,
 
@@ -40,9 +43,14 @@ export class InterfaceManagerStore {
   }
 
   updateInterfaceManagerList(res: any) {
-    if (!res.interfaceManagers.success) return alert(res.interfaceManagers.message)
-    this.listInterfaceManager = res.interfaceManagers.data
-    this.listInterfaceManagerCount = res.interfaceManagers.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.interfaceManagers.success) return alert(res.interfaceManagers.message)
+      this.listInterfaceManager = res.interfaceManagers.data
+      this.listInterfaceManagerCopy = res.interfaceManagers.data
+      this.listInterfaceManagerCount = res.interfaceManagers.paginatorInfo.count
+    }else{
+      this.listInterfaceManager = res;
+    }
   }
 
   filterInterfaceManager(res: any){
