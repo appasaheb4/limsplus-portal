@@ -3,8 +3,8 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {BannerList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { RouterFlow } from "@lp/flows"
 
@@ -136,7 +136,7 @@ const Banner = BannerHoc(
                             ? `Select`
                             : bannerStore.banner?.environment || `Select`}
                         </option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (
@@ -176,7 +176,7 @@ const Banner = BannerHoc(
             </LibraryComponents.Atoms.List>
           </div>
           <div className="p-2 rounded-lg shadow-xl overflow-auto">
-            <FeatureComponents.Molecules.BannerList
+            <BannerList
               data={bannerStore.listBanner || []}
               totlaSize={bannerStore.listBannerCount}
               extraData={{
