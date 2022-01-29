@@ -324,15 +324,29 @@ const PatientResult = observer((props: PatientResultProps) => {
               },
             },
             {
-              dataField: "analyteMethod",
-              text: "Analyte Method",
-              headerClasses: "textHeader4",
+              dataField: "analyteMethodCode",
+              text: "Analyte Method Code",
+              headerClasses: "textHeader6",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
-                   <span>{row.extraData.analyteMethod}</span>
+                   <span>{row.extraData.analyteMethodCode}</span>
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "analyteMethodName",
+              text: "Analyte Method Name",
+              headerClasses: "textHeader6",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>  
+                   <span>{row.extraData.analyteMethodName}</span>
                   </>
                 )
               },
