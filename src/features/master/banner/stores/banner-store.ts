@@ -1,13 +1,13 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {Banner} from "../models"
+import {BannerService} from "../services"
 
 @version(0.1)
 export class BannerStore {
-  banner!: Models.Banner
-  listBanner: Models.Banner[]
-  listAllBanner: Models.Banner[]
+  banner!: Banner
+  listBanner: Banner[]
+  listAllBanner: Banner[]
   listBannerCount: number
   
   constructor() {
@@ -32,7 +32,7 @@ export class BannerStore {
   }
 
   get BannerService() {
-    return new Services.BannerService()
+    return new BannerService()
   }
 
   fetchListBanner(page?, limit?) {
@@ -59,7 +59,7 @@ export class BannerStore {
     this.listAllBanner = res.bannersListAll.data
   }
 
-  updateBanner = (banner: Models.Banner) => {
+  updateBanner = (banner: Banner) => {
     this.banner = banner
   }
 }

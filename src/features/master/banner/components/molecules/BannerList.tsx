@@ -2,8 +2,7 @@
 import React from "react"
 
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 
 let title
 let environment
@@ -14,7 +13,7 @@ interface BannerListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: any) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
@@ -22,7 +21,7 @@ interface BannerListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const BannerList = (props: BannerListProps) => {
+export const BannerList = (props: BannerListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -112,7 +111,7 @@ const BannerList = (props: BannerListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
@@ -185,4 +184,3 @@ const BannerList = (props: BannerListProps) => {
     />
   )
 }
-export default BannerList
