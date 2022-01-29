@@ -1,13 +1,11 @@
-import { makeObservable,  observable } from "mobx"
-import { version } from "mobx-sync"
+import { makeObservable, action, observable } from "mobx"
 import Session from "@lp/library/modules/session"
 import { stores } from "@lp/stores"
 
-@version(1.0)
 export class RootStore {
   processLoading: boolean
   session!: any
-
+   
   //modals
   modalTokenExpire!: any
   constructor() {
@@ -16,13 +14,19 @@ export class RootStore {
       processLoading: observable,
       session: observable,
       modalTokenExpire: observable,
+
+      setProcessLoading: action,
+      isLogin: action,
+      updateSesssion: action,
+      updateModalTokenExpire: action,
     })
   }
-
-   setProcessLoading(processLoading: boolean) {
+  
+  setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading
   }
- isLogin(): Promise<boolean> {
+
+  isLogin(): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
       await Session.getSession()
       try {
@@ -38,7 +42,7 @@ export class RootStore {
     })
   }
 
-   updateSesssion(value: any) {
+  updateSesssion(value: any) {
     this.session = value
   }
 
@@ -46,4 +50,5 @@ export class RootStore {
   updateModalTokenExpire(details: any) {
     this.modalTokenExpire = details
   }
+
 }
