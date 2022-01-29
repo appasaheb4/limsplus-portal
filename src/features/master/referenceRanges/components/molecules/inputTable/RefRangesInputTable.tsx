@@ -7,11 +7,11 @@ import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import _ from "lodash"
 
-interface CommonInputTableProps {
+interface RefRangesInputTableProps {
   data: any
 }
 
-export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
+export const RefRangesInputTable = observer(({ data }: RefRangesInputTableProps) => {
   const {
     loading,
     refernceRangesStore,

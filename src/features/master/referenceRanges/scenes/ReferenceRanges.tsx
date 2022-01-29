@@ -23,7 +23,7 @@ const ReferenceRanges = ReferenceRangesHoc(
       refernceRangesStore,
       routerStore,
     } = useStores()
-
+   
     const {
       control,
       handleSubmit,
@@ -31,11 +31,9 @@ const ReferenceRanges = ReferenceRangesHoc(
       setValue,
       clearErrors,
     } = useForm()
-
+  
     setValue("lab", loginStore.login.lab)
     setValue("environment", loginStore.login.environment)
-    setValue("status", refernceRangesStore.referenceRanges?.status)
-    setValue("environment", refernceRangesStore.referenceRanges?.environment)
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
     const onSubmitReferenceRanges = () => {

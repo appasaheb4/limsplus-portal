@@ -13,6 +13,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS
 } from "./mutation"
 
 export class InterfaceManagerService {
@@ -106,6 +107,33 @@ export class InterfaceManagerService {
           if (!response.data.filterInterfaceManagers.success)
             return this.listInterfaceManager()
           stores.interfaceManagerStore.filterInterfaceManager(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsInterfaceManagers.success)
+            return this.listInterfaceManager()
+          stores.interfaceManagerStore.filterInterfaceManager({
+            filterInterfaceManagers: {
+              data: response.data.filterByFieldsInterfaceManagers.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsInterfaceManagers.paginatorInfo.count,
+              },
+            },
+          })
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

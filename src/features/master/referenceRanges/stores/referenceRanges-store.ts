@@ -1,40 +1,29 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import { CommonInput, ReferenceRanges } from "../models"
+import {  ReferenceRanges } from "../models"
 import { ReferenceRangesService } from "../services"
-import dayjs from "dayjs"   
 
 export class RefernceRangesStore {
   referenceRanges!: ReferenceRanges
   listReferenceRanges: ReferenceRanges[]
   listReferenceRangesCount: number
   checkExitsRecord: boolean
-  commonInput!: CommonInput
 
   constructor() {
     this.listReferenceRanges = []
     this.listReferenceRangesCount = 0
     this.checkExitsRecord = false
-    this.referenceRanges = {
-      ...this.referenceRanges,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
-      version: 1,
-    }
 
     makeObservable<RefernceRangesStore, any>(this, {
       referenceRanges: observable,
       listReferenceRanges: observable,
       listReferenceRangesCount: observable,
       checkExitsRecord: observable,
-      commonInput: observable,
 
       referenceRangesService: computed,
       fetchListReferenceRanges: action,
       updateReferenceRangesList: action,
       updateReferenceRanges: action,
       updateExistsRecord: action,
-      updateCommonInput: action
     })
   }
   get referenceRangesService() {
@@ -61,9 +50,5 @@ export class RefernceRangesStore {
   }
   updateExistsRecord = (status: boolean) => {
     this.checkExitsRecord = status
-  }
-
-  updateCommonInput(input: CommonInput){
-    this.commonInput = input
   }
 }

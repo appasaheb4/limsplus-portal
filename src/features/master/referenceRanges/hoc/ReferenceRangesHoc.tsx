@@ -13,7 +13,6 @@ export const ReferenceRangesHoc = (Component: React.FC<any>) => {
           refernceRangesStore.updateReferenceRanges({
             ...refernceRangesStore.referenceRanges,
             lab: loginStore.login.lab,
-            environment: loginStore.login.environment,
           })
         }
         refernceRangesStore.updateReferenceRanges({
@@ -22,55 +21,9 @@ export const ReferenceRangesHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "SPECIES"
           ),
-        })
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          sex: LibraryUtils.getDefaultLookupItem(
-            routerStore.lookupItems,
-            "SEX"
-          ),
-        })
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          rangType: LibraryUtils.getDefaultLookupItem(
-            routerStore.lookupItems,
-            "RANG_TYPE"
-          ),
-        })
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
           rangeSetOn: LibraryUtils.getDefaultLookupItem(
             routerStore.lookupItems,
             "RANGE_SET_ON"
-          ),
-        })
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          ageUnit: LibraryUtils.getDefaultLookupItem(
-            routerStore.lookupItems,
-            "AGE_UNIT"
-          ),
-        })
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          intervalUnit: LibraryUtils.getDefaultLookupItem(
-            routerStore.lookupItems,
-            "INTERVAL_UNIT"
-          ),
-        })
-       
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          environment: LibraryUtils.getDefaultLookupItem(
-            routerStore.lookupItems,
-            "ENVIRONMENT"
-          ),
-        })
-        refernceRangesStore.updateReferenceRanges({
-          ...refernceRangesStore.referenceRanges,
-          status: LibraryUtils.getDefaultLookupItem(
-            routerStore.lookupItems,
-            "STATUS"
           ),
         })
       }, [loginStore.login, routerStore.lookupItems])

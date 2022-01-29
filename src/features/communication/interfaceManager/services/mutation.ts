@@ -91,3 +91,32 @@ export const FILTER = gql`
     }
   }
 `
+
+
+export const FILTER_BY_FIELDS = gql`
+  mutation($input: InterfaceManagerInput!) {
+    filterByFieldsInterfaceManagers(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        interfaceType
+        instrumentType
+        instrumentName
+        dataFlowFrom
+        communicationProtocol
+        blockStart
+        blockEnd
+        filed
+        value
+        fileds
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
