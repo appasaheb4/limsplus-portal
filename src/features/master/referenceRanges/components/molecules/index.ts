@@ -1,1 +1,1 @@
-export {default as ReferenceRanges} from './ReferenceRangesList';
+export {default as ReferenceRanges} from './outputTable/ReferenceRangesList';
