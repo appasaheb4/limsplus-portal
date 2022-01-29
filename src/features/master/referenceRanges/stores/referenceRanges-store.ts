@@ -1,13 +1,14 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
-import dayjs from "dayjs"
+import { CommonInput, ReferenceRanges } from "../models"
+import { ReferenceRangesService } from "../services"
+import dayjs from "dayjs"   
 
 export class RefernceRangesStore {
-  referenceRanges!: Models.ReferenceRanges
-  listReferenceRanges: Models.ReferenceRanges[]
+  referenceRanges!: ReferenceRanges
+  listReferenceRanges: ReferenceRanges[]
   listReferenceRangesCount: number
   checkExitsRecord: boolean
+  commonInput!: CommonInput
 
   constructor() {
     this.listReferenceRanges = []
@@ -26,16 +27,18 @@ export class RefernceRangesStore {
       listReferenceRanges: observable,
       listReferenceRangesCount: observable,
       checkExitsRecord: observable,
+      commonInput: observable,
 
       referenceRangesService: computed,
       fetchListReferenceRanges: action,
       updateReferenceRangesList: action,
       updateReferenceRanges: action,
       updateExistsRecord: action,
+      updateCommonInput: action
     })
   }
   get referenceRangesService() {
-    return new Services.ReferenceRangesService()
+    return new ReferenceRangesService()
   }
 
   fetchListReferenceRanges(page?, limit?) {
@@ -48,15 +51,19 @@ export class RefernceRangesStore {
     this.listReferenceRangesCount = res.referenceRanges.paginatorInfo.count
   }
 
-  filterReferenceRangesList(res: any){
+  filterReferenceRangesList(res: any) {
     this.listReferenceRanges = res.filterReferenceRange.data
     this.listReferenceRangesCount = res.filterReferenceRange.paginatorInfo.count
   }
 
-  updateReferenceRanges(ranges: Models.ReferenceRanges) {
+  updateReferenceRanges(ranges: ReferenceRanges) {
     this.referenceRanges = ranges
   }
   updateExistsRecord = (status: boolean) => {
     this.checkExitsRecord = status
+  }
+
+  updateCommonInput(input: CommonInput){
+    this.commonInput = input
   }
 }
