@@ -18,8 +18,8 @@ interface PatientOrderListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
-}      
-let labid;
+}
+let labid
 let visitId
 let orderId
 let panelCode
@@ -51,10 +51,19 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
                   labid = filter
                 },
               }),
+              // csvFormatter: (cell, row,rowIndex) => (
+              //   <>
+              //     <span>appa{cell}</span>
+              //     <span>{JSON.stringify(row)}</span>
+              //     {row.packageList.map((item) => (
+              //       <span>{item.panelCode}</span>
+              //     ))}
+              //   </>
+              // ),  
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
-            },
+            },   
             {
               dataField: "visitId",
               text: "Visit Id",
@@ -161,7 +170,7 @@ const PatientOrderList = observer((props: PatientOrderListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             labid("")
             visitId("")
             orderId("")

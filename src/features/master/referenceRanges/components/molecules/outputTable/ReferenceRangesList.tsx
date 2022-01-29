@@ -4,7 +4,12 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectAnalyteCode,AutoCompleteFilterSingleSelectAnalyteName} from "../organsims"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectDepartment,
+  AutoCompleteFilterSingleSelectAnalyteCode,
+  AutoCompleteFilterSingleSelectAnalyteName,
+} from "../../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let analyteCode
@@ -72,11 +77,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Analyte Code",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   analyteCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -89,9 +94,14 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectAnalyteCode
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.analyteCode,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.analyteCode,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
@@ -101,11 +111,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Analayte Name",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   analyteName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -118,9 +128,14 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectAnalyteName
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.analyteName,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.analyteName,
+                          column.dataField,
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
@@ -130,11 +145,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Department",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   department = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -147,9 +162,10 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDepartment
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -159,11 +175,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Species",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   species = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -175,26 +191,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const species = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(species, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "SPECIES"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const species = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(species, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "SPECIES"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -203,11 +217,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Sex",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sex = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -219,26 +233,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sex = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sex, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "SEX"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sex = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sex, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "SEX"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -247,11 +259,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Range Set On",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   rangeSetOn = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -263,26 +275,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const rangeSetOn = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(rangeSetOn, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "RANGE_SET_ON"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const rangeSetOn = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(rangeSetOn, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "RANGE_SET_ON"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -291,11 +301,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Equipment Type",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   equipmentType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -308,26 +318,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   {props.extraData.listInterfaceManager && (
-                    
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                        onChange={(e) => {
-                          const eqType = e.target.value as string
-                          props.onUpdateItem &&
-                            props.onUpdateItem(eqType, column.dataField, row._id)
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {props.extraData.listInterfaceManager &&
-                          props.extraData.listInterfaceManager.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.instrumentType}>
-                                {`${item.instrumentType}`}
-                              </option>
-                            )
-                          )}
-                      </select>
-                    
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      onChange={(e) => {
+                        const eqType = e.target.value as string
+                        props.onUpdateItem &&
+                          props.onUpdateItem(eqType, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listInterfaceManager &&
+                        props.extraData.listInterfaceManager.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.instrumentType}>
+                              {`${item.instrumentType}`}
+                            </option>
+                          )
+                        )}
+                    </select>
                   )}
                 </>
               ),
@@ -337,11 +345,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   lab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -354,9 +362,10 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectLabs
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -366,11 +375,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Rang Type",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   rangType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -382,26 +391,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const rangType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(rangType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "RANG_TYPE"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const rangType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(rangType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "RANG_TYPE"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -410,11 +417,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Age",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   age = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -426,11 +433,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Age Unit",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   ageUnit = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -442,26 +449,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const ageUnit = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(ageUnit, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "AGE_UNIT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const ageUnit = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(ageUnit, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "AGE_UNIT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -470,11 +475,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Low",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   low = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -483,11 +488,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "High",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   high = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -496,11 +501,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Alpha",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   alpha = filter
-              }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -510,11 +515,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   enteredBy = filter
-              }
+                },
               }),
             },
             {
@@ -522,11 +527,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   status = filter
-              }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -538,26 +543,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "STATUS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -566,11 +569,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environment = filter
-              }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -582,26 +585,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -611,11 +612,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateCreation = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -648,11 +650,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateActive = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -685,11 +688,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateExpire = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -722,11 +726,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Version",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   version = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -737,12 +741,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Delta Rang Tetype",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   deltaRangTeType = filter
-              }
+                },
               }),
             },
             {
@@ -750,12 +754,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Delta Interval",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   deltaInterval = filter
-              }
+                },
               }),
             },
             {
@@ -763,12 +767,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Interval Unit",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   intervalUnit = filter
-              }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -779,26 +783,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const intervalUnit = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(intervalUnit, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        props.extraData.lookupItems,
-                        "INTERVAL_UNIT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const intervalUnit = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(intervalUnit, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "INTERVAL_UNIT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -807,12 +809,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Formal Result Unit",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   formalResultUnit = filter
-              }
+                },
               }),
             },
             {
@@ -820,12 +822,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Report Default",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   reportDefault = filter
-              }
+                },
               }),
             },
 
@@ -923,7 +925,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             analyteCode("")
             analyteName("")
             department("")
