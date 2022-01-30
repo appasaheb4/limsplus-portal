@@ -13,6 +13,11 @@ export class RefernceRangesStore {
     this.listReferenceRangesCount = 0
     this.checkExitsRecord = false
 
+    this.referenceRanges ={
+      ...this.referenceRanges,
+      refRangesInputList:[]
+    }
+
     makeObservable<RefernceRangesStore, any>(this, {
       referenceRanges: observable,
       listReferenceRanges: observable,

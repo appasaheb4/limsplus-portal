@@ -1,4 +1,4 @@
-export class ReferenceRanges {
+class CommonInput {
   _id: string
   analyteCode: string
   analyteName: string
@@ -7,12 +7,6 @@ export class ReferenceRanges {
   rangeSetOn: string
   equipmentType: string
   lab: string
-  refRangesInputList: any[]
-  existsVersionId: string
-  existsRecordId: string
-  dateOfEntry: Date
-  lastUpdated: Date
-  
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.analyteCode = rawData.analyteCode
@@ -22,10 +16,22 @@ export class ReferenceRanges {
     this.rangeSetOn = rawData.rangeSetOn
     this.equipmentType = rawData.equipmentType
     this.lab = rawData.lab
-    this.refRangesInputList = rawData.refRangesInputList
+  }
+}
+
+
+export class ReferenceRanges extends CommonInput {
+  existsVersionId: string
+  existsRecordId: string
+  dateOfEntry: Date
+  lastUpdated: Date
+  refRangesInputList: CommonInput[]
+  constructor(rawData: { [key in string]: any }) {
+    super(rawData)
     this.existsVersionId = rawData.existsVersionId
     this.existsRecordId = rawData.existsRecordId
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated
+    this.refRangesInputList = rawData.refRangesInputList
   }
 }
