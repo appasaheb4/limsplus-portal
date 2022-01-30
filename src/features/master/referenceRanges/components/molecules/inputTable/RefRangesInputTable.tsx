@@ -6,208 +6,215 @@ import { lookupItems } from "@lp/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import _ from "lodash"
+import { TableBootstrap } from "./TableBootstrap"
 
 interface RefRangesInputTableProps {
   data: any
+  onDelete?: (id: string) => void
 }
 
-export const RefRangesInputTable = observer(({ data }: RefRangesInputTableProps) => {
-  const {
-    loading,
-    refernceRangesStore,
-    masterAnalyteStore,
-    departmentStore,
-    routerStore,
-    interfaceManagerStore,
-    labStore,
-  } = useStores()
-  const onRemoveItem = (index) => {}
+export const RefRangesInputTable = observer(
+  ({ data, onDelete }: RefRangesInputTableProps) => {
+    return (
+      <div style={{ position: "relative" }}>
+        <TableBootstrap
+          id="_id"
+          data={data}
+          columns={[
+            {
+              dataField: "_id",
+              text: "Id",
+              hidden: true,
+              csvExport: false,
+            },
+            {
+              dataField: "id",
+              text: "Range Id",
+              csvExport: false,
+            },
+            {
+              dataField: "analyteCode",
+              text: "Analyte Code",
+              csvExport: false,
+            },
+            {
+              dataField: "rangeSetOn",
+              text: "Range Set On",
+              csvExport: false,
+            },
+            {
+              dataField: "equipmentType",
+              text: "Equipment Type",
+              csvExport: false,
+            },
+            {
+              dataField: "lab",
+              text: "Lab",
+              csvExport: false,
+            },
+            {
+              dataField: "rangeType",
+              text: "Range Type",
+              csvExport: false,
+            },
 
-  return (
-    <>
-      <Table striped bordered>
-        <thead>
-          <tr className="p-0 text-xs">
-            <th className="text-white sticky left-0 z-10">Analyte</th>
-            <th className="text-white">Department</th>
-            <th className="text-white">Species</th>
-            <th className="text-white">Range_Set_On</th>
-            <th className="text-white">Equipment_Type</th>
-            <th className="text-white">Lab</th>
-          </tr>
-        </thead>
-        <tbody className="text-xs">
-          <tr>
-            <td>
-              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                loader={loading}
-                placeholder="Search by code or name"
-                data={{
-                  list: masterAnalyteStore.listMasterAnalyte,
-                  displayKey: ["analyteCode", "analyteName"],
-                }}
-                onFilter={(value: string) => {
-                  masterAnalyteStore.masterAnalyteService.filterByFields({
-                    input: {
-                      filter: {
-                        fields: ["analyteCode", "analyteName"],
-                        srText: value,
-                      },
-                      page: 0,
-                      limit: 10,
-                    },
-                  })
-                }}
-                onSelect={(item) => {
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    analyteCode: item.analyteCode,
-                    analyteName: item.analyteName,
-                  })
-                  masterAnalyteStore.updateMasterAnalyteList(
-                    masterAnalyteStore.listMasterAnalyteCopy
-                  )
-                }}
-              />
-            </td>
-            <td>
-              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                loader={loading}
-                placeholder="Search by code or name"
-                data={{
-                  list: departmentStore.listDepartment,
-                  displayKey: ["code", "name"],
-                }}
-                onFilter={(value: string) => {
-                  departmentStore.DepartmentService.filterByFields({
-                    input: {
-                      filter: {
-                        fields: ["code", "name"],
-                        srText: value,
-                      },
-                      page: 0,
-                      limit: 10,
-                    },
-                  })
-                }}
-                onSelect={(item) => {
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    department: item.code,
-                  })
-                  departmentStore.updateDepartmentList(
-                    departmentStore.listDepartmentCopy
-                  )
-                }}
-              />
-            </td>
-            <td>
-              <select
-                value={refernceRangesStore.referenceRanges?.species}
-                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                onChange={(e) => {
-                  const species = e.target.value as string
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    species,
-                  })
-                }}
-              >
-                <option selected>Select</option>
-                {lookupItems(routerStore.lookupItems, "SPECIES").map(
-                  (item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
-                    </option>
-                  )
-                )}
-              </select>
-            </td>
-            <td>
-              <select
-                value={refernceRangesStore.referenceRanges?.rangeSetOn}
-                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                onChange={(e) => {
-                  const rangeSetOn = e.target.value as string
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    rangeSetOn,
-                  })
-                }}
-              >
-                <option selected>Select</option>
-                {lookupItems(routerStore.lookupItems, "RANGE_SET_ON").map(
-                  (item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
-                    </option>
-                  )
-                )}
-              </select>
-            </td>
-            <td>
-              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                loader={loading}
-                placeholder="Search by instrumentType"
-                data={{
-                  list: interfaceManagerStore.listInterfaceManager,
-                  displayKey: ["instrumentType"],
-                }}
-                onFilter={(value: string) => {
-                  interfaceManagerStore.interfaceManagerService.filterByFields({
-                    input: {
-                      filter: {
-                        fields: ["instrumentType"],
-                        srText: value,
-                      },
-                      page: 0,
-                      limit: 10,
-                    },
-                  })
-                }}
-                onSelect={(item) => {
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    equipmentType: item.instrumentType,
-                  })
-                  interfaceManagerStore.updateInterfaceManagerList(
-                    interfaceManagerStore.listInterfaceManagerCopy
-                  )
-                }}
-              />
-            </td>
-            <td>
-              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                loader={loading}
-                placeholder="Search by code or name"
-                data={{
-                  list: labStore.listLabs,
-                  displayKey: ["code", "name"],
-                }}
-                onFilter={(value: string) => {
-                  labStore.LabService.filterByFields({
-                    input: {
-                      filter: {
-                        fields: ["code", "name"],
-                        srText: value,
-                      },
-                      page: 0,
-                      limit: 10,
-                    },
-                  })
-                }}  
-                onSelect={(item) => {
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    lab: item.code,
-                  })
-                  labStore.updateLabList(labStore.listLabsCopy)
-                }}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </>
-  )
-})
+            {
+              dataField: "species",
+              text: "Species",
+              csvExport: false,
+            },
+            {
+              dataField: "sex",
+              text: "Sex",
+              csvExport: false,
+            },
+            {
+              dataField: "ageFrom",
+              text: "ageFrom",
+              csvExport: false,
+            },
+            {
+              dataField: "ageTo",
+              text: "Age To",
+              csvExport: false,
+            },
+            {
+              dataField: "ageUnit",
+              text: "Age Unit",
+              csvExport: false,
+            },
+            {
+              dataField: "low",
+              text: "Low",
+              csvExport: false,
+            },
+            {
+              dataField: "high",
+              text: "High",
+              csvExport: false,
+            },
+            {
+              dataField: "alpha",
+              text: "Allpha",
+              csvExport: false,
+            },
+            {
+              dataField: "deltaType",
+              text: "Delta Type",
+              csvExport: false,
+            },
+            {
+              dataField: "deltaInterval",
+              text: "Delta Interval",
+              csvExport: false,
+            },
+            {
+              dataField: "intervalUnit",
+              text: "Interval Unit",
+              csvExport: false,
+            },
+            {
+              dataField: "colorLo",
+              text: "Color Lo",
+              csvExport: false,
+            },
+            {
+              dataField: "colorHi",
+              text: "Color Hi",
+              csvExport: false,
+            },
+            {
+              dataField: "colorNormal",
+              text: "Color Normal",
+              csvExport: false,
+            },
+            {
+              dataField: "version",
+              text: "Version",
+              csvExport: false,
+            },
+            {
+              dataField: "dateCreation",
+              text: "Date Creation",
+              csvExport: false,
+            },
+            {
+              dataField: "dateActive",
+              text: "Date Active",
+              csvExport: false,
+            },
+            {
+              dataField: "dateExpire",
+              text: "Date Expire",
+              csvExport: false,
+            },
+            {
+              dataField: "enterBy",
+              text: "Enter By",
+              csvExport: false,
+            },
+            {
+              dataField: "environment",
+              text: "Environment",
+              csvExport: false,
+            },
+            {
+              dataField: "opration",
+              text: "Action",
+              editable: false,
+              csvExport: false,
+              hidden: false,
+              formatter: (cellContent, row) => (
+                <>
+                  <div className="flex flex-row">
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#fff"
+                        size="20"
+                        onClick={() => onDelete && onDelete(row._id)}
+                      >
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                    </LibraryComponents.Atoms.Tooltip>
+                  </div>
+                </>
+              ),
+              headerClasses: "sticky right-0  bg-gray-500 text-white",
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
+            },
+          ]}
+          isEditModify={true}
+          isSelectRow={true}
+          fileName="Doctors"
+          onSelectedRow={(rows) => {
+            {
+            }
+          }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            {
+            }
+          }}
+          onPageSizeChange={(page, size) => {
+            {
+            }
+          }}
+          onFilter={(type, filter, page, size) => {
+            {
+            }
+          }}
+          clearAllFilter={() => {
+            {
+            }
+          }}
+        />
+      </div>
+    )
+  }
+)

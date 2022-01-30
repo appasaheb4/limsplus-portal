@@ -3,7 +3,11 @@ import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import { CommonInputTable, ReferenceRangesList } from "../components"
+import {
+  CommonInputTable,
+  ReferenceRangesList,
+  RefRangesInputTable,
+} from "../components"
 import { useForm } from "react-hook-form"
 
 import { ReferenceRangesHoc } from "../hoc"
@@ -23,7 +27,7 @@ const ReferenceRanges = ReferenceRangesHoc(
       refernceRangesStore,
       routerStore,
     } = useStores()
-   
+
     const {
       control,
       handleSubmit,
@@ -31,7 +35,7 @@ const ReferenceRanges = ReferenceRangesHoc(
       setValue,
       clearErrors,
     } = useForm()
-  
+
     setValue("lab", loginStore.login.lab)
     setValue("environment", loginStore.login.environment)
     const [modalConfirm, setModalConfirm] = useState<any>()
@@ -195,47 +199,11 @@ const ReferenceRanges = ReferenceRangesHoc(
               "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
-            <div className="flex flex-row gap-2 items-center">
-            <CommonInputTable data={{}} />
-            <LibraryComponents.Atoms.Buttons.Button
-                  size="medium"
-                  type="solid"
-                  onClick={() => {
-                    // const value = lookupStore.localInput.value
-                    // const code = lookupStore.localInput.code
-                    // let arrValue = lookupStore.lookup?.arrValue || []
-                    // if (value === undefined || code === undefined)
-                    //   return alert("Please enter value and code.")
-                    // if (value !== undefined) {
-                    //   console.log({ len: arrValue.length })
-                    //   arrValue !== undefined
-                    //     ? arrValue.push({
-                    //         value,
-                    //         code,
-                    //       })
-                    //     : (arrValue = [
-                    //         {
-                    //           value,
-                    //           code,
-                    //         },
-                    //       ])
-                    //   lookupStore.updateLookup({
-                    //     ...lookupStore.lookup,
-                    //     arrValue,
-                    //   })
-                    //   lookupStore.updateLocalInput({
-                    //     ...lookupStore.localInput,
-                    //     value: "",
-                    //     code: "",
-                    //   })
-                    // }
-                  }}
-                >
-                  <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
-                  {`Add`}
-                </LibraryComponents.Atoms.Buttons.Button>
+              <CommonInputTable />
+              
+            <div className="p-2 rounded-lg shadow-xl overflow-auto">
+              <RefRangesInputTable data={refernceRangesStore.referenceRanges?.refRangesInputList ||[]} />
             </div>
-           
             <br />
             <LibraryComponents.Atoms.List direction="row" space={3} align="center">
               <LibraryComponents.Atoms.Buttons.Button
