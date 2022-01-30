@@ -10,23 +10,19 @@ import { TableBootstrap } from "./TableBootstrap"
 
 interface RefRangesInputTableProps {
   data: any
-  onDelete?: (id: string) => void
+  extraData?: any
+  onDelete?: (id: number) => void
+  onUpdateItems?: (item: any, id) => void
 }
 
 export const RefRangesInputTable = observer(
-  ({ data, onDelete }: RefRangesInputTableProps) => {
+  ({ data, extraData, onDelete, onUpdateItems }: RefRangesInputTableProps) => {
     return (
       <div style={{ position: "relative" }}>
         <TableBootstrap
-          id="_id"
+          id="id"
           data={data}
           columns={[
-            {
-              dataField: "_id",
-              text: "Id",
-              hidden: true,
-              csvExport: false,
-            },
             {
               dataField: "id",
               text: "Range Id",
@@ -53,25 +49,100 @@ export const RefRangesInputTable = observer(
               csvExport: false,
             },
             {
-              dataField: "rangeType",
-              text: "Range Type",
-              csvExport: false,
-            },
-
-            {
               dataField: "species",
               text: "Species",
               csvExport: false,
             },
             {
+              dataField: "rangeType",
+              text: "Range Type",
+              headerClasses: "textHeaderm",
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const rangeType = e.target.value
+                      onUpdateItems && onUpdateItems({ rangeType }, row.id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, "RANGE_TYPE").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
               dataField: "sex",
               text: "Sex",
+              headerClasses: "textHeaderm",
               csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sex = e.target.value
+                      onUpdateItems && onUpdateItems({ sex }, row.id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, "SEX").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "ageFrom",
-              text: "ageFrom",
+              text: "Age From",
+              headerClasses: "textHeaderm",
               csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>  
+                  <LibraryComponents.Atoms.Form.Input
+                    placeholder="Age From"
+                    type="number"
+                    value={row?.ageFrom}
+                    onBlur={(ageFrom) => {
+                      onUpdateItems && onUpdateItems({ ageFrom }, row.id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "ageTo",
@@ -167,20 +238,15 @@ export const RefRangesInputTable = observer(
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
-                      tooltipText="Delete"
-                      position="top"
+                    <LibraryComponents.Atoms.Icons.IconContext
+                      color="#fff"
+                      size="20"
+                      onClick={() => onDelete && onDelete(row.id)}
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#fff"
-                        size="20"
-                        onClick={() => onDelete && onDelete(row._id)}
-                      >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      {LibraryComponents.Atoms.Icons.getIconTag(
+                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      )}
+                    </LibraryComponents.Atoms.Icons.IconContext>
                   </div>
                 </>
               ),

@@ -178,6 +178,47 @@ const ReferenceRanges = ReferenceRangesHoc(
       ),
       [refernceRangesStore.listReferenceRanges]
     )
+
+    const refRangesInputTable = useMemo(
+      () =>
+        refernceRangesStore.referenceRanges?.refRangesInputList.length > 0 && (
+          <div className="p-2 rounded-lg shadow-xl overflow-auto">
+            <RefRangesInputTable
+              data={toJS(refernceRangesStore.referenceRanges?.refRangesInputList)}
+              extraData={routerStore}
+              onDelete={(id) => {
+                const index = _.findIndex(refernceRangesStore.referenceRanges?.refRangesInputList, {'id' :id});
+                const firstArr =
+                  refernceRangesStore.referenceRanges?.refRangesInputList?.slice(
+                    0,
+                    index
+                  ) || []
+                const secondArr =
+                  refernceRangesStore.referenceRanges?.refRangesInputList?.slice(
+                    index + 1
+                  ) || []
+                const finalArray = [...firstArr, ...secondArr]
+                refernceRangesStore.updateReferenceRanges({
+                  ...refernceRangesStore.referenceRanges,
+                  refRangesInputList: finalArray,
+                })
+              }}
+              onUpdateItems={(items,id)=>{
+                const index = _.findIndex(refernceRangesStore.referenceRanges?.refRangesInputList, {'id' :id});
+                const refRangesInputList = refernceRangesStore.referenceRanges?.refRangesInputList;
+                refRangesInputList[index] ={...refRangesInputList[index],...items}
+                refernceRangesStore.updateReferenceRanges({
+                  ...refernceRangesStore.referenceRanges,
+                  refRangesInputList,
+                  refreshList: ! refernceRangesStore.referenceRanges?.refreshList
+                })
+              }}
+            />
+          </div>
+        ),
+      [refernceRangesStore.referenceRanges?.refRangesInputList.length,refernceRangesStore.referenceRanges?.refreshList ]
+    )
+
     return (
       <>
         <LibraryComponents.Atoms.Header>
@@ -199,11 +240,8 @@ const ReferenceRanges = ReferenceRangesHoc(
               "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
-              <CommonInputTable />
-              
-            <div className="p-2 rounded-lg shadow-xl overflow-auto">
-              <RefRangesInputTable data={refernceRangesStore.referenceRanges?.refRangesInputList ||[]} />
-            </div>
+            <CommonInputTable />
+            {refRangesInputTable}
             <br />
             <LibraryComponents.Atoms.List direction="row" space={3} align="center">
               <LibraryComponents.Atoms.Buttons.Button

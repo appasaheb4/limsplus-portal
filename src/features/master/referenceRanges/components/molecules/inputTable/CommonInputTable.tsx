@@ -36,7 +36,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
     let refRangesInputList =
     refernceRangesStore.referenceRanges?.refRangesInputList
   refRangesInputList.push({
-    _id: uuidv4(),
+    id: refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
     analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
     analyteName: refernceRangesStore.referenceRanges?.analyteName,
     department: refernceRangesStore.referenceRanges?.department,
@@ -45,11 +45,12 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
     equipmentType: refernceRangesStore.referenceRanges?.equipmentType,
     lab: refernceRangesStore.referenceRanges?.lab,
   })
-  console.log({ refRangesInputList })
-  //  refernceRangesStore.updateReferenceRanges({
-  //    ...refernceRangesStore.referenceRanges,
-  //    refRangesInputList
-  //  })
+  console.log({refRangesInputList});
+  
+   refernceRangesStore.updateReferenceRanges({
+     ...refernceRangesStore.referenceRanges,
+     refRangesInputList
+   })
   }
 
   return (

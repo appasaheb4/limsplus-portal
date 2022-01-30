@@ -23,7 +23,33 @@ th {
 /* .date-filter-comparator.form-control {
   display: none;
 } */
-
+.react-bootstrap-table .textHeaders {
+  min-width: 70px;
+}
+.react-bootstrap-table .textHeaderxs {
+  min-width: 90px;
+}
+.react-bootstrap-table .textHeaderxxs {
+  min-width: 110px;
+}
+.react-bootstrap-table .textHeaderm {
+  min-width: 130px;
+}
+.react-bootstrap-table .textHeadersxm {
+  min-width: 150px;
+}
+.react-bootstrap-table .textHeaderxxm {
+  min-width: 170px;
+}
+.react-bootstrap-table .textHeaderl {
+  min-width: 190px;
+}
+.react-bootstrap-table .textHeaderxl {
+  min-width: 210px;
+}
+.react-bootstrap-table .textHeaderxxl {
+  min-width: 230px;
+}
 .react-bootstrap-table .textHeader {
   min-width: 250px;
 }
