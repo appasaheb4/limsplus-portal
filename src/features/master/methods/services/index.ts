@@ -1,1 +1,1 @@
-export { default as MethodsService } from "./methods-services"
+export * from "./methods-services"

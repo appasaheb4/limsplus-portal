@@ -1,11 +1,11 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {Methods} from "../models"
+import {MethodsService} from "../services"
 
 export class MethodsStore {
-  methods!: Models.Methods
-  listMethods: Models.Methods[]
-  listMethodsCopy!: Models.Methods[]
+  methods!: Methods
+  listMethods: Methods[]
+  listMethodsCopy!: Methods[]
   listMethodsCount: number
   checkExitsEnvCode: boolean
 
@@ -29,7 +29,7 @@ export class MethodsStore {
   }
 
   get methodsService() {
-    return new Services.MethodsService()
+    return new MethodsService()
   }
 
   fetchMethods(page?, limit?) {
@@ -53,7 +53,7 @@ export class MethodsStore {
     this.listMethods = res.filterMethods.data
   }
 
-  updateMethods(methods: Models.Methods) {
+  updateMethods(methods: Methods) {
     this.methods = methods
   }
 
