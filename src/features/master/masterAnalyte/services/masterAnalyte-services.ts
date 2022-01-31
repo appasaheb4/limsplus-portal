@@ -19,7 +19,7 @@ import {
   FILTER_BY_FIELDS
 } from "./mutation"
 
-class MasterAnalyteService {
+export class MasterAnalyteService {
   listAnalyteMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -179,4 +179,3 @@ class MasterAnalyteService {
     })
 }
 
-export default MasterAnalyteService

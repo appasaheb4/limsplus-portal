@@ -1,11 +1,10 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import {lookupItems} from "@lp/library/utils"
+import {MasterAnalyteList} from "../components"
 import { useForm, Controller } from "react-hook-form"
-import dayjs from "dayjs"
 import {MasterAnalyteHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
@@ -98,7 +97,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.MasterAnalyteList
+      <MasterAnalyteList
             data={masterAnalyteStore.listMasterAnalyte || []}
             totalSize={masterAnalyteStore.listMasterAnalyteCount}
             extraData={{
@@ -628,7 +627,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "RESULT_TYPE"
                       ).map((item: any, index: number) => (
@@ -665,7 +664,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ANALYTE_TYPE"
                       ).map((item: any, index: number) => (
@@ -702,7 +701,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "UNITS"
                       ).map((item: any, index: number) => (
@@ -739,7 +738,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "USAGE"
                       ).map((item: any, index: number) => (
@@ -794,17 +793,17 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 label="Schedule"
                 name="txtSchedule"
                 placeholder="Schedule"
-                value={LibraryUtils.moment
+                value={moment
                   .unix(masterAnalyteStore.masterAnalyte?.schedule || 0)
                   .format("YYYY-MM-DD")}
                 onChange={(e) => {
                   const schedule = new Date(e.target.value)
-                  const formatDate = LibraryUtils.moment(schedule).format(
+                  const formatDate = moment(schedule).format(
                     "YYYY-MM-DD HH:mm"
                   )
                   masterAnalyteStore.updateMasterAnalyte({
                     ...masterAnalyteStore.masterAnalyte,
-                    schedule: LibraryUtils.moment(formatDate).unix(),
+                    schedule: moment(formatDate).unix(),
                   })
                 }}
               />
@@ -938,7 +937,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -1194,7 +1193,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                           : masterAnalyteStore.masterAnalyte?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
