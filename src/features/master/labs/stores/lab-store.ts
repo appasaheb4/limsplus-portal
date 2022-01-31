@@ -1,7 +1,7 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import {Labs,SelectedItems} from "../models"
-import * as Services from "../services"
+import {LabService} from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
@@ -38,7 +38,7 @@ export class LabStore {
   }
 
   get LabService() {
-    return new Services.LabService()
+    return new LabService()
   }
 
   fetchListLab(page?, limit?) {
