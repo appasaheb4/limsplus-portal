@@ -3,7 +3,7 @@ import React from "react"
 import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectHod} from '../orgransims'
+import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectHod} from '../index'
 
 let lab;
 let code;
