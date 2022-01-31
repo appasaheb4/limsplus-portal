@@ -2,8 +2,8 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {TestSampleMappingList} from "../components"
+import {lookupItems,lookupValue} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { TestSampleMappingHoc } from "../hoc"
 import { useStores } from "@lp/stores"
@@ -58,7 +58,7 @@ const TestSampleMapping = TestSampleMappingHoc(
 
     const tableView = useMemo(
       () => (
-        <FeatureComponents.Molecules.TestSampleMappingList
+        <TestSampleMappingList
           data={testSampleMappingStore.listTestSampleMapping || []}
           totalSize={testSampleMappingStore.listTestSampleMappingCount}
           extraData={{
@@ -458,12 +458,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "MIN_DRAW_VOL_UNIT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {LibraryUtils.lookupValue(item)}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -520,12 +520,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "MIN_TEST_VOL_UNIT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {LibraryUtils.lookupValue(item)}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -900,7 +900,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "RETENTION_UNITS"
                         ).map((item: any, index: number) => (
@@ -1009,7 +1009,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             : testSampleMappingStore.testSampleMapping
                                 ?.environment || `Select`}
                         </option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (
