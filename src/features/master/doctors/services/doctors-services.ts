@@ -19,7 +19,7 @@ import {
   FILTER_BY_FIELDS
 } from "./mutation"
 
-class DoctorsService {
+export class DoctorsService {
   listDoctors = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -178,4 +178,4 @@ class DoctorsService {
     })
 }
 
-export default DoctorsService
+

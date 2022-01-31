@@ -1,12 +1,12 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {Doctors} from "../models"
+import {DoctorsService} from "../services"
 import dayjs from "dayjs"
 
 export class DoctorsStore {
-  doctors!: Models.Doctors
-  listDoctors: Models.Doctors[]
-  listDoctorsCopy: Models.Doctors[]
+  doctors!: Doctors
+  listDoctors: Doctors[]
+  listDoctorsCopy: Doctors[]
   listDoctorsCount: number
   checkExitsLabEnvCode: boolean
 
@@ -41,7 +41,7 @@ export class DoctorsStore {
   }
 
   get doctorsService() {
-    return new Services.DoctorsService()
+    return new DoctorsService()
   }
   
   fetchDoctors(page?, limit?) {
@@ -65,7 +65,7 @@ export class DoctorsStore {
     this.listDoctorsCount = res.filterDoctors.paginatorInfo.count
   }
 
-  updateDoctors(methods: Models.Doctors) {
+  updateDoctors(methods: Doctors) {
     this.doctors = methods
   }
   updateExistsLabEnvCode = (status: boolean) => {
