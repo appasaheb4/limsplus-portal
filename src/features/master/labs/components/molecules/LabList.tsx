@@ -1,9 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import { Stores } from "../../stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import _ from "lodash"
-import * as Utils from "../../util"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { useStores } from "@lp/stores"
@@ -50,7 +49,7 @@ interface LabListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
-const LabList = (props: LabListProps) => {
+export const LabList = (props: LabListProps) => {
   const { administrativeDivisions, salesTeamStore } = useStores()
 
   return (
@@ -335,7 +334,7 @@ const LabList = (props: LabListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
@@ -508,7 +507,7 @@ const LabList = (props: LabListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "LAB_TYPE"
                       ).map((item: any, index: number) => (
@@ -737,7 +736,7 @@ const LabList = (props: LabListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
@@ -839,4 +838,3 @@ const LabList = (props: LabListProps) => {
     </>
   )
 }
-export default LabList
