@@ -1,14 +1,14 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {MasterPackage} from "../models"
+import {MasterPackageService} from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
 export class MasterPackageStore {
-  masterPackage!: Models.MasterPackage
-  listMasterPackage!: Models.MasterPackage[]
-  listMasterPackageCopy!: Models.MasterPackage[]
+  masterPackage!: MasterPackage
+  listMasterPackage!: MasterPackage[]
+  listMasterPackageCopy!: MasterPackage[]
   listMasterPackageCount!: number
   checkExitsLabEnvCode!: boolean
 
@@ -42,7 +42,7 @@ export class MasterPackageStore {
   }
 
   get masterPackageService() {
-    return new Services.MasterPackageService()
+    return new MasterPackageService()
   }
 
   fetchPackageMaster(page?, limit?) {
@@ -65,7 +65,7 @@ export class MasterPackageStore {
     this.listMasterPackageCount = res.filterPackageMaster.paginatorInfo.count
   }
 
-  updateMasterPackage(pacakge: Models.MasterPackage) {
+  updateMasterPackage(pacakge: MasterPackage) {
     this.masterPackage = pacakge
   }
 
