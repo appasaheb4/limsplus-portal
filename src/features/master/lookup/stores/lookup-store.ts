@@ -1,18 +1,18 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {LocalInput,Lookup,GlobalSettings} from "../models"
 import { LookupService } from "../services"
 
 export class LookupStore {  
-  listLookup!: Models.Lookup[]
+  listLookup!: Lookup[]
   listLookupCount: number = 0
-  lookup!: Models.Lookup
-  globalSettings!: Models.GlobalSettings
-  localInput!: Models.LocalInput
+  lookup!: Lookup
+  globalSettings!: GlobalSettings
+  localInput!: LocalInput
   flagUpperCase: boolean
    
   constructor() {
     this.listLookup = []
-    this.localInput = new Models.LocalInput({})
+    this.localInput = new LocalInput({})
     this.flagUpperCase = true
     makeObservable<LookupStore, any>(this, {
       listLookup: observable,
@@ -52,15 +52,15 @@ export class LookupStore {
     this.listLookupCount = res.filterLookups.paginatorInfo.count
   }
 
-  updateLookup = (Lookup: Models.Lookup) => {
+  updateLookup = (Lookup: Lookup) => {
     this.lookup = Lookup
   }
 
-  updateGlobalSettings = (values: Models.GlobalSettings) => {
+  updateGlobalSettings = (values: GlobalSettings) => {
     this.globalSettings = values
   }
 
-  updateLocalInput(input: Models.LocalInput) {
+  updateLocalInput(input: LocalInput) {
     this.localInput = input
   }
 

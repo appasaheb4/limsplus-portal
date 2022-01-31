@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import _ from "lodash"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
@@ -27,7 +27,7 @@ interface LookupListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const LookupList = (props: LookupListProps) => {
+export const LookupList = (props: LookupListProps) => {
   useEffect(() => {
     router = router.filter((item: any) => {
       if (item.name !== "Dashboard") {
@@ -367,7 +367,7 @@ const LookupList = (props: LookupListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
@@ -449,4 +449,4 @@ const LookupList = (props: LookupListProps) => {
     </div>
   )
 }
-export default LookupList
+
