@@ -18,7 +18,7 @@ import {
 } from "./mutation"
 import * as Model from '../models'
 
-class TestAnalyteMappingService {
+export class TestAnalyteMappingService {
   listTestAnalyteMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -150,4 +150,3 @@ class TestAnalyteMappingService {
     })
 }
 
-export default TestAnalyteMappingService

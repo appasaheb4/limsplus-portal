@@ -1,13 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import dayjs from "dayjs"
 import _ from 'lodash'
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import {lookupItems} from "@lp/library/utils"
+import {TestAnalyteMappingList} from "../components"
 import { useForm, Controller } from "react-hook-form"
-import {AutoCompleteFilterSingleSelectTestName} from "../components/organsims"
+import {AutoCompleteFilterSingleSelectTestName} from "../components"
 import {TestAnalyteMappingHoc} from "../hoc"
 import { useStores, } from "@lp/stores"
 
@@ -110,7 +109,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.TestAnalyteMappingList
+      <TestAnalyteMappingList
             data={testAnalyteMappingStore.listTestAnalyteMapping || []}
             totalSize={testAnalyteMappingStore.listTestAnalyteMappingCount}
             extraData={{
@@ -494,7 +493,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -703,7 +702,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                           : testAnalyteMappingStore.testAnalyteMapping
                               ?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
