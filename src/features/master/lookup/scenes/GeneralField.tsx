@@ -1,11 +1,11 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { observer } from "mobx-react"
 import { useForm, Controller } from "react-hook-form"
 import _ from "lodash"
 
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
@@ -340,7 +340,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                       ? `Select`
                       : lookupStore.globalSettings?.environment || `Select`}
                   </option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
