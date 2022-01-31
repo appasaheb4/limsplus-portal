@@ -1,13 +1,13 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {TestPanelMapping} from "../models"
+import {TestPanelMappingService} from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
 export class TestPanelMappingStore {
-  testPanelMapping!: Models.TestPanelMapping
-  listTestPanelMapping: Models.TestPanelMapping[]
+  testPanelMapping!: TestPanelMapping
+  listTestPanelMapping: TestPanelMapping[]
   listTestPanelMappingCount: number
   checkExitsLabEnvCode!: boolean
 
@@ -41,7 +41,7 @@ export class TestPanelMappingStore {
   }
 
   get testPanelMappingService() {
-    return new Services.TestPanelMappingService()
+    return new TestPanelMappingService()
   }
 
   fetchTestPanelMapping(page?, limit?) {
@@ -59,7 +59,7 @@ export class TestPanelMappingStore {
     this.listTestPanelMappingCount = res.filterTestPanelMappings.paginatorInfo.count
   }
 
-  updateTestPanelMapping(testPanel: Models.TestPanelMapping) {
+  updateTestPanelMapping(testPanel: TestPanelMapping) {
     this.testPanelMapping = testPanel
   }
 

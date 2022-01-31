@@ -18,7 +18,7 @@ import {
   FILTER,
 } from "./mutation"
 
-class TestPanelMappingService {
+export class TestPanelMappingService {
   listTestPanelMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -161,4 +161,4 @@ class TestPanelMappingService {
     })  
 }   
 
-export default TestPanelMappingService
+
