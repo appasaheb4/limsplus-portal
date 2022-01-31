@@ -1,17 +1,17 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {SampleType} from "../models"
+import {SampleTypeService} from "../services"
 
 export class SampleTypeStore {
-  listSampleType!: Models.SampleType[]
-  listSampleTypeCopy!: Models.SampleType[]
+  listSampleType!: SampleType[]
+  listSampleTypeCopy!: SampleType[]
   listSampleTypeCount!: number
-  sampleType!: Models.SampleType
+  sampleType!: SampleType
   checkExitsEnvCode: boolean
 
   constructor() {
     this.listSampleType = []
-    this.sampleType = new Models.SampleType({})
+    this.sampleType = new SampleType({})
     this.checkExitsEnvCode = false
 
     makeObservable<SampleTypeStore, any>(this, {
@@ -30,7 +30,7 @@ export class SampleTypeStore {
   }
        
   get sampleTypeService() {
-    return new Services.SampleTypeService()
+    return new SampleTypeService()
   }
 
   fetchSampleTypeList(page?, limit?) {
@@ -53,7 +53,7 @@ export class SampleTypeStore {
     this.listSampleTypeCount = res.filterSampleTypes.paginatorInfo.count
   }
 
-  updateSampleType = (sampleType: Models.SampleType) => {
+  updateSampleType = (sampleType: SampleType) => {
     this.sampleType = sampleType
   }
 
