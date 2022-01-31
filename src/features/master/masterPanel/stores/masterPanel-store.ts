@@ -1,15 +1,15 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {MasterPanel} from "../models"
+import {MasterPanelService} from "../services"
 import * as ModelsSection from "@lp/features/master/section/models"
 import dayjs from "dayjs"
 
 @version(0.1)
 export class MasterPanelStore {
-  masterPanel!: Models.MasterPanel
-  listMasterPanel: Models.MasterPanel[]
-  listMasterPanelCopy!: Models.MasterPanel[]
+  masterPanel!: MasterPanel
+  listMasterPanel: MasterPanel[]
+  listMasterPanelCopy!: MasterPanel[]
   listMasterPanelCount!: number
   checkExitsLabEnvCode!: boolean
   sectionListByDeptCode!: ModelsSection.Section[]
@@ -57,7 +57,7 @@ export class MasterPanelStore {
   }
 
   get masterPanelService() {
-    return new Services.MasterPanelService()
+    return new MasterPanelService()
   }
 
   fetchPanelMaster(page?, limit?) {
@@ -91,7 +91,7 @@ export class MasterPanelStore {
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data
   }
 
-  updateMasterPanel(analyte: Models.MasterPanel) {
+  updateMasterPanel(analyte: MasterPanel) {
     this.masterPanel = analyte
   }
 
