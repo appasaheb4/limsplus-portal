@@ -1,14 +1,14 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {Deginisation} from "../models"
+import {DeginisationService} from "../services"
      
 @version(0.1)
 export class DeginisationStore {
-  listDeginisation!: Models.Deginisation[]
-  listDeginisationCopy!: Models.Deginisation[]
+  listDeginisation!: Deginisation[]
+  listDeginisationCopy!: Deginisation[]
   listDeginisationCount: number = 0
-  deginisation!: Models.Deginisation
+  deginisation!: Deginisation
   checkExitsCode: boolean = false
 
   constructor() {
@@ -29,7 +29,7 @@ export class DeginisationStore {
   }
 
   get DeginisationService() {
-    return new Services.DeginisationService()
+    return new DeginisationService()
   }
 
   fetchListDeginisation(page?, limit?) {
@@ -58,7 +58,7 @@ export class DeginisationStore {
     this.checkExitsCode = status
   }
 
-  updateDescription = (deginisation: Models.Deginisation) => {
+  updateDescription = (deginisation: Deginisation) => {
     this.deginisation = deginisation
   }
 }
