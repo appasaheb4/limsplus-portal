@@ -1,17 +1,17 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {Department,SelectedItems} from "../models"
+import {DepartmentService} from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
 export class DepartmentStore {
-  listDepartment!: Models.Department[]
-  listDepartmentCopy!: Models.Department[]
+  listDepartment!: Department[]
+  listDepartmentCopy!: Department[]
   listDepartmentCount: number = 0
-  department!: Models.Department
+  department!: Department
   checkExitsCode: boolean = false
-  selectedItems!: Models.SelectedItems
+  selectedItems!: SelectedItems
 
   constructor() {
     this.listDepartment = []
@@ -40,7 +40,7 @@ export class DepartmentStore {
     })
   }
   get DepartmentService() {
-    return new Services.DepartmentService()
+    return new DepartmentService()
   }
 
   setExitsCode(status: boolean) {
@@ -67,11 +67,11 @@ export class DepartmentStore {
     this.listDepartmentCount = res.filterDepartments.paginatorInfo.count
   }
 
-  updateDepartment = (department: Models.Department) => {
+  updateDepartment = (department: Department) => {
     this.department = department
   }
-  updateSelectedItems(items: Models.SelectedItems | undefined) {
+  updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items
-    else this.selectedItems = new Models.SelectedItems({})
+    else this.selectedItems = new SelectedItems({})
   }
 }

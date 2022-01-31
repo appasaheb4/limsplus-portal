@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectHod} from '../orgransims'
@@ -32,7 +32,7 @@ interface DepartmentListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const DepartmentList = (props: DepartmentListProps) => {
+export const DepartmentList = (props: DepartmentListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -344,7 +344,7 @@ const DepartmentList = (props: DepartmentListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "STATUS"
                     ).map((item: any, index: number) => (
@@ -389,7 +389,7 @@ const DepartmentList = (props: DepartmentListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
@@ -478,4 +478,3 @@ const DepartmentList = (props: DepartmentListProps) => {
     </div>
   )
 }
-export default DepartmentList
