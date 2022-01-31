@@ -1,11 +1,11 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {SampleContainer} from "../models"
+import {SampleContainerService} from "../services"
 
 export class SampleContainerStore {
-  sampleContainer!: Models.SampleContainer
-  listSampleContainer!: Models.SampleContainer[]
-  listSampleContainerCopy!: Models.SampleContainer[]
+  sampleContainer!: SampleContainer
+  listSampleContainer!: SampleContainer[]
+  listSampleContainerCopy!: SampleContainer[]
   listSampleContainerCount!: number
   checkExitsEnvCode!: boolean
 
@@ -28,7 +28,7 @@ export class SampleContainerStore {
   }
 
   get sampleContainerService() {
-    return new Services.SampleContainerService()
+    return new SampleContainerService()
   }
 
   fetchListSampleContainer(page?, limit?) {
@@ -51,7 +51,7 @@ export class SampleContainerStore {
     this.listSampleContainerCount = res.filterSampleContainers.paginatorInfo.count
   }
 
-  updateSampleContainer = (sampleContainer: Models.SampleContainer) => {
+  updateSampleContainer = (sampleContainer: SampleContainer) => {
     this.sampleContainer = sampleContainer
   }
 
