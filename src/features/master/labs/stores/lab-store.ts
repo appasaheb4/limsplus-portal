@@ -1,17 +1,17 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {Labs,SelectedItems} from "../models"
 import * as Services from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
 export class LabStore {
-  listLabs!: Models.Labs[]
-  listLabsCopy!: Models.Labs[]
+  listLabs!: Labs[]
+  listLabsCopy!: Labs[]
   listLabsCount: number = 0
-  labs!: Models.Labs
+  labs!: Labs
   checkExitsEnvCode: boolean = false
-  selectedItems!: Models.SelectedItems
+  selectedItems!: SelectedItems
 
   constructor() {
     this.listLabs = []
@@ -65,11 +65,11 @@ export class LabStore {
     this.checkExitsEnvCode = status
   }
 
-  updateLabs = (labs: Models.Labs) => {
+  updateLabs = (labs: Labs) => {
     this.labs = labs
   }
-  updateSelectedItems(items: Models.SelectedItems | undefined) {
+  updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items
-    else this.selectedItems = new Models.SelectedItems({})
+    else this.selectedItems = new SelectedItems({})
   }
 }
