@@ -1,6 +1,1 @@
-import MasterPanelService from './masterPanel-services'
-export{MasterPanelService}
-
-
-
-
+export * from "./masterPanel-services"

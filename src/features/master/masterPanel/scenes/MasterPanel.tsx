@@ -1,13 +1,12 @@
 /* eslint-disable */
-import React, { useState, useEffect,useMemo } from "react"
+import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import daysjs from "dayjs"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import {lookupItems} from "@lp/library/utils"
+import {PanelMasterList} from "../components"
 import { useForm, Controller } from "react-hook-form"
-import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod } from "../components/organsims"
+import {AutoCompleteFilterSingleSelectDepartment } from "../components"
 import {MasterPanelHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
@@ -109,7 +108,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
 
   const tableView = useMemo(
     ()=> (
-      <FeatureComponents.Molecules.PanelMasterList
+      <PanelMasterList
             data={masterPanelStore.listMasterPanel || []}
             totalSize={masterPanelStore.listMasterPanelCount}
             extraData={{
@@ -426,7 +425,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SERVICE_TYPE"
                       ).map((item: any, index: number) => (
@@ -908,7 +907,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "PROCESSING"
                       ).map((item: any, index: number) => (
@@ -968,7 +967,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
@@ -1005,7 +1004,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "PANEL_TYPE"
                       ).map((item: any, index: number) => (
@@ -1042,7 +1041,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SEX"
                       ).map((item: any, index: number) => (
@@ -1338,7 +1337,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -1505,7 +1504,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                           ? `Select`
                           : masterPanelStore.masterPanel?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
