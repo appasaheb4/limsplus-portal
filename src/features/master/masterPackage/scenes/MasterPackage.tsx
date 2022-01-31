@@ -2,8 +2,8 @@
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import {lookupItems,moment} from "@lp/library/utils"
+import {PackageMasterList} from "../components"
 
 
 import { useForm, Controller } from "react-hook-form"
@@ -112,7 +112,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.PackageMasterList
+      <PackageMasterList
             data={masterPackageStore.listMasterPackage || []}
             totalSize={masterPackageStore.listMasterPackageCount}
             extraData={{
@@ -510,7 +510,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -706,7 +706,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                           : masterPackageStore.masterPackage?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
@@ -788,7 +788,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActive: LibraryUtils.moment().unix(),
+                dateActive: moment().unix(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("environment", modalConfirm.data.environment)
@@ -800,7 +800,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActive: LibraryUtils.moment().unix(),
+                dateActive: moment().unix(),
               })
               setHideAddLab(!hideAddLab)
               setValue("lab", modalConfirm.data.lab)
