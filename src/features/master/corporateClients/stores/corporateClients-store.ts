@@ -1,13 +1,13 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {CorporateClients} from "../models"
+import {CorporateClientsService} from "../services"
 import dayjs from "dayjs"
 
 export class CorporateClientsStore {
-  corporateClients!: Models.CorporateClients
+  corporateClients!: CorporateClients
   listCoporateClientsCount: number
-  listCorporateClients: Models.CorporateClients[]
-  listCorporateClientsCopy!: Models.CorporateClients[]
+  listCorporateClients: CorporateClients[]
+  listCorporateClientsCopy!: CorporateClients[]
   checkExistsEnvCode: boolean
 
   constructor() {
@@ -39,7 +39,7 @@ export class CorporateClientsStore {
   }
 
   get corporateClientsService() {
-    return new Services.CorporateClientsService()
+    return new CorporateClientsService()
   }
 
   fetchCorporateClients(page?, limit?) {
@@ -63,7 +63,7 @@ export class CorporateClientsStore {
     this.listCorporateClients = res.filterCorporateClient.data
   }
 
-  updateCorporateClients(clients: Models.CorporateClients) {
+  updateCorporateClients(clients: CorporateClients) {
     this.corporateClients = clients
   }
 

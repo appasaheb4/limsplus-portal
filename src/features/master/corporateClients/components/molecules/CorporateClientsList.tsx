@@ -2,8 +2,8 @@
 import React from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import * as LibraryUtils from "@lp/library/utils"
-import {AutoCompleteFilterSingleSelectLabs} from "../organsims"
+import {lookupItems} from "@lp/library/utils"
+import {AutoCompleteFilterSingleSelectLabs} from "../index"
 import dayjs from "dayjs"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 let dateCreation
@@ -56,7 +56,7 @@ interface CorporateClientListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const CorporateClient = (props: CorporateClientListProps) => {
+export const CorporateClient = (props: CorporateClientListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -278,7 +278,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "CUSTOMER_GROUP"
                     ).map((item: any, index: number) => (
@@ -323,7 +323,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "CATEGORY"
                     ).map((item: any, index: number) => (
@@ -428,7 +428,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "DELIVERY_TYPE"
                     ).map((item: any, index: number) => (
@@ -472,7 +472,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "DELIVERY_METHOD"
                     ).map((item: any, index: number) => (
@@ -516,7 +516,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "SPECIALITY"
                     ).map((item: any, index: number) => (
@@ -715,7 +715,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "STATUS"
                     ).map((item: any, index: number) => (
@@ -760,7 +760,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
@@ -1048,4 +1048,4 @@ const CorporateClient = (props: CorporateClientListProps) => {
   )
 }
 
-export default CorporateClient
+
