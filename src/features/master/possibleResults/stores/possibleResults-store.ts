@@ -1,6 +1,6 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import { PossibleResults } from "../models"
-import * as Services from "../services"
+import {PossibleResultsService} from "../services"
 
 export class PossibleResultsStore {
   listPossibleResults: PossibleResults[]
@@ -33,7 +33,7 @@ export class PossibleResultsStore {
   }
  
   get possibleResultsService() {
-    return new Services.PossibleResultsService()
+    return new PossibleResultsService()
   }
   
   fetchListPossibleResults(page?, limit?) {
