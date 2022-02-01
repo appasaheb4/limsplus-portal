@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../organsims"
+import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../index"
 let analyteCode
 let analyteName
 let conclusionResult
@@ -326,7 +326,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
