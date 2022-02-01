@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import {lookupItems,lookupValue} from "@lp/library/utils"
+import {DeliverySchduleList} from "../components"
 import { useForm, Controller } from "react-hook-form"
-import { ScheduleFrequency } from "../components/molecules"
+import { ScheduleFrequency } from "../components"
 import {DeliveryScheduleHoc}  from "../hoc"
 import { useStores } from "@lp/stores"
 
@@ -224,12 +224,12 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "PROCESSING_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {LibraryUtils.lookupValue(item)}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -336,7 +336,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DYNAMIC_TU"
                       ).map((item: any, index: number) => (
@@ -463,7 +463,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                           : deliveryScheduleStore.deliverySchedule?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
@@ -611,7 +611,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.DeliverySchduleList
+          <DeliverySchduleList
             data={deliveryScheduleStore.listDeliverySchedule || []}
             totalSize={deliveryScheduleStore.listDeliveryScheduleCount}
             extraData={{

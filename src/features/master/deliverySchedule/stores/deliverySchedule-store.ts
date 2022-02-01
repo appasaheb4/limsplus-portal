@@ -1,12 +1,12 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
-import * as LibraryUtils from "@lp/library/utils"
+import {DeliverySchedule} from "../models"
+import {DeliveryScheduleService} from "../services"
+import {moment} from "@lp/library/utils"
 
 export class DeliveryScheduleStore {
-  deliverySchedule!: Models.DeliverySchedule
-  listDeliverySchedule: Models.DeliverySchedule[]
-  listDeliveryScheduleCopy!: Models.DeliverySchedule[]
+  deliverySchedule!: DeliverySchedule
+  listDeliverySchedule: DeliverySchedule[]
+  listDeliveryScheduleCopy!: DeliverySchedule[]
   listDeliveryScheduleCount: number
   checkExistsEnvCode: boolean
 
@@ -21,10 +21,10 @@ export class DeliveryScheduleStore {
       sundayReporting: false,
       holidayReporting: false,
       onTime: false,
-      pStartTime: LibraryUtils.moment().format("hh:mm a"),
-      pEndTime: LibraryUtils.moment().format("hh:mm a"),
-      cutofTime: LibraryUtils.moment().format("hh:mm a"),
-      secoundCutofTime: LibraryUtils.moment().format("hh:mm a"),
+      pStartTime: moment().format("hh:mm a"),
+      pEndTime: moment().format("hh:mm a"),
+      cutofTime: moment().format("hh:mm a"),
+      secoundCutofTime: moment().format("hh:mm a"),
     }
     makeObservable<DeliveryScheduleStore, any>(this, {
       deliverySchedule: observable,
@@ -42,7 +42,7 @@ export class DeliveryScheduleStore {
   }
 
   get deliveryScheduleService() {
-    return new Services.DeliveryScheduleService()
+    return new DeliveryScheduleService()
   }
   
   fetchDeliverySchedule(page?, limit?) {
@@ -66,7 +66,7 @@ export class DeliveryScheduleStore {
     this.listDeliveryScheduleCount = res.filterDeliverySchdule.paginatorInfo.count
   }  
   
-  updateDeliverySchedule(deliverySchedule: Models.DeliverySchedule) {
+  updateDeliverySchedule(deliverySchedule: DeliverySchedule) {
     this.deliverySchedule = deliverySchedule
   }
 
