@@ -32,6 +32,13 @@ export const RefRangesInputTable = observer(
               dataField: "analyteCode",
               text: "Analyte Code",
               csvExport: false,
+
+            },
+            {
+              dataField: "department",
+              text: "Department",
+              csvExport: false,
+              
             },
             {
               dataField: "rangeSetOn",
