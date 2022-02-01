@@ -1,7 +1,7 @@
 
 import { makeObservable, action, observable, computed } from "mobx"
 import { Library } from "../models"
-import * as Services from "../services"
+import {MasterAnalyteService} from "../services"
 
 export class LibraryStore {
     library!: Library
@@ -32,7 +32,7 @@ export class LibraryStore {
   }
 
    get libraryService() {
-    return new Services.MasterAnalyteService()
+    return new MasterAnalyteService()
   }
 
    fetchLibrary(page?,limit?) {
