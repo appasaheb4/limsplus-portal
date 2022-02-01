@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
-import { Table } from "reactstrap"
+import dayjs from 'dayjs'
 import * as LibraryComponents from "@lp/library/components"
 import { lookupItems, getDefaultLookupItem } from "@lp/library/utils"
 import { observer } from "mobx-react"
@@ -391,7 +391,10 @@ export const RefRangesInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.colorLo}
+                    value={lookupItems(
+                      extraData.lookupItems,
+                      `${row.rangeType}_LW_COLOR`
+                    ).filter((item)=> item.code == row.colorLo)[0]?.value}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const colorLo = e.target.value
@@ -426,7 +429,10 @@ export const RefRangesInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.colorHi}
+                  value={lookupItems(
+                    extraData.lookupItems,
+                    `${row.rangeType}_LW_COLOR`
+                  ).filter((item)=> item.code == row.colorHi)[0]?.value}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const colorHi = e.target.value
@@ -461,7 +467,10 @@ export const RefRangesInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.colorNormal}
+                    value={lookupItems(
+                        extraData.lookupItems,
+                        `${row.rangeType}_LW_COLOR`
+                      ).filter((item)=> item.code == row.colorNormal)[0]?.value}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const colorNormal = e.target.value
@@ -490,16 +499,25 @@ export const RefRangesInputTable = observer(
               dataField: "dateCreation",
               text: "Date Creation",
               csvExport: false,
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+              },
             },
             {
               dataField: "dateActive",
               text: "Date Active",
               csvExport: false,
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+              },
             },
             {
               dataField: "dateExpire",
               text: "Date Expire",
               csvExport: false,
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+              },
             },
             {
               dataField: "enterBy",

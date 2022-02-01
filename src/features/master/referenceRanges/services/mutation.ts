@@ -8,7 +8,7 @@ export const LIST = gql`
       }
       success
       message
-      data {  
+      data {
         _id
         existsVersionId
         existsRecordId
@@ -16,28 +16,30 @@ export const LIST = gql`
         analyteName
         department
         species
-        sex
         rangeSetOn
-        eqType
+        equipmentType
         lab
-        rangType
-        age
+        rangeType
+        sex
+        ageFrom
+        ageTo
         ageUnit
         low
         high
         alpha
-        enteredBy
-        status
-        environment
+        deltaType
+        deltaInterval
+        intervalUnit
+        colorLo
+        colorHi
+        colorNormal
+        version
         dateCreation
         dateActive
         dateExpire
-        version
-        deltarang_tetype
-        deltaInterval
-        intervalUnit
-        formatResultScript
-        reportDefault
+        enterBy
+        status
+        environment
         dateOfEntry
         lastUpdated
       }
@@ -55,7 +57,7 @@ export const REMOVE_RECORD = gql`
 `
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateReferenceRangeInput!) {
+  mutation($input: ReferenceRangeInput!) {
     createReferenceRange(input: $input) {
       success
       message
@@ -107,7 +109,7 @@ export const FILTER = gql`
       }
       success
       message
-      data{
+      data {
         _id
         existsVersionId
         existsRecordId
@@ -115,37 +117,37 @@ export const FILTER = gql`
         analyteName
         department
         species
-        sex
         rangeSetOn
-        eqType
+        equipmentType
         lab
-        rangType
-        age
+        rangeType
+        sex
+        ageFrom
+        ageTo
         ageUnit
         low
         high
         alpha
-        enteredBy
-        status
-        environment
+        deltaType
+        deltaInterval
+        intervalUnit
+        colorLo
+        colorHi
+        colorNormal
+        version
         dateCreation
         dateActive
         dateExpire
-        version
-        deltarang_tetype
-        deltaInterval
-        intervalUnit
-        formatResultScript
-        reportDefault
+        enterBy
+        status
+        environment
         dateOfEntry
         lastUpdated
       }
     }
   }
 `
-  
 
-  
 export const FILTER_BY_FIELDS = gql`
   mutation($input: ReferenceRangeInput!) {
     filterByFieldsReferenceRanges(input: $input) {
@@ -162,28 +164,30 @@ export const FILTER_BY_FIELDS = gql`
         analyteName
         department
         species
-        sex
         rangeSetOn
-        eqType
+        equipmentType
         lab
-        rangType
-        age
+        rangeType
+        sex
+        ageFrom
+        ageTo
         ageUnit
         low
         high
         alpha
-        enteredBy
-        status
-        environment
+        deltaType
+        deltaInterval
+        intervalUnit
+        colorLo
+        colorHi
+        colorNormal
+        version
         dateCreation
         dateActive
         dateExpire
-        version
-        deltarang_tetype
-        deltaInterval
-        intervalUnit
-        formatResultScript
-        reportDefault
+        enterBy
+        status
+        environment
         dateOfEntry
         lastUpdated
       }
