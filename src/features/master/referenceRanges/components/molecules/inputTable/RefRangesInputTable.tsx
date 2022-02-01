@@ -17,6 +17,7 @@ interface RefRangesInputTableProps {
 
 export const RefRangesInputTable = observer(
   ({ data, extraData, onDelete, onUpdateItems }: RefRangesInputTableProps) => {
+    const {masterAnalyteStore,loading,departmentStore,interfaceManagerStore,labStore}  = useStores()
     return (
       <div style={{ position: "relative" }}>
         <TableBootstrap
@@ -32,34 +33,272 @@ export const RefRangesInputTable = observer(
               dataField: "analyteCode",
               text: "Analyte Code",
               csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
+                    placeholder="Search by code or name"
+                    data={{
+                      list: masterAnalyteStore.listMasterAnalyte,
+                      displayKey: ["analyteCode", "analyteName"],
+                    }}
+                    onFilter={(value: string) => {
+                      masterAnalyteStore.masterAnalyteService.filterByFields({
+                        input: {
+                          filter: {
+                            fields: ["analyteCode", "analyteName"],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      })
+                    }}
+                    onSelect={(item) => {
+                      onUpdateItems && onUpdateItems({analyteCode: item.analyteCode,analyteName: item.analyteName }, row.id)
+                      masterAnalyteStore.updateMasterAnalyteList(
+                        masterAnalyteStore.listMasterAnalyteCopy
+                      )
+                    }}
+                  />
+                </>
+              )
 
             },
             {
               dataField: "department",
               text: "Department",
               csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
+                    placeholder="Search by code or name"
+                    data={{
+                      list: departmentStore.listDepartment,
+                      displayKey: ["code", "name"],
+                    }}
+                    onFilter={(value: string) => {
+                      departmentStore.DepartmentService.filterByFields({
+                        input: {
+                          filter: {
+                            fields: ["code", "name"],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      })
+                    }}
+                    onSelect={(item) => {
+                      onUpdateItems && onUpdateItems({department: item.code}, row.id)
+                      departmentStore.updateDepartmentList(
+                        departmentStore.listDepartmentCopy
+                      )
+                    }}
+                  />
+                </>
+              )
               
-            },
-            {
-              dataField: "rangeSetOn",
-              text: "Range Set On",
-              csvExport: false,
-            },
-            {
-              dataField: "equipmentType",
-              text: "Equipment Type",
-              csvExport: false,
-            },
-            {
-              dataField: "lab",
-              text: "Lab",
-              csvExport: false,
             },
             {
               dataField: "species",
               text: "Species",
               csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    value={row?.species}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const species = e.target.value as string
+                      onUpdateItems && onUpdateItems({ species }, row.id)
+                     
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, "SPECIES").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              )
             },
+            {
+              dataField: "sex",
+              text: "Sex",
+              headerClasses: "textHeaderm",
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sex = e.target.value
+                      onUpdateItems && onUpdateItems({ sex }, row.id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, "SEX").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: "rangeSetOn",
+              text: "Range Set On",
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    value={row?.rangeSetOn}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const rangeSetOn = e.target.value as string
+                      onUpdateItems && onUpdateItems({ rangeSetOn }, row.id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, "RANGE_SET_ON").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              )
+            },
+            {
+              dataField: "equipmentType",
+              text: "Equipment Type",
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
+                    placeholder="Search by instrumentType"
+                    
+                    data={{
+                      list: interfaceManagerStore.listInterfaceManager,
+                      displayKey: ["instrumentType"],
+                    }}
+                    onFilter={(value: string) => {
+                      interfaceManagerStore.interfaceManagerService.filterByFields({
+                        input: {
+                          filter: {
+                            fields: ["instrumentType"],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      })
+                    }}
+                    onSelect={(item) => {
+                      onUpdateItems && onUpdateItems({equipmentType: item.instrumentType}, row.id)
+                      interfaceManagerStore.updateInterfaceManagerList(
+                        interfaceManagerStore.listInterfaceManagerCopy
+                      )
+                    }}
+                  />
+                </>
+              )
+            },
+            {
+              dataField: "lab",
+              text: "Lab",
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
+                    placeholder="Search by code or name"
+                    data={{
+                      list: labStore.listLabs,
+                      displayKey: ["code", "name"],
+                    }}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filterByFields({
+                        input: {
+                          filter: {
+                            fields: ["code", "name"],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      })
+                    }}
+                    onSelect={(item) => {
+                     onUpdateItems && onUpdateItems({lab:item.code},row.id)
+                      labStore.updateLabList(labStore.listLabsCopy)
+                    }}
+                  />
+                </>
+              )
+            },
+            
             {
               dataField: "rangeType",
               text: "Range Type",
@@ -112,39 +351,7 @@ export const RefRangesInputTable = observer(
                 </>
               ),
             },
-            {
-              dataField: "sex",
-              text: "Sex",
-              headerClasses: "textHeaderm",
-              csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const sex = e.target.value
-                      onUpdateItems && onUpdateItems({ sex }, row.id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, "SEX").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </>
-              ),
-            },
+            
             {
               dataField: "ageFrom",
               text: "Age From",
@@ -301,6 +508,89 @@ export const RefRangesInputTable = observer(
                   />
                 </>
               ),
+            },
+            {
+              dataField: "enterBy",
+              text: "Enter By",
+              csvExport: false,
+            },
+            {
+              dataField: "environment",
+              text: "Environment",
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      onUpdateItems && onUpdateItems({ environment }, row.id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              )
+            },
+            {
+              dataField: "dateCreation",
+              text: "Date Creation",
+              csvExport: false,
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+              },
+            },
+            {
+              dataField: "dateActive",
+              text: "Date Active",
+              csvExport: false,
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+              },
+            },
+            {
+              dataField: "dateExpire",
+              text: "Date Expire",
+              csvExport: false,
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateExpire)}
+                    onFocusRemove={(dateExpire) => {
+                      onUpdateItems && onUpdateItems({dateExpire},row.id)
+                    }}
+                  />
+                </>
+              )
+            },
+            {
+              dataField: "version",
+              text: "Version",
+              csvExport: false,
             },
             {
               dataField: "deltaType",
@@ -497,45 +787,10 @@ export const RefRangesInputTable = observer(
                 </>
               ),
             },
-            {
-              dataField: "version",
-              text: "Version",
-              csvExport: false,
-            },
-            {
-              dataField: "dateCreation",
-              text: "Date Creation",
-              csvExport: false,
-              formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
-              },
-            },
-            {
-              dataField: "dateActive",
-              text: "Date Active",
-              csvExport: false,
-              formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
-              },
-            },
-            {
-              dataField: "dateExpire",
-              text: "Date Expire",
-              csvExport: false,
-              formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
-              },
-            },
-            {
-              dataField: "enterBy",
-              text: "Enter By",
-              csvExport: false,
-            },
-            {
-              dataField: "environment",
-              text: "Environment",
-              csvExport: false,
-            },
+            
+            
+            
+            
             {
               dataField: "opration",
               text: "Action",
