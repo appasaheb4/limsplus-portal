@@ -1,9 +1,9 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import { SalesTeamList } from "../components/molecules"
-import * as LibraryUtils from "@lp/library/utils"
+import { SalesTeamList } from "../components"
+import {lookupItems} from "@lp/library/utils"
 
 import * as Utils from "../util"
 import {SalesTeamHoc} from "../hoc"
@@ -13,9 +13,8 @@ import {AutoCompleteFilterSingleSelectSalesTerrority
   ,AutoCompleteFilterSingleSelectEmpolyeCode,
   AutoCompleteFilterSingleSelectReportingTo
 } 
-from "../components/organsims"
+from "../components"
 import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
 
 export const SalesTeam = SalesTeamHoc(observer(() => {
   const {
@@ -160,7 +159,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                       }}
                     >
                       <option selected>Select </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SALES_HIERARCHY"
                       ).map((item: any, index: number) => (
@@ -339,7 +338,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                           ? `Select`
                           : salesTeamStore.salesTeam?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
