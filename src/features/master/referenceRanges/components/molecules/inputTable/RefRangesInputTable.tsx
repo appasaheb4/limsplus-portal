@@ -18,6 +18,11 @@ interface RefRangesInputTableProps {
 export const RefRangesInputTable = observer(
   ({ data, extraData, onDelete, onUpdateItems }: RefRangesInputTableProps) => {
     const {masterAnalyteStore,loading,departmentStore,interfaceManagerStore,labStore}  = useStores()
+    console.log({colors: getDefaultLookupItem(
+      extraData.lookupItems,
+      `N_LW_COLOR`
+    )});
+    
     return (
       <div style={{ position: "relative" }}>
         <TableBootstrap
@@ -516,95 +521,6 @@ export const RefRangesInputTable = observer(
               ),
             },
             {
-              dataField: "enterBy",
-              text: "Enter By",
-              csvExport: false,
-              headerClasses: "textHeader4",
-            },
-            {
-              dataField: "environment",
-              text: "Environment",
-              csvExport: false,
-              headerClasses: "textHeader4",
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      onUpdateItems && onUpdateItems({ environment }, row.id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </>
-              )
-            },
-            {
-              dataField: "dateCreation",
-              text: "Date Creation",
-              csvExport: false,
-              headerClasses: "textHeader4",
-              formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
-              },
-            },
-            {
-              dataField: "dateActive",
-              text: "Date Active",
-              csvExport: false,
-              headerClasses: "textHeader4",
-              formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
-              },
-            },
-            {
-              dataField: "dateExpire",
-              text: "Date Expire",
-              csvExport: false,
-              headerClasses: "textHeader4",
-              formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
-                    value={new Date(row.dateExpire)}
-                    onFocusRemove={(dateExpire) => {
-                      onUpdateItems && onUpdateItems({dateExpire},row.id)
-                    }}
-                  />
-                </>
-              )
-            },
-            {
-              dataField: "version",
-              text: "Version",
-              csvExport: false,
-              headerClasses: "textHeader4",
-            },
-            {
               dataField: "deltaType",
               text: "Delta Type",
               headerClasses: "textHeaderm",
@@ -799,8 +715,95 @@ export const RefRangesInputTable = observer(
                 </>
               ),
             },
-            
-            
+            {
+              dataField: "enterBy",
+              text: "Enter By",
+              csvExport: false,
+              headerClasses: "textHeader4",
+            },
+            {
+              dataField: "environment",
+              text: "Environment",
+              csvExport: false,
+              headerClasses: "textHeader4",
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      onUpdateItems && onUpdateItems({ environment }, row.id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              )
+            },
+            {
+              dataField: "dateCreation",
+              text: "Date Creation",
+              csvExport: false,
+              headerClasses: "textHeader4",
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+              },
+            },
+            {
+              dataField: "dateActive",
+              text: "Date Active",
+              csvExport: false,
+              headerClasses: "textHeader4",
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+              },
+            },
+            {
+              dataField: "dateExpire",
+              text: "Date Expire",
+              csvExport: false,
+              headerClasses: "textHeader4",
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDateTime
+                    value={new Date(row.dateExpire)}
+                    onFocusRemove={(dateExpire) => {
+                      onUpdateItems && onUpdateItems({dateExpire},row.id)
+                    }}
+                  />
+                </>
+              )
+            },
+            {
+              dataField: "version",
+              text: "Version",
+              csvExport: false,
+              headerClasses: "textHeader4",
+            },
             
             
             {

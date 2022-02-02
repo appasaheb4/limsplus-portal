@@ -411,8 +411,24 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ),
             },
             {
-              dataField: "age",
-              text: "Age",
+              dataField: "ageFrom",
+              text: "Age From",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  age = filter
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
+              dataField: "ageTo",
+              text: "Age To",
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
@@ -508,7 +524,114 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataField: "enteredBy",
+              dataField: "deltaType",
+              text: "Delta Type",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  deltaRangTeType = filter
+                },
+              }),
+            },
+            {
+              dataField: "deltaInterval",
+              text: "Delta Interval",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  deltaInterval = filter
+                },
+              }),
+            },
+            {
+              dataField: "intervalUnit",
+              text: "Interval Unit",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  intervalUnit = filter
+                },
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const intervalUnit = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(intervalUnit, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "INTERVAL_UNIT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: "colorLo",
+              text: "Color Low",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  intervalUnit = filter
+                },
+              }),
+            },
+            {
+              dataField: "colorHi",
+              text: "Color High",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  intervalUnit = filter
+                },
+              }),
+            },
+            {
+              dataField: "colorNormal",
+              text: "Color Normal",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  intervalUnit = filter
+                },
+              }),
+            },
+            {
+              dataField: "enterBy",
               editable: false,
               text: "Entered By",
               headerClasses: "textHeader2",
@@ -734,74 +857,6 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
             },
-            {
-              dataField: "deltaRangTeType",
-              text: "Delta Rang Tetype",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  deltaRangTeType = filter
-                },
-              }),
-            },
-            {
-              dataField: "deltaInterval",
-              text: "Delta Interval",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  deltaInterval = filter
-                },
-              }),
-            },
-            {
-              dataField: "intervalUnit",
-              text: "Interval Unit",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  intervalUnit = filter
-                },
-              }),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const intervalUnit = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(intervalUnit, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "INTERVAL_UNIT"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              ),
-            },
             {   
               dataField: "opration",
               text: "Action",
@@ -813,7 +868,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip
                       tooltipText="Delete"
-                      position="top"
+                      position="bottom"
                     >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
@@ -839,6 +894,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         <LibraryComponents.Atoms.Tooltip
                           className="ml-2"
                           tooltipText="Version Upgrade"
+                          position="bottom"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
                             color="#fff"
@@ -855,7 +911,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         <LibraryComponents.Atoms.Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
-                        >
+                          position="bottom"
+                        > 
                           <LibraryComponents.Atoms.Icons.IconContext
                             color="#fff"
                             size="20"
