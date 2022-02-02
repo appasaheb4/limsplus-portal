@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems,lookupValue} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 let schCode
@@ -29,7 +29,7 @@ interface DeliverySchduleListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const DeliverySchduleList = (props: DeliverySchduleListProps) => {
+export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -61,6 +61,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "sundayProcessing",
               text: "Sunday Processing",
               sort: true,
+              editable:false,
               csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
@@ -103,6 +104,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "holidayReporting",
               text: "Holiday Reporting",
               sort: true,
+              editable:false,
               csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
@@ -193,12 +195,12 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "PROCESSING_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {LibraryUtils.lookupValue(item)}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -271,7 +273,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "DYNAMIC_TU"
                       ).map((item: any, index: number) => (
@@ -300,6 +302,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "onTime",
               text: "On Time",
               sort: true,
+              editable:false,
               csvFormatter: col => (col ? col : ""),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
@@ -367,7 +370,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.value} - ${item.code}`}
@@ -454,4 +457,3 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
   )
 }
 
-export default DeliverySchduleList

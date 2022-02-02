@@ -1,12 +1,12 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {RegistrationLocations} from "../models"
+import {RegistrationLocationsService} from "../services"
 import dayjs from "dayjs"
 
 export class RegistrationLocationsStore {
-  registrationLocations!: Models.RegistrationLocations
-  listRegistrationLocations: Models.RegistrationLocations[]
-  listRegistrationLocationsCopy: Models.RegistrationLocations[]
+  registrationLocations!: RegistrationLocations
+  listRegistrationLocations: RegistrationLocations[]
+  listRegistrationLocationsCopy: RegistrationLocations[]
   listRegistrationLocationsCount: number
   checkExitsLabEnvCode: boolean
   
@@ -44,7 +44,7 @@ export class RegistrationLocationsStore {
   }
 
   get registrationLocationsService() {
-    return new Services.RegistrationLocationsService()
+    return new RegistrationLocationsService()
   }
 
   fetchRegistrationLocations(page?, limit?) {
@@ -71,7 +71,7 @@ export class RegistrationLocationsStore {
     this.listRegistrationLocations = res.filterRegistrationLocations.data
   }  
 
-  updateRegistrationLocations(locations: Models.RegistrationLocations) {
+  updateRegistrationLocations(locations: RegistrationLocations) {
     this.registrationLocations = locations
   }
   

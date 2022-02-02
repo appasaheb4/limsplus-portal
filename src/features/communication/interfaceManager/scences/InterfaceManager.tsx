@@ -2,8 +2,8 @@
 import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {InterfaceManagerList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {InterfaceManagerHoc} from "../hoc"
 import { useStores } from "@lp/stores"
@@ -431,7 +431,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                           : interfaceManagerStore.interfaceManager?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
@@ -473,7 +473,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-          <FeatureComponents.InterfaceManagerList
+          <InterfaceManagerList
             data={interfaceManagerStore.listInterfaceManager || []}
             totalSize={interfaceManagerStore.listInterfaceManagerCount}
             extraData={{

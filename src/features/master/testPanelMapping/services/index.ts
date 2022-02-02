@@ -1,6 +1,1 @@
-import TestPanelMappingService from './testPanelMapping-services'
-export{TestPanelMappingService}
-
-
-
-
+export * from "./testPanelMapping-services"

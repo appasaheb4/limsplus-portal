@@ -1,12 +1,11 @@
 /* eslint-disable */
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
-import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {RegistrationLocationsList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import {AutoCompleteFilterSingleSelectCorparateCode} from "../components/organsims"
+import {AutoCompleteFilterSingleSelectCorparateCode} from "../components"
 import {RegistrationLocationHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 import { RouterFlow } from "@lp/flows"
@@ -16,7 +15,6 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
     loginStore,
     registrationLocationsStore,
     labStore,
-    corporateClientsStore,
     routerStore,
     loading,
   } = useStores()
@@ -103,7 +101,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
 
   const tableView = useMemo(
     () => (
-      <FeatureComponents.Molecules.RegistrationLocationsList
+      <RegistrationLocationsList
         data={registrationLocationsStore.listRegistrationLocations || []}
         totalSize={registrationLocationsStore.listRegistrationLocationsCount}
         extraData={{
@@ -510,7 +508,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "CUSTOMER_GROUP"
                       ).map((item: any, index: number) => (
@@ -547,7 +545,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
@@ -662,7 +660,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
@@ -701,7 +699,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DELIVERY_METHOD"
                       ).map((item: any, index: number) => (
@@ -809,7 +807,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "METHOD_COLN"
                       ).map((item: any, index: number) => (
@@ -872,7 +870,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
@@ -1356,7 +1354,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "AC_CLASS"
                       ).map((item: any, index: number) => (
@@ -1395,7 +1393,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ACCOUNT_TYPE"
                       ).map((item: any, index: number) => (
@@ -1435,7 +1433,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -1516,7 +1514,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                           : registrationLocationsStore.registrationLocations
                               ?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

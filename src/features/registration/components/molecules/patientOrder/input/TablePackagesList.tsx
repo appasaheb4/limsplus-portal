@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem,lookupItems} from "@lp/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import _ from "lodash"
@@ -19,11 +19,11 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
   
 
   useEffect(() => {
-    const panelStatus = LibraryUtils.getDefaultLookupItem(
+    const panelStatus = getDefaultLookupItem(
       routerStore.lookupItems,
       "PATIENT ORDER - PANEL_STATUS"
     )
-    const orderStatus = LibraryUtils.getDefaultLookupItem(
+    const orderStatus = getDefaultLookupItem(
       routerStore.lookupItems,
       "PATIENT ORDER - ORDER_STATUS"
     )
@@ -299,7 +299,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - ORDER_STATUS"
                   ).map((item: any, index: number) => (
@@ -325,7 +325,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - PANEL_STATUS"
                   ).map((item: any, index: number) => (
@@ -482,7 +482,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - ORDER_STATUS"
                   ).map((item: any, index: number) => (
@@ -508,7 +508,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - PANEL_STATUS"
                   ).map((item: any, index: number) => (
@@ -664,7 +664,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - ORDER_STATUS"
                   ).map((item: any, index: number) => (
@@ -690,7 +690,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - PANEL_STATUS"
                   ).map((item: any, index: number) => (
@@ -846,7 +846,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - ORDER_STATUS"
                   ).map((item: any, index: number) => (
@@ -872,7 +872,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "PATIENT ORDER - PANEL_STATUS"
                   ).map((item: any, index: number) => (

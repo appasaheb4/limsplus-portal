@@ -1,10 +1,10 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, {  useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import { AdminstrativeDivList } from "../components/molecules"
-import * as LibraryUtils from "@lp/library/utils"
+import { AdminstrativeDivList } from "../components"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {AdministrativeDivisionsHoc} from "../hoc"
 import { useStores, } from "@lp/stores"
@@ -337,7 +337,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SBU"
                       ).map((item: any, index: number) => (
@@ -375,7 +375,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ZONE"
                       ).map((item: any, index: number) => (
@@ -424,7 +424,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                           : administrativeDivisions.administrativeDiv?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

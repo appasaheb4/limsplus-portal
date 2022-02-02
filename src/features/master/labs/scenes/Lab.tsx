@@ -3,8 +3,8 @@ import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {LabList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
@@ -56,7 +56,7 @@ const Lab = LabHoc(
 
     const tableView = useMemo(
       () => (
-        <FeatureComponents.Molecules.LabList
+        <LabList
           data={labStore.listLabs || []}
           totalSize={labStore.listLabsCount}
           extraData={{
@@ -585,7 +585,7 @@ const Lab = LabHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "DELIVERY_TYPE"
                         ).map((item: any, index: number) => (
@@ -809,7 +809,7 @@ const Lab = LabHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "LAB_TYPE"
                         ).map((item: any, index: number) => (
@@ -985,7 +985,7 @@ const Lab = LabHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "STATUS"
                         ).map((item: any, index: number) => (
@@ -1045,7 +1045,7 @@ const Lab = LabHoc(
                             ? `Select`
                             : labStore.labs?.environment || `Select`}
                         </option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (

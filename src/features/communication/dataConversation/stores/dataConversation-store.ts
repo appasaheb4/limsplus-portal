@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {DataConversation} from "../models"
 
-import * as Services from "../services"
+import {DataConversationService} from "../services"
 
 interface UpdateItem {
   value: string | boolean | undefined | any[]
@@ -10,8 +10,8 @@ interface UpdateItem {
 }
 
 export class DataConversationStore {
-  dataConversation!: Models.DataConversation
-  listdataConversation: Models.DataConversation[]
+  dataConversation!: DataConversation
+  listdataConversation: DataConversation[]
   listdataConversationCount: number
   updateItem!: UpdateItem
 
@@ -33,7 +33,7 @@ export class DataConversationStore {
   }
 
   get dataConversationService() {
-    return new Services.DataConversationService()
+    return new DataConversationService()
   }
   
   fetchDataConversation(page?, limit?) {
@@ -51,7 +51,7 @@ export class DataConversationStore {
     this.listdataConversationCount = res.filterDataConversation.paginatorInfo.count
   }
 
-  updateDataConversation = (dataConversation: Models.DataConversation) => {
+  updateDataConversation = (dataConversation: DataConversation) => {
     this.dataConversation = dataConversation
   }
   changeUpdateItem = (item: UpdateItem) => {

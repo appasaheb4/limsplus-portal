@@ -1,13 +1,13 @@
 /* eslint-disable */
-import React, { useState, useEffect,useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-import { SectionList } from "../components/molecules"
-import {AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
+import { SectionList } from "../components"
+import {AutoCompleteFilterSingleSelectDepartment} from "../components"
 import {SectionHoc} from "../hoc"
 import { useStores, } from "@lp/stores"
 
@@ -392,7 +392,7 @@ const Section = SectionHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -452,7 +452,7 @@ const Section = SectionHoc(observer(() => {
                           ? `Select`
                           : sectionStore.section?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

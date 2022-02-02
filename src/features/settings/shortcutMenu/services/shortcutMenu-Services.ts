@@ -8,7 +8,7 @@
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { UPDATE_SHORTCUT_MENU } from "./mutation"
 
-class ShortcutMenuService {
+export class ShortcutMenuService {
   updateShortcutMenu = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -25,4 +25,4 @@ class ShortcutMenuService {
     })
 }
 
-export default ShortcutMenuService
+

@@ -1,3 +1,3 @@
-import * as Atoms from "../components/atoms"
-import * as Organisms from "../components/organisms"
-export { Atoms,Organisms }  
+export * from "./atoms/SettingForTCP_IPTable"
+export * from "./atoms/SettingforRS232Table"
+export * from "./organisms/HL7Table"

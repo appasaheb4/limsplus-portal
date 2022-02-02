@@ -1,13 +1,13 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {TestMaster} from "../models"
+import {TestMasterService} from "../services"
 import * as ModelsSection from "@lp/features/master/section/models"
 import dayjs from 'dayjs'
 
 export class TestMasterStore {
-  testMaster!: Models.TestMaster
-  listTestMaster!: Models.TestMaster[]
-  listTestMasterCopy!: Models.TestMaster[]
+  testMaster!: TestMaster
+  listTestMaster!: TestMaster[]
+  listTestMasterCopy!: TestMaster[]
   listTestMasterCount!: number
   checkExitsLabEnvCode!: boolean
   sectionListByDeptCode!: ModelsSection.Section[]
@@ -61,7 +61,7 @@ export class TestMasterStore {
   }
 
    get testMasterService() {
-    return new Services.TestMasterService()
+    return new TestMasterService()
   }
 
    fetchTestMaster(page?, limit?) {
@@ -95,7 +95,7 @@ export class TestMasterStore {
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data
   }
 
-   updateTestMaster(test: Models.TestMaster) {
+   updateTestMaster(test: TestMaster) {
     this.testMaster = test
   }
 

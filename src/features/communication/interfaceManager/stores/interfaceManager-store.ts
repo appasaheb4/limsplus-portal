@@ -1,6 +1,6 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {InterfaceManager} from "../models"
+import {InterfaceManagerService} from "../services"
 
 interface UpdateItem {
   value: string | boolean | undefined | any[]
@@ -9,9 +9,9 @@ interface UpdateItem {
 }
 
 export class InterfaceManagerStore {
-  interfaceManager!: Models.InterfaceManager
-  listInterfaceManager: Models.InterfaceManager[]
-  listInterfaceManagerCopy: Models.InterfaceManager[]
+  interfaceManager!: InterfaceManager
+  listInterfaceManager: InterfaceManager[]
+  listInterfaceManagerCopy: InterfaceManager[]
   listInterfaceManagerCount: number
   updateItem!: UpdateItem
 
@@ -35,7 +35,7 @@ export class InterfaceManagerStore {
   }
 
   get interfaceManagerService() {
-    return new Services.InterfaceManagerService()
+    return new InterfaceManagerService()
   }
   
   fetchEncodeCharacter(page?, limit?) {
@@ -58,7 +58,7 @@ export class InterfaceManagerStore {
     this.listInterfaceManagerCount = res.filterInterfaceManagers.paginatorInfo.count
   }
   
-  updateInterfaceManager = (value: Models.InterfaceManager) => {
+  updateInterfaceManager = (value: InterfaceManager) => {
     this.interfaceManager = value
   }
   changeUpdateItem = (item: UpdateItem) => {

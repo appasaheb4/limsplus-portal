@@ -3,10 +3,10 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+// import * as LibraryUtils from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
-import * as FeatureComponents from "../../components"
+import {PatientTestList} from "../../components"
 import { PatientOrderHoc } from "../../hoc"
 
 import { useStores } from "@lp/stores"
@@ -21,13 +21,13 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
-import { PanelListTable, ExtraDataPanelListTable } from "../../components/molecules"
+import { PanelListTable, ExtraDataPanelListTable } from "../../components"
 
 interface PatientTestProps {
   onModalConfirm?: (item: any) => void
 }
 
-const PatientTest = PatientOrderHoc(
+export const PatientTest = PatientOrderHoc(
   observer((props: PatientTestProps) => {
     const {
       loading,
@@ -324,7 +324,7 @@ const PatientTest = PatientOrderHoc(
           className="p-2 rounded-lg shadow-xl overflow-scroll"
           style={{ overflowX: "scroll" }}
         >
-          <FeatureComponents.Molecules.PatientTestList
+          <PatientTestList
             data={patientTestStore.patientListTest}
             totalSize={patientTestStore.patientListTestCount}
             extraData={{
@@ -384,4 +384,4 @@ const PatientTest = PatientOrderHoc(
     )
   })
 )
-export default PatientTest
+

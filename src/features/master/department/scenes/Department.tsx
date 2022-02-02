@@ -3,9 +3,8 @@ import React, { useState, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import { Container } from "reactstrap"
-import * as LibraryUtils from "@lp/library/utils"
+import {DepartmentList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {DeginisationHoc} from "../hoc"
 import { useStores } from "@lp/stores"
@@ -64,7 +63,7 @@ export const Department = DeginisationHoc(observer(() => {
   }
   const tableView = useMemo(
     () => (
-      <FeatureComponents.Molecules.DepartmentList
+      <DepartmentList
         data={departmentStore.listDepartment || []}
         totalSize={departmentStore.listDepartmentCount}
         extraData={{
@@ -587,7 +586,7 @@ export const Department = DeginisationHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -644,7 +643,7 @@ export const Department = DeginisationHoc(observer(() => {
                           ? `Select`
                           : departmentStore.department?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

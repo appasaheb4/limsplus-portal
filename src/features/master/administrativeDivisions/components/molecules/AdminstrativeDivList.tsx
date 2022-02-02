@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import "react-accessible-accordion/dist/fancy-example.css"
@@ -176,7 +176,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "SBU"
                     ).map((item: any, index: number) => (
@@ -219,7 +219,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ZONE"
                     ).map((item: any, index: number) => (
@@ -263,7 +263,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (

@@ -3,7 +3,7 @@ import React from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 
 let environmentVariable
 let category
@@ -22,7 +22,7 @@ interface EnvironmentVariableProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
-const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
+export const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -80,7 +80,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT_VARIABLES_CATEGORY"
                     ).map((item: any, index: number) => (
@@ -231,4 +231,3 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
   )
 })
 
-export default EnvironmentVariableList

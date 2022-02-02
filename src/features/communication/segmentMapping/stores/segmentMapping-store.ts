@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {SegmentMapping} from "../models"
 import { Mapping } from "../../models"
-import * as Services from "../services"
+import {SegmentMappingService} from "../services"
 
 interface UpdateItem {
   value: string | boolean | undefined | any[]
@@ -10,10 +10,10 @@ interface UpdateItem {
 }
 
 export class SegmentMappingStore {
-  segmentMapping!: Models.SegmentMapping
-  listSegmentMapping: Models.SegmentMapping[]
+  segmentMapping!: SegmentMapping
+  listSegmentMapping: SegmentMapping[]
   listSegmentMappingCount: number
-  selectedItems: Models.SegmentMapping[]
+  selectedItems: SegmentMapping[]
   updateItem!: UpdateItem
   mapping: Mapping[]
 
@@ -43,7 +43,7 @@ export class SegmentMappingStore {
   }
 
   get segmentMappingService() {
-    return new Services.SegmentMappingService()
+    return new SegmentMappingService()
   }
 
   fetchListSegmentMapping(page?, limit?) {
@@ -70,11 +70,11 @@ export class SegmentMappingStore {
     this.mapping = res.segmentMappings.data
   }
 
-  updateSegmentMapping = (segmentMapping: Models.SegmentMapping) => {
+  updateSegmentMapping = (segmentMapping: SegmentMapping) => {
     this.segmentMapping = segmentMapping
   }
 
-  updateSelectedItem = (items: Models.SegmentMapping[]) => {
+  updateSelectedItem = (items: SegmentMapping[]) => {
     this.selectedItems = items
   }
 

@@ -8,7 +8,7 @@ import "@lp/library/assets/css/accordion.css"
 
 import { useStores } from "@lp/stores"
 
-import * as FeatureComponents from "../components"
+import {HL7Table,SettingForRS232Table,SettingForTCP_IPTable} from "../components"
 import { HostCommunicationFlows, HexToAsciiFlow } from "../../flows"
 
 import { RouterFlow } from "@lp/flows"
@@ -275,11 +275,11 @@ const HostCommunication = observer(() => {
                 </LibraryComponents.Atoms.Form.InputWrapper>
                 {hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   "Serial Port Communication" && (
-                  <FeatureComponents.Atoms.SettingForRS232Table />
+                  <SettingForRS232Table />
                 )}
                 {hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   "TCP/IP Communication" && (
-                  <FeatureComponents.Atoms.SettingForTCP_IPTable />
+                  <SettingForTCP_IPTable />
                 )}
               </LibraryComponents.Atoms.List>
 
@@ -687,7 +687,7 @@ const HostCommunication = observer(() => {
                             <div className="col-span-2">
                               {hostCommunicationStore.convertTo?.hl7 !==
                                 undefined && (
-                                <FeatureComponents.Organisms.HL7Table
+                                <HL7Table
                                   data={toJS(hostCommunicationStore.convertTo.hl7)}
                                 />
                               )}

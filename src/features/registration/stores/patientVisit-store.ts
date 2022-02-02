@@ -1,11 +1,11 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import { PatientVisitService } from "../services"
-import * as Models from "../models"
+import {PatientVisit} from "../models"
 
 export class PatientVisitStore {
-  patientVisit!: Models.PatientVisit
-  listPatientVisit: Models.PatientVisit[] = []
-  listPatientVisitCopy: Models.PatientVisit[] = []
+  patientVisit!: PatientVisit
+  listPatientVisit: PatientVisit[] = []
+  listPatientVisitCopy: PatientVisit[] = []
   listPatientVisitCount!: number
   checkExistsVisitId!: boolean
   checkExistsLabId!: boolean
@@ -56,7 +56,7 @@ export class PatientVisitStore {
     this.listPatientVisitCount = res.filterPatientVisit.paginatorInfo.count
   }
 
-  updatePatientVisit(input: Models.PatientVisit) {
+  updatePatientVisit(input: PatientVisit) {
     this.patientVisit = input
   }
 

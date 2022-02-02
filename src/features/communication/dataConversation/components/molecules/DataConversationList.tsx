@@ -2,7 +2,7 @@
 import React from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 
 let hexadecimal
 let binary
@@ -136,7 +136,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
             columnIndex
           ) => (
             <>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+              
                 <select
                   value={row.environment}
                   className="leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md"
@@ -147,7 +147,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
@@ -156,7 +156,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              
             </>
           ),
         },

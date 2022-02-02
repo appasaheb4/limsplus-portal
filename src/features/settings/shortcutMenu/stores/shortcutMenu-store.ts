@@ -1,5 +1,5 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Services from "../services"
+import {ShortcutMenuService} from "../services"
 
 export class ShortcutMenuStore {
   shortcutMenuList: any[]
@@ -19,7 +19,7 @@ export class ShortcutMenuStore {
   }
 
   get ShortcutMenuService() {
-    return new Services.ShortcutMenuService()
+    return new ShortcutMenuService()
   }
 
   updateShortcutMenu = (shortcut: any) => {

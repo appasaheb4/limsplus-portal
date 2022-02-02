@@ -4,10 +4,10 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import {lookupItems} from "@lp/library/utils"
+import {TestMasterList} from "../components"
 import { useForm, Controller } from "react-hook-form"
-import {AutoCompleteFilterSingleSelectDepartment } from "../components/organsims"
+import {AutoCompleteFilterSingleSelectDepartment } from "../components"
 
 import {TestMasterHOC} from "../hoc"
 import { useStores, } from "@lp/stores"
@@ -111,7 +111,7 @@ const TestMater = TestMasterHOC(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.TestMasterList
+      <TestMasterList
             data={testMasterStore.listTestMaster || []}
             totalSize={testMasterStore.listTestMasterCount}
             extraData={{
@@ -982,7 +982,7 @@ const TestMater = TestMasterHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "WORKFLOW"
                       ).map((item: any, index: number) => (
@@ -1064,7 +1064,7 @@ const TestMater = TestMasterHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DISEASE"
                       ).map((item: any, index: number) => (
@@ -1099,7 +1099,7 @@ const TestMater = TestMasterHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
@@ -1136,7 +1136,7 @@ const TestMater = TestMasterHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "TEST_TYPE"
                       ).map((item: any, index: number) => (
@@ -1248,7 +1248,7 @@ const TestMater = TestMasterHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "PREFIX"
                       ).map((item: any, index: number) => (
@@ -1285,7 +1285,7 @@ const TestMater = TestMasterHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SUFIX"
                       ).map((item: any, index: number) => (
@@ -1501,7 +1501,7 @@ const TestMater = TestMasterHOC(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -1660,7 +1660,7 @@ const TestMater = TestMasterHOC(observer(() => {
                           ? `Select`
                           : testMasterStore.testMaster?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
@@ -23,7 +23,7 @@ interface MethodsListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const MethodsList = (props: MethodsListProps) => {
+export const MethodsList = (props: MethodsListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -111,7 +111,7 @@ const MethodsList = (props: MethodsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map(
+                  {lookupItems(props.extraData.lookupItems, "STATUS").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -154,7 +154,7 @@ const MethodsList = (props: MethodsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                  {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -231,4 +231,4 @@ const MethodsList = (props: MethodsListProps) => {
   )  
 }
 
-export default MethodsList
+

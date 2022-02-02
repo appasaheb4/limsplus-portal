@@ -5,7 +5,7 @@ import { Accordion, AccordionItem } from "react-sanfona"
 
 import { useForm, Controller } from "react-hook-form"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
+import {LookupList} from "../components"
 import { Container } from "reactstrap"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
@@ -89,7 +89,7 @@ const Lookup = observer(() => {
           </div>
           <div className="mx-auto">
             <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-              <FeatureComponents.Molecules.LookupList
+              <LookupList
                 data={lookupStore.listLookup || []}
                 totalSize={lookupStore.listLookupCount}
                 extraData={{

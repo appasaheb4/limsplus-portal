@@ -20,7 +20,7 @@ import {
   FILTER_BY_FIELDS,
 } from "./mutation"
 
-class CorporateClientsService {
+export class CorporateClientsService {
   listCorporateClients = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -185,4 +185,4 @@ class CorporateClientsService {
     })
 }
 
-export default CorporateClientsService
+

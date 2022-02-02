@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React from "react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryModels from "@lp/library/models"
 import {
   AutoCompleteUsers,
   AutoCompleteLabs,
   AutoCompleteDepartment,
   AutoCompleteFilterSingleSelectVariable
-} from "../organisms"
+} from "../index"
 let lab
 let user
 let department
@@ -29,7 +29,7 @@ interface SessionManagementListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const EnvironmentSettingsList = (props: SessionManagementListProps) => {
+export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
   // const userList = React.useMemo(()=> ,[])
 
   return (
@@ -337,7 +337,7 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT SETTING - ENVIRONMENT"
                     ).map((item: any, index: number) => (
@@ -418,4 +418,4 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
   )
 }
 
-export default React.memo(EnvironmentSettingsList)
+// export default React.memo(EnvironmentSettingsList)

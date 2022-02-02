@@ -3,12 +3,12 @@ import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import { PossibleResultsList } from "../components/molecules"
+import {lookupItems} from "@lp/library/utils"
+import { PossibleResultsList } from "../components"
 import { Container } from "reactstrap"
 
 import { useForm, Controller } from "react-hook-form"
-import {AutoCompleteFilterSingleSelectAnalyteCode} from "../components/organsims"
+import {AutoCompleteFilterSingleSelectAnalyteCode} from "../components"
 import { PossibleResultHoc } from "../hoc"
 import { useStores } from "@lp/stores"
 
@@ -244,7 +244,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                             : possibleResultsStore.possibleResults?.environment ||
                               `Select`}
                         </option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (

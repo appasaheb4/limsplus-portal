@@ -1,1 +1,1 @@
-export { default as RegistrationLocationsService } from "./registrationLocations-services"
+export * from "./registrationLocations-services"

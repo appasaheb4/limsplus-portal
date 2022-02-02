@@ -1,25 +1,25 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Services from "../services"
-import * as Models from "../models"
+import {PatientRegistrationService} from "../services"
+import {PatientOrder,PatientManger,PatientResult,PatientSample,PatientVisit,SpecialResult,InformationGroup} from "../models"
 
 class PatientRegistrationStore {
-  patientManger!: Models.PatientManger
-  patientVisit!: Models.PatientVisit
-  patientOrder?: Models.PatientOrder
-  patientResult?: Models.PatientResult
-  informationGroup?: Models.InformationGroup
-  patientSample?: Models.PatientSample
-  specialResult?: Models.SpecialResult
-  listPatientManger?: Models.PatientManger[] = []  
-  listPatientVisit?: Models.PatientVisit[] = []
-  listPatientOrder?: Models.PatientOrder[] = []
-  listPatientSample?: Models.PatientSample[] = []
-  listPatientResult?: Models.PatientResult[] = []
-  extraDataListPatientResult?: Models.PatientResult[] = []
-  extraDatListPatientManger?: Models.PatientManger[] = []
-  extraDatListPatientVisit?: Models.PatientVisit[] = []
-  listInformationGroup?: Models.InformationGroup[] = []
-  listSpecialResult?: Models.SpecialResult[] = []
+  patientManger!: PatientManger
+  patientVisit!: PatientVisit
+  patientOrder?: PatientOrder
+  patientResult?: PatientResult
+  informationGroup?: InformationGroup
+  patientSample?: PatientSample
+  specialResult?: SpecialResult
+  listPatientManger?: PatientManger[] = []  
+  listPatientVisit?: PatientVisit[] = []
+  listPatientOrder?: PatientOrder[] = []
+  listPatientSample?: PatientSample[] = []
+  listPatientResult?: PatientResult[] = []
+  extraDataListPatientResult?: PatientResult[] = []
+  extraDatListPatientManger?: PatientManger[] = []
+  extraDatListPatientVisit?: PatientVisit[] = []
+  listInformationGroup?: InformationGroup[] = []
+  listSpecialResult?: SpecialResult[] = []
   listPatientOrderCount: number = 0
   listPatientMangerCount: number = 0
   listPatientVisitCount: number = 0
@@ -41,29 +41,29 @@ class PatientRegistrationStore {
   }
 
   get PatientRegistartionService() {
-    return new Services.PatientRegistrationService()
+    return new PatientRegistrationService()
   }
 
-  updatePatientManager(manager: Models.PatientManger) {
+  updatePatientManager(manager: PatientManger) {
     this.patientManger = manager
   }
 
-  updatePatientVisit(visit: Models.PatientVisit) {
+  updatePatientVisit(visit: PatientVisit) {
     this.patientVisit = visit
   }
-  updatePatientOrder(order: Models.PatientOrder) {
+  updatePatientOrder(order: PatientOrder) {
     this.patientOrder = order
   }
-  updateInformationGroup(info: Models.InformationGroup) {
+  updateInformationGroup(info: InformationGroup) {
     this.informationGroup = info
   }
-  updatePatientSample(sample: Models.PatientSample) {
+  updatePatientSample(sample: PatientSample) {
     this.patientSample = sample
   }
-  updatePatientResult(result: Models.PatientResult) {
+  updatePatientResult(result: PatientResult) {
     this.patientResult = result
   }
-  updateSpecialResult(result: Models.SpecialResult) {
+  updateSpecialResult(result: SpecialResult) {
     this.specialResult = result
   }
 }

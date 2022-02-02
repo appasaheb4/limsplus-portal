@@ -2,9 +2,9 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems,moment,lookupValue} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import * as FeatureComponents from "../../components"
+import {InformationGroupList} from "../../components"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as AdministrativeDivisionStore } from "@lp/features/master/administrativeDivisions/stores"
 import "@lp/library/assets/css/accordion.css"
@@ -17,7 +17,7 @@ import { AdministrativeDivisions } from "@lp/features/master/administrativeDivis
 interface InformationGroupProps {
   onModalConfirm?: (item: any) => void
 }
-const InformationGroup  = observer((props:InformationGroupProps)=>{
+export const InformationGroup  = observer((props:InformationGroupProps)=>{
     const {control,handleSubmit,formState:{errors},setValue}  = useForm()
     const onSubmitInformationGroup = () =>{
         //api calling
@@ -49,13 +49,13 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
                             name="txtInformationDate"
                             placeholder={errors.infoDate?"Please Enter Information Date":"Information Date"}
                             hasError={errors.infoDate}
-                            value={LibraryUtils.moment(
+                            value={moment(
                                 Stores.patientRegistationStore.informationGroup?.infoDate
                             ).format("YYYY-MM-DD")}
                             onChange={(e) => {
                                 let infoDate = new Date(e.target.value)
                                 onChange(infoDate)
-                                const formatDate = LibraryUtils.moment(infoDate).format(
+                                const formatDate = moment(infoDate).format(
                                 "YYYY-MM-DD HH:mm"
                                 )
                                 
@@ -90,12 +90,12 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
                           }}
                         >
                           <option selected>Select</option>
-                          {LibraryUtils.lookupItems(
+                          {lookupItems(
                             stores.routerStore.lookupItems,
                             "INFORMATION GROUP - INFO_RELATED_TO"
                           ).map((item: any, index: number) => (
                                 <option key={index} value={item.code}>
-                                  {LibraryUtils.lookupValue(item)}
+                                  {lookupValue(item)}
                                 </option>  
                               ))}
                         </select>
@@ -147,12 +147,12 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           stores.routerStore.lookupItems,
                           "INFORMATION GROUP - INFO_TYPE"
                         ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {LibraryUtils.lookupValue(item)}
+                                {lookupValue(item)}
                               </option>  
                             ))}
                       </select>
@@ -182,12 +182,12 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           stores.routerStore.lookupItems,
                           "INFORMATION GROUP - LOOKUP_VALUE"
                         ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {LibraryUtils.lookupValue(item)}
+                                {lookupValue(item)}
                               </option>  
                             ))}
                       </select>
@@ -299,7 +299,7 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
                                   ? `Select`
                                   : Stores.patientRegistationStore.informationGroup?.environment || `Select`}
                               </option>
-                          {LibraryUtils.lookupItems
+                          {lookupItems
                           (stores.routerStore.lookupItems, "INFORMATION GROUP - ENVIRONMENT").map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -352,7 +352,7 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   stores.routerStore.lookupItems,
                                   "INFORMATION GROUP - STATUS"
                                 ).map((item: any, index: number) => (
@@ -396,7 +396,7 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
               className="p-2 rounded-lg shadow-xl overflow-scroll"
               style={{ overflowX: "scroll" }}
             >
-              <FeatureComponents.Molecules.InformationGroupList
+              <InformationGroupList
                 data={Stores.patientRegistationStore.listInformationGroup}
                 totalSize={Stores.patientRegistationStore.listInformationGroupCount}
                 extraData={{
@@ -443,4 +443,3 @@ const InformationGroup  = observer((props:InformationGroupProps)=>{
     )
 
 })
-export default InformationGroup

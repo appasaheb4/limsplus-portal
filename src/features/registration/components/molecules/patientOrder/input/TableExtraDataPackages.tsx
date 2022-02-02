@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import _ from "lodash"
@@ -17,11 +17,11 @@ export const TableExtraDataPackages = observer(
     const [packages, setPackages] = useState(data)
 
     useEffect(() => {
-      const panelStatus = LibraryUtils.getDefaultLookupItem(
+      const panelStatus = getDefaultLookupItem(
         routerStore.lookupItems,
         "PATIENT ORDER - PANEL_STATUS"
       )
-      const orderStatus = LibraryUtils.getDefaultLookupItem(
+      const orderStatus = getDefaultLookupItem(
         routerStore.lookupItems,
         "PATIENT ORDER - ORDER_STATUS"
       )

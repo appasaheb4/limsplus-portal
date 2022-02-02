@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectLabs} from '../organsims'
+import {AutoCompleteFilterSingleSelectLabs} from '../index'
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 let dateCreation
 let dateActive
@@ -62,7 +62,7 @@ interface DoctorsListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const DoctorsList = (props: DoctorsListProps) => {
+export const DoctorsList = (props: DoctorsListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -178,7 +178,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "TITLE"
                     ).map((item: any, index: number) => (
@@ -356,7 +356,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "SPECIALITY"
                     ).map((item: any, index: number) => (
@@ -422,7 +422,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "SPECIALITY"
                     ).map((item: any, index: number) => (
@@ -547,7 +547,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "DELIVERY_TYPE"
                     ).map((item: any, index: number) => (
@@ -591,7 +591,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "DELIVERY_METHOD"
                     ).map((item: any, index: number) => (
@@ -687,7 +687,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "STATUS"
                     ).map((item: any, index: number) => (
@@ -870,7 +870,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "STATUS"
                     ).map((item: any, index: number) => (
@@ -915,7 +915,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
@@ -1208,4 +1208,3 @@ const DoctorsList = (props: DoctorsListProps) => {
   )
 }
 
-export default DoctorsList

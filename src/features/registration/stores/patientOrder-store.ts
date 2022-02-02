@@ -1,13 +1,13 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import { PatientOrderService } from "../services"
-import * as Models from "../models"
+import {PatientOrder,SelectedItems} from "../models"
 
 export class PatientOrderStore {
-  patientOrder!: Models.PatientOrder
-  listPatientOrder: Models.PatientOrder[]
-   listPatientOrderCopy: Models.PatientOrder[]
+  patientOrder!: PatientOrder
+  listPatientOrder: PatientOrder[]
+   listPatientOrderCopy: PatientOrder[]
   listPatientOrderCount!: number
-  selectedItems!: Models.SelectedItems
+  selectedItems!: SelectedItems
   packageList!: any
   checkExistsRecord!: boolean
 
@@ -57,7 +57,7 @@ export class PatientOrderStore {
     this.listPatientOrderCount = res.filterPatientOrder.paginatorInfo.count
   }
 
-  updatePatientOrder(input: Models.PatientOrder) {
+  updatePatientOrder(input: PatientOrder) {
     this.patientOrder = input
   }
 
@@ -65,7 +65,7 @@ export class PatientOrderStore {
     this.checkExistsRecord = flag
   }
 
-  updateSelectedItems(res: Models.SelectedItems) {
+  updateSelectedItems(res: SelectedItems) {
     this.selectedItems = res
   }
 

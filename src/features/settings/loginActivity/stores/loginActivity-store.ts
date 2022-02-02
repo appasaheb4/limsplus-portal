@@ -1,9 +1,9 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {LoginActivity} from "../models"
+import {LoginActivityService} from "../services"
 
 export class LoginActivityStore {
-  listLoginActivity: Models.LoginActivity[]
+  listLoginActivity: LoginActivity[]
   listLoginActivityCount: number
   constructor() {
     this.listLoginActivity = []
@@ -19,7 +19,7 @@ export class LoginActivityStore {
   }
 
   get LoginActivityService() {
-    return new Services.LoginActivityService()
+    return new LoginActivityService()
   }
 
   fetchLoginActivity(page?, limit?) {
