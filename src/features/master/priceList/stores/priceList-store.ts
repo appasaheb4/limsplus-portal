@@ -1,11 +1,11 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {PriceList} from "../models"
+import {PriceListService} from "../services"
 import dayjs from "dayjs"
 
 export class PriceListStore {
-  priceList!: Models.PriceList
-  listPriceList: Models.PriceList[]
+  priceList!: PriceList
+  listPriceList: PriceList[]
   listPriceListCount: number
   checkExitsPriceGEnvLabCode: boolean
 
@@ -38,7 +38,7 @@ export class PriceListStore {
   }
 
   get priceListService() {
-    return new Services.PriceListService()
+    return new PriceListService()
   }
 
   fetchListPriceList(page?, limit?) {
@@ -56,7 +56,7 @@ export class PriceListStore {
     this.listPriceListCount = res.filterPriceList.paginatorInfo.count
   }
 
-  updatePriceList(price: Models.PriceList) {
+  updatePriceList(price: PriceList) {
     this.priceList = price
   }
 

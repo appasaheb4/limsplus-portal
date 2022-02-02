@@ -2,11 +2,10 @@
 import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import {lookupItems} from "@lp/library/utils"
+import {PriceListList} from "../components"
 import { useForm, Controller } from "react-hook-form"
-import dayjs from "dayjs"
-import {AutoCompleteFilterSingleSelectPanelCode} from "../components/organsims"
+import {AutoCompleteFilterSingleSelectPanelCode} from "../components"
 import {PriceListHoc} from "../hoc"
 import { useStores } from "@lp/stores"
 
@@ -107,7 +106,7 @@ export const PriceList = PriceListHoc(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.PriceList
+      <PriceListList
             data={priceListStore.listPriceList || []}
             totalSize={priceListStore.listPriceListCount}
             extraData={{
@@ -294,7 +293,7 @@ export const PriceList = PriceListHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "PRIORIITY"
                       ).map((item: any, index: number) => (
@@ -352,7 +351,7 @@ export const PriceList = PriceListHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "PRICE_GROUP"
                       ).map((item: any, index: number) => (
@@ -653,7 +652,7 @@ export const PriceList = PriceListHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SPEICAL_SCHEME"
                       ).map((item: any, index: number) => (
@@ -733,7 +732,7 @@ export const PriceList = PriceListHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -851,7 +850,7 @@ export const PriceList = PriceListHoc(observer(() => {
                           ? `Select`
                           : priceListStore.priceList?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
