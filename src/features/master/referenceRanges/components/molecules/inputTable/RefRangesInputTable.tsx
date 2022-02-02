@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React from "react"
 import dayjs from 'dayjs'
 import * as LibraryComponents from "@lp/library/components"
 import { lookupItems, getDefaultLookupItem } from "@lp/library/utils"
@@ -33,6 +33,7 @@ export const RefRangesInputTable = observer(
               dataField: "analyteCode",
               text: "Analyte Code",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -76,6 +77,7 @@ export const RefRangesInputTable = observer(
               dataField: "department",
               text: "Department",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -119,6 +121,7 @@ export const RefRangesInputTable = observer(
               dataField: "species",
               text: "Species",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -152,8 +155,8 @@ export const RefRangesInputTable = observer(
             {
               dataField: "sex",
               text: "Sex",
-              headerClasses: "textHeaderm",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -186,6 +189,7 @@ export const RefRangesInputTable = observer(
               dataField: "rangeSetOn",
               text: "Range Set On",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -219,6 +223,7 @@ export const RefRangesInputTable = observer(
               dataField: "equipmentType",
               text: "Equipment Type",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -262,6 +267,7 @@ export const RefRangesInputTable = observer(
               dataField: "lab",
               text: "Lab",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -513,11 +519,13 @@ export const RefRangesInputTable = observer(
               dataField: "enterBy",
               text: "Enter By",
               csvExport: false,
+              headerClasses: "textHeader4",
             },
             {
               dataField: "environment",
               text: "Environment",
               csvExport: false,
+              headerClasses: "textHeader4",
               editorRenderer: (
                 editorProps,
                 value,
@@ -550,6 +558,7 @@ export const RefRangesInputTable = observer(
               dataField: "dateCreation",
               text: "Date Creation",
               csvExport: false,
+              headerClasses: "textHeader4",
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -558,6 +567,7 @@ export const RefRangesInputTable = observer(
               dataField: "dateActive",
               text: "Date Active",
               csvExport: false,
+              headerClasses: "textHeader4",
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
               },
@@ -566,6 +576,7 @@ export const RefRangesInputTable = observer(
               dataField: "dateExpire",
               text: "Date Expire",
               csvExport: false,
+              headerClasses: "textHeader4",
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
               },
@@ -591,6 +602,7 @@ export const RefRangesInputTable = observer(
               dataField: "version",
               text: "Version",
               csvExport: false,
+              headerClasses: "textHeader4",
             },
             {
               dataField: "deltaType",
