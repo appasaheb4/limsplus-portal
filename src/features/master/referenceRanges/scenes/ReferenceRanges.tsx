@@ -27,21 +27,10 @@ const ReferenceRanges = ReferenceRangesHoc(
       refernceRangesStore,
       routerStore,
     } = useStores()
-
-    const {
-      control,
-      handleSubmit,
-      formState: { errors },
-      setValue,
-      clearErrors,
-    } = useForm()
-
-    setValue("lab", loginStore.login.lab)
-    setValue("environment", loginStore.login.environment)
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
     const onSubmitReferenceRanges = () => {
-      if (!refernceRangesStore.checkExitsRecord) {
+      if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
         if (
           !refernceRangesStore.referenceRanges?.existsVersionId &&
           !refernceRangesStore.referenceRanges?.existsRecordId
@@ -49,8 +38,12 @@ const ReferenceRanges = ReferenceRangesHoc(
           refernceRangesStore.referenceRangesService
             .addReferenceRanges({
               input: {
-                ...refernceRangesStore.referenceRanges,
-                enteredBy: loginStore.login.userId,
+                filter: {
+                  refRangesInputList: _.filter(refernceRangesStore.referenceRanges?.refRangesInputList, a => {
+                    a.id = undefined
+                    return a;
+                  })
+                },
               },
             })
             .then((res) => {
@@ -104,7 +97,7 @@ const ReferenceRanges = ReferenceRangesHoc(
         }, 2000)
       } else {
         LibraryComponents.Atoms.Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: `😔 Records not found.`,
         })
       }
     }
@@ -187,7 +180,10 @@ const ReferenceRanges = ReferenceRangesHoc(
               data={toJS(refernceRangesStore.referenceRanges?.refRangesInputList)}
               extraData={routerStore}
               onDelete={(id) => {
-                const index = _.findIndex(refernceRangesStore.referenceRanges?.refRangesInputList, {'id' :id});
+                const index = _.findIndex(
+                  refernceRangesStore.referenceRanges?.refRangesInputList,
+                  { id: id }
+                )
                 const firstArr =
                   refernceRangesStore.referenceRanges?.refRangesInputList?.slice(
                     0,
@@ -203,20 +199,30 @@ const ReferenceRanges = ReferenceRangesHoc(
                   refRangesInputList: finalArray,
                 })
               }}
-              onUpdateItems={(items,id)=>{
-                const index = _.findIndex(refernceRangesStore.referenceRanges?.refRangesInputList, {'id' :id});
-                const refRangesInputList = refernceRangesStore.referenceRanges?.refRangesInputList;
-                refRangesInputList[index] ={...refRangesInputList[index],...items}
+              onUpdateItems={(items, id) => {
+                const index = _.findIndex(
+                  refernceRangesStore.referenceRanges?.refRangesInputList,
+                  { id: id }
+                )
+                const refRangesInputList =
+                  refernceRangesStore.referenceRanges?.refRangesInputList
+                refRangesInputList[index] = {
+                  ...refRangesInputList[index],
+                  ...items,
+                }
                 refernceRangesStore.updateReferenceRanges({
                   ...refernceRangesStore.referenceRanges,
                   refRangesInputList,
-                  refreshList: ! refernceRangesStore.referenceRanges?.refreshList
+                  refreshList: !refernceRangesStore.referenceRanges?.refreshList,
                 })
               }}
             />
           </div>
         ),
-      [refernceRangesStore.referenceRanges?.refRangesInputList.length,refernceRangesStore.referenceRanges?.refreshList ]
+      [
+        refernceRangesStore.referenceRanges?.refRangesInputList.length,
+        refernceRangesStore.referenceRanges?.refreshList,
+      ]
     )
 
     return (
@@ -248,7 +254,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                 size="medium"
                 type="solid"
                 icon={LibraryComponents.Atoms.Icon.Save}
-                onClick={handleSubmit(onSubmitReferenceRanges)}
+                onClick={() => onSubmitReferenceRanges()}
               >
                 Save
               </LibraryComponents.Atoms.Buttons.Button>
@@ -305,24 +311,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                   existsRecordId: undefined,
                   version: parseInt(modalConfirm.data.version + 1),
                 })
-                setValue("analyteCode", modalConfirm.data.analyteCode)
-                setValue("analyteName", modalConfirm.data.analyteName)
-                setValue("department", modalConfirm.data.department)
-                setValue("species", modalConfirm.data.species)
-                setValue("sex", modalConfirm.data.sex)
-                setValue("rangeSetOn", modalConfirm.data.rangeSetOn)
-                setValue("lab", modalConfirm.data.lab)
-                setValue("rangType", modalConfirm.data.rangType)
-                setValue("age", modalConfirm.data.age)
-                setValue("low", modalConfirm.data.low)
-                setValue("high", modalConfirm.data.high)
-                setValue("alpha", modalConfirm.data.alpha)
-                setValue("status", modalConfirm.data.status)
-                setValue("environment", modalConfirm.data.environment)
-                setValue("deltarang_tetype", modalConfirm.data.deltarang_tetype)
-                setValue("deltaInterval", modalConfirm.data.deltaInterval)
-                setValue("formalResultScript", modalConfirm.data.formatResultScript)
-                setValue("reportDefault", modalConfirm.data.reportDefault)
               } else if (type === "duplicate") {
                 refernceRangesStore.updateReferenceRanges({
                   ...modalConfirm.data,
@@ -332,24 +320,24 @@ const ReferenceRanges = ReferenceRangesHoc(
                   version: parseInt(modalConfirm.data.version + 1),
                 })
                 setHideAddLab(!hideAddLab)
-                setValue("analyteCode", modalConfirm.data.analyteCode)
-                setValue("analyteName", modalConfirm.data.analyteName)
-                setValue("department", modalConfirm.data.department)
-                setValue("species", modalConfirm.data.species)
-                setValue("sex", modalConfirm.data.sex)
-                setValue("rangeSetOn", modalConfirm.data.rangeSetOn)
-                setValue("lab", modalConfirm.data.lab)
-                setValue("rangType", modalConfirm.data.rangType)
-                setValue("age", modalConfirm.data.age)
-                setValue("low", modalConfirm.data.low)
-                setValue("high", modalConfirm.data.high)
-                setValue("alpha", modalConfirm.data.alpha)
-                setValue("status", modalConfirm.data.status)
-                setValue("environment", modalConfirm.data.environment)
-                setValue("deltarang_tetype", modalConfirm.data.deltarang_tetype)
-                setValue("deltaInterval", modalConfirm.data.deltaInterval)
-                setValue("formalResultScript", modalConfirm.data.formatResultScript)
-                setValue("reportDefault", modalConfirm.data.reportDefault)
+                // setValue("analyteCode", modalConfirm.data.analyteCode)
+                // setValue("analyteName", modalConfirm.data.analyteName)
+                // setValue("department", modalConfirm.data.department)
+                // setValue("species", modalConfirm.data.species)
+                // setValue("sex", modalConfirm.data.sex)
+                // setValue("rangeSetOn", modalConfirm.data.rangeSetOn)
+                // setValue("lab", modalConfirm.data.lab)
+                // setValue("rangType", modalConfirm.data.rangType)
+                // setValue("age", modalConfirm.data.age)
+                // setValue("low", modalConfirm.data.low)
+                // setValue("high", modalConfirm.data.high)
+                // setValue("alpha", modalConfirm.data.alpha)
+                // setValue("status", modalConfirm.data.status)
+                // setValue("environment", modalConfirm.data.environment)
+                // setValue("deltarang_tetype", modalConfirm.data.deltarang_tetype)
+                // setValue("deltaInterval", modalConfirm.data.deltaInterval)
+                // setValue("formalResultScript", modalConfirm.data.formatResultScript)
+                // setValue("reportDefault", modalConfirm.data.reportDefault)
               }
             }}
             onClose={() => {

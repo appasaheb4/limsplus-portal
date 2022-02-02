@@ -36,8 +36,6 @@ let version
 let deltaRangTeType
 let deltaInterval
 let intervalUnit
-let formalResultUnit
-let reportDefault
 
 interface ReferenceRangesProps {
   data: any
@@ -804,34 +802,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 </>
               ),
             },
-            {
-              dataField: "formalResultUnit",
-              text: "Formal Result Unit",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  formalResultUnit = filter
-                },
-              }),
-            },
-            {
-              dataField: "reportDefault",
-              text: "Report Default",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  reportDefault = filter
-                },
-              }),
-            },
-
-            {
+            {   
               dataField: "opration",
               text: "Action",
               editable: false,
@@ -950,8 +921,6 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             deltaRangTeType("")
             deltaInterval("")
             intervalUnit("")
-            formalResultUnit("")
-            reportDefault("")
           }}
         />
       </div>

@@ -1,8 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
-import { lookupItems } from "@lp/library/utils"
+import { lookupItems, getDefaultLookupItem } from "@lp/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import _ from "lodash"
@@ -21,6 +22,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
     routerStore,
     interfaceManagerStore,
     labStore,
+    loginStore,
   } = useStores()
   const {
     control,
@@ -29,28 +31,32 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
     setValue,
     clearErrors,
   } = useForm()
-  setValue("species",refernceRangesStore.referenceRanges?.species)
+  setValue("species", refernceRangesStore.referenceRanges?.species)
   setValue("rangeSetOn", refernceRangesStore.referenceRanges?.rangeSetOn)
 
   const addItem = () => {
-    let refRangesInputList =
-    refernceRangesStore.referenceRanges?.refRangesInputList
-  refRangesInputList.push({
-    id: refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
-    analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
-    analyteName: refernceRangesStore.referenceRanges?.analyteName,
-    department: refernceRangesStore.referenceRanges?.department,
-    species: refernceRangesStore.referenceRanges?.species,
-    rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
-    equipmentType: refernceRangesStore.referenceRanges?.equipmentType,
-    lab: refernceRangesStore.referenceRanges?.lab,
-  })
-  console.log({refRangesInputList});
-  
-   refernceRangesStore.updateReferenceRanges({
-     ...refernceRangesStore.referenceRanges,
-     refRangesInputList
-   })
+    let refRangesInputList = refernceRangesStore.referenceRanges?.refRangesInputList
+    refRangesInputList.push({
+      id: refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
+      analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
+      analyteName: refernceRangesStore.referenceRanges?.analyteName,
+      department: refernceRangesStore.referenceRanges?.department,
+      species: refernceRangesStore.referenceRanges?.species,
+      rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
+      equipmentType: refernceRangesStore.referenceRanges?.equipmentType,
+      lab: refernceRangesStore.referenceRanges?.lab,
+      version: 1,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      enterBy: loginStore.login.userId,
+      status:'A',
+      environment: getDefaultLookupItem(routerStore.lookupItems, `ENVIRONMENT`),
+    })
+    refernceRangesStore.updateReferenceRanges({
+      ...refernceRangesStore.referenceRanges,
+      refRangesInputList,
+    })
   }
 
   return (
@@ -259,39 +265,39 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
               />
             </td>
             <td>
-            <Controller
+              <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                loader={loading}
-                hasError={errors.lab}
-                placeholder="Search by code or name"
-                data={{
-                  list: labStore.listLabs,
-                  displayKey: ["code", "name"],
-                }}
-                onFilter={(value: string) => {
-                  labStore.LabService.filterByFields({
-                    input: {
-                      filter: {
-                        fields: ["code", "name"],
-                        srText: value,
-                      },
-                      page: 0,
-                      limit: 10,
-                    },
-                  })
-                }}
-                onSelect={(item) => {
-                  onChange(item.code)
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    lab: item.code,
-                  })
-                  labStore.updateLabList(labStore.listLabsCopy)
-                }}
-              />
-              )}
+                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
+                    hasError={errors.lab}
+                    placeholder="Search by code or name"
+                    data={{
+                      list: labStore.listLabs,
+                      displayKey: ["code", "name"],
+                    }}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filterByFields({
+                        input: {
+                          filter: {
+                            fields: ["code", "name"],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      })
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.code)
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
+                        lab: item.code,
+                      })
+                      labStore.updateLabList(labStore.listLabsCopy)
+                    }}
+                  />
+                )}
                 name="lab"
                 rules={{ required: true }}
                 defaultValue=""
