@@ -26,72 +26,34 @@ const ReferenceRanges = ReferenceRangesHoc(
       departmentStore,
       refernceRangesStore,
       routerStore,
-    } = useStores()
+    } = useStores()   
+      
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
     const onSubmitReferenceRanges = () => {
       if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
-        if (
-          !refernceRangesStore.referenceRanges?.existsVersionId &&
-          !refernceRangesStore.referenceRanges?.existsRecordId
-        ) {
-          refernceRangesStore.referenceRangesService
-            .addReferenceRanges({
-              input: {
-                filter: {
-                  refRangesInputList: _.filter(refernceRangesStore.referenceRanges?.refRangesInputList, a => {
+        refernceRangesStore.referenceRangesService
+          .addReferenceRanges({
+            input: {
+              filter: {
+                refRangesInputList: _.filter(
+                  refernceRangesStore.referenceRanges?.refRangesInputList,
+                  (a) => {
                     a.id = undefined
-                    return a;
-                  })
-                },
+                    a._id = undefined
+                    return a
+                  }
+                ),
               },
-            })
-            .then((res) => {
-              if (res.createReferenceRange.success) {
-                LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.createReferenceRange.message}`,
-                })
-              }
-            })
-        } else if (
-          refernceRangesStore.referenceRanges?.existsVersionId &&
-          !refernceRangesStore.referenceRanges?.existsRecordId
-        ) {
-          refernceRangesStore.referenceRangesService
-            .versionUpgradeReferenceRanges({
-              input: {
-                ...refernceRangesStore.referenceRanges,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then((res) => {
-              if (res.versionUpgradeReferenceRange.success) {
-                LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.versionUpgradeReferenceRange.message}`,
-                })
-              }
-            })
-        } else if (
-          !refernceRangesStore.referenceRanges?.existsVersionId &&
-          refernceRangesStore.referenceRanges?.existsRecordId
-        ) {
-          refernceRangesStore.referenceRangesService
-            .duplicateReferenceRanges({
-              input: {
-                ...refernceRangesStore.referenceRanges,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then((res) => {
-              if (res.duplicateReferenceRange.success) {
-                LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.duplicateReferenceRange.message}`,
-                })
-              }
-            })
-        }
+            },
+          })
+          .then((res) => {
+            if (res.createReferenceRange.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createReferenceRange.message}`,
+              })
+            }
+          })
         setTimeout(() => {
           window.location.reload()
         }, 2000)
@@ -304,40 +266,38 @@ const ReferenceRanges = ReferenceRangesHoc(
                     }
                   })
               } else if (type === "versionUpgrade") {
-                refernceRangesStore.updateReferenceRanges({
+                let refRangesInputList =
+                  refernceRangesStore.referenceRanges?.refRangesInputList
+                refRangesInputList.push({
                   ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                })
-              } else if (type === "duplicate") {
-                refernceRangesStore.updateReferenceRanges({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
+                  id:
+                    refernceRangesStore.referenceRanges?.refRangesInputList.length +
+                    1,
                   existsRecordId: modalConfirm.data._id,
                   version: parseInt(modalConfirm.data.version + 1),
+                  type: "versionUpgrade",
+                })
+                refernceRangesStore.updateReferenceRanges({
+                  ...refernceRangesStore.referenceRanges,
+                  refRangesInputList,
+                })
+              } else if (type === "duplicate") {
+                let refRangesInputList =
+                  refernceRangesStore.referenceRanges?.refRangesInputList
+                refRangesInputList.push({
+                  ...modalConfirm.data,
+                  id:
+                    refernceRangesStore.referenceRanges?.refRangesInputList.length +
+                    1,
+                  existsRecordId: modalConfirm.data._id,
+                  version: parseInt(modalConfirm.data.version + 1),
+                  type: "duplicate",
+                })
+                refernceRangesStore.updateReferenceRanges({
+                  ...refernceRangesStore.referenceRanges,
+                  refRangesInputList,
                 })
                 setHideAddLab(!hideAddLab)
-                // setValue("analyteCode", modalConfirm.data.analyteCode)
-                // setValue("analyteName", modalConfirm.data.analyteName)
-                // setValue("department", modalConfirm.data.department)
-                // setValue("species", modalConfirm.data.species)
-                // setValue("sex", modalConfirm.data.sex)
-                // setValue("rangeSetOn", modalConfirm.data.rangeSetOn)
-                // setValue("lab", modalConfirm.data.lab)
-                // setValue("rangType", modalConfirm.data.rangType)
-                // setValue("age", modalConfirm.data.age)
-                // setValue("low", modalConfirm.data.low)
-                // setValue("high", modalConfirm.data.high)
-                // setValue("alpha", modalConfirm.data.alpha)
-                // setValue("status", modalConfirm.data.status)
-                // setValue("environment", modalConfirm.data.environment)
-                // setValue("deltarang_tetype", modalConfirm.data.deltarang_tetype)
-                // setValue("deltaInterval", modalConfirm.data.deltaInterval)
-                // setValue("formalResultScript", modalConfirm.data.formatResultScript)
-                // setValue("reportDefault", modalConfirm.data.reportDefault)
               }
             }}
             onClose={() => {

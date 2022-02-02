@@ -10,7 +10,6 @@ export const LIST = gql`
       message
       data {
         _id
-        existsVersionId
         existsRecordId
         analyteCode
         analyteName
@@ -65,23 +64,7 @@ export const CREATE_RECORD = gql`
   }
 `
 
-export const VERSION_UPGRADE = gql`
-  mutation($input: CreateReferenceRangeInput!) {
-    versionUpgradeReferenceRange(input: $input) {
-      success
-      message
-    }
-  }
-`
 
-export const DUPLICATE_RECORD = gql`
-  mutation($input: CreateReferenceRangeInput!) {
-    duplicateReferenceRange(input: $input) {
-      success
-      message
-    }
-  }
-`
 
 export const UPDATE_RECORD = gql`
   mutation($input: UpdateReferenceRangeInput!) {
@@ -111,7 +94,6 @@ export const FILTER = gql`
       message
       data {
         _id
-        existsVersionId
         existsRecordId
         analyteCode
         analyteName
@@ -158,7 +140,6 @@ export const FILTER_BY_FIELDS = gql`
       message
       data {
         _id
-        existsVersionId
         existsRecordId
         analyteCode
         analyteName

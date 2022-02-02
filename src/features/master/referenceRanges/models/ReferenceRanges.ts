@@ -1,5 +1,6 @@
 class CommonInput {
   id: number
+  existsRecordId?: string
   analyteCode: string
   analyteName: string
   department: string
@@ -28,9 +29,10 @@ class CommonInput {
   enterBy: string
   status: string
   environment: string
-
+  type: string
   constructor(rawData: { [key in string]: any }) {
     this.id = rawData.id
+    this.existsRecordId = rawData.existsRecordId
     this.analyteCode = rawData.analyteCode
     this.analyteName = rawData.analyteName
     this.department = rawData.department
@@ -59,13 +61,12 @@ class CommonInput {
     this.enterBy = rawData.enterBy
     this.status = rawData.status
     this.environment = rawData.environment
+    this.type = rawData.type
   }
 }
     
 export class ReferenceRanges extends CommonInput {
   _id: string
-  existsVersionId: string
-  existsRecordId: string
   dateOfEntry: Date
   lastUpdated: Date
   refRangesInputList: CommonInput[]
@@ -73,8 +74,6 @@ export class ReferenceRanges extends CommonInput {
   constructor(rawData: { [key in string]: any }) {
     super(rawData)
     this._id = rawData._id
-    this.existsVersionId = rawData.existsVersionId
-    this.existsRecordId = rawData.existsRecordId
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated
     this.refRangesInputList = rawData.refRangesInputList
