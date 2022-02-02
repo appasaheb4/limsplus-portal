@@ -159,7 +159,7 @@ export const Login = observer(() => {
             <div className="flex mt-2 justify-center items-center">
               <label className="font-bold text-3xl text-white">Login</label>
             </div>
-            <div className="bg-white  flex flex-col rounded-md">
+            <div className="flex flex-col rounded-md bg-white shadow-sm">
               <div className="p-3">
                 <LibraryComponents.Atoms.List
                   direction="col"
@@ -348,6 +348,8 @@ export const Login = observer(() => {
                     Clear
                   </LibraryComponents.Atoms.Buttons.Button>
                 </LibraryComponents.Atoms.List>
+                <h4 className="text-center mt-2"> <b>Note</b>: After 3 invalid login attempts, accounts will be locked.</h4>
+                <h4 className="text-center">In that case contact the Support Team.</h4>
               </div>
               <div className="flex p-4 flex-row items-center justify-around">
                 <div className="flex mt-2 justify-center items-center">

@@ -52,12 +52,13 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
       enterBy: loginStore.login.userId,
       status:'A',
       environment: getDefaultLookupItem(routerStore.lookupItems, `ENVIRONMENT`),
+      type:'insert'
     })
     refernceRangesStore.updateReferenceRanges({
       ...refernceRangesStore.referenceRanges,
       refRangesInputList,
     })
-  }
+  }   
 
   return (
     <div className="flex flex-row gap-2 items-center">

@@ -606,6 +606,12 @@ export const RefRangesInputTable = observer(
               text: "Color Lo",
               headerClasses: "textHeaderm",
               csvExport: false,
+              formatter: (cell, row) => {
+                return <>{lookupItems(
+                  extraData.lookupItems,
+                  `${row.rangeType}_LW_COLOR`
+                ).filter((item)=> item.code === row.colorLo)[0]?.value}</>
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -616,10 +622,7 @@ export const RefRangesInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={lookupItems(
-                      extraData.lookupItems,
-                      `${row.rangeType}_LW_COLOR`
-                    ).filter((item)=> item.code == row.colorLo)[0]?.value}
+                    value={row.colorLo}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const colorLo = e.target.value
@@ -644,6 +647,12 @@ export const RefRangesInputTable = observer(
               text: "Color Hi",
               headerClasses: "textHeaderm",
               csvExport: false,
+              formatter: (cell, row) => {
+                return <>{lookupItems(
+                  extraData.lookupItems,
+                  `${row.rangeType}_HI_COLOR`
+                ).filter((item)=> item.code == row.colorHi)[0]?.value}</>
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -654,10 +663,7 @@ export const RefRangesInputTable = observer(
               ) => (
                 <>
                   <select
-                  value={lookupItems(
-                    extraData.lookupItems,
-                    `${row.rangeType}_LW_COLOR`
-                  ).filter((item)=> item.code == row.colorHi)[0]?.value}
+                  value={row.colorHi}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const colorHi = e.target.value
@@ -682,6 +688,12 @@ export const RefRangesInputTable = observer(
               text: "Color No",
               headerClasses: "textHeaderm",
               csvExport: false,
+              formatter: (cell, row) => {
+                return <>{lookupItems(
+                  extraData.lookupItems,
+                  `${row.rangeType}_NO_COLOR`
+                ).filter((item)=> item.code == row.colorNormal)[0]?.value}</>
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -692,10 +704,7 @@ export const RefRangesInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={lookupItems(
-                        extraData.lookupItems,
-                        `${row.rangeType}_LW_COLOR`
-                      ).filter((item)=> item.code == row.colorNormal)[0]?.value}
+                    value={row.colorNormal}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const colorNormal = e.target.value

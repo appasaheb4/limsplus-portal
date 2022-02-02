@@ -579,7 +579,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "INTERVAL_UNIT"
                     ).map((item: any, index: number) => (
@@ -596,8 +596,15 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Color Low",
               headerClasses: "textHeader5",
               sort: true,
+              editable: false,
               csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+             // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+             formatter: (cell, row) => {
+              return <>{lookupItems(
+                props.extraData.lookupItems,
+                `${row.rangeType}_LW_COLOR`
+              ).filter((item)=> item.code === row.colorLo)[0]?.value}</>
+            },
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   intervalUnit = filter
@@ -609,8 +616,15 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Color High",
               headerClasses: "textHeader5",
               sort: true,
+              editable: false,
               csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              //editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return <>{lookupItems(
+                  props.extraData.lookupItems,
+                  `${row.rangeType}_HI_COLOR`
+                ).filter((item)=> item.code === row.colorHi)[0]?.value}</>
+              },
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   intervalUnit = filter
@@ -622,8 +636,15 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Color Normal",
               headerClasses: "textHeader5",
               sort: true,
+              editable: false,
               csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+             // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+             formatter: (cell, row) => {
+              return <>{lookupItems(
+                props.extraData.lookupItems,
+                `${row.rangeType}_NO_COLOR`
+              ).filter((item)=> item.code === row.colorNormal)[0]?.value}</>
+            },
               filter: LibraryComponents.Organisms.Utils.textFilter({
                 getFilter: (filter) => {
                   intervalUnit = filter
@@ -643,7 +664,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
             },
-            {
+            {   
               dataField: "status",
               text: "Status",
               headerClasses: "textHeader2",

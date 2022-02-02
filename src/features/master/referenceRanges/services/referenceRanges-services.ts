@@ -11,8 +11,6 @@ import {
   REMOVE_RECORD,
   CREATE_RECORD,
   UPDATE_RECORD,
-  VERSION_UPGRADE,
-  DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS
@@ -73,41 +71,6 @@ export class ReferenceRangesService {
         )
     })
 
-  versionUpgradeReferenceRanges = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: VERSION_UPGRADE,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data)
-          stores.refernceRangesStore.updateReferenceRanges(
-            new Models.ReferenceRanges({})
-          )
-        })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-
-  duplicateReferenceRanges = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: DUPLICATE_RECORD,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data)
-          stores.refernceRangesStore.updateReferenceRanges(
-            new Models.ReferenceRanges({})
-          )
-        })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
