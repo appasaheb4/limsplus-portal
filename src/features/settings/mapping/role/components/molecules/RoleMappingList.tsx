@@ -24,7 +24,7 @@ interface RoleMappingListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const RoleMappingList = observer((props: RoleMappingListProps) => {
+export const RoleMappingList = observer((props: RoleMappingListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -221,4 +221,4 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
   )
 })
 
-export default RoleMappingList
+

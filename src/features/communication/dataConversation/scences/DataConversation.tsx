@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {DataConversationList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 
 import { useForm, Controller } from "react-hook-form"
 import {DataConversationHoc} from "../hoc"
@@ -182,7 +182,7 @@ const DataConversation = DataConversationHoc(observer(() => {
                           : dataConversationStore.dataConversation?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
@@ -224,7 +224,7 @@ const DataConversation = DataConversationHoc(observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-          <FeatureComponents.DataConversationList
+          <DataConversationList
             data={dataConversationStore.listdataConversation || []}
             extraData={{ lookupItems: routerStore.lookupItems }}
             totalSize={dataConversationStore.listdataConversationCount}

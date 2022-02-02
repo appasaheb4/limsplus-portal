@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {RoleList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {RolesHoc} from "../hoc"
 import { useStores } from "@lp/stores"
@@ -179,7 +179,7 @@ const Role = RolesHoc(observer(() => {
                           ? `Select`
                           : roleStore.role?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
@@ -220,7 +220,7 @@ const Role = RolesHoc(observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl">
-          <FeatureComponents.Molecules.RoleList
+          <RoleList
             data={roleStore.listRole || []}
             totalSize={roleStore.listRoleCount}
             extraData={{

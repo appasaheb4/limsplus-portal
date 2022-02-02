@@ -14,7 +14,7 @@ import {
 } from "./mutation"
 import { stores } from "@lp/stores"
 
-class NoticeBoardService {
+export class NoticeBoardService {
   noticeBoardsList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -95,4 +95,4 @@ class NoticeBoardService {
     })
 }
 
-export default NoticeBoardService
+

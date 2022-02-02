@@ -1,23 +1,23 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import { EnvironmentService } from "../services"
-import * as Models from "../models"
+import {EnvironmentSettings,EnvironmentVariable,SelectedItems,Permission} from "../models"
 
 export class EnvironmentStore {
-  environmentSettings!: Models.EnvironmentSettings
-  environmentVariable!: Models.EnvironmentVariable
+  environmentSettings!: EnvironmentSettings
+  environmentVariable!: EnvironmentVariable
 
-  environmentSettingsList: Models.EnvironmentSettings[]
+  environmentSettingsList: EnvironmentSettings[]
   environmentSettingsListCount: number
   checkExistsEnvSettingsRecord!: boolean
 
-  environmentVariableList: Models.EnvironmentVariable[]
-  environmentVariableListCopy: Models.EnvironmentVariable[]
+  environmentVariableList: EnvironmentVariable[]
+  environmentVariableListCopy: EnvironmentVariable[]
   environmentVariableListCount: number
   checkExistsEnvVariable: boolean
 
-  selectedItems!: Models.SelectedItems
+  selectedItems!: SelectedItems
 
-  permission!: Models.Permission
+  permission!: Permission
 
   constructor() {
     this.environmentSettingsList = []
@@ -110,11 +110,11 @@ export class EnvironmentStore {
     this.environmentSettingsListCount = res.filterEnviroment.paginatorInfo.count
   }
 
-  updateEnvironmentSettings(env: Models.EnvironmentSettings) {
+  updateEnvironmentSettings(env: EnvironmentSettings) {
     this.environmentSettings = env
   }
 
-  updateEnvironmentSettingsList(list: Models.EnvironmentSettings[]) {
+  updateEnvironmentSettingsList(list: EnvironmentSettings[]) {
     this.environmentSettingsList = list
   }
 
@@ -122,11 +122,11 @@ export class EnvironmentStore {
     this.environmentSettingsListCount = count
   }
 
-  updatEnvironmentVariable(environment: Models.EnvironmentVariable) {
+  updatEnvironmentVariable(environment: EnvironmentVariable) {
     this.environmentVariable = environment
   }
 
-  updatEnvironmentVariableList(list: Models.EnvironmentVariable[]) {
+  updatEnvironmentVariableList(list: EnvironmentVariable[]) {
     this.environmentVariableList = list
   }
 
@@ -134,9 +134,9 @@ export class EnvironmentStore {
     this.environmentVariableListCount = count
   }
 
-  updateSelectedItems(items: Models.SelectedItems | undefined) {
+  updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items
-    else this.selectedItems = new Models.SelectedItems({})
+    else this.selectedItems = new SelectedItems({})
   }
 
   updateExistsEnvVariable(flag: boolean) {
@@ -147,7 +147,7 @@ export class EnvironmentStore {
     this.checkExistsEnvSettingsRecord = flag
   }
 
-  updatePermision(permission: Models.Permission) {
+  updatePermision(permission: Permission) {
     this.permission = permission
   }
 }

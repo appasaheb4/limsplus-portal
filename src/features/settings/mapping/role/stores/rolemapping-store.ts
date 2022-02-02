@@ -1,12 +1,12 @@
 
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {RoleMapping,Role} from "../models"
+import {RoleMappingService} from "../services"
 
 export class RoleMappingStore {
-   user!: Models.Role
-   selectedRole!: Models.RoleMapping
-  roleMappingList: Models.Role[]
+   user!: Role
+   selectedRole!: RoleMapping
+  roleMappingList: Role[]
   roleMappingListCount: number
   rolePermission: any
   constructor() {
@@ -30,7 +30,7 @@ export class RoleMappingStore {
   }
 
    get roleMappingService() {
-    return new Services.RoleMappingService()
+    return new RoleMappingService()
   }
 
    fetchRoleMappingList(page?, limit?) {
@@ -48,14 +48,14 @@ export class RoleMappingStore {
     this.roleMappingListCount = res.filterRoleMapping.paginatorInfo.count
   }
 
-   updateUser = (user: Models.Role) => {
+   updateUser = (user: Role) => {
     this.user = user
   }
 
    updateRolePermission(permission: any) {
     this.rolePermission = permission  
   }
-   updateSelectedRole(role: Models.RoleMapping) {
+   updateSelectedRole(role: RoleMapping) {
     this.selectedRole = role
   }
 }

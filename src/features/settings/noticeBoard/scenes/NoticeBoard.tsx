@@ -2,7 +2,7 @@
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
+import {NoticeBoardsList} from "../components"
 import "@lp/library/assets/css/accordion.css"
 import * as Models from "../models"
 import { useForm, Controller } from "react-hook-form"
@@ -45,7 +45,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.NoticeBoardsList
+      <NoticeBoardsList
           data={noticeBoardStore.noticeBoardList}
           totalSize={noticeBoardStore.noticeBoardListCount}
           extraData={{

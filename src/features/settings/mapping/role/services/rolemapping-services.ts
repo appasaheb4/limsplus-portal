@@ -14,7 +14,7 @@ import {
 } from "./mutation"
 import { stores } from "@lp/stores"
 
-class RoleMappingService {
+export class RoleMappingService {
   addRoleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -94,4 +94,3 @@ class RoleMappingService {
     })  
 }
 
-export default RoleMappingService

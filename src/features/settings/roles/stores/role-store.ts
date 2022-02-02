@@ -1,12 +1,12 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {Role} from "../models"
+import {RoleService} from "../services"
 
 export class RoleStore {
-  listRole: Models.Role[] = []
-  listRoleCopy: Models.Role[] = []
+  listRole: Role[] = []
+  listRoleCopy: Role[] = []
   listRoleCount: number = 0
-  role?: Models.Role
+  role?: Role
   checkExitsCode?: boolean = false
 
   constructor() {
@@ -26,7 +26,7 @@ export class RoleStore {
   }
 
   get RoleService() {
-    return new Services.RoleService()
+    return new RoleService()
   }
 
   fetchListRole(page?, limit?) {
@@ -53,7 +53,7 @@ export class RoleStore {
     this.checkExitsCode = status
   }
 
-  updateRole = (role: Models.Role) => {
+  updateRole = (role: Role) => {
     this.role = role
   }
 }

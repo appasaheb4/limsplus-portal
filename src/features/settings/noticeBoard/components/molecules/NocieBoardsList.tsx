@@ -12,7 +12,7 @@ let message
 let action
 
 
-import {AutoCompleteFilterSingleSelectLabs} from "../organsims"
+import {AutoCompleteFilterSingleSelectLabs} from "../index"
 interface NoticeBoardsListProps {
   data: any
   extraData: any
@@ -26,7 +26,7 @@ interface NoticeBoardsListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void  
 }
 
-const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
+export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -223,4 +223,3 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
   )
 })
 
-export default NoticeBoardsList

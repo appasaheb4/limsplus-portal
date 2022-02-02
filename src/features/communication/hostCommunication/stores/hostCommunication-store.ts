@@ -1,10 +1,10 @@
 import { makeObservable, action, observable } from "mobx"
-import * as Models from "../models"
+import {HostCommunication} from "../models"
 import { ConvertTo } from "../../models"
 import { InterfaceManager } from "../../interfaceManager/models"
 
 export class HostCommunicationStore {
-  hostCommuication!: Models.HostCommunication
+  hostCommuication!: HostCommunication
   convertTo!: ConvertTo
   selectedInterfaceManager?: InterfaceManager
   constructor() {
@@ -19,7 +19,7 @@ export class HostCommunicationStore {
     })
   }
 
-  updateHostCommuication = (hostCommunication: Models.HostCommunication) => {
+  updateHostCommuication = (hostCommunication: HostCommunication) => {
     this.hostCommuication = hostCommunication
   }
   updateConvertTo(convertTo: ConvertTo) {

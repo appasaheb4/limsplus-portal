@@ -3,10 +3,10 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
-import * as FeatureComponents from "../../components"
+import {PatientOrderList} from "../../components"
 import { PatientOrderHoc } from "../../hoc"
 
 import { useStores } from "@lp/stores"
@@ -21,13 +21,13 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
-import { TablePackagesList, TableExtraDataPackages } from "../../components/molecules"
+import { TablePackagesList, TableExtraDataPackages } from "../../components"
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void
 }
 
-const PatientOrder = PatientOrderHoc(
+export const PatientOrder = PatientOrderHoc(
   observer((props: PatientOrderProps) => {
     const {
       loading,
@@ -333,7 +333,7 @@ const PatientOrder = PatientOrderHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "PATIENT ORDER - ENVIRONMENT"
                         ).map((item: any, index: number) => (
@@ -410,7 +410,7 @@ const PatientOrder = PatientOrderHoc(
           className="p-2 rounded-lg shadow-xl overflow-scroll"
           style={{ overflowX: "scroll" }}
         >
-          <FeatureComponents.Molecules.PatientOrderList
+          <PatientOrderList
             data={patientOrderStore.listPatientOrder}
             totalSize={patientOrderStore.listPatientOrderCount}
             extraData={{
@@ -473,4 +473,4 @@ const PatientOrder = PatientOrderHoc(
     )
   })
 )
-export default PatientOrder
+

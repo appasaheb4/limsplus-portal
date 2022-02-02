@@ -1,2 +1,1 @@
-import ShortcutMenuService from "./shortcutMenu-Services"
-export { ShortcutMenuService }
+export * from "./shortcutMenu-Services"

@@ -2,11 +2,11 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { AutoCompleteFilterMutiSelectRoles ,AutoCompleteFilterSingleSelectDefaultLabs,AutoCompleteFilterSingleSelectDegnisation,AutoCompleteFilterMutiSelectDepartment} from "../organisms"
+import { AutoCompleteFilterMutiSelectRoles ,AutoCompleteFilterSingleSelectDefaultLabs,AutoCompleteFilterSingleSelectDegnisation,AutoCompleteFilterMutiSelectDepartment} from "../index"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
   
 import { toJS } from "mobx"
@@ -699,7 +699,7 @@ export const UserList = observer((props: UserListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -744,7 +744,7 @@ export const UserList = observer((props: UserListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

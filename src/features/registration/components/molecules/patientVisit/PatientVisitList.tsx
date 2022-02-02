@@ -2,11 +2,11 @@
 import React from "react"
 import dayjs from "dayjs"
 import { observer } from "mobx-react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems,lookupValue} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"  
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
-import {AutoCompleteFilterSingleSelectCollectionCenter,AutoCompleteFilterSingleSelectCorporateCode,AutoCompleteFilterSingleSelectDoctorId, AutoCompleteFilterSingleSelectDoctorName} from "../../orgransims"
+import {AutoCompleteFilterSingleSelectCollectionCenter,AutoCompleteFilterSingleSelectCorporateCode,AutoCompleteFilterSingleSelectDoctorId, AutoCompleteFilterSingleSelectDoctorName} from "../../index"
 interface PatientVisitProps {
   data: any
   totalSize: number
@@ -38,7 +38,7 @@ let doctorName
 let deliveryType
 let status
 
-const PatientVisitList = observer((props: PatientVisitProps) => {
+export const PatientVisitList = observer((props: PatientVisitProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -348,7 +348,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "PATIENT VISIT - AGE_UNITS"
                     ).map((item: any, index: number) => (
@@ -456,7 +456,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "PATIENT VISIT - AC_CLASS"
                     ).map((item: any, index: number) => (
@@ -564,12 +564,12 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "PATIENT VISIT - DELIVERY_TYPE"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {LibraryUtils.lookupValue(item)}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -631,7 +631,7 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "PATIENT VISIT - STATUS"
                     ).map((item: any, index: number) => (
@@ -723,4 +723,4 @@ const PatientVisitList = observer((props: PatientVisitProps) => {
     </>
   )
 })
-export default PatientVisitList
+

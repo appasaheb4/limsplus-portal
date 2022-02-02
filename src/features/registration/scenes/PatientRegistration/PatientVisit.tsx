@@ -5,7 +5,7 @@ import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
-import * as FeatureComponents from "../../components"
+import {AutoCompleteFilterSingleSelectPid,ExtraDataPatientVisitList,PatientVisitList} from "../../components"
 import { useForm, Controller } from "react-hook-form"
 import {
   Accordion,
@@ -27,7 +27,7 @@ interface PatientVisitProps {
   onModalConfirm?: (item: any) => void
 }
 
-const PatientVisit = PatientVisitHoc(
+export const PatientVisit = PatientVisitHoc(
   observer((props: PatientVisitProps) => {
     const {
       loading,
@@ -204,7 +204,7 @@ const PatientVisit = PatientVisitHoc(
                       label="PId"
                       hasError={errors.pid}
                     >
-                      <FeatureComponents.Orgransims.AutoCompleteFilterSingleSelectPid
+                      <AutoCompleteFilterSingleSelectPid
                         hasError={errors.pid}
                         onSelect={(item) => {
                           onChange(item.pId)
@@ -1768,7 +1768,7 @@ const PatientVisit = PatientVisitHoc(
           className="p-2 rounded-lg shadow-xl overflow-scroll"
           style={{ overflowX: "scroll" }}
         >
-          <FeatureComponents.Molecules.PatientVisitList
+          <PatientVisitList
             data={patientVisitStore.listPatientVisit}
             totalSize={patientVisitStore.listPatientVisitCount}
             extraData={{
@@ -1828,7 +1828,7 @@ const PatientVisit = PatientVisitHoc(
                     className="p-2 rounded-lg shadow-xl overflow-scroll"
                     style={{ overflowX: "scroll" }}
                   >
-                    <FeatureComponents.Molecules.ExtraDataPatientVisitList
+                    <ExtraDataPatientVisitList
                       data={patientVisitStore.listPatientVisit}
                       totalSize={patientVisitStore.listPatientVisitCount}
                       extraData={{
@@ -1924,4 +1924,4 @@ const PatientVisit = PatientVisitHoc(
     )
   })
 )
-export default PatientVisit
+

@@ -2,9 +2,9 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import * as FeatureComponents from "../../components"
+import {SpecialResultList} from "../../components"
 import { Stores as MasterAnalyteStore } from "@lp/features/master/masterAnalyte/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import "@lp/library/assets/css/accordion.css"
@@ -15,7 +15,7 @@ import { RouterFlow } from "@lp/flows"
 interface SpecialResultProps {
     onModalConfirm?: (item: any) => void
 }
-const SpecialResult = observer((props:SpecialResultProps)=>{
+export const SpecialResult = observer((props:SpecialResultProps)=>{
     const {
         control,
         handleSubmit,
@@ -176,7 +176,7 @@ const SpecialResult = observer((props:SpecialResultProps)=>{
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           stores.routerStore.lookupItems,
                           "SPECIAL RESULT - RESULT_TYPE"
                         ).map((item: any, index: number) => (
@@ -361,7 +361,7 @@ const SpecialResult = observer((props:SpecialResultProps)=>{
                           ? `Select`
                           : Stores.patientRegistationStore.specialResult?.environment || `Select`}
                       </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "SPECIAL RESULT - ENVIRONMENT").map(
+                  {lookupItems(stores.routerStore.lookupItems, "SPECIAL RESULT - ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -404,7 +404,7 @@ const SpecialResult = observer((props:SpecialResultProps)=>{
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
       >
-        <FeatureComponents.Molecules.SpecialResultList
+        <SpecialResultList
           data={Stores.patientRegistationStore.listSpecialResult}
           totalSize={Stores.patientRegistationStore.listSpecialResultCount}
           extraData={{
@@ -450,4 +450,3 @@ const SpecialResult = observer((props:SpecialResultProps)=>{
         </>
     )
 })
-export default SpecialResult

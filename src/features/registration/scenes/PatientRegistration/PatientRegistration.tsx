@@ -14,7 +14,7 @@ import {
   PatientResult,
   SpecialResult,
   PatientTest
-} from "../PatientRegistration"
+} from "../index"
 import { useStores } from "@lp/stores"
 import { stores } from "@lp/stores"
 const PatientRegistation = observer(() => {

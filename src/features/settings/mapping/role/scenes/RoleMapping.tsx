@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
+import {RoleMappingList} from "../components"
 import * as LibraryModels from "@lp/library/models"
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
@@ -512,7 +512,7 @@ const RoleMapping = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.RoleMappingList
+          <RoleMappingList
             data={roleMappingStore.roleMappingList || []}
             totalSize={roleMappingStore.roleMappingListCount}
             isDelete={RouterFlow.checkPermission(

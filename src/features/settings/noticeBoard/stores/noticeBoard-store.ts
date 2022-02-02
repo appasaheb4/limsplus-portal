@@ -1,10 +1,10 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Services from "../services"
-import * as Models from "../models"
+import {NoticeBoardService} from "../services"
+import {NoticeBoard} from "../models"
 
 export class NoticeBoardStore {
-  noticeBoard!: Models.NoticeBoard
-  noticeBoardList: Models.NoticeBoard[]
+  noticeBoard!: NoticeBoard
+  noticeBoardList: NoticeBoard[]
   noticeBoardListCount: number
 
   constructor() {
@@ -23,7 +23,7 @@ export class NoticeBoardStore {
   }
 
   get NoticeBoardService() {
-    return new Services.NoticeBoardService()
+    return new NoticeBoardService()
   }
 
   fetchNoticeBoards(page?, limit?) {
@@ -42,7 +42,7 @@ export class NoticeBoardStore {
   }
 
   // notice board
-  updateNoticeBoard(notice: Models.NoticeBoard) {
+  updateNoticeBoard(notice: NoticeBoard) {
     this.noticeBoard = notice
   }
 }

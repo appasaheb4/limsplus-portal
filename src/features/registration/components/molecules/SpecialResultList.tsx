@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 interface SpecialResultProps {
@@ -14,7 +14,7 @@ interface SpecialResultProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
-const SpecialResultList = observer((props:SpecialResultProps)=>{
+export const SpecialResultList = observer((props:SpecialResultProps)=>{
     return(
         <>
           <div style={{position:'relative'}}>
@@ -147,4 +147,3 @@ const SpecialResultList = observer((props:SpecialResultProps)=>{
         </>
     )
 })
-export default SpecialResultList

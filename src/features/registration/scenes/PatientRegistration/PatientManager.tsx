@@ -6,7 +6,7 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller, useWatch } from "react-hook-form"
-import * as FeatureComponents from "../../components"
+import {PatientMangerList,ExtraDataPatientManagerList} from "../../components"
 import { FormHelper } from "@lp/helper"
 import { PatientManagerHoc } from "../../hoc"
 
@@ -25,7 +25,7 @@ import "react-accessible-accordion/dist/fancy-example.css"
 
 interface PatientManagerProps {}
 
-const PatientManager = PatientManagerHoc(
+export const PatientManager = PatientManagerHoc(
   observer((props: PatientManagerProps) => {
     const {
       loading,
@@ -1361,7 +1361,7 @@ const PatientManager = PatientManagerHoc(
           className="p-2 rounded-lg shadow-xl overflow-scroll"
           style={{ overflowX: "scroll" }}
         >
-          <FeatureComponents.Molecules.PatientMangerList
+          <PatientMangerList
             data={patientManagerStore.listPatientManger}
             totalSize={patientManagerStore.listPatientMangerCount}
             extraData={{
@@ -1422,7 +1422,7 @@ const PatientManager = PatientManagerHoc(
               <AccordionItemPanel>
                 <>
                   <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-                    <FeatureComponents.Molecules.ExtraDataPatientManagerList
+                    <ExtraDataPatientManagerList
                       data={patientManagerStore.listPatientManger}
                       totalSize={patientManagerStore.listPatientMangerCount}
                       extraData={{
@@ -1520,4 +1520,4 @@ const PatientManager = PatientManagerHoc(
     )
   })
 )
-export default PatientManager
+
