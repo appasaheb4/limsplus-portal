@@ -1,23 +1,23 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {Users,SelectedItems,ChangePassword} from "../models"
 import dayjs from "dayjs"
 import { UserService } from "../services"
 
 export class UserStore {
-  user!: Models.Users
-  userList!: Models.Users[]
-  userListCopy!: Models.Users[]
+  user!: Users
+  userList!: Users[]
+  userListCopy!: Users[]
   userListCount: number = 0
-  changePassword!: Models.ChangePassword
+  changePassword!: ChangePassword
   checkExitsUserId: boolean
   checkExistsEmpCode: boolean
-  selectedItems!: Models.SelectedItems
+  selectedItems!: SelectedItems
 
   constructor() {
     this.userList = []
     this.checkExitsUserId = false
     this.checkExistsEmpCode = false
-    this.user = new Models.Users({
+    this.user = new Users({
       ...this.user,
       exipreDate: new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD")),
       expireDays: 30,
@@ -86,11 +86,11 @@ export class UserStore {
     this.userListCount = res.filterUsers.paginatorInfo.count
   }
 
-  updateUser(user: Models.Users) {
+  updateUser(user: Users) {
     this.user = user
   }
  
-  updateChangePassword(password: Models.ChangePassword) {
+  updateChangePassword(password: ChangePassword) {
     this.changePassword = password
   }
 
@@ -111,7 +111,7 @@ export class UserStore {
     }
   }
 
-  updateSelectedItems(res: Models.SelectedItems) {
+  updateSelectedItems(res: SelectedItems) {
     this.selectedItems = res
   }
 }

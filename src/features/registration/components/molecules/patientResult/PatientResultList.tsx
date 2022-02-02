@@ -21,7 +21,7 @@ interface PatientResultProps {
 }  
 
 let labId;
-const PatientResult = observer((props: PatientResultProps) => {
+export const PatientResultList = observer((props: PatientResultProps) => {
   const editorCell = (row: any) => {
     return false //row.status !== "I" ? true : false
   }
@@ -474,4 +474,4 @@ const PatientResult = observer((props: PatientResultProps) => {
     </>
   )
 })
-export default PatientResult
+

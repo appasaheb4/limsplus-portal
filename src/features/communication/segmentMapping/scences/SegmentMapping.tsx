@@ -2,7 +2,7 @@
 import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems,} from "@lp/library/utils"
 import * as Models from "../../models"
 import { SegmentMapping as ModelSegmentMapping } from "../models"
 import * as XLSX from "xlsx"
@@ -841,7 +841,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                           : segmentMappingStore.segmentMapping?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

@@ -1,3 +1,1 @@
-import RoleMappingService from "./rolemapping-services"
-export { RoleMappingService }
-
+export * from "./rolemapping-services"

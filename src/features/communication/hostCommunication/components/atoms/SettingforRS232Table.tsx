@@ -50,7 +50,7 @@ const flowControl = [
 ]
 const protocol = [{ title: "1381" }, { title: "1394" }]
 
-const SettingForRS232Table: React.FunctionComponent = observer(() => {
+export const SettingForRS232Table: React.FunctionComponent = observer(() => {
   const {hostCommunicationStore} = useStores()
   return (
     <>
@@ -290,4 +290,3 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
   )
 })
 
-export default SettingForRS232Table

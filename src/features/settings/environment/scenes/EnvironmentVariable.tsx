@@ -2,9 +2,9 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems,lookupValue} from "@lp/library/utils"
 
-import * as FeatureComponents from "../components"
+import {EnvironmentVariableList} from "../components"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 
@@ -144,12 +144,12 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT_VARIABLES_CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {LibraryUtils.lookupValue(item)}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -304,7 +304,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
       >
-        <FeatureComponents.Molecules.EnvironmentVariableList
+        <EnvironmentVariableList
           data={environmentStore.environmentVariableList}
           totalSize={environmentStore.environmentVariableListCount}
           extraData={{

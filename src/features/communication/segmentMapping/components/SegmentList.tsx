@@ -8,7 +8,7 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
 import moment from "moment"
-import * as Models from "../../models"
+import {options as EquipmentModel,} from "../../models"
 import { SegmentMapping } from "../models"
 import * as Config from "@lp/config"
 import * as Assets from "@lp/features/assets"
@@ -249,7 +249,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     }}
                   >
                     <option selected>{row.equipmentType}</option>
-                    {Models.options.equipmentType.map((item: any, index: number) => (
+                    {EquipmentModel.equipmentType.map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
                       </option>
@@ -313,7 +313,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                         ? row.dataFlowFrom.split("&gt;").join(">")
                         : ""}
                     </option>
-                    {Models.options.dataFlowFrom.map((item: any, index: number) => (
+                    {EquipmentModel.dataFlowFrom.map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
                       </option>
@@ -358,7 +358,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     }}
                   >
                     <option selected>{row.data_type}</option>
-                    {Models.options.data_type.map((item: any, index: number) => (
+                    {EquipmentModel.data_type.map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
                       </option>
@@ -404,7 +404,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     }}
                   >
                     <option selected>{row.segments}</option>
-                    {Models.options.segments.map((item: any, index: number) => (
+                    {EquipmentModel.segments.map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
                       </option>
@@ -446,7 +446,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     }}
                   >
                     <option selected>{row.segment_usage}</option>
-                    {Models.options.segment_usage.map((item: any, index: number) => (
+                    {EquipmentModel.segment_usage.map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
                       </option>

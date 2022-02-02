@@ -7,6 +7,6 @@
 
 //import { stores } from "@lp/stores"
 
-class HostCommunicationService {}
+export class HostCommunicationService {}
 
-export default HostCommunicationService
+

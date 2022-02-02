@@ -2,9 +2,9 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 
-import * as FeatureComponents from "../components"
+import {EnvironmentSettingsList} from "../components"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 import { EnvironmentSettingsHoc } from "../hoc"
@@ -61,7 +61,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
     const table = useMemo(
       () => (
-        <FeatureComponents.Molecules.EnvironmentSettingsList
+        <EnvironmentSettingsList
           data={environmentStore.environmentSettingsList}
           totalSize={environmentStore.environmentSettingsListCount}
           extraData={{
@@ -593,7 +593,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                             : environmentStore.environmentSettings?.environment ||
                               `Select`}
                         </option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "ENVIRONMENT SETTING - ENVIRONMENT"
                         ).map((item: any, index: number) => (

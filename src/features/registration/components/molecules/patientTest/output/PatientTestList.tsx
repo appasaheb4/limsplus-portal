@@ -23,7 +23,7 @@ let labid;
 let orderId
 let testId
 let panelCode
-const PatientTestList = observer((props: PatientTestListProps) => {
+export const PatientTestList = observer((props: PatientTestListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -364,4 +364,4 @@ const PatientTestList = observer((props: PatientTestListProps) => {
     </>
   )
 })
-export default PatientTestList
+
