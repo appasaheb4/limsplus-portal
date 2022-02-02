@@ -1,6 +1,1 @@
-import TestMasterService from './testMaster-services'
-export{TestMasterService}
-
-
-
-
+export * from "./testMaster-services"

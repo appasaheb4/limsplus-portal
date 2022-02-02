@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
@@ -23,7 +23,7 @@ interface SampleContainerListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const SampleContainerList = (props: SampleContainerListProps) => {
+export const SampleContainerList = (props: SampleContainerListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -142,7 +142,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
@@ -217,4 +217,4 @@ const SampleContainerList = (props: SampleContainerListProps) => {
     />
   )
 }
-export default SampleContainerList
+

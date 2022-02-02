@@ -1,1 +1,1 @@
-export { default as DoctorsService } from "./doctors-services"
+export * from "./doctors-services"

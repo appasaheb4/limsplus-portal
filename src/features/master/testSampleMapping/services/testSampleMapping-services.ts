@@ -16,7 +16,7 @@ import {
   FILTER,
 } from "./mutation"
 
-class TestSampleMappingService {
+export class TestSampleMappingService {
   listTestSampleMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -120,4 +120,4 @@ class TestSampleMappingService {
     })
 }
 
-export default TestSampleMappingService
+

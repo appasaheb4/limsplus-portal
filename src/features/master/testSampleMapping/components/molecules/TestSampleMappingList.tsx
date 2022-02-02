@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import _ from "lodash"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {
@@ -12,7 +12,7 @@ import {
   AutoCompleteFilterSingleSelectContainerCode,
   AutoCompleteFilterSingleSelectContainerName,
   AutoCompleteFilterSingleSelectDepartment
-} from "../orgransims"
+} from "../index"
 let testCode
 let sampleCode
 let sampleType
@@ -46,7 +46,7 @@ interface TestSampleMappingListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const TestSampleMappingList = (props: TestSampleMappingListProps) => {
+export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -514,7 +514,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "MIN_DRAW_VOL_UNIT"
                     ).map((item: any, index: number) => (
@@ -567,7 +567,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "MIN_TEST_VOL_UNIT"
                     ).map((item: any, index: number) => (
@@ -633,7 +633,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "RETENTION_UNITS"
                     ).map((item: any, index: number) => (
@@ -897,7 +897,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
@@ -993,4 +993,4 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
     </>
   )
 }
-export default TestSampleMappingList
+

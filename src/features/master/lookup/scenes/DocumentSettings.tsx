@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import { useForm, Controller } from "react-hook-form"
 
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
@@ -321,7 +321,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                       ? `Select`
                       : lookupStore.lookup?.environment || `Select`}
                   </option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     routerStore.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (

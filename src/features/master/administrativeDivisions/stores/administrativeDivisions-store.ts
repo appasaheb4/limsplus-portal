@@ -1,6 +1,6 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {AdministrativeDivisions} from "../models"
+import {AdministrativeDivisionsService} from "../services"
 interface LocalState {
   state: string
   district: string
@@ -9,10 +9,10 @@ interface LocalState {
   postalCode: string
 }
 export class AdministrativeDivisionsStore {
-  administrativeDiv!: Models.AdministrativeDivisions
+  administrativeDiv!: AdministrativeDivisions
   listAdministrativeDivCount: number = 0
-  listAdministrativeDiv!: Models.AdministrativeDivisions[]
-  listAdministrativeDivCopy!: Models.AdministrativeDivisions[]
+  listAdministrativeDiv!: AdministrativeDivisions[]
+  listAdministrativeDivCopy!: AdministrativeDivisions[]
   localState!: LocalState
 
   constructor() {
@@ -36,7 +36,7 @@ export class AdministrativeDivisionsStore {
   }
 
   get administrativeDivisionsService() {
-    return new Services.AdministrativeDivisionsService()
+    return new AdministrativeDivisionsService()
   }
 
   fetchAdministrativeDiv(page?, limit?) {
@@ -62,7 +62,7 @@ export class AdministrativeDivisionsStore {
     this.listAdministrativeDiv = res.filterAdministrativeDivisions.data
   }
 
-  updateAdministrativeDiv(administrative: Models.AdministrativeDivisions) {
+  updateAdministrativeDiv(administrative: AdministrativeDivisions) {
     this.administrativeDiv = administrative
   }
   updateLocalState(state: LocalState) {

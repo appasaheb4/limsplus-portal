@@ -1,6 +1,1 @@
-import TestSampleMappingService from './testSampleMapping-services'
-export{TestSampleMappingService}
-
-
-
-
+export * from "./testSampleMapping-services"

@@ -1,4 +1,1 @@
-import SampleContainerService from "./sampleContainer-service"
-export { SampleContainerService }
-
-
+export * from "./sampleContainer-service"

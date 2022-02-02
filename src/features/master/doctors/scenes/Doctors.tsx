@@ -1,11 +1,10 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {DoctorsList} from "../components"
+import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {DoctorsHoc} from "../hoc"
 import { useStores } from "@lp/stores"
@@ -96,7 +95,7 @@ const Doctors = DoctorsHoc(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.DoctorsList
+      <DoctorsList
       data={doctorsStore.listDoctors || []}
       totalSize={doctorsStore.listDoctorsCount}
       extraData={{
@@ -413,7 +412,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "TITLE"
                       ).map((item: any, index: number) => (
@@ -679,7 +678,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
@@ -718,7 +717,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
@@ -888,7 +887,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
@@ -977,7 +976,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DELIVERY_METHOD"
                       ).map((item: any, index: number) => (
@@ -1060,7 +1059,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -1350,7 +1349,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -1414,7 +1413,7 @@ const Doctors = DoctorsHoc(observer(() => {
                           ? `Select`
                           : doctorsStore.doctors?.environment || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

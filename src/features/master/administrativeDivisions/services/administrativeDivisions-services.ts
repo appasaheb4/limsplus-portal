@@ -16,7 +16,7 @@ import {
 } from "./mutation"
 import * as Models from "../models"
 
-class AdministrativeDivisionsService {
+export class AdministrativeDivisionsService {
   listAdministrativeDivisions = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -109,4 +109,4 @@ class AdministrativeDivisionsService {
     })
 }
 
-export default AdministrativeDivisionsService
+

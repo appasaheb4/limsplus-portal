@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../organsims"
+import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../index"
 import { NumberFilter } from "@lp/library/components/Organisms"  
 
 let code
@@ -121,7 +121,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "USAGE_TYPE"
                       ).map((item: any, index: number) => (
@@ -165,7 +165,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "LIBRARY_TYPE"
                       ).map((item: any, index: number) => (
@@ -209,7 +209,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "COMMENT_TYPE"
                       ).map((item: any, index: number) => (
@@ -315,7 +315,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "COMMENTS_TARGET"
                       ).map((item: any, index: number) => (
@@ -371,7 +371,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "PARAMETER"
                       ).map((item: any, index: number) => (
@@ -414,7 +414,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "ACTION"
                       ).map((item: any, index: number) => (
@@ -457,7 +457,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "RESULTS"
                       ).map((item: any, index: number) => (
@@ -615,7 +615,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -714,7 +714,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "SEX"
                       ).map((item: any, index: number) => (
@@ -757,7 +757,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "SEX_ACTION"
                       ).map((item: any, index: number) => (
@@ -801,7 +801,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         props.extraData.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

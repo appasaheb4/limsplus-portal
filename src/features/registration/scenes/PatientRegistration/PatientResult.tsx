@@ -2,7 +2,7 @@
 import React from "react"
 import { observer } from "mobx-react"
 import { useForm } from "react-hook-form"
-import * as FeatureComponents from "../../components"
+import {PatientResultList} from "../../components"
 import { useStores } from "@lp/stores"
 import { toJS } from "mobx"
 import { RouterFlow } from "@lp/flows"
@@ -10,7 +10,7 @@ import { RouterFlow } from "@lp/flows"
 interface PatientResultProps {
   onModalConfirm?: (item: any) => void
 }
-const PatientResult = observer((props: PatientResultProps) => {
+export const PatientResult = observer((props: PatientResultProps) => {
   const {patientResultStore,routerStore} = useStores()
 
   return (
@@ -19,7 +19,7 @@ const PatientResult = observer((props: PatientResultProps) => {
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
       >
-        <FeatureComponents.Molecules.PatientResultList
+        <PatientResultList
           data={patientResultStore.patientResultList}
           totalSize={patientResultStore.patientResultTestCount}
           extraData={{}}
@@ -71,4 +71,4 @@ const PatientResult = observer((props: PatientResultProps) => {
     </>
   )
 })
-export default PatientResult
+

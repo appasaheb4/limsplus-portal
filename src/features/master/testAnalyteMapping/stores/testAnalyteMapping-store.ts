@@ -1,16 +1,16 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {TestAnalyteMapping,SelectedItems} from "../models"
+import {TestAnalyteMappingService} from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
 export class TestAnalyteMappingStore {
-  testAnalyteMapping!: Models.TestAnalyteMapping
-  listTestAnalyteMapping!: Models.TestAnalyteMapping[]
+  testAnalyteMapping!: TestAnalyteMapping
+  listTestAnalyteMapping!: TestAnalyteMapping[]
   listTestAnalyteMappingCount: number = 0
   checkExitsLabEnvCode?: boolean = false
-  selectedItems!: Models.SelectedItems
+  selectedItems!: SelectedItems
 
   constructor() {   
     this.listTestAnalyteMapping = []
@@ -38,7 +38,7 @@ export class TestAnalyteMappingStore {
     })
   }
   get testAnalyteMappingService() {
-    return new Services.TestAnalyteMappingService()
+    return new TestAnalyteMappingService()
   }
 
   fetchTestAnalyteMapping(page?, limit?) {
@@ -58,15 +58,15 @@ export class TestAnalyteMappingStore {
       res.filterTestAnalyteMappings.paginatorInfo.count
   }
 
-  updateTestAnalyteMapping(testAnalyte: Models.TestAnalyteMapping) {
+  updateTestAnalyteMapping(testAnalyte: TestAnalyteMapping) {
     this.testAnalyteMapping = testAnalyte
   }
 
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }
-  updateSelectedItems(items: Models.SelectedItems | undefined) {
+  updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items
-    else this.selectedItems = new Models.SelectedItems({})
+    else this.selectedItems = new SelectedItems({})
   }
 }

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import { UserList } from "../components"
 import dayjs from "dayjs"
 import { Container } from "reactstrap"
@@ -898,7 +898,7 @@ export const Users = UsersHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -945,7 +945,7 @@ export const Users = UsersHoc(observer(() => {
                           ? `Select`
                           : (userStore && userStore.user?.environment) || `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (

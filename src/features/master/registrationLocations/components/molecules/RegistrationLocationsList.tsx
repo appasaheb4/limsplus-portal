@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectCorparateCode } from "../organsims"
+import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectCorparateCode } from "../index"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let dateCreation
@@ -63,7 +63,7 @@ interface RegistrationLocationsListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
+export const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -204,7 +204,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "CUSTOMER_GROUP"
                   ).map((item: any, index: number) => (
@@ -246,7 +246,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "CATEGORY"
                   ).map((item: any, index: number) => (
@@ -348,7 +348,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "DELIVERY_TYPE"
                   ).map((item: any, index: number) => (
@@ -390,7 +390,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "DELIVERY_METHOD"
                   ).map((item: any, index: number) => (
@@ -535,7 +535,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "METHOD_COLN"
                   ).map((item: any, index: number) => (
@@ -593,7 +593,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "SPECIALITY"
                   ).map((item: any, index: number) => (
@@ -897,7 +897,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "AC_CLASS"
                   ).map((item: any, index: number) => (
@@ -939,7 +939,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "ACCOUNT_TYPE"
                   ).map((item: any, index: number) => (
@@ -981,7 +981,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "STATUS"
                   ).map((item: any, index: number) => (
@@ -1024,7 +1024,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
@@ -1316,4 +1316,4 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
   )
 }
 
-export default RegistrationLocationsList
+

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
@@ -23,7 +23,7 @@ interface SampleTypeListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const SampleTypeList = (props: SampleTypeListProps) => {
+export const SampleTypeList = (props: SampleTypeListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -119,7 +119,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
@@ -197,4 +197,3 @@ const SampleTypeList = (props: SampleTypeListProps) => {
     </>
   )
 }
-export default SampleTypeList

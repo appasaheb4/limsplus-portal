@@ -1,6 +1,1 @@
-import MasterPackageService from './masterPackage-services'
-export{MasterPackageService}
-
-
-
-
+export * from "./masterPackage-services"

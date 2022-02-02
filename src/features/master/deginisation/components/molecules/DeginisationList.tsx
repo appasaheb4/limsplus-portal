@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
@@ -22,7 +22,7 @@ interface DeginisationListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const DeginisationList = (props: DeginisationListProps) => {
+export const DeginisationList = (props: DeginisationListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -87,7 +87,7 @@ const DeginisationList = (props: DeginisationListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(
+                  {lookupItems(
                     props.extraData.lookupItems,
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
@@ -162,4 +162,3 @@ const DeginisationList = (props: DeginisationListProps) => {
     />
   )
 }
-export default DeginisationList

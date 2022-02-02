@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems,lookupValue} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 interface InformationGroupProps {
@@ -15,7 +15,7 @@ interface InformationGroupProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const InformationGroupList = observer((props:InformationGroupProps)=>{
+export const InformationGroupList = observer((props:InformationGroupProps)=>{
     const editorCell = (row: any) => {
         return row.status !== "I" ? true : false
     }  
@@ -67,12 +67,12 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                                         }}
                                     >
                                         <option selected>Select</option>
-                                        {LibraryUtils.lookupItems(
+                                        {lookupItems(
                                         props.extraData.lookupItems,
                                         "INFORMATION GROUP - INFO_RELATED_TO"
                                         ).map((item: any, index: number) => (
                                             <option key={index} value={item.code}>
-                                                {LibraryUtils.lookupValue(item)}
+                                                {lookupValue(item)}
                                             </option>  
                                             ))}
                                     </select>
@@ -113,12 +113,12 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                                             }}
                                         >
                                             <option selected>Select</option>
-                                            {LibraryUtils.lookupItems(
+                                            {lookupItems(
                                             props.extraData.lookupItems,
                                             "INFORMATION GROUP - INFO_TYPE"
                                             ).map((item: any, index: number) => (
                                                 <option key={index} value={item.code}>
-                                                    {LibraryUtils.lookupValue(item)}
+                                                    {lookupValue(item)}
                                                 </option>  
                                                 ))}
                                         </select>
@@ -222,7 +222,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                                         }}
                                         >
                                         <option selected>Select</option>
-                                        {LibraryUtils.lookupItems(props.extraData.lookupItems, "INFORMATION GROUP - ENVIRONMENT").map(
+                                        {lookupItems(props.extraData.lookupItems, "INFORMATION GROUP - ENVIRONMENT").map(
                                             (item: any, index: number) => (
                                             <option key={index} value={item.code}>
                                                 {`${item.value} - ${item.code}`}
@@ -268,7 +268,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           props.extraData.lookupItems,
                           "INFORMATION GROUP - STATUS"
                         ).map((item: any, index: number) => (
@@ -331,4 +331,3 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
     ) 
 })
 
-export default InformationGroupList

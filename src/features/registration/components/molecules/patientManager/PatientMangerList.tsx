@@ -2,7 +2,7 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import * as LibraryUtils from "@lp/library/utils"
+import {lookupItems,lookupValue} from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { FormHelper } from "@lp/helper"
@@ -32,7 +32,7 @@ let sex
 let species
 let breed
 let usualDoctor
-const PatientMangerList = observer((props: PatientMangerProps) => {
+export const PatientMangerList = observer((props: PatientMangerProps) => {
   const {
     control,
     handleSubmit,
@@ -202,12 +202,12 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "PATIENT MANAGER - TITLE"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {LibraryUtils.lookupValue(item)}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -325,12 +325,12 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "PATIENT MANAGER - SEX"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {LibraryUtils.lookupValue(item)}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -367,12 +367,12 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
+                    {lookupItems(
                       props.extraData.lookupItems,
                       "PATIENT MANAGER - SPECIES"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {LibraryUtils.lookupValue(item)}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -523,4 +523,4 @@ const PatientMangerList = observer((props: PatientMangerProps) => {
     </>
   )
 })
-export default PatientMangerList
+

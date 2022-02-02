@@ -1,12 +1,12 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {TestSampleMapping,LocalInput} from "../models"
+import {TestSampleMappingService} from "../services"
 
 export class TestSampleMappingStore {
-  listTestSampleMapping: Models.TestSampleMapping[]
+  listTestSampleMapping: TestSampleMapping[]
   listTestSampleMappingCount: number
-  localInput!: Models.LocalInput
-  testSampleMapping!: Models.TestSampleMapping
+  localInput!: LocalInput
+  testSampleMapping!: TestSampleMapping
   checkExitsTestSampleEnvCode: boolean
   departments: any
 
@@ -14,7 +14,7 @@ export class TestSampleMappingStore {
     this.listTestSampleMapping = []
     this.listTestSampleMappingCount = 0
     this.checkExitsTestSampleEnvCode = false
-    this.localInput = new Models.LocalInput({})
+    this.localInput = new LocalInput({})
     this.testSampleMapping = {
       ...this.testSampleMapping,
       primaryContainer: false,
@@ -47,7 +47,7 @@ export class TestSampleMappingStore {
   }
 
   get testSampleMappingService() {
-    return new Services.TestSampleMappingService()
+    return new TestSampleMappingService()
   }
 
   fetchSampleTypeList(page?, limit?) {
@@ -66,7 +66,7 @@ export class TestSampleMappingStore {
       res.filterTestSampleMappings.paginatorInfo.count
   }
 
-  updateSampleType = (sampleMapping: Models.TestSampleMapping) => {
+  updateSampleType = (sampleMapping: TestSampleMapping) => {
     this.testSampleMapping = sampleMapping
   }
 
@@ -77,7 +77,7 @@ export class TestSampleMappingStore {
   updateDepartments = (department: any) => {
     this.departments = department
   }
-  updateLocalInput(input: Models.LocalInput) {
+  updateLocalInput(input: LocalInput) {
     this.localInput = input
   }
 }

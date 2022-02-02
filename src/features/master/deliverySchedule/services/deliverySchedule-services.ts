@@ -17,7 +17,7 @@ import {
   FILTER,
 } from "./mutation"
 
-class DeliveryScheduleService {
+export class DeliveryScheduleService {
   listDeliverySchdule = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -114,4 +114,4 @@ class DeliveryScheduleService {
     })
 }
 
-export default DeliveryScheduleService
+

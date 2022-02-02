@@ -3,8 +3,8 @@ import React from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import * as LibraryUtils from "@lp/library/utils"
-import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../../orgransims"
+import {lookupItems} from "@lp/library/utils"
+import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../../index"
 interface ExtraDataPatientManagerProps {
   data: any
   totalSize: number  
@@ -33,7 +33,7 @@ let balance
 let enteredBy
 let status
 let environment
-const ExtraDataPatientManagerList = observer(
+export const ExtraDataPatientManagerList = observer(
   (props: ExtraDataPatientManagerProps) => {
     return (
       <>
@@ -427,7 +427,7 @@ const ExtraDataPatientManagerList = observer(
                             }}
                           >
                             <option selected>Select</option>
-                            {LibraryUtils.lookupItems(
+                            {lookupItems(
                               props.extraData.lookupItems,
                               "PATIENT MANAGER - STATUS"
                             ).map((item: any, index: number) => (
@@ -476,7 +476,7 @@ const ExtraDataPatientManagerList = observer(
                             }}
                           >
                             <option>Select</option>
-                            {LibraryUtils.lookupItems(
+                            {lookupItems(
                               props.extraData.lookupItems,
                               "PATIENT MANAGER - ENVIRONMENT"
                             ).map((item: any, index: number) => (
@@ -564,4 +564,3 @@ const ExtraDataPatientManagerList = observer(
     )
   }
 )
-export default ExtraDataPatientManagerList

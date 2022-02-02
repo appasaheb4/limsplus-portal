@@ -1,10 +1,10 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {SalesTeam} from "../models"
 import { SalesTeamService } from "../services"
 
 export class SalesTeamStore {
-  listSalesTeam!: Models.SalesTeam[]
-  salesTeam!: Models.SalesTeam
+  listSalesTeam!: SalesTeam[]
+  salesTeam!: SalesTeam
   listSalesTeamCount: number = 0
   checkExistsEnvCode?: boolean = false
 
@@ -44,7 +44,7 @@ export class SalesTeamStore {
     this.listSalesTeamCount = res.filterSalesTeams.paginatorInfo.count
   }
 
-  updateSalesTeam(team: Models.SalesTeam) {
+  updateSalesTeam(team: SalesTeam) {
     this.salesTeam = team
   }
 

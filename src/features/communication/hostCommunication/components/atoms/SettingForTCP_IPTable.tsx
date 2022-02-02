@@ -4,7 +4,7 @@ import * as LibraryComponents from "@lp/library/components"
 import { observer } from "mobx-react"
 import {useStores} from '@lp/stores';
 
-const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
+export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
   const {hostCommunicationStore} =useStores()
   return (
     <>
@@ -118,4 +118,4 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
   )
 })
 
-export default SettingForTCP_IPTable
+

@@ -1,2 +1,1 @@
-import DeliveryScheduleService from "./deliverySchedule-services"
-export { DeliveryScheduleService }
+export * from "./deliverySchedule-services"

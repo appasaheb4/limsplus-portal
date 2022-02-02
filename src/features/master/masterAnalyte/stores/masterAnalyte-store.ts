@@ -1,17 +1,17 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {MasterAnalyte,SelectedItems} from "../models"
 import {MasterAnalyteService} from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
 export class MasterAnalyteStore {
-  masterAnalyte!: Models.MasterAnalyte
-  listMasterAnalyte!: Models.MasterAnalyte[]
-  listMasterAnalyteCopy!: Models.MasterAnalyte[]
+  masterAnalyte!: MasterAnalyte
+  listMasterAnalyte!: MasterAnalyte[]
+  listMasterAnalyteCopy!: MasterAnalyte[]
   listMasterAnalyteCount: number = 0
   checkExitsLabEnvCode: boolean = false
-  selectedItems!: Models.SelectedItems
+  selectedItems!: SelectedItems
   constructor() {
     this.listMasterAnalyte = []
     this.masterAnalyte = {
@@ -73,15 +73,15 @@ export class MasterAnalyteStore {
     this.listMasterAnalyteCount = res.filterAnalyteMaster.paginatorInfo.count
   }
 
-  updateMasterAnalyte(analyte: Models.MasterAnalyte) {
+  updateMasterAnalyte(analyte: MasterAnalyte) {
     this.masterAnalyte = analyte
   }
 
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }
-  updateSelectedItems(items: Models.SelectedItems | undefined) {
+  updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items
-    else this.selectedItems = new Models.SelectedItems({})
+    else this.selectedItems = new SelectedItems({})
   }
 }

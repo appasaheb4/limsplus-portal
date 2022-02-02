@@ -1,11 +1,11 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import { PatientManagerService } from "../services"
-import * as Models from "../models"
+import {PatientManger} from "../models"
 
 export class PatientManagerStore {
-  patientManger!: Models.PatientManger
-  listPatientManger: Models.PatientManger[]
-  listPatientMangerCopy: Models.PatientManger[]
+  patientManger!: PatientManger
+  listPatientManger: PatientManger[]
+  listPatientMangerCopy: PatientManger[]
   listPatientMangerCount!: number
   checkExistsPatient!: boolean
 
@@ -51,7 +51,7 @@ export class PatientManagerStore {
     this.listPatientMangerCount = res.filterPatientManager.paginatorInfo.count
   }
 
-  updatePatientManager(manager: Models.PatientManger) {
+  updatePatientManager(manager: PatientManger) {
     this.patientManger = manager
   }
   updateExistsPatient(flag: boolean) {

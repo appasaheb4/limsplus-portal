@@ -1,12 +1,12 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import {Section} from "../models"
+import {SectionService} from "../services"
 
 export class SectionStore {
-  listSection!: Models.Section[]
+  listSection!: Section[]
   listSectionCount: number
   checkExitsEnvCode: boolean = false
-  section!: Models.Section
+  section!: Section
 
   constructor() {
     this.listSection = []
@@ -27,7 +27,7 @@ export class SectionStore {
   }
 
   get sectionService() {
-    return new Services.SectionService()
+    return new SectionService()
   }
 
   fetchSections(page?, limit?) {
@@ -45,7 +45,7 @@ export class SectionStore {
     this.listSectionCount = res.filterSections.paginatorInfo.count
   }
   
-  updateSection(section: Models.Section) {
+  updateSection(section: Section) {
     this.section = section
   }
 

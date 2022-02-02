@@ -1,11 +1,10 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
-import * as LibraryUtils from "@lp/library/utils"
+import {CorporateClient} from "../components"
+import {lookupItems} from "@lp/library/utils"
 
 import { useForm, Controller } from "react-hook-form"
 import {CorporateClientsHoc} from "../hoc"
@@ -99,7 +98,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
 
   const tableView = useMemo(
     ()=>(
-      <FeatureComponents.Molecules.CorporateClient
+      <CorporateClient
             data={corporateClientsStore.listCorporateClients || []}
             totalSize={corporateClientsStore.listCoporateClientsCount}
             extraData={{
@@ -610,7 +609,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "CUSTOMER_GROUP"
                       ).map((item: any, index: number) => (
@@ -648,7 +647,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
@@ -752,7 +751,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
@@ -791,7 +790,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "DELIVERY_METHOD"
                       ).map((item: any, index: number) => (
@@ -830,7 +829,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
@@ -1140,7 +1139,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
@@ -1205,7 +1204,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                           : corporateClientsStore.corporateClients?.environment ||
                             `Select`}
                       </option>
-                      {LibraryUtils.lookupItems(
+                      {lookupItems(
                         routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
