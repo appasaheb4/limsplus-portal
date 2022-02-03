@@ -11,9 +11,9 @@ interface ModalProps {
   title?: string
   onClick: () => void
   onClose: () => void
-}
+}    
 
-const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
+export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
   const { userStore } = useStores()
   const {
     control,
@@ -162,4 +162,3 @@ const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
     </Container>
   )
 })
-export default ModalChangePasswordByAdmin

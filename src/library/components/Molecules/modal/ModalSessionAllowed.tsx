@@ -10,8 +10,8 @@ interface ModalProps {
   onClick: (data: any, item: any, index: number) => void
   onClose: () => void
 }
-
-const ModalSessionAllowed = (props: ModalProps) => {
+   
+export const ModalSessionAllowed = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
 
   useEffect(() => {
@@ -111,5 +111,3 @@ const ModalSessionAllowed = (props: ModalProps) => {
     </Container>
   )
 }
-
-export default ModalSessionAllowed

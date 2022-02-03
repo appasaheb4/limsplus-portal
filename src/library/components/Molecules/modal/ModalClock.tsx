@@ -11,8 +11,8 @@ interface ModalProps {
   onClick: (time?: any) => void
   onClose: () => void
 }
-
-const ModalClock = (props: ModalProps) => {
+   
+export const ModalClock = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   useEffect(() => {
     setShowModal(props.show)
@@ -47,4 +47,3 @@ const ModalClock = (props: ModalProps) => {
     </Container>
   )
 }
-export default ModalClock

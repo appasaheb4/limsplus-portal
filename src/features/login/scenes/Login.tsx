@@ -2,7 +2,16 @@
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {
+  Toast,
+  List,
+  Form,
+  Buttons,
+  Svg,
+  Icons,
+  ModalChangePassword,
+  ModalSessionAllowed,
+} from "@lp/library/components"
 import { ModalForgotPassword, ModalNoticeBoard } from "../components"
 import { Col, Container, Row } from "reactstrap"
 import { logo } from "@lp/library/assets"
@@ -72,7 +81,7 @@ export const Login = observer(() => {
         },
       }).then((res) => {
         if (res.userAccountStatusUpdate.success) {
-          LibraryComponents.Atoms.Toast.error({
+          Toast.error({
             message: `😔 ${res.userAccountStatusUpdate.message}`,
           })
           loginStore.updateLoginFailedCount(0)
@@ -100,7 +109,7 @@ export const Login = observer(() => {
                   data: res.login.data.user.noticeBoard,
                 })
               } else {
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.login.message}`,
                 })
                 loginStore.saveLogin(res.login.data.user)
@@ -117,20 +126,20 @@ export const Login = observer(() => {
             })
           } else {
             loginStore.updateLoginFailedCount(loginFailedCount + 1)
-            LibraryComponents.Atoms.Toast.error({
+            Toast.error({
               message: `😔 ${res.login.message}`,
             })
           }
         })
         .catch((error) => {
           loginStore.updateLoginFailedCount(loginFailedCount + 1)
-          LibraryComponents.Atoms.Toast.error({
+          Toast.error({
             message: `😔 ${error.message}`,
           })
         })
     }
   }
-    
+
   return (
     <>
       <Container fluid className="bg-gray-600">
@@ -160,16 +169,11 @@ export const Login = observer(() => {
             </div>
             <div className="flex flex-col rounded-md bg-white shadow-sm">
               <div className="p-3">
-                <LibraryComponents.Atoms.List
-                  direction="col"
-                  space={4}
-                  justify="stretch"
-                  fill
-                >
+                <List direction="col" space={4} justify="stretch" fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         label="User Id"
                         id="userId"
                         name="userId"
@@ -212,7 +216,7 @@ export const Login = observer(() => {
                                   roleList: user.role,
                                 })
                               } else {
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkUserExitsUserId.message}`,
                                 })
                               }
@@ -229,7 +233,7 @@ export const Login = observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         type="password"
                         label="Password"
                         placeholder={
@@ -254,10 +258,7 @@ export const Login = observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
-                        label="Lab"
-                        hasError={errors.lab}
-                      >
+                      <Form.InputWrapper label="Lab" hasError={errors.lab}>
                         <select
                           value={loginStore.inputLogin?.lab}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -279,7 +280,7 @@ export const Login = observer(() => {
                             </option>
                           ))}
                         </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="lab"
                     rules={{ required: true }}
@@ -289,10 +290,7 @@ export const Login = observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
-                        label="Role"
-                        hasError={errors.role}
-                      >
+                      <Form.InputWrapper label="Role" hasError={errors.role}>
                         <select
                           value={loginStore.inputLogin?.role}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -314,39 +312,35 @@ export const Login = observer(() => {
                             </option>
                           ))}
                         </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="role"
                     rules={{ required: true }}
                     defaultValue={loginStore.inputLogin?.role}
                   />
-                </LibraryComponents.Atoms.List>
+                </List>
 
                 <br />
-                <LibraryComponents.Atoms.List
-                  direction="row"
-                  space={3}
-                  align="center"
-                >
-                  <LibraryComponents.Atoms.Buttons.Button
+                <List direction="row" space={3} align="center">
+                  <Buttons.Button
                     size="medium"
                     type="solid"
-                    icon={LibraryComponents.Atoms.Icon.Check}
+                    icon={Svg.Check}
                     onClick={handleSubmit(onLogin)}
                   >
                     Login
-                  </LibraryComponents.Atoms.Buttons.Button>
-                  <LibraryComponents.Atoms.Buttons.Button
+                  </Buttons.Button>
+                  <Buttons.Button
                     size="medium"
                     type="solid"
-                    icon={LibraryComponents.Atoms.Icon.Remove}
+                    icon={Svg.Remove}
                     onClick={() => {
                       window.location.reload()
                     }}
                   >
                     Clear
-                  </LibraryComponents.Atoms.Buttons.Button>
-                </LibraryComponents.Atoms.List>
+                  </Buttons.Button>
+                </List>
                 <h4 className="text-center mt-2">
                   {" "}
                   <b>Note</b>: After 3 invalid login attempts, accounts will be
@@ -367,7 +361,7 @@ export const Login = observer(() => {
                   </a>
                   <a
                     onClick={() =>
-                      LibraryComponents.Atoms.Toast.warning({
+                      Toast.warning({
                         message: `
                         PASSWORD REQUIREMENTS: \n
                   Minimum 4 Total Characters
@@ -383,14 +377,9 @@ export const Login = observer(() => {
                       })
                     }
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
-                      color="#000"
-                      size="22"
-                    >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconGr.GrTooltip
-                      )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
+                    <Icons.IconContext color="#000" size="22">
+                      {Icons.getIconTag(Icons.IconGr.GrTooltip)}
+                    </Icons.IconContext>
                   </a>
                 </div>
                 <div>
@@ -410,14 +399,14 @@ export const Login = observer(() => {
               show: false,
             })
             if (action !== "login") {
-              LibraryComponents.Atoms.Toast.warning({
+              Toast.warning({
                 message: `😔 Please use diff lab`,
               })
               setTimeout(() => {
                 window.location.reload()
               }, 3000)
             } else {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 Welcome ${noticeBoard.userInfo.fullName}`,
               })
               loginStore.saveLogin(noticeBoard.userInfo)
@@ -442,11 +431,11 @@ export const Login = observer(() => {
                 if (res.userForgotPassword.success) {
                   setModalForgotPassword({ show: false })
                   loginStore.updateForgotPassword(undefined)
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.userForgotPassword.message}`,
                   })
                 } else {
-                  LibraryComponents.Atoms.Toast.error({
+                  Toast.error({
                     message: `😔 ${res.userForgotPassword.message}`,
                   })
                 }
@@ -457,7 +446,7 @@ export const Login = observer(() => {
             setModalForgotPassword({ show: false })
           }}
         />
-        <LibraryComponents.Molecules.ModalChangePassword
+        <ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
             const exipreDate = new Date(
@@ -480,12 +469,12 @@ export const Login = observer(() => {
                     ...userStore.changePassword,
                     tempHide: true,
                   })
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.userChnagePassword.message}`,
                   })
                   setModalChangePassword({ show: false })
                 } else {
-                  LibraryComponents.Atoms.Toast.error({
+                  Toast.error({
                     message: `😔 ${res.userChnagePassword.message}`,
                   })
                 }
@@ -504,7 +493,7 @@ export const Login = observer(() => {
             setModalChangePassword({ show: false })
           }}
         />
-        <LibraryComponents.Molecules.ModalSessionAllowed
+        <ModalSessionAllowed
           {...modalSessionAllowed}
           onClick={(data: any, item: any, index: number) => {
             loginStore.LoginService.sessionAllowedLogout({
@@ -515,7 +504,7 @@ export const Login = observer(() => {
               },
             }).then(async (res) => {
               if (res.usersSessionAllowedLogout.success) {
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.usersSessionAllowedLogout.message}`,
                 })
                 const firstArr = data.slice(0, index) || []

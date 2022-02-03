@@ -10,7 +10,7 @@ interface ModalProps {
   onClose: () => void
 }
 
-const ModalConfirm = (props: ModalProps) => {
+export const ModalConfirm = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   useEffect(() => {
     setShowModal(props.show)
@@ -90,4 +90,3 @@ const ModalConfirm = (props: ModalProps) => {
     </Container>
   )
 }
-export default ModalConfirm

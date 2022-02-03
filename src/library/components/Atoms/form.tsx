@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {List,ModalClock} from "@lp/library/components"
+import {dayjs} from "@lp/library/utils"
 import "./css/toggle.css"
 import classNames from "classnames"
 import DateTimePicker from "react-datetime-picker"
-// import "react-calendar/dist/Calendar.css"
-// import "react-clock/dist/Clock.css"
 import "./css/DateTimePicker.css"
 
 interface LabelProps {
@@ -122,7 +120,7 @@ export const InputRadio = (props: InputRadioProps) => (
   <InputWrapper label={props.label} id={props.id}>
     {props.values?.map((item, key) => (
       <div className="ml-4" key={key}>
-        <LibraryComponents.Atoms.List space={3} direction="row">
+        <List space={3} direction="row">
           <input
             key={key}
             type="radio"
@@ -134,7 +132,7 @@ export const InputRadio = (props: InputRadioProps) => (
             className="leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
           />
           <Label htmlFor={props.id || ""}>{item}</Label>
-        </LibraryComponents.Atoms.List>
+        </List>
       </div>
     ))}
   </InputWrapper>
@@ -340,7 +338,7 @@ interface ClockProps extends InputWrapperProps {
 
 export const Clock = (props: ClockProps) => {
   const [time, setTime] = useState(
-    props.value || LibraryUtils.moment().format("hh:mm a")
+    props.value || dayjs().format("hh:mm a")
   )
   const [showTime, setShowTime] = useState(false)
 
@@ -349,7 +347,7 @@ export const Clock = (props: ClockProps) => {
       <div>
         {showTime && (
           <>
-            <LibraryComponents.Molecules.ModalClock
+            <ModalClock
               show={true}
               time={time}
               onClick={(time) => {

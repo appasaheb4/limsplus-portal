@@ -4,9 +4,8 @@ interface CarouselProps {
   images?: string[]
 }
 
-const Carousel = (props: CarouselProps) => {
+export const Carousel = (props: CarouselProps) => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
-
   return (
     <div className="overflow-hidden relative">
       <div
@@ -74,5 +73,3 @@ const Carousel = (props: CarouselProps) => {
     </div>
   )
 }
-
-export default Carousel

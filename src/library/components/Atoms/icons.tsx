@@ -1,6 +1,7 @@
 import React from "react"
 import { IconContext as Context, IconType } from "react-icons"
-import * as LibraryComponents from "@lp/library/components"
+import {Icons} from "@lp/library/components"
+import Icon from "react-eva-icons"
 
 import * as IconRi from "react-icons/ri"
 import * as IconIm from "react-icons/im"
@@ -57,119 +58,144 @@ export {
 
 export const getIcons = (icon: string): any => {
   // dashboard
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill")
-    return LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiDashboard3Fill")
-    return LibraryComponents.Atoms.Icons.IconRi.RiDashboard3Fill
+  if (icon === "Icons.IconRi.RiDashboardFill")
+    return Icons.IconRi.RiDashboardFill
+  if (icon === "Icons.IconRi.RiDashboard3Fill")
+    return Icons.IconRi.RiDashboard3Fill
   // login
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiComputerFill")
-    return LibraryComponents.Atoms.Icons.IconRi.RiComputerFill
-  if (icon === "LibraryComponents.Atoms.Icons.IconGr.GrTooltip")
-    return LibraryComponents.Atoms.Icons.IconGr.GrTooltip
+  if (icon === "Icons.IconRi.RiComputerFill")
+    return Icons.IconRi.RiComputerFill
+  if (icon === "Icons.IconGr.GrTooltip")
+    return Icons.IconGr.GrTooltip
   // collection
-  if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsFillCollectionFill")
-    return LibraryComponents.Atoms.Icons.IconBs.BsFillCollectionFill
-  if (icon === "LibraryComponents.Atoms.Icons.IconIm.ImImages")
-    return LibraryComponents.Atoms.Icons.IconIm.ImImages
-  if (icon === "LibraryComponents.Atoms.Icons.IconIm.ImLab")
-    return LibraryComponents.Atoms.Icons.IconIm.ImLab
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaUserMd")
-    return LibraryComponents.Atoms.Icons.IconFa.FaUserMd
-  if (icon === "LibraryComponents.Atoms.Icons.IconFc.FcDepartment")
-    return LibraryComponents.Atoms.Icons.IconFc.FcDepartment
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaLayerGroup")
-    return LibraryComponents.Atoms.Icons.IconFa.FaLayerGroup
+  if (icon === "Icons.IconBs.BsFillCollectionFill")
+    return Icons.IconBs.BsFillCollectionFill
+  if (icon === "Icons.IconIm.ImImages")
+    return Icons.IconIm.ImImages
+  if (icon === "Icons.IconIm.ImLab")
+    return Icons.IconIm.ImLab
+  if (icon === "Icons.IconFa.FaUserMd")
+    return Icons.IconFa.FaUserMd
+  if (icon === "Icons.IconFc.FcDepartment")
+    return Icons.IconFc.FcDepartment
+  if (icon === "Icons.IconFa.FaLayerGroup")
+    return Icons.IconFa.FaLayerGroup
   // master
-  if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics")
-    return LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics
-  if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoIosAnalytics")
-    return LibraryComponents.Atoms.Icons.Iconio.IoIosAnalytics
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaSolarPanel")
-    return LibraryComponents.Atoms.Icons.IconFa.FaSolarPanel
-  if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiPackage")
-    return LibraryComponents.Atoms.Icons.IconFi.FiPackage
-  if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiPackage")
-    return LibraryComponents.Atoms.Icons.IconFi.FiPackage
-  if (icon === "LibraryComponents.Atoms.Icons.Iconsi.SiMinetest")
-    return LibraryComponents.Atoms.Icons.Iconsi.SiMinetest
-  if (icon === "LibraryComponents.Atoms.Icons.Iconmd.MdLooks")
-    return LibraryComponents.Atoms.Icons.Iconmd.MdLooks
-  if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3")
-    return LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3
-  if (icon === "LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer")
-    return LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer
-  if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsBookmarks")
-    return LibraryComponents.Atoms.Icons.IconBs.BsBookmarks
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaBuromobelexperte")
-    return LibraryComponents.Atoms.Icons.IconFa.FaBuromobelexperte
-  if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare")
-    return LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare
-  if (icon === "LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod")
-    return LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod
-  if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiHospitalCross")
-    return LibraryComponents.Atoms.Icons.IconGi.GiHospitalCross
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiMap2Line")
-    return LibraryComponents.Atoms.Icons.IconRi.RiMap2Line
-  if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiUsers")
-    return LibraryComponents.Atoms.Icons.IconFi.FiUsers
-  if (icon === "LibraryComponents.Atoms.Icons.Iconai.AiOutlineSchedule")
-    return LibraryComponents.Atoms.Icons.Iconai.AiOutlineSchedule
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard")
-    return LibraryComponents.Atoms.Icons.IconFa.FaAddressCard
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiTeamLine")
-    return LibraryComponents.Atoms.Icons.IconRi.RiTeamLine
-    if (icon === "LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution")
-    return LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution
-    if (icon === "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary")
-    return LibraryComponents.Atoms.Icons.Iconhi.HiLibrary
-    if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiPriceTag")
-    return LibraryComponents.Atoms.Icons.IconGi.GiPriceTag
-    if (icon === "LibraryComponents.Atoms.Icons.Iconvsc.VscReferences")
-    return LibraryComponents.Atoms.Icons.Iconvsc.VscReferences
+  if (icon === "Icons.Iconio.IoMdAnalytics")
+    return Icons.Iconio.IoMdAnalytics
+  if (icon === "Icons.Iconio.IoIosAnalytics")
+    return Icons.Iconio.IoIosAnalytics
+  if (icon === "Icons.IconFa.FaSolarPanel")
+    return Icons.IconFa.FaSolarPanel
+  if (icon === "Icons.IconFi.FiPackage")
+    return Icons.IconFi.FiPackage
+  if (icon === "Icons.IconFi.FiPackage")
+    return Icons.IconFi.FiPackage
+  if (icon === "Icons.Iconsi.SiMinetest")
+    return Icons.Iconsi.SiMinetest
+  if (icon === "Icons.Iconmd.MdLooks")
+    return Icons.Iconmd.MdLooks
+  if (icon === "Icons.IconBs.BsGrid3X3")
+    return Icons.IconBs.BsGrid3X3
+  if (icon === "Icons.Iconai.AiOutlineContainer")
+    return Icons.Iconai.AiOutlineContainer
+  if (icon === "Icons.IconBs.BsBookmarks")
+    return Icons.IconBs.BsBookmarks
+  if (icon === "Icons.IconFa.FaBuromobelexperte")
+    return Icons.IconFa.FaBuromobelexperte
+  if (icon === "Icons.Iconio.IoIosGitCompare")
+    return Icons.Iconio.IoIosGitCompare
+  if (icon === "Icons.Iconvsc.VscSymbolMethod")
+    return Icons.Iconvsc.VscSymbolMethod
+  if (icon === "Icons.IconGi.GiHospitalCross")
+    return Icons.IconGi.GiHospitalCross
+  if (icon === "Icons.IconRi.RiMap2Line")
+    return Icons.IconRi.RiMap2Line
+  if (icon === "Icons.IconFi.FiUsers")
+    return Icons.IconFi.FiUsers
+  if (icon === "Icons.Iconai.AiOutlineSchedule")
+    return Icons.Iconai.AiOutlineSchedule
+  if (icon === "Icons.IconFa.FaAddressCard")
+    return Icons.IconFa.FaAddressCard
+  if (icon === "Icons.IconRi.RiTeamLine")
+    return Icons.IconRi.RiTeamLine
+    if (icon === "Icons.Iconai.AiOutlineSolution")
+    return Icons.Iconai.AiOutlineSolution
+    if (icon === "Icons.Iconhi.HiLibrary")
+    return Icons.Iconhi.HiLibrary
+    if (icon === "Icons.IconGi.GiPriceTag")
+    return Icons.IconGi.GiPriceTag
+    if (icon === "Icons.Iconvsc.VscReferences")
+    return Icons.Iconvsc.VscReferences
 
 
   //communication
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")
-    return LibraryComponents.Atoms.Icons.IconFa.FaCommentDots
-  if (icon === "LibraryComponents.Atoms.Icons.IconCg.CgCommunity")
-    return LibraryComponents.Atoms.Icons.IconCg.CgCommunity
-  if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiConversation")
-    return LibraryComponents.Atoms.Icons.IconGi.GiConversation
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiGhostSmileLine")
-    return LibraryComponents.Atoms.Icons.IconRi.RiGhostSmileLine
-  if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiDatabase")
-    return LibraryComponents.Atoms.Icons.IconGi.GiDatabase
-  if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiKeyring")
-    return LibraryComponents.Atoms.Icons.IconGi.GiKeyring
+  if (icon === "Icons.IconFa.FaCommentDots")
+    return Icons.IconFa.FaCommentDots
+  if (icon === "Icons.IconCg.CgCommunity")
+    return Icons.IconCg.CgCommunity
+  if (icon === "Icons.IconGi.GiConversation")
+    return Icons.IconGi.GiConversation
+  if (icon === "Icons.IconRi.RiGhostSmileLine")
+    return Icons.IconRi.RiGhostSmileLine
+  if (icon === "Icons.IconGi.GiDatabase")
+    return Icons.IconGi.GiDatabase
+  if (icon === "Icons.IconGi.GiKeyring")
+    return Icons.IconGi.GiKeyring
 
   //settings
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill")
-    return LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaUsersCog")
-    return LibraryComponents.Atoms.Icons.IconFa.FaUsersCog
-  if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiActivity")
-    return LibraryComponents.Atoms.Icons.IconFi.FiActivity
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill")
-    return LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill
-  if (icon === "LibraryComponents.Atoms.Icons.IconCg.CgShortcut")
-    return LibraryComponents.Atoms.Icons.IconCg.CgShortcut
-  if (icon === "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent")
-    return LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList")
-    return LibraryComponents.Atoms.Icons.IconFa.FaClipboardList
+  if (icon === "Icons.IconRi.RiSettings5Fill")
+    return Icons.IconRi.RiSettings5Fill
+  if (icon === "Icons.IconFa.FaUsersCog")
+    return Icons.IconFa.FaUsersCog
+  if (icon === "Icons.IconFi.FiActivity")
+    return Icons.IconFi.FiActivity
+  if (icon === "Icons.IconRi.RiShieldKeyholeFill")
+    return Icons.IconRi.RiShieldKeyholeFill
+  if (icon === "Icons.IconCg.CgShortcut")
+    return Icons.IconCg.CgShortcut
+  if (icon === "Icons.Iconmd.MdSettingsInputComponent")
+    return Icons.Iconmd.MdSettingsInputComponent
+  if (icon === "Icons.IconFa.FaClipboardList")
+    return Icons.IconFa.FaClipboardList
   // registration
-  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine")
-    return LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine
-  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard")
-    return LibraryComponents.Atoms.Icons.IconFa.FaAddressCard
+  if (icon === "Icons.IconRi.RiUserAddLine")
+    return Icons.IconRi.RiUserAddLine
+  if (icon === "Icons.IconFa.FaAddressCard")
+    return Icons.IconFa.FaAddressCard
 
   //common
-  if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill")
-    return LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+  if (icon === "Icons.IconBs.BsFillTrashFill")
+    return Icons.IconBs.BsFillTrashFill
 
-  return LibraryComponents.Atoms.Icons.IconBs.BsList
+  return Icons.IconBs.BsList
 }
 
 export const getIconTag = (Icon: any) => {
-  return Icon ? <Icon /> : <LibraryComponents.Atoms.Icons.IconBs.BsList />
+  return Icon ? <Icon /> : <Icons.IconBs.BsList />
+}
+
+
+export interface IconProps {
+  type?: "solid" | "inverse"
+  size?: "small" | "medium" | "large"
+  buttonOffset?: boolean
+  small?: boolean
+  icon?: string
+  color?: string
+}
+  
+export const EvaIcon: React.FunctionComponent<IconProps> = (props: IconProps) => {
+  return (
+    <Icon
+      name={props.icon}
+      size={props.size} // small, medium, large, xlarge
+      animation={{
+        type: "pulse", // zoom, pulse, shake, flip
+        hover: true,
+        infinite: false,
+      }}
+      fill={props.color}
+    />
+  )
 }
