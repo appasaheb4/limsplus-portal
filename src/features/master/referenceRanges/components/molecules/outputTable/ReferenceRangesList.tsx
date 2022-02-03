@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems} from "@lp/library/utils"
+import { lookupItems } from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {
@@ -198,14 +198,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "SPECIES"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "SPECIES").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -240,14 +239,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "SEX"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "SEX").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -282,14 +280,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "RANGE_SET_ON"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "RANGE_SET_ON").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -369,8 +366,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ),
             },
             {
-              dataField: "rangType",
-              text: "Rang Type",
+              dataField: "rangeType",
+              text: "Range Type",
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
@@ -398,14 +395,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "RANG_TYPE"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "RANG_TYPE").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -472,14 +468,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "AGE_UNIT"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "AGE_UNIT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -579,14 +574,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "INTERVAL_UNIT"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "INTERVAL_UNIT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -597,19 +591,26 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader5",
               sort: true,
               editable: false,
+
               csvFormatter: (col) => (col ? col : ""),
-             // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-             formatter: (cell, row) => {
-              return <>{lookupItems(
-                props.extraData.lookupItems,
-                `${row.rangeType}_LW_COLOR`
-              ).filter((item)=> item.code === row.colorLo)[0]?.value}</>
-            },
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  intervalUnit = filter
-                },
-              }),
+              // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {
+                      lookupItems(
+                        props.extraData.lookupItems,
+                        `${row.rangeType}_LW_COLOR`
+                      ).filter((item) => item.code === row.colorLo)[0]?.value
+                    }
+                  </>
+                )
+              },
+              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              //   getFilter: (filter) => {
+              //     intervalUnit = filter
+              //   },
+              // }),
             },
             {
               dataField: "colorHi",
@@ -620,16 +621,22 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               csvFormatter: (col) => (col ? col : ""),
               //editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{lookupItems(
-                  props.extraData.lookupItems,
-                  `${row.rangeType}_HI_COLOR`
-                ).filter((item)=> item.code === row.colorHi)[0]?.value}</>
+                return (
+                  <>
+                    {
+                      lookupItems(
+                        props.extraData.lookupItems,
+                        `${row.rangeType}_HI_COLOR`
+                      ).filter((item) => item.code === row.colorHi)[0]?.value
+                    }
+                  </>
+                )
               },
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  intervalUnit = filter
-                },
-              }),
+              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              //   getFilter: (filter) => {
+              //     intervalUnit = filter
+              //   },
+              // }),
             },
             {
               dataField: "colorNormal",
@@ -638,18 +645,24 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               editable: false,
               csvFormatter: (col) => (col ? col : ""),
-             // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-             formatter: (cell, row) => {
-              return <>{lookupItems(
-                props.extraData.lookupItems,
-                `${row.rangeType}_NO_COLOR`
-              ).filter((item)=> item.code === row.colorNormal)[0]?.value}</>
-            },
-              filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter) => {
-                  intervalUnit = filter
-                },
-              }),
+              // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {
+                      lookupItems(
+                        props.extraData.lookupItems,
+                        `${row.rangeType}_NO_COLOR`
+                      ).filter((item) => item.code === row.colorNormal)[0]?.value
+                    }
+                  </>
+                )
+              },  
+              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              //   getFilter: (filter) => {
+              //     intervalUnit = filter
+              //   },
+              // }),
             },
             {
               dataField: "enterBy",
@@ -664,7 +677,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
             },
-            {   
+            {
               dataField: "status",
               text: "Status",
               headerClasses: "textHeader2",
@@ -694,14 +707,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "STATUS"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -736,14 +748,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "ENVIRONMENT"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
                   </select>
                 </>
               ),
@@ -878,7 +889,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
             },
-            {   
+            {
               dataField: "opration",
               text: "Action",
               editable: false,
@@ -933,7 +944,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           className="ml-2"
                           tooltipText="Duplicate"
                           position="bottom"
-                        > 
+                        >
                           <LibraryComponents.Atoms.Icons.IconContext
                             color="#fff"
                             size="20"
