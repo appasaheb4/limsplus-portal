@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails, Buttons, Grid, List, Form, Svg, ModalConfirm} from "@lp/library/components"
 import {BannerList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -28,7 +28,7 @@ const Banner = BannerHoc(
     const onSubmitBanner = () => {
       bannerStore.BannerService.addBanner(bannerStore.banner).then((res) => {
         if (res.createBanner.success) {
-          LibraryComponents.Atoms.Toast.success({
+          Toast.success({
             message: `😊 ${res.createBanner.message}`,
           })
         }
@@ -41,14 +41,14 @@ const Banner = BannerHoc(
 
     return (
       <>
-        <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading
+        <Header>
+          <PageHeading
             title={routerStore.selectedComponents?.title || ""}
           />
-          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-        </LibraryComponents.Atoms.Header>
+          <PageHeadingLabDetails store={loginStore} />
+        </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          <Buttons.ButtonCircleAddRemove
             show={hideAddBanner}
             onClick={() => setHideAddBanner(!hideAddBanner)}
           />
@@ -59,8 +59,8 @@ const Banner = BannerHoc(
               "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "hidden" : "shown")
             }
           >
-            <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={2}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -69,7 +69,7 @@ const Banner = BannerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Title"
                       placeholder={errors.title ? "Please Enter Title" : "Title"}
                       hasError={errors.title}
@@ -90,7 +90,7 @@ const Banner = BannerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputFile
+                    <Form.InputFile
                       label="File"
                       placeholder={errors.image ? "Please insert image" : "File"}
                       hasError={errors.image}
@@ -111,7 +111,7 @@ const Banner = BannerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label="Environment">
                       <select
                         value={bannerStore.banner?.environment}
                         disabled={
@@ -145,35 +145,35 @@ const Banner = BannerHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="environment"
                   rules={{ required: true }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+              </List>
+            </Grid>
             <br />
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-              <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+              <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={handleSubmit(onSubmitBanner)}
               >
                 Save
-              </LibraryComponents.Atoms.Buttons.Button>
-              <LibraryComponents.Atoms.Buttons.Button
+              </Buttons.Button>
+              <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Atoms.Buttons.Button>
-            </LibraryComponents.Atoms.List>
+              </Buttons.Button>
+            </List>
           </div>
           <div className="p-2 rounded-lg shadow-xl overflow-auto">
             <BannerList
@@ -228,7 +228,7 @@ const Banner = BannerHoc(
               }}
             />
           </div>
-          <LibraryComponents.Molecules.ModalConfirm
+          <ModalConfirm
             {...modalConfirm}
             click={(type: string) => {
               if (type === "Delete") {
@@ -236,7 +236,7 @@ const Banner = BannerHoc(
                   input: { id: modalConfirm.id },
                 }).then((res: any) => {
                   if (res.removeBanner.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeBanner.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -251,7 +251,7 @@ const Banner = BannerHoc(
                   },
                 }).then((res: any) => {
                   if (res.updateBanner.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateBanner.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -267,7 +267,7 @@ const Banner = BannerHoc(
                   },
                 }).then((res: any) => {
                   if (res.updateBannerImage.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateBannerImage.message}`,
                     })
                     setTimeout(() => {
