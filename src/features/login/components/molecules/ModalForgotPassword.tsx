@@ -15,7 +15,7 @@ interface ModalForgotPasswordProps {
   onClose: () => void
 }
 
-const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
+export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   const { loginStore } = useStores()
   useEffect(() => {
@@ -172,5 +172,3 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
     </Container>
   )
 })
-
-export default ModalForgotPassword
