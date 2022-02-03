@@ -1,10 +1,13 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems} from "@lp/library/utils"
+import { lookupItems } from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectAnalayteMethod} from "../index"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectAnalayteMethod,
+} from "../index"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let lab
@@ -22,6 +25,7 @@ let picture
 let units
 let usage
 let cptCode
+let departments
 let resultType
 let analyteType
 let status
@@ -41,7 +45,7 @@ interface MasterAnalyteProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onUpdateFileds?:(fileds:any,id:string)=>void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -73,9 +77,9 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   lab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -102,9 +106,9 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   analyteCode = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -114,9 +118,9 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   analyteName = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -125,11 +129,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   description = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -156,13 +160,13 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
-               editable: false,
+              csvFormatter: (col) => (col ? col : ""),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
                         props.onUpdateItem &&
@@ -178,11 +182,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Method Code",
               headerClasses: "textHeader6",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   analyteMethodCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -195,23 +199,30 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectAnalayteMethod
-                  onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({analyteMethodCode:item.methodsCode,analyteMethodName:item.methodsName},row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            analyteMethodCode: item.methodsCode,
+                            analyteMethodName: item.methodsName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
-              )
+              ),
             },
             {
               dataField: "analyteMethodName",
               text: "Analyte Method Name",
               headerClasses: "textHeader6",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   analyteMethodName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -224,23 +235,30 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectAnalayteMethod
-                  onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({analyteMethodCode:item.methodsCode,analyteMethodName:item.methodsName},row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            analyteMethodCode: item.methodsCode,
+                            analyteMethodName: item.methodsName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
-              )
+              ),
             },
             {
               dataField: "shortName",
               text: "Short Name",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   shortName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               style: { textTransform: "uppercase" },
@@ -251,11 +269,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   price = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -291,13 +309,13 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-               csvFormatter: col => (col ? col : false),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -313,11 +331,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "High",
               headerClasses: "textHeader1",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   high = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -326,11 +344,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Low",
               headerClasses: "textHeader1",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   low = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -338,15 +356,15 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "reportable",
               text: "Reportable",
               sort: true,
-               csvFormatter: col => (col ? col : false),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
-                  <> 
+                  <>
                     <LibraryComponents.Atoms.Form.Toggle
-                     disabled={!editorCell(row)}
-                     value={row.reportable}
-                     onChange={(reportable) => {
+                      disabled={!editorCell(row)}
+                      value={row.reportable}
+                      onChange={(reportable) => {
                         props.onUpdateItem &&
                           props.onUpdateItem(reportable, "reportable", row._id)
                       }}
@@ -356,15 +374,36 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               },
             },
             {
+              dataField: "departments",
+              text: "Departments",
+              headerClasses: "textHeader4",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: LibraryComponents.Organisms.Utils.textFilter({
+                getFilter: (filter) => {
+                  departments = filter
+                },
+              }),
+              formatter: (cellContent, row) => (
+                <>
+                  <ul style={{ listStyle: "inside" }}>
+                    {row?.departments.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                </>
+              ),
+            },
+            {
               dataField: "resultType",
               text: "Result Type",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   resultType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -376,40 +415,38 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const resultType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(resultType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "RESULT_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const resultType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(resultType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "RESULT_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
+
             {
               dataField: "calculationFlag",
               text: "Calculation Flag",
               sort: true,
-               csvFormatter: col => (col ? col : false),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.calculationFlag}
                       onChange={(calculationFlag) => {
                         props.onUpdateItem &&
@@ -429,11 +466,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Type",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   analyteType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -445,26 +482,23 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const analyteType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(analyteType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ANALYTE_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const analyteType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(analyteType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ANALYTE_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -473,11 +507,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Units",
               headerClasses: "textHeader1",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   units = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -489,26 +523,23 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const units = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(units, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "UNITS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const units = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(units, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "UNITS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -517,11 +548,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Usage",
               headerClasses: "textHeader1",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   usage = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -533,26 +564,23 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const usage = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(usage, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "USAGE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const usage = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(usage, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "USAGE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -561,11 +589,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "picture",
               headerClasses: "textHeader1",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   picture = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -577,23 +605,21 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const picture = e.target.value as "0" | "1" | "4" | "3"
-                        props.onUpdateItem &&
-                          props.onUpdateItem(picture, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["0", "1", "4", "3"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const picture = e.target.value as "0" | "1" | "4" | "3"
+                      props.onUpdateItem &&
+                        props.onUpdateItem(picture, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["0", "1", "4", "3"].map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -601,13 +627,13 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "repetition",
               text: "Repetition",
               sort: true,
-               csvFormatter: col => (col ? col :false ),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.repetition}
                       onChange={(repetition) => {
                         props.onUpdateItem &&
@@ -622,13 +648,13 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-               csvFormatter: col => (col ? col : false),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
                         props.onUpdateItem &&
@@ -643,13 +669,13 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-               csvFormatter: col => (col ? col : false),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
                         props.onUpdateItem &&
@@ -664,14 +690,14 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
-               csvFormatter: col => (col ? col : false),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     {" "}
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
                         props.onUpdateItem &&
@@ -686,13 +712,13 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
-               csvFormatter: col => (col ? col : false),
-               editable: false,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <LibraryComponents.Atoms.Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.pageBreak}
                       onChange={(pageBreak) => {
                         props.onUpdateItem &&
@@ -737,7 +763,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //             )
             //           )}
             //         </select>
-            //       
+            //
             //     </>
             //   ),
             // },
@@ -776,7 +802,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //             </option>
             //           ))}
             //         </select>
-            //       
+            //
             //     </>
             //   ),
             // },
@@ -786,11 +812,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Calcy Name",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   calcyName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -799,11 +825,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "CPT Code",
               headerClasses: "textHeader2",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   cptCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -812,11 +838,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   status = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -828,24 +854,23 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -855,11 +880,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Entered By",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   enteredBy = filter
-                }
+                },
               }),
             },
             {
@@ -868,11 +893,12 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Creation",
               headerClasses: "textHeader11",
               sort: true,
-               csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
               filter: LibraryComponents.Organisms.Utils.customFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   dateCreation = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -905,7 +931,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Active",
               headerClasses: "textHeader11",
               sort: true,
-               csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
               filter: LibraryComponents.Organisms.Utils.customFilter({
                 getFilter: (filter) => {
                   dateActive = filter
@@ -942,7 +969,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Date Expire",
               headerClasses: "textHeader11",
               sort: true,
-               csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
               // filter: LibraryComponents.Organisms.Utils.dateFilter({
               //   comparators: [
               //     LibraryComponents.Organisms.Utils.Comparator.EQ,
@@ -991,7 +1019,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               // filter: LibraryComponents.Organisms.Utils.numberFilter({
               //   numberStyle: { marginLeft: "2px" },
               //   style: { display: "inline" },
@@ -1013,12 +1041,12 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Environment",
               headerClasses: "textHeader4",
               sort: true,
-               csvFormatter: col => (col ? col : ""),
-               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: LibraryComponents.Organisms.Utils.textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   environment = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -1029,27 +1057,24 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      value={row.environment}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={row.environment}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },

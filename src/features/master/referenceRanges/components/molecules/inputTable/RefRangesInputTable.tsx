@@ -465,7 +465,7 @@ export const RefRangesInputTable = observer(
                     type="number"
                     value={row?.low}
                     onBlur={(low) => {
-                      onUpdateItems && onUpdateItems({ low }, row.id)
+                      onUpdateItems && onUpdateItems({ low: parseFloat(low) }, row.id)
                     }}
                   />
                 </>
@@ -490,11 +490,11 @@ export const RefRangesInputTable = observer(
                     type="number"
                     value={row?.high}
                     onBlur={(high) => {
-                      onUpdateItems && onUpdateItems({ high }, row.id)
+                      onUpdateItems && onUpdateItems({ high: parseFloat(high) }, row.id)
                     }}
                   />
                 </>
-              ),
+              ),  
             },
             {
               dataField: "alpha",

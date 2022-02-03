@@ -45,6 +45,7 @@ export const LIST = gql`
         units
         usage
         cptCode
+        departments
         resultType
         analyteType
         status
@@ -155,6 +156,7 @@ export const FILTER = gql`
         units
         usage
         cptCode
+        departments
         resultType
         analyteType
         status
@@ -212,6 +214,7 @@ export const FILTER_BY_FIELDS = gql`
         units
         usage
         cptCode
+        departments
         resultType
         analyteType
         status
