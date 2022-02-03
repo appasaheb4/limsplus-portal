@@ -7,8 +7,8 @@ import {
   List,
   Form,
   Buttons,
-  Svg,
-  Icons,
+  Svg,  
+  Icons,  
   ModalChangePassword,
   ModalSessionAllowed,
 } from "@lp/library/components"

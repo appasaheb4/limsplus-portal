@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
-import * as LibraryComponents from "@lp/library/components"
+import {Form} from "@lp/library/components"
 
 interface ModalProps {
   show?: boolean
@@ -42,7 +42,7 @@ export const ModalFileUpload = (props: ModalProps) => {
                 </div>
                 {/*body*/}
                 <div className="relative p-2 flex-auto">
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="File"
                     id="file"
                     placeholder="File"
