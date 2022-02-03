@@ -1,8 +1,70 @@
 import React, { useEffect, useState } from "react"
 import { Container } from "reactstrap"
-import * as LibraryComponents from "@lp/library/components"
+import { Form } from ".."
 
 interface ModalProps {
+  show?: boolean
+  title?: string
+  type?: string
+  body?: string
+  click: (type?: string) => void
+  close: () => void
+}
+
+export const ModalConfirm = (props: ModalProps) => {
+  const [showModal, setShowModal] = React.useState(props.show)
+  useEffect(() => {
+    setShowModal(props.show)
+  }, [props])
+
+  return (
+    <Container>
+      {showModal && (
+        <>
+          <div className="justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
+                  <h3 className="text-3xl font-semibold">{props.title}</h3>
+                </div>
+                {/*body*/}
+                {props.body && (
+                  <>
+                    <div className="relative p-6 flex-auto">
+                      <p className="my-4 text-gray-600 text-lg leading-relaxed">
+                        {props.body}
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                  <button
+                    className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                    type="button"
+                    style={{ transition: "all .15s ease" }}
+                    onClick={() => {
+                      setShowModal(false)
+                      props.click(props.type)
+                    }}
+                  >
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      )}
+    </Container>
+  )
+}
+
+interface ModalImportFileProps {
   show?: boolean
   title?: string
   body?: string
@@ -11,7 +73,7 @@ interface ModalProps {
   close: () => void
 }
 
-export default function ModalImportFile(props: ModalProps) {
+export const ModalImportFile = (props: ModalImportFileProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   const [file, setFile] = useState<any>(null)
   useEffect(() => {
@@ -42,7 +104,7 @@ export default function ModalImportFile(props: ModalProps) {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="Import"
                     id="file"
                     accept={props.accept}

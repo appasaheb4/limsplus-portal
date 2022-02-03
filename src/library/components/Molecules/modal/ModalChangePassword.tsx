@@ -12,7 +12,7 @@ interface ModalProps {
   onClose: () => void
 }
 
-const ModalChangePassword = observer((props: ModalProps) => {
+export const ModalChangePassword = observer((props: ModalProps) => {
   const { userStore } = useStores()
   const {
     control,
@@ -191,4 +191,3 @@ const ModalChangePassword = observer((props: ModalProps) => {
     </>
   )
 })
-export default ModalChangePassword

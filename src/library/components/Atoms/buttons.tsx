@@ -1,7 +1,7 @@
 import React, { CSSProperties } from "react"
-import { IconProps } from "./icon"
-import * as LibraryComponents from "@lp/library/components"
-import * as Config from "@lp/config"
+import { IconProps } from "./svg"
+import {Buttons,Icons} from "@lp/library/components"
+import {Styles} from "@lp/config"
 
 interface ButtonProps {
   type?: "solid" | "outline"
@@ -12,8 +12,8 @@ interface ButtonProps {
   pill?: boolean
   disabled?: string
   children?: React.ReactNode
-}
-
+}    
+   
 export const Button: React.FunctionComponent<ButtonProps> = (
   props: ButtonProps
 ): JSX.Element => {
@@ -70,9 +70,9 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
   return (
     <>
       {props.show && (
-        <LibraryComponents.Atoms.CircleButton
+        <Buttons.CircleButton
           style={{
-            backgroundColor: Config.Styles.COLORS.PRIMARY,
+            backgroundColor: Styles.COLORS.PRIMARY,
             alignItems: "center",
             width: 60,
             height: 60,
@@ -83,18 +83,18 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           }}
           onClick={() => props.onClick(true)}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="plus-outline"
             size="large"
-            color={Config.Styles.COLORS.WHITE}
+            color={Styles.COLORS.WHITE}
           />
-        </LibraryComponents.Atoms.CircleButton>
+        </Buttons.CircleButton>
       )}
 
       {!props.show && (
-        <LibraryComponents.Atoms.CircleButton
+        <Buttons.CircleButton
           style={{
-            backgroundColor: Config.Styles.COLORS.PRIMARY,
+            backgroundColor: Styles.COLORS.PRIMARY,
             alignItems: "center",
             width: 60,
             height: 60,
@@ -105,12 +105,12 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           }}
           onClick={() => props.onClick(false)}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="minus-outline"
             size="large"
-            color={Config.Styles.COLORS.WHITE}
+            color={Styles.COLORS.WHITE}
           />
-        </LibraryComponents.Atoms.CircleButton>
+        </Buttons.CircleButton>
       )}
     </>
   )
@@ -122,9 +122,9 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<ButtonCircleAd
   return (  
     <>
       {props.show && (
-        <LibraryComponents.Atoms.CircleButton
+        <Buttons.CircleButton
           style={{
-            backgroundColor: Config.Styles.COLORS.PRIMARY,
+            backgroundColor: Styles.COLORS.PRIMARY,
             alignItems: "center",
             width: 60,
             height: 60,
@@ -135,18 +135,18 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<ButtonCircleAd
           }}
           onClick={() => props.onClick(true)}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="plus-outline"
             size="large"
-            color={Config.Styles.COLORS.WHITE}
+            color={Styles.COLORS.WHITE}
           />
-        </LibraryComponents.Atoms.CircleButton>
+        </Buttons.CircleButton>
       )}
 
       {!props.show && (
-        <LibraryComponents.Atoms.CircleButton
+        <Buttons.CircleButton
           style={{
-            backgroundColor: Config.Styles.COLORS.PRIMARY,
+            backgroundColor: Styles.COLORS.PRIMARY,
             alignItems: "center",
             width: 60,
             height: 60,
@@ -157,13 +157,28 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<ButtonCircleAd
           }}
           onClick={() => props.onClick(false)}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="minus-outline"
             size="large"
-            color={Config.Styles.COLORS.WHITE}
+            color={Styles.COLORS.WHITE}
           />
-        </LibraryComponents.Atoms.CircleButton>
+        </Buttons.CircleButton>
       )}
     </>
   )
 }
+
+interface CircleButtonProps {
+  style?: CSSProperties;
+  onClick: () => void;
+}
+
+export const CircleButton: React.FunctionComponent<CircleButtonProps> = (props) => (
+  <div
+    style={props.style}
+    className="rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center"
+    onClick={props.onClick}
+  >
+    {props.children}
+  </div>
+);

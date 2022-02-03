@@ -1,10 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
-import { observer } from "mobx-react"
-import lodash from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
 
 interface AutoCompleteFilterSingleSelectProps {
   loader?: boolean

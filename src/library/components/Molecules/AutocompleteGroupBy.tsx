@@ -3,9 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import PerfectScrollbar from "react-perfect-scrollbar"
-import { stores } from "@lp/stores"
 
-import { RouterFlow } from "@lp/flows"
 interface AutocompleteGroupByProps {
   data?: any[]
   onChange?: (item: any, children: any) => void

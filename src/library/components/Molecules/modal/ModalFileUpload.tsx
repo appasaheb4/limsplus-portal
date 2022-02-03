@@ -7,16 +7,16 @@ interface ModalProps {
   title?: string
   onClick: (image: any) => void
   onClose: () => void
-}
-
-export default function ModalFileUpload(props: ModalProps) {
+}  
+   
+export const ModalFileUpload = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   const [image, setImage] = React.useState<any>()
 
   useEffect(() => {
     setShowModal(props.show)
   }, [props.show])
-  
+
   return (
     <Container>
       {showModal && (

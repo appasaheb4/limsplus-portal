@@ -1,9 +1,33 @@
 import React from "react";
 
-const Header: React.FunctionComponent<any> = (props) => (
+export const Header: React.FunctionComponent<any> = (props) => (
   <div className="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white">
     {props.children}
   </div>
 );
 
-export default Header;
+interface PageHeadingProps {
+  title: string
+}
+
+export const Heading: React.FunctionComponent<PageHeadingProps> = (props) => (
+<div className="text-center border-b border-gray-300 bg-white sticky top-14 z-20 font-FugazOne">
+  <h2 className="text-lg font-bold leading-4 text-gray-900 mt-0">{props.title}</h2>
+</div>
+)
+
+interface PageHeadingProps {
+  title: string
+  subTitle?: string
+}
+   
+export const PageHeading: React.FunctionComponent<PageHeadingProps> = (props) => (
+  <div>
+    <h2 className="text-lg font-bold leading-4 text-gray-900 mt-0">
+      {props.title}
+    </h2>
+    {props.subTitle && (
+      <p className="text-xs leading-4 text-gray-500 m-0">{props.subTitle}</p>
+    )}
+  </div>
+)
