@@ -1,10 +1,10 @@
 import { ToastContainer } from "react-toastify"
 import Toast from "@lp/library/modules/toast"
 export * as Buttons from './Atoms/buttons'
-export * as Carousel from './Atoms/carousel'
+export *  from './Atoms/carousel'
 export * as Form from './Atoms/form'
-export * as Grid from './Atoms/grid'
-export * as Header from './Atoms/header'
+export * from './Atoms/grid'
+export *  from './Atoms/header'  
 export * as Svg from './Atoms/svg'
 export * as Icons from './Atoms/icons'
 export * as Images from './Atoms/image'
