@@ -11,7 +11,7 @@ interface ModalProps {
   onClose: () => void
 }
 
-const ModalNoticeBoard = (props: ModalProps) => {
+export const ModalNoticeBoard = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   useEffect(() => {
     setShowModal(props.show)
@@ -98,4 +98,3 @@ const ModalNoticeBoard = (props: ModalProps) => {
     </Container>
   )
 }
-export default ModalNoticeBoard

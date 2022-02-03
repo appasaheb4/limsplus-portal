@@ -3,16 +3,15 @@ import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
+import { ModalForgotPassword, ModalNoticeBoard } from "../components"
 import { Col, Container, Row } from "reactstrap"
-import * as Assets from "@lp/library/assets"
-import * as Bootstrap from "react-bootstrap"
+import { logo } from "@lp/library/assets"
+import { Carousel } from "react-bootstrap"
 import dayjs from "dayjs"
 import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@lp/helper"
 
 import { useHistory } from "react-router-dom"
-
 import { useStores } from "@lp/stores"
 
 export const Login = observer(() => {
@@ -131,27 +130,27 @@ export const Login = observer(() => {
         })
     }
   }
-
+    
   return (
     <>
       <Container fluid className="bg-gray-600">
         <Row className="h-screen items-center">
           <Col md="7">
             <div className="flex flex-col justify-center items-center">
-              <img src={Assets.logo} className="w-20 h-15" alt="logo" />
+              <img src={logo} className="w-20 h-15" alt="logo" />
               <div className="mt-2 mb-2">
-                <Bootstrap.Carousel>
+                <Carousel>
                   {bannerStore.listAllBanner.map((item, key) => (
-                    <Bootstrap.Carousel.Item interval={5000} key={key}>
+                    <Carousel.Item interval={5000} key={key}>
                       <img
                         key={key}
                         src={item.image}
                         className="img-thumbnail img-fluid"
                         alt={key.toString()}
                       />
-                    </Bootstrap.Carousel.Item>
+                    </Carousel.Item>
                   ))}
-                </Bootstrap.Carousel>
+                </Carousel>
               </div>
             </div>
           </Col>
@@ -348,8 +347,14 @@ export const Login = observer(() => {
                     Clear
                   </LibraryComponents.Atoms.Buttons.Button>
                 </LibraryComponents.Atoms.List>
-                <h4 className="text-center mt-2"> <b>Note</b>: After 3 invalid login attempts, accounts will be locked.</h4>
-                <h4 className="text-center">In that case contact the Support Team.</h4>
+                <h4 className="text-center mt-2">
+                  {" "}
+                  <b>Note</b>: After 3 invalid login attempts, accounts will be
+                  locked.
+                </h4>
+                <h4 className="text-center">
+                  In that case contact the Support Team.
+                </h4>
               </div>
               <div className="flex p-4 flex-row items-center justify-around">
                 <div className="flex mt-2 justify-center items-center">
@@ -397,7 +402,7 @@ export const Login = observer(() => {
             </div>
           </Col>
         </Row>
-        <FeatureComponents.Molecules.ModalNoticeBoard
+        <ModalNoticeBoard
           {...noticeBoard}
           click={async (action) => {
             setNoticeBoard({
@@ -429,7 +434,7 @@ export const Login = observer(() => {
             })
           }}
         />
-        <FeatureComponents.Molecules.ModalForgotPassword
+        <ModalForgotPassword
           {...modalForgotPassword}
           onClick={(userInfo: any) => {
             loginStore.LoginService.forgotPassword({ input: { ...userInfo } }).then(
