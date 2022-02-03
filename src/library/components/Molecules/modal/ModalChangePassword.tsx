@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,List,Form} from "@lp/library/components"
 import { FormHelper } from "@lp/helper"
 import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/stores"
@@ -26,7 +26,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
     if (userStore.changePassword) {
       props.onClick()
     } else {
-      LibraryComponents.Atoms.Toast.error({
+      Toast.error({
         message: `😔 Please enter all information!`,
       })
     }
@@ -63,7 +63,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
 
                 {/*body*/}
                 <div className="relative  flex-auto p-3">
-                  <LibraryComponents.Atoms.List
+                  <List
                     direction="col"
                     space={4}
                     justify="stretch"
@@ -72,7 +72,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           type="password"
                           label="Old Password"
                           name="oldPassword"
@@ -102,7 +102,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           type="password"
                           label="New Password"
                           name="newPassword"
@@ -132,7 +132,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           type="password"
                           label="Confirm Password"
                           name="confirmPassword"
@@ -161,7 +161,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                       }}
                       defaultValue=""
                     />
-                  </LibraryComponents.Atoms.List>
+                  </List>
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end  border-t border-solid border-gray-300 rounded-b p-2">

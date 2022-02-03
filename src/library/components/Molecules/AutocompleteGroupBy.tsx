@@ -1,7 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Icons} from "@lp/library/components"
 import PerfectScrollbar from "react-perfect-scrollbar"
 
 interface AutocompleteGroupByProps {
@@ -114,9 +114,9 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
             onClick={() => setIsListOpen(true)}
           />
           {isListOpen ? (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+            <Icons.IconFa.FaChevronUp />
           ) : (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+            <Icons.IconFa.FaChevronDown />
           )}
         </div>
         {options && isListOpen
