@@ -12,6 +12,8 @@ export class MasterAnalyteStore {
   listMasterAnalyteCount: number = 0
   checkExitsLabEnvCode: boolean = false
   selectedItems!: SelectedItems
+
+  
   constructor() {
     this.listMasterAnalyte = []
     this.masterAnalyte = {

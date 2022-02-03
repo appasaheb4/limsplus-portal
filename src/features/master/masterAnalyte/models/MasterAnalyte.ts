@@ -24,6 +24,7 @@ export class MasterAnalyte {
   analyteMethodCode: string
   analyteMethodName: string
   workflow: string
+  departments: string[]
   sampleType: string
   reportable: boolean
   calculationFlag: boolean
@@ -68,6 +69,7 @@ export class MasterAnalyte {
     this.analyteMethodCode = rawData.analyteMethodCode 
     this.analyteMethodName = rawData.analyteMethodName
     this.workflow = rawData.workflow 
+    this.departments = rawData.departments
     this.sampleType = rawData.sampleType 
     this.reportable = rawData.reportable 
     this.calculationFlag = rawData.calculationFlag 
@@ -90,7 +92,9 @@ export class MasterAnalyte {
 
 export class SelectedItems {
   lab: any[]
+  department: any[]
   constructor(rawData: {[key in string]: any}){
     this.lab = rawData.lab
+    this.department = rawData.department
   }
 }
