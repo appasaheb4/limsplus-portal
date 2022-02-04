@@ -1,11 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List,Icons
+  ,Form,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import { PossibleResultsList } from "../components"
-import { Container } from "reactstrap"
 
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectAnalyteCode} from "../components"
@@ -40,7 +41,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
         .addPossibleResults({ input: { ...possibleResultsStore.possibleResults } })
         .then((res) => {
           if (res.createPossibleResult.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createPossibleResult.message}`,
             })
           }
@@ -49,7 +50,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
           }, 2000)
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please use diff code`,
       })
     }
@@ -108,14 +109,14 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
 
   return (
     <>
-        <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading
+        <Header>
+          <PageHeading
             title={routerStore.selectedComponents?.title || ""}
           />
-          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-        </LibraryComponents.Atoms.Header>
+          <PageHeadingLabDetails store={loginStore} />
+        </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          <Buttons.ButtonCircleAddRemove
             show={hideAddLookup}
             onClick={() => setHideAddLookup(!hideAddLookup)}
           />
@@ -126,8 +127,8 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
               "p-2 rounded-lg shadow-xl " + (hideAddLookup ? "hidden" : "shown")
             }
           >
-            <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={2}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -136,7 +137,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Analyte Code"
                       hasError={errors.analyte}
                     >
@@ -162,14 +163,14 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                         .then((res) => {
                           if (res.checkPossibleResultExistsRecord.success) {
                             possibleResultsStore.updateExistsEnvCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
                             })
                           } else possibleResultsStore.updateExistsEnvCode(false)
                         })
                      }}
                      />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="analyte"
                   rules={{ required: true }}
@@ -183,7 +184,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       disabled={true}
                       label="Analyte Name"
                       placeholder={
@@ -202,7 +203,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label="Environment">
                       <select
                         value={possibleResultsStore.possibleResults?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -231,7 +232,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                             .then((res) => {
                               if (res.checkPossibleResultExistsRecord.success) {
                                 possibleResultsStore.updateExistsEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
                                 })
                               } else possibleResultsStore.updateExistsEnvCode(false)
@@ -253,18 +254,18 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="environment"
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                <LibraryComponents.Atoms.Form.InputWrapper label="Conclusion Value">
-                  <LibraryComponents.Atoms.Grid cols={5}>
+                <Form.InputWrapper label="Conclusion Value">
+                  <Grid cols={5}>
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           placeholder={
                             errors.result ? "Please Enter Result" : "Result"
                           }
@@ -286,7 +287,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           placeholder={
                             errors.possibleValue
                               ? "Please Enter Possible Value"
@@ -310,7 +311,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Toggle
+                        <Form.Toggle
                           label="AbNormal"
                           hasError={errors.abNormal}
                           value={possibleResultsStore.possibleResults?.abNormal}
@@ -330,7 +331,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Toggle
+                        <Form.Toggle
                           hasError={errors.critical}
                           label="Critical"
                           value={possibleResultsStore.possibleResults?.critical}
@@ -348,7 +349,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                       defaultValue=""
                     />
                     <div className="mt-2">
-                      <LibraryComponents.Atoms.Buttons.Button
+                      <Buttons.Button
                         size="medium"
                         type="solid"
                         onClick={() => {
@@ -395,13 +396,13 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                           }
                         }}
                       >
-                        <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                        <Icons.EvaIcon icon="plus-circle-outline" />
                         {`Add`}
-                      </LibraryComponents.Atoms.Buttons.Button>
+                      </Buttons.Button>
                     </div>
                     <div className="clearfix"></div>
-                  </LibraryComponents.Atoms.Grid>
-                  <LibraryComponents.Atoms.List
+                  </Grid>
+                  <List
                     space={2}
                     direction="row"
                     justify="center"
@@ -410,10 +411,10 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                       {possibleResultsStore.possibleResults?.conclusionResult?.map(
                         (item, index) => (
                           <div className="mb-2" key={index}>
-                            <LibraryComponents.Atoms.Buttons.Button
+                            <Buttons.Button
                               size="medium"
                               type="solid"
-                              icon={LibraryComponents.Atoms.Icon.Remove}
+                              icon={Svg.Remove}
                               onClick={() => {
                                 const firstArr =
                                   possibleResultsStore.possibleResults?.conclusionResult?.slice(
@@ -438,17 +439,17 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                               Possible Value: ${item.possibleValue}  
                               AbNormal: ${item.abNormal}  
                               Critical: ${item.critical}`}
-                            </LibraryComponents.Atoms.Buttons.Button>
+                            </Buttons.Button>
                           </div>
                         )
                       )}
                     </div>
-                  </LibraryComponents.Atoms.List>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                  </List>
+                </Form.InputWrapper>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       hasError={errors.defaulItem}
                       label="Default Conclusion"
                     >
@@ -485,41 +486,41 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                             )
                           )}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="defaulItem"
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+              </List>
+            </Grid>
             <br />
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-              <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+              <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={handleSubmit(onSubmitPossibleResult)}
               >
                 Save
-              </LibraryComponents.Atoms.Buttons.Button>
-              <LibraryComponents.Atoms.Buttons.Button
+              </Buttons.Button>
+              <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                   //rootStore.LookupStore.clear();
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Atoms.Buttons.Button>
-            </LibraryComponents.Atoms.List>
+              </Buttons.Button>
+            </List>
           </div>
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
             {tableView}
           </div>
-          <LibraryComponents.Molecules.ModalConfirm
+          <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
@@ -527,7 +528,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                   .deletePossibleResults({ input: { id: modalConfirm.id } })
                   .then((res: any) => {
                     if (res.removePossibleResult.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.removePossibleResult.message}`,
                       })
                       setModalConfirm({ show: false })
@@ -544,7 +545,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                   })
                   .then((res: any) => {
                     if (res.updatePossibleResult.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.updatePossibleResult.message}`,
                       })
                       setModalConfirm({ show: false })

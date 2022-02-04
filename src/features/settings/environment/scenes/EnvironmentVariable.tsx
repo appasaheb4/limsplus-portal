@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Buttons,Grid,List,Form,Svg} 
+  from "@lp/library/components"
 import {lookupItems,lookupValue} from "@lp/library/utils"
 
 import {EnvironmentVariableList} from "../components"
@@ -37,7 +38,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
         },
       }).then((res) => {
         if (res.createEnviroment.success) {
-          LibraryComponents.Atoms.Toast.success({
+          Toast.success({
             message: `😊 ${res.createEnviroment.message}`,
           })
           setTimeout(() => {
@@ -46,7 +47,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
         }
       })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔 Please enter diff variable",
       })
     }
@@ -54,7 +55,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
   return (
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
+        <Buttons.ButtonCircleAddRemoveBottom
           style={{ bottom: 40 }}
           show={hideInputView}
           onClick={() => setHideInputView(!hideInputView)}
@@ -67,8 +68,8 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
         }
       >
         <div className="p-2 rounded-lg shadow-xl">
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -77,7 +78,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Environment Variables"
                     name="txtEnvironmentVariable"
                     value={environmentStore.environmentVariable?.environmentVariable}
@@ -106,7 +107,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                         }).then((res) => {
                           if (res.checkExistsEnviromentRecord.success) {
                             environmentStore.updateExistsEnvVariable(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkExistsEnviromentRecord.message}`,
                             })
                           } else environmentStore.updateExistsEnvVariable(false)
@@ -126,7 +127,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Category"
                     hasError={errors.category}
                   >
@@ -153,7 +154,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="category"
                 rules={{ required: true }}
@@ -162,7 +163,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Description"
                     name="lblDescription"
@@ -186,8 +187,8 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -196,7 +197,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter Entered By" : "Entered By"
@@ -211,12 +212,12 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="Scope">
-                <LibraryComponents.Atoms.Grid cols={4}>
+              <Form.InputWrapper label="Scope">
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Lab"
                         hasError={errors.lab}
                         value={environmentStore.environmentVariable?.allLabs}
@@ -237,7 +238,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="User"
                         value={environmentStore.environmentVariable?.allUsers}
                         onChange={(allUsers) => {
@@ -256,7 +257,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Departmetn"
                         value={environmentStore.environmentVariable?.allDepartment}
                         onChange={(allDepartment) => {
@@ -272,31 +273,31 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                </LibraryComponents.Atoms.Grid>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+                </Grid>
+              </Form.InputWrapper>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitEnvironmentVariable)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
       </div>
 

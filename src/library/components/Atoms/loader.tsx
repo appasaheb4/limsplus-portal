@@ -14,7 +14,7 @@ export const Loader = () => {
   );
 };
 
-export default function ModalLoader() {
+export const ModalLoader =() => {
   return (
     <>
       <>

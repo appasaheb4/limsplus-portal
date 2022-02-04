@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Grid,List,Form,Buttons,Svg} from "@lp/library/components"
 import { lookupItems,lookupValue,moment } from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { PatientSampleList } from "../../components"
@@ -44,8 +44,8 @@ export const PatientSample = observer((props: PatientSampleProps) => {
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
-        <LibraryComponents.Atoms.Grid cols={2}>
-          <LibraryComponents.Atoms.List
+        <Grid cols={2}>
+          <List
             direction="col"
             space={4}
             fill
@@ -54,7 +54,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label="Specimen ID"
                   name="txtSpecimenId"
                   placeholder={
@@ -78,7 +78,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="PLab"
                   hasError={errors.pLab}
                 >
@@ -109,7 +109,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="pLab"
               rules={{ required: true }}
@@ -118,7 +118,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Rlab"
                   hasError={errors.rLab}
                 >
@@ -146,7 +146,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                         )
                       )}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="rLab"
               rules={{ required: true }}
@@ -155,7 +155,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Out Source Lab"
                   hasError={errors.outSourceLab}
                 >
@@ -174,7 +174,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                   >
                     <option selected>Select</option>
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="outSourceLab"
               rules={{ required: true }}
@@ -183,7 +183,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Out Source Lab"
                   hasError={errors.outSourceLab}
                 >
@@ -202,7 +202,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                   >
                     <option selected>Select</option>
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="outSourceStatus"
               rules={{ required: true }}
@@ -211,7 +211,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Department"
                   hasError={errors.department}
                 >
@@ -237,7 +237,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       )
                     )}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="department"
               rules={{ required: true }}
@@ -246,7 +246,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Section"
                   hasError={errors.section}
                 >
@@ -272,7 +272,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       )
                     )}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="section"
               rules={{ required: true }}
@@ -281,7 +281,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Container ID"
                   hasError={errors.containerId}
                 >
@@ -308,7 +308,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                         )
                       )}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="containerId"
               rules={{ required: true }}
@@ -317,7 +317,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Sample Type"
                   hasError={errors.sampleType}
                 >
@@ -344,15 +344,15 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                         )
                       )}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="sampleType"
               rules={{ required: true }}
               defaultValue=""
             />
-          </LibraryComponents.Atoms.List>
+          </List>
 
-          <LibraryComponents.Atoms.List
+          <List
             direction="col"
             justify="stretch"
             fill
@@ -361,7 +361,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <Form.InputDate
                   label="Received Date"
                   name="txtReceivedDate"
                   placeholder={
@@ -393,7 +393,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <Form.InputDate
                   label="Collection Date"
                   name="txtCollectionDate"
                   placeholder={
@@ -425,7 +425,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Method Collection"
                   hasError={errors.methodCollection}
                 >
@@ -454,7 +454,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="methodCollection"
               rules={{ required: true }}
@@ -463,7 +463,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputDate
+                <Form.InputDate
                   label="Date Collection"
                   name="txtDateCollection"
                   placeholder={
@@ -495,7 +495,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                <Form.InputWrapper label="Status">
                   <select
                     value={Stores.patientRegistationStore.patientSample?.status}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -520,7 +520,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="status"
               rules={{ required: false }}
@@ -530,7 +530,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <Form.InputWrapper label="Environment">
                   <select
                     value={Stores.patientRegistationStore.patientSample?.environment}
                     disabled={
@@ -567,36 +567,36 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="environment"
               rules={{ required: true }}
               defaultValue=""
             />
-          </LibraryComponents.Atoms.List>
-        </LibraryComponents.Atoms.Grid>
+          </List>
+        </Grid>
       </div>
       <br />
-      <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-        <LibraryComponents.Atoms.Buttons.Button
+      <List direction="row" space={3} align="center">
+        <Buttons.Button
           size="medium"
           type="solid"
-          icon={LibraryComponents.Atoms.Icon.Save}
+          icon={Svg.Save}
           onClick={handleSubmit(onSubmitPatientSample)}
         >
           Save
-        </LibraryComponents.Atoms.Buttons.Button>
-        <LibraryComponents.Atoms.Buttons.Button
+        </Buttons.Button>
+        <Buttons.Button
           size="medium"
           type="outline"
-          icon={LibraryComponents.Atoms.Icon.Remove}
+          icon={Svg.Remove}
           onClick={() => {
             window.location.reload()
           }}
         >
           Clear
-        </LibraryComponents.Atoms.Buttons.Button>
-      </LibraryComponents.Atoms.List>
+        </Buttons.Button>
+      </List>
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}

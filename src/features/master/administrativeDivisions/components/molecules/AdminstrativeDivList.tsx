@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,textFilter,List,Tooltip,Icons,Buttons} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import "react-accessible-accordion/dist/fancy-example.css"
 
 let country
@@ -21,7 +21,7 @@ interface AdminstrativeDivListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -31,7 +31,7 @@ interface AdminstrativeDivListProps {
 export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
   return (
     <div style={{ position: "relative" }}>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -50,7 +50,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 country = filter
               }
@@ -64,7 +64,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 state = filter
               }
@@ -78,7 +78,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 district = filter
               }
@@ -92,7 +92,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 city = filter
               }
@@ -106,7 +106,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             csvFormatter: col => (col ? col : ""),
             editorStyle: { textTransform: "uppercase" },
             style: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 area = filter
               }
@@ -118,30 +118,30 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 postalCode = filter
               }
             }),
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.List
+                <List
                   space={2}
                   direction="row"
                   justify="center"
                 >
                   {row.postalCode.map((item) => (
                     <div className="mb-2">
-                      <LibraryComponents.Atoms.Buttons.Button
+                      <Buttons.Button
                         size="medium"
                         type="solid"
                         onClick={() => {}}
                       >
                         {`${item}`}
-                      </LibraryComponents.Atoms.Buttons.Button>
+                      </Buttons.Button>
                     </div>
                   ))}
-                </LibraryComponents.Atoms.List>
+                </List>
               </>
             ),
           },
@@ -151,7 +151,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerClasses: "textHeader",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 sbu = filter
               }
@@ -195,7 +195,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerClasses: "textHeader1",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 zone = filter
               }
@@ -238,7 +238,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 environment = filter
               }
@@ -285,11 +285,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     tooltipText="Delete"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() =>
@@ -303,11 +303,11 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                         })
                       }
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                 </div>
               </>
             ),

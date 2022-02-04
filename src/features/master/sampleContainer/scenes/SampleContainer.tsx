@@ -1,7 +1,9 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import {SampleContainerList} from "../components"
 
@@ -30,7 +32,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
         .addSampleContainer({ input: { ...sampleContainerStore.sampleContainer } })
         .then((res) => {
           if (res.createSampleContainer.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createSampleContainer.message}`,
             })
             setTimeout(() => {
@@ -39,7 +41,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
           }
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -47,14 +49,14 @@ const SampleContainer = SampleContainerHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddBanner}
           onClick={() => setHideAddBanner(!hideAddBanner)}
         />
@@ -65,8 +67,8 @@ const SampleContainer = SampleContainerHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -75,7 +77,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Container Code"
                     hasError={errors.containerCode}
                     placeholder={
@@ -102,7 +104,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
                         .then((res) => {
                           if (res.checkSampleContainersExistsRecord.success) {
                             sampleContainerStore.updateExitsEnvCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkSampleContainersExistsRecord.message}`,
                             })
                           } else sampleContainerStore.updateExitsEnvCode(false)
@@ -122,7 +124,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Container Name"
                     hasError={errors.containerName}
                     placeholder={
@@ -147,7 +149,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="Image"
                     placeholder={errors.image ? "Please Insert Image" : "Image"}
                     hasError={errors.image}
@@ -165,9 +167,9 @@ const SampleContainer = SampleContainerHoc(observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -176,7 +178,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={5}
                     label="Description"
                     hasError={errors.description}
@@ -200,7 +202,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={sampleContainerStore.sampleContainer?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -229,7 +231,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
                           .then((res) => {
                             if (res.checkSampleContainersExistsRecord.success) {
                               sampleContainerStore.updateExitsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkSampleContainersExistsRecord.message}`,
                               })
                             } else sampleContainerStore.updateExitsEnvCode(false)
@@ -251,36 +253,36 @@ const SampleContainer = SampleContainerHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitSampleContainer)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >  
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div> 
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <SampleContainerList
@@ -335,7 +337,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
             }}  
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type: string) => {
             if (type === "Delete") {
@@ -343,7 +345,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
                 .deleteSampleContainer({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeSampleContainer.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeSampleContainer.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -360,7 +362,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateSampleContainer.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateSampleContainer.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -377,7 +379,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateSampleContainersImage.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateSampleContainersImage.message}`,
                     })
                     setTimeout(() => {

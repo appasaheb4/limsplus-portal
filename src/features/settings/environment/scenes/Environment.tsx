@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,ModalConfirm} 
+  from "@lp/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 
@@ -15,12 +16,12 @@ const Environment = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       <Accordion>
         {[{ title: "Environment Variable" }, { title: "Environment Setting" }].map(
           (item) => {
@@ -48,7 +49,7 @@ const Environment = observer(() => {
           }
         )}
       </Accordion>
-      <LibraryComponents.Molecules.ModalConfirm
+      <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
           if (type === "delete") {
@@ -56,7 +57,7 @@ const Environment = observer(() => {
               input: { id: modalConfirm.id },
             }).then((res: any) => {
               if (res.removeEnviroment.success) {
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.removeEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
@@ -76,7 +77,7 @@ const Environment = observer(() => {
               },
             }).then((res: any) => {
               if (res.updateEnviroment.success) {
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.updateEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })

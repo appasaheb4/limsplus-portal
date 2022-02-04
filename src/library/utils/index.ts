@@ -1,6 +1,6 @@
 import moment from "moment"
-export {moment};
 import dayjs from 'dayjs'
+export {moment};
 export {dayjs}
 export * from "./uuid";
 export * from "./array";
