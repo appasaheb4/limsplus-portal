@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-
+  
 export const LIST = gql`
   mutation($input: ReferenceRangeInput!) {
     referenceRanges(input: $input) {
@@ -10,9 +10,11 @@ export const LIST = gql`
       message
       data {
         _id
+        rangeId
         existsRecordId
         analyteCode
         analyteName
+        analyteDepartments
         department
         species
         rangeSetOn
@@ -94,9 +96,11 @@ export const FILTER = gql`
       message
       data {
         _id
+        rangeId
         existsRecordId
         analyteCode
         analyteName
+        analyteDepartments
         department
         species
         rangeSetOn
@@ -140,9 +144,11 @@ export const FILTER_BY_FIELDS = gql`
       message
       data {
         _id
+        rangeId
         existsRecordId
         analyteCode
         analyteName
+        analyteDepartments
         department
         species
         rangeSetOn

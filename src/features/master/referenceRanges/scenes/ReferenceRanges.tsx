@@ -39,7 +39,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                 refRangesInputList: _.filter(
                   refernceRangesStore.referenceRanges?.refRangesInputList,
                   (a) => {
-                    a.id = undefined
                     a._id = undefined
                     return a
                   }
@@ -141,10 +140,10 @@ const ReferenceRanges = ReferenceRangesHoc(
             <RefRangesInputTable
               data={toJS(refernceRangesStore.referenceRanges?.refRangesInputList)}
               extraData={routerStore}
-              onDelete={(id) => {
+              onDelete={(rangeId) => {
                 const index = _.findIndex(
                   refernceRangesStore.referenceRanges?.refRangesInputList,
-                  { id: id }
+                  { rangeId }
                 )
                 const firstArr =
                   refernceRangesStore.referenceRanges?.refRangesInputList?.slice(
@@ -161,11 +160,14 @@ const ReferenceRanges = ReferenceRangesHoc(
                   refRangesInputList: finalArray,
                 })
               }}
-              onUpdateItems={(items, id) => {
+              onUpdateItems={(items, rangeId) => {
+                
                 const index = _.findIndex(
                   refernceRangesStore.referenceRanges?.refRangesInputList,
-                  { id: id }
+                  { rangeId }
                 )
+                console.log({index});
+                
                 const refRangesInputList =
                   refernceRangesStore.referenceRanges?.refRangesInputList
                 refRangesInputList[index] = {
@@ -270,7 +272,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   refernceRangesStore.referenceRanges?.refRangesInputList
                 refRangesInputList.push({
                   ...modalConfirm.data,
-                  id:
+                  rangeId:
                     refernceRangesStore.referenceRanges?.refRangesInputList.length +
                     1,
                   existsRecordId: modalConfirm.data._id,
@@ -286,13 +288,13 @@ const ReferenceRanges = ReferenceRangesHoc(
                   refernceRangesStore.referenceRanges?.refRangesInputList
                 refRangesInputList.push({
                   ...modalConfirm.data,
-                  id:
+                  rangeId:
                     refernceRangesStore.referenceRanges?.refRangesInputList.length +
                     1,
                   existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
+                  version: parseInt(modalConfirm.data.version),
                   type: "duplicate",
-                })
+                })  
                 refernceRangesStore.updateReferenceRanges({
                   ...refernceRangesStore.referenceRanges,
                   refRangesInputList,

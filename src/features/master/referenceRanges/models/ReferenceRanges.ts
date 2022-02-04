@@ -1,13 +1,14 @@
 class CommonInput {
-  id: number
+  rangeId: number
   existsRecordId?: string
   analyteCode: string
   analyteName: string
+  analyteDepartments?: string[]
   department: string
   species: string
   rangeSetOn: string
-  equipmentType: string
-  lab: string
+  equipmentType: string | undefined
+  lab: string | undefined
   rangeType?: string
   sex?: string
   ageFrom?: number
@@ -31,10 +32,11 @@ class CommonInput {
   environment: string
   type: string
   constructor(rawData: { [key in string]: any }) {
-    this.id = rawData.id
+    this.rangeId = rawData.rangeId
     this.existsRecordId = rawData.existsRecordId
     this.analyteCode = rawData.analyteCode
     this.analyteName = rawData.analyteName
+    this.analyteDepartments = rawData.analyteDepartments
     this.department = rawData.department
     this.species = rawData.species
     this.rangeSetOn = rawData.rangeSetOn
