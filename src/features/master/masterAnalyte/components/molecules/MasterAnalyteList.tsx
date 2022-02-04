@@ -7,7 +7,8 @@ import * as LibraryModels from "@lp/library/models"
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectAnalayteMethod,
-} from "../index"
+  AutoCompleteDepartment
+} from ".."
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let lab
@@ -391,6 +392,27 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                       <li key={index}>{item}</li>
                     ))}
                   </ul>
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteDepartment
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item,
+                          "departments",
+                          row._id
+                        )
+                    }}
+                  />
                 </>
               ),
             },
