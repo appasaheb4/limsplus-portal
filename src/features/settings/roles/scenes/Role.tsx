@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Grid,Svg,Toast,ModalConfirm} from "@lp/library/components"
 import {RoleList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -28,7 +28,7 @@ const Role = RolesHoc(observer(() => {
     if (!roleStore.checkExitsCode) {
       roleStore.RoleService.addrole({ input: { ...roleStore.role } }).then((res) => {
         if (res.createRole.success) {
-          LibraryComponents.Atoms.Toast.success({
+          Toast.success({
             message: `😊 ${res.createRole.message}`,
           })
         }
@@ -38,7 +38,7 @@ const Role = RolesHoc(observer(() => {
         }, 2000)
       })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔 Please enter all information!",
       })
     }
@@ -46,14 +46,14 @@ const Role = RolesHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddRole}
           onClick={() => setHideAddRole(!hideAddRole)}
         />
@@ -65,8 +65,8 @@ const Role = RolesHoc(observer(() => {
             (hideAddRole ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -75,7 +75,7 @@ const Role = RolesHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Code"
                     id="code"
                     hasError={errors.code}
@@ -97,7 +97,7 @@ const Role = RolesHoc(observer(() => {
                       }).then((res) => {
                         if (res.checkRoleExistsEnvCode.success) {
                           roleStore.setExitsCode(true)
-                          LibraryComponents.Atoms.Toast.error({
+                          Toast.error({
                             message: `😔 ${res.checkRoleExistsEnvCode.message}`,
                           })
                         } else roleStore.setExitsCode(false)
@@ -117,7 +117,7 @@ const Role = RolesHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Description"
                     name="description"
                     hasError={errors.description}
@@ -141,7 +141,7 @@ const Role = RolesHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={roleStore.role?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -167,7 +167,7 @@ const Role = RolesHoc(observer(() => {
                         }).then((res) => {
                           if (res.checkRoleExistsEnvCode.success) {
                             roleStore.setExitsCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkRoleExistsEnvCode.message}`,
                             })
                           } else roleStore.setExitsCode(false)
@@ -188,36 +188,36 @@ const Role = RolesHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitRoles)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl">
           <RoleList
@@ -263,7 +263,7 @@ const Role = RolesHoc(observer(() => {
             }}
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -271,7 +271,7 @@ const Role = RolesHoc(observer(() => {
                 input: { id: modalConfirm.id },
               }).then((res: any) => {
                 if (res.removeRole.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.removeRole.message}`,
                   })
                   setModalConfirm({ show: false })
@@ -286,7 +286,7 @@ const Role = RolesHoc(observer(() => {
                 },
               }).then((res: any) => {
                 if (res.updateRole.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.updateRole.message}`,
                   })
                   setModalConfirm({ show: false })

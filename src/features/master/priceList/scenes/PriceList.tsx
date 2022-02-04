@@ -1,7 +1,9 @@
 /* eslint-disable */
-import React, { useEffect, useState,useMemo } from "react"
+import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import {PriceListList} from "../components"
 import { useForm, Controller } from "react-hook-form"
@@ -50,7 +52,7 @@ export const PriceList = PriceListHoc(observer(() => {
           })
           .then((res) => {
             if (res.createPriceList.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createPriceList.message}`,
               })
             }
@@ -69,7 +71,7 @@ export const PriceList = PriceListHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradePriceList.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradePriceList.message}`,
               })
             }
@@ -88,7 +90,7 @@ export const PriceList = PriceListHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicatePriceList.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicatePriceList.message}`,
               })
             }
@@ -98,7 +100,7 @@ export const PriceList = PriceListHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -174,14 +176,14 @@ export const PriceList = PriceListHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
@@ -190,8 +192,8 @@ export const PriceList = PriceListHoc(observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -200,7 +202,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Panel Code"
                     hasError={errors.panelCode}
                   >
@@ -230,7 +232,7 @@ export const PriceList = PriceListHoc(observer(() => {
                               console.log({ res })
                               if (res.checkPriceListExistsRecord.success) {
                                 priceListStore.updateExitsPriceGEnvLabCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                 })
                               } else
@@ -239,7 +241,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         }
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="panelCode"
                 rules={{ required: true }}
@@ -253,7 +255,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Panel Name"
                     name="txtPanelName"
                     disabled={true}
@@ -274,7 +276,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Priority"
                     hasError={errors.priority}
                   >
@@ -302,7 +304,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="priority"
                 rules={{ required: false }}
@@ -311,7 +313,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Price Group"
                     hasError={errors.priceGroup}
                   >
@@ -341,7 +343,7 @@ export const PriceList = PriceListHoc(observer(() => {
                               console.log({ res })
                               if (res.checkPriceListExistsRecord.success) {
                                 priceListStore.updateExitsPriceGEnvLabCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                 })
                               } else
@@ -360,7 +362,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="priceGroup"
                 rules={{ required: true }}
@@ -370,11 +372,11 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Bill To"
                     hasError={errors.billTo}
                   >
-                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                   <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by code"
                     data={{
@@ -411,7 +413,7 @@ export const PriceList = PriceListHoc(observer(() => {
                       )
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="billTo"
                 rules={{ required: true }}
@@ -421,7 +423,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Client Name"
                     placeholder="Client Name"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -440,7 +442,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Invoice Ac"
                     placeholder="Invoice Ac"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -458,11 +460,11 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     hasError={errors.lab}
                   >
-                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                   <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     disable={
@@ -514,7 +516,7 @@ export const PriceList = PriceListHoc(observer(() => {
                             console.log({ res })
                             if (res.checkPriceListExistsRecord.success) {
                               priceListStore.updateExitsPriceGEnvLabCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkPriceListExistsRecord.message}`,
                               })
                             } else
@@ -523,7 +525,7 @@ export const PriceList = PriceListHoc(observer(() => {
                       }
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -532,7 +534,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Price"
                     name="txtPrice"
                     placeholder={errors.price ? "Please Enter Price" : "Price"}
@@ -552,8 +554,8 @@ export const PriceList = PriceListHoc(observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -562,7 +564,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Fixed Price"
                     name="txtFixedPrice"
                     placeholder={
@@ -587,7 +589,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Min SP"
                     name="txtMinSp"
                     type="number"
@@ -610,7 +612,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Max SP"
                     name="txtMaxSp"
                     type="number"
@@ -633,7 +635,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Special Scheme"
                     hasError={errors.speicalScheme}
                   >
@@ -661,7 +663,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="speicalScheme"
                 rules={{ required: false }}
@@ -670,7 +672,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Scheme Price"
                     name="txtMaxSp"
                     placeholder={
@@ -696,7 +698,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter Entered By" : "Entered By"
@@ -713,7 +715,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -741,18 +743,18 @@ export const PriceList = PriceListHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Any Scheme"
                       id="modeAnyScheme"
                       hasError={errors.anyScheme}
@@ -773,7 +775,7 @@ export const PriceList = PriceListHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Dis On Scheme"
                       id="modeDisOnScheme"
                       hasError={errors.disOnScheme}
@@ -791,9 +793,9 @@ export const PriceList = PriceListHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Grid>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -802,7 +804,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -836,7 +838,7 @@ export const PriceList = PriceListHoc(observer(() => {
                             .then((res) => {
                               if (res.checkPriceListExistsRecord.success) {
                                 priceListStore.updateExitsPriceGEnvLabCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                 })
                               } else
@@ -859,7 +861,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
@@ -868,7 +870,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -888,7 +890,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
@@ -905,7 +907,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpiry ? "Please Enter schedule" : "Date Expire"
@@ -928,7 +930,7 @@ export const PriceList = PriceListHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
@@ -940,34 +942,34 @@ export const PriceList = PriceListHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitPriceList)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
@@ -975,7 +977,7 @@ export const PriceList = PriceListHoc(observer(() => {
                 .deletePriceList({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePriceList.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removePriceList.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -992,7 +994,7 @@ export const PriceList = PriceListHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updatePriceList.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updatePriceList.message}`,
                     })
                     setModalConfirm({ show: false })

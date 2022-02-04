@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
+  from "@lp/library/components"
 import {lookupItems,moment} from "@lp/library/utils"
 import {PackageMasterList} from "../components"
 
@@ -56,7 +58,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
           })
           .then((res) => {
             if (res.createPackageMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createPackageMaster.message}`,
               })
             }
@@ -75,7 +77,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradePackageMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradePackageMaster.message}`,
               })
             }
@@ -94,7 +96,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
           })
           .then((res) => {
             if (res.duplicatePackageMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicatePackageMaster.message}`,
               })
             }
@@ -104,7 +106,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -180,17 +182,17 @@ const MasterPackage = MasterPackageHOC(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(
         toJS(routerStore.userPermission),
         "Add"
       ) && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
@@ -199,8 +201,8 @@ const MasterPackage = MasterPackageHOC(observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -209,11 +211,11 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     hasError={errors.lab}
                   >
-                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                     <AutoCompleteFilterSingleSelect
                      placeholder="Search by name"
                     loader={loading}
                     disable={
@@ -263,7 +265,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                           .then((res) => {
                             if (res.checkPackageMasterExistsRecord.success) {
                               masterPackageStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
                               })
                             } else masterPackageStore.updateExistsLabEnvCode(false)
@@ -271,7 +273,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                       }
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -281,7 +283,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Service Type"
                     hasError={errors.serviceType}
                   >
@@ -334,7 +336,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                           </option>
                         ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="serviceType"
                 rules={{ required: true }}
@@ -343,7 +345,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Package Code"
                     hasError={errors.packageCode}
                   >
@@ -372,7 +374,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                             .then((res) => {
                               if (res.checkPackageMasterExistsRecord.success) {
                                 masterPackageStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
                                 })
                               } else masterPackageStore.updateExistsLabEnvCode(false)
@@ -388,7 +390,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                           </option>
                         ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="packageCode"
                 rules={{ required: true }}
@@ -406,7 +408,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     value={masterPackageStore.masterPackage?.packageName}
                     label="Package Name"
                     placeholder="Package Name"
@@ -423,11 +425,11 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Panel Code"
                         hasError={errors.panelCode}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
+                        <AutoCompleteCheckMultiFilterKeys
                           placeholder={
                             errors.panelCode
                               ? "Please Search Panel Name Or Panel Code"
@@ -455,7 +457,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                             })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="panelCode"
                     rules={{ required: true }}
@@ -464,7 +466,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Panel Name"
                         hasError={errors.panelName}
                       >
@@ -480,7 +482,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                             ) || `Select`}
                           </option>
                         </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="panelName"
                     rules={{ required: false }}
@@ -491,7 +493,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -519,7 +521,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -528,7 +530,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter Entered By " : "Entered By"
@@ -545,7 +547,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -566,7 +568,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="Bill"
                     id="modeBill"
                     hasError={errors.bill}
@@ -583,9 +585,9 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -594,7 +596,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive
@@ -615,7 +617,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
@@ -640,7 +642,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     placeholder={
                       errors.version ? "Please Enter Version " : "Version"
@@ -657,7 +659,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -691,7 +693,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                             .then((res) => {
                               if (res.checkPackageMasterExistsRecord.success) {
                                 masterPackageStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
                                 })
                               } else masterPackageStore.updateExistsLabEnvCode(false)
@@ -715,40 +717,40 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitMasterPackage)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             console.log({ type })
@@ -757,7 +759,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                 .deletePackageMaster({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePackageMaster.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removePackageMaster.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -774,7 +776,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updatePackageMaster.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updatePackageMaster.message}`,
                     })
                     setModalConfirm({ show: false })

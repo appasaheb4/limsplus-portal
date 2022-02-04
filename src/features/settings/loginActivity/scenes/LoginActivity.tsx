@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,TableBootstrap,DateFilter,textFilter,customFilter} 
+  from "@lp/library/components"
 import dayjs from "dayjs"
 import { useStores } from "@lp/stores"
-import { DateFilter } from "@lp/library/components/Organisms"
+// import { DateFilter } from "@lp/library/components/Organisms"
 
 
 let userId
@@ -18,16 +19,16 @@ const LoginActivity = observer(() => {
   }, [])
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       <div className="mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <div style={{ position: "relative" }}>
-            <LibraryComponents.Organisms.TableBootstrap
+            <TableBootstrap
               id="_id"
               data={loginActivityStore.listLoginActivity || []}
               totalSize={loginActivityStore.listLoginActivityCount}
@@ -44,7 +45,7 @@ const LoginActivity = observer(() => {
                   sort: true,
                   csvFormatter: (cell, row, rowIndex) =>
                     `UserId: ${row.user.userId}, User Name: ${row.user.fullName},  Lab: ${row.user.lab}, Role: ${row.user.role}`,
-                  filter: LibraryComponents.Organisms.Utils.textFilter({
+                  filter:textFilter({
                     getFilter: (filter) =>{
                       userId = filter
                     }
@@ -66,7 +67,7 @@ const LoginActivity = observer(() => {
                   dataField: "systemInfo",
                   text: "System info",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter({
+                  filter:textFilter({
                     getFilter: (filter) =>{
                       systemInfo = filter
                     }
@@ -97,7 +98,7 @@ const LoginActivity = observer(() => {
                   dataField: "ipInfo",
                   text: "Ip Information",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter({
+                  filter:textFilter({
                     getFilter: (filter) =>{
                       ipInfo = filter
                     }
@@ -130,7 +131,7 @@ const LoginActivity = observer(() => {
                   headerClasses: "textHeader4",
                   sort: true,
                   csvFormatter: (cell, row, rowIndex) => (row.dateOfEntry ? dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a"):""),
-                  filter: LibraryComponents.Organisms.Utils.customFilter(),
+                  filter:customFilter(),
                   filterRenderer: (onFilter, column) => (
                     <DateFilter onFilter={onFilter} column={column} />
                   ),
@@ -144,7 +145,7 @@ const LoginActivity = observer(() => {
                   headerClasses: "textHeader4",
                   sort: true,
                   csvFormatter: (cell, row, rowIndex) => (row.lastUpdated ? dayjs(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a"):""),
-                  filter: LibraryComponents.Organisms.Utils.customFilter(),
+                  filter:customFilter(),
                   filterRenderer: (onFilter, column) => (
                     <DateFilter onFilter={onFilter} column={column} />
                   ),

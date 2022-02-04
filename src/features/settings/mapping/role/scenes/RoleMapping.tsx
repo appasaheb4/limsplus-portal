@@ -1,9 +1,8 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Svg,Toast,ModalConfirm} from "@lp/library/components"
 import {RoleMappingList} from "../components"
-import * as LibraryModels from "@lp/library/models"
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
@@ -82,14 +81,14 @@ const RoleMapping = observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddRoleMapping}
           onClick={(status) => setHideAddRoleMapping(!hideAddRoleMapping)}
         />
@@ -100,7 +99,7 @@ const RoleMapping = observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddRoleMapping ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Form.InputWrapper label="Role" id="role">
+          <Form.InputWrapper label="Role" id="role">
             <select
               name="defualtLab"
               disabled={hideRole}
@@ -147,7 +146,7 @@ const RoleMapping = observer(() => {
                 </option>
               ))}
             </select>
-          </LibraryComponents.Atoms.Form.InputWrapper>
+          </Form.InputWrapper>
 
           <div className="mt-4 overflow-auto">
             {routerStore.router && (
@@ -385,11 +384,11 @@ const RoleMapping = observer(() => {
 
           <br />
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={() => {
                 if (
                   roleMappingStore.selectedRole?.description !== undefined &&
@@ -461,7 +460,7 @@ const RoleMapping = observer(() => {
                             ) {
                               routerStore.updateUserRouter(router)
                             }
-                            LibraryComponents.Atoms.Toast.success({
+                            Toast.success({
                               message: `😊 ${res.updateRoleMapping.message}`,
                             })
                             setTimeout(() => {
@@ -480,7 +479,7 @@ const RoleMapping = observer(() => {
                         })
                         .then((res) => {
                           if (res.createRoleMapping.success) {
-                            LibraryComponents.Atoms.Toast.success({
+                            Toast.success({
                               message: `😊 ${res.createRoleMapping.message}`,
                             })
                             setTimeout(() => {
@@ -491,25 +490,25 @@ const RoleMapping = observer(() => {
                           }
                         })
                 } else {
-                  LibraryComponents.Atoms.Toast.warning({
+                  Toast.warning({
                     message: "😔 Please enter all information!",
                   })
                 }
               }}
             >
               {isModify.status ? "Update" : "Save"}
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <RoleMappingList
@@ -561,7 +560,7 @@ const RoleMapping = observer(() => {
             }}
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -569,7 +568,7 @@ const RoleMapping = observer(() => {
                 .deleteRoleMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeRoleMapping.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeRoleMapping.message}`,
                     })
                     setModalConfirm({ show: false })

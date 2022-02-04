@@ -2,7 +2,9 @@
 import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from 'lodash'
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List,Icons
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import {TestAnalyteMappingList} from "../components"
 import { useForm, Controller } from "react-hook-form"
@@ -52,7 +54,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
           })
           .then((res) => {
             if (res.createTestAnalyteMapping.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createTestAnalyteMapping.message}`,
               })
             }
@@ -71,7 +73,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradeTestAnalyteMappings.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradeTestAnalyteMappings.message}`,
               })
             }
@@ -90,7 +92,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicateTestAnalyteMappings.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicateTestAnalyteMappings.message}`,
               })
             }
@@ -101,7 +103,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -176,17 +178,17 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(
         toJS(routerStore.userPermission),
         "Add"
       ) && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
@@ -195,8 +197,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -206,11 +208,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Lab"
                       hasError={errors.lab}
                     >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                      <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     disable={
@@ -271,7 +273,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                               testAnalyteMappingStore.updateExistsLabEnvCode(
                                 true
                               )
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
                               })
                             } else
@@ -282,7 +284,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                       }
                     }}
                     />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="lab"
                   rules={{ required: true }}
@@ -292,7 +294,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Test Code"
                     name="txtTestCode"
                     placeholder={
@@ -318,7 +320,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Test Name"
                     hasError={errors.testName}
                   >
@@ -349,7 +351,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                             .then((res) => {
                               if (res.checkTestAnalyteMappingsExistsRecord.success) {
                                 testAnalyteMappingStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
                                 })
                               } else
@@ -358,7 +360,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                         }
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="testName"
                 rules={{ required: true }}
@@ -367,11 +369,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Analyte Code"
                     hasError={errors.analyteCode}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
+                    <AutoCompleteCheckMultiFilterKeys
                       placeholder={
                         errors.analyteCode
                           ? "Please Enter Analyte Code And Analyte Name"
@@ -414,7 +416,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                         })
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="analyteCode"
                 rules={{ required: true }}
@@ -423,7 +425,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Analyte Name"
                     placeholder={
                       errors.analyteName
@@ -449,7 +451,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Description"
                     name="txtDescription"
@@ -474,7 +476,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -502,7 +504,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -511,7 +513,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="Bill"
                     id="modeBill"
                     hasError={errors.bill}
@@ -529,8 +531,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -539,7 +541,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter UserID" : "Entered By"
@@ -562,7 +564,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -582,7 +584,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     hasError={errors.dateActive}
                     placeholder={
@@ -603,7 +605,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire
@@ -629,7 +631,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     hasError={errors.version}
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
@@ -650,7 +652,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={testAnalyteMappingStore.testAnalyteMapping?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -686,7 +688,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                             .then((res) => {
                               if (res.checkTestAnalyteMappingsExistsRecord.success) {
                                 testAnalyteMappingStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
                                 })
                               } else
@@ -711,44 +713,44 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
 
-              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
+              {/* <Grid cols={5}> */}
 
-              {/* </LibraryComponents.Atoms.Grid> */}
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+              {/* </Grid> */}
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitTestAnalyteMapping)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -756,7 +758,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                 .deleteTestAnalyteMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeTestAnalyteMapping.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeTestAnalyteMapping.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -773,7 +775,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateTestAnalyteMapping.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateTestAnalyteMapping.message}`,
                     })
                     setModalConfirm({ show: false })

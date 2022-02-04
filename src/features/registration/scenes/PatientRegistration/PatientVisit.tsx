@@ -1,9 +1,9 @@
 /* eslint-disable */
-import React, {  useEffect, useState } from "react"
+import React, {  useState } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {Toast,Heading,Form,List,Buttons,Grid,AutoCompleteFilterSingleSelectMultiFieldsDisplay,AutoCompleteFilterSingleSelect,ModalConfirm,Svg} from "@lp/library/components"
+import {calculateTimimg,lookupItems,lookupValue} from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
 import {AutoCompleteFilterSingleSelectPid,ExtraDataPatientVisitList,PatientVisitList} from "../../components"
 import { useForm, Controller } from "react-hook-form"
@@ -66,7 +66,7 @@ export const PatientVisit = PatientVisitHoc(
           })
           .then((res) => {
             if (res.createPatientVisit.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createPatientVisit.message}`,
               })
             }
@@ -75,7 +75,7 @@ export const PatientVisit = PatientVisitHoc(
             }, 1000)
           })
       } else {
-        LibraryComponents.Atoms.Toast.warning({
+        Toast.warning({
           message: `😔 Please enter diff visitId or labId`,
         })
       }
@@ -84,12 +84,12 @@ export const PatientVisit = PatientVisitHoc(
     return (
       <>
         {patientVisitStore.patientVisit.patientName && (
-          <LibraryComponents.Atoms.Heading
+          <Heading
             title={`${patientVisitStore.patientVisit.pId} - ${patientVisitStore.patientVisit.patientName}`}
           />
         )}
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
+          <Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 140 }}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
@@ -101,8 +101,8 @@ export const PatientVisit = PatientVisitHoc(
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Atoms.Grid cols={3}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={3}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -111,7 +111,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Visit Id"
                       placeholder={
                         errors.visitId ? "Please Enter Visit ID" : "Visit ID"
@@ -135,7 +135,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Lab Id"
                       placeholder={errors.labId ? "Please Enter Lab ID" : "Lab ID"}
                       hasError={errors.labId}
@@ -165,7 +165,7 @@ export const PatientVisit = PatientVisitHoc(
                           .then((res) => {
                             if (res.checkExistsPatientVisitRecord.success) {
                               patientVisitStore.updateExistsLabId(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkExistsPatientVisitRecord.message}`,
                               })
                             } else patientVisitStore.updateExistsLabId(false)
@@ -200,7 +200,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="PId"
                       hasError={errors.pid}
                     >
@@ -208,7 +208,7 @@ export const PatientVisit = PatientVisitHoc(
                         hasError={errors.pid}
                         onSelect={(item) => {
                           onChange(item.pId)
-                          const resultAge = LibraryUtils.calculateTimimg(
+                          const resultAge = calculateTimimg(
                             Math.abs(dayjs(item.birthDate).diff(new Date(), "days"))
                           )
                           patientVisitStore.updatePatientVisit({
@@ -222,7 +222,7 @@ export const PatientVisit = PatientVisitHoc(
                           })
                         }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="pid"
                   rules={{ required: true }}
@@ -231,7 +231,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Rlab"
                       hasError={errors.rLab}
                     >
@@ -260,7 +260,7 @@ export const PatientVisit = PatientVisitHoc(
                             )
                           )}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="rLab"
                   rules={{ required: false }}
@@ -270,7 +270,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDateTime
+                    <Form.InputDateTime
                       label="Visit Date"
                       placeholder={
                         errors.visitDate ? "Please Enter VisitDate" : "VisitDate"
@@ -293,7 +293,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDateTime
+                    <Form.InputDateTime
                       label="Registration Date"
                       name="txtRegistrationDate"
                       placeholder={
@@ -319,7 +319,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDateTime
+                    <Form.InputDateTime
                       label="Collection Date"
                       name="txtCollectionDate"
                       placeholder={
@@ -344,7 +344,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDateTime
+                    <Form.InputDateTime
                       label="Due Date"
                       name="txtDueDate"
                       placeholder={
@@ -370,7 +370,7 @@ export const PatientVisit = PatientVisitHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         label="Age"
                         name="txtAge"
                         disabled={true}
@@ -396,7 +396,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Age Units"
                       hasError={errors.ageUnits}
                     >
@@ -416,7 +416,7 @@ export const PatientVisit = PatientVisitHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "PATIENT VISIT - AGE_UNITS"
                         ).map((item: any, index: number) => (
@@ -425,14 +425,14 @@ export const PatientVisit = PatientVisitHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="ageUnits"
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+              </List>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -442,11 +442,11 @@ export const PatientVisit = PatientVisitHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Collection Center"
                         hasError={errors.collectionCenter}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder="Search by code or name"
                           data={{
@@ -502,7 +502,7 @@ export const PatientVisit = PatientVisitHoc(
                             )
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="collectionCenter"
                     rules={{ required: true }}
@@ -512,11 +512,11 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Corporate Code"
                       hasError={errors.corporateCode}
                     >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by code or name"
                         displayValue={
@@ -562,7 +562,7 @@ export const PatientVisit = PatientVisitHoc(
                           )
                         }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="corporateCode"
                   rules={{ required: true }}
@@ -571,7 +571,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="AC Class"
                       hasError={errors.acClass}
                     >
@@ -590,7 +590,7 @@ export const PatientVisit = PatientVisitHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "PATIENT VISIT - AC_CLASS"
                         ).map((item: any, index: number) => (
@@ -599,7 +599,7 @@ export const PatientVisit = PatientVisitHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="acClass"
                   rules={{ required: true }}
@@ -611,11 +611,11 @@ export const PatientVisit = PatientVisitHoc(
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputWrapper
+                        <Form.InputWrapper
                           label="Doctor Id"
                           hasError={errors.doctorId}
                         >
-                          <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder="Search by code or name"
                             displayValue={
@@ -652,7 +652,7 @@ export const PatientVisit = PatientVisitHoc(
                               )
                             }}
                           />
-                        </LibraryComponents.Atoms.Form.InputWrapper>
+                        </Form.InputWrapper>
                       )}
                       name="doctorId"
                       rules={{ required: true }}
@@ -664,7 +664,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Delivery Type"
                       hasError={errors.deliveryType}
                     >
@@ -685,16 +685,16 @@ export const PatientVisit = PatientVisitHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "PATIENT VISIT - DELIVERY_TYPE"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {LibraryUtils.lookupValue(item)}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="deliveryType"
                   rules={{ required: false }}
@@ -703,7 +703,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="History"
                       id="toggleHistory"
                       hasError={errors.history}
@@ -720,8 +720,8 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+              </List>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -731,7 +731,7 @@ export const PatientVisit = PatientVisitHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Status"
                         hasError={errors.status}
                       >
@@ -751,7 +751,7 @@ export const PatientVisit = PatientVisitHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {LibraryUtils.lookupItems(
+                          {lookupItems(
                             routerStore.lookupItems,
                             "PATIENT VISIT - STATUS"
                           ).map((item: any, index: number) => (
@@ -760,15 +760,15 @@ export const PatientVisit = PatientVisitHoc(
                             </option>
                           ))}
                         </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="status"
                     rules={{ required: false }}
                     defaultValue=""
                   />
                 )}
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+              </List>
+            </Grid>
           </div>
           <br />
           <div className="extra" style={{ border: "1px solid yellow" }}>
@@ -779,8 +779,8 @@ export const PatientVisit = PatientVisitHoc(
                 </AccordionItemHeading>
                 <AccordionItemPanel>
                   <>
-                    <LibraryComponents.Atoms.Grid cols={3}>
-                      <LibraryComponents.Atoms.List
+                    <Grid cols={3}>
+                      <List
                         direction="col"
                         fill
                         space={4}
@@ -789,7 +789,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Additional Information"
                               name="txtAdditionalInformation"
                               placeholder={
@@ -821,11 +821,11 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper
+                            <Form.InputWrapper
                               label="Invoice Ac"
                               hasError={errors.invoiceAc}
                             >
-                              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                              <AutoCompleteFilterSingleSelect
                                 loader={loading}
                                 placeholder="Search by code"
                                 displayValue={
@@ -866,7 +866,7 @@ export const PatientVisit = PatientVisitHoc(
                                   )
                                 }}
                               />
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="invoiceAc"
                           rules={{ required: false }}
@@ -875,7 +875,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Billing Method">
+                            <Form.InputWrapper label="Billing Method">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData
@@ -899,7 +899,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - BILLING_METHOD"
                                 ).map((item: any, index: number) => (
@@ -908,7 +908,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="billingMethod"
                           rules={{ required: false }}
@@ -917,7 +917,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Bill Number"
                               name="txtBill Number"
                               placeholder={
@@ -948,7 +948,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Method Collection">
+                            <Form.InputWrapper label="Method Collection">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData
@@ -972,7 +972,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - METHOD_COLLECTION"
                                 ).map((item: any, index: number) => (
@@ -981,7 +981,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="methodCollection"
                           rules={{ required: false }}
@@ -990,7 +990,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Collection By"
                               placeholder="Collected By"
                               hasError={errors.collectedBy}
@@ -1017,7 +1017,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputDateTime
+                            <Form.InputDateTime
                               label="Received Date"
                               name="txtReceivedDate"
                               disabled={true}
@@ -1050,7 +1050,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputDateTime
+                            <Form.InputDateTime
                               label="Result Date"
                               name="txtResultDate"
                               disabled={true}
@@ -1079,11 +1079,11 @@ export const PatientVisit = PatientVisitHoc(
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                        <LibraryComponents.Atoms.Grid cols={2}>
+                        <Grid cols={2}>
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.Toggle
+                              <Form.Toggle
                                 label="Urgent"
                                 id="toggleUrgent"
                                 hasError={errors.urgent}
@@ -1108,7 +1108,7 @@ export const PatientVisit = PatientVisitHoc(
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.Toggle
+                              <Form.Toggle
                                 label="Pending Data Entry"
                                 id="togglePendingDataEntry"
                                 hasError={errors.pendingDataEntry}
@@ -1131,9 +1131,9 @@ export const PatientVisit = PatientVisitHoc(
                             rules={{ required: false }}
                             defaultValue=""
                           />
-                        </LibraryComponents.Atoms.Grid>
-                      </LibraryComponents.Atoms.List>
-                      <LibraryComponents.Atoms.List
+                        </Grid>
+                      </List>
+                      <List
                         direction="col"
                         space={4}
                         fill
@@ -1142,7 +1142,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputDateTime
+                            <Form.InputDateTime
                               label="Approval Date"
                               disabled={true}
                               placeholder={
@@ -1174,7 +1174,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Approval Status">
+                            <Form.InputWrapper label="Approval Status">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData
@@ -1198,7 +1198,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - APPROVAL_STATUS"
                                 ).map((item: any, index: number) => (
@@ -1207,7 +1207,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="approvalStatus"
                           rules={{ required: false }}
@@ -1216,7 +1216,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Report Status">
+                            <Form.InputWrapper label="Report Status">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData
@@ -1240,7 +1240,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - REPORT_STATUS"
                                 ).map((item: any, index: number) => (
@@ -1249,7 +1249,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="reportStatus"
                           rules={{ required: false }}
@@ -1258,7 +1258,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputDateTime
+                            <Form.InputDateTime
                               label="Reported Date"
                               disabled={true}
                               placeholder={
@@ -1290,7 +1290,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Entered By"
                               placeholder={
                                 errors.enteredBy
@@ -1309,7 +1309,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Height (cm)"
                               type="number"
                               placeholder={
@@ -1341,7 +1341,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Weight (kg)"
                               name="txtWeight"
                               type="number"
@@ -1374,7 +1374,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Archieve">
+                            <Form.InputWrapper label="Archieve">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData?.archieve
@@ -1397,7 +1397,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - ARCHIVED"
                                 ).map((item: any, index: number) => (
@@ -1406,14 +1406,14 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="archieve"
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                      </LibraryComponents.Atoms.List>
-                      <LibraryComponents.Atoms.List
+                      </List>
+                      <List
                         direction="col"
                         justify="stretch"
                         fill
@@ -1422,7 +1422,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Login Interface">
+                            <Form.InputWrapper label="Login Interface">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData
@@ -1447,7 +1447,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - LOGIN_INTERFACE"
                                 ).map((item: any, index: number) => (
@@ -1456,7 +1456,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="loginInterface"
                           rules={{ required: false }}
@@ -1466,7 +1466,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Registration Interface">
+                            <Form.InputWrapper label="Registration Interface">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData
@@ -1491,7 +1491,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - REGISTRATION_INTERFACE"
                                 ).map((item: any, index: number) => (
@@ -1500,7 +1500,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="registrationInterface"
                           rules={{ required: false }}
@@ -1509,7 +1509,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Submitted System"
                               name="txtSubmitted System"
                               disabled={true}
@@ -1542,7 +1542,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Submitted On"
                               name="txtSubmittedOn"
                               disabled={true}
@@ -1574,7 +1574,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Balance"
                               name="txtBalance"
                               disabled={true}
@@ -1605,7 +1605,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Account Type">
+                            <Form.InputWrapper label="Account Type">
                               <select
                                 value={
                                   patientVisitStore.patientVisit?.extraData
@@ -1629,7 +1629,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - ACCOUNT_TYPE"
                                 ).map((item: any, index: number) => (
@@ -1638,7 +1638,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="accountType"
                           rules={{ required: false }}
@@ -1647,7 +1647,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+                            <Form.InputWrapper label="Delivery Method">
                               <select
                                 value={
                                   patientVisitStore.patientVisit?.extraData
@@ -1671,7 +1671,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - DELIVERY_METHOD"
                                 ).map((item: any, index: number) => (
@@ -1680,7 +1680,7 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="deliveryMethod"
                           rules={{ required: false }}
@@ -1689,7 +1689,7 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                            <Form.InputWrapper label="Environment">
                               <select
                                 value={
                                   patientVisitStore.patientVisit.extraData
@@ -1719,7 +1719,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - ENVIRONMENT"
                                 ).map((item: any, index: number) => (
@@ -1728,40 +1728,40 @@ export const PatientVisit = PatientVisitHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="environment"
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                      </LibraryComponents.Atoms.List>
-                    </LibraryComponents.Atoms.Grid>
+                      </List>
+                    </Grid>
                   </>
                 </AccordionItemPanel>
               </AccordionItem>
             </Accordion>
           </div>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitPatientVisit)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
 
         <div
@@ -1880,7 +1880,7 @@ export const PatientVisit = PatientVisitHoc(
             </AccordionItem>
           </Accordion>
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
@@ -1888,7 +1888,7 @@ export const PatientVisit = PatientVisitHoc(
                 .deletePatientVisit({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePatientVisit.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removePatientVisit.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1907,7 +1907,7 @@ export const PatientVisit = PatientVisitHoc(
                 })
                 .then((res: any) => {
                   if (res.updatePatientVisit.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updatePatientVisit.message}`,
                     })
                     setModalConfirm({ show: false })

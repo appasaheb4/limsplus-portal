@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import { useForm, Controller } from "react-hook-form"
 import _ from "lodash"
 
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Grid,List,Form,AutoCompleteGroupByCheck,AutoComplete,Buttons,Icons,Svg} from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
@@ -34,7 +34,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
       },
     }).then((res) => {
       if (res.lookupGeneralSettingsUpdate.success) {
-        LibraryComponents.Atoms.Toast.success({
+        Toast.success({
           message: `😊 ${res.lookupGeneralSettingsUpdate.message}`,
         })
         setTimeout(() => {
@@ -46,8 +46,8 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
 
   return (
     <>
-      <LibraryComponents.Atoms.Grid cols={2}>
-        <LibraryComponents.Atoms.List
+      <Grid cols={2}>
+        <List
           direction="col"
           space={4}
           justify="stretch"
@@ -56,11 +56,11 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 hasError={errors.documentList}
                 label="Document Name"
               >
-                <LibraryComponents.Molecules.AutoCompleteGroupByCheck
+                <AutoCompleteGroupByCheck
                   hasError={errors.documentList}
                   data={router}
                   defaultItem={
@@ -77,7 +77,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                     })
                   }}
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="documentList"
             rules={{ required: true }}
@@ -86,11 +86,11 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 hasError={errors.filedName}
                 label="Global Filed"
               >
-                <LibraryComponents.Molecules.AutoComplete
+                <AutoComplete
                   hasError={errors.filedName}
                   data={{
                     list: toJS(lookupStore.listLookup).filter(
@@ -110,18 +110,18 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                     })
                   }}
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="filedName"
             rules={{ required: true }}
             defaultValue=""
           />
-          <LibraryComponents.Atoms.Form.InputWrapper label="Code & Value">
-            <LibraryComponents.Atoms.Grid cols={3}>
+          <Form.InputWrapper label="Code & Value">
+            <Grid cols={3}>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Code"
                     hasError={errors.code}
                     value={lookupStore.localInput.code}
@@ -141,7 +141,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Value"
                     hasError={errors.value}
                     value={lookupStore.localInput.value}
@@ -159,7 +159,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                 defaultValue=""
               />
               <div className="mt-2 flex flex-row justify-between">
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   label="Enable Upper Case"
                   hasError={errors.method}
                   value={lookupStore.flagUpperCase}
@@ -167,7 +167,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                     lookupStore.updateFlagUppperCase(flag)
                   }}
                 />
-                <LibraryComponents.Atoms.Buttons.Button
+                <Buttons.Button
                   size="medium"
                   type="solid"
                   onClick={() => {
@@ -201,19 +201,19 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                     }
                   }}
                 >
-                  <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                  <Icons.EvaIcon icon="plus-circle-outline" />
                   {`Add`}
-                </LibraryComponents.Atoms.Buttons.Button>
+                </Buttons.Button>
               </div>
-            </LibraryComponents.Atoms.Grid>
-            <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
+            </Grid>
+            <List space={2} direction="row" justify="center">
               <div className="mt-2">
                 {lookupStore.globalSettings?.arrValue?.map((item, index) => (
                   <div className="mb-2" key={index}>
-                    <LibraryComponents.Atoms.Buttons.Button
+                    <Buttons.Button
                       size="medium"
                       type="solid"
-                      icon={LibraryComponents.Atoms.Icon.Remove}
+                      icon={Svg.Remove}
                       onClick={() => {
                         const firstArr =
                           lookupStore.globalSettings?.arrValue?.slice(0, index) || []
@@ -228,16 +228,16 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                       }}
                     >
                       {`${item.value} - ${item.code}`}
-                    </LibraryComponents.Atoms.Buttons.Button>
+                    </Buttons.Button>
                   </div>
                 ))}
               </div>
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Form.InputWrapper>
+            </List>
+          </Form.InputWrapper>
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 hasError={errors.defaulItem}
                 label="Default Item"
               >
@@ -271,14 +271,14 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                       )
                     )}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="defaulItem"
             rules={{ required: false }}
             defaultValue=""
           />
-        </LibraryComponents.Atoms.List>
-        <LibraryComponents.Atoms.List
+        </List>
+        <List
           direction="col"
           space={4}
           justify="stretch"
@@ -287,7 +287,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.MultilineInput
+              <Form.MultilineInput
                 rows={4}
                 label="Description"
                 name="txtDescription"
@@ -310,7 +310,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 label="Environment"
                 hasError={errors.environment}
               >
@@ -349,35 +349,35 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="environment"
             rules={{ required: true }}
             defaultValue=""
           />
-        </LibraryComponents.Atoms.List>
-      </LibraryComponents.Atoms.Grid>
+        </List>
+      </Grid>
       <br />
-      <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-        <LibraryComponents.Atoms.Buttons.Button
+      <List direction="row" space={3} align="center">
+        <Buttons.Button
           size="medium"
           type="solid"
-          icon={LibraryComponents.Atoms.Icon.Save}
+          icon={Svg.Save}
           onClick={handleSubmit(onSubmitGeneralFiled)}
         >
           Update
-        </LibraryComponents.Atoms.Buttons.Button>
-        <LibraryComponents.Atoms.Buttons.Button
+        </Buttons.Button>
+        <Buttons.Button
           size="medium"
           type="outline"
-          icon={LibraryComponents.Atoms.Icon.Remove}
+          icon={Svg.Remove}
           onClick={() => {
             window.location.reload()
           }}
         >
           Clear
-        </LibraryComponents.Atoms.Buttons.Button>
-      </LibraryComponents.Atoms.List>
+        </Buttons.Button>
+      </List>
     </>
   )
 }))

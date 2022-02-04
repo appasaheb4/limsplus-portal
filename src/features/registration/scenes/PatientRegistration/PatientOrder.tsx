@@ -2,7 +2,9 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Buttons,
+  List,Grid,Svg,Toast,ModalConfirm,Form,Heading,AutoCompleteFilterSingleSelectMultiFieldsDisplay,AutoCompleteFilterMutiSelectMultiFieldsDisplay}
+   from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
@@ -67,7 +69,7 @@ export const PatientOrder = PatientOrderHoc(
           })
           .then((res) => {
             if (res.createPatientOrder.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createPatientOrder.message}`,
               })
             }
@@ -76,7 +78,7 @@ export const PatientOrder = PatientOrderHoc(
             }, 1000)
           })
         } else {  
-          LibraryComponents.Atoms.Toast.warning({
+          Toast.warning({
             message: `😔 Please select different lab id`,
           })
         }
@@ -85,12 +87,12 @@ export const PatientOrder = PatientOrderHoc(
     return (
       <>
         {patientOrderStore.patientOrder?.labId && (
-          <LibraryComponents.Atoms.Heading
+          <Heading
             title={`${patientOrderStore.patientOrder.labId} - ${patientOrderStore.patientOrder.patientName}`}
           />
         )}
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
+          <Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 140 }}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
@@ -102,8 +104,8 @@ export const PatientOrder = PatientOrderHoc(
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={2}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -112,11 +114,11 @@ export const PatientOrder = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Lab Id"
                       hasError={errors.visitId}
                     >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by lab id, visit id or name"
                         data={{
@@ -165,14 +167,14 @@ export const PatientOrder = PatientOrderHoc(
                           .then((res) => {
                             if (res.checkExistsRecordsPatientOrder.success) {
                               patientOrderStore.updateExistsRecords(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
                               })
                             } else patientOrderStore.updateExistsRecords(false)
                           })
                         }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="visitId"
                   rules={{ required: true }}
@@ -190,11 +192,11 @@ export const PatientOrder = PatientOrderHoc(
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.InputWrapper
+                        <Form.InputWrapper
                           label="Panel"
                           hasError={errors.panel}
                         >
-                          <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder="Search by code or name"
                             data={{
@@ -272,15 +274,15 @@ export const PatientOrder = PatientOrderHoc(
                               })
                             }}
                           />
-                        </LibraryComponents.Atoms.Form.InputWrapper>
+                        </Form.InputWrapper>
                       )}
                       name="panel"
                       rules={{ required: true }}
                       defaultValue=""
                     />
                   )}
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+              </List>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -289,7 +291,7 @@ export const PatientOrder = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Order Id"
                       placeholder={
                         errors.orderId ? "Please Enter order id" : "Order Id"
@@ -313,7 +315,7 @@ export const PatientOrder = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label="Environment">
                       <select
                         value={patientOrderStore.patientOrder?.environment}
                         disabled={
@@ -342,14 +344,14 @@ export const PatientOrder = PatientOrderHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="environment"
                   rules={{ required: true }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+              </List>
+            </Grid>
             <div
               className="rounded-lg shadow-xl overflow-scroll mt-2"
               style={{ overflowX: "scroll" }}
@@ -384,26 +386,26 @@ export const PatientOrder = PatientOrderHoc(
             </Accordion>
           </div>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitPatientOrder)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
 
         <div
@@ -448,7 +450,7 @@ export const PatientOrder = PatientOrderHoc(
             }}
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
@@ -456,7 +458,7 @@ export const PatientOrder = PatientOrderHoc(
                 .deletePatientOrder({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePatientOrder.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
                     })
                     setModalConfirm({ show: false })

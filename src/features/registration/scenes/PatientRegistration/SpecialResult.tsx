@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Grid,List,Form,Svg,Buttons} from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {SpecialResultList} from "../../components"
@@ -38,12 +38,12 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
     return(
         <>
             <div className='p-2 rounded-lg shadow-xl'>
-                <LibraryComponents.Atoms.Grid cols={2}>
-                    <LibraryComponents.Atoms.List direction='col' justify='stretch' fill space={4}>
+                <Grid cols={2}>
+                    <List direction='col' justify='stretch' fill space={4}>
                     <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper
+            <Form.InputWrapper
               label="Visit Id"
               id="optionVisitId"
               hasError={errors.visitId}
@@ -71,7 +71,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                   </option>
                 ))} */}
               </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
+            </Form.InputWrapper>
             )}
             name="visitId"
             rules={{ required: false }}
@@ -80,7 +80,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
           <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper
+            <Form.InputWrapper
               label="PatientResult"
               id="optionPatientResult"
               hasError={errors.patientResult}
@@ -108,7 +108,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                   </option>
                 ))} */}
               </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
+            </Form.InputWrapper>
             )}
             name="patientResult"
             rules={{ required: false }}
@@ -117,7 +117,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
           <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Analyte Code"
                     hasError={errors.analyteCode}
                   >
@@ -149,7 +149,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                           )
                         )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="analyteCode"
                 rules={{ required: true }}
@@ -158,7 +158,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
               <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
+                    <Form.InputWrapper label="Result Type">
                       <select
                         value={Stores.patientRegistationStore.specialResult?.resultType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -185,7 +185,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="resultType"
                   rules={{ required: false }}
@@ -194,7 +194,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper
+            <Form.InputWrapper
               label="Line No"
               id="optionLineNo"
               hasError={errors.lineNo}
@@ -222,7 +222,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                   </option>
                 ))}
               </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
+            </Form.InputWrapper>
             )}
             name="lineNo"
             rules={{ required: false }}
@@ -231,7 +231,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
           <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper
+            <Form.InputWrapper
               label="Result Test"
               id="optionResultTest"
               hasError={errors.resultTest}
@@ -259,7 +259,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                   </option>
                 ))}
               </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
+            </Form.InputWrapper>
             )}
             name="resultTest"
             rules={{ required: false }}
@@ -268,7 +268,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
             <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="AbNormal"
                       id="txtAbNormal"
                       hasError={errors.history}
@@ -286,14 +286,14 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                    </LibraryComponents.Atoms.List>
-                    <LibraryComponents.Atoms.List 
+                    </List>
+                    <List 
                     direction='col' fill space={4} justify='stretch'
                     >
                         <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
+            <Form.Input
               label="Ruler"
               name="txtRuler"
               placeholder={errors.ruler?"Please Enter Ruler":"Ruler"}
@@ -315,7 +315,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
             <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.enteredBy ? "Please Enter Entered By" : "Entered By"
@@ -332,7 +332,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
               <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+              <Form.InputWrapper label="Environment">
                 <select
                   value={Stores.patientRegistationStore.specialResult?.environment}
                   disabled={
@@ -369,37 +369,37 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                     )
                   )}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="environment"
             rules={{ required: true }}
             defaultValue=""
           />
 
-                    </LibraryComponents.Atoms.List>
-                </LibraryComponents.Atoms.Grid>
+                    </List>
+                </Grid>
             </div>
             <br />
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-                <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+                <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={handleSubmit(onSubmitSpecialResult)}
                 >
                 Save
-                </LibraryComponents.Atoms.Buttons.Button>
-                <LibraryComponents.Atoms.Buttons.Button
+                </Buttons.Button>
+                <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                     window.location.reload()
                 }}
                 >
                 Clear
-                </LibraryComponents.Atoms.Buttons.Button>
-            </LibraryComponents.Atoms.List>
+                </Buttons.Button>
+            </List>
             <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}

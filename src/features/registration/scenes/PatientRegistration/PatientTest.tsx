@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Grid,List,Form,AutoCompleteFilterSingleSelectMultiFieldsDisplay,Buttons,Svg,ModalConfirm} from "@lp/library/components"
 // import * as LibraryUtils from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
@@ -62,7 +62,7 @@ export const PatientTest = PatientOrderHoc(
         })
         .then((res) => {
           if (res.createPatientTest.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createPatientTest.message}`,
             })
           }
@@ -74,12 +74,12 @@ export const PatientTest = PatientOrderHoc(
     return (
       <>
         {/* {patientOrderStore.patientOrder?.labId && (
-          <LibraryComponents.Atoms.Heading
+          <Heading
             title={`${patientOrderStore.patientOrder.labId} - ${patientOrderStore.patientOrder.patientName}`}
           />
         )}
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
+          <Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 140 }}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
@@ -91,8 +91,8 @@ export const PatientTest = PatientOrderHoc(
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={2}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -102,11 +102,11 @@ export const PatientTest = PatientOrderHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Order Id"
                         hasError={errors.orderId}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder="Search by orderId or patient name"
                           data={{
@@ -156,35 +156,35 @@ export const PatientTest = PatientOrderHoc(
                             })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="orderId"
                     rules={{ required: true }}
                     defaultValue=""
                   />
                 }
-                <LibraryComponents.Atoms.Form.InputWrapper label="Panels">
-                  <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
+                <Form.InputWrapper label="Panels">
+                  <List space={2} direction="row" justify="center">
                     <div className="flex flex-row gap-2 flex-wrap">
                       {patientTestStore.patientTest?.panelCode?.map((item, index) => (
                         <div className="mb-2" key={index}>
-                          <LibraryComponents.Atoms.Buttons.Button
+                          <Buttons.Button
                             size="medium"
                             type="solid"
                           >
                             {`${item.panelCode}`}
-                          </LibraryComponents.Atoms.Buttons.Button>
+                          </Buttons.Button>
                         </div>
                       ))}
                     </div>
-                  </LibraryComponents.Atoms.List>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                  </List>
+                </Form.InputWrapper>
 
 
 
 
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+              </List>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -193,11 +193,11 @@ export const PatientTest = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Lab Id"
                       hasError={errors.labId}
                     >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by lab id, visit id or name"
                         displayValue={`${patientTestStore.patientTest?.labId || ''} - ${patientTestStore.patientTest?.patientName || ''}`}
@@ -230,7 +230,7 @@ export const PatientTest = PatientOrderHoc(
                           )
                         }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="labId"
                   rules={{ required: true }}
@@ -239,7 +239,7 @@ export const PatientTest = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Test Id"
                       placeholder={
                         errors.testId ? "Please enter test id" : "Test Id"
@@ -261,8 +261,8 @@ export const PatientTest = PatientOrderHoc(
                   defaultValue=""
                 />
 
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+              </List>
+            </Grid>
             <div
               className="rounded-lg shadow-xl overflow-scroll mt-2"
               style={{ overflowX: "scroll" }}
@@ -298,26 +298,26 @@ export const PatientTest = PatientOrderHoc(
             </Accordion>
           </div>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitPatientOrder)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
 
         <div
@@ -361,7 +361,7 @@ export const PatientTest = PatientOrderHoc(
             }}
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
@@ -369,7 +369,7 @@ export const PatientTest = PatientOrderHoc(
                 .deletePatientTest({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePatientTest.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removePatientTest.message}`,
                     }) 
                     setModalConfirm({ show: false })

@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectMultiFieldsDisplay,Icons} 
+  from "@lp/library/components"
 import {TestSampleMappingList} from "../components"
 import {lookupItems,lookupValue} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -41,7 +43,7 @@ const TestSampleMapping = TestSampleMappingHoc(
           })
           .then((res) => {
             if (res.createTestSampleMapping.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createTestSampleMapping.message}`,
               })
             }
@@ -50,7 +52,7 @@ const TestSampleMapping = TestSampleMappingHoc(
             }, 2000)
           })
       } else {
-        LibraryComponents.Atoms.Toast.warning({
+        Toast.warning({
           message: "😔 Please enter diff code!",
         })
       }
@@ -115,14 +117,14 @@ const TestSampleMapping = TestSampleMappingHoc(
 
     return (
       <>
-        <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading
+        <Header>
+          <PageHeading
             title={routerStore.selectedComponents?.title || ""}
           />
-          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-        </LibraryComponents.Atoms.Header>
+          <PageHeadingLabDetails store={loginStore} />
+        </Header>
         {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          <Buttons.ButtonCircleAddRemove
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
@@ -133,8 +135,8 @@ const TestSampleMapping = TestSampleMappingHoc(
               "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
-            <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={2}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -144,11 +146,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Test Code"
                         hasError={errors.testCode}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder="Search by code or name"
                           displayValue={
@@ -199,7 +201,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                                   testSampleMappingStore.updateExitsTestSampleEnvCode(
                                     true
                                   )
-                                  LibraryComponents.Atoms.Toast.error({
+                                  Toast.error({
                                     message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
                                   })
                                 } else
@@ -209,7 +211,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                               })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="testCode"
                     rules={{ required: true }}
@@ -225,11 +227,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Sample Code"
                       hasError={errors.sampleCode}
                     >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by code or type"
                         data={{
@@ -261,7 +263,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           )
                         }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="sampleCode"
                   rules={{ required: true }}
@@ -271,11 +273,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Sample Group"
                         hasError={errors.sampleGroup}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <AutoCompleteFilterSingleSelect
                           loader={loading}
                           placeholder="Search by SampleGroup"
                           data={{
@@ -309,7 +311,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             )
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="sampleGroup"
                     rules={{ required: false }}
@@ -319,11 +321,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Coll Container"
                       hasError={errors.collContainerCode}
                     >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by code or name"
                         data={{
@@ -357,7 +359,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           )
                         }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="collContainerCode"
                   rules={{ required: false }}
@@ -367,11 +369,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Test Container"
                       hasError={errors.testContainerCode}
                     >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by code or name"
                         data={{
@@ -405,7 +407,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           )
                         }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="testContainerCode"
                   rules={{ required: false }}
@@ -414,7 +416,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Min Draw Vol"
                       placeholder={
                         errors.minDrawVol
@@ -439,7 +441,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Min Draw Vol Unit"
                       hasError={errors.minDrawVolUnit}
                     >
@@ -467,7 +469,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="minDrawVolUnit"
                   rules={{ required: false }}
@@ -476,7 +478,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Min Test Vol"
                       placeholder={
                         errors.minTestVol
@@ -501,7 +503,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Min Test Vol Unit"
                       hasError={errors.minTestVolUnit}
                     >
@@ -529,20 +531,20 @@ const TestSampleMapping = TestSampleMappingHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="minTestVolUnit"
                   rules={{ required: false }}
                   defaultValue=""
                 />
                 {testSampleMappingStore.testSampleMapping.sharedSample && (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Departments & Prefrence">
-                    <LibraryComponents.Atoms.Grid cols={4}>
+                  <Form.InputWrapper label="Departments & Prefrence">
+                    <Grid cols={4}>
                       <div className="mt-1">
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                               loader={loading}
                               placeholder="Search by code or name"
                               data={{
@@ -585,7 +587,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       <Controller
                         control={control}
                         render={({ field: { onChange } }) => (
-                          <LibraryComponents.Atoms.Form.Input
+                          <Form.Input
                             placeholder="Prefrence"
                             type="number"
                             value={
@@ -607,7 +609,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       <Controller
                         control={control}
                         render={({ field: { onChange } }) => (
-                          <LibraryComponents.Atoms.Form.Input
+                          <Form.Input
                             placeholder="TAT IN MIN"
                             type="number"
                             value={
@@ -627,7 +629,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                         defaultValue=""
                       />
                       <div className="mt-1 flex flex-row justify-between">
-                        <LibraryComponents.Atoms.Buttons.Button
+                        <Buttons.Button
                           size="medium"
                           type="solid"
                           onClick={() => {
@@ -675,14 +677,14 @@ const TestSampleMapping = TestSampleMappingHoc(
                             }
                           }}
                         >
-                          <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                          <Icons.EvaIcon icon="plus-circle-outline" />
                           {`Add`}
-                        </LibraryComponents.Atoms.Buttons.Button>
+                        </Buttons.Button>
                       </div>
                       <div className="clearfix"></div>
-                    </LibraryComponents.Atoms.Grid>
+                    </Grid>
 
-                    <LibraryComponents.Atoms.List
+                    <List
                       space={2}
                       direction="row"
                       justify="center"
@@ -691,10 +693,10 @@ const TestSampleMapping = TestSampleMappingHoc(
                         {testSampleMappingStore.testSampleMapping?.departments?.map(
                           (item, index) => (
                             <div className="mb-2" key={index}>
-                              <LibraryComponents.Atoms.Buttons.Button
+                              <Buttons.Button
                                 size="medium"
                                 type="solid"
-                                icon={LibraryComponents.Atoms.Icon.Remove}
+                                icon={Svg.Remove}
                                 onClick={() => {
                                   const firstArr =
                                     testSampleMappingStore.testSampleMapping?.departments?.slice(
@@ -715,19 +717,19 @@ const TestSampleMapping = TestSampleMappingHoc(
                                 {`Department: ${item.code} - ${item.name}`}
                                 {` Prefrence: ${item.prefrence}`}
                                 {` Tat In Min: ${item.tatInMin}`}
-                              </LibraryComponents.Atoms.Buttons.Button>
+                              </Buttons.Button>
                             </div>
                           )
                         )}
                       </div>
-                    </LibraryComponents.Atoms.List>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                    </List>
+                  </Form.InputWrapper>
                 )}
-                <LibraryComponents.Atoms.Grid cols={4}>
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Shared Sample"
                         hasError={errors.sharedSample}
                         value={
@@ -759,7 +761,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Primary Container"
                         hasError={errors.primaryContainer}
                         value={
@@ -781,7 +783,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Unique Container"
                         hasError={errors.uniqueContainer}
                         value={
@@ -803,7 +805,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Centrifue"
                         hasError={errors.centerIfuge}
                         value={testSampleMappingStore.testSampleMapping?.centerIfuge}
@@ -820,9 +822,9 @@ const TestSampleMapping = TestSampleMappingHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                </LibraryComponents.Atoms.Grid>
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+                </Grid>
+              </List>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -831,7 +833,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Condition"
                       placeholder={
                         errors.condition ? "Please Enter condition" : "Condition"
@@ -854,7 +856,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Retention Period"
                       placeholder={
                         errors.repentionPeriod
@@ -881,7 +883,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Repention Units"
                       hasError={errors.repentionUnits}
                     >
@@ -909,7 +911,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="repentionUnits"
                   rules={{ required: false }}
@@ -918,7 +920,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Label Inst"
                       placeholder={
                         errors.labelInst ? "Please Enter labelInst" : "Label Inst"
@@ -941,7 +943,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Info"
                       placeholder={errors.info ? "Please Enter info" : "Info"}
                       hasError={errors.info}
@@ -962,7 +964,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label="Environment">
                       <select
                         value={testSampleMappingStore.testSampleMapping?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -993,7 +995,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                                 testSampleMappingStore.updateExitsTestSampleEnvCode(
                                   true
                                 )
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
                                 })
                               } else
@@ -1018,17 +1020,17 @@ const TestSampleMapping = TestSampleMappingHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="environment"
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                <LibraryComponents.Atoms.Grid cols={4}>
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Lab Specfic"
                         hasError={errors.labSpecfic}
                         value={testSampleMappingStore.testSampleMapping?.labSpecfic}
@@ -1048,7 +1050,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Department Specfic"
                         hasError={errors.departmentSpecfic}
                         value={
@@ -1070,7 +1072,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Aliquot"
                         hasError={errors.aliquot}
                         value={testSampleMappingStore.testSampleMapping?.aliquot}
@@ -1090,7 +1092,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Print Label"
                         hasError={errors.printLabels}
                         value={testSampleMappingStore.testSampleMapping?.printLabels}
@@ -1107,33 +1109,33 @@ const TestSampleMapping = TestSampleMappingHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                </LibraryComponents.Atoms.Grid>
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+                </Grid>
+              </List>
+            </Grid>
             <br />
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-              <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+              <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={handleSubmit(onSubmitTestSampleMapping)}
               >
                 Save
-              </LibraryComponents.Atoms.Buttons.Button>
-              <LibraryComponents.Atoms.Buttons.Button
+              </Buttons.Button>
+              <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Atoms.Buttons.Button>
-            </LibraryComponents.Atoms.List>
+              </Buttons.Button>
+            </List>
           </div>
           <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
-          <LibraryComponents.Molecules.ModalConfirm
+          <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
@@ -1141,7 +1143,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   .deleteTestSampleMapping({ input: { id: modalConfirm.id } })
                   .then((res: any) => {
                     if (res.removeTestSampleMapping.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.removeTestSampleMapping.message}`,
                       })
                       setModalConfirm({ show: false })
@@ -1158,7 +1160,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   })
                   .then((res: any) => {
                     if (res.updateTestSampleMapping.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.updateTestSampleMapping.message}`,
                       })
                       setModalConfirm({ show: false })

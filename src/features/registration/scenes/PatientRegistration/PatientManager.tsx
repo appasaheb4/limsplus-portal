@@ -1,11 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, {useState } from "react"
 import { observer } from "mobx-react"
-import dayjs from "dayjs"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import { useForm, Controller, useWatch } from "react-hook-form"
+import {Buttons,
+  List,Grid,Svg,Toast,ModalConfirm,Form,AutoCompleteFilterSingleSelect}
+   from "@lp/library/components"
+import {lookupItems,lookupValue} from "@lp/library/utils"
+import { useForm, Controller } from "react-hook-form"
 import {PatientMangerList,ExtraDataPatientManagerList} from "../../components"
 import { FormHelper } from "@lp/helper"
 import { PatientManagerHoc } from "../../hoc"
@@ -63,7 +64,7 @@ export const PatientManager = PatientManagerHoc(
           })
           .then((res) => {
             if (res.createPatientManager.success) {
-              LibraryComponents.Atoms.Toast.success({
+             Toast.success({
                 message: `😊 ${res.createPatientManager.message}`,
               })
             }
@@ -72,7 +73,7 @@ export const PatientManager = PatientManagerHoc(
             }, 1000)
           })
       } else {
-        LibraryComponents.Atoms.Toast.warning({
+       Toast.warning({
           message: `😔 Please enter diff patient`,
         })
       }
@@ -81,7 +82,7 @@ export const PatientManager = PatientManagerHoc(
     return (
       <>
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
+          <Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 140 }}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
@@ -93,8 +94,8 @@ export const PatientManager = PatientManagerHoc(
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={2}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -103,7 +104,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Pid"
                       name="txtPid"
                       disabled={true}
@@ -126,7 +127,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Mobile No"
                       placeholder={
                         errors.txtMobileNo ? "Please Enter MobileNo" : "Mobile No"
@@ -156,7 +157,7 @@ export const PatientManager = PatientManagerHoc(
                           .then((res) => {
                             if (res.checkExistsPatientManager.success) {
                               patientManagerStore.updateExistsPatient(true)
-                              LibraryComponents.Atoms.Toast.error({
+                             Toast.error({
                                 message: `😔 ${res.checkExistsPatientManager.message}`,
                               })
                             } else patientManagerStore.updateExistsPatient(false)
@@ -171,7 +172,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputDateTime
+                    <Form.InputDateTime
                       label="Bithdate"
                       placeholder={
                         errors.birthDate ? "Please Enter BirthDate" : "BirthDate"
@@ -197,7 +198,7 @@ export const PatientManager = PatientManagerHoc(
                           .then((res) => {
                             if (res.checkExistsPatientManager.success) {
                               patientManagerStore.updateExistsPatient(true)
-                              LibraryComponents.Atoms.Toast.error({
+                             Toast.error({
                                 message: `😔 ${res.checkExistsPatientManager.message}`,
                               })
                             } else patientManagerStore.updateExistsPatient(false)
@@ -212,7 +213,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Title"
                       hasError={errors.title}
                     >
@@ -230,16 +231,16 @@ export const PatientManager = PatientManagerHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "PATIENT MANAGER - TITLE"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {LibraryUtils.lookupValue(item)}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="title"
                   rules={{ required: true }}
@@ -248,7 +249,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="First Name"
                       name="txtFirstName"
                       placeholder={
@@ -277,7 +278,7 @@ export const PatientManager = PatientManagerHoc(
                           .then((res) => {
                             if (res.checkExistsPatientManager.success) {
                               patientManagerStore.updateExistsPatient(true)
-                              LibraryComponents.Atoms.Toast.error({
+                             Toast.error({
                                 message: `😔 ${res.checkExistsPatientManager.message}`,
                               })
                             } else patientManagerStore.updateExistsPatient(false)
@@ -292,7 +293,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Middle Name"
                       placeholder={
                         errors.middleName ? "Please Enter MiddleName" : "Middle Name"
@@ -315,7 +316,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Last Name"
                       placeholder={
                         errors.lastName ? "Please Enter LastName" : "Last Name"
@@ -344,7 +345,7 @@ export const PatientManager = PatientManagerHoc(
                           .then((res) => {
                             if (res.checkExistsPatientManager.success) {
                               patientManagerStore.updateExistsPatient(true)
-                              LibraryComponents.Atoms.Toast.error({
+                             Toast.error({
                                 message: `😔 ${res.checkExistsPatientManager.message}`,
                               })
                             } else patientManagerStore.updateExistsPatient(false)
@@ -364,7 +365,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Sex"
                       hasError={errors.sex}
                     >
@@ -382,24 +383,24 @@ export const PatientManager = PatientManagerHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "PATIENT MANAGER - SEX"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {LibraryUtils.lookupValue(item)}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="sex"
                   rules={{ required: true }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
+              </List>
 
-              <LibraryComponents.Atoms.List
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -408,7 +409,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Species"
                       hasError={errors.species}
                     >
@@ -428,16 +429,16 @@ export const PatientManager = PatientManagerHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(
+                        {lookupItems(
                           routerStore.lookupItems,
                           "PATIENT MANAGER - SPECIES"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {LibraryUtils.lookupValue(item)}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="species"
                   rules={{ required: true }}
@@ -447,7 +448,7 @@ export const PatientManager = PatientManagerHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         label="Breed"
                         placeholder={errors.breed ? "Please Enter Breed" : "Breed"}
                         hasError={errors.breed}
@@ -470,7 +471,7 @@ export const PatientManager = PatientManagerHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Usual Doctor"
                         hasError={errors.usualDoctor}
                       >
@@ -496,7 +497,7 @@ export const PatientManager = PatientManagerHoc(
                             )
                           )}
                         </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="usualDoctor"
                     rules={{ required: true }}
@@ -507,7 +508,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="History"
                       hasError={errors.history}
                       value={patientManagerStore.patientManger?.history}
@@ -524,8 +525,8 @@ export const PatientManager = PatientManagerHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+              </List>
+            </Grid>
           </div>
           <br />
 
@@ -537,8 +538,8 @@ export const PatientManager = PatientManagerHoc(
                 </AccordionItemHeading>
                 <AccordionItemPanel>
                   <>
-                    <LibraryComponents.Atoms.Grid cols={2}>
-                      <LibraryComponents.Atoms.List
+                    <Grid cols={2}>
+                      <List
                         direction="col"
                         space={4}
                         justify="stretch"
@@ -548,12 +549,12 @@ export const PatientManager = PatientManagerHoc(
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.InputWrapper
+                              <Form.InputWrapper
                                 label="Country"
                                 id="country"
                                 hasError={errors.country}
                               >
-                                <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                                <AutoCompleteFilterSingleSelect
                                   loader={loading}
                                   data={{
                                     list: _.uniqBy(
@@ -595,7 +596,7 @@ export const PatientManager = PatientManagerHoc(
                                     })
                                   }}
                                 />
-                              </LibraryComponents.Atoms.Form.InputWrapper>
+                              </Form.InputWrapper>
                             )}
                             name="country"
                             rules={{ required: false }}
@@ -607,12 +608,12 @@ export const PatientManager = PatientManagerHoc(
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.InputWrapper
+                              <Form.InputWrapper
                                 label="State"
                                 id="state"
                                 hasError={errors.state}
                               >
-                                <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                                <AutoCompleteFilterSingleSelect
                                   loader={loading}
                                   disable={
                                     !patientManagerStore.patientManger.extraData
@@ -661,7 +662,7 @@ export const PatientManager = PatientManagerHoc(
                                     })
                                   }}
                                 />
-                              </LibraryComponents.Atoms.Form.InputWrapper>
+                              </Form.InputWrapper>
                             )}
                             name="state"
                             rules={{ required: false }}
@@ -674,12 +675,12 @@ export const PatientManager = PatientManagerHoc(
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.InputWrapper
+                              <Form.InputWrapper
                                 label="City"
                                 id="city"
                                 hasError={errors.city}
                               >
-                                <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                                <AutoCompleteFilterSingleSelect
                                   loader={loading}
                                   disable={
                                     !patientManagerStore.patientManger.extraData
@@ -734,7 +735,7 @@ export const PatientManager = PatientManagerHoc(
                                     })
                                   }}
                                 />
-                              </LibraryComponents.Atoms.Form.InputWrapper>
+                              </Form.InputWrapper>
                             )}
                             name="city"
                             rules={{ required: false }}
@@ -744,12 +745,12 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper
+                            <Form.InputWrapper
                               label="Postal Code"
                               id="postalCode"
                               hasError={errors.postalCode}
                             >
-                              <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                              <AutoCompleteFilterSingleSelect
                                 loader={loading}
                                 disable={
                                   !patientManagerStore.patientManger.extraData?.city
@@ -812,7 +813,7 @@ export const PatientManager = PatientManagerHoc(
                                   )
                                 }}
                               />
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="postalCode"
                           rules={{ required: false }}
@@ -822,7 +823,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.MultilineInput
+                            <Form.MultilineInput
                               rows={2}
                               label="Address"
                               placeholder={
@@ -851,7 +852,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Email"
                               name="txtEmail"
                               placeholder={
@@ -881,7 +882,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="WhatsApp Number"
                               name="txtWhatsappNumber"
                               placeholder={
@@ -913,7 +914,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputFile
+                            <Form.InputFile
                               label="Photograph"
                               placeholder="File"
                               onChange={(e) => {
@@ -936,7 +937,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputFile
+                            <Form.InputFile
                               label="Signature"
                               placeholder="File"
                               onChange={(e) => {
@@ -959,7 +960,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Blood Group">
+                            <Form.InputWrapper label="Blood Group">
                               <select
                                 value={
                                   patientManagerStore.patientManger.extraData
@@ -984,7 +985,7 @@ export const PatientManager = PatientManagerHoc(
                                 }}
                               >
                                 <option selected>{`Select`}</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT VISIT - BLOOD_GROUP"
                                 ).map((item: any, index: number) => (
@@ -993,14 +994,14 @@ export const PatientManager = PatientManagerHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="bloodGroup"
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                      </LibraryComponents.Atoms.List>
-                      <LibraryComponents.Atoms.List
+                      </List>
+                      <List
                         direction="col"
                         space={4}
                         justify="stretch"
@@ -1009,7 +1010,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Follow Up"
                               placeholder={
                                 errors.followUp
@@ -1040,7 +1041,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Comments"
                               placeholder={
                                 errors.comments
@@ -1071,7 +1072,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="FyiLine"
                               placeholder={
                                 errors.fyiLine ? "Please Enter FyiLine" : "Fyiline"
@@ -1099,7 +1100,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Balance"
                               placeholder={
                                 errors.balance ? "Please Enter Balance" : "Balance"
@@ -1127,7 +1128,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Input
+                            <Form.Input
                               label="Entered By"
                               placeholder={
                                 errors.enteredBy
@@ -1146,7 +1147,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                            <Form.InputWrapper label="Status">
                               <select
                                 value={
                                   patientManagerStore.patientManger.extraData?.status
@@ -1170,7 +1171,7 @@ export const PatientManager = PatientManagerHoc(
                                 }}
                               >
                                 <option selected>Select</option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT MANAGER - STATUS"
                                 ).map((item: any, index: number) => (
@@ -1179,7 +1180,7 @@ export const PatientManager = PatientManagerHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="status"
                           rules={{ required: false }}
@@ -1189,7 +1190,7 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                            <Form.InputWrapper label="Environment">
                               <select
                                 value={
                                   patientManagerStore.patientManger.extraData
@@ -1226,7 +1227,7 @@ export const PatientManager = PatientManagerHoc(
                                     : patientManagerStore.patientManger?.extraData
                                         ?.environment || `Select`}
                                 </option>
-                                {LibraryUtils.lookupItems(
+                                {lookupItems(
                                   routerStore.lookupItems,
                                   "PATIENT MANAGER - ENVIRONMENT"
                                 ).map((item: any, index: number) => (
@@ -1235,17 +1236,17 @@ export const PatientManager = PatientManagerHoc(
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="environment"
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                        <LibraryComponents.Atoms.Grid cols={4}>
+                        <Grid cols={4}>
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.Toggle
+                              <Form.Toggle
                                 label="Is Mobile WhatsApp"
                                 hasError={errors.isMobileAndWhatsApp}
                                 value={
@@ -1274,7 +1275,7 @@ export const PatientManager = PatientManagerHoc(
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.Toggle
+                              <Form.Toggle
                                 label="Confidental"
                                 hasError={errors.confidental}
                                 value={
@@ -1301,7 +1302,7 @@ export const PatientManager = PatientManagerHoc(
                           <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                              <LibraryComponents.Atoms.Form.Toggle
+                              <Form.Toggle
                                 label="Permanent"
                                 hasError={errors.permanent}
                                 value={
@@ -1325,9 +1326,9 @@ export const PatientManager = PatientManagerHoc(
                             rules={{ required: false }}
                             defaultValue=""
                           />
-                        </LibraryComponents.Atoms.Grid>
-                      </LibraryComponents.Atoms.List>
-                    </LibraryComponents.Atoms.Grid>
+                        </Grid>
+                      </List>
+                    </Grid>
                   </>
                 </AccordionItemPanel>
               </AccordionItem>
@@ -1335,26 +1336,26 @@ export const PatientManager = PatientManagerHoc(
           </div>
 
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitPatientManager)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
 
         <div
@@ -1476,7 +1477,7 @@ export const PatientManager = PatientManagerHoc(
             </AccordionItem>
           </Accordion>
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
@@ -1484,7 +1485,7 @@ export const PatientManager = PatientManagerHoc(
                 .deletePatientManager({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePatientManager.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                   Toast.success({
                       message: `😊 ${res.removePatientManager.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1503,7 +1504,7 @@ export const PatientManager = PatientManagerHoc(
                 })
                 .then((res: any) => {
                   if (res.updatePatientManager.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                   Toast.success({
                       message: `😊 ${res.updatePatientManager.message}`,
                     })
                     setModalConfirm({ show: false })

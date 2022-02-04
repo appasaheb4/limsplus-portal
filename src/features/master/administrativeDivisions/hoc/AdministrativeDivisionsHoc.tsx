@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
   return observer(
@@ -17,21 +17,21 @@ export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
         }
         administrativeDivisions.updateAdministrativeDiv({
           ...administrativeDivisions.administrativeDiv,
-          environment: LibraryUtils.getDefaultLookupItem(
+          environment: getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
         })
         administrativeDivisions.updateAdministrativeDiv({
           ...administrativeDivisions.administrativeDiv,
-          zone: LibraryUtils.getDefaultLookupItem(
+          zone: getDefaultLookupItem(
             routerStore.lookupItems,
             "ZONE"
           ),
         })
         administrativeDivisions.updateAdministrativeDiv({
           ...administrativeDivisions.administrativeDiv,
-          sbu: LibraryUtils.getDefaultLookupItem(
+          sbu: getDefaultLookupItem(
             routerStore.lookupItems,
             "SBU"
           ),

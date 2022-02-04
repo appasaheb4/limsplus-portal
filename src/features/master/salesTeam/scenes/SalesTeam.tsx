@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import { SalesTeamList } from "../components"
 import {lookupItems} from "@lp/library/utils"
 
@@ -41,7 +43,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
         .addSalesTeam({ input: { ...salesTeamStore.salesTeam } })
         .then((res) => {
           if (res.createSalesTeam.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createSalesTeam.message}`,
             })
           }
@@ -50,7 +52,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
           }, 2000)
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please use diff emp code`,
       })
     }
@@ -112,14 +114,14 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
         />
@@ -130,8 +132,8 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -140,7 +142,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Sales Hierarchy"
                     hasError={errors.salesHierarchy}
                   >
@@ -168,7 +170,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="salesHierarchy"
                 rules={{ required: true }}
@@ -177,7 +179,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Sales Territory"
                     hasError={errors.salesTerritory}
                   >
@@ -189,7 +191,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                       })
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="salesTerritory"
                 rules={{ required: false }}
@@ -200,7 +202,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Employee code"
                       hasError={errors.empDetails}
                     >
@@ -223,14 +225,14 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                             .then((res) => {
                               if (res.checkSalesTeamsExistsRecord.success) {
                                 salesTeamStore.updateExistsEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                                 })
                               } else salesTeamStore.updateExistsEnvCode(false)
                             })
                       }}
                       />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="empDetails"
                   rules={{ required: true }}
@@ -243,8 +245,8 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                   Code already exits. Please use other code.
                 </span>
               )}
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -253,7 +255,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Employee Name"
                     name="txtEmployeeName"
                     placeholder={
@@ -274,7 +276,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Reporting To"
                     hasError={errors.userDetials}
                   >
@@ -287,7 +289,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                     })
                    }}
                    />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="userDetials"
                 rules={{ required: false }}
@@ -296,7 +298,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={salesTeamStore.salesTeam?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -325,7 +327,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                           .then((res) => {
                             if (res.checkSalesTeamsExistsRecord.success) {
                               salesTeamStore.updateExistsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                               })
                             } else salesTeamStore.updateExistsEnvCode(false)
@@ -347,40 +349,40 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitSalesTeam)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -388,7 +390,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                 .deleteSalesTeam({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeSalesTeam.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeSalesTeam.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -405,7 +407,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateSalesTeam.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateSalesTeam.message}`,
                     })
                     setModalConfirm({ show: false })

@@ -1,7 +1,9 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,
+  PageHeading,PageHeadingLabDetails}
+   from "@lp/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 
@@ -21,12 +23,12 @@ const PatientRegistation = observer(() => {
   const { loginStore } = useStores()
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       <div>
         <Accordion>
           {[

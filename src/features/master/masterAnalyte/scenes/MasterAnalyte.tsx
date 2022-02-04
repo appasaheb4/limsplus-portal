@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectMultiFieldsDisplay} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import {MasterAnalyteList} from "../components"
 import { useForm, Controller } from "react-hook-form"
@@ -40,7 +42,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
           })
           .then((res) => {
             if (res.createAnalyteMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createAnalyteMaster.message}`,
               })
             }
@@ -59,7 +61,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradeAnalyteMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradeAnalyteMaster.message}`,
               })
             }
@@ -78,7 +80,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicateAnalyteMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicateAnalyteMaster.message}`,
               })
             }
@@ -89,7 +91,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -174,17 +176,17 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(
         toJS(routerStore.userPermission),
         "Add"
       ) && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
@@ -193,8 +195,8 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -203,11 +205,11 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     disable={
@@ -257,7 +259,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                           .then((res) => {
                             if (res.checkAnalyteMasterExistsRecord.success) {
                               masterAnalyteStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
                               })
                             } else masterAnalyteStore.updateExistsLabEnvCode(false)
@@ -265,7 +267,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                       }
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -274,7 +276,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Analyte Code"
                     name="txtAnalyteCode"
                     hasError={errors.analyteCode}
@@ -304,7 +306,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                           .then((res) => {
                             if (res.checkAnalyteMasterExistsRecord.success) {
                               masterAnalyteStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
                               })
                             } else masterAnalyteStore.updateExistsLabEnvCode(false)
@@ -325,7 +327,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Analyte Name"
                     name="txtAnalyteName"
                     placeholder="Analyte Name"
@@ -347,7 +349,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Description"
                     name="txtDescription"
@@ -374,11 +376,11 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                   label="Analyte Method"
                   hasError={errors.collectionCenter}
                 >
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder="Search by code or name"
                     data={{
@@ -413,7 +415,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                       )
                     }}
                   />
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
                 )}
                 name="analyteMethod"
                 rules={{ required: false }}
@@ -422,7 +424,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Short Name"
                     name="txtShortName"
                     placeholder={
@@ -446,7 +448,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Price"
                     name="txtPrice"
                     placeholder={errors.price ? "Please Enter Price" : "Price"}
@@ -469,7 +471,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="High"
                     name="txtHigh"
                     placeholder={errors.high ? "Please Enter High" : "High"}
@@ -491,7 +493,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Low"
                     name="txtLow"
                     placeholder={errors.low ? "Please Enter low" : "Low"}
@@ -511,11 +513,11 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Method"
                       id="modeMethod"
                       hasError={errors.method}
@@ -536,7 +538,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Bill"
                       id="modeBill"
                       hasError={errors.bill}
@@ -557,7 +559,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Reportable"
                       id="modeDisplay"
                       hasError={errors.reportable}
@@ -578,7 +580,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Calculation Flag"
                       id="modeCalculationFlag"
                       hasError={errors.calculationFlag}
@@ -596,10 +598,10 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
+              </Grid>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -608,7 +610,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Result Type"
                     hasError={errors.resultType}
                   >
@@ -636,7 +638,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name=" resultType"
                 rules={{ required: false }}
@@ -645,7 +647,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Analyte Type"
                     hasError={errors.analyteType}
                   >
@@ -673,7 +675,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="analyteType"
                 rules={{ required: false }}
@@ -682,7 +684,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Units"
                     hasError={errors.units}
                   >
@@ -710,7 +712,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="units"
                 rules={{ required: false }}
@@ -719,7 +721,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Usage"
                     hasError={errors.usage}
                   >
@@ -747,7 +749,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="usage"
                 rules={{ required: false }}
@@ -756,7 +758,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Picture"
                     id="optionPicture"
                     hasError={errors.picture}
@@ -783,13 +785,13 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="picture"
                 rules={{ required: false }}
                 defaultValue=""
               />
-              {/* <LibraryComponents.Atoms.Form.InputDate
+              {/* <Form.InputDate
                 label="Schedule"
                 name="txtSchedule"
                 placeholder="Schedule"
@@ -807,7 +809,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+              <Form.Input
                 label="Tube Groups"
                 name="txtTubeGroups"
                 placeholder="Tube Groups"
@@ -820,7 +822,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 }}
               /> */}
 
-              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
+              {/* <Form.InputWrapper label="Workflow">
                 <select
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -843,8 +845,8 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper
+              </Form.InputWrapper>
+              <Form.InputWrapper
                 label="Sample Type"
                 id="optionSampleType"
               >
@@ -866,11 +868,11 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper> */}
+              </Form.InputWrapper> */}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Calcy Name"
                     name="txtCalcyName"
                     placeholder={
@@ -894,7 +896,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="CPT Code"
                     name="txtCPTCode"
                     placeholder={
@@ -918,7 +920,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -946,18 +948,18 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="AutoRelease"
                       id="modeAutoRelease"
                       hasError={errors.autoRelease}
@@ -978,7 +980,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Hold OOS"
                       id="modeHoldOOS"
                       hasError={errors.holdOOS}
@@ -999,7 +1001,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="InstantResult"
                       id="modeInstantResult"
                       hasError={errors.instantResult}
@@ -1020,7 +1022,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Repitation"
                       id="modeRepitation"
                       hasError={errors.repetition}
@@ -1038,9 +1040,9 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Grid>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -1049,7 +1051,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter Entered By" : "Entered By"
@@ -1066,7 +1068,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation ? "Please Enter Date Creation" : "Date Creation"
@@ -1085,7 +1087,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
@@ -1104,7 +1106,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
@@ -1129,7 +1131,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
@@ -1144,7 +1146,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -1178,7 +1180,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                             .then((res) => {
                               if (res.checkAnalyteMasterExistsRecord.success) {
                                 masterAnalyteStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
                                 })
                               } else masterAnalyteStore.updateExistsLabEnvCode(false)
@@ -1202,41 +1204,41 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitMasterAnalyte)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             console.log(type);
@@ -1246,7 +1248,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 .deleteAnalyteMaster({ input: { id: modalConfirm.id } })
                 .then((res) => {
                   if (res.removeAnalyteMaster.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeAnalyteMaster.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1263,7 +1265,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateAnalyteMaster.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateAnalyteMaster.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1280,7 +1282,7 @@ const MasterAnalyte = MasterAnalyteHoc(observer(() => {
               })
               .then((res: any) => {
                 if (res.updateAnalyteMaster.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.updateAnalyteMaster.message}`,
                   })
                   setModalConfirm({ show: false })
