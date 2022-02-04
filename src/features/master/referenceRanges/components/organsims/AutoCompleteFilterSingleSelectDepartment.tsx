@@ -6,11 +6,12 @@ import { useStores } from "@lp/stores"
 import * as LibraryComponents from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
+  analyteDepartments?: string[]
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteFilterSingleSelectDepartment = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectDepartmentProps) => {
+  ({ onSelect,analyteDepartments }: AutoCompleteFilterSingleSelectDepartmentProps) => {
     const { loading, departmentStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -35,7 +36,9 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(departmentStore.listDepartment)
+      setOptions(departmentStore.listDepartment.filter((item) =>
+      analyteDepartments?.includes(item.code)
+    ))
     }, [departmentStore.listDepartment])
 
     const onFilter = (value: string) => {

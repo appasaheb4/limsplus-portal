@@ -71,6 +71,20 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               csvExport: false,
             },
             {
+              dataField: "rangeId",
+              text: "Range Id",
+              editable: false,
+              csvExport: false,
+              filter: LibraryComponents.Organisms.Utils.customFilter({
+                getFilter: (filter) => {
+                  age = filter
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+            },
+            {
               dataField: "analyteCode",
               text: "Analyte Code",
               headerClasses: "textHeader3",
@@ -160,6 +174,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDepartment
+                  analyteDepartments={row.analyteDepartments}
                     onSelect={(item) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(item.code, column.dataField, row._id)
@@ -302,7 +317,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   equipmentType = filter
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row) ? row?.rangeSetOn === "L" ? false : true : false  ,
               editorRenderer: (
                 editorProps,
                 value,
@@ -346,7 +361,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   lab = filter
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row) ? row?.rangeSetOn === "I" ? false : true : false,
               editorRenderer: (
                 editorProps,
                 value,

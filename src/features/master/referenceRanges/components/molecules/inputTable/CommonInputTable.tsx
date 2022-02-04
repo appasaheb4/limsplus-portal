@@ -37,11 +37,13 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
   const addItem = () => {
     let refRangesInputList = refernceRangesStore.referenceRanges?.refRangesInputList
     refRangesInputList.push({
-      id: refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
+      rangeId: refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
       analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
       analyteName: refernceRangesStore.referenceRanges?.analyteName,
+      analyteDepartments: refernceRangesStore.referenceRanges?.analyteDepartments,
       department: refernceRangesStore.referenceRanges?.department,
       species: refernceRangesStore.referenceRanges?.species,
+      sex: refernceRangesStore.referenceRanges?.sex,
       rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
       equipmentType: refernceRangesStore.referenceRanges?.equipmentType,
       lab: refernceRangesStore.referenceRanges?.lab,
@@ -50,15 +52,15 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
       dateActive: new Date(),
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       enterBy: loginStore.login.userId,
-      status:'A',
+      status: "A",
       environment: getDefaultLookupItem(routerStore.lookupItems, `ENVIRONMENT`),
-      type:'insert'
+      type: "insert",
     })
     refernceRangesStore.updateReferenceRanges({
       ...refernceRangesStore.referenceRanges,
       refRangesInputList,
     })
-  }   
+  }
 
   return (
     <div className="flex flex-row gap-2 items-center">
@@ -68,6 +70,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
             <th className="text-white sticky left-0 z-10">Analyte</th>
             <th className="text-white">Department</th>
             <th className="text-white">Species</th>
+            <th className="text-white">Sex</th>
             <th className="text-white">Range_Set_On</th>
             <th className="text-white">Equipment_Type</th>
             <th className="text-white">Lab</th>
@@ -100,11 +103,14 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                       })
                     }}
                     onSelect={(item) => {
+                      console.log({item});
+                      
                       onChange(item.analyteCode)
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
                         analyteCode: item.analyteCode,
                         analyteName: item.analyteName,
+                        analyteDepartments: item.departments
                       })
                       masterAnalyteStore.updateMasterAnalyteList(
                         masterAnalyteStore.listMasterAnalyteCopy
@@ -126,9 +132,10 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                     hasError={errors.department}
                     placeholder="Search by code or name"
                     data={{
-                      list: departmentStore.listDepartment,
+                      list: departmentStore.listDepartment.filter((item)=> refernceRangesStore.referenceRanges?.analyteDepartments?.includes(item.code)),
                       displayKey: ["code", "name"],
                     }}
+                    disable={refernceRangesStore.referenceRanges?.analyteCode ? false : true}
                     onFilter={(value: string) => {
                       departmentStore.DepartmentService.filterByFields({
                         input: {
@@ -196,6 +203,39 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <select
+                    value={refernceRangesStore.referenceRanges?.sex}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.sex ? "border-red-500  " : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const sex = e.target.value as string
+                      onChange(sex)
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
+                        sex,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(routerStore.lookupItems, "SEX").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                )}
+                name="sex"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            </td>  
+            <td>
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <select
                     value={refernceRangesStore.referenceRanges?.rangeSetOn}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.rangeSetOn ? "border-red-500  " : "border-gray-300"
@@ -206,9 +246,11 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
                         rangeSetOn,
+                        equipmentType: rangeSetOn === 'L' ? undefined : refernceRangesStore.referenceRanges?.equipmentType,
+                        lab:rangeSetOn === 'I' ? undefined : refernceRangesStore.referenceRanges?.lab
                       })
-                    }}
-                  >
+                    }}  
+                  > 
                     <option selected>Select</option>
                     {lookupItems(routerStore.lookupItems, "RANGE_SET_ON").map(
                       (item: any, index: number) => (
@@ -232,10 +274,12 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                     loader={loading}
                     placeholder="Search by instrumentType"
                     hasError={errors.equipmentType}
+                    disable={refernceRangesStore.referenceRanges?.rangeSetOn === 'L' ? true: false}
                     data={{
                       list: interfaceManagerStore.listInterfaceManager,
                       displayKey: ["instrumentType"],
                     }}
+                    displayValue={refernceRangesStore.referenceRanges?.equipmentType}
                     onFilter={(value: string) => {
                       interfaceManagerStore.interfaceManagerService.filterByFields({
                         input: {
@@ -261,7 +305,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                   />
                 )}
                 name="equipmentType"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
             </td>
@@ -273,10 +317,12 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                     loader={loading}
                     hasError={errors.lab}
                     placeholder="Search by code or name"
+                    disable={refernceRangesStore.referenceRanges?.rangeSetOn === 'I' ? true : false}
                     data={{
                       list: labStore.listLabs,
                       displayKey: ["code", "name"],
                     }}
+                    displayValue={refernceRangesStore.referenceRanges?.lab}
                     onFilter={(value: string) => {
                       labStore.LabService.filterByFields({
                         input: {
@@ -300,7 +346,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                   />
                 )}
                 name="lab"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
             </td>

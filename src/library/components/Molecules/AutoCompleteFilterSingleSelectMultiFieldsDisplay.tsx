@@ -10,6 +10,7 @@ interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   placeholder?: string
   data: any
   hasError?: boolean
+  posstion?: string
   onFilter: (item: any) => void
   onSelect: (item: any) => any
 }
@@ -21,6 +22,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   placeholder = "Search...",
   data,
   hasError = false,
+  posstion ='absolute',
   onFilter,
   onSelect
 }: AutoCompleteFilterSingleSelectMultiFieldsDisplayProps) => {
@@ -96,7 +98,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
 
         {options && isListOpen
           ? options.length > 0 && (
-              <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+              <div className={`mt-1 ${posstion} z-2 bg-gray-100 p-2 rounded-sm z-50`}>
                 <ul>
                   {options?.map((item, index) => (
                     <>
