@@ -198,7 +198,7 @@ const MasterAnalyte = MasterAnalyteHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <LibraryComponents.Atoms.Grid cols={3}>
@@ -607,10 +607,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 justify="stretch"
                 fill
               >
-                {(masterAnalyteStore.masterAnalyte ||
-                  (masterAnalyteStore.selectedItems &&
-                    masterAnalyteStore.selectedItems?.department &&
-                    masterAnalyteStore.selectedItems?.department.length > 0)) && (
+              
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -639,6 +636,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                             departmentStore.updateDepartmentList(
                               departmentStore.listDepartmentCopy
                             )
+                            masterAnalyteStore.updateSelectedItems(undefined)
                           }}
                           onFilter={(value: string) => {
                             departmentStore.DepartmentService.filterByFields({
@@ -653,7 +651,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                             })
                           }}
                           onSelect={(item) => {
-                            onChange(item._id)
+                            onChange(new Date())
                             let department =
                               masterAnalyteStore.selectedItems?.department
                             if (!item.selected) {
@@ -677,7 +675,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                     rules={{ required: true }}
                     defaultValue=""
                   />
-                )}
 
                 <Controller
                   control={control}
