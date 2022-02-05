@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,Form,customFilter} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import TableBootstrap from './TableBootstrap' 
 
-import { NumberFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter } from "@lp/library/components/Organisms"
 
 interface PatientResultProps {
   data: any
@@ -13,7 +13,7 @@ interface PatientResultProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -44,7 +44,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               text: "Lab Id",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   labId = filter
                 },
@@ -84,7 +84,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.reportable}
                       onChange={(reportable) => {
@@ -112,7 +112,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.calculationFlag}
                       onChange={(calculationFlag) => {
@@ -200,7 +200,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.abnFlag}
                       onChange={(abnFlag) => {
@@ -220,7 +220,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.critical}
                       onChange={(critical) => {
@@ -246,7 +246,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.showRanges}
                       onChange={(showRanges) => {
@@ -311,7 +311,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.extraData.method}
                       // onChange={(method) => {

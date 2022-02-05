@@ -14,8 +14,8 @@ import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
 
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {Buttons,Icons,Form} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 
 import * as Config from "@lp/config"
 import { PatientOrderExpandPackageList } from "./PatientOrderExpandPackageList"
@@ -35,7 +35,7 @@ interface PatientOrderExpandProps {
   isDelete?: boolean
   isEditModify?: boolean
   isSelectRow?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
@@ -80,7 +80,7 @@ export const PatientOrderExpand = ({
   }) => (
     <div className="btn-group items-center" role="group">
       {isSelectRow && (
-        <LibraryComponents.Atoms.Buttons.Button
+        <Buttons.Button
           style={{ height: 10, width: 200 }}
           size="small"
           type="solid"
@@ -92,13 +92,13 @@ export const PatientOrderExpand = ({
             }
           }}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="trash-outline"
             size="large"
             color={Config.Styles.COLORS.BLACK}
           />
           Remove Selected
-        </LibraryComponents.Atoms.Buttons.Button>
+        </Buttons.Button>
       )}
       <input
         type="number"
@@ -369,7 +369,7 @@ export const PatientOrderExpand = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.bill}
                       disabled={true}
                     />
@@ -598,7 +598,7 @@ export const PatientOrderExpand = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.confidential}
                       disabled={true}
                     />
@@ -761,25 +761,25 @@ export const PatientOrderExpand = ({
                   Export CSV!!
                 </ExportCSVButton>
                 {isFilterOpen ? (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronUp />
+                  </Buttons.Button>
                 ) : (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronDown />
+                  </Buttons.Button>
                 )}
               </div>
               {isFilterOpen && (

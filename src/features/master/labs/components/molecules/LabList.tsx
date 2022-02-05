@@ -3,8 +3,8 @@ import React from "react"
 import { Stores } from "../../stores"
 import {lookupItems} from "@lp/library/utils"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {textFilter,TableBootstrap,Form,Icons,Tooltip} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { useStores } from "@lp/stores"
 import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectDistrict
 ,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectPostalCode} from '../organisms'
@@ -42,7 +42,7 @@ interface LabListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
@@ -55,7 +55,7 @@ export const LabList = (props: LabListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -70,7 +70,7 @@ export const LabList = (props: LabListProps) => {
               dataField: "code",
               text: "Code",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   code = filter
                 }
@@ -82,7 +82,7 @@ export const LabList = (props: LabListProps) => {
               dataField: "name",
               text: "Name",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   name = filter
                 }
@@ -94,7 +94,7 @@ export const LabList = (props: LabListProps) => {
               dataField: "country",
               text: "Country",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   country = filter
                 }
@@ -127,7 +127,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   state = filter
                 }
@@ -157,7 +157,7 @@ export const LabList = (props: LabListProps) => {
               text: "District",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   district = filter
                 }
@@ -192,7 +192,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   city = filter
                 }
@@ -227,7 +227,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   area = filter
                 }
@@ -262,7 +262,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   postalCode = filter
                 }
@@ -298,7 +298,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   address = filter
                 }
@@ -310,7 +310,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   deliveryType = filter
                 }
@@ -352,7 +352,7 @@ export const LabList = (props: LabListProps) => {
               text: "Sales Territory",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   salesTerritory = filter
                 }
@@ -400,7 +400,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   labLicence = filter
                 }
@@ -417,7 +417,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   director = filter
                 }
@@ -433,7 +433,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   physician = filter
                 }
@@ -445,7 +445,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   mobileNo = filter
                 }
@@ -457,7 +457,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   contactNo = filter
                 }
@@ -470,7 +470,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   speciality = filter
                 }
@@ -482,7 +482,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   labType = filter
                 }
@@ -526,7 +526,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   openingTime  = filter
                 }
@@ -539,7 +539,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   closingTime  = filter
                 }
@@ -551,7 +551,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   email  = filter
                 }
@@ -563,7 +563,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvExport: false,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -586,7 +586,7 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="File"
                     placeholder="File"
                     onChange={(e) => {
@@ -606,7 +606,7 @@ export const LabList = (props: LabListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
                         props.onUpdateItem &&
@@ -625,7 +625,7 @@ export const LabList = (props: LabListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.requireReceveInLab}
                       onChange={(requireReceveInLab) => {
                         props.onUpdateItem &&
@@ -648,7 +648,7 @@ export const LabList = (props: LabListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.requireScainIn}
                       onChange={(requireScainIn) => {
                         props.onUpdateItem &&
@@ -671,7 +671,7 @@ export const LabList = (props: LabListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.routingDept}
                       onChange={(routingDept) => {
                         props.onUpdateItem &&
@@ -688,7 +688,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   fyiLine  = filter
                 }
@@ -700,7 +700,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   workLine  = filter
                 }
@@ -711,7 +711,7 @@ export const LabList = (props: LabListProps) => {
               text: "Environment",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   environment  = filter
                 }
@@ -759,11 +759,11 @@ export const LabList = (props: LabListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="top"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -777,11 +777,11 @@ export const LabList = (props: LabListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

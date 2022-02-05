@@ -1,8 +1,8 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
+import React, { useState, useEffect } from "react"
+// import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {AutoCompleteFilterSingleSelect} from "@lp/library/components"
 import { useStores } from "@lp/stores"
 
 interface AutoCompleteProps {
@@ -24,7 +24,7 @@ export const AutoCompleteFilterSingleSelectVariable = observer(
     return (
       <>
         <div className="flex flex-row gap-2 w-full">
-         <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+         <AutoCompleteFilterSingleSelect
            loader={loading}
            placeholder="Search by variable"
            data={{

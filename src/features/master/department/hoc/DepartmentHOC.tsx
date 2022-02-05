@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const DeginisationHoc = (Component: React.FC<any>) => {
   return observer(
@@ -20,7 +20,7 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
           departmentStore &&
             departmentStore.updateDepartment({
               ...departmentStore.department,
-              status: LibraryUtils.getDefaultLookupItem(
+              status: getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
               ),
@@ -29,7 +29,7 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
           departmentStore &&
             departmentStore.updateDepartment({
               ...departmentStore.department,
-              environment:LibraryUtils.getDefaultLookupItem(
+              environment:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
               ),

@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+// import * as LibraryComponents from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { ExpandPatientTestPanelCode } from "./ExpandPatientTestPanelCode"
   
-import { NumberFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter } from "@lp/library/components/Organisms"
 
 interface PanelListTableProps {
   data: any
@@ -13,7 +13,7 @@ interface PanelListTableProps {
   extraData?: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void

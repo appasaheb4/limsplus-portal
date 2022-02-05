@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,textFilter,Form,Tooltip,Icons,ModalConfirm,Toast} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import * as Models from "../../models"
 import { SegmentMapping } from "../models"
 import { useStores } from "@lp/stores"
@@ -30,7 +30,7 @@ interface SegmentMappingListProps {
   totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   duplicate: (item: SegmentMapping) => void
@@ -47,7 +47,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
   }, [])
   return (
     <>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -64,7 +64,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             headerClasses: "textHeader4",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 equipmentType = filter
               }
@@ -113,7 +113,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "DATA FLOW FROM",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 dataFlowFrom = filter
               }
@@ -182,7 +182,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 data_type = filter
               }
@@ -233,7 +233,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 segments = filter
               }
@@ -326,7 +326,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 field_no = filter
               }
@@ -340,7 +340,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   type="number"
                   name="field_no"
                   placeholder="Field No"
@@ -369,7 +369,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 item_no = filter
               }
@@ -383,7 +383,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   type="number"
                   name="item_no"
                   placeholder="Item No"
@@ -421,7 +421,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }`,
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   id="field_required"
                   value={row.field_required}
                   onChange={(field_required) => {
@@ -450,7 +450,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "ELEMENT NAME",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 element_name = filter
               }
@@ -466,7 +466,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="element_name"
                   placeholder="Element name"
                   onBlur={(element_name) => {
@@ -493,7 +493,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "TRANSMITTED DATA",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 transmitted_data = filter
               }
@@ -509,7 +509,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="transmitted_data"
                   placeholder="Transmitted data"
                   onBlur={(transmitted_data) => {
@@ -537,7 +537,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD ARRAY",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 field_array = filter
               }
@@ -553,7 +553,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="field_array"
                   placeholder="Field array"
                   onBlur={(field_array) => {
@@ -580,7 +580,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD LENGTH",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 field_length = filter
               }
@@ -596,7 +596,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   type="number"
                   name="field_length"
                   placeholder="Field length"
@@ -624,7 +624,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "FIELD TYPE",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 field_type = filter
               }
@@ -640,7 +640,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="field_type"
                   placeholder="Field type"
                   onBlur={(field_type) => {
@@ -677,7 +677,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }`,
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   id="field_required"
                   value={row.repeat_delimiter}
                   onChange={(repeat_delimiter) => {
@@ -712,7 +712,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }`,
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   id="mandatory"
                   value={row.mandatory}
                   onChange={(mandatory) => {
@@ -739,7 +739,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "LIMS DESCRIPTIONS",
             headerClasses: "textHeader5",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 lims_descriptions = filter
               }
@@ -755,7 +755,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="lims_descriptions"
                   placeholder="Lims descriptions"
                   onBlur={(lims_descriptions) => {
@@ -782,7 +782,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "LIMS TABLES",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 lims_tables = filter
               }
@@ -798,7 +798,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="lims_tables"
                   placeholder="Lims tables"
                   onBlur={(lims_tables) => {
@@ -826,7 +826,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "LIMS FIELDS",
             headerClasses: "textHeader3",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 lims_fields = filter
               }
@@ -842,7 +842,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="lims_fields"
                   placeholder="Lims fields"
                   onBlur={(lims_fields) => {
@@ -880,7 +880,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }`,
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   id="required_for_lims"
                   value={row.required_for_lims}
                   onChange={(required_for_lims) => {
@@ -909,7 +909,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: "NOTES",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 notes = filter
               }
@@ -936,7 +936,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   name="notes"
                   placeholder="Notes"
                   onBlur={(notes) => {
@@ -993,7 +993,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputFile
+                <Form.InputFile
                   multiple={true}
                   name="attachments"
                   placeholder="ATTACHMENTS"
@@ -1036,7 +1036,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 environment = filter
               }
@@ -1050,7 +1050,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex
             ) => (
               <>
-                {/* <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                {/* <Form.InputWrapper label="Environment">
                 <select
                   value={row.environment}
                   className="leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md"
@@ -1068,7 +1068,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     )
                   )}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper> */}
+              </Form.InputWrapper> */}
               </>
             ),
           },
@@ -1080,11 +1080,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     tooltipText="Delete"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() => {
@@ -1104,18 +1104,18 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                         }
                       }}
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
 
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     className="ml-2"
                     tooltipText="Duplicate"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() => {
@@ -1134,11 +1134,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                         }
                       }}
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                      {Icons.getIconTag(
+                        Icons.Iconio5.IoDuplicateOutline
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                 </div>
               </>
             ),
@@ -1183,7 +1183,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           environment("")
         }}
       />
-      <LibraryComponents.Molecules.ModalConfirm
+      <ModalConfirm
         {...modalConfirm}
         click={(type) => {
           setModalConfirm({ show: false })
@@ -1203,7 +1203,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   if (res.removeSegmentMapping.success) {
                     segmentMappingStore.fetchListSegmentMapping()
                     segmentMappingStore.updateSelectedItem([])
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeSegmentMapping.message}`,
                     })
                   }
@@ -1220,7 +1220,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                 .then((res) => {
                   if (res.updateSegmentMapping.success) {
                     segmentMappingStore.fetchListSegmentMapping()
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: ` ${res.updateSegmentMapping.message}`,
                     })
                   }

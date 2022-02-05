@@ -2,15 +2,15 @@
 import React from "react"
 import dayjs from "dayjs"
 import { lookupItems } from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,DateFilter,TableBootstrap,textFilter,Icons,Tooltip,customFilter,Form} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectDepartment,
   AutoCompleteFilterSingleSelectAnalyteCode,
   AutoCompleteFilterSingleSelectAnalyteName,
 } from "../../index"
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let analyteCode
 let analyteName
@@ -43,7 +43,7 @@ interface ReferenceRangesProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
@@ -59,7 +59,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -76,7 +76,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   analyteCode = filter
                 },
@@ -110,7 +110,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   analyteName = filter
                 },
@@ -144,7 +144,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   department = filter
                 },
@@ -174,7 +174,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   species = filter
                 },
@@ -215,7 +215,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   sex = filter
                 },
@@ -256,7 +256,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   rangeSetOn = filter
                 },
@@ -297,7 +297,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   equipmentType = filter
                 },
@@ -341,7 +341,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   lab = filter
                 },
@@ -371,7 +371,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   rangType = filter
                 },
@@ -412,7 +412,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   age = filter
                 },
@@ -428,7 +428,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   age = filter
                 },
@@ -444,7 +444,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   ageUnit = filter
                 },
@@ -485,7 +485,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   low = filter
                 },
@@ -498,7 +498,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   high = filter
                 },
@@ -511,7 +511,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   alpha = filter
                 },
@@ -525,7 +525,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   deltaRangTeType = filter
                 },
@@ -538,7 +538,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   deltaInterval = filter
                 },
@@ -551,7 +551,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   intervalUnit = filter
                 },
@@ -606,7 +606,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   </>
                 )
               },
-              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              // filter: textFilter({
               //   getFilter: (filter) => {
               //     intervalUnit = filter
               //   },
@@ -632,7 +632,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   </>
                 )
               },
-              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              // filter: textFilter({
               //   getFilter: (filter) => {
               //     intervalUnit = filter
               //   },
@@ -658,7 +658,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   </>
                 )
               },  
-              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              // filter: textFilter({
               //   getFilter: (filter) => {
               //     intervalUnit = filter
               //   },
@@ -671,7 +671,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   enteredBy = filter
                 },
@@ -683,7 +683,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   status = filter
                 },
@@ -724,7 +724,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   environment = filter
                 },
@@ -767,7 +767,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   dateCreation = filter
                 },
@@ -787,7 +787,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateCreation)}
                     onFocusRemove={(dateCreation) => {
                       props.onUpdateItem &&
@@ -805,7 +805,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   dateActive = filter
                 },
@@ -825,7 +825,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateActive)}
                     onFocusRemove={(dateActive) => {
                       props.onUpdateItem &&
@@ -843,7 +843,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   dateExpire = filter
                 },
@@ -863,7 +863,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateExpire)}
                     onFocusRemove={(dateExpire) => {
                       props.onUpdateItem &&
@@ -880,7 +880,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   version = filter
                 },
@@ -898,11 +898,11 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="bottom"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -916,48 +916,48 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <LibraryComponents.Atoms.Tooltip
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Version Upgrade"
                           position="bottom"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                            {Icons.getIconTag(
+                              Icons.Iconvsc.VscVersions
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                        <LibraryComponents.Atoms.Tooltip
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
                           position="bottom"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5
+                            {Icons.getIconTag(
+                              Icons.Iconio5
                                 .IoDuplicateOutline
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                       </>
                     )}
                   </div>

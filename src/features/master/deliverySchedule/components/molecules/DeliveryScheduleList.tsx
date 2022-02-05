@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems,lookupValue} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {textFilter,TableBootstrap,Form,Tooltip,Icons} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 let schCode
 let pStartTime
 let pEndTime
@@ -22,7 +22,7 @@ interface DeliverySchduleListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
@@ -33,7 +33,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -50,7 +50,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   schCode = filter
                 }
@@ -64,7 +64,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editable:false,
               csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
-                return <> <LibraryComponents.Atoms.Form.Toggle
+                return <> <Form.Toggle
                
                 value={row.sundayProcessing}
                 onChange={(sundayProcessing) => {
@@ -80,7 +80,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              // filter: textFilter({
               //   getFilter: (filter) =>{
               //     holidayProcessing = filter
               //   }
@@ -93,7 +93,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              // filter: textFilter({
               //   getFilter: (filter) =>{
               //     schCode = filter
               //   }
@@ -107,7 +107,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editable:false,
               csvFormatter: col => (col ? col : false),
               formatter: (cell, row) => {
-                return <> <LibraryComponents.Atoms.Form.Toggle
+                return <> <Form.Toggle
                
                 value={row.holidayReporting}
                 onChange={(holidayReporting) => {
@@ -124,7 +124,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   pStartTime = filter
                 }
@@ -136,7 +136,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   pEndTime = filter
                 }
@@ -148,7 +148,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   cutofTime = filter
                 }
@@ -160,7 +160,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   secoundCutofTime = filter
                 }
@@ -172,7 +172,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   processingType = filter
                 }
@@ -214,7 +214,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (cell, row, rowIndex) => `${JSON.stringify(row.schFrequency)}`,
-              //filter: LibraryComponents.Organisms.Utils.textFilter({})
+              //filter: textFilter({})
               formatter: (cell, row) => {
                 return <>{JSON.stringify(row.schFrequency)}</>
               },
@@ -225,7 +225,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   reportOn = filter
                 }
@@ -237,7 +237,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   dynamicRT = filter
                 }
@@ -249,7 +249,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   dynamicTU = filter
                 }
@@ -292,7 +292,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   fixedRT = filter
                 }
@@ -305,7 +305,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editable:false,
               csvFormatter: col => (col ? col : ""),
               formatter: (cell, row) => {
-                return <> <LibraryComponents.Atoms.Form.Toggle
+                return <> <Form.Toggle
                
                 value={row.onTime}
                 onChange={(onTime) => {
@@ -321,7 +321,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   schForDept = filter
                 }
@@ -333,7 +333,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   schForPat = filter
                 }
@@ -345,7 +345,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   environment = filter
                 }
@@ -391,8 +391,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               formatter: (cellContent, row) => (
                 <>
                  <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete" position="top">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -406,11 +406,11 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

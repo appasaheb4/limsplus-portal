@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const SalesTeamHoc = (Component: React.FC<any>) => {
   return observer(
@@ -17,14 +17,14 @@ export const SalesTeamHoc = (Component: React.FC<any>) => {
         }
         salesTeamStore.updateSalesTeam({
           ...salesTeamStore.salesTeam,
-          environment: LibraryUtils.getDefaultLookupItem(
+          environment: getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
         })
         salesTeamStore.updateSalesTeam({
           ...salesTeamStore.salesTeam,
-            salesHierarchy: LibraryUtils.getDefaultLookupItem(
+            salesHierarchy: getDefaultLookupItem(
             routerStore.lookupItems,
             "SALES_HIERARCHY"
           ),

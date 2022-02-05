@@ -3,19 +3,17 @@ import React, { useState } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import _ from "lodash"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import cellEditFactory from "react-bootstrap-table2-editor"
+// import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
-  PaginationTotalStandalone,
+  
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
 
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {Buttons, Icons} from "@lp/library/components"
+// import * as LibraryModels from "@lp/library/models"
 
 import * as Config from "@lp/config"
 import { ExpandPatientTestTestCode } from "./ExpandPatientTestTestCode"
@@ -80,7 +78,7 @@ export const ExpandExtraDataPatientTestTable = ({
   }) => (
     <div className="btn-group items-center" role="group">
       {isSelectRow && (
-        <LibraryComponents.Atoms.Buttons.Button
+        <Buttons.Button
           style={{ height: 10, width: 200 }}
           size="small"
           type="solid"
@@ -92,13 +90,13 @@ export const ExpandExtraDataPatientTestTable = ({
             }
           }}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="trash-outline"
             size="large"
             color={Config.Styles.COLORS.BLACK}
           />
           Remove Selected
-        </LibraryComponents.Atoms.Buttons.Button>
+        </Buttons.Button>
       )}
       <input
         type="number"

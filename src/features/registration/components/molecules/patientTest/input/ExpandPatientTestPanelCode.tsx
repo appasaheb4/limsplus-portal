@@ -14,7 +14,7 @@ import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
 
-import * as LibraryComponents from "@lp/library/components"
+import {Buttons,Icons,Form} from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import * as Config from "@lp/config"
@@ -80,7 +80,7 @@ export const ExpandPatientTestPanelCode = ({
   }) => (
     <div className="btn-group items-center" role="group">
       {isSelectRow && (
-        <LibraryComponents.Atoms.Buttons.Button
+        <Buttons.Button
           style={{ height: 10, width: 200 }}
           size="small"
           type="solid"
@@ -92,13 +92,13 @@ export const ExpandPatientTestPanelCode = ({
             }
           }}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="trash-outline"
             size="large"
             color={Config.Styles.COLORS.BLACK}
           />
           Remove Selected
-        </LibraryComponents.Atoms.Buttons.Button>
+        </Buttons.Button>
       )}
       <input
         type="number"
@@ -251,7 +251,7 @@ export const ExpandPatientTestPanelCode = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.confidential}
                       disabled={true}
                     />
@@ -265,7 +265,7 @@ export const ExpandPatientTestPanelCode = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.urgent}
                       disabled={true}
                     />
@@ -279,7 +279,7 @@ export const ExpandPatientTestPanelCode = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.cretical}
                       disabled={true}
                     />

@@ -2,10 +2,10 @@
 import React from "react"
 import daysjs from "dayjs"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,textFilter,NumberFilter,DateFilter,Form,Tooltip,Icons,customFilter} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectPlabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod} from '../index'
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+
 
 
 let rLab
@@ -53,7 +53,7 @@ interface PanelMasterListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateFileds?:(fileds:any,id:string)=>void
@@ -71,7 +71,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -88,7 +88,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   rLab = filter
                 }
@@ -131,7 +131,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   pLab = filter
                 }
@@ -161,7 +161,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   department = filter
                 }
@@ -188,7 +188,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             //   dataField: "section",
             //   text: "Section",
             //   sort: true,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   filter: textFilter(),
             //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             //   formatter: (cell, row) => {
             //     return <>{row.section}</>
@@ -228,7 +228,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   serviceType = filter
                 }
@@ -272,7 +272,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   panelCode = filter
                 }
@@ -285,7 +285,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   panelName = filter
                 }
@@ -298,7 +298,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   description = filter
                 }
@@ -312,7 +312,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   panelMethodCode = filter
                 }
@@ -341,7 +341,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   panelMethodName = filter
                 }
@@ -372,7 +372,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
@@ -390,7 +390,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   shortName = filter
                 }
@@ -407,7 +407,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   price = filter
                 }
@@ -425,7 +425,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     
                     placeholder="Price"
                     type="number"
@@ -451,7 +451,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
@@ -470,7 +470,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   rLab = filter
                 }
@@ -512,7 +512,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   tat = filter
                 }
@@ -525,7 +525,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   validationLevel = filter
                 }
@@ -568,7 +568,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   reportOrder = filter
                 }
@@ -581,7 +581,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   processing = filter
                 }
@@ -625,7 +625,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   workflow = filter
                 }
@@ -638,7 +638,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   category = filter
                 }
@@ -682,7 +682,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   panelType = filter
                 }
@@ -730,7 +730,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
@@ -751,7 +751,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
@@ -773,7 +773,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.confidential}
                       onChange={(confidential) => {
@@ -795,7 +795,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.urgent}
                       onChange={(urgent) => {
@@ -816,7 +816,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
@@ -837,7 +837,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.repitation}
                       onChange={(repitation) => {
@@ -858,7 +858,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.printLabel}
                       onChange={(printLabel) => {
@@ -879,7 +879,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.cumulative}
                       onChange={(cumulative) => {
@@ -897,7 +897,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   reportGroup = filter
                 }
@@ -915,7 +915,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   sex = filter
                 }
@@ -963,7 +963,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.sexAction}
                       onChange={(sexAction) => {
@@ -981,7 +981,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   hiAge = filter
                 }
@@ -994,7 +994,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   loAge = filter
                 }
@@ -1008,7 +1008,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   suffix = filter
                 }
@@ -1022,7 +1022,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   tubeGroup = filter
                 }
@@ -1039,7 +1039,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.pageBreak}
                       onChange={(pageBreak) => {
@@ -1057,7 +1057,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   reportTemplate = filter
                 }
@@ -1070,7 +1070,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   sampleType = filter
                 }
@@ -1083,7 +1083,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   labelInstruction = filter
                 }
@@ -1097,7 +1097,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   specalInstructions = filter
                 }
@@ -1115,7 +1115,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   status = filter
                 }
@@ -1159,7 +1159,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
                 }
@@ -1173,7 +1173,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: (col,row) => (row.dateCreation ? daysjs(row.dateCreation).format("YYYY-MM-DD") : ""),
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
                 }
@@ -1193,7 +1193,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateCreation)}
                     onFocusRemove={(dateCreation) => {
                       props.onUpdateItem &&
@@ -1210,7 +1210,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: (col,row) => (row.dateActive ? daysjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   dateActive = filter
                 }
@@ -1230,7 +1230,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateActive)}
                     onFocusRemove={(dateActive) => {
                       props.onUpdateItem &&
@@ -1247,7 +1247,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: (col,row) => (row.dateExpire ? daysjs(row.dateExpire || 0).format("YYYY-MM-DD"): ""),
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter
                 }
@@ -1267,7 +1267,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateExpire)}
                     onFocusRemove={(dateExpire) => {
                       props.onUpdateItem &&
@@ -1284,7 +1284,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   version = filter
                 }
@@ -1300,7 +1300,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   environment = filter
                 }
@@ -1348,8 +1348,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete" position="top">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -1363,45 +1363,45 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <LibraryComponents.Atoms.Tooltip
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Version Upgrade"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                            {Icons.getIconTag(
+                              Icons.Iconvsc.VscVersions
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                        <LibraryComponents.Atoms.Tooltip
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                            {Icons.getIconTag(
+                              Icons.Iconio5.IoDuplicateOutline
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                       </>
                     )}
                   </div>

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const DeliveryScheduleHoc = (Component: React.FC<any>) => {
   return observer(
@@ -17,21 +17,21 @@ export const DeliveryScheduleHoc = (Component: React.FC<any>) => {
         }
         deliveryScheduleStore.updateDeliverySchedule({
           ...deliveryScheduleStore.deliverySchedule,
-          environment: LibraryUtils.getDefaultLookupItem(
+          environment: getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
         })
         deliveryScheduleStore.updateDeliverySchedule({
           ...deliveryScheduleStore.deliverySchedule,
-          processingType: LibraryUtils.getDefaultLookupItem(
+          processingType: getDefaultLookupItem(
             routerStore.lookupItems,
             "PROCESSING_TYPE"
           ),
         })
         deliveryScheduleStore.updateDeliverySchedule({
           ...deliveryScheduleStore.deliverySchedule,
-          dynamicTU: LibraryUtils.getDefaultLookupItem(
+          dynamicTU: getDefaultLookupItem(
             routerStore.lookupItems,
             "DYNAMIC_TU"
           ),

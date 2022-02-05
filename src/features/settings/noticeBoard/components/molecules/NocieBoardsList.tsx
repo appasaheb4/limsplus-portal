@@ -2,9 +2,9 @@
 import React from "react"
 import { observer } from "mobx-react"
 
-import * as LibraryComponents from "@lp/library/components"
+import {TableBootstrap,Form,Icons,Tooltip,textFilter} from "@lp/library/components"
 
-import * as LibraryModels from "@lp/library/models"
+import {Confirm} from "@lp/library/models"
 
 let lab
 let header
@@ -19,7 +19,7 @@ interface NoticeBoardsListProps {
   totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedUser: LibraryModels.Confirm) => void
+  onDelete?: (selectedUser: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void 
@@ -30,7 +30,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -47,7 +47,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   lab = filter
                 }
@@ -75,7 +75,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   header = filter
                 }
@@ -86,7 +86,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Message",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   message = filter
                 }
@@ -101,7 +101,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={5}
                     name="message"
                     placeholder="Message"
@@ -121,7 +121,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   action = filter
                 }
@@ -163,11 +163,11 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="top"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -181,11 +181,11 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

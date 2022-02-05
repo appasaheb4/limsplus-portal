@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,textFilter,Form,Icons,Tooltip} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectHod} from '../index'
 
 let lab;
@@ -25,7 +25,7 @@ interface DepartmentListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -38,7 +38,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
   }
   return (
     <div style={{ position: "relative" }}>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -54,7 +54,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 lab = filter
               }
@@ -82,7 +82,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             text: "Code",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 code = filter
               }
@@ -94,7 +94,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             text: "Name",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 name = filter
               }
@@ -107,7 +107,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 shortName = filter
               }
@@ -122,7 +122,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader1",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 hod = filter
               }
@@ -151,7 +151,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 mobileNo = filter
               }
@@ -164,7 +164,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 contactNo = filter
               }
@@ -180,7 +180,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.autoRelease}
                     onChange={(autoRelease) => {
@@ -202,7 +202,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     disabled={!editorCell(row)}
                     value={row.requireReceveInLab}
                     onChange={(requireReceveInLab) => {
@@ -227,7 +227,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.requireScainIn}
                     onChange={(requireScainIn) => {
@@ -248,7 +248,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.routingDept}
                     onChange={(routingDept) => {
@@ -266,7 +266,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 openingTime = filter
               }
@@ -279,7 +279,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 closingTime = filter
               }
@@ -293,7 +293,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader1",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 fyiLine = filter
               }
@@ -306,7 +306,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 workLine = filter
               }
@@ -319,7 +319,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 status = filter
               }
@@ -363,7 +363,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter)=>{
                 environment = filter
               }
@@ -411,11 +411,11 @@ export const DepartmentList = (props: DepartmentListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     tooltipText="Delete"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() =>
@@ -429,11 +429,11 @@ export const DepartmentList = (props: DepartmentListProps) => {
                         })
                       }
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                 </div>
               </>
             ),

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const RegistrationLocationHoc = (Component: React.FC<any>) => {
   return observer(
@@ -17,70 +17,70 @@ export const RegistrationLocationHoc = (Component: React.FC<any>) => {
         }  
         registrationLocationsStore.updateRegistrationLocations({
             ...registrationLocationsStore.registrationLocations,
-            status: LibraryUtils.getDefaultLookupItem(
+            status: getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
               ),
           })
          registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          environment:LibraryUtils.getDefaultLookupItem(
+          environment:getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          acClass:LibraryUtils.getDefaultLookupItem(
+          acClass:getDefaultLookupItem(
             routerStore.lookupItems,
             "AC_CLASS"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          accountType:LibraryUtils.getDefaultLookupItem(
+          accountType:getDefaultLookupItem(
             routerStore.lookupItems,
             "ACCOUNT_TYPE"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          salesTerritoRy:LibraryUtils.getDefaultLookupItem(
+          salesTerritoRy:getDefaultLookupItem(
             routerStore.lookupItems,
             "SPECIALITY"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          methodColn:LibraryUtils.getDefaultLookupItem(
+          methodColn:getDefaultLookupItem(
             routerStore.lookupItems,
             "METHOD_COLN"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          deliveryMethod:LibraryUtils.getDefaultLookupItem(
+          deliveryMethod:getDefaultLookupItem(
             routerStore.lookupItems,
             "DELIVERY_METHOD"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          deliveryType:LibraryUtils.getDefaultLookupItem(
+          deliveryType:getDefaultLookupItem(
             routerStore.lookupItems,
             "DELIVERY_TYPE"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          category:LibraryUtils.getDefaultLookupItem(
+          category:getDefaultLookupItem(
             routerStore.lookupItems,
             "CATEGORY"
           ),
         })
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
-          customerGroup:LibraryUtils.getDefaultLookupItem(
+          customerGroup:getDefaultLookupItem(
             routerStore.lookupItems,
             "CUSTOMER_GROUP"
           ),

@@ -7,12 +7,12 @@ export * from './Atoms/grid'
 export *  from './Atoms/header'  
 export * as Svg from './Atoms/svg'
 export * as Icons from './Atoms/icons'
-export * as Images from './Atoms/image'
+export * from './Atoms/image'
 export * from './Atoms/list'
 export * from './Atoms/loader'
 export * from './Atoms/modals'
 export * from './Atoms/tooltip'
-export {ToastContainer,Toast}
+
 
   
 export * from './Molecules/AutoComplete'
@@ -33,9 +33,11 @@ export * from './Molecules/modal/ModalIdleTimeout'
 export * from './Molecules/modal/ModalSessionAllowed'
 export * from './Molecules/modal/ModalTokenExpire'
 export * from './Molecules/modal/ModalTransition'
-      
+export * from "./Molecules/modal/ModalFileUpload"
 export * from './Organisms/FilterComp'
 export * from './Organisms/TableBootstrap'
 export * from './Organisms/utils'
+
+export {ToastContainer,Toast}
 
 

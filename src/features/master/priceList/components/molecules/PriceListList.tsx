@@ -1,13 +1,13 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import dayjs from "dayjs"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectBillTo,
   AutoCompleteFilterSingleSelectCorporateName,AutoCompleteFilterSingleSelectInvoiceAc,
   AutoCompleteFilterSingleSelectPanelCode,AutoCompleteFilterSingleSelectPanelName} from "../index"
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let panelCode
 let panelName
@@ -37,7 +37,7 @@ interface PriceListProps {
   isDelete?: boolean
   totalSize: number
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
@@ -54,7 +54,7 @@ export const PriceListList = (props: PriceListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -71,7 +71,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   panelCode = filter
                 }
@@ -100,7 +100,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   panelName = filter
                  }
@@ -129,7 +129,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   priority = filter
                  }
@@ -173,7 +173,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   priceGroup = filter
                  }
@@ -217,7 +217,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   billTo = filter
                  }
@@ -246,7 +246,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   clientName = filter
                  }
@@ -275,7 +275,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   invoiceAc = filter
                  }
@@ -304,7 +304,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   lab = filter
                  }
@@ -333,7 +333,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   price = filter
                 }
@@ -349,7 +349,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   fixedPrice = filter
                 }
@@ -365,7 +365,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   minSp = filter
                 }
@@ -381,7 +381,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   maxSp = filter
                 }
@@ -400,7 +400,7 @@ export const PriceListList = (props: PriceListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.anyScheme}
                       onChange={(anyScheme) => {
@@ -418,7 +418,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   specialScheme = filter
                  }
@@ -466,7 +466,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   schemePrice = filter
                  }
@@ -482,7 +482,7 @@ export const PriceListList = (props: PriceListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.disOnScheme}
                       onChange={(disOnScheme) => {
@@ -502,7 +502,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
                  }
@@ -514,7 +514,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   status = filter
                  }
@@ -558,7 +558,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter:textFilter({
                 getFilter: (filter) =>{
                   environment = filter
                  }
@@ -603,7 +603,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
                 }
@@ -623,7 +623,7 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateCreation)}
                     onFocusRemove={(dateCreation) => {
                       props.onUpdateItem &&
@@ -640,7 +640,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   dateActive = filter
                 }
@@ -660,7 +660,7 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateActive)}
                     onFocusRemove={(dateActive) => {
                       props.onUpdateItem &&
@@ -677,7 +677,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter
                 }
@@ -697,7 +697,7 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateExpire)}
                     onFocusRemove={(dateExpire) => {
                       props.onUpdateItem &&
@@ -714,7 +714,7 @@ export const PriceListList = (props: PriceListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter:customFilter({
                 getFilter: (filter) =>{
                   version = filter
                 }
@@ -732,11 +732,11 @@ export const PriceListList = (props: PriceListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="top"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -750,46 +750,46 @@ export const PriceListList = (props: PriceListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <LibraryComponents.Atoms.Tooltip
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Version Upgrade"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                            {Icons.getIconTag(
+                              Icons.Iconvsc.VscVersions
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                        <LibraryComponents.Atoms.Tooltip
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5
+                            {Icons.getIconTag(
+                              Icons.Iconio5
                                 .IoDuplicateOutline
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                       </>
                     )}
                   </div>
