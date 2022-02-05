@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,textFilter,Form,Icons,Tooltip} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {lookupItems} from "@lp/library/utils"
 import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../../index"
 interface ExtraDataPatientManagerProps {
@@ -11,7 +11,7 @@ interface ExtraDataPatientManagerProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean  
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -38,7 +38,7 @@ export const ExtraDataPatientManagerList = observer(
     return (
       <>
         <div style={{ position: "relative" }}>
-          <LibraryComponents.Organisms.TableBootstrap
+          <TableBootstrap
             id="_id"
             data={props.data}
             totalSize={props.totalSize}
@@ -55,7 +55,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData?.country ? row.extraData?.country : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     address = filter
                   },
@@ -86,7 +86,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData?.state ? row.extraData.state : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     postCode = filter
                   },
@@ -118,7 +118,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData?.city  ? row.extraData?.city : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     city = filter
                   },
@@ -155,7 +155,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.postCode ? row.extraData.postCode : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     state = filter
                   },
@@ -171,7 +171,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.address ? row.extraData.address : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     country = filter
                   },
@@ -187,7 +187,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.email ? row.extraData.email : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     email = filter
                   },
@@ -204,7 +204,7 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return (
                     <>
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         value={row.extraData.isMobileAndWhatsApp}
                         onChange={(isMobileAndWhatsApp) => {
                           props.onUpdateItem &&
@@ -227,7 +227,7 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return (
                     <>
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         value={row.extraData.confidental}
                         onChange={(confidental) => {
                           props.onUpdateItem &&
@@ -246,7 +246,7 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return (
                     <>
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         value={row.extraData.permanent}
                         onChange={(permanent) => {
                           props.onUpdateItem &&
@@ -308,7 +308,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.bloodGroup ? row.extraData.bloodGroup : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     bloodGroup = filter
                   },
@@ -323,7 +323,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.followUp ? row.extraData.followUp : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     followUp = filter
                   },
@@ -338,7 +338,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.comments ? row.extraData.comments : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     comments = filter
                   },
@@ -353,7 +353,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.fyiLine ? row.extraData.fyiLine : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     fyiLine = filter
                   },
@@ -368,7 +368,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.balance ? row.extraData.balance : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     balance = filter
                   },
@@ -383,7 +383,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.enteredBy ? row.extraData.enteredBy : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     enteredBy = filter
                   },
@@ -399,7 +399,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.status ? row.extraData.status : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     status = filter
                   },
@@ -445,7 +445,7 @@ export const ExtraDataPatientManagerList = observer(
                 headerClasses: "textHeader3",
                 sort: true,
                 csvFormatter: (col,row) => (row.extraData.environment ? row.extraData.environment : ""),
-                filter: LibraryComponents.Organisms.Utils.textFilter({
+                filter: textFilter({
                   getFilter: (filter) => {
                     environment = filter
                   },
@@ -497,8 +497,8 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cellContent, row) => (
                   <>
                     <div className="flex flex-row">
-                      <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                        <LibraryComponents.Atoms.Icons.IconContext
+                      <Tooltip tooltipText="Delete">
+                        <Icons.IconContext
                           color="#fff"
                           size="20"
                           onClick={() =>
@@ -512,11 +512,11 @@ export const ExtraDataPatientManagerList = observer(
                             })
                           }
                         >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                          {Icons.getIconTag(
+                            Icons.IconBs.BsFillTrashFill
                           )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                      </LibraryComponents.Atoms.Tooltip>
+                        </Icons.IconContext>
+                      </Tooltip>
                     </div>
                   </>
                 ),

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
-import * as LibraryComponents from "@lp/library/components"
+import {Icons,Form} from "@lp/library/components"
 import {getDefaultLookupItem,lookupItems} from "@lp/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
@@ -153,7 +153,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
           {packages?.pacakgeListS?.map((item, index) => (
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
-                <LibraryComponents.Atoms.Icons.IconContext
+                <Icons.IconContext
                   color="#fff"
                   size="20"
                   onClick={() => {
@@ -161,10 +161,10 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                     else onRemoveItem("S", item.packageCode, item.index)
                   }}
                 >
-                  {LibraryComponents.Atoms.Icons.getIconTag(
-                    LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                  {Icons.getIconTag(
+                    Icons.IconBs.BsFillTrashFill
                   )}
-                </LibraryComponents.Atoms.Icons.IconContext>
+                </Icons.IconContext>
               </td>
               <td>{item?.panelCode}</td>
               <td>{item?.panelName}</td>
@@ -175,7 +175,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
               <td>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   label=""
                   value={item?.bill || false}
                   disabled={true}
@@ -190,7 +190,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Gross Amt"
                   type="number"
@@ -210,7 +210,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Net Amt"
                   type="number"
@@ -230,7 +230,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Discount"
                   type="number"
@@ -250,7 +250,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}
@@ -267,7 +267,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}
@@ -341,7 +341,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
                 {" "}
-                <LibraryComponents.Atoms.Icons.IconContext
+                <Icons.IconContext
                   color="#fff"
                   size="20"
                   onClick={() => {
@@ -350,10 +350,10 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                       onRemoveItem && onRemoveItem("M", item.packageCode, item.index)
                   }}
                 >
-                  {LibraryComponents.Atoms.Icons.getIconTag(
-                    LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                  {Icons.getIconTag(
+                    Icons.IconBs.BsFillTrashFill
                   )}
-                </LibraryComponents.Atoms.Icons.IconContext>
+                </Icons.IconContext>
               </td>
               <td>{item?.panelCode}</td>
               <td>{item?.panelName}</td>
@@ -364,7 +364,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
               <td>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   label=""
                   value={item?.bill || false}
                   disabled={true}
@@ -379,7 +379,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Gross Amt"
                   type="number"
@@ -397,7 +397,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Net Amt"
                   type="number"
@@ -415,7 +415,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Discount"
                   type="number"
@@ -433,7 +433,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}
@@ -450,7 +450,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}
@@ -524,17 +524,17 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
                 {" "}
-                <LibraryComponents.Atoms.Icons.IconContext
+                <Icons.IconContext
                   color="#fff"
                   size="20"
                   onClick={() => {
                     onDeletePackage(item._id)
                   }}
                 >
-                  {LibraryComponents.Atoms.Icons.getIconTag(
-                    LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                  {Icons.getIconTag(
+                    Icons.IconBs.BsFillTrashFill
                   )}
-                </LibraryComponents.Atoms.Icons.IconContext>
+                </Icons.IconContext>
               </td>
               <td>{item?.panelCode}</td>
               <td>{item?.panelName}</td>
@@ -546,7 +546,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
               <td>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   label=""
                   value={item?.bill || false}
                   disabled={true}
@@ -561,7 +561,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Gross Amt"
                   type="number"
@@ -579,7 +579,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Net Amt"
                   type="number"
@@ -597,7 +597,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Discount"
                   type="number"
@@ -615,7 +615,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}
@@ -632,7 +632,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}
@@ -706,17 +706,17 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
             <tr key={item.panelCode}>
               <td className="sticky left-0 bg-gray-500">
                 {item.serviceType === "K" && (
-                  <LibraryComponents.Atoms.Icons.IconContext
+                  <Icons.IconContext
                     color="#fff"
                     size="20"
                     onClick={() => {
                       onDeletePackage(item._id)
                     }}
                   >
-                    {LibraryComponents.Atoms.Icons.getIconTag(
-                      LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                    {Icons.getIconTag(
+                      Icons.IconBs.BsFillTrashFill
                     )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
+                  </Icons.IconContext>
                 )}
               </td>
               <td>{item?.panelCode}</td>
@@ -728,7 +728,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
               <td>
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   label=""
                   value={item?.bill || false}
                   disabled={true}
@@ -743,7 +743,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Gross Amt"
                   type="number"
@@ -761,7 +761,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Net Amt"
                   type="number"
@@ -779,7 +779,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label=""
                   placeholder="Discount"
                   type="number"
@@ -797,7 +797,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}
@@ -814,7 +814,7 @@ export const TablePackagesList = observer(({ data }: TablePackagesListProps) => 
                 />
               </td>
               <td>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   label=""
                   disabled={true}
                   style={{ width: 300 }}

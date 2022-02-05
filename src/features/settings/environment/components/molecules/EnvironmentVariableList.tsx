@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {TableBootstrap,Icons,Form,Tooltip,textFilter} from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {lookupItems} from "@lp/library/utils"
 
@@ -26,7 +26,7 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -44,7 +44,7 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
               sort: true,
               editable:(content, row, rowIndex, columnIndex) => row.isModify,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   environmentVariable = filter
                 },
@@ -57,7 +57,7 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
               sort: true,
               editable:(content, row, rowIndex, columnIndex) => row.isModify,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   category = filter
                 },
@@ -97,7 +97,7 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
               text: "Description",
               headerClasses: "textHeader3",
               editable:(content, row, rowIndex, columnIndex) => row.isModify,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   description = filter
                 },
@@ -110,7 +110,7 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
               text: "Entered By",
               headerClasses: "textHeader3",
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   enteredBy = filter
                 },
@@ -129,8 +129,8 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
                 return (
                   <>
                     <div className="flex flex-row gap-2">
-                      <LibraryComponents.Atoms.Form.Toggle
-                        label="Lab"
+                      <Form.Toggle
+                        
                         disabled={!row.isModify}
                         value={row?.allLabs || false}
                         onChange={(allLabs) => {
@@ -138,8 +138,8 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
                             props.onUpdateItem(allLabs, "allLabs", row._id)
                         }}
                       />  
-                      <LibraryComponents.Atoms.Form.Toggle
-                        label="User"
+                      <Form.Toggle
+                        
                         disabled={!row.isModify}
                         value={row?.allUsers || false}
                         onChange={(allUsers) => {
@@ -147,7 +147,7 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
                             props.onUpdateItem(allUsers, "allUsers", row._id)
                         }}
                       />
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Department"
                         disabled={!row.isModify}
                         value={row?.allDepartment || false}
@@ -174,8 +174,8 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -189,11 +189,11 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

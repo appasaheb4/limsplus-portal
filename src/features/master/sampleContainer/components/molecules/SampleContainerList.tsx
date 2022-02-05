@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,Icons,Tooltip,Form,textFilter} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 
 let containerCode
 let containerName
@@ -15,7 +15,7 @@ interface SampleContainerListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
@@ -25,7 +25,7 @@ interface SampleContainerListProps {
 
 export const SampleContainerList = (props: SampleContainerListProps) => {
   return (
-    <LibraryComponents.Organisms.TableBootstrap
+    <TableBootstrap
       id="_id"
       data={props.data}
       totalSize={props.totalSize}
@@ -42,7 +42,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           headerClasses: "textHeader4",
           sort: true,
           csvFormatter: col => (col ? col : ""),
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) =>{
               containerCode = filter
             }
@@ -55,7 +55,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           headerClasses: "textHeader4",
           sort: true,
           csvFormatter: col => (col ? col : ""),
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) =>{
               containerName = filter
             }
@@ -68,7 +68,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           headerClasses: "textHeader4",
           sort: true,
           csvFormatter: col => (col ? col : ""),
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) =>{
               description = filter
             }
@@ -99,7 +99,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             columnIndex
           ) => (
             <>
-              <LibraryComponents.Atoms.Form.InputFile
+              <Form.InputFile
                 label="Image"
                 placeholder="Image"
                 onChange={(e) => {
@@ -117,7 +117,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           headerClasses: "textHeader4",
           sort: true,
           csvFormatter: col => (col ? col : ""),
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) =>{
               environment = filter
             }
@@ -164,8 +164,8 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           formatter: (cellContent, row) => (
             <>
               <div className="flex flex-row">
-                <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                  <LibraryComponents.Atoms.Icons.IconContext
+                <Tooltip tooltipText="Delete" position="top">
+                  <Icons.IconContext
                     color="#fff"
                     size="20"
                     onClick={() =>
@@ -179,11 +179,11 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
                       })
                     }
                   >
-                    {LibraryComponents.Atoms.Icons.getIconTag(
-                      LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                    {Icons.getIconTag(
+                      Icons.IconBs.BsFillTrashFill
                     )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
-                </LibraryComponents.Atoms.Tooltip>
+                  </Icons.IconContext>
+                </Tooltip>
               </div>
             </>
           ),

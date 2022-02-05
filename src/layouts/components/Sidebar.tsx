@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom"
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
 
-import * as LibraryComponents from "@lp/library/components"
+import {Icons,AutocompleteGroupBy} from "@lp/library/components"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
@@ -69,9 +69,9 @@ const SidebarCategory = withRouter(
           aria-expanded={isOpen ? "true" : "false"}
         >
           {icon !== undefined ? (
-            <LibraryComponents.Atoms.Icons.IconContext>
+            <Icons.IconContext>
               <Icon />
-            </LibraryComponents.Atoms.Icons.IconContext>
+            </Icons.IconContext>
           ) : null}
           <span className="align-middle">{title}</span>
           {badgeColor && badgeText ? (
@@ -117,9 +117,9 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
       <NavLink to={props.to} className="sidebar-link" activeClassName="active">
         <span className="flex items-center">
           {props.icon ? (
-            <LibraryComponents.Atoms.Icons.IconContext>
+            <Icons.IconContext>
               <props.icon />
-            </LibraryComponents.Atoms.Icons.IconContext>
+            </Icons.IconContext>
           ) : null}
           {props.title}
         </span>
@@ -176,7 +176,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
               <span className="align-middle ml-2">{`Lims Plus`}</span>
             </a>
             <div className="p-2">
-              <LibraryComponents.Molecules.AutocompleteGroupBy
+              <AutocompleteGroupBy
                 data={stores.routerStore.userRouter}
                 onChange={async(item: any, children: any) => {
                   await RouterFlow.updateSelectedCategory(
@@ -200,8 +200,8 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           icon={
-                            LibraryComponents.Atoms.Icons.getIcons(category.icon) ||
-                            LibraryComponents.Atoms.Icons.IconBs.BsList
+                            Icons.getIcons(category.icon) ||
+                            Icons.IconBs.BsList
                           }
                           to={category.path}
                           isOpen={openRoutes[index]}
@@ -217,8 +217,8 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               badgeColor={route.badgeColor}
                               badgeText={route.badgeText}
                               icon={
-                                LibraryComponents.Atoms.Icons.getIcons(route.icon) ||
-                                LibraryComponents.Atoms.Icons.IconBs.BsList
+                                Icons.getIcons(route.icon) ||
+                                Icons.IconBs.BsList
                               }
                               onChangeItem={async (category, item) => {
                                 await RouterFlow.updateSelectedCategory(
@@ -235,7 +235,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           name={category.name}
                           title={category.title}
                           to={category.path}
-                          icon={LibraryComponents.Atoms.Icons.getIcons(
+                          icon={Icons.getIcons(
                             category.icon
                           )}
                           badgeColor={category.badgeColor}

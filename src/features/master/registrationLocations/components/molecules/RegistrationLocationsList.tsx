@@ -2,10 +2,10 @@
 import React from "react"
 import dayjs from "dayjs"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons,TableBootstrap} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectCorparateCode } from "../index"
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let dateCreation
 let dateActive
@@ -54,7 +54,7 @@ interface RegistrationLocationsListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
@@ -69,7 +69,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
   }
   return (
     <div style={{ position: "relative" }}>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -86,7 +86,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 locationCode = filter
               },
@@ -99,7 +99,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 locationName = filter
               },
@@ -112,7 +112,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 address = filter
               },
@@ -125,7 +125,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 city = filter
               },
@@ -138,7 +138,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 state = filter
               },
@@ -151,7 +151,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 country = filter
               },
@@ -164,7 +164,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) => {
                 postcode = filter
               },
@@ -180,7 +180,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader4",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 customerGroup = filter
               },
@@ -222,7 +222,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 category = filter
               },
@@ -267,7 +267,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             formatter: (cell, row) => {
               return (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
@@ -285,7 +285,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 telephone = filter
               },
@@ -298,7 +298,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 mobileNo = filter
               },
@@ -311,7 +311,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 email = filter
               },
@@ -324,7 +324,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 deliveryType = filter
               },
@@ -366,7 +366,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 deliveryMethod = filter
               },
@@ -408,7 +408,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 corporateCode = filter
               },
@@ -437,7 +437,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 invoiceAc = filter
               },
@@ -476,7 +476,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 labLicence = filter
               },
@@ -493,7 +493,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               return (
                 <>
                   {" "}
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.printLabel}
                     onChange={(printLabel) => {
@@ -511,7 +511,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 methodColn = filter
               },
@@ -553,7 +553,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) => {
                 workHrs = filter
               },
@@ -569,7 +569,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 salesTerritoRy = filter
               },
@@ -611,7 +611,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 area = filter
               },
@@ -624,7 +624,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 zone = filter
               },
@@ -637,7 +637,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 route = filter
               },
@@ -650,7 +650,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 lab = filter
               },
@@ -680,7 +680,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 location = filter
               },
@@ -697,7 +697,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               return (
                 <>
                   {" "}
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.neverBill}
                     onChange={(neverBill) => {
@@ -715,7 +715,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 edi = filter
               },
@@ -728,7 +728,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 ediAddress = filter
               },
@@ -742,7 +742,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 edi = filter
               },
@@ -755,7 +755,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 ediAddress = filter
               },
@@ -773,7 +773,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               return (
                 <>
                   {" "}
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.urgent}
                     onChange={(urgent) => {
@@ -791,7 +791,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 schedule = filter
               },
@@ -821,7 +821,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 reportFormat = filter
               },
@@ -834,7 +834,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 info = filter
               },
@@ -847,7 +847,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 fyiLine = filter
               },
@@ -860,7 +860,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 workLine = filter
               },
@@ -873,7 +873,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 acClass = filter
               },
@@ -915,7 +915,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 accountType = filter
               },
@@ -957,7 +957,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 status = filter
               },
@@ -1000,7 +1000,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 environment = filter
               },
@@ -1043,7 +1043,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             sort: true,
             csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD") : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) => {
                 dateCreation = filter
               },
@@ -1063,7 +1063,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   value={new Date(row.dateCreation)}
                   onFocusRemove={(dateCreation) => {
                     props.onUpdateItem &&
@@ -1080,7 +1080,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             sort: true,
             csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) => {
                 dateActive = filter
               },
@@ -1100,7 +1100,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   value={new Date(row.dateActive)}
                   onFocusRemove={(dateActive) => {
                     props.onUpdateItem &&
@@ -1117,7 +1117,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             sort: true,
             csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD") : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) => {
                 dateExpire = filter
               },
@@ -1137,7 +1137,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   value={new Date(row.dateExpire)}
                   onFocusRemove={(dateExpire) => {
                     props.onUpdateItem &&
@@ -1154,7 +1154,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) => {
                 version = filter
               },
@@ -1169,7 +1169,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 enteredBy = filter
               },
@@ -1186,11 +1186,11 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     tooltipText="Delete"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() =>
@@ -1204,43 +1204,43 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                         })
                       }
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                   {row.status !== "I" && (
                     <>
-                      <LibraryComponents.Atoms.Tooltip
+                      <Tooltip
                         className="ml-2"
                         tooltipText="Version Upgrade"
                       >
-                        <LibraryComponents.Atoms.Icons.IconContext
+                        <Icons.IconContext
                           color="#fff"
                           size="20"
                           onClick={() =>
                             props.onVersionUpgrade && props.onVersionUpgrade(row)
                           }
                         >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          {Icons.getIconTag(
+                            Icons.Iconvsc.VscVersions
                           )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                      </LibraryComponents.Atoms.Tooltip>
-                      <LibraryComponents.Atoms.Tooltip
+                        </Icons.IconContext>
+                      </Tooltip>
+                      <Tooltip
                         className="ml-2"
                         tooltipText="Duplicate"
                       >
-                        <LibraryComponents.Atoms.Icons.IconContext
+                        <Icons.IconContext
                           color="#fff"
                           size="20"
                           onClick={() => props.onDuplicate && props.onDuplicate(row)}
                         >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                          {Icons.getIconTag(
+                            Icons.Iconio5.IoDuplicateOutline
                           )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                      </LibraryComponents.Atoms.Tooltip>
+                        </Icons.IconContext>
+                      </Tooltip>
                     </>
                   )}
                 </div>

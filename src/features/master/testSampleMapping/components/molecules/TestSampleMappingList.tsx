@@ -2,8 +2,8 @@
 import React from "react"
 import _ from "lodash"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,Icons,Tooltip,textFilter,Form,List,Buttons,Grid,Svg} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {
   AutoCompleteFilterSingleSelectTestCode,
   AutoCompleteFilterSingleSelectSampleCode,
@@ -39,7 +39,7 @@ interface TestSampleMappingListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -50,7 +50,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -67,7 +67,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   testCode = filter
                 },
@@ -96,7 +96,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   sampleCode = filter
                 },
@@ -129,7 +129,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   sampleType = filter
                 },
@@ -162,7 +162,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   sampleGroup = filter
                 },
@@ -195,7 +195,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   collContainerCode = filter
                 },
@@ -228,7 +228,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   collContainerName = filter
                 },
@@ -261,7 +261,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   testContainerCode = filter
                 },
@@ -294,7 +294,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   testContainerName = filter
                 },
@@ -329,7 +329,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.primaryContainer}
                       onChange={(primaryContainer) => {
                         props.onUpdateItem &&
@@ -352,7 +352,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.uniqueContainer}
                       onChange={(uniqueContainer) => {
                         props.onUpdateItem &&
@@ -376,7 +376,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.centerIfuge}
                       onChange={(centerIfuge) => {
                         props.onUpdateItem &&
@@ -396,7 +396,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 return (
                   <>
                     {" "}
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.aliquot}
                       onChange={(aliquot) => {
                         props.onUpdateItem &&
@@ -416,7 +416,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.labSpecfic}
                       onChange={(labSpecfic) => {
                         props.onUpdateItem &&
@@ -436,7 +436,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       
                       value={row.departmentSpecfic}
                       onChange={(departmentSpecfic) => {
@@ -460,7 +460,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     
                       value={row.sharedSample}
                       onChange={(sharedSample) => {
@@ -478,7 +478,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   minDrawVol = filter
                 },
@@ -491,7 +491,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   minDrawVolUnit = filter
                 },
@@ -532,7 +532,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   minTestVol = filter
                 },
@@ -544,7 +544,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   minTestVolUnit = filter
                 },
@@ -585,7 +585,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   condition = filter
                 },
@@ -597,7 +597,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   repentionPeriod = filter
                 },
@@ -610,7 +610,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   repentionUnits = filter
                 },
@@ -651,7 +651,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   labelInst = filter
                 },
@@ -666,7 +666,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.printLabels}
                       onChange={(printLabels) => {
                         props.onUpdateItem &&
@@ -683,7 +683,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   info = filter
                 },
@@ -697,21 +697,21 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               csvFormatter: (cell, row, rowIndex) =>
               `Prefrence:${row.departments?.map(item => item.prefrence)} - Department:${row.departments?.map(item => item.name)} - TatInMin:${row.departments?.map(item => item.tatInMin)}` 
               ,
-              // filter: LibraryComponents.Organisms.Utils.textFilter({
+              // filter: textFilter({
               //   getFilter: (filter) => {
               //     departments = filter
               //   },
               // }),
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Atoms.List
+                  <List
                     space={2}
                     direction="row"
                     justify="center"
                   >
                     {row.departments?.map((item) => (
                       <div className="mb-2">
-                        <LibraryComponents.Atoms.Buttons.Button
+                        <Buttons.Button
                           size="medium"
                           type="solid"
                           onClick={() => {}}
@@ -719,10 +719,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           {`Department: ${item.code} - ${item.name}`}
                           {` Prefrence: ${item.prefrence}`}
                           {` Tat In Min: ${item.tatInMin}`}
-                        </LibraryComponents.Atoms.Buttons.Button>
+                        </Buttons.Button>
                       </div>
                     ))}
-                  </LibraryComponents.Atoms.List>
+                  </List>
                 </>
               ),
               editorRenderer: (
@@ -734,8 +734,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                <LibraryComponents.Atoms.Form.InputWrapper>
-                  <LibraryComponents.Atoms.Grid cols={4}>
+                <Form.InputWrapper>
+                  <Grid cols={4}>
                   <div className="mt-1">
                       <AutoCompleteFilterSingleSelectDepartment
                         onSelect={(item) => {
@@ -747,7 +747,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         }}
                       />
                     </div>
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       placeholder="Prefrence"
                       type="number"
                       value={row.prefrence}
@@ -758,7 +758,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         })
                       }}
                     />
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       placeholder="TAT IN MIN"
                       type="number"
                       value={row.tatInMin}
@@ -770,7 +770,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       }}
                     />
                     <div className="mt-1">
-                      <LibraryComponents.Atoms.Buttons.Button
+                      <Buttons.Button
                         size="medium"
                         type="solid"
                         onClick={() => {
@@ -815,14 +815,14 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           }
                         }}
                       >
-                        <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                        <Icons.EvaIcon icon="plus-circle-outline" />
                         {`Add`}
-                      </LibraryComponents.Atoms.Buttons.Button>
+                      </Buttons.Button>
                     </div>
                     <div className="clearfix"></div>           
-                  </LibraryComponents.Atoms.Grid>
+                  </Grid>
                   <br/>
-                  <LibraryComponents.Atoms.List
+                  <List
                     space={2}
                     direction="row"
                     justify="center"
@@ -830,10 +830,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                     <div>
                       {row.departments?.map((item, index) => (
                         <div className="mb-2" key={index}>
-                          <LibraryComponents.Atoms.Buttons.Button
+                          <Buttons.Button
                             size="medium"
                             type="solid"
-                            icon={LibraryComponents.Atoms.Icon.Remove}
+                            icon={Svg.Remove}
                             onClick={() => {
                               const firstArr =
                                 row?.departments?.slice(0, index) || []
@@ -858,12 +858,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                             {`Department: ${item.code} - ${item.name}`}
                                 {` Prefrence: ${item.prefrence}`}
                                 {` Tat In Min: ${item.tatInMin}`}
-                          </LibraryComponents.Atoms.Buttons.Button>
+                          </Buttons.Button>
                         </div>
                       ))}
                     </div>
-                  </LibraryComponents.Atoms.List>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </List>
+                  </Form.InputWrapper>
                 </>
               ),
             },
@@ -873,7 +873,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   environment = filter
                 },
@@ -919,11 +919,11 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="top"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -937,11 +937,11 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

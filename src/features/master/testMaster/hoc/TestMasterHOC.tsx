@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const TestMasterHOC = (Component: React.FC<any>) => {
   return observer(
@@ -21,7 +21,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
           testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              status: LibraryUtils.getDefaultLookupItem(
+              status: getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
               ),
@@ -32,7 +32,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
           testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              environment:LibraryUtils.getDefaultLookupItem(
+              environment:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
               ),
@@ -40,7 +40,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              sufix:LibraryUtils.getDefaultLookupItem(
+              sufix:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "SUFIX"
               ),
@@ -48,7 +48,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              prefix:LibraryUtils.getDefaultLookupItem(
+              prefix:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "PREFIX"
               ),
@@ -56,7 +56,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              testType:LibraryUtils.getDefaultLookupItem(
+              testType:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "TEST_TYPE"
               ),
@@ -64,7 +64,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              category:LibraryUtils.getDefaultLookupItem(
+              category:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "CATEGORY"
               ),
@@ -72,7 +72,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              disease:LibraryUtils.getDefaultLookupItem(
+              disease:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "DISEASE"
               ),
@@ -80,7 +80,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             testMasterStore &&
             testMasterStore.updateTestMaster({
               ...testMasterStore.testMaster,
-              workflow:LibraryUtils.getDefaultLookupItem(
+              workflow:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "WORKFLOW"
               ),

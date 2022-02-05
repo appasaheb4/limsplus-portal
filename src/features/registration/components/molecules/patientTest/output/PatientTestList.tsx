@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,customFilter,Form} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { PatientTestExpandPanel } from "./PatientTestExpandPanel"
 
-import { NumberFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter } from "@lp/library/components/Organisms"
 
 interface PatientTestListProps {
   data: any
@@ -13,7 +13,7 @@ interface PatientTestListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -46,7 +46,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               text: "Lab Id",
               headerClasses: "textHeader4 z-10",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   labid = filter
                 },
@@ -60,7 +60,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               text: "Order Id",
               headerClasses: "textHeader4 z-10",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   orderId = filter
                 },
@@ -76,7 +76,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             //   sort: true,
             //   csvFormatter: (cell, row, rowIndex) =>
             //     `${row.panelCode.map((item) => item.panelCode)}`,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter({
+            //   filter: textFilter({
             //     getFilter: (filter) => {
             //       panelCode = filter
             //     },
@@ -113,7 +113,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.confidential}
                       disabled={true}
                     />
@@ -127,7 +127,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.urgent}
                       disabled={true}
                     />
@@ -141,7 +141,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.cretical}
                       disabled={true}
                     />

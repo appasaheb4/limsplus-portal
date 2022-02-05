@@ -2,11 +2,9 @@
 import React from "react"
 import dayjs from "dayjs"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,DateFilter,TableBootstrap,textFilter,customFilter,Form,Icons,Tooltip} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectAnalayteMethod} from "../index"
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
-
 let lab
 let analyteCode
 let analyteName
@@ -38,7 +36,7 @@ interface MasterAnalyteProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateFileds?:(fileds:any,id:string)=>void
@@ -56,7 +54,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -72,7 +70,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   lab = filter
                 }
@@ -101,7 +99,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Code",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   analyteCode = filter
                 }
@@ -113,7 +111,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Name",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   analyteName = filter
                 }
@@ -126,7 +124,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   description = filter
                 }
@@ -141,7 +139,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     value={row.description}
                     onChange={(description) => {
@@ -161,7 +159,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
@@ -179,7 +177,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader6",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   analyteMethodCode = filter
                 }
@@ -208,7 +206,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader6",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   analyteMethodName = filter
                 }
@@ -237,7 +235,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   shortName = filter
                 }
@@ -252,7 +250,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter)=>{
                   price = filter
                 }
@@ -270,7 +268,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="txtPrice"
                     placeholder="Price"
                     type="number"
@@ -296,7 +294,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
@@ -314,7 +312,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader1",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   high = filter
                 }
@@ -327,7 +325,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader1",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   low = filter
                 }
@@ -343,7 +341,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <> 
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                      disabled={!editorCell(row)}
                      value={row.reportable}
                      onChange={(reportable) => {
@@ -361,7 +359,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   resultType = filter
                 }
@@ -408,7 +406,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.calculationFlag}
                       onChange={(calculationFlag) => {
@@ -430,7 +428,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   analyteType = filter
                 }
@@ -474,7 +472,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader1",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   units = filter
                 }
@@ -518,7 +516,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader1",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   usage = filter
                 }
@@ -562,7 +560,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader1",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   picture = filter
                 }
@@ -606,7 +604,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.repetition}
                       onChange={(repetition) => {
@@ -627,7 +625,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
@@ -648,7 +646,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
@@ -670,7 +668,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 return (
                   <>
                     {" "}
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
@@ -691,7 +689,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.pageBreak}
                       onChange={(pageBreak) => {
@@ -708,7 +706,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //   dataField: "workflow",
             //   text: "Workflow",
             //   sort: true,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   filter: textFilter(),
             //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             //   editorRenderer: (
             //     editorProps,
@@ -719,7 +717,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //     columnIndex
             //   ) => (
             //     <>
-            //       <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
+            //       <Form.InputWrapper label="Workflow">
             //         <select
             //           className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
@@ -745,7 +743,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //   dataField: "sampleType",
             //   text: "sampleType",
             //   sort: true,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   filter: textFilter(),
             //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             //   editorRenderer: (
             //     editorProps,
@@ -756,7 +754,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //     columnIndex
             //   ) => (
             //     <>
-            //       <LibraryComponents.Atoms.Form.InputWrapper
+            //       <Form.InputWrapper
             //         label="Sample Type"
             //         id="optionSampleType"
             //       >
@@ -787,7 +785,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   calcyName = filter
                 }
@@ -800,7 +798,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader2",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   cptCode = filter
                 }
@@ -813,7 +811,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader2",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   status = filter
                 }
@@ -856,7 +854,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader4",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   enteredBy = filter
                 }
@@ -869,7 +867,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader11",
               sort: true,
                csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter)=>{
                   dateCreation = filter
                 }
@@ -889,7 +887,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateCreation)}
                     onFocusRemove={(dateCreation) => {
                       props.onUpdateItem &&
@@ -906,7 +904,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader11",
               sort: true,
                csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   dateActive = filter
                 },
@@ -926,7 +924,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateActive)}
                     onFocusRemove={(dateActive) => {
                       props.onUpdateItem &&
@@ -943,19 +941,19 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader11",
               sort: true,
                csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
-              // filter: LibraryComponents.Organisms.Utils.dateFilter({
+              // filter: dateFilter({
               //   comparators: [
-              //     LibraryComponents.Organisms.Utils.Comparator.EQ,
-              //     LibraryComponents.Organisms.Utils.Comparator.GE,
-              //     LibraryComponents.Organisms.Utils.Comparator.LT,
+              //     Comparator.EQ,
+              //     Comparator.GE,
+              //     Comparator.LT,
               //   ],
               //   dateStyle: { marginLeft: "2px" },
               //   defaultValue: {
-              //     comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              //     comparator: Comparator.EQ,
               //   },
               //   style: { display: "inline" },
               // }),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   dateExpire = filter
                 },
@@ -975,7 +973,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateExpire)}
                     onFocusRemove={(dateExpire) => {
                       props.onUpdateItem &&
@@ -992,14 +990,14 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader5",
               sort: true,
                csvFormatter: col => (col ? col : ""),
-              // filter: LibraryComponents.Organisms.Utils.numberFilter({
+              // filter: numberFilter({
               //   numberStyle: { marginLeft: "2px" },
               //   style: { display: "inline" },
               //   defaultValue: {
-              //     comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              //     comparator: Comparator.EQ,
               //   },
               // }),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   version = filter
                 },
@@ -1015,7 +1013,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sort: true,
                csvFormatter: col => (col ? col : ""),
                editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter)=>{
                   environment = filter
                 }
@@ -1063,11 +1061,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="top"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -1081,46 +1079,46 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <LibraryComponents.Atoms.Tooltip
+                        <Tooltip
                           className="ml-4"
                           tooltipText="Version Upgrade"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                            {Icons.getIconTag(
+                              Icons.Iconvsc.VscVersions
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                        <LibraryComponents.Atoms.Tooltip
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip
                           className="ml-4"
                           tooltipText="Duplicate"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5
+                            {Icons.getIconTag(
+                              Icons.Iconio5
                                 .IoDuplicateOutline
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                       </>
                     )}
                   </div>

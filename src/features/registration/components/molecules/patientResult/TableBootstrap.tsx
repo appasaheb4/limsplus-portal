@@ -17,10 +17,8 @@ import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
        
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {Buttons,Icons} from "@lp/library/components"
 
-import * as Config from "@lp/config"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -310,25 +308,25 @@ const TableBootstrap = ({
                   Export CSV!!
                 </ExportCSVButton>
                 {isFilterOpen ? (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronUp />
+                  </Buttons.Button>
                 ) : (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronDown />
+                  </Buttons.Button>
                 )}
               </div>
               {isFilterOpen && (

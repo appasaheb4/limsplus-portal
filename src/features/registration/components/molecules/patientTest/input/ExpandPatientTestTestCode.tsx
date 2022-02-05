@@ -3,21 +3,15 @@ import React, { useState } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import _ from "lodash"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import cellEditFactory from "react-bootstrap-table2-editor"
+// import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
-  PaginationTotalStandalone,
+  
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
-import dayjs from "dayjs"
+// import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
 
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
-
-import * as Config from "@lp/config"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
