@@ -2,7 +2,7 @@
 import React from "react"
 import { observer } from "mobx-react"
 import {NumberFilter,Icons,Tooltip,customFilter,textFilter} from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {Confirm} from "@lp/library/models"
 import { PatientOrderExpand } from "./PatientOrderExpand"
 
 // import { NumberFilter } from "@lp/library/components/Organisms"
@@ -13,7 +13,7 @@ interface PatientOrderListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
