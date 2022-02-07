@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import * as LibraryComponents from "@lp/library/components"
+import {ModalChangePassword, Toast, ModalConfirm} from "@lp/library/components"
 
 import BarChart from "./BarChart"
 import Feed from "./Feed"
@@ -70,7 +70,7 @@ const Default = observer(() => {
           </Col>
         </Row>
 
-        <LibraryComponents.Molecules.ModalChangePassword
+        <ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
             let exipreDate = new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"))
@@ -93,12 +93,12 @@ const Default = observer(() => {
                   ...userStore.changePassword,
                   tempHide: true,
                 })
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.userChnagePassword.message}`,
                 })
                 setModalChangePassword({ show: false })
               } else  {
-                LibraryComponents.Atoms.Toast.error({
+                Toast.error({
                   message: `😔 ${res.data.data.message}`,
                 })
             }
@@ -117,7 +117,7 @@ const Default = observer(() => {
           }}
         />
       </Container>
-      <LibraryComponents.Atoms.ModalConfirm
+      <ModalConfirm
         {...modalConfirm}
         click={(type) => {
           if (type === "accountexpire") {
@@ -131,7 +131,7 @@ const Default = observer(() => {
                 stores.loginStore
                   .removeUser()
                   .then((res) => {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.logout.message}`,
                     })
                     if (res.logout.success) {
