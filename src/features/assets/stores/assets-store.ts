@@ -1,6 +1,6 @@
 import { version } from "mobx-sync"
 import { makeAutoObservable, computed } from "mobx"
-import * as Services from "../services"
+import {AssetsService} from "../services"
 
 @version(0.1)
 class AssetsStore {
@@ -8,7 +8,7 @@ class AssetsStore {
     makeAutoObservable(this)
   }
   @computed get AssetsService() {
-    return new Services.AssetsService()
+    return new AssetsService()
   }
 }  
 
