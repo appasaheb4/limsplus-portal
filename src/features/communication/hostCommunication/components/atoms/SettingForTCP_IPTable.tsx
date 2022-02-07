@@ -1,6 +1,6 @@
 import React from "react"
 import { Table } from "reactstrap"
-import * as LibraryComponents from "@lp/library/components"
+import {Form} from "@lp/library/components"
 import { observer } from "mobx-react"
 import {useStores} from '@lp/stores';
 
@@ -19,7 +19,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
           <tr>
             <td>Host IP address</td>
             <td>
-              <LibraryComponents.Atoms.Form.Input
+              <Form.Input
                 id="hostIpAddress"
                 placeholder="Host Ip Address"
                 value={
@@ -44,7 +44,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
             <td>Port number</td>
             <td>
               {" "}
-              <LibraryComponents.Atoms.Form.Input
+              <Form.Input
                 id="portNumber"
                 placeholder="Port Number"
                 value={
@@ -68,7 +68,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
             <td>Timeout</td>
             <td>
               {" "}
-              <LibraryComponents.Atoms.Form.Input
+              <Form.Input
                 id="timeout"
                 placeholder="Timeout"
                 value={
@@ -92,7 +92,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
             <td>Response Time</td>
             <td>
               {" "}
-              <LibraryComponents.Atoms.Form.Input
+              <Form.Input
                 id="responseTime"
                 placeholder="Response Time"
                 value={

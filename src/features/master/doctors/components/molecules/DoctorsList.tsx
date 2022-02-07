@@ -2,10 +2,10 @@
 import React from "react"
 import dayjs from "dayjs"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,DateFilter,Icons,Tooltip,textFilter,customFilter,TableBootstrap,Form} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs} from '../index'
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 let dateCreation
 let dateActive
 let dateExpire
@@ -53,7 +53,7 @@ interface DoctorsListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
@@ -69,7 +69,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
 
   return (
     <div style={{ position: "relative" }}>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -86,7 +86,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 doctorCode = filter
               }
@@ -99,7 +99,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 doctorName = filter
               }
@@ -112,7 +112,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 sex = filter
               }
@@ -153,7 +153,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 title = filter
               }
@@ -197,7 +197,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 firstName = filter
               }
@@ -210,7 +210,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 middleName = filter
               }
@@ -223,7 +223,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 lastName = filter
               }
@@ -236,7 +236,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 reportName = filter
               }
@@ -249,7 +249,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader2",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 address = filter
               }
@@ -262,7 +262,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader1",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 city = filter
               }
@@ -275,7 +275,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader1",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 state = filter
               }
@@ -288,7 +288,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader1",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 country = filter
               }
@@ -301,7 +301,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) =>{
                 postcode = filter
               }
@@ -317,7 +317,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 doctorType = filter
               }
@@ -331,7 +331,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 speciality = filter
               }
@@ -379,7 +379,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               return (
                 <>
                   {" "}
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
@@ -397,7 +397,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader4",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 salesTerritoRy = filter
               }
@@ -441,7 +441,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 area = filter
               }
@@ -454,7 +454,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader1",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 zone = filter
               }
@@ -467,7 +467,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader1",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 telephone = filter
               }
@@ -480,7 +480,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader2",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 mobileNo = filter
               }
@@ -493,7 +493,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader1",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 email = filter
               }
@@ -506,7 +506,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) =>{
                 workHours = filter
               }
@@ -522,7 +522,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 deliveryType = filter
               }
@@ -566,7 +566,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 deliveryMethod = filter
               }
@@ -610,7 +610,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 edi = filter
               }
@@ -623,7 +623,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 ediAddress = filter
               }
@@ -640,7 +640,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                   disabled={!editorCell(row)}
                     value={row.urgent}
                     onChange={(urgent) => {
@@ -658,7 +658,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader5",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 registrationLocation = filter
               }
@@ -706,7 +706,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 lab = filter
               }
@@ -735,7 +735,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 location = filter
               }
@@ -764,7 +764,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 schedule = filter
               }
@@ -793,7 +793,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 reportFormat = filter
               }
@@ -806,7 +806,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 info = filter
               }
@@ -819,7 +819,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 fyiLine = filter
               }
@@ -832,7 +832,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader2",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 workLine = filter
               }
@@ -845,7 +845,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader1",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 status = filter
               }
@@ -890,7 +890,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sort: true,
              csvFormatter: col => (col ? col : ""),
              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 environment = filter
               }
@@ -935,7 +935,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sort: true,
              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) =>{
                 dateCreation = filter
               }
@@ -955,7 +955,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   value={new Date(row.dateCreation)}
                   onFocusRemove={(dateCreation) => {
                     props.onUpdateItem &&
@@ -972,7 +972,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sort: true,
             csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) =>{
                 dateActive = filter
               }
@@ -992,7 +992,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   value={new Date(row.dateActive)}
                   onFocusRemove={(dateActive) => {
                     props.onUpdateItem &&
@@ -1009,7 +1009,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sort: true,
             csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) =>{
                 dateExpire = filter
               }
@@ -1029,7 +1029,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputDateTime
+                <Form.InputDateTime
                   value={new Date(row.dateExpire)}
                   onFocusRemove={(dateExpire) => {
                     props.onUpdateItem &&
@@ -1046,7 +1046,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sort: true,
              csvFormatter: col => (col ? col : ""),
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.customFilter({
+            filter: customFilter({
               getFilter: (filter) =>{
                 version = filter
               }
@@ -1061,7 +1061,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader2",
             sort: true,
              csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 enteredBy = filter
               }
@@ -1078,11 +1078,11 @@ export const DoctorsList = (props: DoctorsListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     tooltipText="Delete"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() =>
@@ -1096,43 +1096,43 @@ export const DoctorsList = (props: DoctorsListProps) => {
                         })
                       }
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                   {row.status !== "I" && (
                     <>
-                      <LibraryComponents.Atoms.Tooltip
+                      <Tooltip
                         className="ml-2"
                         tooltipText="Version Upgrade"
                       >
-                        <LibraryComponents.Atoms.Icons.IconContext
+                        <Icons.IconContext
                           color="#fff"
                           size="20"
                           onClick={() =>
                             props.onVersionUpgrade && props.onVersionUpgrade(row)
                           }
                         >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          {Icons.getIconTag(
+                            Icons.Iconvsc.VscVersions
                           )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                      </LibraryComponents.Atoms.Tooltip>
-                      <LibraryComponents.Atoms.Tooltip
+                        </Icons.IconContext>
+                      </Tooltip>
+                      <Tooltip
                         className="ml-2"
                         tooltipText="Duplicate"
                       >
-                        <LibraryComponents.Atoms.Icons.IconContext
+                        <Icons.IconContext
                           color="#fff"
                           size="20"
                           onClick={() => props.onDuplicate && props.onDuplicate(row)}
                         >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                          {Icons.getIconTag(
+                            Icons.Iconio5.IoDuplicateOutline
                           )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                      </LibraryComponents.Atoms.Tooltip>
+                        </Icons.IconContext>
+                      </Tooltip>
                     </>
                   )}
                 </div>

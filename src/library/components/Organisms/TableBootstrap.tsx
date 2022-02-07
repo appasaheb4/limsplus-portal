@@ -18,10 +18,10 @@ import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
 import "./style.css"
 
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {Buttons, Icons} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 
-import * as Config from "@lp/config"
+import {Styles} from "@lp/config"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -38,14 +38,14 @@ interface TableBootstrapProps {
   isDelete?: boolean
   isEditModify?: boolean
   isSelectRow?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
   clearAllFilter?: () => void
 }
-const TableBootstrap = ({
+export const TableBootstrap = ({
   id,
   data,
   totalSize = 10,
@@ -83,7 +83,7 @@ const TableBootstrap = ({
   }) => (
     <div className="btn-group items-center" role="group">
       {isSelectRow && (
-        <LibraryComponents.Atoms.Buttons.Button
+        <Buttons.Button
           style={{ height: 10, width: 200 }}
           size="small"
           type="solid"
@@ -95,13 +95,13 @@ const TableBootstrap = ({
             }
           }}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="trash-outline"
             size="large"
-            color={Config.Styles.COLORS.BLACK}
+            color={Styles.COLORS.BLACK}
           />
           Remove Selected
-        </LibraryComponents.Atoms.Buttons.Button>
+        </Buttons.Button>
       )}
       <input
         type="number"
@@ -333,25 +333,25 @@ const TableBootstrap = ({
                   Export CSV!!
                 </ExportCSVButton>
                 {isFilterOpen ? (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronUp />
+                  </Buttons.Button>
                 ) : (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronDown />
+                  </Buttons.Button>
                 )}
               </div>
               {isFilterOpen && (
@@ -416,5 +416,3 @@ const TableBootstrap = ({
     </PaginationProvider>
   )
 }
-
-export default TableBootstrap

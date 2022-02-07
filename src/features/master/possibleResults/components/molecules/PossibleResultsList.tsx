@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,Tooltip,Icons,Form,textFilter,List,Buttons,Grid,Svg} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../index"
 let analyteCode
 let analyteName
@@ -15,7 +15,7 @@ interface PossibleResultsListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -26,7 +26,7 @@ interface PossibleResultsListProps {
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
   return (
     <div style={{ position: "relative" }}>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -40,7 +40,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "analyteCode",
             text: "Analyte Code",
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 analyteCode = filter
               }
@@ -71,7 +71,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerClasses: "textHeader4",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 analyteName = filter
               }
@@ -85,21 +85,21 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
               `Result:${row.conclusionResult.map(item => item.result)} - PossibleValue: ${row.conclusionResult.map(item => item.possibleValue)} - Ab Normal: ${row.conclusionResult.map(item => item.abNormal)},Critical: ${row.conclusionResult.map(item => item.critical)}`,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 conclusionResult = filter
               }
             }),
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.List
+                <List
                   space={2}
                   direction="row"
                   justify="center"
                 >
                   {row.conclusionResult.map((item) => (
                     <div className="mb-2">
-                      <LibraryComponents.Atoms.Buttons.Button
+                      <Buttons.Button
                         size="medium"
                         type="solid"
                         onClick={() => {}}
@@ -108,10 +108,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                          PossibleValue: ${item.possibleValue}
                          Ab Normal: ${item.abNormal}
                          Critical: ${item.critical}`}
-                      </LibraryComponents.Atoms.Buttons.Button>
+                      </Buttons.Button>
                     </div>
                   ))}
-                </LibraryComponents.Atoms.List>
+                </List>
               </>
             ),
             editorRenderer: (
@@ -123,8 +123,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Grid cols={5}>
-                  <LibraryComponents.Atoms.Form.Input
+                <Grid cols={5}>
+                  <Form.Input
                     placeholder="Result"
                     value={
                       props.extraData.possibleResultsStore?.possibleResults.result
@@ -137,7 +137,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         })
                     }}
                   />
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Possible Value"
                     value={
                       props.extraData.possibleResultsStore?.possibleResults
@@ -151,7 +151,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         })
                     }}
                   />
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="AbNormal"
                     value={
                       props.extraData.possibleResultsStore?.possibleResults.abNormal
@@ -164,7 +164,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         })
                     }}
                   />
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="Critical"
                     value={
                       props.extraData.possibleResultsStore?.possibleResults.critical
@@ -179,7 +179,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                   />
 
                   <div className="mt-2">
-                    <LibraryComponents.Atoms.Buttons.Button
+                    <Buttons.Button
                       size="medium"
                       type="solid"
                       onClick={() => {
@@ -217,13 +217,13 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         }
                       }}
                     >
-                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                      <Icons.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
-                    </LibraryComponents.Atoms.Buttons.Button>
+                    </Buttons.Button>
                   </div>
                   <div className="clearfix"></div>
-                </LibraryComponents.Atoms.Grid>
-                <LibraryComponents.Atoms.List
+                </Grid>
+                <List
                   space={2}
                   direction="row"
                   justify="center"
@@ -231,10 +231,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                   <div>
                     {row.conclusionResult?.map((item, index) => (
                       <div className="mb-2" key={index}>
-                        <LibraryComponents.Atoms.Buttons.Button
+                        <Buttons.Button
                           size="medium"
                           type="solid"
-                          icon={LibraryComponents.Atoms.Icon.Remove}
+                          icon={Svg.Remove}
                           onClick={() => {
                             const firstArr =
                               row?.conclusionResult?.slice(0, index) || []
@@ -262,11 +262,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                               Possible Value: ${item.possibleValue}  
                               AbNormal: ${item.abNormal}  
                               Critical: ${item.critical}`}
-                        </LibraryComponents.Atoms.Buttons.Button>
+                        </Buttons.Button>
                       </div>
                     ))}
                   </div>
-                </LibraryComponents.Atoms.List>
+                </List>
               </>
             ),
           },
@@ -277,7 +277,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
               `Result:${row.defaultConclusion && row.defaultConclusion.result} - PossibleValue: ${row.defaultConclusion&&row.defaultConclusion.possibleValue} - Ab Normal: ${row.defaultConclusion&&row.defaultConclusion.abNormal},Critical: ${row.defaultConclusion&&row.defaultConclusion.critical}`,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 defaultConclusion = filter
               }
@@ -301,7 +301,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerClasses: "textHeader4",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 environment = filter
               }
@@ -349,8 +349,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                    <LibraryComponents.Atoms.Icons.IconContext
+                  <Tooltip tooltipText="Delete" position="top">
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() =>
@@ -364,11 +364,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         })
                       }
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                 </div>
               </>
             ),

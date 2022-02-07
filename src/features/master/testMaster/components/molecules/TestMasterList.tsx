@@ -2,10 +2,10 @@
 import React from "react"
 import dayjs from "dayjs"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectDeliverySchedule,AutoCompleteFilterSingleSelectTestMethod} from '../index'
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let dateCreation
 let dateActive
@@ -57,7 +57,7 @@ interface TestMasterProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateFileds?:(fileds:any,id:string)=>void
@@ -75,7 +75,7 @@ export const TestMasterList = (props: TestMasterProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -92,7 +92,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   rLab = filter
                 }
@@ -134,7 +134,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   pLab = filter
                 }
@@ -163,7 +163,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   department = filter
                 }
@@ -192,7 +192,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   section = filter
                 }
@@ -239,7 +239,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   testCode = filter
                 }
@@ -252,7 +252,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   testName = filter
                 }
@@ -265,7 +265,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   description = filter
                 }
@@ -281,7 +281,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
@@ -300,7 +300,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   shortName = filter
                 }
@@ -315,7 +315,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   price = filter
                 }
@@ -334,7 +334,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
@@ -353,7 +353,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   schedule = filter
                 }
@@ -382,7 +382,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   tat = filter
                 }
@@ -395,7 +395,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader7",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   validationLevel = filter
                 }
@@ -445,7 +445,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   resultOrder = filter
                 }
@@ -458,7 +458,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   processing = filter
                 }
@@ -504,7 +504,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   sampleRunOn = filter
                 }
@@ -545,7 +545,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   workflow = filter
                 }
@@ -590,7 +590,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   disease = filter
                 }
@@ -634,7 +634,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   category = filter
                 }
@@ -678,7 +678,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   testType = filter
                 }
@@ -722,7 +722,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   workflowCode = filter
                 }
@@ -763,7 +763,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   cptCode = filter
                 }
@@ -780,7 +780,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.autoFinish}
                       onChange={(autoFinish) => {
@@ -801,7 +801,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
@@ -823,7 +823,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.confidential}
                       onChange={(confidential) => {
@@ -844,7 +844,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.urgent}
                       onChange={(urgent) => {
@@ -866,7 +866,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
@@ -885,7 +885,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   testMethodCode = filter
                 }
@@ -914,7 +914,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   testMethodName = filter
                 }
@@ -942,7 +942,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   reportGroup = filter
                 }
@@ -959,7 +959,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.accredited}
                       onChange={(accredited) => {
@@ -980,7 +980,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.cretical}
                       onChange={(cretical) => {
@@ -1002,7 +1002,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.repitation}
                       onChange={(repitation) => {
@@ -1023,7 +1023,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.printLabel}
                       onChange={(printLabel) => {
@@ -1044,7 +1044,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.cumulative}
                       onChange={(cumulative) => {
@@ -1062,7 +1062,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   tubeGroup = filter
                 }
@@ -1076,7 +1076,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   labelInstruction = filter
                 }
@@ -1090,7 +1090,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   panelMethod = filter
                 }
@@ -1104,7 +1104,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   sampleType = filter
                 }
@@ -1118,7 +1118,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   worklistCode = filter
                 }
@@ -1135,7 +1135,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.qcHold}
                       onChange={(qcHold) => {
@@ -1156,7 +1156,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.oosHold}
                       onChange={(oosHold) => {
@@ -1177,7 +1177,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.deltaHold}
                       onChange={(deltaHold) => {
@@ -1195,7 +1195,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   prefix = filter
                 }
@@ -1240,7 +1240,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   sufix = filter
                 }
@@ -1284,7 +1284,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   speicalInstructions = filter
                 }
@@ -1297,7 +1297,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   deleverySchedule = filter
                 }
@@ -1313,7 +1313,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.allowPartial}
                       onChange={(allowPartial) => {
@@ -1331,7 +1331,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   collectionContainer = filter
                 }
@@ -1344,7 +1344,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   holdingDays = filter
                 }
@@ -1357,7 +1357,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   status = filter
                 }
@@ -1401,7 +1401,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
                 }
@@ -1415,7 +1415,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sort: true,
               csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   dateCreation = filter
                 }
@@ -1435,7 +1435,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateCreation)}
                     onFocusRemove={(dateCreation) => {
                       props.onUpdateItem &&
@@ -1452,7 +1452,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sort: true,
               csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   dateActive = filter
                 }
@@ -1472,7 +1472,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateActive)}
                     onFocusRemove={(dateActive) => {
                       props.onUpdateItem &&
@@ -1489,7 +1489,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: "textHeader11",
               sort: true,
               csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   dateExpire = filter
                 }
@@ -1509,7 +1509,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateExpire)}
                     onFocusRemove={(dateExpire) => {
                       props.onUpdateItem &&
@@ -1526,7 +1526,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   version = filter
                 }
@@ -1542,7 +1542,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   environment = filter
                 }
@@ -1589,11 +1589,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="top"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -1607,46 +1607,46 @@ export const TestMasterList = (props: TestMasterProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <LibraryComponents.Atoms.Tooltip
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Version Upgrade"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                            {Icons.getIconTag(
+                              Icons.Iconvsc.VscVersions
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                        <LibraryComponents.Atoms.Tooltip
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5
+                            {Icons.getIconTag(
+                              Icons.Iconio5
                                 .IoDuplicateOutline
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                       </>
                     )}
                   </div>

@@ -2,7 +2,9 @@
 import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
+  from "@lp/library/components"
 import {CorporateClient} from "../components"
 import {lookupItems} from "@lp/library/utils"
 
@@ -41,7 +43,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
           })
           .then((res) => {
             if (res.createCorporateClient.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createCorporateClient.message}`,
               })
               corporateClientsStore.fetchCorporateClients()
@@ -61,7 +63,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradeCorporateClient.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradeCorporateClient.message}`,
               })
             }
@@ -80,7 +82,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicateCorporateClient.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicateCorporateClient.message}`,
               })
             }
@@ -90,7 +92,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -166,14 +168,14 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
         />
@@ -184,8 +186,8 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -194,7 +196,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -216,7 +218,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     hasError={errors.dateActive}
                     placeholder={
@@ -236,7 +238,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     hasError={errors.dateExpire}
                     placeholder={
@@ -260,7 +262,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
@@ -276,7 +278,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     hasError={errors.enteredBy}
                     placeholder={
@@ -294,7 +296,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Corporate Code"
                     placeholder={
                       errors.corporateCode
@@ -323,7 +325,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                           .then((res) => {
                             if (res.checkCorporateClientExistsRecord.success) {
                               corporateClientsStore.updateExistsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkCorporateClientExistsRecord.message}`,
                               })
                             } else corporateClientsStore.updateExistsEnvCode(false)
@@ -344,7 +346,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Corporate Name"
                     placeholder={
                       errors.corporateName
@@ -370,7 +372,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Invoice AC"
                     placeholder={
                       errors.invoiceAc ? "Please Enter Invoice AC" : "Invoice AC"
@@ -393,7 +395,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Price List"
                     hasError={errors.priceList}
                   >
@@ -417,7 +419,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="priceList"
                 rules={{ required: false }}
@@ -427,7 +429,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Price Group"
                     placeholder={
                       errors.priceGroup ? "Please Enter Price Group" : "Price Group"
@@ -451,7 +453,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Billing on"
                     placeholder={
                       errors.billingOn ? "Please Enter Biling On" : "Billing On"
@@ -474,7 +476,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Address"
                     placeholder={errors.address ? "Please Enter Address" : "Address"}
@@ -493,8 +495,8 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -503,7 +505,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="City"
                     placeholder={errors.city ? "Please Enter City" : "City"}
                     hasError={errors.city}
@@ -524,7 +526,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="State"
                     placeholder={errors.state ? "Please Enter State" : "State"}
                     hasError={errors.state}
@@ -545,7 +547,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Country"
                     placeholder={errors.country ? "Please Enter Country" : "Country"}
                     hasError={errors.country}
@@ -566,7 +568,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Postcode"
                     placeholder={
                       errors.postCode ? "Please Enter PostCode" : "Post Code"
@@ -590,7 +592,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Customer Group"
                     hasError={errors.customerGroup}
                   >
@@ -618,7 +620,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="customerGroup"
                 rules={{ required: false }}
@@ -628,7 +630,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Category"
                     hasError={errors.category}
                   >
@@ -656,7 +658,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="category"
                 rules={{ required: false }}
@@ -665,7 +667,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Telephone"
                     placeholder={
                       errors.telephone ? "Please Enter Telephone" : "Telephone"
@@ -688,7 +690,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Mobile No"
                     placeholder={
                       errors.mobileNo ? "Please Enter Mobile No" : "Mobile No"
@@ -711,7 +713,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Email"
                     placeholder={errors.email ? "Please Enter Email" : "Email"}
                     hasError={errors.email}
@@ -732,7 +734,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Delivery Type"
                     hasError={errors.deliveryType}
                   >
@@ -760,7 +762,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="deliveryType"
                 rules={{ required: false }}
@@ -769,7 +771,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Delivery Method"
                     hasError={errors.deliveryMethod}
                   >
@@ -799,7 +801,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="deliveryMethod"
                 rules={{ required: false }}
@@ -808,7 +810,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Sales TerritoRy"
                     hasError={errors.salesTerritoRy}
                   >
@@ -838,17 +840,17 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="salesTerritoRy"
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Confidential"
                       hasError={errors.confidential}
                       value={corporateClientsStore.corporateClients?.confidential}
@@ -868,7 +870,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Urgent"
                       hasError={errors.urgent}
                       value={corporateClientsStore.corporateClients?.urgent}
@@ -885,9 +887,9 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Grid>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -896,7 +898,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Area"
                     placeholder={errors.area ? "Please Enter Area" : "Area"}
                     hasError={errors.area}
@@ -917,7 +919,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Zone"
                     placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
                     hasError={errors.zone}
@@ -938,7 +940,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="EDI"
                     placeholder={errors.edi ? "Please Enter EDI" : "EDI"}
                     hasError={errors.edi}
@@ -959,7 +961,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="EDI Address"
                     placeholder={
                       errors.ediAddress ? "Please Enter EDI Address" : "EDI Address"
@@ -982,11 +984,11 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                     <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     data={{
@@ -1021,7 +1023,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                       
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="schedule"
                 rules={{ required: false }}
@@ -1030,7 +1032,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report Format"
                     placeholder={
                       errors.reportFormat
@@ -1055,7 +1057,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Info"
                     placeholder={errors.info ? "Please Enter INFO" : "INFO"}
                     hasError={errors.info}
@@ -1076,7 +1078,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="FYI Line"
                     placeholder={errors.fyiLine ? "Please Enter FyiLine" : "FyiLine"}
                     hasError={errors.fyiLine}
@@ -1097,7 +1099,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Work Line"
                     placeholder={
                       errors.workLine ? "Plese Enter WorkLine" : "WorkLine"
@@ -1120,7 +1122,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -1148,7 +1150,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -1157,7 +1159,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={corporateClientsStore.corporateClients?.environment}
                       disabled={
@@ -1190,7 +1192,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                             .then((res) => {
                               if (res.checkCorporateClientExistsRecord.success) {
                                 corporateClientsStore.updateExistsEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkCorporateClientExistsRecord.message}`,
                                 })
                               } else corporateClientsStore.updateExistsEnvCode(false)
@@ -1213,40 +1215,40 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitCoporateClients)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -1254,7 +1256,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 .deleteCorporateClients({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeCorporateClient.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeCorporateClient.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1271,7 +1273,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateCorporateClient.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateCorporateClient.message}`,
                     })
                     setModalConfirm({ show: false })

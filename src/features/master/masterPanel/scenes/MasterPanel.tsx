@@ -2,7 +2,9 @@
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectMultiFieldsDisplay} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import {PanelMasterList} from "../components"
 import { useForm, Controller } from "react-hook-form"
@@ -52,7 +54,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
           })
           .then((res) => {
             if (res.createPanelMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createPanelMaster.message}`,
               })
             }
@@ -71,7 +73,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradePanelMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradePanelMaster.message}`,
               })
             }
@@ -90,7 +92,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicatePanelMaster.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicatePanelMaster.message}`,
               })
             }
@@ -100,7 +102,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -189,17 +191,17 @@ const MasterPanel = MasterPanelHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(
         toJS(routerStore.userPermission),
         "Add"
       ) && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
@@ -208,8 +210,8 @@ const MasterPanel = MasterPanelHoc(observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -218,7 +220,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="RLab"
                     hasError={errors.rLab}
                   >
@@ -252,7 +254,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                             .then((res) => {
                               if (res.checkPanelMasterExistsRecord.success) {
                                 masterPanelStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
                                 })
                               } else masterPanelStore.updateExistsLabEnvCode(false)
@@ -268,7 +270,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                             </option>
                           ))}
                       </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="rLab"
                 rules={{ required: true }}
@@ -278,11 +280,11 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="PLab"
                     hasError={errors.pLab}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     disable={
@@ -322,7 +324,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       )
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="pLab"
                 rules={{ required: true }}
@@ -332,7 +334,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Department"
                     hasError={errors.department}
                   >
@@ -349,7 +351,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       masterPanelStore.findSectionListByDeptCode(item.code)
                     }}
                    />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="department"
                 rules={{ required: true }}
@@ -360,11 +362,11 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Section"
                       hasError={errors.section}
                     >
-                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                     <AutoCompleteFilterSingleSelect
                     loader={loading}
                     data={{
                       list:masterPanelStore.sectionListByDeptCode,
@@ -395,7 +397,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       
                     }}
                     /> 
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="section"
                   rules={{ required: false }}
@@ -406,7 +408,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Service Type"
                     hasError={errors.serviceType}
                   >
@@ -434,7 +436,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="serviceType"
                 rules={{ required: true }}
@@ -444,7 +446,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Panel Code"
                     placeholder={
                       errors.panelCode ? "Please Enter Panel  Code" : "Panel  Code"
@@ -476,7 +478,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Panel Name"
                     placeholder={
                       errors.panelName ? "Please Enter Panel  Name" : "Panel  Name"
@@ -500,7 +502,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Description"
                     placeholder={
@@ -525,11 +527,11 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Panel Method"
                     hasError={errors.panelMethod}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       placeholder="Search by code or name"
                       data={{
@@ -561,7 +563,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         )
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="panelMethod"
                 rules={{ required: true }}
@@ -571,7 +573,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Short Name"
                     placeholder={
                       errors.shortName ? "Please Enter ShortName" : "Short Name"
@@ -594,7 +596,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Price"
                     placeholder={errors.price ? "Please Enter Price" : "Price"}
                     type="number"
@@ -617,11 +619,11 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                   <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by code"
                     data={{
@@ -655,7 +657,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                       )
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="schedule"
                 rules={{ required: true }}
@@ -664,7 +666,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="TAT"
                     placeholder={errors.tat ? "Please Enter TAT" : "TAT"}
                     hasError={errors.tat}
@@ -683,11 +685,11 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Bill"
                       id="modeBill"
                       hasError={errors.bill}
@@ -708,7 +710,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="AutoRelease"
                       id="modeAutoRelease"
                       hasError={errors.autoRelease}
@@ -729,7 +731,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Hold OOS"
                       id="modeHoldOOS"
                       hasError={errors.holdOOS}
@@ -750,7 +752,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Confidential"
                       hasError={errors.confidential}
                       value={masterPanelStore.masterPanel?.confidential}
@@ -770,7 +772,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Urgent"
                       hasError={errors.urgent}
                       value={masterPanelStore.masterPanel?.urgent}
@@ -787,10 +789,10 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
+              </Grid>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -799,7 +801,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Validation Level"
                     hasError={errors.validationLevel}
                   >
@@ -828,7 +830,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="validationLevel"
                 rules={{ required: false }}
@@ -837,7 +839,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report Groups"
                     placeholder={
                       errors.reportGroup
@@ -862,7 +864,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report Order"
                     type="number"
                     placeholder={
@@ -888,7 +890,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Processing"
                     hasError={errors.processing}
                   >
@@ -916,7 +918,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="processing"
                 rules={{ required: false }}
@@ -925,7 +927,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Workflow"
                     placeholder={
                       errors.workflow ? "Please Enter Workflow" : "Workflow"
@@ -948,7 +950,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Category"
                     hasError={errors.category}
                   >
@@ -976,7 +978,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="category"
                 rules={{ required: false }}
@@ -985,7 +987,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Panel Type"
                     hasError={errors.panelType}
                   >
@@ -1013,7 +1015,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="panelType"
                 rules={{ required: false }}
@@ -1022,7 +1024,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Sex"
                     hasError={errors.sex}
                   >
@@ -1050,7 +1052,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="sex"
                 rules={{ required: false }}
@@ -1059,7 +1061,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Hi Age"
                     placeholder={errors.hiAge ? "Please Enter HiAge" : "Hi Age"}
                     hasError={errors.hiAge}
@@ -1080,7 +1082,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Lo Age"
                     placeholder={errors.loAge ? "Please Enter LoAge" : "Lo Age"}
                     hasError={errors.loAge}
@@ -1102,7 +1104,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report Template"
                     placeholder={
                       errors.reportTemplate
@@ -1125,11 +1127,11 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Page Break"
                       hasError={errors.pageBreak}
                       value={masterPanelStore.masterPanel?.pageBreak}
@@ -1149,7 +1151,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Instant Result"
                       hasError={errors.instantResult}
                       value={masterPanelStore.masterPanel?.instantResult}
@@ -1169,7 +1171,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Sex Action"
                       hasError={errors.sexAction}
                       value={masterPanelStore.masterPanel?.sexAction}
@@ -1189,7 +1191,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Repetition"
                       hasError={errors.repitation}
                       value={masterPanelStore.masterPanel?.repitation}
@@ -1209,7 +1211,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Print Label"
                       hasError={errors.printLabel}
                       value={masterPanelStore.masterPanel?.printLabel}
@@ -1227,15 +1229,15 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                   defaultValue=""
                 />
                 
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Grid>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
               fill
             >
-              {/* <LibraryComponents.Atoms.Form.Input
+              {/* <Form.Input
                 label="Tube Groups"
                 placeholder="Tube Groups"
                 value={masterPanelStore.masterPanel?.tubeGroup}
@@ -1247,7 +1249,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 }}
               /> */}
 
-              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
+              {/* <Form.InputWrapper label="Sample Type">
                 <select
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -1265,11 +1267,11 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper> */}
+              </Form.InputWrapper> */}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Label Instruction"
                     placeholder={
                       errors.labelInstruction
@@ -1293,7 +1295,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Special Instructions"
                     placeholder={
                       errors.specalInstructions
@@ -1318,7 +1320,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -1346,7 +1348,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -1355,7 +1357,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter UserID" : "Entered By"
@@ -1378,7 +1380,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -1396,7 +1398,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     hasError={errors.dateActive}
                     placeholder={
@@ -1417,7 +1419,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire
@@ -1441,7 +1443,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     hasError={errors.version}
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
@@ -1456,7 +1458,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -1490,7 +1492,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                             .then((res) => {
                               if (res.checkPanelMasterExistsRecord.success) {
                                 masterPanelStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
                                 })
                               } else masterPanelStore.updateExistsLabEnvCode(false)
@@ -1513,17 +1515,17 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <LibraryComponents.Atoms.Grid cols={3}>
+              <Grid cols={3}>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="Cumulative"
                     hasError={errors.cumulative}
                     value={masterPanelStore.masterPanel?.cumulative}
@@ -1543,7 +1545,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Method"
                       hasError={errors.method}
                       value={masterPanelStore.masterPanel?.method}
@@ -1560,36 +1562,36 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
+              </Grid>
               
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitMasterPanel)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -1597,7 +1599,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 .deletePanelMaster({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePanelMaster.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removePanelMaster.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1614,7 +1616,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updatePanelMaster.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updatePanelMaster.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1631,7 +1633,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
               })
               .then((res: any) => {
                 if (res.updatePanelMaster.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.updatePanelMaster.message}`,
                   })
                   setModalConfirm({ show: false })

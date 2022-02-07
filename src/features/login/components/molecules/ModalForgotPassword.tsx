@@ -5,7 +5,7 @@ import * as Assets from "@lp/library/assets"
 import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@lp/helper"
 
-import * as LibraryComponents from "@lp/library/components"
+import {Form,List} from "@lp/library/components"
 import { useStores } from "@lp/stores"
 
 interface ModalForgotPasswordProps {
@@ -75,7 +75,7 @@ export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) =>
 
                 {/*body*/}
                 <div className="relative ml-24 mr-24 p-2 flex-auto">
-                  <LibraryComponents.Atoms.List
+                  <List
                     direction="col"
                     space={4}
                     justify="stretch"
@@ -84,7 +84,7 @@ export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) =>
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           label="User Id"
                           placeholder="User Id"
                           hasError={errors.userId}
@@ -105,7 +105,7 @@ export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) =>
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           type="mail"
                           label="Email"
                           placeholder="Email"
@@ -128,7 +128,7 @@ export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) =>
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
+                        <Form.Input
                           type="number"
                           label="Mobile Number"
                           placeholder="Mobile Number"
@@ -147,7 +147,7 @@ export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) =>
                       rules={{ required: false }}
                       defaultValue=""
                     />
-                  </LibraryComponents.Atoms.List>
+                  </List>
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-center p-2 border-t border-solid border-gray-300 rounded-b">

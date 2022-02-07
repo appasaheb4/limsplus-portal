@@ -9,8 +9,8 @@ import { useHistory } from "react-router-dom"
 import { stores, useStores } from "@lp/stores"
 
 import * as Assets from "@lp/library/assets"
-import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
+import {Buttons,Tooltip,Icons,Toast,ModalChangePassword,ModalSessionAllowed} from "@lp/library/components"
+import {ModalAccount} from "../components"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -62,28 +62,28 @@ const NavbarComponent = observer(({ dispatch }) => {
         <div className="flex flex-2 overflow-auto">
           <Form inline>
             <div className="flex flex-row overflow-auto">
-              <LibraryComponents.Atoms.Buttons.Button
+              <Buttons.Button
                 size="medium"
                 type="outline"
                 onClick={() => {
                   window.location.href = "/dashboard/default"
                 }}
               >
-                <LibraryComponents.Atoms.Tooltip tooltipText="Dashboard">
-                  <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
-                    {LibraryComponents.Atoms.Icons.getIconTag(
-                      LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
+                <Tooltip tooltipText="Dashboard">
+                  <Icons.IconContext color="#000" size="22">
+                    {Icons.getIconTag(
+                      Icons.IconRi.RiDashboardFill
                     )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
-                </LibraryComponents.Atoms.Tooltip>
-              </LibraryComponents.Atoms.Buttons.Button>
+                  </Icons.IconContext>
+                </Tooltip>
+              </Buttons.Button>
               {loginStore.login?.shortcutMenu &&
                 loginStore.login?.shortcutMenu[loginStore.login.role || ""] &&
                 loginStore.login?.shortcutMenu[loginStore.login.role || ""].map(
                   (item) => (
                     <>
                       <div className="ml-1 m-0.5">
-                        <LibraryComponents.Atoms.Buttons.Button
+                        <Buttons.Button
                           size="medium"
                           type="outline"
                           onClick={async () => {
@@ -95,18 +95,18 @@ const NavbarComponent = observer(({ dispatch }) => {
                             history.push(item.path)
                           }}
                         >
-                          <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
-                            <LibraryComponents.Atoms.Icons.IconContext
+                          <Tooltip tooltipText={item.title}>
+                            <Icons.IconContext
                               color="#000"
                               size="22"
                             >
-                              {LibraryComponents.Atoms.Icons.getIconTag(
-                                LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
-                                  LibraryComponents.Atoms.Icons.IconBs.BsList
+                              {Icons.getIconTag(
+                                Icons.getIcons(item.icon) ||
+                                  Icons.IconBs.BsList
                               )}
-                            </LibraryComponents.Atoms.Icons.IconContext>
-                          </LibraryComponents.Atoms.Tooltip>
-                        </LibraryComponents.Atoms.Buttons.Button>
+                            </Icons.IconContext>
+                          </Tooltip>
+                        </Buttons.Button>
                       </div>
                     </>
                   )
@@ -117,7 +117,7 @@ const NavbarComponent = observer(({ dispatch }) => {
         <div className="flex-1 ml-2">
           <Collapse navbar>
             <Nav className="ml-auto items-center" navbar>
-              <LibraryComponents.Atoms.Buttons.Button
+              <Buttons.Button
                 size="medium"
                 type="outline"
                 onClick={() => {
@@ -152,24 +152,24 @@ const NavbarComponent = observer(({ dispatch }) => {
                   closeFullscreen()
                 }}
               >
-                <LibraryComponents.Atoms.Tooltip
+                <Tooltip
                   tooltipText={
                     appStore.applicationSetting?.isExpandScreen
                       ? "Collapse"
                       : "Expand"
                   }
                 >
-                  <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
-                    {LibraryComponents.Atoms.Icons.getIconTag(
+                  <Icons.IconContext color="#000" size="22">
+                    {Icons.getIconTag(
                       appStore.applicationSetting?.isExpandScreen
-                        ? LibraryComponents.Atoms.Icons.IconCg.CgMinimize
-                        : LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand
+                        ? Icons.IconCg.CgMinimize
+                        : Icons.Iconai.AiOutlineExpand
                     )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
-                </LibraryComponents.Atoms.Tooltip>
-              </LibraryComponents.Atoms.Buttons.Button>
+                  </Icons.IconContext>
+                </Tooltip>
+              </Buttons.Button>
               <div className="ml-2" />
-              <LibraryComponents.Atoms.Buttons.Button
+              <Buttons.Button
                 size="medium"
                 type="outline"
                 onClick={() => {
@@ -195,7 +195,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                       data: loginStore.login.loginActivityList,
                     })
                   } else {
-                    LibraryComponents.Atoms.Toast.warning({
+                    Toast.warning({
                       message: `😊 Single system login.`,
                     })
                   }
@@ -204,7 +204,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                 <label className="inline w-8 text-center" style={{ width: "40px" }}>
                   {loginStore.login?.sessionAllowed}
                 </label>
-              </LibraryComponents.Atoms.Buttons.Button>
+              </Buttons.Button>
               <UncontrolledDropdown nav inNavbar>
                 <span className="d-none d-sm-inline-block">
                   <DropdownToggle nav>
@@ -236,7 +236,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                         .removeUser()
                         .then((res) => {
                           if (res.logout.success) {
-                            LibraryComponents.Atoms.Toast.success({
+                            Toast.success({
                               message: `😊 ${res.logout.message}`,
                             })
                             history.push("/")
@@ -255,11 +255,11 @@ const NavbarComponent = observer(({ dispatch }) => {
           </Collapse>
         </div>
       </Navbar>
-      <FeatureComponents.Molecules.ModalAccount
+      <ModalAccount
         {...modalAccount}
         onClose={() => setModalAccount({ show: false })}
       />
-      <LibraryComponents.Molecules.ModalChangePassword
+      <ModalChangePassword
         {...modalChangePassword}
         onClick={() => {
           const exipreDate = new Date(
@@ -285,7 +285,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                   ...userStore.changePassword,
                   tempHide: true,
                 })
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.userChnagePassword.message}`,
                 })
                 setModalChangePassword({ show: false })
@@ -293,7 +293,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                   window.location.reload()
                 }, 2000)
               } else {
-                LibraryComponents.Atoms.Toast.error({
+                Toast.error({
                   message: `😔 ${res.userChnagePassword.message}`,
                 })
               }
@@ -312,7 +312,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           setModalChangePassword({ show: false })
         }}
       />
-      <LibraryComponents.Molecules.ModalSessionAllowed
+      <ModalSessionAllowed
         {...modalSessionAllowed}
         onClick={(data: any, item: any, index: number) => {
           loginStore.LoginService.sessionAllowedLogout({
@@ -323,7 +323,7 @@ const NavbarComponent = observer(({ dispatch }) => {
             },
           }).then(async (res) => {
             if (res.usersSessionAllowedLogout.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.usersSessionAllowedLogout.message}`,
               })
               const firstArr = data.slice(0, index) || []

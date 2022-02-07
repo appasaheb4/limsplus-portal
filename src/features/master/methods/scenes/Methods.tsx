@@ -2,7 +2,9 @@
 import React, {  useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import {MethodsList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -30,7 +32,7 @@ const Methods = MethodsHoc(observer(() => {
         .addMethods({ input: { ...methodsStore.methods } })
         .then((res) => {
           if (res.createMethod.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createMethod.message}`,
             })
           }
@@ -39,7 +41,7 @@ const Methods = MethodsHoc(observer(() => {
           }, 2000)
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -47,14 +49,14 @@ const Methods = MethodsHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
         />
@@ -65,8 +67,8 @@ const Methods = MethodsHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -75,7 +77,7 @@ const Methods = MethodsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Method Code"
                     placeholder={
                       errors.methodsCode ? "Please Enter Method Code" : "Method Code"
@@ -100,7 +102,7 @@ const Methods = MethodsHoc(observer(() => {
                         .then((res) => {
                           if (res.checkMethodsExistsRecord.success) {
                             methodsStore.updateExitsEnvCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkMethodsExistsRecord.message}`,
                             })
                           } else methodsStore.updateExitsEnvCode(false)
@@ -120,7 +122,7 @@ const Methods = MethodsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Method Name"
                     placeholder={
                       errors.methodName
@@ -145,7 +147,7 @@ const Methods = MethodsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={4}
                     label="Description"
                     placeholder={
@@ -168,8 +170,8 @@ const Methods = MethodsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -178,7 +180,7 @@ const Methods = MethodsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -206,7 +208,7 @@ const Methods = MethodsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -215,7 +217,7 @@ const Methods = MethodsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={methodsStore.methods?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -243,7 +245,7 @@ const Methods = MethodsHoc(observer(() => {
                           .then((res) => {
                             if (res.checkMethodsExistsRecord.success) {
                               methodsStore.updateExitsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkMethodsExistsRecord.message}`,
                               })
                             } else methodsStore.updateExitsEnvCode(false)
@@ -264,35 +266,35 @@ const Methods = MethodsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitMethods)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl">
           <MethodsList
@@ -338,7 +340,7 @@ const Methods = MethodsHoc(observer(() => {
             }}  
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -346,7 +348,7 @@ const Methods = MethodsHoc(observer(() => {
                 .deleteMethods({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeMethod.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeMethod.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -363,7 +365,7 @@ const Methods = MethodsHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateMethod.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateMethod.message}`,
                     })
                     setModalConfirm({ show: false })

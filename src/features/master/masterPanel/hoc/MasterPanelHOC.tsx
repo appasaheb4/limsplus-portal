@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const MasterPanelHoc = (Component: React.FC<any>) => {
   return observer(
@@ -21,7 +21,7 @@ export const MasterPanelHoc = (Component: React.FC<any>) => {
         
         masterPanelStore &&   masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
-          status: LibraryUtils.getDefaultLookupItem(
+          status: getDefaultLookupItem(
             routerStore.lookupItems,
             "STATUS"
           ),
@@ -29,7 +29,7 @@ export const MasterPanelHoc = (Component: React.FC<any>) => {
         
         masterPanelStore &&   masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
-          environment: LibraryUtils.getDefaultLookupItem(
+          environment: getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
@@ -37,35 +37,35 @@ export const MasterPanelHoc = (Component: React.FC<any>) => {
 
         masterPanelStore &&   masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
-          serviceType: LibraryUtils.getDefaultLookupItem(
+          serviceType: getDefaultLookupItem(
             routerStore.lookupItems,
             "SERVICE_TYPE"
           ),
         })
         masterPanelStore &&   masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
-          processing: LibraryUtils.getDefaultLookupItem(
+          processing: getDefaultLookupItem(
             routerStore.lookupItems,
             "PROCESSING"
           ),
         })
         masterPanelStore &&   masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
-          category: LibraryUtils.getDefaultLookupItem(
+          category: getDefaultLookupItem(
             routerStore.lookupItems,
             "CATEGORY"
           ),
         })
         masterPanelStore &&   masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
-          sex: LibraryUtils.getDefaultLookupItem(
+          sex: getDefaultLookupItem(
             routerStore.lookupItems,
             "SEX"
           ),
         })
         masterPanelStore &&   masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
-          panelType: LibraryUtils.getDefaultLookupItem(
+          panelType: getDefaultLookupItem(
             routerStore.lookupItems,
             "PANEL_TYPE"
           ),

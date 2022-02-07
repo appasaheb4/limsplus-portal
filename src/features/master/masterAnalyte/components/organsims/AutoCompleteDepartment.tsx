@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import _ from 'lodash'
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryComponents from "@lp/library/components"
+import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from "@lp/library/components"
 
 interface AutoCompleteDepartmentProps {
   onSelect: (item: any) => void
@@ -14,7 +14,7 @@ export const AutoCompleteDepartment = observer(
       const {loading,departmentStore,masterAnalyteStore} = useStores()
     return (
       <>
-        <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
           loader={loading}
           placeholder="Search by code or name"
           data={{

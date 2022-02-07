@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
-import dayjs from "dayjs"
-import * as LibraryComponents from "@lp/library/components"
+import dayjs from 'dayjs'
+import {AutoCompleteFilterSingleSelectMultiFieldsDisplay,Form,Icons} from "@lp/library/components"
 import { lookupItems, getDefaultLookupItem } from "@lp/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
@@ -107,7 +107,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Age From"
                     type="number"
                     value={row?.ageFrom}
@@ -132,7 +132,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Age To"
                     type="number"
                     value={row?.ageTo}
@@ -190,7 +190,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Low"
                     type="number"
                     value={row?.low}
@@ -216,7 +216,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="High"
                     type="number"
                     value={row?.high}
@@ -242,7 +242,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Alpha"
                     value={row?.alpha}
                     onBlur={(alpha) => {
@@ -266,8 +266,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                    posstion="relative"
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder="Search by code or name"
                     data={{
@@ -319,8 +318,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                    posstion="relative"
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder="Search by code or name"
                     data={{
@@ -479,7 +477,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder="Search by instrumentType"
                     data={{
@@ -528,7 +526,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder="Search by code or name"
                     data={{
@@ -570,7 +568,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Delta Type"
                     value={row?.deltaType}
                     onBlur={(deltaType) => {
@@ -594,7 +592,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Delta Interval"
                     value={row?.deltaInterval}
                     onBlur={(deltaInterval) => {
@@ -852,7 +850,7 @@ export const RefRangesInputTable = observer(
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateExpire)}
                     onFocusRemove={(dateExpire) => {
                       onUpdateItems && onUpdateItems({ dateExpire }, row.rangeId)
@@ -877,15 +875,15 @@ export const RefRangesInputTable = observer(
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() => onDelete && onDelete(row.rangeId)}
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
+                    </Icons.IconContext>
                   </div>
                 </>
               ),

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import * as LibraryComponents from "@lp/library/components"
+import {textFilter,TableBootstrap,Icons,Tooltip,Form} from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryModels from "@lp/library/models"
+import {Confirm} from "@lp/library/models"
 import {
   AutoCompleteUsers,
   AutoCompleteLabs,
@@ -22,7 +22,7 @@ interface SessionManagementListProps {
   totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedUser: LibraryModels.Confirm) => void
+  onDelete?: (selectedUser: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -35,7 +35,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -50,7 +50,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "variable",
               text: "Variable",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   variable = filter
                 },
@@ -87,7 +87,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.lab.map((item) => item.name).join(" , ")}`,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   lab = filter
                 },
@@ -140,7 +140,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               // })}`,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.user.map((item) => item.fullName).join(" , ")}`,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   user = filter
                 },
@@ -188,7 +188,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               sort: true,
               editable: false,
               headerClasses: "textHeader4",
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   department = filter
                 },
@@ -241,7 +241,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "value",
               text: "Value",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   value = filter
                 },
@@ -256,8 +256,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
-                    name=""
+                  <Form.Input
                     style={{ textTransform: "uppercase" }}
                     onBlur={(value) => {
                       if (row.value !== value) {
@@ -278,7 +277,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               text: "Description",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   description = filter
                 },
@@ -293,7 +292,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={5}
                     name="description"
                     placeholder="Description"
@@ -313,7 +312,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               headerClasses: "textHeader3",
               csvFormatter: (col) => (col ? col : ""),
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   environment = filter
                 },
@@ -358,8 +357,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -373,11 +372,11 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

@@ -3,7 +3,9 @@ import React from "react"
 import { observer } from "mobx-react"
 import { useForm, Controller } from "react-hook-form"
 
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Icons,AutocompleteGroupBy,Buttons,Grid,List
+  ,Form,Svg} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
@@ -30,7 +32,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
       lookupStore.LookupService.addLookup({ input: { ...lookupStore.lookup } }).then(
         (res) => {
           if (res.createLookup.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createLookup.message}`,
             })
             setTimeout(() => {
@@ -40,7 +42,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
         }
       )
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please add code and value then submit.`,
       })
     }
@@ -48,8 +50,8 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
 
   return (
     <div className={"p-2 rounded-lg shadow-xl"}>
-      <LibraryComponents.Atoms.Grid cols={2}>
-        <LibraryComponents.Atoms.List
+      <Grid cols={2}>
+        <List
           direction="col"
           space={4}
           justify="stretch"
@@ -58,11 +60,11 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 hasError={errors.documentName}
                 label="Document Name"
               >
-                <LibraryComponents.Molecules.AutocompleteGroupBy
+                <AutocompleteGroupBy
                   hasError={errors.documentName}
                   data={router}
                   onChange={async (item: any, children: any) => {
@@ -79,7 +81,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                     })
                   }}
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="documentName"
             rules={{ required: true }}
@@ -88,7 +90,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
+              <Form.Input
                 label="Field Name"
                 placeholder="Field Name"
                 hasError={errors.fieldName}
@@ -106,12 +108,12 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
             rules={{ required: true }}
             defaultValue=""
           />
-          <LibraryComponents.Atoms.Form.InputWrapper label="Code & Value">
-            <LibraryComponents.Atoms.Grid cols={3}>
+          <Form.InputWrapper label="Code & Value">
+            <Grid cols={3}>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Code"
                     value={lookupStore.localInput.code}
                     onChange={(code) => {
@@ -131,7 +133,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Value"
                     value={lookupStore.localInput.value || ""}
                     onChange={(value) => {
@@ -148,7 +150,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                 defaultValue=""
               />
               <div className="mt-2 flex flex-row justify-between">
-                <LibraryComponents.Atoms.Form.Toggle
+                <Form.Toggle
                   label="Enable Upper Case"
                   hasError={errors.method}
                   value={lookupStore.flagUpperCase}
@@ -156,7 +158,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                     lookupStore.updateFlagUppperCase(flag)
                   }}
                 />
-                <LibraryComponents.Atoms.Buttons.Button
+                <Buttons.Button
                   size="medium"
                   type="solid"
                   onClick={() => {
@@ -190,21 +192,21 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                     }
                   }}
                 >
-                  <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                  <Icons.EvaIcon icon="plus-circle-outline" />
                   {`Add`}
-                </LibraryComponents.Atoms.Buttons.Button>
+                </Buttons.Button>
               </div>
               <div className="clearfix"></div>
-            </LibraryComponents.Atoms.Grid>
+            </Grid>
 
-            <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
+            <List space={2} direction="row" justify="center">
               <div>
                 {lookupStore.lookup?.arrValue?.map((item, index) => (
                   <div className="mb-2" key={index}>
-                    <LibraryComponents.Atoms.Buttons.Button
+                    <Buttons.Button
                       size="medium"
                       type="solid"
-                      icon={LibraryComponents.Atoms.Icon.Remove}
+                      icon={Svg.Remove}
                       onClick={() => {
                         const firstArr =
                           lookupStore.lookup?.arrValue?.slice(0, index) || []
@@ -218,16 +220,16 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                       }}
                     >
                       {`${item.value} - ${item.code}`}
-                    </LibraryComponents.Atoms.Buttons.Button>
+                    </Buttons.Button>
                   </div>
                 ))}
               </div>
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Form.InputWrapper>
+            </List>
+          </Form.InputWrapper>
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 hasError={errors.defaulItem}
                 label="Default Item"
               >
@@ -256,15 +258,15 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                       </option>
                     ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="defaulItem"
             rules={{ required: false }}
             defaultValue=""
           />
-        </LibraryComponents.Atoms.List>
+        </List>
 
-        <LibraryComponents.Atoms.List
+        <List
           direction="col"
           space={4}
           justify="stretch"
@@ -273,7 +275,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.MultilineInput
+              <Form.MultilineInput
                 rows={4}
                 label="Description"
                 name="txtDescription"
@@ -296,7 +298,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
           <Controller
             control={control}
             render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+              <Form.InputWrapper label="Environment">
                 <select
                   value={lookupStore.lookup?.environment}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -330,35 +332,35 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
             )}
             name="environment"
             rules={{ required: true }}
             defaultValue=""
           />
-        </LibraryComponents.Atoms.List>
-      </LibraryComponents.Atoms.Grid>
+        </List>
+      </Grid>
       <br />
-      <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-        <LibraryComponents.Atoms.Buttons.Button
+      <List direction="row" space={3} align="center">
+        <Buttons.Button
           size="medium"
           type="solid"
-          icon={LibraryComponents.Atoms.Icon.Save}
+          icon={Svg.Save}
           onClick={handleSubmit(onSubmitNewField)}
         >
           Save
-        </LibraryComponents.Atoms.Buttons.Button>
-        <LibraryComponents.Atoms.Buttons.Button
+        </Buttons.Button>
+        <Buttons.Button
           size="medium"
           type="outline"
-          icon={LibraryComponents.Atoms.Icon.Remove}
+          icon={Svg.Remove}
           onClick={() => {
             window.location.reload()
           }}
         >
           Clear
-        </LibraryComponents.Atoms.Buttons.Button>
-      </LibraryComponents.Atoms.List>
+        </Buttons.Button>
+      </List>
     </div>
   )
 }))

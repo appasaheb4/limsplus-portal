@@ -8,7 +8,7 @@ interface ModalProps {
   onClick: () => void
 }
 
-const ModalTokenExpire = (props: ModalProps) => {
+export const ModalTokenExpire = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
 
   useEffect(() => {
@@ -54,5 +54,3 @@ const ModalTokenExpire = (props: ModalProps) => {
     </Container>
   )
 }
-
-export default ModalTokenExpire

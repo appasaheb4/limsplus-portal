@@ -2,7 +2,9 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
@@ -14,7 +16,7 @@ import { useStores, } from "@lp/stores"
 import { RouterFlow } from "@lp/flows"
 
 const Section = SectionHoc(observer(() => {
-  const { loginStore, sectionStore, departmentStore,routerStore,loading } = useStores()
+  const { loginStore, sectionStore, departmentStore,routerStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -33,11 +35,11 @@ const Section = SectionHoc(observer(() => {
         .addSection({ input: { ...sectionStore.section } })
         .then((res) => {
           if (res.createSection.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createSection.message}`,
             })
           } else {
-            LibraryComponents.Atoms.Toast.error({
+            Toast.error({
               message: `😔 Please try again`,
             })
           }
@@ -46,7 +48,7 @@ const Section = SectionHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.error({
+      Toast.error({
         message: `😔 Please enter diff code`,
       })
     }
@@ -103,14 +105,14 @@ const Section = SectionHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
         />
@@ -121,8 +123,8 @@ const Section = SectionHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -131,7 +133,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Department Code"
                     hasError={errors.departmentCode}
                   >
@@ -147,7 +149,7 @@ const Section = SectionHoc(observer(() => {
                         )
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="departmentCode"
                 rules={{ required: true }}
@@ -157,7 +159,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Code"
                     id="code"
                     hasError={errors.code}
@@ -181,7 +183,7 @@ const Section = SectionHoc(observer(() => {
                         .then((res) => {
                           if (res.checkSectionExistsRecord.success) {
                             sectionStore.setExitsEnvCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkSectionExistsRecord.message}`,
                             })
                           } else sectionStore.setExitsEnvCode(false)
@@ -201,7 +203,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Name"
                     hasError={errors.name}
                     placeholder={errors.name ? "Please Enter Name" : "Name"}
@@ -223,7 +225,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Short Name"
                     placeholder={
                       errors.shortName ? "Please Enter shortName" : "Short Name"
@@ -246,7 +248,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Section In Charge"
                     placeholder={
                       errors.sectionInCharge
@@ -271,7 +273,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     label="Mobile No"
                     placeholder={
@@ -295,7 +297,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     label="Contact No"
                     placeholder={
@@ -316,8 +318,8 @@ const Section = SectionHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -326,7 +328,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="FYI line"
                     placeholder={
@@ -349,7 +351,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Work line"
                     placeholder={
@@ -373,7 +375,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -401,7 +403,7 @@ const Section = SectionHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -410,7 +412,7 @@ const Section = SectionHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={sectionStore.section?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -439,7 +441,7 @@ const Section = SectionHoc(observer(() => {
                           .then((res) => {
                             if (res.checkSectionExistsRecord.success) {
                               sectionStore.setExitsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkSectionExistsRecord.message}`,
                               })
                             } else sectionStore.setExitsEnvCode(false)
@@ -461,41 +463,41 @@ const Section = SectionHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitSection)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -503,7 +505,7 @@ const Section = SectionHoc(observer(() => {
                 .deleteSection({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeSection.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeSection.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -520,7 +522,7 @@ const Section = SectionHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateSection.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateSection.message}`,
                     })
                     setModalConfirm({ show: false })

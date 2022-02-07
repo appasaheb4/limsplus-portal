@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalImportFile, Icons} 
+  from "@lp/library/components"
 import {lookupItems,} from "@lp/library/utils"
 import * as Models from "../../models"
 import { SegmentMapping as ModelSegmentMapping } from "../models"
@@ -160,7 +162,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
           .importSegmentMapping({ input: { data: { ...uniqueData } } })
           .then((res) => {
             if (res.importSegmentMapping.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.importSegmentMapping.success}`,
               })
               segmentMappingStore.fetchListSegmentMapping()
@@ -179,7 +181,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
         .addSegmentMapping({ input: { ...segmentMappingStore.segmentMapping } })
         .then((res) => {
           if (res.createSegmentMapping.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createSegmentMapping.message}`,
             })
             if (saveTitle === "Save") {
@@ -191,7 +193,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
           }
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔 Please enter all information!",
       })
     }
@@ -199,14 +201,14 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSegmentMapping}
           onClick={(status) => setHideAddSegmentMapping(!hideAddSegmentMapping)}
         />
@@ -219,8 +221,8 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
             (hideAddSegmentMapping ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -229,7 +231,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="EQUIPMENT TYPE"
                     id="equipment_type"
                     hasError={errors.equipmentType}
@@ -261,7 +263,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="equipmentType"
                 rules={{ required: true }}
@@ -270,7 +272,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="DATA FLOW FROM"
                     id="dataFlowFrom"
                     hasError={errors.dataFlowFrom}
@@ -299,7 +301,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="dataFlowFrom"
                 rules={{ required: true }}
@@ -308,7 +310,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="DATA TYPE"
                     id="data_type"
                     hasError={errors.data_type}
@@ -335,7 +337,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="data_type"
                 rules={{ required: true }}
@@ -344,7 +346,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="SEGMENTS"
                     id="segments"
                     hasError={errors.segments}
@@ -371,7 +373,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="segments"
                 rules={{ required: true }}
@@ -380,7 +382,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="SEGMENT USAGE"
                     id="segment_usage"
                     hasError={errors.segment_usage}
@@ -409,7 +411,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="segment_usage"
                 rules={{ required: false }}
@@ -418,7 +420,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     label="Field No"
                     name="field_no"
@@ -443,7 +445,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     label="Item No"
                     name="item_no"
@@ -463,9 +465,9 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -474,7 +476,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="FIELD REQUIRED"
                     id="field_required"
                     hasError={errors.field_required}
@@ -495,7 +497,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Element Name"
                     name="element_name"
                     placeholder={
@@ -521,7 +523,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="TRANSMITTED DATA"
                     name="transmitted_data"
                     placeholder={
@@ -547,7 +549,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="FIELD ARRAY"
                     name="field_array"
                     placeholder={
@@ -571,7 +573,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     label="FIELD LENGTH"
                     name="field_length"
@@ -598,7 +600,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="FIELD TYPE"
                     name="field_type"
                     placeholder={
@@ -622,7 +624,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="REPEAT DELIMITER"
                     id="repeat_delimiter"
                     hasError={errors.repeat_delimiter}
@@ -640,9 +642,9 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -651,7 +653,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="MANDATORY"
                     id="mandatory"
                     hasError={errors.mandatory}
@@ -672,7 +674,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="LIMS DESCRIPTIONS"
                     id="lims_descriptions"
                     placeholder={
@@ -698,7 +700,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="LIMS TABLES"
                     name="lims_tables"
                     placeholder={
@@ -722,7 +724,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="LIMS FIELDS"
                     name="lims_fields"
                     placeholder={
@@ -746,7 +748,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="REQUIRED FOR LIMS"
                     id="required_for_lims"
                     hasError={errors.required_for_lims}
@@ -767,7 +769,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="NOTES"
                     name="notes"
                     placeholder={errors.notes ? "Please Enter notes" : "NOTES"}
@@ -789,7 +791,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="ATTACHMENTS"
                     name="attachments"
                     placeholder={
@@ -815,7 +817,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={segmentMappingStore.segmentMapping?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -850,25 +852,25 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitSegmentMapiing)}
             >
               {saveTitle}
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
               onClick={() => {
@@ -878,24 +880,24 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                 })
               }}
             >
-              <LibraryComponents.Atoms.Icon.EvaIcon
+              <Icons.EvaIcon
                 icon="arrowhead-down-outline"
                 size="medium"
                 color={Config.Styles.COLORS.BLACK}
               />
               Import
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
       </div>
 
@@ -953,7 +955,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
           }}
         />
       </div>
-      <LibraryComponents.Atoms.ModalImportFile
+      <ModalImportFile
         accept=".csv,.xlsx,.xls"
         {...modalImportFile}
         click={(file: any) => {

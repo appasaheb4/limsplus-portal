@@ -2,10 +2,10 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {DateFilter,textFilter,TableBootstrap,customFilter,Form,Icons,Tooltip} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {lookupItems} from "@lp/library/utils"
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 let additionalInfo
 let invoiceAc
 let billingMethod
@@ -36,7 +36,7 @@ interface ExtraDataPatientVisitProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -47,7 +47,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -64,7 +64,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.additionalInfo ? row.extraData.additionalInfo : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   additionalInfo = filter
               }}),
@@ -78,7 +78,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.invoiceAc ? row.extraData.invoiceAc : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   invoiceAc = filter
              } }),
@@ -127,7 +127,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.billingMethod ? row.extraData.billingMethod : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   billingMethod  = filter
              } }),
@@ -175,7 +175,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.billNumber ? row.extraData.billNumber : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   billNumber = filter
              } }),
@@ -189,7 +189,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.methodCollection ? row.extraData.methodCollection : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   methodCollection = filter
              } }),
@@ -237,7 +237,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.collectedBy ? row.extraData.collectedBy : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   collectedBy  = filter
              } }),
@@ -251,7 +251,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData.receivedDate ? dayjs(row.extraData.receivedDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   receivedDate = filter
                 },
@@ -271,7 +271,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime  
+                  <Form.InputDateTime  
                   // value={new Date(row.receivedDate)} 
                           onFocusRemove={(receivedDate) => {
                            props.onUpdateItem && props.onUpdateItem(receivedDate,column.dataField,row._id)
@@ -286,7 +286,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.resultDate ? dayjs(row.extraData?.resultDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   resultDate = filter
                 },
@@ -306,7 +306,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime   
+                  <Form.InputDateTime   
                           onFocusRemove={(resultDate) => {
                            props.onUpdateItem && props.onUpdateItem(resultDate,column.dataField,row._id)
                           }}
@@ -322,7 +322,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.extraData.urgent}
                       onChange={(urgent) => {
                         props.onUpdateItem &&
@@ -341,7 +341,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.extraData.confidental}
                       onChange={(confidental) => {
                         props.onUpdateItem &&
@@ -360,7 +360,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.extraData.pendingDataEntry}
                       onChange={(pendingDataEntry) => {
                         props.onUpdateItem &&
@@ -382,7 +382,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.approvalDate ? dayjs(row.extraData.approvalDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   approvalDate = filter
                 },
@@ -402,7 +402,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime   
+                  <Form.InputDateTime   
                           onFocusRemove={(approvalDate) => {
                            props.onUpdateItem && props.onUpdateItem(approvalDate,column.dataField,row._id)
                           }}
@@ -416,7 +416,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.approvalStatus ? row.extraData.approvalStatus : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   approvalStatus = filter
              } }),
@@ -463,7 +463,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.reportStatus ? row.extraData.reportStatus : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   reportStatus = filter
              } }),
@@ -510,7 +510,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.reportedDate ? dayjs(row.extraData.reportedDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   reportedDate = filter
                 },
@@ -530,7 +530,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime   
+                  <Form.InputDateTime   
                           onFocusRemove={(reportedDate) => {
                            props.onUpdateItem && props.onUpdateItem(reportedDate,column.dataField,row._id)
                           }}
@@ -544,7 +544,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.enteredBy ? row.extraData.enteredBy : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   enteredBy = filter
              } }),
@@ -559,7 +559,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.height ? row.extraData.height : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   height = filter
              } }),
@@ -573,7 +573,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.weight ? row.extraData.weight : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   weight  = filter
              } }),
@@ -587,7 +587,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.archieve ? row.extraData.archieve : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   archieve = filter
              } }),
@@ -632,7 +632,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.loginInterface ? row.extraData.loginInterface : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   loginInterface = filter
              } }),
@@ -681,7 +681,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.registrationInterface ? row.extraData.registrationInterface : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   registrationInterface = filter
              } }),
@@ -728,7 +728,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.submittingSystem ? row.extraData.submittingSystem : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   submittingSystem = filter
              } }),
@@ -742,7 +742,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.submittindOn ? row.extraData.submittindOn : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   submittindOn = filter
              } }),
@@ -756,7 +756,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.balance ? row.extraData.balance : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   balance = filter
              } }),
@@ -770,7 +770,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.accountType ? row.extraData.accountType : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   accountType = filter
              } }),
@@ -817,7 +817,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.deliveryMethod ? row.extraData.deliveryMethod : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   deliveryMethod = filter
              } }),
@@ -865,7 +865,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (row.extraData?.environment ? row.extraData.environment : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   environment = filter
              } }),
@@ -915,8 +915,8 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -930,11 +930,11 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

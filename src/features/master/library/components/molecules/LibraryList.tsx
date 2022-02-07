@@ -1,10 +1,9 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
-import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../index"
-import { NumberFilter } from "@lp/library/components/Organisms"  
+import {TableBootstrap,Form,Tooltip,Icons,NumberFilter,textFilter,AutoCompleteCheckMultiFilterKeys,Buttons,customFilter} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
+import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../index"  
 
 let code
 let description
@@ -37,7 +36,7 @@ interface LibraryListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
@@ -53,7 +52,7 @@ export const LibraryList = (props: LibraryListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -70,7 +69,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   code = filter
                 }
@@ -83,7 +82,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   description = filter
                 }
@@ -96,7 +95,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   usageType = filter
                 }
@@ -140,7 +139,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   libraryType = filter
                 }
@@ -184,7 +183,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   commentType = filter
                 }
@@ -228,7 +227,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   lab = filter
                 }
@@ -257,7 +256,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   department = filter
                 }
@@ -286,7 +285,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   commentsTarget = filter
                 }
@@ -334,7 +333,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   details = filter}
               }),
@@ -347,7 +346,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   parameter = filter
                 }
@@ -390,7 +389,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   action = filter
                 }
@@ -433,7 +432,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   results = filter}
               }),
@@ -476,7 +475,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   value = filter}
               }),
@@ -491,7 +490,7 @@ export const LibraryList = (props: LibraryListProps) => {
               csvFormatter: (cell, row, rowIndex) => 
               `PanelCode${reflex.panelName} ,
                PanelName${reflex.panelCode}`,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   reflex = filter}
               }),
@@ -500,14 +499,14 @@ export const LibraryList = (props: LibraryListProps) => {
                   <div className="flex flex-row">
                     {row.reflex.map((item) => (
                       <div className="mb-2 ml-2">
-                        <LibraryComponents.Atoms.Buttons.Button
+                        <Buttons.Button
                           size="medium"
                           type="solid"
                           onClick={() => {}}
                         >
                           {`Panel Name: ${item.panelName} 
                            Panel Code: ${item.panelCode}`}
-                        </LibraryComponents.Atoms.Buttons.Button>
+                        </Buttons.Button>
                       </div>
                     ))}
                   </div>
@@ -523,7 +522,7 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   
-                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
+                    <AutoCompleteCheckMultiFilterKeys
                       placeholder="Search by panel name or panel code"
                       data={{
                         defulatValues: [],
@@ -546,7 +545,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   analyte = filter}
               }),
@@ -558,7 +557,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   rule = filter}
               }),
@@ -574,7 +573,7 @@ export const LibraryList = (props: LibraryListProps) => {
                 return (
                   <>
                     {" "}
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.abNormal}
                       onChange={(abNormal) => {
@@ -592,7 +591,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   status = filter}
               }),
@@ -634,7 +633,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   organismGroup = filter}
               }),
@@ -646,7 +645,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   organismClass = filter}
               }),
@@ -658,7 +657,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   loAge = filter
                 }
@@ -674,7 +673,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) =>{
                   hiAge = filter
                 }
@@ -690,7 +689,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   sex = filter}
               }),
@@ -733,7 +732,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   sexAction = filter}
               }),
@@ -777,7 +776,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   environment = filter}
               }),
@@ -823,11 +822,11 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                       tooltipText="Delete"
                       position="top"
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -841,11 +840,11 @@ export const LibraryList = (props: LibraryListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

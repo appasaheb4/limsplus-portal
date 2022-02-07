@@ -1,7 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Form,AutoCompleteFilterMutiSelectMultiFieldsDisplay} from "@lp/library/components"
 import { useStores } from "@lp/stores"
 
 interface AutoCompleteProps {
@@ -25,7 +25,7 @@ export const AutoCompleteUsers = observer(
     return (
       <>
         <div className="flex flex-row gap-2 w-full">
-          <LibraryComponents.Atoms.Form.Toggle
+          <Form.Toggle
             value={environmentStore.permission?.allUsers||false}
             disabled={!environmentStore.permission?.allUsers||false}
             onChange={(allUsers) => {
@@ -41,7 +41,7 @@ export const AutoCompleteUsers = observer(
             }}
           />
 
-        <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
             loader={loading}
             disable={data?.allUsers?data?.allUsers:environmentStore.permission?.allUsers||false}
             placeholder="Search by userId or name..."

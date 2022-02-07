@@ -1,8 +1,8 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
+import React, { useState, useEffect } from "react"
+// import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {AutoCompleteFilterMutiSelectMultiFieldsDisplay,Form} from "@lp/library/components"
 import { useStores } from "@lp/stores"
 
 interface AutoCompleteProps {
@@ -26,7 +26,7 @@ export const AutoCompleteLabs = observer(
     return (
       <>
         <div className="flex flex-row gap-2 w-full">
-          <LibraryComponents.Atoms.Form.Toggle
+          <Form.Toggle
             label="All"
             value={environmentStore.permission?.allLabs||false}
             disabled={data?.allLabs||false?data?.allLabs||false:!environmentStore.permission?.allLabs||false}
@@ -43,7 +43,7 @@ export const AutoCompleteLabs = observer(
             }}
           />
 
-          <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
             loader={loading}
             disable={data?.allLabs 
               ? 

@@ -1,17 +1,17 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Buttons, Icons,Form,Tooltip,textFilter,ModalConfirm,Toast} from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
-import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
+import cellEditFactory from "react-bootstrap-table2-editor"
+import filterFactory from "react-bootstrap-table2-filter"
 import moment from "moment"
 import {options as EquipmentModel,} from "../../models"
 import { SegmentMapping } from "../models"
 import * as Config from "@lp/config"
-import * as Assets from "@lp/features/assets"
+// import * as Assets from "@lp/features/assets"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -47,7 +47,7 @@ const SegmentList = observer((props: SegmentListProps) => {
     onSizePerPageChange,
   }) => (
     <div className="btn-group items-center" role="group">
-      <LibraryComponents.Atoms.Buttons.Button
+      <Buttons.Button
         style={{ height: 10, width: 200 }}
         size="small"
         type="solid"
@@ -68,13 +68,13 @@ const SegmentList = observer((props: SegmentListProps) => {
           }
         }}
       >
-        <LibraryComponents.Atoms.Icon.EvaIcon
+        <Icons.EvaIcon
           icon="trash-outline"
           size="large"
           color={Config.Styles.COLORS.BLACK}
         />
         Remove Selected
-      </LibraryComponents.Atoms.Buttons.Button>
+      </Buttons.Button>
       <input
         type="number"
         min="0"
@@ -470,7 +470,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     name="field_no"
                     placeholder="Field No"
@@ -508,7 +508,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     name="item_no"
                     placeholder="Item No"
@@ -545,7 +545,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     id="field_required"
                     value={row.field_required}
                     onChange={(field_required) => {
@@ -586,7 +586,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="element_name"
                     placeholder="Element name"
                     onBlur={(element_name) => {
@@ -625,7 +625,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="transmitted_data"
                     placeholder="Transmitted data"
                     onBlur={(transmitted_data) => {
@@ -665,7 +665,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="field_array"
                     placeholder="Field array"
                     onBlur={(field_array) => {
@@ -704,7 +704,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="number"
                     name="field_length"
                     placeholder="Field length"
@@ -744,7 +744,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="field_type"
                     placeholder="Field type"
                     onBlur={(field_type) => {
@@ -780,7 +780,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     id="field_required"
                     value={row.repeat_delimiter}
                     onChange={(repeat_delimiter) => {
@@ -814,7 +814,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     id="mandatory"
                     value={row.mandatory}
                     onChange={(mandatory) => {
@@ -855,7 +855,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="lims_descriptions"
                     placeholder="Lims descriptions"
                     onBlur={(lims_descriptions) => {
@@ -894,7 +894,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="lims_tables"
                     placeholder="Lims tables"
                     onBlur={(lims_tables) => {
@@ -934,7 +934,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="lims_fields"
                     placeholder="Lims fields"
                     onBlur={(lims_fields) => {
@@ -971,7 +971,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     id="required_for_lims"
                     value={row.required_for_lims}
                     onChange={(required_for_lims) => {
@@ -1023,7 +1023,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     name="notes"
                     placeholder="Notes"
                     onBlur={(notes) => {
@@ -1080,7 +1080,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     multiple={true}
                     name="attachments"
                     placeholder="ATTACHMENTS"
@@ -1121,7 +1121,7 @@ const SegmentList = observer((props: SegmentListProps) => {
               dataField: "environment",
               text: "Environment",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: textFilter(),
               editorRenderer: (
                 editorProps,
                 value,
@@ -1131,7 +1131,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {/* <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  {/* <Form.InputWrapper label="Environment">
                     <select
                       value={row.environment}
                       className="leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md"
@@ -1149,7 +1149,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                         )
                       )}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper> */}
+                  </Form.InputWrapper> */}
                 </>
               ),
             },
@@ -1161,8 +1161,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top"> 
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete" position="top"> 
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() => {
@@ -1182,18 +1182,18 @@ const SegmentList = observer((props: SegmentListProps) => {
                                     }
                                   }}
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
 
-                    <LibraryComponents.Atoms.Tooltip
+                    <Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
                           position="top"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"   
                             size="20"
                             onClick={() => {
@@ -1212,11 +1212,11 @@ const SegmentList = observer((props: SegmentListProps) => {
                                         }
                                       }}
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                            {Icons.getIconTag(
+                              Icons.Iconio5.IoDuplicateOutline
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                     
                   </div>
                 </>
@@ -1273,7 +1273,7 @@ const SegmentList = observer((props: SegmentListProps) => {
           )}
         </ToolkitProvider>
 
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type) => {
             setModalConfirm({ show: false })
@@ -1293,7 +1293,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     if (res.removeSegmentMapping.success) {
                       segmentMappingStore.fetchListSegmentMapping()
                       segmentMappingStore.updateSelectedItem([])
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.removeSegmentMapping.message}`,
                       })
                     }
@@ -1310,7 +1310,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                   .then((res) => {
                     if (res.updateSegmentMapping.success) {
                       segmentMappingStore.fetchListSegmentMapping()
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: ` ${res.updateSegmentMapping.message}`,
                       })
                     }

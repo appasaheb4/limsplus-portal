@@ -1,7 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
-import * as LibraryComponents from "@lp/library/components"
+import {Icons} from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   loader?: boolean
@@ -90,9 +90,9 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
           />
           {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+            <Icons.IconFa.FaChevronUp />
           ) : (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+            <Icons.IconFa.FaChevronDown />
           )}
         </div>
 

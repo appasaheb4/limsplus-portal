@@ -2,8 +2,8 @@
 import React, { useEffect } from "react"
 import _ from "lodash"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,AutocompleteGroupBy,Buttons,textFilter,List,Grid,Form,Icons,Tooltip,Svg} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
 
@@ -20,7 +20,7 @@ interface LookupListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -44,7 +44,7 @@ export const LookupList = (props: LookupListProps) => {
   }, [])
   return (
     <div style={{ position: "relative" }}>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -62,7 +62,7 @@ export const LookupList = (props: LookupListProps) => {
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
               `${row.documentName.children.title}`,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 documentName = filter
               },
@@ -80,7 +80,7 @@ export const LookupList = (props: LookupListProps) => {
             ) => (
               <>
                 
-                  <LibraryComponents.Molecules.AutocompleteGroupBy
+                  <AutocompleteGroupBy
                     data={router}
                     onChange={async (item: any, children: any) => {
                       const documentName = {
@@ -105,7 +105,7 @@ export const LookupList = (props: LookupListProps) => {
             csvFormatter: (col) => (col ? col : ""),
             style: { textTransform: "uppercase" },
             editorStyle: { textTransform: "uppercase" },
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 fieldName = filter
               },
@@ -120,30 +120,30 @@ export const LookupList = (props: LookupListProps) => {
               `Value:${row.arrValue.map(
                 (item) => item.value
               )} - Code:${row.arrValue.map((item) => item.code)}`,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 arrValue = filter
               },
             }),
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.List
+                <List
                   space={2}
                   direction="row"
                   justify="center"
                 >
                   {row.arrValue.map((item) => (
                     <div className="mb-2">
-                      <LibraryComponents.Atoms.Buttons.Button
+                      <Buttons.Button
                         size="medium"
                         type="solid"
                         onClick={() => {}}
                       >
                         {`${item.value} - ${item.code}`}
-                      </LibraryComponents.Atoms.Buttons.Button>
+                      </Buttons.Button>
                     </div>
                   ))}
-                </LibraryComponents.Atoms.List>
+                </List>
               </>
             ),
             editorRenderer: (
@@ -155,8 +155,8 @@ export const LookupList = (props: LookupListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Grid cols={3}>
-                  <LibraryComponents.Atoms.Form.Input
+                <Grid cols={3}>
+                  <Form.Input
                     placeholder="Code"
                     value={row.code}
                     onChange={(code) => {
@@ -167,7 +167,7 @@ export const LookupList = (props: LookupListProps) => {
                     }}
                   />
 
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     placeholder="Value"
                     value={row.value}
                     onChange={(value) => {
@@ -179,7 +179,7 @@ export const LookupList = (props: LookupListProps) => {
                   />
 
                   <div className="mt-2">
-                    <LibraryComponents.Atoms.Buttons.Button
+                    <Buttons.Button
                       size="medium"
                       type="solid"
                       onClick={() => {
@@ -213,13 +213,13 @@ export const LookupList = (props: LookupListProps) => {
                         }
                       }}
                     >
-                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                      <Icons.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
-                    </LibraryComponents.Atoms.Buttons.Button>
+                    </Buttons.Button>
                   </div>
                   <div className="clearfix"></div>
-                </LibraryComponents.Atoms.Grid>
-                <LibraryComponents.Atoms.List
+                </Grid>
+                <List
                   space={2}
                   direction="row"
                   justify="center"
@@ -227,10 +227,10 @@ export const LookupList = (props: LookupListProps) => {
                   <div>
                     {row.arrValue?.map((item, index) => (
                       <div className="mb-2" key={index}>
-                        <LibraryComponents.Atoms.Buttons.Button
+                        <Buttons.Button
                           size="medium"
                           type="solid"
-                          icon={LibraryComponents.Atoms.Icon.Remove}
+                          icon={Svg.Remove}
                           onClick={() => {
                             const firstArr = row?.arrValue?.slice(0, index) || []
                             const secondArr = row.arrValue?.slice(index + 1) || []
@@ -247,11 +247,11 @@ export const LookupList = (props: LookupListProps) => {
                           }}
                         >
                           {`${item.value} - ${item.code}`}
-                        </LibraryComponents.Atoms.Buttons.Button>
+                        </Buttons.Button>
                       </div>
                     ))}
                   </div>
-                </LibraryComponents.Atoms.List>
+                </List>
               </>
             ),
           },
@@ -261,7 +261,7 @@ export const LookupList = (props: LookupListProps) => {
             headerClasses: "textHeader2",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 description = filter
               },
@@ -276,14 +276,14 @@ export const LookupList = (props: LookupListProps) => {
               `Value:${row.defaultItem.map(
                 (item) => item.value
               )} - Code:${row.defaultItem.map((item) => item.code)}`,
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 defaultItem = filter
               },
             }),
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.List
+                <List
                   space={2}
                   direction="row"
                   justify="center"
@@ -291,16 +291,16 @@ export const LookupList = (props: LookupListProps) => {
                   {row.defaultItem &&
                     row.defaultItem.map((item) => (
                       <div className="mb-2">
-                        <LibraryComponents.Atoms.Buttons.Button
+                        <Buttons.Button
                           size="medium"
                           type="solid"
                           onClick={() => {}}
                         >
                           {`${item.value} - ${item.code}`}
-                        </LibraryComponents.Atoms.Buttons.Button>
+                        </Buttons.Button>
                       </div>
                     ))}
-                </LibraryComponents.Atoms.List>
+                </List>
               </>
             ),
             editorRenderer: (
@@ -342,7 +342,7 @@ export const LookupList = (props: LookupListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) => {
                 environment = filter
               },
@@ -389,11 +389,11 @@ export const LookupList = (props: LookupListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     tooltipText="Delete"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() =>
@@ -407,11 +407,11 @@ export const LookupList = (props: LookupListProps) => {
                         })
                       }
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                 </div>
               </>
             ),

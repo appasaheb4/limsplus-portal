@@ -7,8 +7,8 @@ interface ModalProps {
   subTitle?: string
   onClick: () => void
 }
-
-const ModalIdleTimeout = (props: ModalProps) => {
+   
+export const ModalIdleTimeout = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
 
   useEffect(() => {
@@ -50,5 +50,3 @@ const ModalIdleTimeout = (props: ModalProps) => {
     </Container>
   )
 }
-
-export default ModalIdleTimeout;

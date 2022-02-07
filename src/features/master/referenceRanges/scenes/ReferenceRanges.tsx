@@ -2,14 +2,14 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,List
+  ,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import {
   CommonInputTable,
   ReferenceRangesList,
   RefRangesInputTable,
 } from "../components"
-import { useForm } from "react-hook-form"
-
 import { ReferenceRangesHoc } from "../hoc"
 import { useStores } from "@lp/stores"
 
@@ -48,7 +48,7 @@ const ReferenceRanges = ReferenceRangesHoc(
           })
           .then((res) => {
             if (res.createReferenceRange.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createReferenceRange.message}`,
               })
             }
@@ -57,7 +57,7 @@ const ReferenceRanges = ReferenceRangesHoc(
           window.location.reload()
         }, 2000)
       } else {
-        LibraryComponents.Atoms.Toast.warning({
+        Toast.warning({
           message: `😔 Records not found.`,
         })
       }
@@ -191,14 +191,14 @@ const ReferenceRanges = ReferenceRangesHoc(
 
     return (
       <>
-        <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading
+        <Header>
+          <PageHeading
             title={routerStore.selectedComponents?.title || ""}
           />
-          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-        </LibraryComponents.Atoms.Header>
+          <PageHeadingLabDetails store={loginStore} />
+        </Header>
         {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          <Buttons.ButtonCircleAddRemove
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
@@ -213,29 +213,29 @@ const ReferenceRanges = ReferenceRangesHoc(
             <CommonInputTable />
             {refRangesInputTable}
             <br />
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-              <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+              <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={() => onSubmitReferenceRanges()}
               >
                 Save
-              </LibraryComponents.Atoms.Buttons.Button>
-              <LibraryComponents.Atoms.Buttons.Button
+              </Buttons.Button>
+              <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Atoms.Buttons.Button>
-            </LibraryComponents.Atoms.List>
+              </Buttons.Button>
+            </List>
           </div>
           <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
-          <LibraryComponents.Molecules.ModalConfirm
+          <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "delete") {
@@ -243,7 +243,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   .deleteReferenceRanges({ input: { id: modalConfirm.id } })
                   .then((res: any) => {
                     if (res.removeReferenceRange.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.removeReferenceRange.message}`,
                       })
                       setModalConfirm({ show: false })
@@ -260,7 +260,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   })
                   .then((res: any) => {
                     if (res.updateReferenceRange.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.updateReferenceRange.message}`,
                       })
                       setModalConfirm({ show: false })

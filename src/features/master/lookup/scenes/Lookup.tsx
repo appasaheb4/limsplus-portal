@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import { Accordion, AccordionItem } from "react-sanfona"
 
 import { useForm, Controller } from "react-hook-form"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,ModalConfirm,Toast} from "@lp/library/components"
 import {LookupList} from "../components"
 import { Container } from "reactstrap"
 
@@ -44,14 +44,14 @@ const Lookup = observer(() => {
 
   return (
     <>
-        <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading
+        <Header>
+          <PageHeading
             title={routerStore.selectedComponents?.title || ""}
           />
-          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-        </LibraryComponents.Atoms.Header>
+          <PageHeadingLabDetails store={loginStore} />
+        </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          <Buttons.ButtonCircleAddRemove
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
@@ -135,7 +135,7 @@ const Lookup = observer(() => {
                 }}
               />
             </div>
-            <LibraryComponents.Molecules.ModalConfirm
+            <ModalConfirm
               {...modalConfirm}
               click={(type?: string) => {
                 if (type === "Delete") {
@@ -143,7 +143,7 @@ const Lookup = observer(() => {
                     input: { id: modalConfirm.id },
                   }).then((res: any) => {
                     if (res.removeLookup.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.removeLookup.message}`,
                       })
                       setModalConfirm({ show: false })
@@ -158,7 +158,7 @@ const Lookup = observer(() => {
                     },
                   }).then((res: any) => {
                     if (res.updateLookup.success) {
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 ${res.updateLookup.message}`,
                       })
                       setModalConfirm({ show: false })

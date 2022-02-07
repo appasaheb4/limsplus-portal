@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,Icons,List,Svg,Toast} from "@lp/library/components"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import { useStores } from "@lp/stores"
@@ -71,12 +71,12 @@ const ShortcutMenu = observer(() => {
   }
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {loginStore.login?.shortcutMenu &&
         loginStore.login?.shortcutMenu[loginStore.login.role || ""] &&
         loginStore.login?.shortcutMenu &&
@@ -109,16 +109,16 @@ const ShortcutMenu = observer(() => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                               >
-                                <LibraryComponents.Atoms.Icons.IconContext
+                                <Icons.IconContext
                                   color="#fff"
                                   size="22"
                                 >
-                                  {LibraryComponents.Atoms.Icons.getIconTag(
-                                    LibraryComponents.Atoms.Icons.getIcons(
+                                  {Icons.getIconTag(
+                                    Icons.getIcons(
                                       item.icon
-                                    ) || LibraryComponents.Atoms.Icons.IconBs.BsList
+                                    ) || Icons.IconBs.BsList
                                   )}
-                                </LibraryComponents.Atoms.Icons.IconContext>
+                                </Icons.IconContext>
                                 <li className="m-2 text-white">{item.title}</li>
                               </div>
                             )}
@@ -131,10 +131,10 @@ const ShortcutMenu = observer(() => {
             </DragDropContext>
             {shortcutMenuStore.isDragDropList && (
               <div className="flex items-center justify-center">
-                <LibraryComponents.Atoms.Buttons.Button
+                <Buttons.Button
                   size="medium"
                   type="solid"
-                  icon={LibraryComponents.Atoms.Icon.Save}
+                  icon={Svg.Save}
                   onClick={() => {
                     shortcutMenuStore.ShortcutMenuService.updateShortcutMenu({
                       input: {
@@ -148,12 +148,12 @@ const ShortcutMenu = observer(() => {
                       },
                     }).then((res) => {
                       if (res.updateShortcutMenu.success) {
-                        LibraryComponents.Atoms.Toast.success({
+                        Toast.success({
                           message: `😊 ${res.updateShortcutMenu.message}`,
                         })
                         shortcutMenuStore.updateDragDrop(false)
                       } else {
-                        LibraryComponents.Atoms.Toast.error({
+                        Toast.error({
                           message: `😔Please try agian.`,
                         })
                       }
@@ -161,7 +161,7 @@ const ShortcutMenu = observer(() => {
                   }}
                 >
                   Update
-                </LibraryComponents.Atoms.Buttons.Button>
+                </Buttons.Button>
                 <br /> <br />
               </div>
             )}
@@ -185,23 +185,23 @@ const ShortcutMenu = observer(() => {
                     onChange={() => onItemSelect(item, index)}
                   />
 
-                  <LibraryComponents.Atoms.Icons.IconContext color="#fff" size="22">
-                    {LibraryComponents.Atoms.Icons.getIconTag(
-                      LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
-                        LibraryComponents.Atoms.Icons.IconBs.BsList
+                  <Icons.IconContext color="#fff" size="22">
+                    {Icons.getIconTag(
+                      Icons.getIcons(item.icon) ||
+                        Icons.IconBs.BsList
                     )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
+                  </Icons.IconContext>
                   <li className="m-2 text-white">{item.title}</li>
                 </div>
               </>
             ))}
         </ul>
         <br />
-        <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-          <LibraryComponents.Atoms.Buttons.Button
+        <List direction="row" space={3} align="center">
+          <Buttons.Button
             size="medium"
             type="solid"
-            icon={LibraryComponents.Atoms.Icon.Save}
+            icon={Svg.Save}
             onClick={() => {
               const selectedList = shortcutMenuStore.shortcutMenuList?.filter(
                 (item) => item.selected === true
@@ -216,7 +216,7 @@ const ShortcutMenu = observer(() => {
                   },
                 }).then((res) => {
                   if (res.updateShortcutMenu.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateShortcutMenu.message}`,
                     })
                     loginStore.updateLogin({
@@ -224,7 +224,7 @@ const ShortcutMenu = observer(() => {
                       shortcutMenu: res.updateShortcutMenu.data.shortcutMenu,
                     })
                   } else {
-                    LibraryComponents.Atoms.Toast.error({
+                    Toast.error({
                       message: `😔Please try agian.`,
                     })
                   }
@@ -233,8 +233,8 @@ const ShortcutMenu = observer(() => {
             }}
           >
             Update
-          </LibraryComponents.Atoms.Buttons.Button>
-        </LibraryComponents.Atoms.List>
+          </Buttons.Button>
+        </List>
       </div>
     </>
   )

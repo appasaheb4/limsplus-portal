@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const DoctorsHoc = (Component: React.FC<any>) => {
   return observer(
@@ -17,56 +17,56 @@ export const DoctorsHoc = (Component: React.FC<any>) => {
         }  
         doctorsStore.updateDoctors({
             ...doctorsStore.doctors,
-            status: LibraryUtils.getDefaultLookupItem(
+            status: getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
               ),
           })
          doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
-          environment:LibraryUtils.getDefaultLookupItem(
+          environment:getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
         })
         doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
-          title:LibraryUtils.getDefaultLookupItem(
+          title:getDefaultLookupItem(
             routerStore.lookupItems,
             "TITLE"
           ),
         })
         doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
-          speciality:LibraryUtils.getDefaultLookupItem(
+          speciality:getDefaultLookupItem(
             routerStore.lookupItems,
             "SPECIALITY"
           ),
         })
         doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
-          salesTerritoRy:LibraryUtils.getDefaultLookupItem(
+          salesTerritoRy:getDefaultLookupItem(
             routerStore.lookupItems,
             "SPECIALITY"
           ),
         })
         doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
-          deliveryType:LibraryUtils.getDefaultLookupItem(
+          deliveryType:getDefaultLookupItem(
             routerStore.lookupItems,
             "DELIVERY_TYPE"
           ),
         })
         doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
-          deliveryMethod:LibraryUtils.getDefaultLookupItem(
+          deliveryMethod:getDefaultLookupItem(
             routerStore.lookupItems,
             "DELIVERY_METHOD"
           ),
         })
         doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
-          registrationLocation:LibraryUtils.getDefaultLookupItem(
+          registrationLocation:getDefaultLookupItem(
             routerStore.lookupItems,
             "STATUS"
           ),

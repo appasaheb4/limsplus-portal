@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Table } from "reactstrap"
-import * as LibraryComponents from "@lp/library/components"
+import {List,Buttons} from "@lp/library/components"
 
 interface HL7TableProps {
   data?: any
@@ -14,7 +14,7 @@ export const HL7Table = (props: HL7TableProps) => {
   return (
     <>
       <div className="mb-2">
-        <LibraryComponents.Atoms.List space={2} direction="row" justify="center" fill>
+        <List space={2} direction="row" justify="center" fill>
           <div>
             {props.data.map((item: any, index: number) => (
               <div
@@ -22,7 +22,7 @@ export const HL7Table = (props: HL7TableProps) => {
                 style={{ display: "inline-block", marginLeft: 2, marginBottom: 2 }}
                 key={index}
               >
-                <LibraryComponents.Atoms.Buttons.Button
+                <Buttons.Button
                   size="medium"
                   key={index}
                   type="solid"
@@ -33,11 +33,11 @@ export const HL7Table = (props: HL7TableProps) => {
                   style={{ margin: 4 }}
                 >
                   {item[0]}
-                </LibraryComponents.Atoms.Buttons.Button>
+                </Buttons.Button>
               </div>
             ))}
           </div>
-        </LibraryComponents.Atoms.List>
+        </List>
       </div>
       <div className="rounded-lg overflow-auto">
         <Table bordered>

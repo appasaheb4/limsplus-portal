@@ -1,8 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
-import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-
+import {Icons} from "@lp/library/components"
+   
 interface AutoCompleteProps {
   hasError?: boolean
   placeholder?: string
@@ -14,7 +13,7 @@ interface AutoCompleteProps {
   onUpdate?: (item: any) => void
   onChange: (item: any) => void
 }
-
+  
 export const AutoComplete = (props: AutoCompleteProps) => {
   const [value, setValue] = useState<string>("")
   const [options, setOptions] = useState<any[]>()
@@ -117,9 +116,9 @@ export const AutoComplete = (props: AutoCompleteProps) => {
             onClick={() => setIsListOpen(true)}
           />
           {isListOpen ? (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+            <Icons.IconFa.FaChevronUp />
           ) : (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+            <Icons.IconFa.FaChevronDown />
           )}
         </div>
 

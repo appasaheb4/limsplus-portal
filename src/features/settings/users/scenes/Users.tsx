@@ -1,11 +1,12 @@
 /* eslint-disable */
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,AutocompleteCheck,
+  List,Grid,Svg,Toast,ModalConfirm,Form,AutoCompleteFilterSingleSelect,AutoCompleteCheckTwoTitleKeys,ModalChangePasswordByAdmin}
+   from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import { UserList } from "../components"
 import dayjs from "dayjs"
-import { Container } from "reactstrap"
 import { FormHelper } from "@lp/helper"
 
 import { useForm, Controller } from "react-hook-form"
@@ -52,20 +53,20 @@ export const Users = UsersHoc(observer(() => {
           },
         }).then((res: any) => {
           if (res.createUser.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createUser.message}`,
             })
             setTimeout(() => {
               window.location.reload()
             }, 2000)
           } else {
-            LibraryComponents.Atoms.Toast.error({
+            Toast.error({
               message: `😔 ${res.createUser.message}`,
             })
           }
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔 Please enter userid or emp code!",
       })
     }
@@ -144,14 +145,14 @@ export const Users = UsersHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddUser}
           onClick={(status) => setAddUser(!hideAddUser)}
         />
@@ -162,8 +163,8 @@ export const Users = UsersHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddUser ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -172,7 +173,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="User Id"
                     placeholder={errors.userId ? "Please enter userId" : "UserId"}
                     hasError={errors.userId}
@@ -209,7 +210,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Emp Code"
                     placeholder={
                       errors.empCode ? "Please enter emp code" : "Emp Code"
@@ -250,11 +251,11 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     hasError={errors.defaultLab}
                     label="Default Lab"
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                       loader={loading}
                       placeholder="Search by default lab name"
                       data={{
@@ -292,7 +293,7 @@ export const Users = UsersHoc(observer(() => {
                         labStore.updateLabList(labStore.listLabsCopy)
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="defaultLab"
                 rules={{ required: true }}
@@ -301,11 +302,11 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     hasError={errors.labs}
                   >
-                    <LibraryComponents.Molecules.AutocompleteCheck
+                    <AutocompleteCheck
                       data={{
                         defulatValues: [
                           { code: userStore && userStore.user.defaultLab },
@@ -323,7 +324,7 @@ export const Users = UsersHoc(observer(() => {
                         })
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="labs"
                 rules={{ required: true }}
@@ -333,7 +334,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Password"
                     type="password"
                     placeholder={
@@ -358,11 +359,11 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Deginisation"
                     hasError={errors.deginisation}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                       loader={loading}
                       placeholder="Search by deginisation name"
                       data={{
@@ -394,7 +395,7 @@ export const Users = UsersHoc(observer(() => {
                         )
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="deginisation"
                 rules={{ required: true }}
@@ -403,11 +404,11 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Department"
                     hasError={errors.department}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
+                    <AutoCompleteCheckTwoTitleKeys
                       data={{
                         defulatValues: [],
                         list: departmentStore.listDepartment,
@@ -424,7 +425,7 @@ export const Users = UsersHoc(observer(() => {
                         })
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="department"
                 rules={{ required: true }}
@@ -434,11 +435,11 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Role"
                     hasError={errors.role}
                   >
-                    <LibraryComponents.Molecules.AutocompleteCheck
+                    <AutocompleteCheck
                       data={{
                         defulatValues: [],
                         list: roleStore.listRole,
@@ -454,7 +455,7 @@ export const Users = UsersHoc(observer(() => {
                         })
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="role"
                 rules={{ required: true }}
@@ -464,7 +465,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Validation Level"
                     hasError={errors.validationLevel}
                   >
@@ -489,7 +490,7 @@ export const Users = UsersHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="validationLevel"
                 rules={{ required: false }}
@@ -498,7 +499,7 @@ export const Users = UsersHoc(observer(() => {
               {/* <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Workstation"
                       placeholder={
                         errors.workstation
@@ -523,7 +524,7 @@ export const Users = UsersHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Ip Address"
                       placeholder={
                         errors.ipAddress ? "Please enter ipAddress" : "Ip Address"
@@ -543,8 +544,8 @@ export const Users = UsersHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 /> */}
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -553,7 +554,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Full Name"
                     placeholder={
                       errors.fullName ? "Please enter full name" : "Full Name"
@@ -577,7 +578,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Mobile No"
                     placeholder={
                       errors.mobileNo ? "Please enter mobile no" : "Mobile No"
@@ -600,7 +601,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Contact No"
                     placeholder={
                       errors.contactNo ? "Please enter contact no" : "Contact No"
@@ -623,7 +624,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="mail"
                     label="Email"
                     placeholder={errors.email ? "Please enter email" : "Email"}
@@ -645,7 +646,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="User Degree"
                     placeholder={
                       errors.userDegree ? "Please enter user degree" : "User Degree"
@@ -669,7 +670,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Birthday Date"
                     hasError={errors.dateOfBirth}
                     value={userStore && userStore.user.dateOfBirth}
@@ -689,7 +690,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Marriage Anniversary Date"
                     hasError={errors.marriageAnniversary}
                     value={userStore && userStore.user.marriageAnniversary}
@@ -712,7 +713,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Exipre Date"
                     hasError={errors.exipreDate}
                     value={userStore && userStore.user.exipreDate}
@@ -731,11 +732,11 @@ export const Users = UsersHoc(observer(() => {
                   "YYYY-MM-DD"
                 )}
               />
-              <LibraryComponents.Atoms.List space={4} direction="row">
+              <List space={4} direction="row">
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       type="number"
                       label="Exipre Days"
                       placeholder={
@@ -759,7 +760,7 @@ export const Users = UsersHoc(observer(() => {
                   defaultValue={userStore && userStore.user.expireDays}
                 />
                 <div className="mt-3">
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="solid"
                     onClick={() => {
@@ -775,14 +776,14 @@ export const Users = UsersHoc(observer(() => {
                     }}
                   >
                     Apply Days
-                  </LibraryComponents.Atoms.Buttons.Button>
+                  </Buttons.Button>
                 </div>
-              </LibraryComponents.Atoms.List>
+              </List>
 
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="Confidential"
                     value={userStore && userStore.user?.confidential}
                     onChange={(confidential) => {
@@ -798,8 +799,8 @@ export const Users = UsersHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -808,7 +809,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     disabled={true}
                     value={userStore && userStore.user.dateOfEntry}
@@ -821,7 +822,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Created By"
                     disabled={true}
                     placeholder={
@@ -838,7 +839,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="Signature"
                     placeholder="File"
                     onChange={(e) => {
@@ -858,7 +859,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="Picture"
                     placeholder="File"
                     onChange={(e) => {
@@ -879,7 +880,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -907,7 +908,7 @@ export const Users = UsersHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -917,7 +918,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -954,7 +955,7 @@ export const Users = UsersHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
@@ -964,7 +965,7 @@ export const Users = UsersHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="Confirguration"
                     value={userStore && userStore.user?.confirguration}
                     onChange={(confirguration) => {
@@ -981,7 +982,7 @@ export const Users = UsersHoc(observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 label="Access Permission"
                 hasError={errors.environment}
                 style={{ fontWeight: "bold" }}
@@ -990,7 +991,7 @@ export const Users = UsersHoc(observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Mobile"
                         value={
                           userStore && userStore.user?.systemInfo?.accessInfo?.mobile
@@ -1017,7 +1018,7 @@ export const Users = UsersHoc(observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Desktop"
                         value={
                           userStore &&
@@ -1043,34 +1044,34 @@ export const Users = UsersHoc(observer(() => {
                     defaultValue=""
                   />
                 </div>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+              </Form.InputWrapper>
+            </List>
+          </Grid>
           <br />
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitUser)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">{tableView}</div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -1079,7 +1080,7 @@ export const Users = UsersHoc(observer(() => {
                   input: { id: modalConfirm.id },
                 }).then((res: any) => {
                   if (res.removeUser.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeUser.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1095,7 +1096,7 @@ export const Users = UsersHoc(observer(() => {
                   },
                 }).then((res: any) => {
                   if (res.updateUser.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateUser.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1111,7 +1112,7 @@ export const Users = UsersHoc(observer(() => {
                   },
                 }).then((res: any) => {
                   if (res.updateUserImages.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateUserImages.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1125,7 +1126,7 @@ export const Users = UsersHoc(observer(() => {
           onClose={() => setModalConfirm({ show: false })}
         />
 
-        <LibraryComponents.Molecules.ModalChangePasswordByAdmin
+        <ModalChangePasswordByAdmin
           {...modalChangePasswordByadmin}
           onClick={() => {
             const exipreDate = new Date(
@@ -1143,14 +1144,14 @@ export const Users = UsersHoc(observer(() => {
               }).then((res) => {
                 if (res.userChnagePasswordByAdmin.success) {
                   setModalChangePasswordByAdmin({ show: false })
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.userChnagePasswordByAdmin.message}`,
                   })
                   setTimeout(() => {
                     window.location.reload()
                   }, 2000)
                 } else {
-                  LibraryComponents.Atoms.Toast.error({
+                  Toast.error({
                     message: `😔 ${res.userChnagePasswordByAdmin.message}`,
                   })
                 }

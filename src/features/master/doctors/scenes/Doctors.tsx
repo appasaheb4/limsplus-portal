@@ -2,7 +2,9 @@
 import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
+  from "@lp/library/components"
 import {DoctorsList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -39,7 +41,7 @@ const Doctors = DoctorsHoc(observer(() => {
           })
           .then((res) => {
             if (res.createDoctor.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createDoctor.message}`,
               })
             }
@@ -58,7 +60,7 @@ const Doctors = DoctorsHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradeDoctors.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradeDoctors.message}`,
               })
             }
@@ -77,7 +79,7 @@ const Doctors = DoctorsHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicateDoctors.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicateDoctors.message}`,
               })
             }
@@ -87,7 +89,7 @@ const Doctors = DoctorsHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -163,14 +165,14 @@ const Doctors = DoctorsHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
         />
@@ -181,8 +183,8 @@ const Doctors = DoctorsHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >   
-          <LibraryComponents.Atoms.Grid cols={3}>
-          <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+          <List
               direction="col"
               space={4}
               justify="stretch"
@@ -191,7 +193,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -210,7 +212,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive
@@ -229,7 +231,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateActiveTo
@@ -254,7 +256,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
@@ -270,7 +272,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter userId" : "EnterEd By"
@@ -288,7 +290,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Doctor Code"
                     hasError={errors.doctorCode}
                     placeholder={
@@ -315,7 +317,7 @@ const Doctors = DoctorsHoc(observer(() => {
                           .then((res) => {
                             if (res.checkDoctorsExistsRecord.success) {
                               doctorsStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkDoctorsExistsRecord.message}`,
                               })
                             } else doctorsStore.updateExistsLabEnvCode(false)
@@ -337,7 +339,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Doctor Name"
                     placeholder={
                       errors.doctorName ? "Please Enter Doctor Name" : "Doctor Name"
@@ -360,7 +362,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Sex"
                     hasError={errors.sex}
                   >
@@ -384,7 +386,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="sex"
                 rules={{ required: false }}
@@ -393,7 +395,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Title"
                     hasError={errors.title}
                   >
@@ -421,7 +423,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name=" title"
                 rules={{ required: false }}
@@ -430,7 +432,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="First Name"
                     placeholder={
                       errors.firstName ? "Please Enter firstName" : "First Name"
@@ -453,7 +455,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Middle Name"
                     placeholder={errors.middleName ? "Please Enter" : "Middle Name"}
                     hasError={errors.middleName}
@@ -474,7 +476,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Last Name"
                     placeholder={
                       errors.lastName ? "Please Enter lastName" : "Last Name"
@@ -497,7 +499,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report Name"
                     placeholder={
                       errors.reportName ? "Please Enter reportName" : "Report Name"
@@ -520,7 +522,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Address"
                     placeholder={errors.address ? "Please Enter address" : "Address"}
@@ -539,8 +541,8 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -549,7 +551,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="City"
                     placeholder={errors.city ? "Please Enter city" : "City"}
                     hasError={errors.city}
@@ -570,7 +572,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="State"
                     placeholder={errors.state ? "Please Enter state" : "State"}
                     value={doctorsStore.doctors?.state}
@@ -591,7 +593,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Country"
                     placeholder={errors.country ? "Please Enter country" : "Country"}
                     hasError={errors.country}
@@ -612,7 +614,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Postcode"
                     placeholder={
                       errors.postcode ? "Please Enter postcode" : "Postcode"
@@ -636,7 +638,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Doctor Type"
                     placeholder={
                       errors.doctorType ? "Please Enter doctorType" : "Doctor Type"
@@ -659,7 +661,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Speciality"
                     hasError={errors.speciality}
                   >
@@ -687,7 +689,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="speciality"
                 rules={{ required: false }}
@@ -696,7 +698,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Sales TerritoRy"
                     hasError={errors.salesTerritoRy}
                   >
@@ -726,7 +728,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="salesTerritoRy"
                 rules={{ required: false }}
@@ -735,7 +737,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Area"
                     placeholder={errors.area ? "Please Enter Area" : "Area"}
                     hasError={errors.area}
@@ -756,7 +758,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Zone"
                     placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
                     hasError={errors.zone}
@@ -777,7 +779,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Telephone"
                     placeholder={
                       errors.telephone ? "Please Enter telephone" : "Telephone"
@@ -800,7 +802,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Mobile No"
                     placeholder={
                       errors.mobileNo ? "Please Enter mobileNo" : "Mobile No"
@@ -823,7 +825,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Email"
                     placeholder={errors.email ? "Please Enter Email" : "Email"}
                     hasError={errors.email}
@@ -844,7 +846,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Work Hours"
                     placeholder={
                       errors.workHours ? "Please Enter workHours" : "Work Hours"
@@ -868,7 +870,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Delivery Type"
                     hasError={errors.deliveryType}
                   >
@@ -896,18 +898,18 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="deliveryType"
                 rules={{ required: false }}
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Confidential"
                       hasError={errors.confidential}
                       value={doctorsStore.doctors?.confidential}
@@ -927,7 +929,7 @@ const Doctors = DoctorsHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Urgent"
                       hasError={errors.urgent}
                       value={doctorsStore.doctors?.urgent}
@@ -944,9 +946,9 @@ const Doctors = DoctorsHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Grid>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -955,7 +957,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Delivery Method"
                     hasError={errors.deliveryMethod}
                   >
@@ -985,7 +987,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="deliveryMethod"
                 rules={{ required: false }}
@@ -994,7 +996,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="EDI"
                     placeholder={errors.edi ? "Please Enter edi" : "EDI"}
                     hasError={errors.edi}
@@ -1015,7 +1017,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="EDI Address"
                     placeholder={
                       errors.ediAddress ? "Please Enter Edi Address" : "EDI Address"
@@ -1038,7 +1040,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Registartion Location"
                     hasError={errors.registrationLocation}
                   >
@@ -1068,7 +1070,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="registrationLocation"
                 rules={{ required: false }}
@@ -1077,11 +1079,11 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     data={{
@@ -1125,7 +1127,7 @@ const Doctors = DoctorsHoc(observer(() => {
                           .then((res) => {
                             if (res.checkDoctorsExistsRecord.success) {
                               doctorsStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkDoctorsExistsRecord.message}`,
                               })
                             } else doctorsStore.updateExistsLabEnvCode(false)
@@ -1133,7 +1135,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       }
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -1142,11 +1144,11 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Location"
                     hasError={errors.location}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     data={{
@@ -1181,7 +1183,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="location"
                 rules={{ required: false }}
@@ -1190,11 +1192,11 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                     <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     data={{
@@ -1229,7 +1231,7 @@ const Doctors = DoctorsHoc(observer(() => {
                       
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="schedule"
                 rules={{ required: false }}
@@ -1238,7 +1240,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report Format"
                     placeholder={
                       errors.reportFormat
@@ -1263,7 +1265,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Info"
                     placeholder={errors.info ? "Please Enter info" : "Info"}
                     hasError={errors.info}
@@ -1284,7 +1286,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="FYI Line"
                     placeholder={
                       errors.fyiLine ? "Please Enter fyiLine" : "FYI Line"
@@ -1307,7 +1309,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Work Line"
                     placeholder={
                       errors.workLine ? "Please Enter workLine" : "Work Line"
@@ -1330,7 +1332,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -1358,7 +1360,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -1367,7 +1369,7 @@ const Doctors = DoctorsHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -1400,7 +1402,7 @@ const Doctors = DoctorsHoc(observer(() => {
                             .then((res) => {
                               if (res.checkDoctorsExistsRecord.success) {
                                 doctorsStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkDoctorsExistsRecord.message}`,
                                 })
                               } else doctorsStore.updateExistsLabEnvCode(false)
@@ -1422,40 +1424,40 @@ const Doctors = DoctorsHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitDoctors)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
          {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -1463,7 +1465,7 @@ const Doctors = DoctorsHoc(observer(() => {
                 .deleteDoctors({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeDoctor.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeDoctor.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1480,7 +1482,7 @@ const Doctors = DoctorsHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateDoctor.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateDoctor.message}`,
                     })
                     setModalConfirm({ show: false })

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
+// import {lookupItems} from "@lp/library/utils"
+import {TableBootstrap,Icons,Tooltip,textFilter} from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 interface SpecialResultProps {
   data: any
@@ -18,7 +18,7 @@ export const SpecialResultList = observer((props:SpecialResultProps)=>{
     return(
         <>
           <div style={{position:'relative'}}>
-            <LibraryComponents.Organisms.TableBootstrap
+            <TableBootstrap
               id='_id'
               data = {props.data}
               totalSize={props.totalSize}
@@ -34,69 +34,69 @@ export const SpecialResultList = observer((props:SpecialResultProps)=>{
                   text: "Visit Id",
                   headerClasses: "textHeader3",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "patientResult",
                   text: "Patient Result",
                   headerClasses: "textHeader4",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "analyteCode",
                   text: "Analyte Code",
                   headerClasses: "textHeader4",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "resultType",
                   text: "Result Type",
                   headerClasses: "textHeader4",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "lineNo",
                   text: "Line No",
                   headerClasses: "textHeader3",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "resultTest",
                   text: "Result Test",
                   headerClasses: "textHeader3",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "ruler",
                   text: "Ruler",
                   headerClasses: "textHeader",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "abNormal",
                   text: "Ab Normal",
                   sort: true,
-                  // filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  // filter: textFilter(),
                 },
                 {
                   dataField: "enteredBy",
                   text: "Entered By",
                   headerClasses: "textHeader3",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "environment",
                   text: "Environment",
                   headerClasses: "textHeader3",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  filter: textFilter(),
                 },
                 {
                   dataField: "opration",
@@ -107,8 +107,8 @@ export const SpecialResultList = observer((props:SpecialResultProps)=>{
                   formatter: (cellContent, row) => (   
                     <>
                       <div className="flex flex-row">
-                        <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                          <LibraryComponents.Atoms.Icons.IconContext
+                        <Tooltip tooltipText="Delete">
+                          <Icons.IconContext
                             color="#000"
                             size="20"
                             onClick={() =>
@@ -122,11 +122,11 @@ export const SpecialResultList = observer((props:SpecialResultProps)=>{
                               })
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                            {Icons.getIconTag(
+                              Icons.IconBs.BsFillTrashFill
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                       </div>
                     </>
                   ),

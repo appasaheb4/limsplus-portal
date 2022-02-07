@@ -2,11 +2,11 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
+  from "@lp/library/components"
 import {LabList} from "../components"
 import {lookupItems} from "@lp/library/utils"
-
-import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import { LabHoc } from "../hoc"
 import { useStores } from "@lp/stores"
@@ -39,7 +39,7 @@ const Lab = LabHoc(
       if (!labStore.checkExitsEnvCode) {
         labStore.LabService.addLab({ input: { ...labStore.labs } }).then((res) => {
           if (res.createLab.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createLab.message}`,
             })
           }
@@ -48,7 +48,7 @@ const Lab = LabHoc(
           window.location.reload()
         }, 1000)
       } else {
-        LibraryComponents.Atoms.Toast.warning({
+        Toast.warning({
           message: "😔 Please enter diff code and environment",
         })
       }
@@ -62,15 +62,7 @@ const Lab = LabHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
-            country: labStore.labs.country,
-            stateList: Utils.stateList,
-            state: labStore.labs.state,
-            districtList: Utils.districtList,
-            district: labStore.labs.district,
-            cityList: Utils.cityList,
-            city: labStore.labs.city,
-            area: labStore.labs.area,
-            postCodeList: Utils.postCodeList,
+            
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -123,14 +115,14 @@ const Lab = LabHoc(
 
     return (
       <>
-        <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading
+        <Header>
+          <PageHeading
             title={routerStore.selectedComponents?.title || ""}
           />
-          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-        </LibraryComponents.Atoms.Header>
+          <PageHeadingLabDetails store={loginStore} />
+        </Header>
         {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          <Buttons.ButtonCircleAddRemove
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
@@ -141,8 +133,8 @@ const Lab = LabHoc(
               "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
-            <LibraryComponents.Atoms.Grid cols={3}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={3}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -151,7 +143,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Code"
                       id="code"
                       hasError={errors.code}
@@ -174,7 +166,7 @@ const Lab = LabHoc(
                           }).then((res) => {
                             if (res.checkLabExitsEnvCode.success) {
                               labStore.setExitsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkLabExitsEnvCode.message}`,
                               })
                             } else labStore.setExitsEnvCode(false)
@@ -194,7 +186,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Name"
                       name="name"
                       hasError={errors.name}
@@ -217,12 +209,12 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Country"
                         id="country"
                         hasError={errors.country}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <AutoCompleteFilterSingleSelect
                           loader={loading}
                           data={{
                             list: _.uniqBy(
@@ -255,7 +247,7 @@ const Lab = LabHoc(
                             })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="country"
                     rules={{ required: true }}
@@ -268,12 +260,12 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="State"
                         id="state"
                         hasError={errors.state}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <AutoCompleteFilterSingleSelect
                           loader={loading}
                           disable={!labStore.labs.country}
                           data={{
@@ -310,7 +302,7 @@ const Lab = LabHoc(
                             })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="state"
                     rules={{ required: false }}
@@ -322,12 +314,12 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="District"
                         id="district"
                         hasError={errors.district}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <AutoCompleteFilterSingleSelect
                           loader={loading}
                           disable={!labStore.labs.state}
                           data={{
@@ -367,7 +359,7 @@ const Lab = LabHoc(
                             })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="district"
                     rules={{ required: false }}
@@ -379,12 +371,12 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="City"
                         id="city"
                         hasError={errors.city}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <AutoCompleteFilterSingleSelect
                           loader={loading}
                           disable={!labStore.labs.district}
                           data={{
@@ -426,7 +418,7 @@ const Lab = LabHoc(
                             })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="city"
                     rules={{ required: false }}
@@ -438,12 +430,12 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Area"
                         id="area"
                         hasError={errors.area}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <AutoCompleteFilterSingleSelect
                           loader={loading}
                           disable={!labStore.labs.city}
                           data={{
@@ -488,7 +480,7 @@ const Lab = LabHoc(
                             })
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="area "
                     rules={{ required: false }}
@@ -500,12 +492,12 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Postal Code"
                         id="postalCode"
                         hasError={errors.postalCode}
                       >
-                        <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        <AutoCompleteFilterSingleSelect
                           loader={loading}
                           disable={!labStore.labs.area}
                           data={{
@@ -554,7 +546,7 @@ const Lab = LabHoc(
                             )
                           }}
                         />
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="postalCode"
                     rules={{ required: false }}
@@ -564,7 +556,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Delivery Type"
                       hasError={errors.deliveryType}
                     >
@@ -594,14 +586,14 @@ const Lab = LabHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="deliveryType"
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+              </List>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -610,7 +602,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Sales Territory"
                       hasError={errors.salesTerritory}
                     >
@@ -639,7 +631,7 @@ const Lab = LabHoc(
                             )
                           )}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="salesTerritory"
                   rules={{ required: false }}
@@ -648,7 +640,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Lab Licence"
                       placeholder={
                         errors.labLicence ? "Please Enter labLicence" : "Lab Licence"
@@ -671,7 +663,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Director"
                       placeholder={
                         errors.director ? "Please Enter director" : "Director"
@@ -694,7 +686,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Physician"
                       placeholder={
                         errors.physician ? "Please Enter physician" : "Physician"
@@ -717,7 +709,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       type="number"
                       label="Mobile Number"
                       placeholder={
@@ -741,7 +733,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       type="number"
                       label="Contact Number"
                       placeholder={
@@ -767,7 +759,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Speciality"
                       placeholder={
                         errors.speciality ? "Please Enter speciality" : "Speciality"
@@ -790,7 +782,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Lab type"
                       hasError={errors.labType}
                     >
@@ -818,15 +810,15 @@ const Lab = LabHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="labType"
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
+              </List>
 
-              <LibraryComponents.Atoms.List
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -835,7 +827,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Clock
+                    <Form.Clock
                       label="Opening Time"
                       hasError={errors.openingTime}
                       value={labStore.labs?.openingTime}
@@ -855,7 +847,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Clock
+                    <Form.Clock
                       label="Closing Time"
                       hasError={errors.closingTime}
                       value={labStore.labs?.closingTime}
@@ -875,7 +867,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Email"
                       placeholder={errors.email ? "Please Enter Email" : "Email"}
                       hasError={errors.email}
@@ -896,7 +888,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputFile
+                    <Form.InputFile
                       label="Lab logo"
                       placeholder={errors.labLog ? "Please Enter labLog" : "LabLog"}
                       hasError={errors.labLog}
@@ -917,7 +909,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.MultilineInput
+                    <Form.MultilineInput
                       rows={2}
                       label="FYI line"
                       placeholder={
@@ -941,7 +933,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.MultilineInput
+                    <Form.MultilineInput
                       rows={2}
                       label="Work line"
                       placeholder={
@@ -966,7 +958,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Status"
                       hasError={errors.status}
                     >
@@ -994,7 +986,7 @@ const Lab = LabHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="status"
                   rules={{ required: true }}
@@ -1004,7 +996,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
+                    <Form.InputWrapper
                       label="Environment"
                       hasError={errors.environment}
                     >
@@ -1033,7 +1025,7 @@ const Lab = LabHoc(
                           }).then((res) => {
                             if (res.checkLabExitsEnvCode.success) {
                               labStore.setExitsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkLabExitsEnvCode.message}`,
                               })
                             } else labStore.setExitsEnvCode(false)
@@ -1054,18 +1046,18 @@ const Lab = LabHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="environment"
                   rules={{ required: true }}
                   defaultValue=""
                 />
 
-                <LibraryComponents.Atoms.Grid cols={4}>
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Auto Release"
                         hasError={errors.autoRelease}
                         value={labStore.labs?.autoRelease}
@@ -1086,7 +1078,7 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Require receve in lab"
                         hasError={errors.requireReceveInLab}
                         value={labStore.labs?.requireReceveInLab}
@@ -1106,7 +1098,7 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Require Scain In"
                         hasError={errors.requireScainIn}
                         value={labStore.labs?.requireScainIn}
@@ -1126,7 +1118,7 @@ const Lab = LabHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Toggle
+                      <Form.Toggle
                         label="Routing Dept"
                         hasError={errors.routingDept}
                         value={labStore.labs?.routingDept}
@@ -1143,33 +1135,33 @@ const Lab = LabHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                </LibraryComponents.Atoms.Grid>
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+                </Grid>
+              </List>
+            </Grid>
             <br />
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-              <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+              <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={handleSubmit(onSubmitLab)}
               >
                 Save
-              </LibraryComponents.Atoms.Buttons.Button>
-              <LibraryComponents.Atoms.Buttons.Button
+              </Buttons.Button>
+              <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Atoms.Buttons.Button>
-            </LibraryComponents.Atoms.List>
+              </Buttons.Button>
+            </List>
           </div>
           <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
-          <LibraryComponents.Molecules.ModalConfirm
+          <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
@@ -1177,7 +1169,7 @@ const Lab = LabHoc(
                   input: { id: modalConfirm.id },
                 }).then((res: any) => {
                   if (res.removeLab.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeLab.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1192,7 +1184,7 @@ const Lab = LabHoc(
                   },
                 }).then((res: any) => {
                   if (res.updateLab.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateLab.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1207,7 +1199,7 @@ const Lab = LabHoc(
                   },
                 }).then((res: any) => {
                   if (res.updateLabImages.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateLabImages.message}`,
                     })
                     setModalConfirm({ show: false })

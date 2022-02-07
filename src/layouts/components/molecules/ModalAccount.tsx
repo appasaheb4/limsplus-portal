@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as Assets from "@lp/library/assets"
-import * as LibraryComponents from "@lp/library/components"
+import {ModalTransition,Header,PageHeading,Image,List,Form,Toast,ModalFileUpload} from "@lp/library/components"
 
 import { stores, useStores } from "@lp/stores"
 
@@ -11,22 +11,22 @@ interface ModalAccountProps {
   onClose?: () => void
 }
 
-const ModalAccount = observer((props: ModalAccountProps) => {
+export const ModalAccount = observer((props: ModalAccountProps) => {
   const { userStore, loginStore } = useStores()
   const history: any = useHistory()
   const [modalFileUpload, setModalFileUpload] = useState<any>()
 
   return (
     <>
-      <LibraryComponents.Molecules.ModalTransition
+      <ModalTransition
         show={!!props.show}
         onClose={() => props.onClose && props.onClose()}
       >
-        <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading title="Account" />
-        </LibraryComponents.Atoms.Header>
+        <Header>
+          <PageHeading title="Account" />
+        </Header>
 
-        <LibraryComponents.Atoms.Image
+        <Image
           widht={200}
           height={200}
           source={loginStore.login?.picture || Assets.defaultAvatar}
@@ -39,7 +39,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
           <label className="font-bold text-1xl"> {loginStore.login?.fullName}</label>
         </div>
         <div className="p-2">
-          <LibraryComponents.Atoms.List
+          <List
             direction="col"
             space={4}
             justify="stretch"
@@ -56,7 +56,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
             </div>
             {loginStore.login?.labList !== undefined &&
               loginStore.login?.labList?.length > 1 && (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label={`Switch Lab`}
                   id="labChange"
                 >
@@ -71,7 +71,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                         lab,
                       })
                       history.push("/dashboard/default")
-                      LibraryComponents.Atoms.Toast.success({
+                      Toast.success({
                         message: `😊 Your lab change successfully`,
                       })
                       props.onClose && props.onClose()
@@ -83,11 +83,11 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
             {loginStore.login?.roleList !== undefined &&
               loginStore.login?.roleList?.length > 1 && (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label={`Switch Role`}
                   id="roleChange"
                 >
@@ -111,13 +111,13 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                             res.userSwitchAccess.data.roleMapping.router[0]
                           )
                           stores.routerStore.updateUserRouter(router)
-                          LibraryComponents.Atoms.Toast.success({
+                          Toast.success({
                             message: `😊 ${res.userSwitchAccess.message}`,
                           })
                           history.push("/dashboard/default")
                           props.onClose && props.onClose()
                         } else {
-                          LibraryComponents.Atoms.Toast.error({
+                          Toast.error({
                             message: `😔 ${res.userSwitchAccess.message}`,
                           })
                         }
@@ -130,12 +130,12 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
-          </LibraryComponents.Atoms.List>
+          </List>
         </div>
-      </LibraryComponents.Molecules.ModalTransition>
-      <LibraryComponents.Molecules.ModalFileUpload
+      </ModalTransition>
+      <ModalFileUpload
         {...modalFileUpload}
         onClick={(picture: any) => {
           userStore.UsersService.uploadImage({
@@ -152,11 +152,11 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                 ...loginStore.login,
                 picture: res.updateUserImages.data.picture,
               })
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.updateUserImages.message}`,
               })
             } else {   
-              LibraryComponents.Atoms.Toast.error({
+              Toast.error({
                 message: `😔 ${res.updateUserImages.message}`,
               })
             }
@@ -167,4 +167,3 @@ const ModalAccount = observer((props: ModalAccountProps) => {
     </>
   )
 })
-export default ModalAccount
