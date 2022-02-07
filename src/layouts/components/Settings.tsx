@@ -8,7 +8,7 @@ import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { SideBarColorBgImages } from "./SideBarColorBgImages"
-import * as Assets from '@lp/library/assets'
+import {images} from '@lp/library/assets'
 
 
 import { Badge, Button } from "reactstrap"
@@ -39,10 +39,10 @@ class Settings extends React.Component<Props, State> {
         { color: "#B0E0E6" },
       ],
       imageList: [
-        { image: Assets.images.img1},
-        { image: Assets.images.img2 },
-        { image: Assets.images.img3 },
-        { image: Assets.images.img4 },
+        { image: images.img1},
+        { image: images.img2 },
+        { image: images.img3 },
+        { image: images.img4 },
       ],
     }
 

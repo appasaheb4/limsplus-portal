@@ -7,8 +7,6 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   from "@lp/library/components"
 import {LabList} from "../components"
 import {lookupItems} from "@lp/library/utils"
-
-import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import { LabHoc } from "../hoc"
 import { useStores } from "@lp/stores"
@@ -64,15 +62,7 @@ const Lab = LabHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
-            country: labStore.labs.country,
-            stateList: Utils.stateList,
-            state: labStore.labs.state,
-            districtList: Utils.districtList,
-            district: labStore.labs.district,
-            cityList: Utils.cityList,
-            city: labStore.labs.city,
-            area: labStore.labs.area,
-            postCodeList: Utils.postCodeList,
+            
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
