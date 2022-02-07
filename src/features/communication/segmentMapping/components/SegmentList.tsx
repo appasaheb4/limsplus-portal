@@ -10,7 +10,7 @@ import filterFactory from "react-bootstrap-table2-filter"
 import moment from "moment"
 import {options as EquipmentModel,} from "../../models"
 import { SegmentMapping } from "../models"
-import * as Config from "@lp/config"
+import {Styles} from "@lp/config"
 // import * as Assets from "@lp/features/assets"
 
 const { SearchBar, ClearSearchButton } = Search
@@ -71,7 +71,7 @@ const SegmentList = observer((props: SegmentListProps) => {
         <Icons.EvaIcon
           icon="trash-outline"
           size="large"
-          color={Config.Styles.COLORS.BLACK}
+          color={Styles.COLORS.BLACK}
         />
         Remove Selected
       </Buttons.Button>

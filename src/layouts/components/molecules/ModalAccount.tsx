@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import * as Assets from "@lp/library/assets"
+import {defaultAvatar} from "@lp/library/assets"
 import {ModalTransition,Header,PageHeading,Image,List,Form,Toast,ModalFileUpload} from "@lp/library/components"
 
 import { stores, useStores } from "@lp/stores"
@@ -29,7 +29,7 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
         <Image
           widht={200}
           height={200}
-          source={loginStore.login?.picture || Assets.defaultAvatar}
+          source={loginStore.login?.picture || defaultAvatar}
           onClick={() =>
             setModalFileUpload({ show: true, title: "Profile image select" })
           }

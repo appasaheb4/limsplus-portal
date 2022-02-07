@@ -8,7 +8,7 @@ import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
 import { stores, useStores } from "@lp/stores"
 
-import * as Assets from "@lp/library/assets"
+import {defaultAvatar} from "@lp/library/assets"
 import {Buttons,Tooltip,Icons,Toast,ModalChangePassword,ModalSessionAllowed} from "@lp/library/components"
 import {ModalAccount} from "../components"
 
@@ -211,7 +211,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                     <div className="flex items-center">
                       <img
                         className="rounded-circle mr-3"
-                        src={loginStore.login?.picture || Assets.defaultAvatar}
+                        src={loginStore.login?.picture || defaultAvatar}
                         alt={loginStore.login?.fullName}
                         width="40"
                         height="40"

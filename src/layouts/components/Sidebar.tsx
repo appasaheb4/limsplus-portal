@@ -13,7 +13,7 @@ import {Icons,AutocompleteGroupBy} from "@lp/library/components"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
-import * as Assets from "@lp/library/assets"
+import {appIcon,defaultAvatar} from "@lp/library/assets"
 
 
 import { stores } from "@lp/stores"
@@ -169,7 +169,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
           <PerfectScrollbar>
             <a className="flex sidebar-brand items-center" href="/">
               <img
-                src={Assets.appIcon}
+                src={appIcon}
                 alt="appIcon"
                 style={{ width: 40, height: 40 }}
               />
@@ -259,7 +259,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                 <div className="media">
                   <img
                     className="rounded-circle mr-3"
-                    src={stores.loginStore.login?.picture || Assets.defaultAvatar}
+                    src={stores.loginStore.login?.picture || defaultAvatar}
                     alt={stores.loginStore.login?.fullName}
                     width="40"
                     height="40"

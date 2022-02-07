@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import {TableBootstrap,textFilter,Form,Tooltip,Icons,ModalConfirm,Toast} from "@lp/library/components"
 import {Confirm} from "@lp/library/models"
-import * as Models from "../../models"
+import {options as Options} from "../../models"
 import { SegmentMapping } from "../models"
 import { useStores } from "@lp/stores"
 
@@ -99,11 +99,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   }}
                 >
                   <option selected>{row.equipmentType}</option>
-                  {Models.options.equipmentType.map((item: any, index: number) => (
+                  {Options.equipmentType.map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
                     </option>
-                  ))}
+                  ))}Options
                 </select>
               </>
             ),
@@ -167,7 +167,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                       ? row.dataFlowFrom.split("&gt;").join(">")
                       : ""}
                   </option>
-                  {Models.options.dataFlowFrom.map((item: any, index: number) => (
+                  {Options.dataFlowFrom.map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
                     </option>
@@ -217,7 +217,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   }}
                 >
                   <option selected>{row.data_type}</option>
-                  {Models.options.data_type.map((item: any, index: number) => (
+                  {Options.data_type.map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
                     </option>
@@ -268,7 +268,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   }}
                 >
                   <option selected>{row.segments}</option>
-                  {Models.options.segments.map((item: any, index: number) => (
+                  {Options.segments.map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
                     </option>
@@ -311,7 +311,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   }}
                 >
                   <option selected>{row.segment_usage}</option>
-                  {Models.options.segment_usage.map((item: any, index: number) => (
+                  {Options.segment_usage.map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
                     </option>
