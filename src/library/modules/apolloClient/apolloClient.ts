@@ -25,7 +25,7 @@ const authLink = setContext(async (_, { headers }) => {
     },
   }
 }) 
-                                       
+                                         
 // depoly 2  
 const UploadLink = createUploadLink({  
   //uri: "http://localhost:8080/graphql",
@@ -33,7 +33,7 @@ const UploadLink = createUploadLink({
   uri: "https://limsplus-api.azurewebsites.net/graphql",
   fetch: customFetch,  
 })
-  
+     
          
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
