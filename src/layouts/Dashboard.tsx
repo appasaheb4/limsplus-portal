@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState, useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {ModalIdleTimeout} from "@lp/library/components"
 import Wrapper from "./components/Wrapper"
 import Sidebar from "./components/Sidebar"
 import Main from "./components/Main"
@@ -292,7 +292,7 @@ const Dashboard = observer(({ children }) => {
         </Main>
       </Wrapper>
       <Settings />
-      <LibraryComponents.Molecules.ModalIdleTimeout
+      <ModalIdleTimeout
         {...modalIdleTime}
         onClick={() => {
           history.push("/")

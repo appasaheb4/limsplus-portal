@@ -2,10 +2,10 @@
 import React from "react"
 import dayjs from 'dayjs'
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Icons,Tooltip,Form} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs} from '../index'
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 let lab
 let analyteCode
@@ -28,7 +28,7 @@ interface TestAnalyteMappingListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
@@ -45,7 +45,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -61,7 +61,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Lab",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   lab = filter
                 }
@@ -90,7 +90,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   testCode = filter
                 }
@@ -103,7 +103,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   testName = filter
                 }
@@ -116,7 +116,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   analyteCode = filter
                 }
@@ -129,7 +129,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   analyteName = filter
                 }
@@ -142,7 +142,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   description = filter
                 }
@@ -159,7 +159,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 return (
                   <>
                     {" "}
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                     disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
@@ -177,7 +177,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: col => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   status = filter
                 }
@@ -221,7 +221,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   enteredBy = filter
                 }
@@ -235,7 +235,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter:(filter) =>{
                   dateCreation = filter
                 }
@@ -259,7 +259,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateCreation)}
                     onFocusRemove={(dateCreation) => {
                       props.onUpdateItem &&
@@ -276,7 +276,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               sort: true,
               editable: false,
               csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter:(filter) =>{
                   dateActive = filter
                 }
@@ -300,7 +300,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateActive)}
                     onFocusRemove={(dateActive) => {
                       props.onUpdateItem &&
@@ -317,7 +317,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               sort: true,
               editable: false,
               csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter:(filter) =>{
                   dateExpire = filter
                 }
@@ -341,7 +341,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.dateActive)}
                     onFocusRemove={(dateActive) => {
                       props.onUpdateItem &&
@@ -357,7 +357,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter:(filter) =>{
                   version = filter
                 }
@@ -371,7 +371,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter:(filter) =>{
                   environment = filter
                 }
@@ -420,8 +420,8 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete" position="top">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -435,45 +435,45 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <LibraryComponents.Atoms.Tooltip
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Version Upgrade"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                            {Icons.getIconTag(
+                              Icons.Iconvsc.VscVersions
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                        <LibraryComponents.Atoms.Tooltip
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                            {Icons.getIconTag(
+                              Icons.Iconio5.IoDuplicateOutline
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
+                          </Icons.IconContext>
+                        </Tooltip>
                       </>
                     )}
                   </div>

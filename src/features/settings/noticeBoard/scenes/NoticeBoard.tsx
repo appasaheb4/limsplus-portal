@@ -1,10 +1,9 @@
 /* eslint-disable */
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Grid,Svg,Toast,ModalConfirm,AutoCompleteFilterSingleSelect} from "@lp/library/components"
 import {NoticeBoardsList} from "../components"
 import "@lp/library/assets/css/accordion.css"
-import * as Models from "../models"
 import { useForm, Controller } from "react-hook-form"
 import {NoticeBoardHoc} from "../hoc"
 import { useStores } from "@lp/stores"
@@ -29,14 +28,14 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
       },
     }).then((res) => {
       if (res.createNoticeBoard.success) {
-        LibraryComponents.Atoms.Toast.success({
+        Toast.success({
           message: `😊 ${res.createNoticeBoard.message}`,
         })
         setTimeout(() => {
           window.location.reload()
         }, 2000)
       } else {
-        LibraryComponents.Atoms.Toast.warning({
+        Toast.warning({
           message: "😔 Notice not create.Please try again",
         })
       }
@@ -92,15 +91,15 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       <div className="p-2 rounded-lg shadow-xl">
-        <LibraryComponents.Atoms.Grid cols={2}>
-          <LibraryComponents.Atoms.List
+        <Grid cols={2}>
+          <List
             direction="col"
             space={4}
             justify="stretch"
@@ -110,12 +109,12 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     id="labs"
                     hasError={errors.lab}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     disable={
@@ -156,7 +155,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
                      
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -167,7 +166,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   label="Header"
                   name="lblHeader"
                   placeholder={errors.header ? "Please Enter Header" : "Header"}
@@ -189,7 +188,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
+                <Form.InputWrapper
                   label="Action"
                   id="lblAction"
                   hasError={errors.action}
@@ -215,14 +214,14 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                </Form.InputWrapper>
               )}
               name="action"
               rules={{ required: true }}
               defaultValue=""
             />
-          </LibraryComponents.Atoms.List>
-          <LibraryComponents.Atoms.List
+          </List>
+          <List
             direction="col"
             space={4}
             justify="stretch"
@@ -231,7 +230,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.MultilineInput
+                <Form.MultilineInput
                   rows={7}
                   label="Message"
                   name="lblMessage"
@@ -251,29 +250,29 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
               rules={{ required: false }}
               defaultValue=""
             />
-          </LibraryComponents.Atoms.List>
-        </LibraryComponents.Atoms.Grid>
+          </List>
+        </Grid>
         <br />
-        <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-          <LibraryComponents.Atoms.Buttons.Button
+        <List direction="row" space={3} align="center">
+          <Buttons.Button
             size="medium"
             type="solid"
-            icon={LibraryComponents.Atoms.Icon.Save}
+            icon={Svg.Save}
             onClick={handleSubmit(onNoticeBoardSubmit)}
           >
             Save
-          </LibraryComponents.Atoms.Buttons.Button>
-          <LibraryComponents.Atoms.Buttons.Button
+          </Buttons.Button>
+          <Buttons.Button
             size="medium"
             type="outline"
-            icon={LibraryComponents.Atoms.Icon.Remove}
+            icon={Svg.Remove}
             onClick={() => {
               window.location.reload()
             }}
           >
             Clear
-          </LibraryComponents.Atoms.Buttons.Button>
-        </LibraryComponents.Atoms.List>
+          </Buttons.Button>
+        </List>
       </div>
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
@@ -282,7 +281,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
         {tableView}
       </div>
 
-      <LibraryComponents.Molecules.ModalConfirm
+      <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
           if (type === "Delete") {
@@ -290,7 +289,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
               input: { id: modalConfirm.id },
             }).then((res: any) => {
               if (res.removeNoticeBoard.success) {
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.removeNoticeBoard.message}`,
                 })
                 setModalConfirm({ show: false })
@@ -305,7 +304,7 @@ const NoticeBoard = NoticeBoardHoc(observer(() => {
               },
             }).then((res: any) => {
               if (res.updateNoticeBoard.success) {
-                LibraryComponents.Atoms.Toast.success({
+                Toast.success({
                   message: `😊 ${res.updateNoticeBoard.message}`,
                 })
                 setModalConfirm({ show: false })

@@ -1,7 +1,9 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,} 
+  from "@lp/library/components"
 import {DataConversationList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 
@@ -35,7 +37,7 @@ const DataConversation = DataConversationHoc(observer(() => {
         })
         .then((res) => {
           if (res.createDataConversation.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createDataConversation.message}`,
             })
             setTimeout(() => {
@@ -44,21 +46,21 @@ const DataConversation = DataConversationHoc(observer(() => {
           }
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔Please enter all information!",
       })
     }
   }
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddDataConversation}
           onClick={(status) => setHideAddDataConversation(!hideAddDataConversation)}
         />
@@ -70,8 +72,8 @@ const DataConversation = DataConversationHoc(observer(() => {
             (hideAddDataConversation ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -80,7 +82,7 @@ const DataConversation = DataConversationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="text"
                     label="Hexa Decimal"
                     id="hexadecimal"
@@ -108,7 +110,7 @@ const DataConversation = DataConversationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="text"
                     label="Binary"
                     id="binary"
@@ -132,7 +134,7 @@ const DataConversation = DataConversationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     type="text"
                     label="ASCII"
                     id="ascii"
@@ -156,7 +158,7 @@ const DataConversation = DataConversationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={dataConversationStore.dataConversation?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -191,37 +193,37 @@ const DataConversation = DataConversationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
               <div className="clearfix" />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+            </List>
+          </Grid>
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitDataConversation)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
+            </Buttons.Button>
 
-            <LibraryComponents.Atoms.Buttons.Button
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
+            </Buttons.Button>
             <div className="clearfix" />
-          </LibraryComponents.Atoms.List>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <DataConversationList
@@ -265,7 +267,7 @@ const DataConversation = DataConversationHoc(observer(() => {
             }}
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -275,7 +277,7 @@ const DataConversation = DataConversationHoc(observer(() => {
                   setModalConfirm({ show: false })
                   if (res.removeDataConversation.success) {
                     dataConversationStore.fetchDataConversation()
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeDataConversation.message}`,
                     })
                   }
@@ -292,7 +294,7 @@ const DataConversation = DataConversationHoc(observer(() => {
                   setModalConfirm({ show: false })
                   if (res.updateDataConversation.success) {
                     dataConversationStore.fetchDataConversation()
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateDataConversation.message}`,
                     })
                   }

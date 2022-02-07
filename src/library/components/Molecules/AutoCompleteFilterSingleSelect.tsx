@@ -1,10 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
-import { observer } from "mobx-react"
-import lodash from "lodash"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+import {Icons} from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectProps {
   loader?: boolean
@@ -90,9 +87,9 @@ export const AutoCompleteFilterSingleSelect = ({
           />
           {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+            <Icons.IconFa.FaChevronUp />
           ) : (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+            <Icons.IconFa.FaChevronDown />
           )}
         </div>
 

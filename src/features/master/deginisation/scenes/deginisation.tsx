@@ -1,7 +1,9 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import {DeginisationList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -27,7 +29,7 @@ const Deginisation = DeginisationHoc(observer(() => {
         input: { ...deginisationStore.deginisation },
       }).then((res) => {
         if (res.createDesignation.success) {
-          LibraryComponents.Atoms.Toast.success({
+          Toast.success({
             message: `😊 ${res.createDesignation.message}`,
           })
           setTimeout(()=>{
@@ -35,11 +37,11 @@ const Deginisation = DeginisationHoc(observer(() => {
             window.location.reload()
           },2000)
         } else {
-          LibraryComponents.Atoms.Toast.error({ message: "😔 Please try again" })
+          Toast.error({ message: "😔 Please try again" })
         }
       })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔 Please enter diff code",
       })
     }
@@ -47,14 +49,14 @@ const Deginisation = DeginisationHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddDeginisation}
           onClick={() => setHideAddDeginisation(!hideAddDeginisation)}
         />
@@ -65,8 +67,8 @@ const Deginisation = DeginisationHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddDeginisation ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -75,7 +77,7 @@ const Deginisation = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Code"
                     id="code"
                     placeholder={errors.code ? "Please Enter Code" : "Code"}
@@ -99,7 +101,7 @@ const Deginisation = DeginisationHoc(observer(() => {
                       ).then((res) => {
                         if (res.checkDesignationsExistsRecord.success) {
                           deginisationStore.setExitsCode(true)
-                          LibraryComponents.Atoms.Toast.error({
+                          Toast.error({
                             message: `😔 ${res.checkDesignationsExistsRecord.message}`,
                           })
                         } else deginisationStore.setExitsCode(false)
@@ -121,7 +123,7 @@ const Deginisation = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Description"
                     name="description"
                     placeholder={
@@ -145,7 +147,7 @@ const Deginisation = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={deginisationStore.deginisation?.environment}
                       disabled={
@@ -174,7 +176,7 @@ const Deginisation = DeginisationHoc(observer(() => {
                         ).then((res) => {
                           if (res.checkDesignationsExistsRecord.success) {
                             deginisationStore.setExitsCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkDesignationsExistsRecord.message}`,
                             })
                           } else deginisationStore.setExitsCode(false)
@@ -197,36 +199,36 @@ const Deginisation = DeginisationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitDesginiation)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl">
           <DeginisationList
@@ -272,7 +274,7 @@ const Deginisation = DeginisationHoc(observer(() => {
             }}
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -280,7 +282,7 @@ const Deginisation = DeginisationHoc(observer(() => {
                 input: { id: modalConfirm.id },
               }).then((res: any) => {
                 if (res.removeDesignation.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.removeDesignation.message}`,
                   })
                   setModalConfirm({ show: false })
@@ -295,7 +297,7 @@ const Deginisation = DeginisationHoc(observer(() => {
                 },
               }).then((res: any) => {
                 if (res.updateDesignation.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.updateDesignation.message}`,
                   })
                   setModalConfirm({ show: false })

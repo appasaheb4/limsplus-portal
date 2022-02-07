@@ -2,7 +2,9 @@
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 import {TestPanelMappingList} from "../components"
 import { useForm, Controller } from "react-hook-form"
@@ -53,7 +55,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
           })
           .then((res) => {
             if (res.createTestPanelMapping.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createTestPanelMapping.message}`,
               })
             }
@@ -72,7 +74,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradeTestPanelMappings.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradeTestPanelMappings.message}`,
               })
             }
@@ -91,7 +93,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicateTestPanelMappings.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicateTestPanelMappings.message}`,
               })
             }
@@ -101,7 +103,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -178,17 +180,17 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(
         toJS(routerStore.userPermission),
         "Add"
       ) && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
@@ -197,8 +199,8 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -207,11 +209,11 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     hasError={errors.lab}
                   >
-                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                      <AutoCompleteFilterSingleSelect
                     loader={loading}
                     placeholder="Search by name"
                     disable={
@@ -263,7 +265,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                           .then((res) => {
                             if (res.checkTestPanelMappingsExistsRecord.success) {
                               testPanelMappingStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                               })
                             } else
@@ -272,7 +274,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                       }
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -282,7 +284,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Panel Code"
                     hasError-={errors.panelCode}
                   >
@@ -312,7 +314,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                         .then((res) => {
                           if (res.checkTestPanelMappingsExistsRecord.success) {
                             testPanelMappingStore.updateExistsLabEnvCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                             })
                           } else
@@ -321,7 +323,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                     }
                    }}
                    />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="panelCode"
                 rules={{ required: true }}
@@ -336,7 +338,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Test Code"
                     placeholder={
                       errors.testCode ? "Please Enter testCode" : "Test Code"
@@ -360,11 +362,11 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Test Name"
                     hasError={errors.testName}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
+                    <AutoCompleteCheckMultiFilterKeys
                       placeholder="Search by test name or test code"
                       data={{
                         defulatValues: [],
@@ -400,7 +402,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                         })
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="testName"
                 rules={{ required: true }}
@@ -409,7 +411,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Description"
                     name="txtDescription"
@@ -434,7 +436,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -462,7 +464,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -471,7 +473,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder={
                       errors.userId ? "Please Enter userId" : "Entered By"
@@ -494,7 +496,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -515,7 +517,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Toggle
+                  <Form.Toggle
                     label="Bill"
                     id="modeBill"
                     hasError={errors.bill}
@@ -533,9 +535,9 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -544,7 +546,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive
@@ -565,7 +567,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder={
                       errors.dateExpire
@@ -592,7 +594,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     placeholder={errors.version ? "Please Enter version" : "Version"}
                     hasError={errors.version}
@@ -608,7 +610,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -645,7 +647,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                             .then((res) => {
                               if (res.checkTestPanelMappingsExistsRecord.success) {
                                 testPanelMappingStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                                 })
                               } else
@@ -670,43 +672,43 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
+              {/* <Grid cols={5}> */}
 
-              {/* </LibraryComponents.Atoms.Grid> */}
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+              {/* </Grid> */}
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitTestPanelMapping)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
          {tableView}
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -714,7 +716,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                 .deleteTestPanelMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeTestPanelMapping.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeTestPanelMapping.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -731,7 +733,7 @@ const TestPanelMapping = TestPanelMappingHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateTestPanelMapping.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateTestPanelMapping.message}`,
                     })
                     setModalConfirm({ show: false })

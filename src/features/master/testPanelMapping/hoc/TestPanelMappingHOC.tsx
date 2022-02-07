@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const TestPanelMappingHoc = (Component: React.FC<any>) => {
   return observer(
@@ -21,7 +21,7 @@ export const TestPanelMappingHoc = (Component: React.FC<any>) => {
           testPanelMappingStore &&
             testPanelMappingStore.updateTestPanelMapping({
               ...testPanelMappingStore.testPanelMapping,
-              status:LibraryUtils.getDefaultLookupItem(
+              status:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
               ), 
@@ -32,7 +32,7 @@ export const TestPanelMappingHoc = (Component: React.FC<any>) => {
           testPanelMappingStore &&
             testPanelMappingStore.updateTestPanelMapping({
               ...testPanelMappingStore.testPanelMapping,
-              environment:LibraryUtils.getDefaultLookupItem(
+              environment:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
               ),

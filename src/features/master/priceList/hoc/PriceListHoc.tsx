@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const PriceListHoc = (Component: React.FC<any>) => {
   return observer(
@@ -18,35 +18,35 @@ export const PriceListHoc = (Component: React.FC<any>) => {
         }
         priceListStore.updatePriceList({
           ...priceListStore.priceList,
-          priority: LibraryUtils.getDefaultLookupItem(
+          priority: getDefaultLookupItem(
             routerStore.lookupItems,
             "PRIORIITY"
           ),
         })
         priceListStore.updatePriceList({
           ...priceListStore.priceList,
-          priceGroup: LibraryUtils.getDefaultLookupItem(
+          priceGroup: getDefaultLookupItem(
             routerStore.lookupItems,
             "PRICE_GROUP"
           ),
         })
         priceListStore.updatePriceList({
           ...priceListStore.priceList,
-          speicalScheme: LibraryUtils.getDefaultLookupItem(
+          speicalScheme: getDefaultLookupItem(
             routerStore.lookupItems,
             "SPEICAL_SCHEME"
           ),
         })
         priceListStore.updatePriceList({
           ...priceListStore.priceList,
-          environment: LibraryUtils.getDefaultLookupItem(
+          environment: getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
         })
         priceListStore.updatePriceList({
           ...priceListStore.priceList,
-          status: LibraryUtils.getDefaultLookupItem(
+          status: getDefaultLookupItem(
             routerStore.lookupItems,
             "STATUS"
           ),

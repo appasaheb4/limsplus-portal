@@ -10,7 +10,7 @@ interface ListProps {
   fill?: boolean;
 }
 
-const List: React.FunctionComponent<ListProps> = (props) => {
+export const List: React.FunctionComponent<ListProps> = (props) => {
   const spacingClass = props.space
     ? `space-${props.direction === "col" ? "y" : "x"}-${props.space}`
     : "";
@@ -33,5 +33,3 @@ const List: React.FunctionComponent<ListProps> = (props) => {
     </span>
   );
 };
-
-export default List;

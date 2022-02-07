@@ -1,6 +1,6 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
-import * as LibraryComponents from "@lp/library/components"
+import {Icons} from "@lp/library/components"
 import _ from "lodash"
 
 interface AutoCompleteGroupByCheckProps {
@@ -172,9 +172,9 @@ export const AutoCompleteGroupByCheck = (props: AutoCompleteGroupByCheckProps) =
             onClick={() => setIsListOpen(true)}
           />
           {isListOpen ? (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+            <Icons.IconFa.FaChevronUp />
           ) : (
-            <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+            <Icons.IconFa.FaChevronDown />
           )}
         </div>
         {options && isListOpen

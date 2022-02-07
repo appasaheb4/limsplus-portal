@@ -1,7 +1,8 @@
 /* eslint-disable */
-import React, { useEffect, useMemo, useState } from "react"
+import React, {  useMemo, useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Buttons,Grid,List,AutoCompleteFilterSingleSelect,Form,AutoCompleteFilterMutiSelectMultiFieldsDisplay,Svg} 
+  from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 
 import {EnvironmentSettingsList} from "../components"
@@ -48,7 +49,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
           },
         }).then((res) => {
           if (res.createEnviroment.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createEnviroment.message}`,
             })
             setTimeout(() => {
@@ -126,7 +127,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     return (
       <>
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemoveBottom
+          <Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 40 }}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
@@ -138,8 +139,8 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
           }
         >
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Atoms.Grid cols={2}>
-              <LibraryComponents.Atoms.List
+            <Grid cols={2}>
+              <List
                 direction="col"
                 space={4}
                 justify="stretch"
@@ -148,7 +149,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                       loader={loading}
                       placeholder="Search by variable"
                       data={{
@@ -207,7 +208,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         }).then((res) => {
                           if (res.checkExistsEnviromentRecord.success) {
                             environmentStore.updateExistsEnvSettingRecord(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkExistsEnviromentRecord.message}`,
                             })
                           } else environmentStore.updateExistsEnvSettingRecord(false)
@@ -232,13 +233,13 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Labs"
                         id="labs"
                         hasError={errors.lab}
                       >
                         <div className="flex flex-row gap-2 w-full">
-                          <LibraryComponents.Atoms.Form.Toggle
+                          <Form.Toggle
                             label="All"
                             disabled={!environmentStore.permission?.allLabs}
                             value={environmentStore.environmentSettings?.allLabs}
@@ -255,7 +256,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                             }}
                           />
 
-                          <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             disable={!environmentStore.environmentSettings.allLabs && !environmentStore.permission?.allLabs}
                             placeholder="Search by code or name"
@@ -304,7 +305,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                             }}
                           />
                         </div>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="lab"
                     rules={{ required: false }}
@@ -319,13 +320,13 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Users"
                         id="user"
                         hasError={errors.user}
                       >
                         <div className="flex flex-row gap-2 w-full">
-                          <LibraryComponents.Atoms.Form.Toggle
+                          <Form.Toggle
                             label="All"
                             disabled={!environmentStore.permission?.allUsers}
                             value={environmentStore.environmentSettings?.allUsers}
@@ -342,7 +343,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                             }}
                           />
 
-                          <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             disable={!environmentStore.environmentSettings.allUsers && !environmentStore.permission?.allUsers}
                             placeholder="Search by userId or name..."
@@ -391,7 +392,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                             }}
                           />
                         </div>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="user"
                     rules={{ required: false }}
@@ -405,13 +406,13 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper
+                      <Form.InputWrapper
                         label="Department"
                         id="department"
                         hasError={errors.department}
                       >
                         <div className="flex flex-row gap-2 w-full">
-                          <LibraryComponents.Atoms.Form.Toggle
+                          <Form.Toggle
                             label="All"
                             disabled={!environmentStore.permission?.allDepartment}
                             value={
@@ -429,7 +430,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                               })
                             }}
                           />
-                          <LibraryComponents.Molecules.AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             disable={
                               !environmentStore.environmentSettings?.allDepartment && !environmentStore.permission?.allDepartment
@@ -484,7 +485,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                             }}
                           />
                         </div>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="department"
                     rules={{ required: false }}
@@ -494,7 +495,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Value"
                       hasError={errors.value}
                       value={environmentStore.environmentSettings?.value}
@@ -512,8 +513,8 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+              </List>
+              <List
                 direction="col"
                 justify="stretch"
                 fill
@@ -522,7 +523,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.MultilineInput
+                    <Form.MultilineInput
                       rows={3}
                       label="Description"
                       name="lblDescription"
@@ -549,7 +550,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label="Environment">
                       <select
                         value={environmentStore.environmentSettings?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -579,7 +580,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           }).then((res) => {
                             if (res.checkExistsEnviromentRecord.success) {
                               environmentStore.updateExistsEnvSettingRecord(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkExistsEnviromentRecord.message}`,
                               })
                             } else
@@ -602,35 +603,35 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           </option>
                         ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                   )}
                   name="environment"
                   rules={{ required: true }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.List>
-            </LibraryComponents.Atoms.Grid>
+              </List>
+            </Grid>
             <br />
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-              <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+              <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={handleSubmit(onSubmitSessionManagement)}
               >
                 Save
-              </LibraryComponents.Atoms.Buttons.Button>
-              <LibraryComponents.Atoms.Buttons.Button
+              </Buttons.Button>
+              <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Atoms.Buttons.Button>
-            </LibraryComponents.Atoms.List>
+              </Buttons.Button>
+            </List>
           </div>
         </div>
 

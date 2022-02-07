@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {NumberFilter,Icons,Tooltip,customFilter,textFilter} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { PatientOrderExpand } from "./PatientOrderExpand"
 
-import { NumberFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter } from "@lp/library/components/Organisms"
 
 interface PatientOrderListProps {
   data: any
@@ -13,7 +13,7 @@ interface PatientOrderListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -46,7 +46,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: "Lab Id",
               headerClasses: "textHeader4 z-10",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   labid = filter
                 },
@@ -69,7 +69,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: "Visit Id",
               headerClasses: "textHeader4 z-10",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   visitId = filter
                 },
@@ -83,7 +83,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: "Order Id",
               headerClasses: "textHeader4 z-10",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   orderId = filter
                 },
@@ -99,7 +99,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               sort: true,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.panelCode.map((item) => item.panelCode)}`,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   panelCode = filter
                 },
@@ -129,8 +129,8 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete">
+                      <Icons.IconContext
                         color="#000"
                         size="20"
                         onClick={() =>
@@ -144,11 +144,11 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

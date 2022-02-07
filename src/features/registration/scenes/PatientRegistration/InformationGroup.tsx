@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Buttons,
+  List,Grid,Svg,Form}
+   from "@lp/library/components"
 import {lookupItems,moment,lookupValue} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {InformationGroupList} from "../../components"
@@ -12,7 +14,6 @@ import { stores } from "@lp/stores"
 import { toJS } from "mobx"
 import { Stores } from "../../stores"
 import { RouterFlow } from "@lp/flows"
-import { AdministrativeDivisions } from "@lp/features/master/administrativeDivisions/scenes"
 
 interface InformationGroupProps {
   onModalConfirm?: (item: any) => void
@@ -34,8 +35,8 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
      return(
         <>
             <div className='p-2 rounded-lg shadow-xl'>
-                <LibraryComponents.Atoms.Grid cols={2}>
-                    <LibraryComponents.Atoms.List
+                <Grid cols={2}>
+                    <List
                         direction='col'
                         space={4}
                         justify='stretch'
@@ -44,7 +45,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                         <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                                <LibraryComponents.Atoms.Form.InputDate
+                                <Form.InputDate
                             label="Information Date"
                             name="txtInformationDate"
                             placeholder={errors.infoDate?"Please Enter Information Date":"Information Date"}
@@ -73,7 +74,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                       <Controller
                             control={control}
                             render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper label="Information Related To" hasError={errors.infoRelatedTo}>
+                      <Form.InputWrapper label="Information Related To" hasError={errors.infoRelatedTo}>
                         <select
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.infoRelatedTo
@@ -99,7 +100,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                                 </option>  
                               ))}
                         </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                       )}
                       name="infoRelatedTo"
                       rules={{ required: true }}
@@ -108,7 +109,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                   <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Key Field"
                       name="txtKeyField"
                       placeholder={errors.keyField?"Please Enter Key Field ":"KeyField"}
@@ -130,7 +131,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                     <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Information Type" hasError={errors.infoType}>
+                    <Form.InputWrapper label="Information Type" hasError={errors.infoType}>
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.infoType
@@ -156,7 +157,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                               </option>  
                             ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                     )}
                     name="infoType"
                     rules={{ required: true }}
@@ -165,7 +166,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                   <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Lookup Value" hasError={errors.lookupValue}>
+                    <Form.InputWrapper label="Lookup Value" hasError={errors.lookupValue}>
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.lookupValue
@@ -191,7 +192,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                               </option>  
                             ))}
                       </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    </Form.InputWrapper>
                     )}
                     name="lookupValue"
                     rules={{ required: true }}
@@ -200,7 +201,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                   <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       label="Information"
                       name="txtInformation"
                       placeholder={errors.information?"Please Enter Information ":"Information"}
@@ -222,7 +223,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                     <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.Toggle
+                            <Form.Toggle
                               label="Information Lookup"
                               id="txtInformationLookup"
                               hasError={errors.infoLookup}
@@ -240,8 +241,8 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                           rules={{ required: false }}
                           defaultValue=""
                         />
-                    </LibraryComponents.Atoms.List>
-                    <LibraryComponents.Atoms.List
+                    </List>
+                    <List
                         direction='col'
                         fill
                         justify='stretch'
@@ -250,7 +251,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputFile
+                            <Form.InputFile
                               label="Attachment"
                               placeholder="File"
                               onChange={(e) => {
@@ -270,7 +271,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                         <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                      <Form.InputWrapper label="Environment">
                         <select
                           value={Stores.patientRegistationStore.informationGroup?.environment}
                           disabled={
@@ -308,7 +309,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                             )
                           )}
                         </select>
-                      </LibraryComponents.Atoms.Form.InputWrapper>
+                      </Form.InputWrapper>
                     )}
                     name="environment"
                     rules={{ required: true }}
@@ -317,7 +318,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                   <Controller
                         control={control}
                         render={({ field: { onChange } }) => (
-                          <LibraryComponents.Atoms.Form.Input
+                          <Form.Input
                             label="Entered By"
                             placeholder={
                               errors.enteredBy ? "Please Enter Entered By" : "Entered By"
@@ -334,7 +335,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                       <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                            <Form.InputWrapper label="Status">
                               <select
                                 value={Stores.patientRegistationStore.informationGroup?.status}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -361,37 +362,37 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                                   </option>
                                 ))}
                               </select>
-                            </LibraryComponents.Atoms.Form.InputWrapper>
+                            </Form.InputWrapper>
                           )}
                           name="status"
                           rules={{ required: false }}
                           defaultValue=""
                         />
 
-                    </LibraryComponents.Atoms.List>
-                </LibraryComponents.Atoms.Grid> 
+                    </List>
+                </Grid> 
             </div>
             <br/>
-            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-              <LibraryComponents.Atoms.Buttons.Button
+            <List direction="row" space={3} align="center">
+              <Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icon.Save}
+                icon={Svg.Save}
                 onClick={handleSubmit(onSubmitInformationGroup)}
               >
                 Save
-              </LibraryComponents.Atoms.Buttons.Button>
-              <LibraryComponents.Atoms.Buttons.Button
+              </Buttons.Button>
+              <Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
+                icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+              </Buttons.Button>
+          </List>
             <div
               className="p-2 rounded-lg shadow-xl overflow-scroll"
               style={{ overflowX: "scroll" }}

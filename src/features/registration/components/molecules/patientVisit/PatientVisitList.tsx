@@ -3,9 +3,9 @@ import React from "react"
 import dayjs from "dayjs"
 import { observer } from "mobx-react"
 import {lookupItems,lookupValue} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"  
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+import {NumberFilter,DateFilter,customFilter,textFilter,TableBootstrap,Form,Tooltip,Icons} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"  
+// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 import {AutoCompleteFilterSingleSelectCollectionCenter,AutoCompleteFilterSingleSelectCorporateCode,AutoCompleteFilterSingleSelectDoctorId, AutoCompleteFilterSingleSelectDoctorName} from "../../index"
 interface PatientVisitProps {
   data: any
@@ -13,7 +13,7 @@ interface PatientVisitProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -45,7 +45,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -62,7 +62,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   labId = filter
                 },
@@ -78,7 +78,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   pId = filter
                 },
@@ -94,7 +94,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     rLab = filter
@@ -109,7 +109,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   visitId = filter
                 },
@@ -125,7 +125,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (row.visitDate ? dayjs(row.visitDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   dateVisit = filter
                 },
@@ -146,7 +146,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                   value={new Date(row.visitDate)}
                   onFocusRemove={(visitDate) => {
                     props.onUpdateItem && props.onUpdateItem(visitDate,"visitDate",row._id)
@@ -161,7 +161,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (row.registrationDate ? dayjs(row.registrationDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   registrationDate = filter
                 },
@@ -182,7 +182,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                   value={new Date(row.registrationDate)}
                   onFocusRemove={(registrationDate) => {
                     props.onUpdateItem && props.onUpdateItem(registrationDate,column.dataField,row._id)
@@ -197,7 +197,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (row.collectionDate ? dayjs(row.collectionDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   collectionDate = filter
                 },
@@ -218,7 +218,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                   value={new Date(row.collectionDate)}
                   onFocusRemove={(collectionDate) => {
                     props.onUpdateItem && props.onUpdateItem(collectionDate,column.dataField,row._id)
@@ -233,7 +233,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (row.dueDate ? dayjs(row.dueDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   dueDate = filter
                 },
@@ -254,7 +254,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                   onFocusRemove={(dueDate) => {
                     props.onUpdateItem && props.onUpdateItem(dueDate,column.dataField,row._id)
                   }}
@@ -269,7 +269,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (row.birthDate ? dayjs(row.birthDate).format("YYYY-MM-DD") : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   birthDate = filter
                 },
@@ -290,7 +290,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                   value={new Date(row.birthDate)}
                   onFocusRemove={(birthDate) => {
                     props.onUpdateItem && props.onUpdateItem(birthDate,column.dataField,row._id)
@@ -305,7 +305,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   age = filter
                 },
@@ -321,7 +321,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     ageUnits = filter
@@ -367,7 +367,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader4",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     collectionCenter = filter
@@ -398,7 +398,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     corporateCode = filter
@@ -429,7 +429,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     acClass = filter
@@ -475,7 +475,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     doctorId = filter
@@ -506,7 +506,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     doctorName = filter
@@ -537,7 +537,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     deliveryType = filter
@@ -585,7 +585,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               formatter: (cell, row) => {
                 return (
                   <>  
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.history}
                       onChange={(history) => {
                         props.onUpdateItem &&
@@ -604,7 +604,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col,row) => (col ? col : false),
-              filter: LibraryComponents.Organisms.Utils.textFilter(
+              filter: textFilter(
                 {
                   getFilter: (filter) =>{
                     status = filter
@@ -653,8 +653,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -668,11 +668,11 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

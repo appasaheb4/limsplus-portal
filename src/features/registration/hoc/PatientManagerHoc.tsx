@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const PatientManagerHoc = (Component: React.FC<any>) => {
   return observer(
@@ -25,12 +25,12 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
         }
         patientManagerStore.updatePatientManager({
           ...patientManagerStore.patientManger,
-          species: LibraryUtils.getDefaultLookupItem(
+          species: getDefaultLookupItem(
             routerStore.lookupItems,
             "PATIENT MANAGER - SPECIES"
           ),
           breed:
-            LibraryUtils.getDefaultLookupItem(
+            getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT MANAGER - SPECIES"
             ) === "H"
@@ -38,16 +38,16 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
               : undefined,
           extraData: {
             ...patientManagerStore.patientManger?.extraData,
-            bloodGroup: LibraryUtils.getDefaultLookupItem(
+            bloodGroup: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - BLOOD_GROUP"
             ),
             enteredBy: loginStore.login.userId,
-            status: LibraryUtils.getDefaultLookupItem(
+            status: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT MANAGER - STATUS"
             ),
-            environment: LibraryUtils.getDefaultLookupItem(
+            environment: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT MANAGER - ENVIRONMENT"
             ),

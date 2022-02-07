@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
+  from "@lp/library/components"
 import {RegistrationLocationsList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -45,7 +47,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
           })
           .then((res) => {
             if (res.createRegistrationLocation.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.createRegistrationLocation.message}`,
               })
             }
@@ -64,7 +66,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
           })
           .then((res) => {
             if (res.versionUpgradeRegistrationLocation.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.versionUpgradeRegistrationLocation.message}`,
               })
             }
@@ -83,7 +85,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
           })
           .then((res) => {
             if (res.duplicateRegistrationLocation.success) {
-              LibraryComponents.Atoms.Toast.success({
+              Toast.success({
                 message: `😊 ${res.duplicateRegistrationLocation.message}`,
               })
             }
@@ -93,7 +95,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code!`,
       })
     }
@@ -166,14 +168,14 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
         />
@@ -184,8 +186,8 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -194,7 +196,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Creation"
                     placeholder={
                       errors.dateCreation
@@ -215,7 +217,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Active"
                     placeholder={
                       errors.dateActive ? "Please enter date Active" : "Date Active"
@@ -234,7 +236,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     label="Date Expire"
                     placeholder="Date Expire"
                     hasError={errors.dateActiveTo}
@@ -256,7 +258,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Version"
                     placeholder="Version"
                     hasError={errors.version}
@@ -271,7 +273,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Entered By"
                     placeholder="Entered By"
                     hasError={errors.userId}
@@ -287,7 +289,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Location Code"
                     hasError={errors.locationCode}
                     placeholder={
@@ -325,7 +327,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                           .then((res) => {
                             if (res.checkRegistrationLocationExistsRecord.success) {
                               registrationLocationsStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
                               })
                             } else
@@ -350,7 +352,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Location Name"
                     hasError={errors.locationName}
                     placeholder={
@@ -378,7 +380,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={3}
                     label="Address"
                     placeholder={errors.address ? "Please Enter address" : "Address"}
@@ -400,7 +402,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="City"
                     placeholder={errors.city ? "Please Enter city" : "City"}
                     hasError={errors.city}
@@ -421,7 +423,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="State"
                     placeholder={errors.state ? "Please Enter state" : "State"}
                     hasError={errors.state}
@@ -442,7 +444,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Country"
                     placeholder={errors.country ? "Please Enter country" : "Country"}
                     hasError={errors.country}
@@ -463,7 +465,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Postcode"
                     placeholder={
                       errors.postcode ? "Please Enter postcode" : "Postcode"
@@ -489,7 +491,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Customer Group"
                     hasError={errors.customerGroup}
                   >
@@ -517,7 +519,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="customerGroup"
                 rules={{ required: false }}
@@ -526,7 +528,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Category"
                     hasError={errors.category}
                   >
@@ -554,14 +556,14 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="category"
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -570,7 +572,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Telephone"
                     placeholder={
                       errors.telephone ? "Please Enter telephone" : "Telephone"
@@ -595,7 +597,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Mobile No"
                     placeholder={
                       errors.mobileNo ? "Please Enter mobileNo" : "Mobile No"
@@ -620,7 +622,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Email"
                     placeholder={errors.email ? "Please Enter email" : "Email"}
                     hasError={errors.email}
@@ -641,7 +643,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Delivery Type"
                     hasError={errors.deliveryType}
                   >
@@ -669,7 +671,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="deliveryType"
                 rules={{ required: false }}
@@ -678,7 +680,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Delivery Method"
                     hasError={errors.deliveryMethod}
                   >
@@ -708,7 +710,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="deliveryMethod"
                 rules={{ required: false }}
@@ -717,7 +719,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Corporate Code"
                     hasError={errors.corporateCode}
                   >
@@ -731,7 +733,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         })
                     }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="corporateCode"
                 rules={{ required: false }}
@@ -743,7 +745,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Invoice Ac"
                     placeholder="Invoice Ac"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -763,7 +765,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Lab Licence"
                     placeholder={
                       errors.labLicence ? "Please Enter labLicence" : "Lab Licence"
@@ -788,7 +790,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Method Coln"
                     hasError={errors.methodColn}
                   >
@@ -816,7 +818,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="methodColn"
                 rules={{ required: false }}
@@ -825,7 +827,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Work HRS"
                     placeholder={
                       errors.workHrs ? "Please Enter workHrs" : "Work HRS"
@@ -849,7 +851,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Sales TerritoRy"
                     hasError={errors.salesTerritoRy}
                   >
@@ -879,7 +881,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="salesTerritoRy"
                 rules={{ required: false }}
@@ -888,7 +890,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Area"
                     placeholder={errors.area ? "Please Enter area" : "Area"}
                     hasError={errors.area}
@@ -909,7 +911,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Zone"
                     placeholder={errors.zone ? "Please Enter zone" : "Zone"}
                     hasError={errors.zone}
@@ -928,11 +930,11 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Confidential"
                       hasError={errors.confidential}
                       value={
@@ -955,7 +957,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Print Label"
                       hasError={errors.printLabel}
                       value={
@@ -977,7 +979,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Never Bill"
                       hasError={errors.neverBill}
                       value={
@@ -999,7 +1001,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Urgent"
                       hasError={errors.urgent}
                       value={
@@ -1018,9 +1020,9 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Grid>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -1029,7 +1031,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Route"
                     placeholder={errors.route ? "Please Enter route" : "Route"}
                     hasError={errors.route}
@@ -1050,11 +1052,11 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                       loader={loading}
                       data={{
                         list: labStore.listLabs,
@@ -1103,7 +1105,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                                 registrationLocationsStore.updateExistsLabEnvCode(
                                   true
                                 )
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
                                 })
                               } else
@@ -1114,7 +1116,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         }
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -1123,7 +1125,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Location"
                     placeholder={
                       errors.location ? "Please Enter location" : "Location"
@@ -1148,7 +1150,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="EDI"
                     placeholder={errors.edi ? "Please Enter edi" : "EDI"}
                     hasError={errors.edi}
@@ -1169,7 +1171,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="EDI Address"
                     placeholder={
                       errors.ediAddress ? "Please Enter ediAddress" : "EDI Address"
@@ -1194,11 +1196,11 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                       loader={loading}
                       placeholder="Search by name"
                       data={{
@@ -1228,7 +1230,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         labStore.updateLabList(labStore.listLabsCopy)
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="schedule"
                 rules={{ required: false }}
@@ -1237,7 +1239,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report Format"
                     placeholder={
                       errors.reportFormat
@@ -1264,7 +1266,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Info"
                     placeholder={errors.info ? "Please Enter info" : "Info"}
                     hasError={errors.info}
@@ -1285,7 +1287,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="FYI Line"
                     placeholder={
                       errors.fyiLine ? "Please Enter fyiLine" : "FYI Line"
@@ -1308,7 +1310,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Work Line"
                     placeholder={
                       errors.workLine ? "Please Enter workLine" : "Work Line"
@@ -1333,7 +1335,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="AC Class"
                     hasError={errors.acClass}
                   >
@@ -1363,7 +1365,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="acClass"
                 rules={{ required: true }}
@@ -1372,7 +1374,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Account Type"
                     hasError={errors.accountType}
                   >
@@ -1402,7 +1404,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="accountType"
                 rules={{ required: true }}
@@ -1411,7 +1413,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -1442,7 +1444,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -1451,7 +1453,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -1497,7 +1499,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                                 registrationLocationsStore.updateExistsLabEnvCode(
                                   true
                                 )
-                                LibraryComponents.Atoms.Toast.error({
+                                Toast.error({
                                   message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
                                 })
                               } else
@@ -1523,38 +1525,38 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitRegistrationLocation)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -1562,7 +1564,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                 .deleteRegistrationLocations({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeRegistrationLocation.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeRegistrationLocation.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -1579,7 +1581,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateRegistrationLocation.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateRegistrationLocation.message}`,
                     })
                     setModalConfirm({ show: false })

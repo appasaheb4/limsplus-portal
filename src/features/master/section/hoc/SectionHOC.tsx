@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 
 export const SectionHoc = (Component: React.FC<any>) => {
   return observer(
@@ -20,7 +20,7 @@ export const SectionHoc = (Component: React.FC<any>) => {
           sectionStore &&
             sectionStore.updateSection({
               ...sectionStore.section,
-              status:LibraryUtils.getDefaultLookupItem(
+              status:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
               ), 
@@ -31,7 +31,7 @@ export const SectionHoc = (Component: React.FC<any>) => {
           sectionStore &&
             sectionStore.updateSection({
               ...sectionStore.section,
-              environment:LibraryUtils.getDefaultLookupItem(
+              environment:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
               ),

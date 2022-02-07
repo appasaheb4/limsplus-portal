@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,Icons,Tooltip,textFilter} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 
 let code 
 let description
@@ -14,7 +14,7 @@ interface RoleListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
@@ -23,7 +23,7 @@ interface RoleListProps {
   
 export const RoleList = (props: RoleListProps) => {
   return (
-    <LibraryComponents.Organisms.TableBootstrap
+    <TableBootstrap
       id="_id"
       data={props.data}
       totalSize={props.totalSize}
@@ -38,7 +38,7 @@ export const RoleList = (props: RoleListProps) => {
           dataField: "code",
           text: "Code",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) =>{
               code = filter
             }
@@ -49,7 +49,7 @@ export const RoleList = (props: RoleListProps) => {
           dataField: "description",
           text: "Description",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) =>{
               description = filter
             }
@@ -61,7 +61,7 @@ export const RoleList = (props: RoleListProps) => {
           dataField: "environment",
           text: "Environment",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) =>{
               environment = filter
             }
@@ -107,8 +107,8 @@ export const RoleList = (props: RoleListProps) => {
           formatter: (cellContent, row) => (
             <>
               <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position='top'>
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete" position='top'>
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -122,11 +122,11 @@ export const RoleList = (props: RoleListProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
             </>
           ),

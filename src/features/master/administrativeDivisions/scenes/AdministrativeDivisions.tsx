@@ -2,7 +2,7 @@
 import React, {  useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List,Form,Svg,Icons,ModalConfirm} from "@lp/library/components"
 import { AdminstrativeDivList } from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -29,7 +29,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
   const onSubmitAdministrativeDivision = () => {
     if (administrativeDivisions.administrativeDiv) {
       if (!administrativeDivisions.administrativeDiv.postalCode)
-        return LibraryComponents.Atoms.Toast.warning({
+        return Toast.warning({
           message: `😔 Please enter postal code!`,
         })
       administrativeDivisions.administrativeDivisionsService
@@ -38,7 +38,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
         })
         .then((res) => {
           if (res.createAdministrativeDivision.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createAdministrativeDivision.message}`,
             })
           }
@@ -47,7 +47,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter all information!`,
       })
     }
@@ -55,14 +55,14 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
         />
@@ -73,8 +73,8 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
             "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -83,7 +83,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Country"
                     placeholder={
                       errors.country ? "Please Enter Country " : "Country"
@@ -109,14 +109,14 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 label="State"
                 hasError={errors.state}
               >
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       placeholder={errors.state ? "Please Enter state" : "State"}
                       hasError={errors.state}
                       value={administrativeDivisions.administrativeDiv?.state || ""}
@@ -133,16 +133,16 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                   rules={{ required: true }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.InputWrapper
+              <Form.InputWrapper
                 label="District"
                 hasError={errors.district}
               >
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       placeholder={
                         errors.district ? "Please Enter District" : "District"
                       }
@@ -163,13 +163,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                   rules={{ required: true }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="City">
+              <Form.InputWrapper label="City">
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       hasError={errors.city}
                       placeholder={errors.city ? "Please Enter City" : "City"}
                       value={administrativeDivisions.administrativeDiv?.city || ""}
@@ -186,13 +186,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="Area">
+              <Form.InputWrapper label="Area">
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
+                    <Form.Input
                       placeholder={errors.area ? "Please Enter Area" : "Area"}
                       hasError={errors.area}
                       value={administrativeDivisions.administrativeDiv?.area || ""}
@@ -209,20 +209,20 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Form.InputWrapper>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Postal Code">
+              <Form.InputWrapper label="Postal Code">
                 <div className="flex flex-row">
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         type="number"
                         placeholder={
                           errors.postalCode
@@ -245,7 +245,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                     defaultValue=""
                   />
                   <div className="w-4 mt-2 ml-2">
-                    <LibraryComponents.Atoms.Buttons.Button
+                    <Buttons.Button
                       size="medium"
                       type="solid"
                       onClick={() => {
@@ -270,13 +270,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                         }
                       }}
                     >
-                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                      <Icons.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
-                    </LibraryComponents.Atoms.Buttons.Button>
+                    </Buttons.Button>
                   </div>
                 </div>
                 <br />
-                <LibraryComponents.Atoms.List
+                <List
                   space={2}
                   direction="row"
                   justify="center"
@@ -285,10 +285,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                     {administrativeDivisions.administrativeDiv?.postalCode?.map(
                       (item, index) => (
                         <div className="mb-2" key={index}>
-                          <LibraryComponents.Atoms.Buttons.Button
+                          <Buttons.Button
                             size="medium"
                             type="solid"
-                            icon={LibraryComponents.Atoms.Icon.Remove}
+                            icon={Svg.Remove}
                             onClick={() => {
                               const firstArr =
                                 administrativeDivisions.administrativeDiv?.postalCode?.slice(
@@ -307,18 +307,18 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                             }}
                           >
                             {item}
-                          </LibraryComponents.Atoms.Buttons.Button>
+                          </Buttons.Button>
                         </div>
                       )
                     )}
                   </div>
-                </LibraryComponents.Atoms.List>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                </List>
+              </Form.InputWrapper>
 
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="SBU"
                     hasError={errors.sbu}
                   >
@@ -346,7 +346,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="sbu"
                 rules={{ required: false }}
@@ -356,7 +356,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="ZONE"
                     hasError={errors.zone}
                   >
@@ -384,7 +384,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="zone"
                 rules={{ required: false }}
@@ -393,7 +393,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
                   >
@@ -433,35 +433,35 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitAdministrativeDivision)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <AdminstrativeDivList
@@ -517,7 +517,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
             }}
           />
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -525,7 +525,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                 .deleteAdministrativeDivisions({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeAdministrativeDivision.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeAdministrativeDivision.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -542,7 +542,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                 })
                 .then((res: any) => {
                   if (res.updateAdministrativeDivision.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateAdministrativeDivision.message}`,
                     })
                     setModalConfirm({ show: false })

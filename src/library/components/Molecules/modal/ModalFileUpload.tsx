@@ -1,22 +1,22 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
-import * as LibraryComponents from "@lp/library/components"
+import {Form} from "@lp/library/components"
 
 interface ModalProps {
   show?: boolean
   title?: string
   onClick: (image: any) => void
   onClose: () => void
-}
-
-export default function ModalFileUpload(props: ModalProps) {
+}  
+   
+export const ModalFileUpload = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   const [image, setImage] = React.useState<any>()
 
   useEffect(() => {
     setShowModal(props.show)
   }, [props.show])
-  
+
   return (
     <Container>
       {showModal && (
@@ -42,7 +42,7 @@ export default function ModalFileUpload(props: ModalProps) {
                 </div>
                 {/*body*/}
                 <div className="relative p-2 flex-auto">
-                  <LibraryComponents.Atoms.Form.InputFile
+                  <Form.InputFile
                     label="File"
                     id="file"
                     placeholder="File"

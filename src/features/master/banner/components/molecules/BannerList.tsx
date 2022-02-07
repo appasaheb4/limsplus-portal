@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react"
-
-import * as LibraryComponents from "@lp/library/components"
+import {TableBootstrap,textFilter,Tooltip,Icons,Form} from "@lp/library/components"
 import {lookupItems} from "@lp/library/utils"
 
 let title
@@ -23,7 +22,7 @@ interface BannerListProps {
 
 export const BannerList = (props: BannerListProps) => {
   return (
-    <LibraryComponents.Organisms.TableBootstrap
+    <TableBootstrap
       id="_id"
       data={props.data}
       totalSize={props.totlaSize}
@@ -38,7 +37,7 @@ export const BannerList = (props: BannerListProps) => {
           dataField: "title",
           text: "Title",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) => {
               title = filter
             },
@@ -70,7 +69,7 @@ export const BannerList = (props: BannerListProps) => {
             columnIndex
           ) => (
             <>
-              <LibraryComponents.Atoms.Form.InputFile
+              <Form.InputFile
                 label="File"
                 placeholder="File"
                 onChange={(e) => {
@@ -86,7 +85,7 @@ export const BannerList = (props: BannerListProps) => {
           dataField: "environment",
           text: "Environment",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter({
+          filter: textFilter({
             getFilter: (filter) => {
               environment = filter
             },
@@ -133,8 +132,8 @@ export const BannerList = (props: BannerListProps) => {
           formatter: (cellContent, row) => (
             <>
               <div className="flex flex-row">
-                <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                  <LibraryComponents.Atoms.Icons.IconContext
+                <Tooltip tooltipText="Delete" position="top">
+                  <Icons.IconContext
                     color="#fff"
                     size="20"
                     onClick={() =>
@@ -148,11 +147,11 @@ export const BannerList = (props: BannerListProps) => {
                       })
                     }
                   >
-                    {LibraryComponents.Atoms.Icons.getIconTag(
-                      LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                    {Icons.getIconTag(
+                      Icons.IconBs.BsFillTrashFill
                     )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
-                </LibraryComponents.Atoms.Tooltip>
+                  </Icons.IconContext>
+                </Tooltip>
               </div>
             </>
           ),

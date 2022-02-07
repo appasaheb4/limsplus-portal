@@ -15,11 +15,7 @@ import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
 import {PatientTestExpandExtraData} from './PatientTestExpandExtraData'
 
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
-
-import * as Config from "@lp/config"
-
+import {Form} from "@lp/library/components"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
@@ -271,7 +267,7 @@ export const PatientTestExpandByTestId = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.confidential}
                       disabled={true}
                     />
@@ -285,7 +281,7 @@ export const PatientTestExpandByTestId = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.urgent}
                       disabled={true}
                     />
@@ -299,7 +295,7 @@ export const PatientTestExpandByTestId = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.cretical}
                       disabled={true}
                     />
@@ -552,25 +548,25 @@ export const PatientTestExpandByTestId = ({
                   Export CSV!!
                 </ExportCSVButton>
                 {isFilterOpen ? (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronUp />
+                  </Buttons.Button>
                 ) : (
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="medium"
                     type="outline"
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen)
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    <Icons.IconFa.FaChevronDown />
+                  </Buttons.Button>
                 )}
               </div> */}
               {/* {isFilterOpen && (

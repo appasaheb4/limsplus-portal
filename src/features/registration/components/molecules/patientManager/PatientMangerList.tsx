@@ -3,11 +3,10 @@ import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import {lookupItems,lookupValue} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import { FormHelper } from "@lp/helper"
 import { useForm, Controller } from "react-hook-form"
-import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 interface PatientMangerProps {
   data: any
@@ -15,7 +14,7 @@ interface PatientMangerProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -48,7 +47,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -64,7 +63,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Pid",
               headerClasses: "textHeader3",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   pId = filter
                 },
@@ -85,7 +84,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     ? "XXXXXXXX"
                     : col
                   : "",
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   mobileNo = filter
                 },
@@ -112,7 +111,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         placeholder={
                           errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
                         }
@@ -142,7 +141,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sort: true,
               csvFormatter: (col,row) => (row.birthDate ? dayjs(row.birthDate).format("YYYY-MM-DD") : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              filter: LibraryComponents.Organisms.Utils.customFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   birthDate = filter
                 },
@@ -162,7 +161,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputDateTime
+                  <Form.InputDateTime
                     value={new Date(row.birthDate)}
                     onFocusRemove={(birthDate) => {
                       props.onUpdateItem &&
@@ -178,7 +177,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   title = filter
                 },
@@ -225,7 +224,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     ? "XXXXXXXX"
                     : col
                   : "",
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   firstName = filter
                 },
@@ -252,7 +251,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     ? "XXXXXXXX"
                     : col
                   : "",
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   middleName = filter
                 },
@@ -279,7 +278,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     ? "XXXXXXXX"
                     : col
                   : "",
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   lastName = filter
                 },
@@ -301,7 +300,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   sex = filter
                 },
@@ -343,7 +342,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   species = filter
                 },
@@ -385,7 +384,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   breed = filter
                 },
@@ -398,7 +397,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) => {
                   usualDoctor = filter
                 },
@@ -440,7 +439,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       value={row.history}
                       onChange={(history) => {
                         props.onUpdateItem &&
@@ -460,8 +459,8 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
+                    <Tooltip tooltipText="Delete">
+                      <Icons.IconContext
                         color="#fff"
                         size="20"
                         onClick={() =>
@@ -475,11 +474,11 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                           })
                         }
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        {Icons.getIconTag(
+                          Icons.IconBs.BsFillTrashFill
                         )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
 import dayjs from "dayjs"
-import * as LibraryComponents from "@lp/library/components"
+import {AutoCompleteFilterSingleSelectMultiFieldsDisplay,Icons,Buttons} from "@lp/library/components"
 import { lookupItems, getDefaultLookupItem } from "@lp/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
@@ -82,7 +82,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     hasError={errors.analyte}
                     placeholder="Search by code or name"
@@ -127,7 +127,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     hasError={errors.department}
                     placeholder="Search by code or name"
@@ -270,7 +270,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder="Search by instrumentType"
                     hasError={errors.equipmentType}
@@ -313,7 +313,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     hasError={errors.lab}
                     placeholder="Search by code or name"
@@ -353,14 +353,14 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
           </tr>
         </tbody>
       </Table>
-      <LibraryComponents.Atoms.Buttons.Button
+      <Buttons.Button
         size="medium"
         type="solid"
         onClick={handleSubmit(addItem)}
       >
-        <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+        <Icons.EvaIcon icon="plus-circle-outline" />
         {`Add`}
-      </LibraryComponents.Atoms.Buttons.Button>
+      </Buttons.Button>
     </div>
   )
 })

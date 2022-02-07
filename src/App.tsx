@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {ToastContainer,ModalLoader} from "@lp/library/components"
 import { Provider } from "react-redux"   
 import ReduxToastr from "react-redux-toastr"
 import { configure } from "mobx";
@@ -61,9 +61,9 @@ const App = observer(() => {
             closeOnToastrClick
           />
         </Provider>
-        <LibraryComponents.Atoms.ToastContainer />
+        <ToastContainer />
         {stores.flagLoading && stores.loading && (
-          <LibraryComponents.Atoms.ModelLoader />
+          <ModalLoader />
         )}
       </ApolloProvider>
     </>

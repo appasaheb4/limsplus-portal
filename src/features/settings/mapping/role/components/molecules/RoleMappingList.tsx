@@ -2,8 +2,8 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {TableBootstrap,Icons,Buttons,textFilter} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 
 import { stores } from "@lp/stores"
 
@@ -16,7 +16,7 @@ interface RoleMappingListProps {
   totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedUser: LibraryModels.Confirm) => void
+  onDelete?: (selectedUser: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onDuplicate?: (selectedItem: any) => void
@@ -28,7 +28,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        <LibraryComponents.Organisms.TableBootstrap
+        <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
@@ -44,7 +44,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               text: "Role",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter({
+              filter: textFilter({
                 getFilter: (filter) =>{
                   role  = filter
                 }
@@ -64,7 +64,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               editable: false,
               headerClasses: "textHeader4",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: textFilter(),
               formatter: (cellContent, row) => (
                 <>
                   {row.router && (
@@ -120,7 +120,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               csvExport: false,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Atoms.Buttons.Button
+                  <Buttons.Button
                     size="small"
                     type="outline"
                     onClick={() => {
@@ -155,20 +155,20 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                         })
                     }}
                   >
-                    <LibraryComponents.Atoms.Icon.EvaIcon
+                    <Icons.EvaIcon
                       icon="edit-outline"
                       size="medium"
                       color="#fff"
                     />
-                  </LibraryComponents.Atoms.Buttons.Button>
+                  </Buttons.Button>
                   {props.isDelete && (
                     <>
                       <br />
                       <br />
-                      <LibraryComponents.Atoms.Buttons.Button
+                      <Buttons.Button
                         size="small"
                         type="outline"
-                        //icon={LibraryComponents.Atoms.Icon.Remove}
+                        //icon={Icon.Remove}
                         onClick={() => {
                           props.onDelete &&
                             props.onDelete({
@@ -180,12 +180,12 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                             })
                         }}
                       >
-                        <LibraryComponents.Atoms.Icon.EvaIcon
+                        <Icons.EvaIcon
                           icon="trash-2-outline"
                           size="medium"
                           color="#fff"
                         />
-                      </LibraryComponents.Atoms.Buttons.Button>
+                      </Buttons.Button>
                     </>
                   )}
                 </>

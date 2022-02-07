@@ -4,8 +4,8 @@ import _ from "lodash"
 import classnames from "classnames"
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap"
 
-import * as LibraryUtils from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
+import {moment} from "@lp/library/utils"
+import {Form} from "@lp/library/components"
 
 interface ScheduleFrequencyProps {
   type: string
@@ -146,7 +146,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
   return (
     <>
       {(type === "MINUTES" || type === "HOURS" || type === "DAY") && (
-        <LibraryComponents.Atoms.Form.Input
+        <Form.Input
           label="Value"
           placeholder="Value"
           onChange={(schduleFrequncy) => {
@@ -155,7 +155,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
         />
       )}
       {type === "WEEKLY" && (
-        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
+        <Form.InputWrapper label="Schdule Frequnecy">
           <ul className="rounded-lg shadow-xl p-2">
             {weekly?.map((item: any, index: number) => (
               <li
@@ -199,10 +199,10 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
               </li>
             ))}
           </ul>
-        </LibraryComponents.Atoms.Form.InputWrapper>
+        </Form.InputWrapper>
       )}
       {type === "MONTHLY" && (
-        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
+        <Form.InputWrapper label="Schdule Frequnecy">
           <Nav tabs>
             <NavItem>
               <NavLink
@@ -288,21 +288,21 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
             </TabPane>
             <TabPane tabId="2">
               <>
-                <LibraryComponents.Atoms.Form.InputDate
+                <Form.InputDate
                   label="Date"
                   placeholder="Date"
                   onChange={(e) => {
                     const schedule = new Date(e.target.value)
-                    setMonthlyDate(LibraryUtils.moment(schedule).unix())
+                    setMonthlyDate(moment(schedule).unix())
                     onChnage &&
                       onChnage({
                         value: monthlyDateValue,
-                        date: LibraryUtils.moment(schedule).unix(),
+                        date: moment(schedule).unix(),
                         units: monthlyUnits,
                       })
                   }}
                 />
-                <LibraryComponents.Atoms.Form.Input
+                <Form.Input
                   placeholder="Value"
                   value={monthlyDateValue}
                   onChange={(value) => {
@@ -339,10 +339,10 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
               </>
             </TabPane>
           </TabContent>
-        </LibraryComponents.Atoms.Form.InputWrapper>
+        </Form.InputWrapper>
       )}
       {type === "RESULT" && (
-        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
+        <Form.InputWrapper label="Schdule Frequnecy">
           <ul className="rounded-lg shadow-xl p-2">
             {result?.map((item: any, index: number) => (
               <li
@@ -387,11 +387,11 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
               </li>
             ))}
           </ul>
-        </LibraryComponents.Atoms.Form.InputWrapper>
+        </Form.InputWrapper>
       )}
       {type === "BATCH1" && (
-        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
-          <LibraryComponents.Atoms.Form.Clock
+        <Form.InputWrapper label="Schdule Frequnecy">
+          <Form.Clock
             label="Start Time"
             onChange={(startTime) => {
               setBatch1StartTime(startTime)
@@ -404,7 +404,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
           />
           <div className="mb-2" />
           {batch1StartTime && (
-            <LibraryComponents.Atoms.Form.Clock
+            <Form.Clock
               label="End Time"
               onChange={(endTime) => {
                 setBatch1EndTime(endTime)
@@ -416,11 +416,11 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
               }}
             />
           )}
-        </LibraryComponents.Atoms.Form.InputWrapper>
+        </Form.InputWrapper>
       )}
       {type === "BATCH2" && (
-        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
-          <LibraryComponents.Atoms.Form.Clock
+        <Form.InputWrapper label="Schdule Frequnecy">
+          <Form.Clock
             label="Start Time"
             onChange={(startTime) => {
               setBatch2StartTime(startTime)
@@ -433,7 +433,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
             }}
           />
           <div className="mb-2" />
-          <LibraryComponents.Atoms.Form.Input
+          <Form.Input
             type="number"
             placeholder="Value"
             onChange={(value) => {
@@ -447,7 +447,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
             }}
           />
              <div className="mb-2" />
-          <LibraryComponents.Atoms.Form.InputWrapper label="Units">
+          <Form.InputWrapper label="Units">
             <select
               className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
               onChange={(e) => {
@@ -468,8 +468,8 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
                 </option>
               ))}
             </select>
-          </LibraryComponents.Atoms.Form.InputWrapper>
-        </LibraryComponents.Atoms.Form.InputWrapper>
+          </Form.InputWrapper>
+        </Form.InputWrapper>
       )}
     </>
   )

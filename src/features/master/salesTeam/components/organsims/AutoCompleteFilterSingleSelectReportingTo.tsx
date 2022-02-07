@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryComponents from "@lp/library/components"
+import {Icons} from "@lp/library/components"
 
 interface AutoCompleteFilterSingleSelectReportingToProps {
   onSelect: (item: any) => void
@@ -82,9 +82,9 @@ export const AutoCompleteFilterSingleSelectReportingTo = observer(
             />
             {loading && <Spinner animation="border" className="mr-2 h-4 w-4" />}
             {isListOpen ? (
-              <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+              <Icons.IconFa.FaChevronUp />
             ) : (
-              <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+              <Icons.IconFa.FaChevronDown />
             )}
           </div>
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
-import * as LibraryComponents from "@lp/library/components"
+import {Icons, Buttons} from "@lp/library/components"
 import moment from "moment"
 
 interface ModalProps {
@@ -10,8 +10,8 @@ interface ModalProps {
   onClick: (data: any, item: any, index: number) => void
   onClose: () => void
 }
-
-const ModalSessionAllowed = (props: ModalProps) => {
+   
+export const ModalSessionAllowed = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
 
   useEffect(() => {
@@ -54,15 +54,15 @@ const ModalSessionAllowed = (props: ModalProps) => {
                     {props.data?.map((item, index) => (
                       <>
                         <div className="flex-col flex p-2  items-center rounded-md bg-gray-400">
-                          <LibraryComponents.Atoms.Icons.IconContext
+                          <Icons.IconContext
                             color="#000"
                             size="80"
                             key={index}
                           >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.IconRi.RiComputerFill
+                            {Icons.getIconTag(
+                              Icons.IconRi.RiComputerFill
                             )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
+                          </Icons.IconContext>
                           <div className="flex flex-col p-2 items-center text-center">
                             <h6>Device: {item.systemInfo.device}</h6>
                             <h6>Ip: {item.systemInfo.ipInfo.ip}</h6>
@@ -74,7 +74,7 @@ const ModalSessionAllowed = (props: ModalProps) => {
                             </h6>
                             <h6> {moment(item.dateOfEntry).fromNow()}</h6>
                           </div>
-                          <LibraryComponents.Atoms.Buttons.Button
+                          <Buttons.Button
                             size="medium"
                             type="solid"
                             onClick={() => {
@@ -82,7 +82,7 @@ const ModalSessionAllowed = (props: ModalProps) => {
                             }}
                           >
                             Logout
-                          </LibraryComponents.Atoms.Buttons.Button>
+                          </Buttons.Button>
                         </div>
                       </>
                     ))}
@@ -111,5 +111,3 @@ const ModalSessionAllowed = (props: ModalProps) => {
     </Container>
   )
 }
-
-export default ModalSessionAllowed

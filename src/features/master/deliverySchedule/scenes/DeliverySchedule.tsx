@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm} 
+  from "@lp/library/components"
 import {lookupItems,lookupValue} from "@lp/library/utils"
 import {DeliverySchduleList} from "../components"
 import { useForm, Controller } from "react-hook-form"
@@ -34,7 +36,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
         .addDeliverySchdule({ input: { ...deliveryScheduleStore.deliverySchedule } })
         .then((res) => {
           if (res.createDeliverySchdule.success)
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createDeliverySchdule.message}`,
             })
           setTimeout(() => {
@@ -42,7 +44,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
           }, 2000)
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
@@ -50,14 +52,14 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
@@ -66,8 +68,8 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -76,7 +78,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Sch Code"
                     placeholder={
                       errors.schCode ? "Please Enter Sch Code" : "Sch Code"
@@ -101,7 +103,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                         .then((res) => {
                           if (res.checkDeliverySchdulesExistsRecord.success) {
                             deliveryScheduleStore.updateExistsEnvCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
                             })
                           } else deliveryScheduleStore.updateExistsEnvCode(false)
@@ -121,7 +123,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Clock
+                  <Form.Clock
                     label="P Start Time"
                     hasError={errors.pStartTime}
                     value={deliveryScheduleStore.deliverySchedule?.pStartTime}
@@ -141,7 +143,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Clock
+                  <Form.Clock
                     label="P End Time"
                     hasError={errors.pEndTime}
                     value={deliveryScheduleStore.deliverySchedule?.pEndTime}
@@ -161,7 +163,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Clock
+                  <Form.Clock
                     label="Cutof Time"
                     hasError={errors.cutofTime}
                     value={deliveryScheduleStore.deliverySchedule?.cutofTime}
@@ -181,7 +183,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Clock
+                  <Form.Clock
                     label="Secound Cutof Time"
                     hasError={errors.secoundCutofTime}
                     value={deliveryScheduleStore.deliverySchedule?.secoundCutofTime}
@@ -201,7 +203,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Processing Type"
                     hasError={errors.processingType}
                   >
@@ -233,7 +235,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="processingType"
                 rules={{ required: false }}
@@ -263,7 +265,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Report on"
                     placeholder={
                       errors.reportOn ? "Please Enter ReportOn" : "ReportOn"
@@ -286,7 +288,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Dynamic RT"
                     placeholder={
                       errors.dynamicRT ? "Please Enter DynamicRT " : "DynamicRT"
@@ -306,9 +308,9 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -317,7 +319,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Dynamic TU"
                     hasError={errors.dynamicTU}
                   >
@@ -345,7 +347,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="dynamicTU"
                 rules={{ required: false }}
@@ -355,7 +357,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Fixed RT"
                     placeholder={errors.fixedRT ? "Please Enter fixedRT" : "fixedRT"}
                     hasError={errors.fixedRT}
@@ -376,7 +378,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Sch For DEPT"
                     placeholder={
                       errors.schForDept ? "Please Enter schForDept" : "schForDept"
@@ -399,7 +401,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Sch For PAT"
                     placeholder={
                       errors.schForPat ? "Please Enter schForPat" : "schForPat"
@@ -422,7 +424,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={deliveryScheduleStore.deliverySchedule?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -450,7 +452,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                           .then((res) => {
                             if (res.checkDeliverySchdulesExistsRecord.success) {
                               deliveryScheduleStore.updateExistsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
+                              Toast.error({
                                 message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
                               })
                             } else deliveryScheduleStore.updateExistsEnvCode(false)
@@ -472,17 +474,17 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <LibraryComponents.Atoms.Grid cols={5}>
+              <Grid cols={5}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Sunday Processing"
                       hasError={errors.sundayProcessing}
                       value={
@@ -504,7 +506,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Holiday Processing"
                       hasError={errors.holidayProcessing}
                       value={
@@ -526,7 +528,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       hasError={errors.sundayReporting}
                       label="Sunday Reporting"
                       value={deliveryScheduleStore.deliverySchedule?.sundayReporting}
@@ -546,7 +548,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Holiday Reporting"
                       hasError={errors.holidayReporting}
                       value={
@@ -568,7 +570,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="On Time"
                       hasError={errors.onTime}
                       value={deliveryScheduleStore.deliverySchedule?.onTime}
@@ -585,30 +587,30 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+              </Grid>
+            </List>
+          </Grid>
           <br />
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitDeliverySchedule)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <DeliverySchduleList
@@ -655,7 +657,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
             }}
           />   
         </div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -663,7 +665,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 .deleteDeliverySchdule({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeDeliverySchdule.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeDeliverySchdule.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -680,7 +682,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateDeliverySchdule.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateDeliverySchdule.message}`,
                     })
                     setModalConfirm({ show: false })

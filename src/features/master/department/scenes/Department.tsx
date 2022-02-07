@@ -2,7 +2,9 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
+  from "@lp/library/components"
 import {DepartmentList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -46,7 +48,7 @@ export const Department = DeginisationHoc(observer(() => {
         },
       }).then((res) => {
         if (res.createDepartment.success) {
-          LibraryComponents.Atoms.Toast.success({
+          Toast.success({
             message: `😊 ${res.createDepartment.message}`,
           })
         }
@@ -56,7 +58,7 @@ export const Department = DeginisationHoc(observer(() => {
         window.location.reload()
       }, 2000)
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔 Please enter diff code!",
       })
     }
@@ -111,14 +113,14 @@ export const Department = DeginisationHoc(observer(() => {
 
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddDepartment}
           onClick={() => setHideAddDepartment(!hideAddDepartment)}
         />
@@ -129,8 +131,8 @@ export const Department = DeginisationHoc(observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddDepartment ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={3}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -139,12 +141,12 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Lab"
                     id="lab"
                     hasError={errors.lab}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                       loader={loading}
                       placeholder="Search by name"
                       disable={
@@ -186,14 +188,14 @@ export const Department = DeginisationHoc(observer(() => {
                         }).then((res) => {
                           if (res.checkDepartmentExistsRecord.success) {
                             departmentStore.setExitsCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkDepartmentExistsRecord.message}`,
                             })
                           } else departmentStore.setExitsCode(false)
                         })
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
@@ -203,7 +205,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Code"
                     id="code"
                     hasError={errors.code}
@@ -226,7 +228,7 @@ export const Department = DeginisationHoc(observer(() => {
                       }).then((res) => {
                         if (res.checkDepartmentExistsRecord.success) {
                           departmentStore.setExitsCode(true)
-                          LibraryComponents.Atoms.Toast.error({
+                          Toast.error({
                             message: `😔 ${res.checkDepartmentExistsRecord.message}`,
                           })
                         } else departmentStore.setExitsCode(false)
@@ -247,7 +249,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Name"
                     name="name"
                     hasError={errors.name}
@@ -270,7 +272,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Short Name"
                     placeholder={
                       errors.shortName ? "Please Enter Short Name" : "Short Name"
@@ -293,11 +295,11 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="HOD"
                     hasError={errors.hod}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    <AutoCompleteFilterSingleSelect
                       loader={loading}
                       placeholder="Search by name"
                       data={{
@@ -328,15 +330,15 @@ export const Department = DeginisationHoc(observer(() => {
                         userStore.updateUserList(userStore.userListCopy)
                       }}
                     />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="hod"
                 rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
+            </List>
 
-            <LibraryComponents.Atoms.List
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -345,7 +347,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Mobile No"
                     placeholder={
                       errors.mobileNo ? "Please Enter MobileNo" : "MobileNo"
@@ -368,7 +370,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Contact No"
                     placeholder={
                       errors.contactNo ? "Please Enter contactNo" : "contactNo"
@@ -391,7 +393,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Clock
+                  <Form.Clock
                     label="Opening Time"
                     hasError={errors.openingTime}
                     value={departmentStore.department?.openingTime}
@@ -411,7 +413,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Clock
+                  <Form.Clock
                     label="Closing Time"
                     hasError={errors.closingTime}
                     value={departmentStore.department?.closingTime}
@@ -428,11 +430,11 @@ export const Department = DeginisationHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <LibraryComponents.Atoms.Grid cols={4}>
+              <Grid cols={4}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Auto Release"
                       hasError={errors.autoRelease}
                       value={departmentStore.department?.autoRelease}
@@ -453,7 +455,7 @@ export const Department = DeginisationHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Require receve in lab"
                       hasError={errors.requireReceveInLab}
                       value={departmentStore.department?.requireReceveInLab}
@@ -473,7 +475,7 @@ export const Department = DeginisationHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Require Scain In"
                       hasError={errors.requireScainIn}
                       value={departmentStore.department?.requireScainIn}
@@ -493,7 +495,7 @@ export const Department = DeginisationHoc(observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
+                    <Form.Toggle
                       label="Routing Dept"
                       hasError={errors.routingDept}
                       value={departmentStore.department?.routingDept}
@@ -510,9 +512,9 @@ export const Department = DeginisationHoc(observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+              </Grid>
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -521,7 +523,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={2}
                     label="FYI line"
                     placeholder={errors.fyiLine ? "Please Enter fyiLine" : "fyiLine"}
@@ -543,7 +545,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.MultilineInput
+                  <Form.MultilineInput
                     rows={2}
                     label="Work line"
                     placeholder={
@@ -567,7 +569,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <Form.InputWrapper
                     label="Status"
                     hasError={errors.status}
                   >
@@ -595,7 +597,7 @@ export const Department = DeginisationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="status"
                 rules={{ required: true }}
@@ -604,7 +606,7 @@ export const Department = DeginisationHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={departmentStore.department?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -631,7 +633,7 @@ export const Department = DeginisationHoc(observer(() => {
                         }).then((res) => {
                           if (res.checkDepartmentExistsRecord.success) {
                             departmentStore.setExitsCode(true)
-                            LibraryComponents.Atoms.Toast.error({
+                            Toast.error({
                               message: `😔 ${res.checkDepartmentExistsRecord.message}`,
                             })
                           } else departmentStore.setExitsCode(false)
@@ -652,40 +654,40 @@ export const Department = DeginisationHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
           <br />
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitDepartment)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
-            <LibraryComponents.Atoms.Buttons.Button
+            </Buttons.Button>
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 //rootStore.departmentStore.clear();
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
-          </LibraryComponents.Atoms.List>
+            </Buttons.Button>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
@@ -693,7 +695,7 @@ export const Department = DeginisationHoc(observer(() => {
                 input: { id: modalConfirm.id },
               }).then((res: any) => {
                 if (res.removeDepartment.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.removeDepartment.message}`,
                   })
                   setModalConfirm({ show: false })
@@ -708,7 +710,7 @@ export const Department = DeginisationHoc(observer(() => {
                 },
               }).then((res: any) => {
                 if (res.updateDepartment.success) {
-                  LibraryComponents.Atoms.Toast.success({
+                  Toast.success({
                     message: `😊 ${res.updateDepartment.message}`,
                   })
                   setModalConfirm({ show: false })

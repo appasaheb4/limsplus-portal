@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem} from "@lp/library/utils"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
 export const PossibleResultHoc = (Component: React.FC<any>) => {
@@ -30,7 +30,7 @@ export const PossibleResultHoc = (Component: React.FC<any>) => {
         }
         possibleResultsStore.updatePossibleResults({
           ...possibleResultsStore.possibleResults,
-          environment: LibraryUtils.getDefaultLookupItem(
+          environment: getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),

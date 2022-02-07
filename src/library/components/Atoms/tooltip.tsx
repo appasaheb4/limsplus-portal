@@ -28,14 +28,13 @@ interface TooltipProps {
   children: React.ReactNode
 }
 
-const Tooltip: React.FunctionComponent<TooltipProps> = ({
+export const Tooltip: React.FunctionComponent<TooltipProps> = ({
   tooltipText,
   position = "bottom",
   className,
   children,
 }) => {
   const tipRef = useRef(null)
-
   const handleMouseEnter = (tipRef) => {
     tipRef.current.style.opacity = 1
     // tipRef.current.style.marginLeft = "20px"
@@ -65,5 +64,3 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
     </div>
   )
 }
-
-export default Tooltip

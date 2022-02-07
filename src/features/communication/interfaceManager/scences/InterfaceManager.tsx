@@ -1,7 +1,9 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState} from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm, Icons} 
+  from "@lp/library/components"
 import {InterfaceManagerList} from "../components"
 import {lookupItems} from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
@@ -39,7 +41,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
         })
         .then((res) => {
           if (res.createInterfaceManager.success) {
-            LibraryComponents.Atoms.Toast.success({
+            Toast.success({
               message: `😊 ${res.createInterfaceManager.message}`,
             })
             setTimeout(() => {
@@ -48,21 +50,21 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
           }
         })
     } else {
-      LibraryComponents.Atoms.Toast.warning({
+      Toast.warning({
         message: "😔 Please enter filed and value!",
       })
     }
   }
   return (
     <>
-      <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading
+      <Header>
+        <PageHeading
           title={routerStore.selectedComponents?.title || ""}
         />
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
-      </LibraryComponents.Atoms.Header>
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
-        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+        <Buttons.ButtonCircleAddRemove
           show={hideAddInterfaceManager}
           onClick={(status) => setHideAddInterfaceManager(!hideAddInterfaceManager)}
         />
@@ -74,8 +76,8 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
             (hideAddInterfaceManager ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List
+          <Grid cols={2}>
+            <List
               direction="col"
               space={4}
               justify="stretch"
@@ -84,7 +86,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Interface Type"
                     name="interfaceType"
                     placeholder={
@@ -111,7 +113,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Instrument Type"
                     name="instrumentType"
                     placeholder={
@@ -137,7 +139,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Instrument Name"
                     name="instrumentName"
                     placeholder={
@@ -163,7 +165,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Data Flow From"
                     name="dataFlowFrom"
                     placeholder={
@@ -189,7 +191,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <Form.Input
                     label="Communication Protocol"
                     name="communicationProtocal"
                     placeholder={
@@ -216,19 +218,19 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
               />
 
               <div className="clearfix" />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
+            </List>
+            <List
               direction="col"
               space={4}
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Block" id="block">
-                <LibraryComponents.Atoms.Grid cols={2}>
+              <Form.InputWrapper label="Block" id="block">
+                <Grid cols={2}>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         name="startBlock"
                         placeholder={
                           errors.startBlock
@@ -254,7 +256,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         name="endBlock"
                         placeholder={
                           errors.endBlock ? "Please Enter endBlock" : "End Block"
@@ -274,15 +276,15 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                     rules={{ required: true }}
                     defaultValue=""
                   />
-                </LibraryComponents.Atoms.Grid>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                </Grid>
+              </Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="Filed" id="filed">
-                <LibraryComponents.Atoms.Grid cols={3}>
+              <Form.InputWrapper label="Filed" id="filed">
+                <Grid cols={3}>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         name="filed"
                         placeholder={errors.filed ? "Please Enter Filed" : "Filed"}
                         hasError={errors.filed}
@@ -303,7 +305,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
+                      <Form.Input
                         name="value"
                         placeholder={errors.value ? "Please Enter Value" : "Value"}
                         hasError={errors.value}
@@ -322,7 +324,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                     defaultValue=""
                   />
                   <div className="mt-2">
-                    <LibraryComponents.Atoms.Buttons.Button
+                    <Buttons.Button
                       size="medium"
                       type="solid"
                       onClick={() => {
@@ -356,13 +358,13 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                         }
                       }}
                     >
-                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                      <Icons.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
-                    </LibraryComponents.Atoms.Buttons.Button>
+                    </Buttons.Button>
                   </div>
                   <div className="clearfix"></div>
-                </LibraryComponents.Atoms.Grid>
-                <LibraryComponents.Atoms.List
+                </Grid>
+                <List
                   space={2}
                   direction="row"
                   justify="center"
@@ -371,11 +373,11 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                     {interfaceManagerStore.interfaceManager?.fileds?.map(
                       (item, index) => (
                         <div className="mb-2">
-                          <LibraryComponents.Atoms.Buttons.Button
+                          <Buttons.Button
                             key={index}
                             size="medium"
                             type="solid"
-                            icon={LibraryComponents.Atoms.Icon.Remove}
+                            icon={Svg.Remove}
                             onClick={() => {
                               const firstArr =
                                 interfaceManagerStore.interfaceManager?.fileds?.slice(
@@ -394,18 +396,18 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                             }}
                           >
                             {`${item.filed} - ${item.value}`}
-                          </LibraryComponents.Atoms.Buttons.Button>
+                          </Buttons.Button>
                         </div>
                       )
                     )}
                   </div>
-                </LibraryComponents.Atoms.List>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                </List>
+              </Form.InputWrapper>
 
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <Form.InputWrapper label="Environment">
                     <select
                       value={interfaceManagerStore.interfaceManager?.environment}
                       className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
@@ -440,37 +442,37 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                         </option>
                       ))}
                     </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  </Form.InputWrapper>
                 )}
                 name="environment"
                 rules={{ required: true }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
+            </List>
+          </Grid>
 
-          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-            <LibraryComponents.Atoms.Buttons.Button
+          <List direction="row" space={3} align="center">
+            <Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icon.Save}
+              icon={Svg.Save}
               onClick={handleSubmit(onSubmitInterfaceManager)}
             >
               Save
-            </LibraryComponents.Atoms.Buttons.Button>
+            </Buttons.Button>
 
-            <LibraryComponents.Atoms.Buttons.Button
+            <Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icon.Remove}
+              icon={Svg.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Atoms.Buttons.Button>
+            </Buttons.Button>
             <div className="clearfix" />
-          </LibraryComponents.Atoms.List>
+          </List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <InterfaceManagerList
@@ -518,7 +520,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
             }}
           />
         </div>  
-        <LibraryComponents.Molecules.ModalConfirm
+        <ModalConfirm
           {...modalConfirm}
           click={(type) => {
             if (type === "Delete") {
@@ -526,7 +528,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                 .deleteInterfaceManager({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeInterfaceManager.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.removeInterfaceManager.message}`,
                     })
                     setModalConfirm({ show: false })
@@ -543,7 +545,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
                 })
                 .then((res) => {
                   if (res.updateInterfaceManager.success) {
-                    LibraryComponents.Atoms.Toast.success({
+                    Toast.success({
                       message: `😊 ${res.updateInterfaceManager.message}`,
                     })
                     interfaceManagerStore.fetchEncodeCharacter()

@@ -10,8 +10,8 @@ import paginationFactory, {
 import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
    
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {Icons,Buttons,} from "@lp/library/components"
+import {Confirm} from "@lp/library/models"
 import  './style.css'
 
 import * as Config from "@lp/config"
@@ -29,7 +29,7 @@ interface TableBootstrapProps {
   isDelete?: boolean
   isEditModify?: boolean
   isSelectRow?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
@@ -73,7 +73,7 @@ export const TableBootstrap = ({
   }) => (
     <div className="btn-group items-center" role="group">
       {isSelectRow && (
-        <LibraryComponents.Atoms.Buttons.Button
+        <Buttons.Button
           style={{ height: 10, width: 200 }}
           size="small"
           type="solid"
@@ -85,13 +85,13 @@ export const TableBootstrap = ({
             }
           }}
         >
-          <LibraryComponents.Atoms.Icon.EvaIcon
+          <Icons.EvaIcon
             icon="trash-outline"
             size="large"
             color={Config.Styles.COLORS.BLACK}
           />
           Remove Selected
-        </LibraryComponents.Atoms.Buttons.Button>
+        </Buttons.Button>
       )}
       <input
         type="number"

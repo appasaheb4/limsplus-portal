@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import {lookupItems} from "@lp/library/utils"
-import * as LibraryComponents from "@lp/library/components"
+import {TableBootstrap,textFilter,Icons,Tooltip} from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectSalesTerrority,AutoCompleteFilterSingleSelectReportingTo} from "../index"
 let salesHierarchy
@@ -26,7 +26,7 @@ interface SalesTeamListProps {
 export const SalesTeamList = (props: SalesTeamListProps) => {
   return (
     <div style={{ position: "relative" }}>
-      <LibraryComponents.Organisms.TableBootstrap
+      <TableBootstrap
         id="_id"
         data={props.data}
         totalSize={props.totalSize}
@@ -43,7 +43,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 salesHierarchy = filter
               }
@@ -86,7 +86,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 salesTerritory = filter
               }
@@ -117,7 +117,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 empCode = filter
               }
@@ -130,7 +130,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 empName = filter
               }
@@ -143,7 +143,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 reportingTo = filter
               }
@@ -171,7 +171,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             csvFormatter: col => (col ? col : ""),
-            filter: LibraryComponents.Organisms.Utils.textFilter({
+            filter: textFilter({
               getFilter: (filter) =>{
                 environment = filter
               }
@@ -218,11 +218,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip
+                  <Tooltip
                     tooltipText="Delete"
                     position="top"
                   >
-                    <LibraryComponents.Atoms.Icons.IconContext
+                    <Icons.IconContext
                       color="#fff"
                       size="20"
                       onClick={() =>
@@ -236,11 +236,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                         })
                       }
                     >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      {Icons.getIconTag(
+                        Icons.IconBs.BsFillTrashFill
                       )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
+                    </Icons.IconContext>
+                  </Tooltip>
                 </div>
               </>
             ),
