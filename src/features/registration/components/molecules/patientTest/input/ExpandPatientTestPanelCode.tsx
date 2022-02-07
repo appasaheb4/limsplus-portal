@@ -17,7 +17,7 @@ import "@lp/library/components/Organisms/style.css"
 import {Buttons,Icons,Form} from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-import * as Config from "@lp/config"
+import {Styles} from "@lp/config"
 import { ExpandPatientTestTestCode } from "./ExpandPatientTestTestCode"
 
 const { SearchBar, ClearSearchButton } = Search
@@ -95,7 +95,7 @@ export const ExpandPatientTestPanelCode = ({
           <Icons.EvaIcon
             icon="trash-outline"
             size="large"
-            color={Config.Styles.COLORS.BLACK}
+            color={Styles.COLORS.BLACK}
           />
           Remove Selected
         </Buttons.Button>

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import {getDefaultLookupItem,uuidv4} from "@lp/library/utils"
 
 export const PatientVisitHoc = (Component: React.FC<any>) => {
   return observer(
@@ -15,10 +15,10 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         environmentStore,
         appStore,
       } = useStores()  
-      let labId: any = parseFloat(LibraryUtils.uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4))
+      let labId: any = parseFloat(uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4))
       useMemo(() => {
         labId = parseFloat(
-          LibraryUtils.uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4)
+          uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4)
         )
       }, [appStore.environmentValues?.LABID_AUTO_GENERATE])
       useEffect(() => {
@@ -34,15 +34,15 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         patientVisitStore.updatePatientVisit({
           ...patientVisitStore.patientVisit,
           rLab: loginStore.login.lab,
-          deliveryType: LibraryUtils.getDefaultLookupItem(
+          deliveryType: getDefaultLookupItem(
             routerStore.lookupItems,
             "PATIENT VISIT - DELIVERY_TYPE"
           ),
-          ageUnits: LibraryUtils.getDefaultLookupItem(
+          ageUnits: getDefaultLookupItem(
             routerStore.lookupItems,
             "PATIENT VISIT - AGE_UNITS"
           ),
-          status: LibraryUtils.getDefaultLookupItem(
+          status: getDefaultLookupItem(
             routerStore.lookupItems,
             "PATIENT VISIT - STATUS"
           ),
@@ -54,41 +54,41 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           extraData: {
             ...patientVisitStore.patientVisit.extraData,
             enteredBy: loginStore.login.userId,
-            accountType: LibraryUtils.getDefaultLookupItem(
+            accountType: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - ACCOUNT_TYPE"
             ),
-            deliveryMethod: LibraryUtils.getDefaultLookupItem(
+            deliveryMethod: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - DELIVERY_METHOD"
             ),
-            environment: LibraryUtils.getDefaultLookupItem(
+            environment: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - ENVIRONMENT"
             ),
-            methodCollection: LibraryUtils.getDefaultLookupItem(
+            methodCollection: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - METHOD_COLLECTION"
             ),
-            approvalStatus: LibraryUtils.getDefaultLookupItem(
+            approvalStatus: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - APPROVAL_STATUS"
             ),
-            reportStatus: LibraryUtils.getDefaultLookupItem(
+            reportStatus: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - REPORT_STATUS"
             ),
             loginInterface:
               loginStore.login.systemInfo?.device !== "Desktop" ? "M" : "D",
-            registrationInterface: LibraryUtils.getDefaultLookupItem(
+            registrationInterface: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - REGISTRATION_INTERFACE"
             ),
-            billingMethod: LibraryUtils.getDefaultLookupItem(
+            billingMethod: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - BILLING_METHOD"
             ),
-            archieve: LibraryUtils.getDefaultLookupItem(
+            archieve: getDefaultLookupItem(
               routerStore.lookupItems,
               "PATIENT VISIT - ARCHIVED"
             ),

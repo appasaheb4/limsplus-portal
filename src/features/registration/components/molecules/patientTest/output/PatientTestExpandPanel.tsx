@@ -15,7 +15,7 @@ import dayjs from "dayjs"
 import "@lp/library/components/Organisms/style.css"
 
 import { Buttons,Icons} from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {Confirm} from "@lp/library/models"
 
 // import * as Config from "@lp/config"
 import { PatientTestExpandByTestId } from "./PatientTestExpandByTestId"
@@ -35,7 +35,7 @@ interface PatientTestExpandPanelProps {
   isDelete?: boolean
   isEditModify?: boolean
   isSelectRow?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
