@@ -39,6 +39,8 @@ export class MasterAnalyte {
   resultType: string
   analyteType: string
   status: string
+  minReportable: number
+  maxReportable: number
   environment: string
   dateOfEntry: Date
   lastUpdated: Date  
@@ -83,7 +85,9 @@ export class MasterAnalyte {
     this.cptCode = rawData.cptCode 
     this.resultType = rawData.resultType 
     this.analyteType = rawData.analyteType 
-    this.status = rawData.status 
+    this.status = rawData.status   
+    this.minReportable = rawData.minReportable
+    this.maxReportable = rawData.maxReportable
     this.environment = rawData.environment 
     this.dateOfEntry = rawData.dateOfEntry 
     this.lastUpdated = rawData.lastUpdated 

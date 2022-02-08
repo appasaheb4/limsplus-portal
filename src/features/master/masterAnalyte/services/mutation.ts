@@ -49,6 +49,8 @@ export const LIST = gql`
         resultType
         analyteType
         status
+        minReportable
+        maxReportable
         environment
         dateOfEntry
         lastUpdated
@@ -160,6 +162,8 @@ export const FILTER = gql`
         resultType
         analyteType
         status
+        minReportable
+        maxReportable
         environment
         dateOfEntry
         lastUpdated
@@ -218,6 +222,8 @@ export const FILTER_BY_FIELDS = gql`
         resultType
         analyteType
         status
+        minReportable
+        maxReportable
         environment
         dateOfEntry
         lastUpdated

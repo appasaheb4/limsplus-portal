@@ -42,8 +42,10 @@ let enteredBy
 let dateCreation
 let dateActive
 let dateExpire
+let minReportable
+let maxReportable
 let version
-
+ 
 interface MasterAnalyteProps {
   data: any
   totalSize: number
@@ -1045,16 +1047,41 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              // filter: numberFilter({
-              //   numberStyle: { marginLeft: "2px" },
-              //   style: { display: "inline" },
-              //   defaultValue: {
-              //     comparator: Comparator.EQ,
-              //   },
-              // }),
               filter: customFilter({
                 getFilter: (filter) => {
                   version = filter
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+            },
+            {
+              dataField: "minReportable",
+              editable: false,
+              text: "Min Reportable",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: customFilter({
+                getFilter: (filter) => {
+                  minReportable = filter
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+            },
+            {
+              dataField: "maxReportable",
+              editable: false,
+              text: "Max Reportable",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: customFilter({
+                getFilter: (filter) => {
+                  maxReportable = filter
                 },
               }),
               filterRenderer: (onFilter, column) => (
@@ -1206,6 +1233,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             dateActive()
             dateExpire()
             version("")
+            minReportable("")
+            maxReportable("")
             price("")
           }}
         />

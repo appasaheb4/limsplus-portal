@@ -293,6 +293,7 @@ export const RefRangesInputTable = observer(
                             analyteCode: item.analyteCode,
                             analyteName: item.analyteName,
                             analyteDepartments: item.departments,
+                            lab: item.lab
                           },
                           row.rangeId
                         )
@@ -515,8 +516,9 @@ export const RefRangesInputTable = observer(
               text: "Lab",
               csvExport: false,
               headerClasses: "textHeader4",
-              editable: (content, row, rowIndex, columnIndex) =>
-                row?.rangeSetOn === "I" ? false : true,
+              // editable: (content, row, rowIndex, columnIndex) =>
+              //   row?.rangeSetOn === "I" ? false : true,
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,
