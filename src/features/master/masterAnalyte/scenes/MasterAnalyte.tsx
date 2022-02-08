@@ -210,7 +210,7 @@ const MasterAnalyte = MasterAnalyteHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -1187,6 +1187,50 @@ const MasterAnalyte = MasterAnalyteHoc(
                     />
                   )}
                   name="version"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                 <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Min Reportable"
+                      placeholder= "Min reportable" 
+                      type="number"
+                      hasError={errors.minReportable}
+                      value={masterAnalyteStore.masterAnalyte?.minReportable}
+                     onChange={(minReportable)=>{
+                       onChange(minReportable)
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
+                        minReportable,
+                      })
+                     }}
+                    />
+                  )}
+                  name="minReportable"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Max Reportable"
+                      placeholder= "Max reportable" 
+                      type="number"
+                      hasError={errors.maxReportable}
+                      value={masterAnalyteStore.masterAnalyte?.maxReportable}
+                     onChange={(maxReportable)=>{
+                       onChange(maxReportable)
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
+                        maxReportable,
+                      })
+                     }}
+                    />
+                  )}
+                  name="maxReportable"
                   rules={{ required: false }}
                   defaultValue=""
                 />

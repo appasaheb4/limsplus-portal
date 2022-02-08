@@ -141,10 +141,6 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
     setOpenRoutes(initOpenRoutes(location))
   }, [stores.routerStore.userRouter])
 
-
-  console.log({userRouter: stores.routerStore.userRouter });
-  
-
   const toggle = (index) => {
     Object.keys(openRoutes).forEach(
       (item) =>

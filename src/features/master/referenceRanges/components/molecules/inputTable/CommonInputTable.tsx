@@ -73,7 +73,6 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
             <th className="text-white">Sex</th>
             <th className="text-white">Range_Set_On</th>
             <th className="text-white">Equipment_Type</th>
-            <th className="text-white">Lab</th>
           </tr>
         </thead>
         <tbody className="text-xs">
@@ -104,13 +103,13 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                     }}
                     onSelect={(item) => {
                       console.log({item});
-                      
                       onChange(item.analyteCode)
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
                         analyteCode: item.analyteCode,
                         analyteName: item.analyteName,
-                        analyteDepartments: item.departments
+                        analyteDepartments: item.departments,
+                        lab:item.lab
                       })
                       masterAnalyteStore.updateMasterAnalyteList(
                         masterAnalyteStore.listMasterAnalyteCopy
@@ -309,47 +308,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                 defaultValue=""
               />
             </td>
-            <td>
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                    loader={loading}
-                    hasError={errors.lab}
-                    placeholder="Search by code or name"
-                    disable={refernceRangesStore.referenceRanges?.rangeSetOn === 'I' ? true : false}
-                    data={{
-                      list: labStore.listLabs,
-                      displayKey: ["code", "name"],
-                    }}
-                    displayValue={refernceRangesStore.referenceRanges?.lab}
-                    onFilter={(value: string) => {
-                      labStore.LabService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ["code", "name"],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      })
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.code)
-                      refernceRangesStore.updateReferenceRanges({
-                        ...refernceRangesStore.referenceRanges,
-                        lab: item.code,
-                      })
-                      labStore.updateLabList(labStore.listLabsCopy)
-                    }}
-                  />
-                )}
-                name="lab"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-            </td>
+           
           </tr>
         </tbody>
       </Table>
