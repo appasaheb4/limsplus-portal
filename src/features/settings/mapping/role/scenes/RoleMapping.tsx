@@ -1,8 +1,18 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Svg,Toast,ModalConfirm} from "@lp/library/components"
-import {RoleMappingList} from "../components"
+import {
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  Form,
+  List,
+  Svg,
+  Toast,
+  ModalConfirm,
+} from "@lp/library/components"
+import { RoleMappingList } from "../components"
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
@@ -82,9 +92,7 @@ const RoleMapping = observer(() => {
   return (
     <>
       <Header>
-        <PageHeading
-          title={routerStore.selectedComponents?.title || ""}
-        />
+        <PageHeading title={routerStore.selectedComponents?.title || ""} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
@@ -402,7 +410,6 @@ const RoleMapping = observer(() => {
                           const isRouter = router.find(
                             (routerItem) => routerItem.name === item.name
                           )
-                          console.log({ isRouter })
                           if (isRouter) {
                             router = router.filter(function (obj) {
                               return obj.name !== item.name
@@ -418,7 +425,8 @@ const RoleMapping = observer(() => {
                                     JSON.stringify(item)
                                 )
                               )
-                                filtered.push(item)
+                              //item.icon = item.icon.replace('LibraryComponents.Atoms.', '');
+                              filtered.push(item)
                               return filtered
                             }, [])
                             router.push({
