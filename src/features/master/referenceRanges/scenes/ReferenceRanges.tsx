@@ -2,9 +2,16 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,List
-  ,Svg,ModalConfirm} 
-  from "@lp/library/components"
+import {
+  Toast,
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  List,
+  Svg,
+  ModalConfirm,
+} from "@lp/library/components"
 import {
   CommonInputTable,
   ReferenceRangesList,
@@ -15,7 +22,7 @@ import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
-
+  
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {
     const {
@@ -26,36 +33,46 @@ const ReferenceRanges = ReferenceRangesHoc(
       departmentStore,
       refernceRangesStore,
       routerStore,
-    } = useStores()   
-      
+    } = useStores()
+
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
     const onSubmitReferenceRanges = () => {
       if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
-        refernceRangesStore.referenceRangesService
-          .addReferenceRanges({
-            input: {
-              filter: {
-                refRangesInputList: _.filter(
-                  refernceRangesStore.referenceRanges?.refRangesInputList,
-                  (a) => {
-                    a._id = undefined
-                    return a
-                  }
-                ),
+        if (!refernceRangesStore.checkExitsRecord) {
+          refernceRangesStore.referenceRangesService
+            .addReferenceRanges({
+              input: {
+                filter: {
+                  refRangesInputList: _.filter(
+                    refernceRangesStore.referenceRanges?.refRangesInputList,
+                    (a) => {
+                      a._id = undefined
+                      return a
+                    }
+                  ),
+                },
               },
-            },
+            })
+            .then((res) => {
+              if (res.createReferenceRange.success) {
+                Toast.success({
+                  message: `😊 ${res.createReferenceRange.message}`,
+                })
+                setTimeout(() => {
+                  window.location.reload()
+                }, 2000)
+              } else {
+                Toast.error({
+                  message: `😔 ${res.createReferenceRange.message}`,
+                })
+              }
+            })
+        } else {
+          Toast.warning({
+            message: `😔 Duplicate record found!`,
           })
-          .then((res) => {
-            if (res.createReferenceRange.success) {
-              Toast.success({
-                message: `😊 ${res.createReferenceRange.message}`,
-              })
-            }
-          })
-        setTimeout(() => {
-          window.location.reload()
-        }, 2000)
+        }
       } else {
         Toast.warning({
           message: `😔 Records not found.`,
@@ -161,13 +178,12 @@ const ReferenceRanges = ReferenceRangesHoc(
                 })
               }}
               onUpdateItems={(items, rangeId) => {
-                
                 const index = _.findIndex(
                   refernceRangesStore.referenceRanges?.refRangesInputList,
                   { rangeId }
                 )
-                console.log({index});
-                
+                console.log({ index })
+
                 const refRangesInputList =
                   refernceRangesStore.referenceRanges?.refRangesInputList
                 refRangesInputList[index] = {
@@ -192,9 +208,7 @@ const ReferenceRanges = ReferenceRangesHoc(
     return (
       <>
         <Header>
-          <PageHeading
-            title={routerStore.selectedComponents?.title || ""}
-          />
+          <PageHeading title={routerStore.selectedComponents?.title || ""} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
         {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
@@ -294,7 +308,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   existsRecordId: modalConfirm.data._id,
                   version: parseInt(modalConfirm.data.version),
                   type: "duplicate",
-                })  
+                })
                 refernceRangesStore.updateReferenceRanges({
                   ...refernceRangesStore.referenceRanges,
                   refRangesInputList,

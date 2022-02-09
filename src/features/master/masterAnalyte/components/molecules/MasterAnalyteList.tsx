@@ -617,11 +617,14 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerClasses: "textHeader1",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
+              filter: customFilter({
                 getFilter: (filter) => {
                   picture = filter
                 },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -633,15 +636,15 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const picture = e.target.value as "0" | "1" | "4" | "3"
+                      const picture = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem(picture, column.dataField, row._id)
+                        props.onUpdateItem( parseInt(picture), column.dataField, row._id)
                     }}
                   >
                     <option selected>Select</option>
-                    {["0", "1", "4", "3"].map((item: any, index: number) => (
+                    {["0", "1","2", "3" ,"4"].map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
                       </option>

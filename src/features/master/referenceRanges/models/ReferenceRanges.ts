@@ -14,8 +14,9 @@ class CommonInput {
   ageFrom?: number
   ageTo?: number
   ageUnit?: string
-  low?: number
-  high?: number
+  picture?: string
+  low?: string
+  high?: string
   alpha?: string
   deltaType?: string
   deltaInterval?: string
@@ -46,7 +47,8 @@ class CommonInput {
     this.sex = rawData.sex
     this.ageFrom = rawData.ageFrom
     this.ageTo = rawData.ageTo
-    this.ageUnit = rawData.ageUnit
+    this.ageUnit = rawData.ageUnit 
+    this.picture = rawData.picture
     this.low = rawData.low
     this.high = rawData.high
     this.alpha = rawData.alpha
