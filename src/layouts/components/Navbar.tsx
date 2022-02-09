@@ -9,8 +9,15 @@ import { useHistory } from "react-router-dom"
 import { stores, useStores } from "@lp/stores"
 
 import * as Assets from "@lp/library/assets"
-import {Buttons,Tooltip,Icons,Toast,ModalChangePassword,ModalSessionAllowed} from "@lp/library/components"
-import {ModalAccount} from "../components"
+import {
+  Buttons,
+  Tooltip,
+  Icons,
+  Toast,
+  ModalChangePassword,
+  ModalSessionAllowed,
+} from "@lp/library/components"
+import { ModalAccount } from "../components"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -26,7 +33,7 @@ import {
 } from "reactstrap"
 
 const NavbarComponent = observer(({ dispatch }) => {
-  const [userId, serUserId] = useState<string>('')
+  const [userId, serUserId] = useState<string>("")
   const { appStore, userStore, loginStore } = useStores()
   const history = useHistory()
   const [modalAccount, setModalAccount] = useState<any>()
@@ -36,8 +43,7 @@ const NavbarComponent = observer(({ dispatch }) => {
   useEffect(() => {
     setTimeout(() => {
       serUserId(loginStore.login.userId)
-    }, 100);
-   
+    }, 100)
   }, [loginStore.login])
   return (
     <>
@@ -47,9 +53,9 @@ const NavbarComponent = observer(({ dispatch }) => {
         }}
         light
         expand
-        className="flex flex-row"
+        className="flex flex-row w-full pr-5"
       >
-        <div className="flex  w-10">
+        <div className="flex w-8">  
           <span
             className="sidebar-toggle d-flex mr-2"
             onClick={() => {
@@ -59,9 +65,11 @@ const NavbarComponent = observer(({ dispatch }) => {
             <i className="hamburger align-self-center" />
           </span>
         </div>
-        <div className="flex flex-2 overflow-auto">
+        <div className="flex flex-2 overflow-y-auto scrollbar-hide">
+          {/* overflow-auto */}
           <Form inline>
-            <div className="flex flex-row overflow-auto">
+            <div className="flex flex-row">
+            <div className="ml-1 m-0.5">
               <Buttons.Button
                 size="medium"
                 type="outline"
@@ -71,12 +79,11 @@ const NavbarComponent = observer(({ dispatch }) => {
               >
                 <Tooltip tooltipText="Dashboard">
                   <Icons.IconContext color="#000" size="22">
-                    {Icons.getIconTag(
-                      Icons.IconRi.RiDashboardFill
-                    )}
+                    {Icons.getIconTag(Icons.IconRi.RiDashboardFill)}
                   </Icons.IconContext>
                 </Tooltip>
               </Buttons.Button>
+              </div>
               {loginStore.login?.shortcutMenu &&
                 loginStore.login?.shortcutMenu[loginStore.login.role || ""] &&
                 loginStore.login?.shortcutMenu[loginStore.login.role || ""].map(
@@ -96,13 +103,9 @@ const NavbarComponent = observer(({ dispatch }) => {
                           }}
                         >
                           <Tooltip tooltipText={item.title}>
-                            <Icons.IconContext
-                              color="#000"
-                              size="22"
-                            >
+                            <Icons.IconContext color="#000" size="22">
                               {Icons.getIconTag(
-                                Icons.getIcons(item.icon) ||
-                                  Icons.IconBs.BsList
+                                Icons.getIcons(item.icon) || Icons.IconBs.BsList
                               )}
                             </Icons.IconContext>
                           </Tooltip>

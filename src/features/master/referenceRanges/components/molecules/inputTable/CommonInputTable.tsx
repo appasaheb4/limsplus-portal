@@ -47,6 +47,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
       rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
       equipmentType: refernceRangesStore.referenceRanges?.equipmentType,
       lab: refernceRangesStore.referenceRanges?.lab,
+      picture: refernceRangesStore.referenceRanges?.picture,
       version: 1,
       dateCreation: new Date(),
       dateActive: new Date(),
@@ -102,14 +103,15 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                       })
                     }}
                     onSelect={(item) => {
-                      console.log({item});
+                      //console.log({item});
                       onChange(item.analyteCode)
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
                         analyteCode: item.analyteCode,
                         analyteName: item.analyteName,
                         analyteDepartments: item.departments,
-                        lab:item.lab
+                        lab:item.lab,
+                        picture: item.picture
                       })
                       masterAnalyteStore.updateMasterAnalyteList(
                         masterAnalyteStore.listMasterAnalyteCopy

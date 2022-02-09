@@ -1,4 +1,5 @@
 /* eslint-disable */
+const plugin = require('tailwindcss/plugin')
 module.exports = {
   purge: false,
   darkMode: "media", // or 'media' or 'class'
@@ -26,5 +27,23 @@ module.exports = {
   corePlugins: {
     tableLayout: false,
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.scrollbar-hide': {
+          /* IE and Edge */
+          '-ms-overflow-style': 'none',
+
+          /* Firefox */
+          'scrollbar-width': 'none',
+
+          /* Safari and Chrome */
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          }
+        }
+      }
+      )
+    })
+  ],
 };

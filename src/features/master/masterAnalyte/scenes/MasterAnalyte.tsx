@@ -15,7 +15,7 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   Svg,
-  ModalConfirm
+  ModalConfirm,
 } from "@lp/library/components"
 import { lookupItems } from "@lp/library/utils"
 import { MasterAnalyteList } from "../components"
@@ -826,20 +826,22 @@ const MasterAnalyte = MasterAnalyteHoc(
                           errors.picture ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
-                          const picture = e.target.value as "0" | "1" | "2" | "3"
+                          const picture = e.target.value
                           onChange(picture)
                           masterAnalyteStore.updateMasterAnalyte({
                             ...masterAnalyteStore.masterAnalyte,
-                            picture,
+                            picture: parseInt(picture),
                           })
                         }}
                       >
                         <option selected>Select</option>
-                        {["0", "1", "2", "3"].map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
-                        ))}
+                        {["0", "1", "2", "3", "4"].map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {item}
+                            </option>
+                          )
+                        )}
                       </select>
                     </Form.InputWrapper>
                   )}
@@ -1190,22 +1192,22 @@ const MasterAnalyte = MasterAnalyteHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                 <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
                       label="Min Reportable"
-                      placeholder= "Min reportable" 
+                      placeholder="Min reportable"
                       type="number"
                       hasError={errors.minReportable}
                       value={masterAnalyteStore.masterAnalyte?.minReportable}
-                     onChange={(minReportable)=>{
-                       onChange(minReportable)
-                      masterAnalyteStore.updateMasterAnalyte({
-                        ...masterAnalyteStore.masterAnalyte,
-                        minReportable,
-                      })
-                     }}
+                      onChange={(minReportable) => {
+                        onChange(minReportable)
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          minReportable,
+                        })
+                      }}
                     />
                   )}
                   name="minReportable"
@@ -1217,17 +1219,17 @@ const MasterAnalyte = MasterAnalyteHoc(
                   render={({ field: { onChange } }) => (
                     <Form.Input
                       label="Max Reportable"
-                      placeholder= "Max reportable" 
+                      placeholder="Max reportable"
                       type="number"
                       hasError={errors.maxReportable}
                       value={masterAnalyteStore.masterAnalyte?.maxReportable}
-                     onChange={(maxReportable)=>{
-                       onChange(maxReportable)
-                      masterAnalyteStore.updateMasterAnalyte({
-                        ...masterAnalyteStore.masterAnalyte,
-                        maxReportable,
-                      })
-                     }}
+                      onChange={(maxReportable) => {
+                        onChange(maxReportable)
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          maxReportable,
+                        })
+                      }}
                     />
                   )}
                   name="maxReportable"
