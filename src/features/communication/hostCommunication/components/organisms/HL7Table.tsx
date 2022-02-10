@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Table } from "reactstrap"
-import {List,Buttons} from "@lp/library/components"
+import {List,Buttons} from "@/library/components"
 
 interface HL7TableProps {
   data?: any

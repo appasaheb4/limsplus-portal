@@ -16,14 +16,14 @@ import {
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   Svg,
   ModalConfirm,
-} from "@lp/library/components"
-import { lookupItems } from "@lp/library/utils"
+} from "@/library/components"
+import { lookupItems } from "@/library/utils"
 import { MasterAnalyteList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { MasterAnalyteHoc } from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 const MasterAnalyte = MasterAnalyteHoc(

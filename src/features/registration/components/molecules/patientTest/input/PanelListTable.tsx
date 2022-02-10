@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-// import * as LibraryComponents from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+// import * as LibraryComponents from "@/library/components"
+import {Confirm} from "@/library/models"
 import { ExpandPatientTestPanelCode } from "./ExpandPatientTestPanelCode"
   
-// import { NumberFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter } from "@/library/components/Organisms"
 
 interface PanelListTableProps {
   data: any

@@ -2,8 +2,8 @@
 import React, { useCallback, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import { useStores } from "@lp/stores"
-import {getDefaultLookupItem,uuidv4} from "@lp/library/utils"
+import { useStores } from "@/stores"
+import {getDefaultLookupItem,uuidv4} from "@/library/utils"
 
 export const PatientVisitHoc = (Component: React.FC<any>) => {
   return observer(

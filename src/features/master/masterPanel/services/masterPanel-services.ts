@@ -5,9 +5,9 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { SectionService } from "@lp/features/master/section/services"
-import { stores } from "@lp/stores"
+import { client, ServiceResponse } from "@/library/modules/apolloClient"
+import { SectionService } from "@/features/master/section/services"
+import { stores } from "@/stores"
 import {  
   LIST,
   CREATE_RECORD,

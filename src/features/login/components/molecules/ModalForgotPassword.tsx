@@ -1,12 +1,12 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
 import { observer } from "mobx-react"
-import * as Assets from "@lp/library/assets"
+import * as Assets from "@/library/assets"
 import { useForm, Controller } from "react-hook-form"
-import { FormHelper } from "@lp/helper"
+import { FormHelper } from "@/helper"
 
-import {Form,List} from "@lp/library/components"
-import { useStores } from "@lp/stores"
+import {Form,List} from "@/library/components"
+import { useStores } from "@/stores"
 
 interface ModalForgotPasswordProps {
   show?: boolean

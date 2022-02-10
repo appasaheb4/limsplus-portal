@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
-import {Form} from "@lp/library/components"
+import {Form} from "../.."
 
 interface ModalProps {
   show?: boolean

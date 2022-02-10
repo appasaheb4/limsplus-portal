@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import {Buttons, Icons,Form,Tooltip,textFilter,ModalConfirm,Toast} from "@lp/library/components"
+import {Buttons, Icons,Form,Tooltip,textFilter,ModalConfirm,Toast} from "@/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
@@ -10,13 +10,13 @@ import filterFactory from "react-bootstrap-table2-filter"
 import moment from "moment"
 import {options as EquipmentModel,} from "../../models"
 import { SegmentMapping } from "../models"
-import * as Config from "@lp/config"
-// import * as Assets from "@lp/features/assets"
+import * as Config from "@/config"
+// import * as Assets from "@/features/assets"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 interface SegmentListProps {
   duplicate: (item: SegmentMapping) => void

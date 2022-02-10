@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems,lookupValue} from "@lp/library/utils"
-import {textFilter,TableBootstrap,Form,Tooltip,Icons} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems,lookupValue} from "@/library/utils"
+import {textFilter,TableBootstrap,Form,Tooltip,Icons} from "@/library/components"
+import {Confirm} from "@/library/models"
 let schCode
 let pStartTime
 let pEndTime

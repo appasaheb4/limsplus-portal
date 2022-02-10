@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import {Toast,List,Form} from "@lp/library/components"
-import { FormHelper } from "@lp/helper"
+import {Toast,List,Form} from "../.."
+import { FormHelper } from "@/helper"
 import { Container } from "reactstrap"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 interface ModalProps {
   show: boolean

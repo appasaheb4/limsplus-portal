@@ -3,14 +3,14 @@ import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
-  from "@lp/library/components"
+  from "@/library/components"
 import {RegistrationLocationsList} from "../components"
-import {lookupItems} from "@lp/library/utils"
+import {lookupItems} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectCorparateCode} from "../components"
 import {RegistrationLocationHoc} from "../hoc"
-import { useStores } from "@lp/stores"
-import { RouterFlow } from "@lp/flows"
+import { useStores } from "@/stores"
+import { RouterFlow } from "@/flows"
 
 const RegistrationLocation = RegistrationLocationHoc(observer(() => {
   const {

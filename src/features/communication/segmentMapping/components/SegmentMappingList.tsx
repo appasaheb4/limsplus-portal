@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import {TableBootstrap,textFilter,Form,Tooltip,Icons,ModalConfirm,Toast} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {TableBootstrap,textFilter,Form,Tooltip,Icons,ModalConfirm,Toast} from "@/library/components"
+import {Confirm} from "@/library/models"
 import * as Models from "../../models"
 import { SegmentMapping } from "../models"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 let dataFlowFrom
 let data_type

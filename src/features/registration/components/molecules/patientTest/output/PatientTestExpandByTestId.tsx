@@ -12,10 +12,10 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
-import "@lp/library/components/Organisms/style.css"
+import "@/library/components/Organisms/style.css"
 import {PatientTestExpandExtraData} from './PatientTestExpandExtraData'
 
-import {Form} from "@lp/library/components"
+import {Form} from "@/library/components"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 

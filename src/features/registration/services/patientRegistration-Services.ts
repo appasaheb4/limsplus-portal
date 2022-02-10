@@ -5,7 +5,7 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+import { http } from "@/library/modules/http"
 
 export class PatientRegistrationService  {
   sessionManagementList = () =>

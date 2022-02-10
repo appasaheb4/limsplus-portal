@@ -3,20 +3,20 @@ import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm} 
-  from "@lp/library/components"
+  from "@/library/components"
 import { SalesTeamList } from "../components"
-import {lookupItems} from "@lp/library/utils"
+import {lookupItems} from "@/library/utils"
 
 import * as Utils from "../util"
 import {SalesTeamHoc} from "../hoc"
 import { useForm, Controller } from "react-hook-form"
-import {  useStores } from "@lp/stores"
+import {  useStores } from "@/stores"
 import {AutoCompleteFilterSingleSelectSalesTerrority
   ,AutoCompleteFilterSingleSelectEmpolyeCode,
   AutoCompleteFilterSingleSelectReportingTo
 } 
 from "../components"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 export const SalesTeam = SalesTeamHoc(observer(() => {
   const {

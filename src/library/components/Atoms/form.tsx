@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import {List,ModalClock} from "@lp/library/components"
-import {dayjs} from "@lp/library/utils"
+import {List,ModalClock} from ".."
+import dayjs from "dayjs"
 import "./css/toggle.css"
 import classNames from "classnames"
 import DateTimePicker from "react-datetime-picker"

@@ -11,17 +11,17 @@ import {
   Icons,  
   ModalChangePassword,
   ModalSessionAllowed,
-} from "@lp/library/components"
+} from "@/library/components"
 import { ModalForgotPassword, ModalNoticeBoard } from "../components"
 import { Col, Container, Row } from "reactstrap"
-import { logo } from "@lp/library/assets"
+import { logo } from "@/library/assets"
 import { Carousel } from "react-bootstrap"
 import dayjs from "dayjs"
 import { useForm, Controller } from "react-hook-form"
-import { FormHelper } from "@lp/helper"
+import { FormHelper } from "@/helper"
 
 import { useHistory } from "react-router-dom"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 export const Login = observer(() => {
   const {

@@ -4,9 +4,9 @@
  * @author limsplus
  */
 
-import { Http, http } from "@lp/library/modules/http"
-import { stores } from "@lp/stores"
-import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { Http, http } from "@/library/modules/http"
+import { stores } from "@/stores"
+import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import * as Models from "../models"
 import {
   CHECK_EXISTS_USERID,

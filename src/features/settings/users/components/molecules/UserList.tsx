@@ -2,12 +2,12 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import {lookupItems} from "@lp/library/utils"
+import {lookupItems} from "@/library/utils"
 
-import {Svg,NumberFilter,DateFilter,textFilter,TableBootstrap,Icons,Tooltip,Form,AutocompleteCheck,customFilter,Buttons,Toast} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {Svg,NumberFilter,DateFilter,textFilter,TableBootstrap,Icons,Tooltip,Form,AutocompleteCheck,customFilter,Buttons,Toast} from "@/library/components"
+import {Confirm} from "@/library/models"
 import { AutoCompleteFilterMutiSelectRoles ,AutoCompleteFilterSingleSelectDefaultLabs,AutoCompleteFilterSingleSelectDegnisation,AutoCompleteFilterMutiSelectDepartment} from "../index"
-// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
   
 import { toJS } from "mobx"
 

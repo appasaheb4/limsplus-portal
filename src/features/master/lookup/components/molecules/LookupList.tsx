@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import _ from "lodash"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,AutocompleteGroupBy,Buttons,textFilter,List,Grid,Form,Icons,Tooltip,Svg} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,AutocompleteGroupBy,Buttons,textFilter,List,Grid,Form,Icons,Tooltip,Svg} from "@/library/components"
+import {Confirm} from "@/library/models"
+import { dashboardRouter as dashboardRoutes } from "@/routes"
 let router = dashboardRoutes
 
 let documentName

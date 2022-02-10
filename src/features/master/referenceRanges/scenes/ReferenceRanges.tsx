@@ -11,16 +11,16 @@ import {
   List,
   Svg,
   ModalConfirm,
-} from "@lp/library/components"
+} from "@/library/components"
 import {
   CommonInputTable,
   ReferenceRangesList,
   RefRangesInputTable,
 } from "../components"
 import { ReferenceRangesHoc } from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
   
 const ReferenceRanges = ReferenceRangesHoc(

@@ -2,10 +2,10 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import {Header,PageHeading,PageHeadingLabDetails,TableBootstrap,DateFilter,textFilter,customFilter} 
-  from "@lp/library/components"
+  from "@/library/components"
 import dayjs from "dayjs"
-import { useStores } from "@lp/stores"
-// import { DateFilter } from "@lp/library/components/Organisms"
+import { useStores } from "@/stores"
+// import { DateFilter } from "@/library/components/Organisms"
 
 
 let userId

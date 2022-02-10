@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import {Header,PageHeading,PageHeadingLabDetails,Buttons,Icons,List,Svg,Toast} from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,Icons,List,Svg,Toast} from "@/library/components"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 const grid = 8
 const getListStyle = (isDraggingOver) => ({

@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-// import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,Icons,Tooltip,textFilter} from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+// import {lookupItems} from "@/library/utils"
+import {TableBootstrap,Icons,Tooltip,textFilter} from "@/library/components"
+import * as LibraryModels from "@/library/models"
 interface SpecialResultProps {
   data: any
   totalSize: number

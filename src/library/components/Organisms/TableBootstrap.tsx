@@ -18,10 +18,10 @@ import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
 import "./style.css"
 
-import {Buttons, Icons} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {Buttons, Icons} from ".."
+import {Confirm} from "@/library/models"
 
-import {Styles} from "@lp/config"
+import {Styles} from "@/config"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport

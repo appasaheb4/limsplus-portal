@@ -6,10 +6,10 @@ import {
   Form,
   Icons,
   Toast,
-} from "@lp/library/components"
-import { lookupItems, getDefaultLookupItem } from "@lp/library/utils"
+} from "@/library/components"
+import { lookupItems, getDefaultLookupItem } from "@/library/utils"
 import { observer } from "mobx-react"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 import _ from "lodash"
 import { TableBootstrap } from "./TableBootstrap"
 

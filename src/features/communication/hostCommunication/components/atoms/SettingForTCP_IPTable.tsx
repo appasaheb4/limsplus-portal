@@ -1,8 +1,8 @@
 import React from "react"
 import { Table } from "reactstrap"
-import {Form} from "@lp/library/components"
+import {Form} from "@/library/components"
 import { observer } from "mobx-react"
-import {useStores} from '@lp/stores';
+import {useStores} from '@/stores';
 
 export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
   const {hostCommunicationStore} =useStores()

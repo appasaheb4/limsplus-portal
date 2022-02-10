@@ -9,16 +9,16 @@ import { useHistory } from "react-router-dom"
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
 
-import {Icons,AutocompleteGroupBy} from "@lp/library/components"
+import {Icons,AutocompleteGroupBy} from "@/library/components"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
-import * as Assets from "@lp/library/assets"
+import * as Assets from "@/library/assets"
 
 
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 
 

@@ -9,9 +9,9 @@ import {
 import DashboardLayout from "../layouts/Dashboard"
 import LandingLayout from "../layouts/Landing"
 import AuthLayout from "../layouts/Auth"
-import Page404 from "@lp/features/login/scenes/Page404"
+import Page404 from "@/features/login/scenes/Page404"
 
-import ScrollToTop from "@lp/layouts/components/ScrollToTop"
+import ScrollToTop from "@/layouts/components/ScrollToTop"
 
 const childRoutes = (Layout, routes) =>
   routes.map(({ children, path, component: Component }, index) =>

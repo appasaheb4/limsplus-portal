@@ -4,9 +4,9 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import { LIST,FILTER } from "./mutation"
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 class LoginActivityService {
   listLoginActivity = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {

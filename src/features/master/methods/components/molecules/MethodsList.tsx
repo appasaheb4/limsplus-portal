@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,textFilter,Tooltip,Icons} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,textFilter,Tooltip,Icons} from "@/library/components"
+import {Confirm} from "@/library/models"
 
 let methodsCode
 let methodsName

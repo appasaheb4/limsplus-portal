@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
-//import Session from "@lp/library/modules/session"
+//import Session from "@/library/modules/session"
 import { ServiceResponse } from "./ServiceResponse"
 import _ from "lodash"
 

@@ -1,8 +1,8 @@
 import { toJS } from "mobx"
-import Storage from "@lp/library/modules/storage"
-import hydrateStore from "@lp/library/modules/startup"
+import Storage from "@/library/modules/storage"
+import hydrateStore from "@/library/modules/startup"
 /* eslint-disable */
-import { LookupService } from "@lp/features/master/lookup/services"
+import { LookupService } from "@/features/master/lookup/services"
 
 export const selectedComponents = (store, category, subCategory) => {
   if (store) {

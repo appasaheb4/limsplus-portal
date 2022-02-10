@@ -1,8 +1,8 @@
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 import { InterfaceManager } from "../interfaceManager/models"
 import { MappingValues } from "../models"
 import { SegmentMapping } from "../segmentMapping/models"
-import { decode } from "@lp/library/modules/parser/HL7"
+import { decode } from "@/library/modules/parser/HL7"
 
 class HostCommunicationFlows {
   mapping = async (interfaceManager: InterfaceManager) => {

@@ -11,18 +11,18 @@ import {
   Svg,
   Toast,
   ModalConfirm,
-} from "@lp/library/components"
+} from "@/library/components"
 import { RoleMappingList } from "../components"
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import "react-dropdown-tree-select/dist/styles.css"
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+import { dashboardRouter as dashboardRoutes } from "@/routes"
 const router = dashboardRoutes
 
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 const grid = 8

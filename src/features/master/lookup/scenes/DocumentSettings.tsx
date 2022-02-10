@@ -5,13 +5,13 @@ import { useForm, Controller } from "react-hook-form"
 
 import {Toast,Icons,AutocompleteGroupBy,Buttons,Grid,List
   ,Form,Svg} 
-  from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems} from "@/library/utils"
 
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+import { dashboardRouter as dashboardRoutes } from "@/routes"
 let router = dashboardRoutes
 import {DocumentSettingHoc}  from "../hoc"
-import {  useStores } from "@lp/stores"
+import {  useStores } from "@/stores"
 
 interface NewFieldProps {
   onModalConfirm?: (item: any) => void

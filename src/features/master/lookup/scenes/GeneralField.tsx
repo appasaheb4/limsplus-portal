@@ -4,13 +4,13 @@ import { observer } from "mobx-react"
 import { useForm, Controller } from "react-hook-form"
 import _ from "lodash"
 
-import {Toast,Grid,List,Form,AutoCompleteGroupByCheck,AutoComplete,Buttons,Icons,Svg} from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+import {Toast,Grid,List,Form,AutoCompleteGroupByCheck,AutoComplete,Buttons,Icons,Svg} from "@/library/components"
+import {lookupItems} from "@/library/utils"
 
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+import { dashboardRouter as dashboardRoutes } from "@/routes"
 let router = dashboardRoutes
 import {GeneralFieldHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 import { toJS } from "mobx"
 
 interface GeneralFieldProps {

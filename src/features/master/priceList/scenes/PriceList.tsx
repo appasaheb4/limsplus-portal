@@ -3,15 +3,15 @@ import React, {  useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
-  from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems} from "@/library/utils"
 import {PriceListList} from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectPanelCode} from "../components"
 import {PriceListHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 export const PriceList = PriceListHoc(observer(() => {

@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Grid,Svg,Toast,ModalConfirm} from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Grid,Svg,Toast,ModalConfirm} from "@/library/components"
 import {RoleList} from "../components"
-import {lookupItems} from "@lp/library/utils"
+import {lookupItems} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {RolesHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 const Role = RolesHoc(observer(() => {
   const { loginStore, roleStore, routerStore } = useStores()

@@ -3,7 +3,7 @@ import {  Card, CardBody, Media } from "reactstrap"
 import { observer } from "mobx-react"
 
 import { Activity, DollarSign, ShoppingBag, Users } from "react-feather"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 const Statistics = observer(() => {
   const { userStore } = useStores()

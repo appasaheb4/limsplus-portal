@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
-import * as Assets from "@lp/library/assets"
+import * as Assets from "@/library/assets"
 import { Frown as Sad } from "react-feather"
-import * as Config from "@lp/config"
+import * as Config from "@/config"
 
 interface ModalProps {
   show?: boolean

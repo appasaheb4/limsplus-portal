@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import { lookupItems } from "@lp/library/utils"
+import { lookupItems } from "@/library/utils"
 import {
   NumberFilter,
   DateFilter,
@@ -11,8 +11,8 @@ import {
   Form,
   Icons,
   Tooltip,
-} from "@lp/library/components"
-import { Confirm } from "@lp/library/models"
+} from "@/library/components"
+import { Confirm } from "@/library/models"
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectAnalayteMethod,

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@lp/*": ["src/*"]
+      "@/*": ["src/*"]
     },
     "experimentalDecorators": true
   },

@@ -2,9 +2,9 @@
 import React, {  useState } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import {Toast,Heading,Form,List,Buttons,Grid,AutoCompleteFilterSingleSelectMultiFieldsDisplay,AutoCompleteFilterSingleSelect,ModalConfirm,Svg} from "@lp/library/components"
-import {calculateTimimg,lookupItems,lookupValue} from "@lp/library/utils"
-import "@lp/library/assets/css/accordion.css"
+import {Toast,Heading,Form,List,Buttons,Grid,AutoCompleteFilterSingleSelectMultiFieldsDisplay,AutoCompleteFilterSingleSelect,ModalConfirm,Svg} from "@/library/components"
+import {calculateTimimg,lookupItems,lookupValue} from "@/library/utils"
+import "@/library/assets/css/accordion.css"
 import {AutoCompleteFilterSingleSelectPid,ExtraDataPatientVisitList,PatientVisitList} from "../../components"
 import { useForm, Controller } from "react-hook-form"
 import {
@@ -17,11 +17,11 @@ import {
 import "react-accessible-accordion/dist/fancy-example.css"
 
 import { PatientVisitHoc } from "../../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 import { toJS } from "mobx"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { getAgeAndAgeUnit } from "../../utils"
-import { FormHelper } from "@lp/helper"
+import { FormHelper } from "@/helper"
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void

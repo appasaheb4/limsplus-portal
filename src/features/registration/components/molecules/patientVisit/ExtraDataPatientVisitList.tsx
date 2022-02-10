@@ -2,10 +2,10 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import {DateFilter,textFilter,TableBootstrap,customFilter,Form,Icons,Tooltip} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
-import {lookupItems} from "@lp/library/utils"
-// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+import {DateFilter,textFilter,TableBootstrap,customFilter,Form,Icons,Tooltip} from "@/library/components"
+import {Confirm} from "@/library/models"
+import {lookupItems} from "@/library/utils"
+// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 let additionalInfo
 let invoiceAc
 let billingMethod

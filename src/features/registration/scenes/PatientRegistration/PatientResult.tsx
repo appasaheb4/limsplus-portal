@@ -3,9 +3,9 @@ import React from "react"
 import { observer } from "mobx-react"
 import { useForm } from "react-hook-form"
 import {PatientResultList} from "../../components"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 import { toJS } from "mobx"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 interface PatientResultProps {
   onModalConfirm?: (item: any) => void

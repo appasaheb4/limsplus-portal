@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
-import {Icons, Buttons} from "@lp/library/components"
+import {Icons, Buttons} from "../.."
 import moment from "moment"
 
 interface ModalProps {

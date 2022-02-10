@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import { Stores } from "../../stores"
-import {lookupItems} from "@lp/library/utils"
+import {lookupItems} from "@/library/utils"
 import _ from "lodash"
-import {textFilter,TableBootstrap,Form,Icons,Tooltip} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
-import { useStores } from "@lp/stores"
+import {textFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
+import {Confirm} from "@/library/models"
+import { useStores } from "@/stores"
 import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectDistrict
 ,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectPostalCode} from '../organisms'
 

@@ -8,13 +8,13 @@ import paginationFactory, {
   PaginationProvider
 } from "react-bootstrap-table2-paginator"
 import dayjs from "dayjs"
-import "@lp/library/components/Organisms/style.css"
+import "@/library/components/Organisms/style.css"
    
-import {Icons,Buttons,} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {Icons,Buttons,} from "@/library/components"
+import {Confirm} from "@/library/models"
 import  './style.css'
 
-import * as Config from "@lp/config"
+import * as Config from "@/config"
 
 
 interface TableBootstrapProps {

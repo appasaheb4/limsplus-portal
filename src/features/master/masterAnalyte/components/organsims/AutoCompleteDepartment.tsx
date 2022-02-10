@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useRef } from "react"
 import _ from 'lodash'
 import { observer } from "mobx-react"
-import { useStores } from "@lp/stores"
-import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from "@lp/library/components"
+import { useStores } from "@/stores"
+import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from "@/library/components"
 
 interface AutoCompleteDepartmentProps {
   onSelect: (item: any) => void

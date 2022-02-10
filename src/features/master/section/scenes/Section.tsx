@@ -4,16 +4,16 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm} 
-  from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
 import { SectionList } from "../components"
 import {AutoCompleteFilterSingleSelectDepartment} from "../components"
 import {SectionHoc} from "../hoc"
-import { useStores, } from "@lp/stores"
+import { useStores, } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 const Section = SectionHoc(observer(() => {
   const { loginStore, sectionStore, departmentStore,routerStore } = useStores()

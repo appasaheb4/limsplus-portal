@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import {
   LIST,
   REMOVE_RECORD,
@@ -12,7 +12,7 @@ import {
   UPDATE_RECORD,
   FILTER,
 } from "./mutation"
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 
 export class RoleMappingService {
   addRoleMapping = (variables: any) =>

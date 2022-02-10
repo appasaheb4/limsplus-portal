@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import {
   LIST,
   REMOVE_RECORD,
@@ -16,7 +16,7 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER
 } from "./mutation"
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 import * as Models from '../models'
 
 export class PriceListService {

@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import {DeliverySchedule} from "../models"
 import {DeliveryScheduleService} from "../services"
-import {moment} from "@lp/library/utils"
+import {moment} from "@/library/utils"
 
 export class DeliveryScheduleStore {
   deliverySchedule!: DeliverySchedule

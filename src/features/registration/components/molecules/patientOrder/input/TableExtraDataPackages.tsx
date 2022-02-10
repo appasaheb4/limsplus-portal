@@ -1,10 +1,10 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
-import {Form} from "@lp/library/components"
-import {getDefaultLookupItem} from "@lp/library/utils"
+import {Form} from "@/library/components"
+import {getDefaultLookupItem} from "@/library/utils"
 import { observer } from "mobx-react"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 import _ from "lodash"
 
 interface TableExtraDataPackagesProps {

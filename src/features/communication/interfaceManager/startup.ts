@@ -1,4 +1,4 @@
-import {stores} from '@lp/stores'
+import {stores} from '@/stores'
 const startup = async () => {
   stores.interfaceManagerStore.interfaceManagerService.listInterfaceManager()
 }  

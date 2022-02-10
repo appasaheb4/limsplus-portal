@@ -1,6 +1,6 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
-import {Icons} from "@lp/library/components"
+import {Icons} from ".."
 import _ from "lodash"
 
 interface AutoCompleteGroupByCheckProps {

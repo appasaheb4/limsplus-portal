@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
-import {TableBootstrap,textFilter,Tooltip,Icons,Form} from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+import {TableBootstrap,textFilter,Tooltip,Icons,Form} from "@/library/components"
+import {lookupItems} from "@/library/utils"
 
 let title
 let environment

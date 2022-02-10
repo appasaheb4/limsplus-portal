@@ -3,9 +3,9 @@ import React from "react"
 import { observer } from "mobx-react"
 import {Header,
   PageHeading,PageHeadingLabDetails}
-   from "@lp/library/components"
+   from "@/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
-import "@lp/library/assets/css/accordion.css"
+import "@/library/assets/css/accordion.css"
 
 import {
   PatientManager,
@@ -17,8 +17,8 @@ import {
   SpecialResult,
   PatientTest
 } from "../index"
-import { useStores } from "@lp/stores"
-import { stores } from "@lp/stores"
+import { useStores } from "@/stores"
+import { stores } from "@/stores"
 const PatientRegistation = observer(() => {
   const { loginStore } = useStores()
   return (
