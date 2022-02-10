@@ -20,8 +20,6 @@ export class PatientResultService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
-          console.log({response});
-          
           stores.patientResultStore.updatePatientResultList(response.data)
           resolve(response.data)
         })

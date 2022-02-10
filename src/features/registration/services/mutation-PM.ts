@@ -139,9 +139,9 @@ export const FILTER_PATIENT_MANAGER = gql`
   }
 `
 
-export const SEQUENCING_PATIENT_MANAGER_PID = gql`
-  mutation($input: SequencingInput!) {
-    sequencing(input: $input) {
+export const COUNTER_PATIENT_MANAGER_PID = gql`
+  mutation($input: CounterInput!) {
+    counter(input: $input) {
       message
       success
       data

@@ -13,7 +13,7 @@ import {
   UPDATE_PATIENT_VISIT,
   CREATE_PATIENT_VISIT,
   FILTER_PATIENT_VISIT,
-  SEQUENCING_PATIENT_VISIT_VISITID,
+  COUNTER_PATIENT_VISIT_VISITID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
   CHECK_EXISTS_RECORD,
@@ -117,21 +117,19 @@ export class PatientVisitService {
       const variables = {
         input: {
           filter: {
-            _id: "patientVisit_VisitId",
-            collectionName: "patientregistrations",
-            documentType: "patientVisit",
+            id: "patientVisit_visitId",
           },
         },
       }
       client
         .mutate({
-          mutation: SEQUENCING_PATIENT_VISIT_VISITID,
+          mutation: COUNTER_PATIENT_VISIT_VISITID,
           variables,
         })
         .then((response: any) => {
           stores.patientVisitStore.updatePatientVisit({
             ...stores.patientVisitStore.patientVisit,
-            visitId: response.data.sequencing.data[0]?.seq + 1 || 1,
+            visitId: response.data.counter.data[0]?.seq + 1 || 1,
           })
           resolve(response.data)
         })

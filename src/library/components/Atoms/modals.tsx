@@ -26,13 +26,13 @@ export const ModalConfirm = (props: ModalProps) => {
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
+                <div className="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                   <h3 className="text-3xl font-semibold">{props.title}</h3>
                 </div>
                 {/*body*/}
                 {props.body && (
                   <>
-                    <div className="relative p-6 flex-auto">
+                    <div className="relative p-2 flex-auto">
                       <p className="my-4 text-gray-600 text-lg leading-relaxed">
                         {props.body}
                       </p>
@@ -41,7 +41,17 @@ export const ModalConfirm = (props: ModalProps) => {
                 )}
 
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                <div className="flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b">
+                  <button
+                    className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                    type="button"
+                    style={{ transition: "all .15s ease" }}
+                    onClick={() => {
+                      setShowModal(false)
+                    }}
+                  >  
+                    No
+                  </button>
                   <button
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"

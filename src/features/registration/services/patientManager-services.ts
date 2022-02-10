@@ -13,7 +13,7 @@ import {
   UPDATE_PATIENT_MANAGER,
   CREATE_PATIENT_MANAGER,
   FILTER_PATIENT_MANAGER,
-  SEQUENCING_PATIENT_MANAGER_PID,
+  COUNTER_PATIENT_MANAGER_PID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_MANAGER,
 } from "./mutation-PM"
@@ -119,27 +119,25 @@ export class PatientManagerService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+ 
   sequencingPid = () =>
     new Promise<any>((resolve, reject) => {
       const variables = {
         input: {
-          filter: {
-            _id: "patientManager_PId",
-            collectionName: "patientregistrations",
-            documentType: "patientManager",
-          },
+          filter:{
+            id: 'patientManager_pId'
+          }
         },
-      }
+      }  
       client
         .mutate({
-          mutation: SEQUENCING_PATIENT_MANAGER_PID,
+          mutation: COUNTER_PATIENT_MANAGER_PID,
           variables,
         })
         .then((response: any) => {
           stores.patientManagerStore.updatePatientManager({
             ...stores.patientManagerStore.patientManger,
-            pId: response.data.sequencing.data[0]?.seq + 1 || 1,
+            pId: response.data.counter.data[0]?.seq + 1 || 1,
           })
           resolve(response.data)
         })

@@ -13,7 +13,7 @@ import {
   UPDATE_PATIENT_VISIT,
   CREATE_PATIENT_ORDER,
   FILTER_PATIENT_ORDER,
-  SEQUENCING_PATIENT_ORDER_ORDERID,
+  COUNTER_PATIENT_ORDER_ORDERID,
   CHECK_EXISTS_PATIENT_ORDER,
   FILTER_BY_FIELDS_PATIENT_ORDER,
   GET_PACKAGES_LIST,
@@ -115,21 +115,19 @@ export class PatientOrderService {
       const variables = {
         input: {
           filter: {
-            _id: "patientOrder_OrderId",
-            collectionName: "patientregistrations",
-            documentType: "patientOrder",
+            id: "patientOrder_orderId",
           },
         },
       }
       client
         .mutate({
-          mutation: SEQUENCING_PATIENT_ORDER_ORDERID,
+          mutation: COUNTER_PATIENT_ORDER_ORDERID,
           variables,
         })
         .then((response: any) => {
           stores.patientOrderStore.updatePatientOrder({
             ...stores.patientOrderStore.patientOrder,
-            orderId: response.data.sequencing.data[0]?.seq + 1 || 1,
+            orderId:  response.data.counter.data[0]?.seq + 1 || 1,
           })
           resolve(response.data)
         })
