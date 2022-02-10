@@ -97,7 +97,7 @@ export const PatientVisit = PatientVisitHoc(
         )}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputView ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "shown")
           }
         >
           <div className="p-2 rounded-lg shadow-xl">

@@ -100,7 +100,7 @@ export const PatientOrder = PatientOrderHoc(
         )}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputView ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "shown")
           }
         >
           <div className="p-2 rounded-lg shadow-xl">

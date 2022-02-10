@@ -169,9 +169,9 @@ export const FILTER_PATIENT_VISIT = gql`
   }
 `
 
-export const SEQUENCING_PATIENT_VISIT_VISITID = gql`
-  mutation($input: SequencingInput!) {
-    sequencing(input: $input) {
+export const COUNTER_PATIENT_VISIT_VISITID = gql`
+  mutation($input: CounterInput!) {
+    counter(input: $input) {
       message
       success
       data
