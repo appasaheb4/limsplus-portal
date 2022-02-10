@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 import _ from "lodash"
-import {Icons} from "@lp/library/components"
+import {Icons} from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectDistrictProps {
   state: string

@@ -2,7 +2,7 @@ import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import {MasterPanel} from "../models"
 import {MasterPanelService} from "../services"
-import * as ModelsSection from "@lp/features/master/section/models"
+import * as ModelsSection from "@/features/master/section/models"
 import dayjs from "dayjs"
 
 @version(0.1)

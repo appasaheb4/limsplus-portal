@@ -1,7 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
-import {Icons} from "@lp/library/components"
+import {Icons} from ".."
 
 interface AutoCompleteCheckMultiFilterKeysProps {
   placeholder?: string

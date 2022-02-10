@@ -2,16 +2,16 @@
 import React, {  useMemo, useState } from "react"
 import { observer } from "mobx-react"
 import {Toast,Buttons,Grid,List,AutoCompleteFilterSingleSelect,Form,AutoCompleteFilterMutiSelectMultiFieldsDisplay,Svg} 
-  from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems} from "@/library/utils"
 
 import {EnvironmentSettingsList} from "../components"
-import "@lp/library/assets/css/accordion.css"
+import "@/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 import { EnvironmentSettingsHoc } from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 interface EnvironmentSettingsProps {

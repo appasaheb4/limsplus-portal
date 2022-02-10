@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,Form,Tooltip,Icons,NumberFilter,textFilter,AutoCompleteCheckMultiFilterKeys,Buttons,customFilter} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,Form,Tooltip,Icons,NumberFilter,textFilter,AutoCompleteCheckMultiFilterKeys,Buttons,customFilter} from "@/library/components"
+import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../index"  
 
 let code

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import { useStores } from "@lp/stores"
-import * as LibraryUtils from "@lp/library/utils"
+import { useStores } from "@/stores"
+import * as LibraryUtils from "@/library/utils"
 
 export const MasterAnalyteHoc = (Component: React.FC<any>) => {
   return observer(

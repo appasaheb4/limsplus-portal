@@ -3,16 +3,16 @@ import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import {Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,ModalImportFile} 
-  from "@lp/library/components"
+  from "@/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
-import "@lp/library/assets/css/accordion.css"
+import "@/library/assets/css/accordion.css"
 
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 import {HL7Table,SettingForRS232Table,SettingForTCP_IPTable} from "../components"
 import { HostCommunicationFlows, HexToAsciiFlow } from "../../flows"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 import { io } from "socket.io-client"
 let socket

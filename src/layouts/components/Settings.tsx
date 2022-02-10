@@ -8,12 +8,12 @@ import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { SideBarColorBgImages } from "./SideBarColorBgImages"
-import {images} from '@lp/library/assets'
+import {images} from '@/library/assets'
 
 
 import { Badge, Button } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
    
 // import { createThis } from "typescript"
     

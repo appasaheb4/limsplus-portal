@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-//import { stores } from "@lp/stores"
+//import { stores } from "@/stores"
 
 export class HostCommunicationService {}
 

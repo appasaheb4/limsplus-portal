@@ -3,16 +3,16 @@ import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
-  from "@lp/library/components"
-import {lookupItems,moment} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems,moment} from "@/library/utils"
 import {PackageMasterList} from "../components"
 
 
 import { useForm, Controller } from "react-hook-form"
 import {MasterPackageHOC} from "../hoc"
-import { useStores, } from "@lp/stores"
+import { useStores, } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 const MasterPackage = MasterPackageHOC(observer(() => {

@@ -1,17 +1,17 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import {Grid,List,Form,Svg,Buttons} from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+import {Grid,List,Form,Svg,Buttons} from "@/library/components"
+import {lookupItems} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {SpecialResultList} from "../../components"
-import { Stores as MasterAnalyteStore } from "@lp/features/master/masterAnalyte/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import "@lp/library/assets/css/accordion.css"
-import { stores } from "@lp/stores"
+import { Stores as MasterAnalyteStore } from "@/features/master/masterAnalyte/stores"
+import { Stores as LoginStore } from "@/features/login/stores"
+import "@/library/assets/css/accordion.css"
+import { stores } from "@/stores"
 import { toJS } from "mobx"
 import { Stores } from "../../stores"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 interface SpecialResultProps {
     onModalConfirm?: (item: any) => void
 }

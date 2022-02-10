@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react"
-import {ToastContainer,ModalLoader} from "@lp/library/components"
+import {ToastContainer,ModalLoader} from "@/library/components"
 import { Provider } from "react-redux"   
 import ReduxToastr from "react-redux-toastr"
 import { configure } from "mobx";
@@ -11,10 +11,10 @@ import Routes from "./routes/Routes"
 // toast ui
 import "react-toastify/dist/ReactToastify.css"
 
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 
-import hydrateStore from "@lp/library/modules/startup"
-import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
+import hydrateStore from "@/library/modules/startup"
+import { ApolloProvider, client } from "@/library/modules/apolloClient"
   
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
@@ -44,7 +44,7 @@ const App = observer(() => {
 
   React.useEffect(() => {
     loader()   
-  }, [])
+  }, []) 
 
   return (
     <>

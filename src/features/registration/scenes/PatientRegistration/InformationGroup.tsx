@@ -3,17 +3,17 @@ import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import {Buttons,
   List,Grid,Svg,Form}
-   from "@lp/library/components"
-import {lookupItems,moment,lookupValue} from "@lp/library/utils"
+   from "@/library/components"
+import {lookupItems,moment,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {InformationGroupList} from "../../components"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as AdministrativeDivisionStore } from "@lp/features/master/administrativeDivisions/stores"
-import "@lp/library/assets/css/accordion.css"
-import { stores } from "@lp/stores"
+import { Stores as LoginStore } from "@/features/login/stores"
+import { Stores as AdministrativeDivisionStore } from "@/features/master/administrativeDivisions/stores"
+import "@/library/assets/css/accordion.css"
+import { stores } from "@/stores"
 import { toJS } from "mobx"
 import { Stores } from "../../stores"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 interface InformationGroupProps {
   onModalConfirm?: (item: any) => void

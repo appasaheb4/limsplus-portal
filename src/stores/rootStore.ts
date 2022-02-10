@@ -1,6 +1,6 @@
 import { makeObservable, action, observable } from "mobx"
-import Session from "@lp/library/modules/session"
-import { stores } from "@lp/stores"
+import Session from "@/library/modules/session"
+import { stores } from "@/stores"
 
 export class RootStore {
   processLoading: boolean

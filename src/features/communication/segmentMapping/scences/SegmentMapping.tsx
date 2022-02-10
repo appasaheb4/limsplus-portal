@@ -3,18 +3,18 @@ import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalImportFile, Icons} 
-  from "@lp/library/components"
-import {lookupItems,} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems,} from "@/library/utils"
 import * as Models from "../../models"
 import { SegmentMapping as ModelSegmentMapping } from "../models"
 import * as XLSX from "xlsx"
-import * as Config from "@lp/config"
+import * as Config from "@/config"
 import { SegmentMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {SegmentMappingHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 const SegmentMapping = SegmentMappingHoc(observer(() => {

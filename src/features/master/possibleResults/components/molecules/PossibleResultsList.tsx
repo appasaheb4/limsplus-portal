@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,Tooltip,Icons,Form,textFilter,List,Buttons,Grid,Svg} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,Tooltip,Icons,Form,textFilter,List,Buttons,Grid,Svg} from "@/library/components"
+import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../index"
 let analyteCode
 let analyteName

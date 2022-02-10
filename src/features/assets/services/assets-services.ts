@@ -4,7 +4,7 @@
  * @author limsplus
  */
    
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@/library/modules/http"
     
 export class AssetsService {
   uploadFile = (file: any, folder: string, name: string) =>

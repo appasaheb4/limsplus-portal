@@ -2,10 +2,10 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import {lookupItems,lookupValue} from "@lp/library/utils"
-import {TableBootstrap,NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
-import { FormHelper } from "@lp/helper"
+import {lookupItems,lookupValue} from "@/library/utils"
+import {TableBootstrap,NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons} from "@/library/components"
+import {Confirm} from "@/library/models"
+import { FormHelper } from "@/helper"
 import { useForm, Controller } from "react-hook-form"
 
 interface PatientMangerProps {

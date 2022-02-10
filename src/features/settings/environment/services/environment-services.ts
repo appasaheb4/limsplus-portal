@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { client, ServiceResponse } from "@/library/modules/apolloClient"
 //import * as Models from "../models"
 import {
   LIST,
@@ -16,7 +16,7 @@ import {
   FIND_VALUE,
   CHECK_EXISTS_RECORD,
 } from "./mutation"
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 
 export class EnvironmentService {
   listEnvironment = (filter: any, page = 0, limit = 10) =>

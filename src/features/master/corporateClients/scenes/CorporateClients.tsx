@@ -4,15 +4,15 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
-  from "@lp/library/components"
+  from "@/library/components"
 import {CorporateClient} from "../components"
-import {lookupItems} from "@lp/library/utils"
+import {lookupItems} from "@/library/utils"
 
 import { useForm, Controller } from "react-hook-form"
 import {CorporateClientsHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 const CorporateClients = CorporateClientsHoc(observer(() => {
   const { loginStore, labStore, corporateClientsStore, routerStore,loading } = useStores()

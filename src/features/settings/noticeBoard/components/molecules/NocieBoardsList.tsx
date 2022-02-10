@@ -2,9 +2,9 @@
 import React from "react"
 import { observer } from "mobx-react"
 
-import {TableBootstrap,Form,Icons,Tooltip,textFilter} from "@lp/library/components"
+import {TableBootstrap,Form,Icons,Tooltip,textFilter} from "@/library/components"
 
-import {Confirm} from "@lp/library/models"
+import {Confirm} from "@/library/models"
 
 let lab
 let header

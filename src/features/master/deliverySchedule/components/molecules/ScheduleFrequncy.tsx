@@ -4,8 +4,8 @@ import _ from "lodash"
 import classnames from "classnames"
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap"
 
-import {moment} from "@lp/library/utils"
-import {Form} from "@lp/library/components"
+import {moment} from "@/library/utils"
+import {Form} from "@/library/components"
 
 interface ScheduleFrequencyProps {
   type: string

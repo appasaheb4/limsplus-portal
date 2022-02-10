@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,textFilter,Icons,Tooltip} from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,textFilter,Icons,Tooltip} from "@/library/components"
+import * as LibraryModels from "@/library/models"
 import {AutoCompleteFilterSingleSelectSalesTerrority,AutoCompleteFilterSingleSelectReportingTo} from "../index"
 let salesHierarchy
 let salesTerritory

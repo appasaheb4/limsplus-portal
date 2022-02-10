@@ -6,9 +6,9 @@ import dayjs from "dayjs"
 
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
-import { stores, useStores } from "@lp/stores"
+import { stores, useStores } from "@/stores"
 
-import * as Assets from "@lp/library/assets"
+import * as Assets from "@/library/assets"
 import {
   Buttons,
   Tooltip,
@@ -16,10 +16,10 @@ import {
   Toast,
   ModalChangePassword,
   ModalSessionAllowed,
-} from "@lp/library/components"
+} from "@/library/components"
 import { ModalAccount } from "../components"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 import {
   Collapse,

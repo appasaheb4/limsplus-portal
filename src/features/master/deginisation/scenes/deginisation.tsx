@@ -3,14 +3,14 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm} 
-  from "@lp/library/components"
+  from "@/library/components"
 import {DeginisationList} from "../components"
-import {lookupItems} from "@lp/library/utils"
+import {lookupItems} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {DeginisationHoc} from "../hoc"
-import {  useStores } from "@lp/stores"
+import {  useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 
 const Deginisation = DeginisationHoc(observer(() => {
   const { loginStore,deginisationStore,routerStore } = useStores()

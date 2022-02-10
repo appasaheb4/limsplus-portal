@@ -2,16 +2,16 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import {Toast,Buttons,Grid,List,Form,Svg} 
-  from "@lp/library/components"
-import {lookupItems,lookupValue} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 import {EnvironmentVariableList} from "../components"
-import "@lp/library/assets/css/accordion.css"
+import "@/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 interface EnvironmentVariableProps {

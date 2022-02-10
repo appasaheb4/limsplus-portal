@@ -4,14 +4,14 @@ import { observer } from "mobx-react"
 import { Accordion, AccordionItem } from "react-sanfona"
 
 import { useForm, Controller } from "react-hook-form"
-import {Header,PageHeading,PageHeadingLabDetails,Buttons,ModalConfirm,Toast} from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,ModalConfirm,Toast} from "@/library/components"
 import {LookupList} from "../components"
 import { Container } from "reactstrap"
 
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
-import {  useStores } from "@lp/stores"
+import { dashboardRouter as dashboardRoutes } from "@/routes"
+import {  useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 let router = dashboardRoutes
 
 import { DocumentSettings } from "./DocumentSettings"

@@ -1,7 +1,7 @@
 import React, { CSSProperties } from "react"
 import { IconProps } from "./svg"
-import {Buttons,Icons} from "@lp/library/components"
-import {Styles} from "@lp/config"
+import {Buttons,Icons} from ".."
+import {Styles} from "@/config"
 
 interface ButtonProps {
   type?: "solid" | "outline"

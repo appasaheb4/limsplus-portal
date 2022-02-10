@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,textFilter,List,Tooltip,Icons,Buttons} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,textFilter,List,Tooltip,Icons,Buttons} from "@/library/components"
+import {Confirm} from "@/library/models"
 import "react-accessible-accordion/dist/fancy-example.css"
 
 let country

@@ -3,15 +3,15 @@ import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
-  from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+  from "@/library/components"
+import {lookupItems} from "@/library/utils"
 import { LibraryList } from "../components"
 
 import { useForm, Controller } from "react-hook-form"
 import {LibraryHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 import {AutoCompleteFilterSingleSelectDepartment} from "../components"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 export const Library = LibraryHoc(observer(() => {

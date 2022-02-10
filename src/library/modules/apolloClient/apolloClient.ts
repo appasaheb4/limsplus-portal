@@ -1,6 +1,6 @@
 import { ApolloProvider, ApolloClient, InMemoryCache, from } from "@apollo/client"
 import { onError } from "@apollo/client/link/error"
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 import { setContext } from "@apollo/client/link/context"
 import { createUploadLink } from "apollo-upload-client"
 

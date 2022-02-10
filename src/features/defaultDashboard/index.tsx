@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import {ModalChangePassword, Toast, ModalConfirm} from "@lp/library/components"
+import {ModalChangePassword, Toast, ModalConfirm} from "@/library/components"
 
 import BarChart from "./BarChart"
 import Feed from "./Feed"
@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom"
 
 // registration
 
-import { stores, useStores } from "@lp/stores"
+import { stores, useStores } from "@/stores"
 
 const Default = observer(() => {
   const { userStore, loginStore } = useStores()

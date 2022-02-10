@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems} from "@lp/library/utils"
-import {NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons,TableBootstrap} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons,TableBootstrap} from "@/library/components"
+import {Confirm} from "@/library/models"
 import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectCorparateCode } from "../index"
-// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let dateCreation
 let dateActive

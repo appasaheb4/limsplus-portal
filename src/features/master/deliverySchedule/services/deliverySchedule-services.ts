@@ -6,8 +6,8 @@
  */
 
 //import * as Models from "../models"
-import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { stores } from "@lp/stores"
+import { client, ServiceResponse } from "@/library/modules/apolloClient"
+import { stores } from "@/stores"
 import {
   LIST,
   CREATE_RECORD,

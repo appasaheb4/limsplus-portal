@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import {NumberFilter,Icons,Tooltip,customFilter,textFilter} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {NumberFilter,Icons,Tooltip,customFilter,textFilter} from "@/library/components"
+import {Confirm} from "@/library/models"
 import { PatientOrderExpand } from "./PatientOrderExpand"
 
-// import { NumberFilter } from "@lp/library/components/Organisms"
+// import { NumberFilter } from "@/library/components/Organisms"
 
 interface PatientOrderListProps {
   data: any

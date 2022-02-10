@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
-import {Icons} from "@lp/library/components"
-import { useStores } from "@lp/stores"
+import {Icons} from "@/library/components"
+import { useStores } from "@/stores"
 
 interface AutoCompleteProps {
   selected: any[]

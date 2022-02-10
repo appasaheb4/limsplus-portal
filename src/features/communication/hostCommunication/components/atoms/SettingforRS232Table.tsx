@@ -2,7 +2,7 @@ import React from "react"
 import { Table } from "reactstrap"
 import { observer } from "mobx-react"
 
-import {useStores} from '@lp/stores';
+import {useStores} from '@/stores';
 
 interface SettingForRS232TableProps {
   onClick?: () => void

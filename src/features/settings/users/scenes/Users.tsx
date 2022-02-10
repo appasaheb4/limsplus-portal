@@ -3,17 +3,17 @@ import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import {Header,PageHeading,PageHeadingLabDetails,Buttons,AutocompleteCheck,
   List,Grid,Svg,Toast,ModalConfirm,Form,AutoCompleteFilterSingleSelect,AutoCompleteCheckTwoTitleKeys,ModalChangePasswordByAdmin}
-   from "@lp/library/components"
-import {lookupItems} from "@lp/library/utils"
+   from "@/library/components"
+import {lookupItems} from "@/library/utils"
 import { UserList } from "../components"
 import dayjs from "dayjs"
-import { FormHelper } from "@lp/helper"
+import { FormHelper } from "@/helper"
 
 import { useForm, Controller } from "react-hook-form"
 import {UsersHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 export const Users = UsersHoc(observer(() => {

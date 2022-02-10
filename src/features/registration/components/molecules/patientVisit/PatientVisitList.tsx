@@ -2,10 +2,10 @@
 import React from "react"
 import dayjs from "dayjs"
 import { observer } from "mobx-react"
-import {lookupItems,lookupValue} from "@lp/library/utils"
-import {NumberFilter,DateFilter,customFilter,textFilter,TableBootstrap,Form,Tooltip,Icons} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"  
-// import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+import {lookupItems,lookupValue} from "@/library/utils"
+import {NumberFilter,DateFilter,customFilter,textFilter,TableBootstrap,Form,Tooltip,Icons} from "@/library/components"
+import {Confirm} from "@/library/models"  
+// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 import {AutoCompleteFilterSingleSelectCollectionCenter,AutoCompleteFilterSingleSelectCorporateCode,AutoCompleteFilterSingleSelectDoctorId, AutoCompleteFilterSingleSelectDoctorName} from "../../index"
 interface PatientVisitProps {
   data: any

@@ -12,7 +12,7 @@ import {
 import { observer } from "mobx-react"
 
 import { Calendar, Filter, RefreshCw } from "react-feather"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 const Header = observer(() => {
   const {loginStore}  = useStores()

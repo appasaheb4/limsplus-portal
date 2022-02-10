@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import {TestMaster} from "../models"
 import {TestMasterService} from "../services"
-import * as ModelsSection from "@lp/features/master/section/models"
+import * as ModelsSection from "@/features/master/section/models"
 import dayjs from 'dayjs'
 
 export class TestMasterStore {

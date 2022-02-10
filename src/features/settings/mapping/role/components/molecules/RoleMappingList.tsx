@@ -2,10 +2,10 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 
-import {TableBootstrap,Icons,Buttons,textFilter} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {TableBootstrap,Icons,Buttons,textFilter} from "@/library/components"
+import {Confirm} from "@/library/models"
 
-import { stores } from "@lp/stores"
+import { stores } from "@/stores"
 
 import { toJS } from "mobx"
 

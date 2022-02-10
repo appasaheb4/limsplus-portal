@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react"
 import daysjs from "dayjs"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,textFilter,NumberFilter,DateFilter,Form,Tooltip,Icons,customFilter} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,textFilter,NumberFilter,DateFilter,Form,Tooltip,Icons,customFilter} from "@/library/components"
+import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectPlabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod} from '../index'
 
 

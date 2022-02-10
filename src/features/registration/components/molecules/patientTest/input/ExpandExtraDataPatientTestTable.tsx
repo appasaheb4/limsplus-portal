@@ -10,12 +10,12 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
-import "@lp/library/components/Organisms/style.css"
+import "@/library/components/Organisms/style.css"
 
-import {Buttons, Icons} from "@lp/library/components"
-// import * as LibraryModels from "@lp/library/models"
+import {Buttons, Icons} from "@/library/components"
+// import * as LibraryModels from "@/library/models"
 
-import * as Config from "@lp/config"
+import * as Config from "@/config"
 import { ExpandPatientTestTestCode } from "./ExpandPatientTestTestCode"
 
 const { SearchBar, ClearSearchButton } = Search

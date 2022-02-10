@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import * as Assets from "@lp/library/assets"
-import {ModalTransition,Header,PageHeading,Image,List,Form,Toast,ModalFileUpload} from "@lp/library/components"
+import * as Assets from "@/library/assets"
+import {ModalTransition,Header,PageHeading,Image,List,Form,Toast,ModalFileUpload} from "@/library/components"
 
-import { stores, useStores } from "@lp/stores"
+import { stores, useStores } from "@/stores"
 
 import { useHistory } from "react-router-dom"
 interface ModalAccountProps {

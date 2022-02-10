@@ -2,7 +2,7 @@ import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import {Department,SelectedItems} from "../models"
 import {DepartmentService} from "../services"
-import * as LibraryUtils from "@lp/library/utils"
+import * as LibraryUtils from "@/library/utils"
 
 @version(0.1)
 export class DepartmentStore {

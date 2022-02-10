@@ -1,6 +1,6 @@
 import React from "react"
 import { IconContext as Context, IconType } from "react-icons"
-import {Icons} from "@lp/library/components"
+import {Icons} from ".."
 import Icon from "react-eva-icons"
 
 import * as IconRi from "react-icons/ri"

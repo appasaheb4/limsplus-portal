@@ -1,6 +1,6 @@
-import { decode } from "@lp/library/modules/parser/HEX"
+import { decode } from "@/library/modules/parser/HEX"
 import { toJS } from "mobx"
-import {stores} from '@lp/stores'
+import {stores} from '@/stores'
 import {DataConversation} from '../dataConversation/models'
 
 class HexToAsciiFlow {

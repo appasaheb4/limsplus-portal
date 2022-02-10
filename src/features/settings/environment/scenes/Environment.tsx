@@ -2,11 +2,11 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,ModalConfirm} 
-  from "@lp/library/components"
+  from "@/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
-import "@lp/library/assets/css/accordion.css"
+import "@/library/assets/css/accordion.css"
 
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 import { EnvironmentVariable } from "./EnvironmentVariable"
 import { EnvironmentSettings } from "./EnvironmentSettings"

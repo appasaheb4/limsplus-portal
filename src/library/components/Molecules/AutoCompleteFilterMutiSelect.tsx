@@ -1,7 +1,7 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
-import {Icons} from "@lp/library/components"
+import {Icons} from ".."
 
 interface AutoCompleteFilterMutiSelectProps {
   loader?: boolean

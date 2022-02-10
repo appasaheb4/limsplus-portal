@@ -2,17 +2,17 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {Toast,Grid,List,Form,AutoCompleteFilterSingleSelectMultiFieldsDisplay,Buttons,Svg,ModalConfirm} from "@lp/library/components"
-// import * as LibraryUtils from "@lp/library/utils"
-import "@lp/library/assets/css/accordion.css"
+import {Toast,Grid,List,Form,AutoCompleteFilterSingleSelectMultiFieldsDisplay,Buttons,Svg,ModalConfirm} from "@/library/components"
+// import * as LibraryUtils from "@/library/utils"
+import "@/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 import {PatientTestList} from "../../components"
 import { PatientOrderHoc } from "../../hoc"
 
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
 import { toJS } from "mobx"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import {
   Accordion,
   AccordionItem,

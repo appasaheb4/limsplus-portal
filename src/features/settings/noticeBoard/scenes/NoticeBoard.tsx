@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React, { useState,useMemo } from "react"
 import { observer } from "mobx-react"
-import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Grid,Svg,Toast,ModalConfirm,AutoCompleteFilterSingleSelect} from "@lp/library/components"
+import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Grid,Svg,Toast,ModalConfirm,AutoCompleteFilterSingleSelect} from "@/library/components"
 import {NoticeBoardsList} from "../components"
-import "@lp/library/assets/css/accordion.css"
+import "@/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 import {NoticeBoardHoc} from "../hoc"
-import { useStores } from "@lp/stores"
+import { useStores } from "@/stores"
 
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
 const NoticeBoard = NoticeBoardHoc(observer(() => {

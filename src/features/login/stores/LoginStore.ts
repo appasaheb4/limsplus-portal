@@ -1,9 +1,9 @@
 import { makeObservable, action, observable, runInAction, computed } from "mobx"
-import Session from "@lp/library/modules/session"
+import Session from "@/library/modules/session"
 import { Login, ForgotPassword } from "../models"
 import * as Services from "../services"
-import { stores } from "@lp/stores"
-import Storage from "@lp/library/modules/storage"
+import { stores } from "@/stores"
+import Storage from "@/library/modules/storage"
 // import { ignore } from "mobx-sync"
 
 export class LoginStore {

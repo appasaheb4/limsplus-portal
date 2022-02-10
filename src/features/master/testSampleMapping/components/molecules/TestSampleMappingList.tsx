@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react"
 import _ from "lodash"
-import {lookupItems} from "@lp/library/utils"
-import {TableBootstrap,Icons,Tooltip,textFilter,Form,List,Buttons,Grid,Svg} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
+import {lookupItems} from "@/library/utils"
+import {TableBootstrap,Icons,Tooltip,textFilter,Form,List,Buttons,Grid,Svg} from "@/library/components"
+import {Confirm} from "@/library/models"
 import {
   AutoCompleteFilterSingleSelectTestCode,
   AutoCompleteFilterSingleSelectSampleCode,

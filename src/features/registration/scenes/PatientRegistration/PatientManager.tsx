@@ -4,17 +4,17 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import {Buttons,
   List,Grid,Svg,Toast,ModalConfirm,Form,AutoCompleteFilterSingleSelect}
-   from "@lp/library/components"
-import {lookupItems,lookupValue} from "@lp/library/utils"
+   from "@/library/components"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {PatientMangerList,ExtraDataPatientManagerList} from "../../components"
-import { FormHelper } from "@lp/helper"
+import { FormHelper } from "@/helper"
 import { PatientManagerHoc } from "../../hoc"
 
-import "@lp/library/assets/css/accordion.css"
-import { useStores } from "@lp/stores"
+import "@/library/assets/css/accordion.css"
+import { useStores } from "@/stores"
 import { toJS } from "mobx"
-import { RouterFlow } from "@lp/flows"
+import { RouterFlow } from "@/flows"
 import {
   Accordion,
   AccordionItem,

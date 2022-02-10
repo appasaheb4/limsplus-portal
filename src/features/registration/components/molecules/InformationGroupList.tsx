@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import { lookupItems, lookupValue } from "@lp/library/utils"
-import { TableBootstrap, textFilter,Form,Icons,Tooltip } from "@lp/library/components"
-import { Confirm } from "@lp/library/models"
+import { lookupItems, lookupValue } from "@/library/utils"
+import { TableBootstrap, textFilter,Form,Icons,Tooltip } from "@/library/components"
+import { Confirm } from "@/library/models"
 interface InformationGroupProps {
   data: any
   totalSize: number

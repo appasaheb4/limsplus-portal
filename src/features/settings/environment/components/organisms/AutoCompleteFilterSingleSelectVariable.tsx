@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react"
 // import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
-import {AutoCompleteFilterSingleSelect} from "@lp/library/components"
-import { useStores } from "@lp/stores"
+import {AutoCompleteFilterSingleSelect} from "@/library/components"
+import { useStores } from "@/stores"
 
 interface AutoCompleteProps {
   selected: any

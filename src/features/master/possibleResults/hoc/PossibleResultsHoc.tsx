@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
-import { useStores } from "@lp/stores"
-import {getDefaultLookupItem} from "@lp/library/utils"
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+import { useStores } from "@/stores"
+import {getDefaultLookupItem} from "@/library/utils"
+import { dashboardRouter as dashboardRoutes } from "@/routes"
 let router = dashboardRoutes
 export const PossibleResultHoc = (Component: React.FC<any>) => {
   return observer(

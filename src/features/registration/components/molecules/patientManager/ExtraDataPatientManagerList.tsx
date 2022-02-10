@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import {TableBootstrap,textFilter,Form,Icons,Tooltip} from "@lp/library/components"
-import {Confirm} from "@lp/library/models"
-import {lookupItems} from "@lp/library/utils"
+import {TableBootstrap,textFilter,Form,Icons,Tooltip} from "@/library/components"
+import {Confirm} from "@/library/models"
+import {lookupItems} from "@/library/utils"
 import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../../index"
 interface ExtraDataPatientManagerProps {
   data: any
