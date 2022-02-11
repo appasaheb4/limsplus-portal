@@ -199,7 +199,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{`${row.section.code} -${row.section.name}`}</>
+                return <>{`${row.section?.code} -${row.section?.name}`}</>
               },
               editorRenderer: (
                 editorProps,

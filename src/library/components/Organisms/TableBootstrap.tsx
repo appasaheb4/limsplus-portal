@@ -19,7 +19,6 @@ import dayjs from "dayjs"
 import "./style.css"
 
 import {Buttons, Icons} from ".."
-import {Confirm} from "@/library/models"
 
 import {Styles} from "@/config"
 
@@ -38,7 +37,7 @@ interface TableBootstrapProps {
   isDelete?: boolean
   isEditModify?: boolean
   isSelectRow?: boolean
-  onDelete?: (selectedItem: Confirm) => void
+  onDelete?: (selectedItem: any) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
@@ -107,7 +106,7 @@ export const TableBootstrap = ({
         type="number"
         min="0"
         placeholder="No"
-        onChange={(e) => {
+        onChange={(e:any) => {
           if (e.target.value) {
             onSizePerPageChange(e.target.value)
           }
@@ -416,3 +415,5 @@ export const TableBootstrap = ({
     </PaginationProvider>
   )
 }
+
+

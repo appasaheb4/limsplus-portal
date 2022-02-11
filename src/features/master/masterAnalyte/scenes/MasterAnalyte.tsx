@@ -44,9 +44,13 @@ const MasterAnalyte = MasterAnalyteHoc(
       setValue,
       clearErrors,
     } = useForm()
+
+
     setValue("lab", loginStore.login.lab)
     setValue("environment", masterAnalyteStore.masterAnalyte?.environment)
     setValue("status", masterAnalyteStore.masterAnalyte?.status)
+
+    
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
     const onSubmitMasterAnalyte = () => {
@@ -232,7 +236,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           displayKey: "name",
                           findKey: "name",
                         }}
-                        hasError={errors.name}
+                        hasError={errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -625,7 +629,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                         onUpdate={(item) => {
                           const items = masterAnalyteStore.selectedItems?.department
                           console.log({ items })
-
                           masterAnalyteStore.updateMasterAnalyte({
                             ...masterAnalyteStore.masterAnalyte,
                             departments: _.union(_.map(items, "code")),
@@ -633,7 +636,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                           departmentStore.updateDepartmentList(
                             departmentStore.listDepartmentCopy
                           )
-                          masterAnalyteStore.updateSelectedItems(undefined)
                         }}
                         onFilter={(value: string) => {
                           departmentStore.DepartmentService.filterByFields({
