@@ -24,13 +24,14 @@ export class MasterAnalyte {
   analyteMethodCode: string
   analyteMethodName: string
   workflow: string
-  departments: string[]
+  departments: string
   sampleType: string
   reportable: boolean
   calculationFlag: boolean
   calcyName: string
-  high: string
-  low: string
+  rangeSetOn: string
+  equipmentType: string 
+  equipmentId: string
   repetition: boolean
   picture: number
   units: string
@@ -76,8 +77,9 @@ export class MasterAnalyte {
     this.reportable = rawData.reportable 
     this.calculationFlag = rawData.calculationFlag 
     this.calcyName = rawData.calcyName 
-    this.high = rawData.high
-    this.low = rawData.low 
+    this.rangeSetOn = rawData.rangeSetOn
+    this.equipmentType = rawData.equipmentType 
+    this.equipmentId = rawData.equipmentId
     this.repetition = rawData.repetition 
     this.picture = rawData.picture 
     this.units = rawData.units 

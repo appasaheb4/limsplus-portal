@@ -93,6 +93,7 @@ const Dashboard = observer(({ children }) => {
       ){
         await MasterAnalyte.startup()
         await Methods.startup()
+        await InterfaceManager.startup()
       }
       if (
         pathname === "/collection/testMaster" ||
