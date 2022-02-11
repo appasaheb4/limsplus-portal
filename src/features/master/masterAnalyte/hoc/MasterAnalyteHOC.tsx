@@ -12,12 +12,12 @@ export const MasterAnalyteHoc = (Component: React.FC<any>) => {
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           masterAnalyteStore.updateMasterAnalyte({
             ...masterAnalyteStore.masterAnalyte,
-            lab: loginStore.login.lab,
             environment: loginStore.login.environment,
           })
         }  
         masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
             ...masterAnalyteStore.masterAnalyte,
+            lab: loginStore.login.lab,
             status: LibraryUtils.getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"

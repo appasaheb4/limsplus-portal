@@ -16,7 +16,8 @@ import { Confirm } from "@/library/models"
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectAnalayteMethod,
-  AutoCompleteDepartment
+  AutoCompleteDepartment,
+  AutoCompleteEquipmentType
 } from "../index"
 let lab
 let analyteCode
@@ -337,9 +338,9 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               },
             },
             {
-              dataField: "high",
-              text: "High",
-              headerClasses: "textHeader1",
+              dataField: "rangeSetOn",
+              text: "Range Set On",
+              headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
@@ -348,11 +349,69 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const rangeSetOn = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(rangeSetOn, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "RANGE_SET_ON").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
-              dataField: "low",
-              text: "Low",
-              headerClasses: "textHeader1",
+              dataField: "equipmentType",
+              text: "Equipment Type",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  low = filter
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteEquipmentType
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, "equipmentType", row._id)
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "equipmentId",
+              text: "Equipment Id",
+              headerClasses: "textHeader5",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
@@ -394,15 +453,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   departments = filter
                 },
               }),
-              formatter: (cellContent, row) => (
-                <>
-                  <ul style={{ listStyle: "inside" }}>
-                    {row?.departments.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))}
-                  </ul>
-                </>
-              ),
               editorRenderer: (
                 editorProps,
                 value,
