@@ -16,7 +16,7 @@ import {
   AutoCompleteFilterSingleSelect,
 } from "@/library/components"
 import { DepartmentList } from "../components"
-import { lookupItems } from "@/library/utils"
+import { lookupItems, lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { DeginisationHoc } from "../hoc"
 import { useStores } from "@/stores"
@@ -577,7 +577,7 @@ export const Department = DeginisationHoc(
                         {lookupItems(routerStore.lookupItems, "STATUS").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
