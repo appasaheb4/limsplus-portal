@@ -25,18 +25,15 @@ export const TestPanelMappingHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "STATUS"
               ), 
-            })
-          
-        
-        
-          testPanelMappingStore &&
-            testPanelMappingStore.updateTestPanelMapping({
-              ...testPanelMappingStore.testPanelMapping,
               environment:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
               ),
             })
+          
+        
+        
+          
           
         
       }, [loginStore.login,routerStore.lookupItems])

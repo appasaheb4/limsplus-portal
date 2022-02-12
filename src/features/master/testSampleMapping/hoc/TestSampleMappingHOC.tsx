@@ -21,28 +21,20 @@ export const TestSampleMappingHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "RETENTION_UNITS"
           ),
-        })
-        testSampleMappingStore.updateSampleType({
-          ...testSampleMappingStore.testSampleMapping,
           minDrawVolUnit:getDefaultLookupItem(
             routerStore.lookupItems,
             "MIN_DRAW_VOL_UNIT"
           ),
-        })
-        testSampleMappingStore.updateSampleType({
-          ...testSampleMappingStore.testSampleMapping,
           minTestVolUnit:getDefaultLookupItem(
             routerStore.lookupItems,
             "MIN_TEST_VOL_UNIT"
           ),
-        })
-         testSampleMappingStore.updateSampleType({
-          ...testSampleMappingStore.testSampleMapping,
           environment:getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
         })
+       
 
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />
