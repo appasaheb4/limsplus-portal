@@ -21,56 +21,36 @@ export const DoctorsHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "STATUS"
               ),
+              environment:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "ENVIRONMENT"
+              ),
+              title:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "TITLE"
+              ),
+              speciality:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "SPECIALITY"
+              ),
+              salesTerritoRy:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "SPECIALITY"
+              ),
+              deliveryType:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "DELIVERY_TYPE"
+              ),
+              deliveryMethod:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "DELIVERY_METHOD"
+              ),
+              registrationLocation:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "STATUS"
+              ),
           })
-         doctorsStore.updateDoctors({
-          ...doctorsStore.doctors,
-          environment:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "ENVIRONMENT"
-          ),
-        })
-        doctorsStore.updateDoctors({
-          ...doctorsStore.doctors,
-          title:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "TITLE"
-          ),
-        })
-        doctorsStore.updateDoctors({
-          ...doctorsStore.doctors,
-          speciality:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "SPECIALITY"
-          ),
-        })
-        doctorsStore.updateDoctors({
-          ...doctorsStore.doctors,
-          salesTerritoRy:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "SPECIALITY"
-          ),
-        })
-        doctorsStore.updateDoctors({
-          ...doctorsStore.doctors,
-          deliveryType:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "DELIVERY_TYPE"
-          ),
-        })
-        doctorsStore.updateDoctors({
-          ...doctorsStore.doctors,
-          deliveryMethod:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "DELIVERY_METHOD"
-          ),
-        })
-        doctorsStore.updateDoctors({
-          ...doctorsStore.doctors,
-          registrationLocation:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "STATUS"
-          ),
-        })
+         
 
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />

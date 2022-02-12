@@ -21,14 +21,12 @@ export const MethodsHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "STATUS"
               ),
+              environment:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "ENVIRONMENT"
+              ),
           })
-         methodsStore.updateMethods({
-          ...methodsStore.methods,
-          environment:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "ENVIRONMENT"
-          ),
-        })
+         
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />
     }

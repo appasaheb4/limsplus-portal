@@ -24,18 +24,15 @@ export const SectionHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "STATUS"
               ), 
-            })
-          
-        
-        
-          sectionStore &&
-            sectionStore.updateSection({
-              ...sectionStore.section,
               environment:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
               ),
             })
+          
+        
+        
+         
           
         
       }, [loginStore.login,routerStore.lookupItems])
