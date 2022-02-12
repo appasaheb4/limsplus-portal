@@ -12,14 +12,13 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           departmentStore.updateDepartment({
             ...departmentStore.department,
-            lab: loginStore.login.lab,
             environment: loginStore.login.environment,
           })       
         }
-        
           departmentStore &&
             departmentStore.updateDepartment({
               ...departmentStore.department,
+              lab: loginStore.login.lab,
               status: getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
