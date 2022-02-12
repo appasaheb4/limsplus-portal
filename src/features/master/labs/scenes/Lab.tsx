@@ -1079,7 +1079,7 @@ const Lab = LabHoc(
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.Toggle
-                        label="Require receve in lab"
+                        label="Require Reveiving in Lab"
                         hasError={errors.requireReceveInLab}
                         value={labStore.labs?.requireReceveInLab}
                         onChange={(requireReceveInLab) => {

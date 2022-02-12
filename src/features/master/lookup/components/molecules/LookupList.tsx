@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
 import _ from "lodash"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,AutocompleteGroupBy,Buttons,textFilter,List,Grid,Form,Icons,Tooltip,Svg} from "@/library/components"
 import {Confirm} from "@/library/models"
 import { dashboardRouter as dashboardRoutes } from "@/routes"
@@ -125,7 +125,7 @@ export const LookupList = (props: LookupListProps) => {
                 arrValue = filter
               },
             }),
-            formatter: (cellContent, row) => (
+            formatter: (cellContent, row) => (  
               <>
                 <List
                   space={2}
@@ -139,7 +139,7 @@ export const LookupList = (props: LookupListProps) => {
                         type="solid"
                         onClick={() => {}}
                       >
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </Buttons.Button>
                     </div>
                   ))}
@@ -296,7 +296,7 @@ export const LookupList = (props: LookupListProps) => {
                           type="solid"
                           onClick={() => {}}
                         >
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </Buttons.Button>
                       </div>
                     ))}
@@ -315,6 +315,10 @@ export const LookupList = (props: LookupListProps) => {
                 <select
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                   onChange={(e) => {
+                    if(e.target.value ==='removeItem'){
+                     return props.onUpdateItem &&
+                      props.onUpdateItem([], "defaultItem", row._id)
+                    }
                     let defaultItem = JSON.parse(e.target.value)
                     defaultItem = [
                       {
@@ -327,6 +331,7 @@ export const LookupList = (props: LookupListProps) => {
                   }}
                 >
                   <option selected>Select</option>
+                  <option value='removeItem'>Remove Item</option>
                   {row.arrValue.map((item: any, index: number) => (
                     <option key={item.name} value={JSON.stringify(item)}>
                       {`${item.value} - ${item.code}`}
@@ -372,7 +377,7 @@ export const LookupList = (props: LookupListProps) => {
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

@@ -1,4 +1,5 @@
 /* eslint-disable */
+import _ from "lodash"
 export function flatten<T>(array: T[][]) {
   return ([] as T[]).concat(...array)
 }
@@ -53,8 +54,8 @@ export const getDefaultLookupItem = (arrLookup, key): string => {
 }
 
 export const lookupValue = (item: any): string => {
-  return `${
-    item.value.toUpperCase() === item.code.toUpperCase()
+  return  `${
+    _.isEqual(item.value.toUpperCase(), item.code.toUpperCase())
       ? item.code
       : item.value + "-" + item.code
   }`
