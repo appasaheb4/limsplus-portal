@@ -38,8 +38,9 @@ export const LIST = gql`
         reportable
         calculationFlag
         calcyName
-        high
-        low
+        rangeSetOn
+        equipmentType
+        equipmentId
         repetition
         picture
         units
@@ -151,8 +152,9 @@ export const FILTER = gql`
         reportable
         calculationFlag
         calcyName
-        high
-        low
+        rangeSetOn
+        equipmentType
+        equipmentId
         repetition
         picture  
         units
@@ -211,8 +213,9 @@ export const FILTER_BY_FIELDS = gql`
         reportable
         calculationFlag
         calcyName
-        high
-        low
+        rangeSetOn
+        equipmentType
+        equipmentId
         repetition
         picture
         units
