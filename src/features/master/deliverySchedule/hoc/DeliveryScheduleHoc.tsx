@@ -21,21 +21,16 @@ export const DeliveryScheduleHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
-        })
-        deliveryScheduleStore.updateDeliverySchedule({
-          ...deliveryScheduleStore.deliverySchedule,
           processingType: getDefaultLookupItem(
             routerStore.lookupItems,
             "PROCESSING_TYPE"
           ),
-        })
-        deliveryScheduleStore.updateDeliverySchedule({
-          ...deliveryScheduleStore.deliverySchedule,
           dynamicTU: getDefaultLookupItem(
             routerStore.lookupItems,
             "DYNAMIC_TU"
           ),
         })
+        
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

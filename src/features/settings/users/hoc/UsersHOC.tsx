@@ -21,14 +21,12 @@ export const UsersHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "STATUS"
               ),
+              environment:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "ENVIRONMENT"
+              ),
           })
-         userStore.updateUser({
-          ...userStore.user,
-          environment:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "ENVIRONMENT"
-          ),
-        })
+        
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />
     }

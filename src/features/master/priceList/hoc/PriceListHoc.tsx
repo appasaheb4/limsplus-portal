@@ -22,35 +22,24 @@ export const PriceListHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "PRIORIITY"
           ),
-        })
-        priceListStore.updatePriceList({
-          ...priceListStore.priceList,
           priceGroup: getDefaultLookupItem(
             routerStore.lookupItems,
             "PRICE_GROUP"
           ),
-        })
-        priceListStore.updatePriceList({
-          ...priceListStore.priceList,
           speicalScheme: getDefaultLookupItem(
             routerStore.lookupItems,
             "SPEICAL_SCHEME"
           ),
-        })
-        priceListStore.updatePriceList({
-          ...priceListStore.priceList,
           environment: getDefaultLookupItem(
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
-        })
-        priceListStore.updatePriceList({
-          ...priceListStore.priceList,
           status: getDefaultLookupItem(
             routerStore.lookupItems,
             "STATUS"
           ),
         })
+       
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

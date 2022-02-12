@@ -24,28 +24,20 @@ export const MasterPackageHOC = (Component: React.FC<any>) => {
               status:LibraryUtils.getDefaultLookupItem(
                 routerStore.lookupItems,
                 "STATUS"
-              ), 
-            })
-          
-        
-        
-          masterPackageStore &&
-            masterPackageStore.updateMasterPackage({
-              ...masterPackageStore.masterPackage,
+              ),
               environment:LibraryUtils.getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
-              ),
-            })
-            masterPackageStore &&
-            masterPackageStore.updateMasterPackage({
-              ...masterPackageStore.masterPackage,
+              ), 
               serviceType:LibraryUtils.getDefaultLookupItem(
                 routerStore.lookupItems,
                 "SERVICE_TYPE"
               ),
             })
           
+        
+        
+         
         
       }, [loginStore.login,routerStore.lookupItems])
 

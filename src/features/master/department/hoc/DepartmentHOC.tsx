@@ -24,18 +24,11 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "STATUS"
               ),
-            })
-          
-          departmentStore &&
-            departmentStore.updateDepartment({
-              ...departmentStore.department,
               environment:getDefaultLookupItem(
                 routerStore.lookupItems,
                 "ENVIRONMENT"
               ),
             })
-          
-        
       }, [loginStore.login,routerStore.lookupItems])
 
       return <Component {...props} />
