@@ -5,28 +5,28 @@ import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from "@/library/components"
 
-interface AutoCompleteDepartmentProps {
+interface AutoCompleteEquipmentTypeProps {
   onSelect: (item: any) => void
 }
 
-export const AutoCompleteDepartment = observer(
-  ({ onSelect }: AutoCompleteDepartmentProps) => {
-    const { loading, departmentStore } = useStores()
+export const AutoCompleteEquipmentType = observer(
+  ({ onSelect }: AutoCompleteEquipmentTypeProps) => {
+    const { loading, interfaceManagerStore } = useStores()
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-        posstion="relative"
+          posstion="relative"
           loader={loading}
-          placeholder="Search by code or name"
+          placeholder="Search by Equipment Type"
           data={{
-            list: departmentStore?.listDepartment,
-            displayKey: ["code", "name"],
+            list: interfaceManagerStore.listInterfaceManager,
+            displayKey: ["instrumentType"],
           }}
           onFilter={(value: string) => {
-            departmentStore.DepartmentService.filterByFields({
+            interfaceManagerStore.interfaceManagerService.filterByFields({
               input: {
                 filter: {
-                  fields: ["code", "name"],
+                  fields: ["instrumentType"],
                   srText: value,
                 },
                 page: 0,
@@ -35,8 +35,7 @@ export const AutoCompleteDepartment = observer(
             })
           }}
           onSelect={(item) => {
-            onSelect && onSelect(item.code)
-            departmentStore.updateDepartmentList(departmentStore.listDepartmentCopy)
+            onSelect && onSelect(item.instrumentType)
           }}
         />
       </>

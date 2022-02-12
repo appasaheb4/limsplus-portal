@@ -25,6 +25,7 @@ import { useStores } from "@/stores"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
+import { referenceEnhancer } from "mobx/dist/internal"
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -36,6 +37,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       routerStore,
       loading,
       departmentStore,
+      interfaceManagerStore,
     } = useStores()
     const {
       control,
@@ -45,12 +47,10 @@ const MasterAnalyte = MasterAnalyteHoc(
       clearErrors,
     } = useForm()
 
-
     setValue("lab", loginStore.login.lab)
     setValue("environment", masterAnalyteStore.masterAnalyte?.environment)
     setValue("status", masterAnalyteStore.masterAnalyte?.status)
 
-    
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
     const onSubmitMasterAnalyte = () => {
@@ -236,6 +236,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           displayKey: "name",
                           findKey: "name",
                         }}
+                        displayValue={masterAnalyteStore.masterAnalyte?.lab}
                         hasError={errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
@@ -479,22 +480,79 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.Input
-                      label="High"
-                      name="txtHigh"
-                      placeholder={errors.high ? "Please Enter High" : "High"}
-                      hasError={errors.high}
-                      value={masterAnalyteStore.masterAnalyte?.high}
-                      onChange={(high) => {
-                        onChange(high)
-                        masterAnalyteStore.updateMasterAnalyte({
-                          ...masterAnalyteStore.masterAnalyte,
-                          high: high.toUpperCase(),
-                        })
-                      }}
-                    />
+                    <Form.InputWrapper label="Range Set On">
+                      <select
+                        value={masterAnalyteStore.masterAnalyte?.rangeSetOn}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.rangeSetOn ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const rangeSetOn = e.target.value as string
+                          onChange(rangeSetOn)
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            rangeSetOn,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "RANGE_SET_ON").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {`${item.value} - ${item.code}`}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
                   )}
-                  name="high"
+                  name="rangeSetOn"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Equipment Type">
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by Equipment Type"
+                        hasError={errors.equipmentType}
+                        data={{
+                          list: interfaceManagerStore.listInterfaceManager,
+                          displayKey: ["instrumentType"],
+                        }}
+                        displayValue={
+                          masterAnalyteStore.masterAnalyte?.equipmentType
+                        }
+                        onFilter={(value: string) => {
+                          interfaceManagerStore.interfaceManagerService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ["instrumentType"],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.instrumentType)
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            equipmentType: item.instrumentType,
+                          })
+                          interfaceManagerStore.updateInterfaceManagerList(
+                            interfaceManagerStore.listInterfaceManagerCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="equipmentType"
                   rules={{ required: false }}
                   defaultValue=""
                 />
@@ -502,25 +560,23 @@ const MasterAnalyte = MasterAnalyteHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Low"
-                      name="txtLow"
-                      placeholder={errors.low ? "Please Enter low" : "Low"}
-                      hasError={errors.low}
-                      value={masterAnalyteStore.masterAnalyte?.low}
-                      onChange={(low) => {
-                        onChange(low)
+                      label="Equipment Id"
+                      placeholder="Equipment Id"
+                      hasError={errors.high}
+                      value={masterAnalyteStore.masterAnalyte?.equipmentId}
+                      onChange={(equipmentId) => {
+                        onChange(equipmentId)
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
-                          low: low.toUpperCase(),
+                          equipmentId,
                         })
                       }}
                     />
                   )}
-                  name="low"
+                  name="equipmentId"
                   rules={{ required: false }}
                   defaultValue=""
                 />
-
                 <Grid cols={5}>
                   <Controller
                     control={control}
@@ -610,38 +666,24 @@ const MasterAnalyte = MasterAnalyteHoc(
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Department"
-                      hasError={errors.department}
-                    >
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                    <Form.InputWrapper label="Department">
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder="Search by code or name"
-                        data={{
-                          list: departmentStore.listDepartment,
-                          selected: masterAnalyteStore.selectedItems?.department,
-                          displayKey: ["code", "name"],
-                        }}
                         hasError={errors.department}
-                        onUpdate={(item) => {
-                          const items = masterAnalyteStore.selectedItems?.department
-                          console.log({ items })
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            departments: _.union(_.map(items, "code")),
-                          })
-                          departmentStore.updateDepartmentList(
-                            departmentStore.listDepartmentCopy
-                          )
+                        data={{
+                          list: departmentStore?.listDepartment,
+                          displayKey: ["code","name"],
                         }}
                         onFilter={(value: string) => {
                           departmentStore.DepartmentService.filterByFields({
                             input: {
                               filter: {
-                                fields: ["code", "name"],
+                                fields: ["code","name"],
                                 srText: value,
                               },
                               page: 0,
@@ -650,28 +692,20 @@ const MasterAnalyte = MasterAnalyteHoc(
                           })
                         }}
                         onSelect={(item) => {
-                          onChange(new Date())
-                          let department =
-                            masterAnalyteStore.selectedItems?.department
-                          if (!item.selected) {
-                            if (department && department.length > 0) {
-                              department.push(item)
-                            } else department = [item]
-                          } else {
-                            department = department.filter((items) => {
-                              return items._id !== item._id
-                            })
-                          }
-                          masterAnalyteStore.updateSelectedItems({
-                            ...masterAnalyteStore.selectedItems,
-                            department,
+                          onChange(item.code)
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            departments: item.code,
                           })
+                          departmentStore.updateDepartmentList(
+                            departmentStore.listDepartmentCopy
+                          )
                         }}
                       />
                     </Form.InputWrapper>
                   )}
                   name="department"
-                  rules={{ required: true }}
+                  rules={{ required: false }}
                   defaultValue=""
                 />
 
