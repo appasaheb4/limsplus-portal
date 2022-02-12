@@ -208,8 +208,8 @@ export const Department = DeginisationHoc(
                     <Form.Input
                       label="Code"
                       id="code"
-                      hasError={errors.code}
-                      placeholder={errors.code ? "Please Enter Code" : "Code"}
+                      hasError={errors.labCode}
+                      placeholder={errors.labCode ? "Please Enter Code" : "Code"}
                       value={departmentStore.department?.code}
                       onChange={(code) => {
                         onChange(code)
@@ -236,7 +236,7 @@ export const Department = DeginisationHoc(
                       }}
                     />
                   )}
-                  name="code"
+                  name="labCode"
                   rules={{ required: true }}
                   defaultValue=""
                 />
@@ -252,8 +252,8 @@ export const Department = DeginisationHoc(
                     <Form.Input
                       label="Name"
                       name="name"
-                      hasError={errors.name}
-                      placeholder={errors.name ? "Please Enter Name" : "Name"}
+                      hasError={errors.labName}
+                      placeholder={errors.labName ? "Please Enter Name" : "Name"}
                       value={departmentStore.department?.name}
                       onChange={(name) => {
                         onChange(name)
@@ -264,7 +264,7 @@ export const Department = DeginisationHoc(
                       }}
                     />
                   )}
-                  name="name"
+                  name="labName"
                   rules={{ required: true }}
                   defaultValue=""
                 />
