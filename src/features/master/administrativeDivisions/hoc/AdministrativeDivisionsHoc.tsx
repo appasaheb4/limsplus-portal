@@ -21,16 +21,10 @@ export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
-        })
-        administrativeDivisions.updateAdministrativeDiv({
-          ...administrativeDivisions.administrativeDiv,
           zone: getDefaultLookupItem(
             routerStore.lookupItems,
             "ZONE"
           ),
-        })
-        administrativeDivisions.updateAdministrativeDiv({
-          ...administrativeDivisions.administrativeDiv,
           sbu: getDefaultLookupItem(
             routerStore.lookupItems,
             "SBU"

@@ -22,14 +22,12 @@ export const TestAnalyteMappingHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "STATUS"
               ),
+              environment:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "ENVIRONMENT"
+              ),
           })
-         testAnalyteMappingStore.updateTestAnalyteMapping({
-          ...testAnalyteMappingStore.testAnalyteMapping,
-          environment:getDefaultLookupItem(
-            routerStore.lookupItems,
-            "ENVIRONMENT"
-          ),
-        })
+        
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />
     }

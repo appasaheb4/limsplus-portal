@@ -21,14 +21,12 @@ export const SalesTeamHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "ENVIRONMENT"
           ),
-        })
-        salesTeamStore.updateSalesTeam({
-          ...salesTeamStore.salesTeam,
-            salesHierarchy: getDefaultLookupItem(
+          salesHierarchy: getDefaultLookupItem(
             routerStore.lookupItems,
             "SALES_HIERARCHY"
           ),
         })
+        
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

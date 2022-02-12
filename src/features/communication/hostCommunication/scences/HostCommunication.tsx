@@ -11,12 +11,12 @@ import { useStores } from "@/stores"
 
 import {HL7Table,SettingForRS232Table,SettingForTCP_IPTable} from "../components"
 import { HostCommunicationFlows, HexToAsciiFlow } from "../../flows"
-
+import {HostCommunicationHoc} from "../hoc"
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
-import { io } from "socket.io-client"
+
 let socket
-const HostCommunication = observer(() => {
+const HostCommunication =HostCommunicationHoc(observer(() => {
   const {
     loginStore,
     interfaceManagerStore,
@@ -31,25 +31,9 @@ const HostCommunication = observer(() => {
     true
   )
 
-  socket = io('restapi-hosturl'.split("/api")[0], {
-    transports: ["websocket"],
-  })
+ 
 
-  useEffect(() => {
-    socket.on("hostCommunicationSendDataToInstrument", (data) => {
-      hostCommunicationStore.updateHostCommuication({
-        ...hostCommunicationStore.hostCommuication,
-        txtSendDatafromInstrument: data,
-      })
-    })
-
-    socket.on("hostCommunicationSourceFile", (data) => {
-      hostCommunicationStore.updateHostCommuication({
-        ...hostCommunicationStore.hostCommuication,
-        txtDataReceivefromInstrument: data,
-      })
-    })
-  }, [])
+  
 
   return (
     <>
@@ -941,6 +925,6 @@ const HostCommunication = observer(() => {
       />
     </>
   )
-})
+}))
 
 export default HostCommunication
