@@ -1,10 +1,22 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems} from "@/library/utils"
-import {NumberFilter,customFilter,DateFilter,textFilter,Form,Tooltip,Icons,TableBootstrap} from "@/library/components"
-import {Confirm} from "@/library/models"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectPanelCode} from '../index'
+import { lookupItems } from "@/library/utils"
+import {
+  NumberFilter,
+  customFilter,
+  DateFilter,
+  textFilter,
+  Form,
+  Tooltip,
+  Icons,
+  TableBootstrap,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectPanelCode,
+} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let dateCreation
@@ -19,8 +31,6 @@ let testName
 let description
 let status
 let environment
-
-
 
 interface TestPanelMappingListProps {
   data: any
@@ -41,8 +51,8 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
-  
-  return (  
+
+  return (
     <>
       <div style={{ position: "relative" }}>
         <TableBootstrap
@@ -61,11 +71,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Lab",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   lab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -78,9 +88,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectLabs
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -90,11 +101,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   panelCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -107,9 +118,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelCode
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.panelCode,column.dataField,row._id)
-                  }}
+                    lab={row.lab}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.panelCode, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -119,11 +132,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Test Code",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testCode = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -132,11 +145,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Test Name",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testName = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -145,11 +158,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   description = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -157,13 +170,13 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -179,11 +192,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   status = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -195,40 +208,37 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
-            
+
             {
               dataField: "enteredBy",
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   enteredBy = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -238,11 +248,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateCreation = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -274,12 +285,13 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateActive = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -311,19 +323,20 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateExpire = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateExpire || 0).format("YYYY-MM-DD")}</>
-              },  
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -343,17 +356,17 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 </>
               ),
             },
-            { 
+            {
               dataField: "version",
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   version = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -364,12 +377,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: "Environment",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environment = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -380,26 +393,23 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -428,17 +438,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                           })
                         }
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Version Upgrade"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Version Upgrade">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -446,15 +451,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconvsc.VscVersions
-                            )}
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Duplicate"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Duplicate">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -462,9 +462,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconio5.IoDuplicateOutline
-                            )}
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                           </Icons.IconContext>
                         </Tooltip>
                       </>
@@ -473,9 +471,9 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -494,7 +492,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             dateCreation()
             dateActive()
             dateExpire()

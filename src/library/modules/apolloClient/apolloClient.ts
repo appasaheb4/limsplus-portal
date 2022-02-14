@@ -3,7 +3,7 @@ import { onError } from "@apollo/client/link/error"
 import { stores } from "@/stores"
 import { setContext } from "@apollo/client/link/context"
 import { createUploadLink } from "apollo-upload-client"
-
+  
 const customFetch = (uri, options): Promise<any> => {
   stores.setLoading(true)
   const response = fetch(uri, options).then((response) => {
@@ -16,7 +16,7 @@ const customFetch = (uri, options): Promise<any> => {
   })
   return response
 }
-    
+          
 const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
@@ -25,7 +25,7 @@ const authLink = setContext(async (_, { headers }) => {
     },
   }
 }) 
-                                             
+                                                      
 // depoly 2  
 const UploadLink = createUploadLink({  
   uri: "http://localhost:8080/graphql",
@@ -33,8 +33,9 @@ const UploadLink = createUploadLink({
   //uri: "https://limsplus-api.azurewebsites.net/graphql",
   fetch: customFetch,  
 })
+
+
        
-         
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path, extensions }) => {

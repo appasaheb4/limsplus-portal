@@ -28,7 +28,6 @@ export const LIST = gql`
         bill
         price
         schedule
-        tat
         autoRelease
         holdOOS
         validationLevel
@@ -150,7 +149,6 @@ export const FILTER = gql`
         bill
         price
         schedule
-        tat
         autoRelease
         holdOOS
         validationLevel
@@ -219,7 +217,6 @@ export const FILTER_BY_FIELDS = gql`
         bill
         price
         schedule
-        tat
         autoRelease
         holdOOS
         validationLevel

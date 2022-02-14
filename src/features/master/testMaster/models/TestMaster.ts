@@ -18,7 +18,6 @@ export class TestMaster {
     bill: boolean
     price: number
     schedule: string
-    tat: string
     autoFinish: boolean
     holdOOS: boolean
     validationLevel: number
@@ -26,7 +25,6 @@ export class TestMaster {
     urgent: boolean
     instantResult: boolean
     reportGroup: string
-    resultOrder: string
     accredited: boolean
     cretical: boolean
     processing: string
@@ -53,10 +51,8 @@ export class TestMaster {
     deltaHold: boolean
     prefix: string
     sufix: string
-    deleverySchedule: string
     allowPartial: boolean
     collectionContainer: string
-    holdingDays: string
     status: string
     environment: string
     dateOfEntry: Date
@@ -82,7 +78,6 @@ export class TestMaster {
         this.bill = rawData.bill 
         this.price = rawData.price 
         this.schedule = rawData.schedule 
-        this.tat = rawData.tat 
         this.autoFinish = rawData.autoFinish 
         this.holdOOS = rawData.holdOOS 
         this.validationLevel = rawData.validationLevel 
@@ -90,7 +85,6 @@ export class TestMaster {
         this.urgent = rawData.urgent 
         this.instantResult = rawData.instantResult 
         this.reportGroup = rawData.reportGroup 
-        this.resultOrder = rawData.resultOrder 
         this.accredited = rawData.accredited 
         this.cretical = rawData.cretical 
         this.repitation= rawData.repitation  
@@ -117,14 +111,12 @@ export class TestMaster {
         this.tubeGroup = rawData.tubeGroup 
         this.printLabel = rawData.printLabel 
         this.labelInstruction = rawData.labelInstruction 
-        this.deleverySchedule = rawData.deleverySchedule 
         this.workflow = rawData.workflow 
         this.cumulative = rawData.cumulative 
         this.allowPartial = rawData.allowPartial 
         this.sampleType = rawData.sampleType 
         this.collectionContainer = rawData.collectionContainer 
         this.status = rawData.status 
-        this.holdingDays = rawData.holdingDays 
         this.environment = rawData.environment 
         this.dateOfEntry = rawData.dateOfEntry 
         this.lastUpdated = rawData.lastUpdated 

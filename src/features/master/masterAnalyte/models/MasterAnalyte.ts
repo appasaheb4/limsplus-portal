@@ -9,7 +9,7 @@ export class MasterAnalyte {
   enteredBy: string
   lab: string
   analyteCode: string
-  analyteName: string
+  analyteName: string 
   description: string
   shortName: string
   bill: boolean
@@ -33,15 +33,15 @@ export class MasterAnalyte {
   equipmentType: string 
   equipmentId: string
   repetition: boolean
-  picture: number
+  picture: number | undefined
   units: string
   usage: string
   cptCode: string
   resultType: string
   analyteType: string
   status: string
-  minReportable: number
-  maxReportable: number
+  minReportable: string
+  maxReportable: string
   environment: string
   dateOfEntry: Date
   lastUpdated: Date  

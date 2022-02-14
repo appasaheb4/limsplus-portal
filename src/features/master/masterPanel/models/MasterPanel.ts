@@ -20,7 +20,6 @@ export class MasterPanel {
   bill: boolean
   price: number
   schedule: string
-  tat: string
   autoRelease: boolean
   holdOOS: boolean
   validationLevel: number
@@ -54,7 +53,7 @@ export class MasterPanel {
   environment: string
   dateOfEntry: Date
   lastUpdated: Date
-
+  
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.existsVersionId = rawData.existsVersionId
@@ -77,7 +76,6 @@ export class MasterPanel {
     this.bill = rawData.bill
     this.price = rawData.price
     this.schedule = rawData.schedule
-    this.tat = rawData.tat
     this.autoRelease = rawData.autoRelease
     this.holdOOS = rawData.holdOOS
     this.validationLevel = rawData.validationLevel
@@ -113,4 +111,4 @@ export class MasterPanel {
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated
   }
-}
+}  

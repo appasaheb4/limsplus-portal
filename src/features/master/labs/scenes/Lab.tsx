@@ -25,6 +25,11 @@ const Lab = LabHoc(
       loginStore,
     } = useStores()
 
+
+  
+    console.log({salesTeamStore});
+    
+
     const {
       control,
       handleSubmit,
@@ -126,11 +131,11 @@ const Lab = LabHoc(
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
-        )}
+        )}  
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -623,10 +628,10 @@ const Lab = LabHoc(
                       >
                         <option selected>Select</option>
                         {salesTeamStore.listSalesTeam &&
-                          salesTeamStore.listSalesTeam.map(
+                          _.union(_.map(salesTeamStore.listSalesTeam, "salesTerritory")).map(
                             (item: any, index: number) => (
-                              <option key={index} value={item.salesTerritory}>
-                                {`${item.salesTerritory}`}
+                              <option key={index} value={item}>
+                                {`${item}`}
                               </option>
                             )
                           )}

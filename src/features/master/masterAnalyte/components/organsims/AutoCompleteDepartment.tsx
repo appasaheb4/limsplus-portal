@@ -6,11 +6,12 @@ import { useStores } from "@/stores"
 import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from "@/library/components"
 
 interface AutoCompleteDepartmentProps {
+  lab?:string
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteDepartment = observer(
-  ({ onSelect }: AutoCompleteDepartmentProps) => {
+  ({ onSelect,lab }: AutoCompleteDepartmentProps) => {
     const { loading, departmentStore } = useStores()
     return (
       <>
@@ -19,7 +20,7 @@ export const AutoCompleteDepartment = observer(
           loader={loading}
           placeholder="Search by code or name"
           data={{
-            list: departmentStore?.listDepartment,
+            list: departmentStore?.listDepartment.filter((item)=> item.lab === lab),
             displayKey: ["code", "name"],
           }}
           onFilter={(value: string) => {

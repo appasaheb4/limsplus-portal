@@ -12,7 +12,6 @@ export class TestAnalyteMapping {
   analyteName: Array<any>
   testCode: string
   testName: string
-  description: string
   bill: boolean
   status: string
   environment: string
@@ -33,7 +32,6 @@ export class TestAnalyteMapping {
     this.analyteName = rawData.analyteName 
     this.testCode = rawData.testCode 
     this.testName = rawData.testName 
-    this.description = rawData.description 
     this.bill = rawData.bill 
     this.status = rawData.status 
     this.environment = rawData.environment 

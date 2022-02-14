@@ -28,7 +28,6 @@ export const LIST = gql`
         bill
         price
         schedule
-        tat
         autoFinish
         holdOOS
         validationLevel
@@ -36,7 +35,6 @@ export const LIST = gql`
         urgent
         instantResult
         reportGroup
-        resultOrder
         accredited
         cretical
         processing
@@ -63,10 +61,8 @@ export const LIST = gql`
         deltaHold
         prefix
         sufix
-        deleverySchedule
         allowPartial
         collectionContainer
-        holdingDays
         status
         environment
         dateOfEntry
@@ -158,7 +154,6 @@ export const FILTER = gql`
         bill
         price
         schedule
-        tat
         autoFinish
         holdOOS
         validationLevel
@@ -166,7 +161,6 @@ export const FILTER = gql`
         urgent
         instantResult
         reportGroup
-        resultOrder
         accredited
         cretical
         processing
@@ -193,10 +187,8 @@ export const FILTER = gql`
         deltaHold
         prefix
         sufix
-        deleverySchedule
         allowPartial
         collectionContainer
-        holdingDays
         status
         environment
         dateOfEntry
@@ -234,7 +226,6 @@ export const FILTER_BY_FIELDS = gql`
         bill
         price
         schedule
-        tat
         autoFinish
         holdOOS
         validationLevel
@@ -242,7 +233,6 @@ export const FILTER_BY_FIELDS = gql`
         urgent
         instantResult
         reportGroup
-        resultOrder
         accredited
         cretical
         processing
@@ -269,10 +259,8 @@ export const FILTER_BY_FIELDS = gql`
         deltaHold
         prefix
         sufix
-        deleverySchedule
         allowPartial
         collectionContainer
-        holdingDays
         status
         environment
         dateOfEntry

@@ -6,8 +6,6 @@ import {TableBootstrap,textFilter,NumberFilter,DateFilter,Form,Tooltip,Icons,cus
 import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectPlabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod} from '../index'
 
-
-
 let rLab
 let pLab
 let department
@@ -44,8 +42,6 @@ let dateActive
 let dateExpire
 let version
 let enteredBy
-
-
 
 interface PanelMasterListProps {
   data: any
@@ -177,7 +173,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDepartment
-                  onSelect={(item)=>{
+                   lab={row.pLab}
+                   onSelect={(item)=>{
                     props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
                   }}
                   />
@@ -327,7 +324,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelMethod
-                  onSelect={(item)=>{
+                   onSelect={(item)=>{
                     props.onUpdateFileds && props.onUpdateFileds({panelMethodCode:item.methodsCode,panelMethodName:item.methodsName},row._id)
                   }}
                   />
@@ -396,11 +393,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 }
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              style : {textTransform : "uppercase"},
-              editorStyle: {
-                textTransform: 'uppercase'
-              }
-            },
+              //style : {textTransform : "uppercase"},
+              // editorStyle: {
+              //   textTransform: 'uppercase'
+              // }
+            },  
             {  
               dataField: "price",
               text: "Price",
@@ -932,6 +929,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <>
                   
                     <select
+                      disabled={!row.sexAction}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const sex = e.target.value as string
@@ -956,7 +954,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
 
             {
               dataField: "sexAction",
-              text: "Sex Action",
+              text: "Age/Sex Action",
               sort: true,
               csvFormatter: col => (col ? col : false),
               editable: false,
@@ -986,7 +984,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   hiAge = filter
                 }
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row) && row.sexAction,
             },
             {
               dataField: "loAge",
@@ -999,7 +997,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   loAge = filter
                 }
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row) && row.sexAction,
             },
 
             {

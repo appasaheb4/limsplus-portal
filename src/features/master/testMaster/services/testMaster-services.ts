@@ -7,6 +7,7 @@
 import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import { SectionService } from "@/features/master/section/services"
 import { stores } from "@/stores"
+import _ from "lodash"
 import {
   LIST,
   CREATE_RECORD,
@@ -42,6 +43,14 @@ export class TestMasterService {
     })
   addTestMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      const input = _.omitBy(
+        variables.input,
+        (v) => _.isUndefined(v) || _.isNull(v) || v === ""
+      )
+      variables = {
+        ...variables,
+        input,
+      }
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -136,6 +145,8 @@ export class TestMasterService {
 
   findSectionListByDeptCode = (code: string) =>
     new Promise<any>((resolve) => {
+      console.log({ code })
+
       new SectionService()
         .findSectionListByDeptCode({ input: { code } })
         .then((res) => {
@@ -143,6 +154,7 @@ export class TestMasterService {
           resolve(res)
         })
     })
+
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -161,7 +173,7 @@ export class TestMasterService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -189,4 +201,3 @@ export class TestMasterService {
         )
     })
 }
-

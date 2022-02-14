@@ -12,7 +12,6 @@ let analyteCode
 let analyteName
 let testCode
 let testName
-let description
 let status
 let environment
 let dateCreation
@@ -135,19 +134,6 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 }
               }),
               editable: false,
-            },
-            {
-              dataField: "description",
-              text: "Description",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: textFilter({
-                getFilter:(filter) =>{
-                  description = filter
-                }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "bill",
@@ -507,7 +493,6 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             analyteName("")
             testCode("")
             testName("")
-            description("")
             status("")
             environment("")
             dateCreation()
