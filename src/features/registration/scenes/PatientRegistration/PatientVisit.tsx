@@ -421,7 +421,7 @@ export const PatientVisit = PatientVisitHoc(
                           "PATIENT VISIT - AGE_UNITS"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -595,7 +595,7 @@ export const PatientVisit = PatientVisitHoc(
                           "PATIENT VISIT - AC_CLASS"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.code} - ${item.value}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -756,7 +756,7 @@ export const PatientVisit = PatientVisitHoc(
                             "PATIENT VISIT - STATUS"
                           ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           ))}
                         </select>
@@ -904,7 +904,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - BILLING_METHOD"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -977,7 +977,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - METHOD_COLLECTION"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1203,7 +1203,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - APPROVAL_STATUS"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1245,7 +1245,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - REPORT_STATUS"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1402,7 +1402,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - ARCHIVED"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1452,7 +1452,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - LOGIN_INTERFACE"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1496,7 +1496,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - REGISTRATION_INTERFACE"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1634,7 +1634,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - ACCOUNT_TYPE"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1676,7 +1676,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - DELIVERY_METHOD"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.code} - ${item.value}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1724,7 +1724,7 @@ export const PatientVisit = PatientVisitHoc(
                                   "PATIENT VISIT - ENVIRONMENT"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.code} - ${item.value}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>

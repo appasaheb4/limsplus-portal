@@ -4,11 +4,11 @@ import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalImportFile, Icons} 
   from "@/library/components"
-import {lookupItems,} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import * as Models from "../../models"
 import { SegmentMapping as ModelSegmentMapping } from "../models"
 import * as XLSX from "xlsx"
-import * as Config from "@/config"
+import {Styles} from "@/config"
 import { SegmentMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {SegmentMappingHoc} from "../hoc"
@@ -848,7 +848,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -883,7 +883,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
               <Icons.EvaIcon
                 icon="arrowhead-down-outline"
                 size="medium"
-                color={Config.Styles.COLORS.BLACK}
+                color={Styles.COLORS.BLACK}
               />
               Import
             </Buttons.Button>

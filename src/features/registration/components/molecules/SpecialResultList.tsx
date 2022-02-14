@@ -3,14 +3,14 @@ import React from "react"
 import { observer } from "mobx-react"
 // import {lookupItems} from "@/library/utils"
 import {TableBootstrap,Icons,Tooltip,textFilter} from "@/library/components"
-import * as LibraryModels from "@/library/models"
+import {Confirm} from "@/library/models"
 interface SpecialResultProps {
   data: any
   totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }

@@ -5,7 +5,7 @@ import _ from "lodash"
 import {Buttons,
   List,Grid,Svg,Toast,ModalConfirm,Form,Heading,AutoCompleteFilterSingleSelectMultiFieldsDisplay,AutoCompleteFilterMutiSelectMultiFieldsDisplay}
    from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import "@/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 import {PatientOrderList} from "../../components"
@@ -340,7 +340,7 @@ export const PatientOrder = PatientOrderHoc(
                           "PATIENT ORDER - ENVIRONMENT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
