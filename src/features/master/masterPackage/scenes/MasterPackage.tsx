@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
   from "@/library/components"
-import {lookupItems,moment} from "@/library/utils"
+import {lookupItems,moment,lookupValue} from "@/library/utils"
 import {PackageMasterList} from "../components"
 
 
@@ -332,7 +332,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                           })
                         ).map((item: any, index: number) => (
                           <option key={index} value={JSON.stringify(item)}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                     </select>
@@ -517,7 +517,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -713,7 +713,7 @@ const MasterPackage = MasterPackageHOC(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

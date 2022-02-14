@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import { lookupItems } from "@/library/utils"
+import { lookupItems,lookupValue } from "@/library/utils"
 import {
   NumberFilter,
   DateFilter,
@@ -370,7 +370,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {lookupItems(props.extraData.lookupItems, "RANGE_SET_ON").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -504,7 +504,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {lookupItems(props.extraData.lookupItems, "RESULT_TYPE").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -571,7 +571,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {lookupItems(props.extraData.lookupItems, "ANALYTE_TYPE").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -612,7 +612,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {lookupItems(props.extraData.lookupItems, "UNITS").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -653,7 +653,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {lookupItems(props.extraData.lookupItems, "USAGE").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -838,7 +838,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //           {lookupItems(lookupItems, "WORKFLOW").map(
             //             (item: any, index: number) => (
             //               <option key={index} value={item.code}>
-            //                 {`${item.value} - ${item.code}`}
+            //                 {lookupValue(item)}
             //               </option>
             //             )
             //           )}
@@ -946,7 +946,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {lookupItems(props.extraData.lookupItems, "STATUS").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -1175,7 +1175,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}

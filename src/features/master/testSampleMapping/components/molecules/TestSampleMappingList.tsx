@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import _ from "lodash"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,Icons,Tooltip,textFilter,Form,List,Buttons,Grid,Svg} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {
@@ -519,7 +519,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       "MIN_DRAW_VOL_UNIT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -572,7 +572,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       "MIN_TEST_VOL_UNIT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -638,7 +638,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       "RETENTION_UNITS"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -902,7 +902,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

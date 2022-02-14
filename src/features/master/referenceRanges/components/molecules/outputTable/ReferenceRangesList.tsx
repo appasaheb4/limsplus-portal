@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import { lookupItems } from "@/library/utils"
+import { lookupItems,lookupValue } from "@/library/utils"
 import {NumberFilter,DateFilter,TableBootstrap,textFilter,Icons,Tooltip,customFilter,Form} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {
@@ -216,7 +216,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "SPECIES").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -257,7 +257,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "SEX").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -298,7 +298,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "RANGE_SET_ON").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -413,7 +413,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "RANG_TYPE").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -486,7 +486,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "AGE_UNIT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -592,7 +592,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "INTERVAL_UNIT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -725,7 +725,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "STATUS").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -766,7 +766,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}

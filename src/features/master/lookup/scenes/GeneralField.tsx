@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form"
 import _ from "lodash"
 
 import {Toast,Grid,List,Form,AutoCompleteGroupByCheck,AutoComplete,Buttons,Icons,Svg} from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@/routes"
 let router = dashboardRoutes
@@ -345,7 +345,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>

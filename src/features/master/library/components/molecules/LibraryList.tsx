@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,Form,Tooltip,Icons,NumberFilter,textFilter,AutoCompleteCheckMultiFilterKeys,Buttons,customFilter} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../index"  
@@ -125,7 +125,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "USAGE_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -169,7 +169,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "LIBRARY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -213,7 +213,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "COMMENT_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -319,7 +319,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "COMMENTS_TARGET"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -375,7 +375,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "PARAMETER"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -418,7 +418,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "ACTION"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -461,7 +461,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "RESULTS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -619,7 +619,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -718,7 +718,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "SEX"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -761,7 +761,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "SEX_ACTION"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -805,7 +805,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

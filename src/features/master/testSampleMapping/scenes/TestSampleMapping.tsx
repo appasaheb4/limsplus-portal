@@ -907,7 +907,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           "RETENTION_UNITS"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -1016,7 +1016,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>

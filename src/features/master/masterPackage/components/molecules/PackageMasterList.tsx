@@ -3,7 +3,7 @@ import React from "react"
 import dayjs from "dayjs"
 import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {AutoCompleteFilterSingleSelectLabs} from '../index'
 
 
@@ -194,7 +194,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                       "STATUS"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -379,7 +379,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

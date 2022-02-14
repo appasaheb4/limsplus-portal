@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,textFilter,Icons,Tooltip} from "@/library/components"
 import * as LibraryModels from "@/library/models"
 import {AutoCompleteFilterSingleSelectSalesTerrority,AutoCompleteFilterSingleSelectReportingTo} from "../index"
@@ -72,7 +72,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                       "SALES_HIERARCHY"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -201,7 +201,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

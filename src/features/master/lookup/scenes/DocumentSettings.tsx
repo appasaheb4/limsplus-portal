@@ -6,7 +6,7 @@ import { useForm, Controller } from "react-hook-form"
 import {Toast,Icons,AutocompleteGroupBy,Buttons,Grid,List
   ,Form,Svg} 
   from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems, lookupValue} from "@/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@/routes"
 let router = dashboardRoutes
@@ -328,7 +328,7 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
