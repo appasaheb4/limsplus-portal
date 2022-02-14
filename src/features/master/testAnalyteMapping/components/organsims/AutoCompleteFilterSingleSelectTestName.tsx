@@ -3,15 +3,16 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import { Icons } from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectTestNameProps {
+  lab?: string
   hasError?: boolean
   onSelect: (item: any) => void
 }
-
+  
 export const AutoCompleteFilterSingleSelectTestName = observer(
-  ({hasError, onSelect }: AutoCompleteFilterSingleSelectTestNameProps) => {
+  ({ lab, hasError, onSelect }: AutoCompleteFilterSingleSelectTestNameProps) => {
     const { loading, testMasterStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -36,11 +37,11 @@ export const AutoCompleteFilterSingleSelectTestName = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(testMasterStore.listTestMaster)
-    }, [testMasterStore.listTestMaster])
+      setOptions(testMasterStore.listTestMaster.filter((item) => item.pLab === lab))
+    }, [testMasterStore.listTestMaster,lab])
 
     const onFilter = (value: string) => {
-        testMasterStore.testMasterService.filter({
+      testMasterStore.testMasterService.filter({
         input: {
           type: "filter",
           filter: {
@@ -103,7 +104,7 @@ export const AutoCompleteFilterSingleSelectTestName = observer(
                             setValue(item.testName)
                             setIsListOpen(false)
                             testMasterStore.updateTestMasterList(
-                                testMasterStore.listTestMasterCopy
+                              testMasterStore.listTestMasterCopy
                             )
                             onSelect(item)
                           }}

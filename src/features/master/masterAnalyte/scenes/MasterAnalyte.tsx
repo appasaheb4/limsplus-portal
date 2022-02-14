@@ -390,7 +390,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper
                       label="Analyte Method"
-                      hasError={errors.collectionCenter}
+                      hasError={errors.analyteMethod}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -398,8 +398,9 @@ const MasterAnalyte = MasterAnalyteHoc(
                         data={{
                           list: methodsStore.listMethods,
                           displayKey: ["methodsCode", "methodsName"],
-                        }}
-                        hasError={errors.collectionCenter}
+                        }}   
+                        disable={!masterAnalyteStore.masterAnalyte?.method}
+                        hasError={errors.analyteMethod}
                         onFilter={(value: string) => {
                           methodsStore.methodsService.filterByFields({
                             input: {
@@ -427,7 +428,11 @@ const MasterAnalyte = MasterAnalyteHoc(
                     </Form.InputWrapper>
                   )}
                   name="analyteMethod"
-                  rules={{ required: false }}
+                  rules={{
+                    required: masterAnalyteStore.masterAnalyte?.method
+                      ? true
+                      : false,
+                  }}
                   defaultValue=""
                 />
                 <Controller
@@ -445,7 +450,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         onChange(shortName)
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
-                          shortName: shortName.toUpperCase(),
+                          shortName: shortName,
                         })
                       }}
                     />
@@ -591,6 +596,8 @@ const MasterAnalyte = MasterAnalyteHoc(
                           masterAnalyteStore.updateMasterAnalyte({
                             ...masterAnalyteStore.masterAnalyte,
                             method,
+                            analyteCode: !method ? '' : masterAnalyteStore.masterAnalyte?.analyteCode,
+                            analyteName: !method ? '' : masterAnalyteStore.masterAnalyte?.analyteName
                           })
                         }}
                       />
@@ -654,6 +661,9 @@ const MasterAnalyte = MasterAnalyteHoc(
                           masterAnalyteStore.updateMasterAnalyte({
                             ...masterAnalyteStore.masterAnalyte,
                             calculationFlag,
+                            calcyName: !calculationFlag
+                              ? ""
+                              : masterAnalyteStore.masterAnalyte?.calcyName,
                           })
                         }}
                       />
@@ -666,7 +676,6 @@ const MasterAnalyte = MasterAnalyteHoc(
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
-
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -676,14 +685,17 @@ const MasterAnalyte = MasterAnalyteHoc(
                         placeholder="Search by code or name"
                         hasError={errors.department}
                         data={{
-                          list: departmentStore?.listDepartment,
-                          displayKey: ["code","name"],
+                          list: departmentStore?.listDepartment.filter(
+                            (item) =>
+                              item.lab === masterAnalyteStore.masterAnalyte?.lab
+                          ),
+                          displayKey: ["code", "name"],
                         }}
                         onFilter={(value: string) => {
                           departmentStore.DepartmentService.filterByFields({
                             input: {
                               filter: {
-                                fields: ["code","name"],
+                                fields: ["code", "name"],
                                 srText: value,
                               },
                               page: 0,
@@ -727,6 +739,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                           masterAnalyteStore.updateMasterAnalyte({
                             ...masterAnalyteStore.masterAnalyte,
                             resultType,
+                            picture:
+                              resultType !== "V"
+                                ? undefined
+                                : masterAnalyteStore.masterAnalyte?.picture,
                           })
                         }}
                       >
@@ -857,6 +873,11 @@ const MasterAnalyte = MasterAnalyteHoc(
                     >
                       <select
                         value={masterAnalyteStore.masterAnalyte?.picture}
+                        disabled={
+                          masterAnalyteStore.masterAnalyte?.resultType === "V"
+                            ? false
+                            : true
+                        }
                         name="optionPicture"
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.picture ? "border-red-500  " : "border-gray-300"
@@ -882,7 +903,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                     </Form.InputWrapper>
                   )}
                   name="picture"
-                  rules={{ required: false }}
+                  rules={{
+                    required:
+                      masterAnalyteStore.masterAnalyte?.resultType === "V"
+                        ? true
+                        : false,
+                  }}
                   defaultValue=""
                 />
                 {/* <Form.InputDate
@@ -972,6 +998,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         errors.calcyName ? "Please Enter Calcy Name" : "Calcy Name"
                       }
+                      disabled={!masterAnalyteStore.masterAnalyte?.calculationFlag}
                       hasError={errors.calcyName}
                       value={masterAnalyteStore.masterAnalyte?.calcyName}
                       onChange={(calcyName) => {
@@ -984,9 +1011,14 @@ const MasterAnalyte = MasterAnalyteHoc(
                     />
                   )}
                   name="calcyName"
-                  rules={{ required: false }}
+                  rules={{
+                    required: masterAnalyteStore.masterAnalyte?.calculationFlag
+                      ? true
+                      : false,
+                  }}
                   defaultValue=""
                 />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1234,7 +1266,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.Input
                       label="Min Reportable"
                       placeholder="Min reportable"
-                      type="number"
                       hasError={errors.minReportable}
                       value={masterAnalyteStore.masterAnalyte?.minReportable}
                       onChange={(minReportable) => {
@@ -1256,7 +1287,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.Input
                       label="Max Reportable"
                       placeholder="Max reportable"
-                      type="number"
                       hasError={errors.maxReportable}
                       value={masterAnalyteStore.masterAnalyte?.maxReportable}
                       onChange={(maxReportable) => {

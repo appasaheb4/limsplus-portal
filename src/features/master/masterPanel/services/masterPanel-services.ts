@@ -5,10 +5,11 @@
  * @author limsplus
  */
 import * as Models from "../models"
+import _ from "lodash"
 import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import { SectionService } from "@/features/master/section/services"
 import { stores } from "@/stores"
-import {  
+import {
   LIST,
   CREATE_RECORD,
   REMOVE_RECORD,
@@ -42,6 +43,14 @@ export class MasterPanelService {
 
   addPanelMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      const input = _.omitBy(
+        variables.input,
+        (v) => _.isUndefined(v) || _.isNull(v) || v === ""
+      )
+      variables = {
+        ...variables,
+        input,
+      }
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -192,4 +201,3 @@ export class MasterPanelService {
         )
     })
 }
-

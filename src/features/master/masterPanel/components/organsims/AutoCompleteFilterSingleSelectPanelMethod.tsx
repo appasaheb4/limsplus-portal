@@ -6,11 +6,12 @@ import { useStores } from "@/stores"
 import {Icons} from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectPanelMethodProps {
+  disable?:boolean
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteFilterSingleSelectPanelMethod = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectPanelMethodProps) => {
+  ({ disable= false, onSelect }: AutoCompleteFilterSingleSelectPanelMethodProps) => {
     const { loading, methodsStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -78,6 +79,7 @@ export const AutoCompleteFilterSingleSelectPanelMethod = observer(
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
+              disabled={disable}
             />
             {loading && <Spinner animation="border" className="mr-2 h-4 w-4" />}
             {isListOpen ? (

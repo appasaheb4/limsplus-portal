@@ -3,6 +3,9 @@ import {TestMaster} from "../models"
 import {TestMasterService} from "../services"
 import * as ModelsSection from "@/features/master/section/models"
 import dayjs from 'dayjs'
+import {
+  Toast
+} from "@/library/components"
 
 export class TestMasterStore {
   testMaster!: TestMaster
@@ -91,7 +94,9 @@ export class TestMasterStore {
 
    updateSectionListByDeptCode(res: any) {
     if (!res.findSectionListByDeptCode.success)
-      return alert(`${res.findSectionListByDeptCode.message}`)
+      return Toast.warning({
+        message: `😔 ${res.findSectionListByDeptCode.message}`,
+      }) 
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data
   }
 

@@ -13,7 +13,7 @@ export const AutoCompleteEquipmentType = observer(
   ({ onSelect }: AutoCompleteEquipmentTypeProps) => {
     const { loading, interfaceManagerStore } = useStores()
     return (
-      <>
+      <> 
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
           posstion="relative"
           loader={loading}

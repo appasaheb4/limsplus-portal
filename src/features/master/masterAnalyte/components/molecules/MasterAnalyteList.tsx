@@ -17,7 +17,7 @@ import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectAnalayteMethod,
   AutoCompleteDepartment,
-  AutoCompleteEquipmentType
+  AutoCompleteEquipmentType,
 } from "../index"
 let lab
 let analyteCode
@@ -46,7 +46,7 @@ let dateExpire
 let minReportable
 let maxReportable
 let version
- 
+
 interface MasterAnalyteProps {
   data: any
   totalSize: number
@@ -460,9 +460,10 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 column,
                 rowIndex,
                 columnIndex
-              ) => (
+              ) => (    
                 <>
                   <AutoCompleteDepartment
+                    lab={row.lab}   
                     onSelect={(item) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(item, "departments", row._id)
@@ -690,11 +691,15 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     onChange={(e) => {
                       const picture = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem( parseInt(picture), column.dataField, row._id)
+                        props.onUpdateItem(
+                          parseInt(picture),
+                          column.dataField,
+                          row._id
+                        )
                     }}
                   >
                     <option selected>Select</option>
-                    {["0", "1","2", "3" ,"4"].map((item: any, index: number) => (
+                    {["0", "1", "2", "3", "4"].map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
                       </option>
@@ -898,7 +903,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   calcyName = filter
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row) && row.calculationFlag,
             },
             {
               dataField: "cptCode",

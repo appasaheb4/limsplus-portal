@@ -1,16 +1,17 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
-import {Icons} from ".."
+import { Icons } from ".."
 
 interface AutocompleteCheckProps {
+  posstion?: string
   placeholder?: string
   data?: any
   defaultData?: any[]
   hasError?: boolean
   onUpdate?: (item: any) => void
 }
-  
+
 export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
   const [value, setValue] = useState<string>("")
   const [options, setOptions] = useState<any[]>()
@@ -134,7 +135,11 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
 
         {options && isListOpen
           ? options?.length > 0 && (
-              <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+              <div
+                className={`mt-1 ${
+                  props.posstion || "absolute"
+                }  bg-gray-100 p-2 rounded-sm z-50`}
+              >
                 <ul>
                   {options?.map((item, index) => (
                     <>

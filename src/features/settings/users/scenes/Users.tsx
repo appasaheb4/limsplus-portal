@@ -38,6 +38,7 @@ export const Users = UsersHoc(observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
+    
   setValue("environment", loginStore.login.environment)
   setValue("status", userStore.user?.status)
   setValue("environment", userStore.user?.environment)

@@ -2,13 +2,31 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import {lookupItems} from "@/library/utils"
+import { lookupItems } from "@/library/utils"
 
-import {Svg,NumberFilter,DateFilter,textFilter,TableBootstrap,Icons,Tooltip,Form,AutocompleteCheck,customFilter,Buttons,Toast} from "@/library/components"
-import {Confirm} from "@/library/models"
-import { AutoCompleteFilterMutiSelectRoles ,AutoCompleteFilterSingleSelectDefaultLabs,AutoCompleteFilterSingleSelectDegnisation,AutoCompleteFilterMutiSelectDepartment} from "../index"
+import {
+  Svg,
+  NumberFilter,
+  DateFilter,
+  textFilter,
+  TableBootstrap,
+  Icons,
+  Tooltip,
+  Form,
+  AutocompleteCheck,
+  customFilter,
+  Buttons,
+  Toast,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import {
+  AutoCompleteFilterMutiSelectRoles,
+  AutoCompleteFilterSingleSelectDefaultLabs,
+  AutoCompleteFilterSingleSelectDegnisation,
+  AutoCompleteFilterMutiSelectDepartment,
+} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
-  
+
 import { toJS } from "mobx"
 
 let userId
@@ -32,7 +50,6 @@ let validationLevel
 let createdBy
 let status
 let environment
-
 
 interface UserListProps {
   data: any
@@ -80,11 +97,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "userId",
               text: "UserId",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   userId = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editable: false,
@@ -93,11 +110,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "empCode",
               text: "Emp Code",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   empCode = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editable: false,
@@ -107,11 +124,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Default Lab",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   defaultLab = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editorRenderer: (
@@ -123,24 +140,26 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                 <AutoCompleteFilterSingleSelectDefaultLabs
-                 onSelect={(item)=>{
-                   props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                 }}
-                 />
+                  <AutoCompleteFilterSingleSelectDefaultLabs
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },
-            {
+            {  
               dataField: "lab",
               text: "Lab",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (cell, row, rowIndex) => `${row.lab.map(item=>item.name)}`,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.lab.map((item) => item.name)}`,
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   lab = filter
-                }
+                },
               }),
               headerClasses: "textHeader2",
               formatter: (cellContent, row) => (
@@ -162,6 +181,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <AutocompleteCheck
+                    posstion="relative"
                     data={{
                       defulatValues: toJS(row.lab),
                       list: props.extraData.listLabs,
@@ -181,11 +201,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Deginisation",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   deginisation = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editorRenderer: (
@@ -198,9 +218,10 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDegnisation
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -210,11 +231,12 @@ export const UserList = observer((props: UserListProps) => {
               text: "Department",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (cell, row, rowIndex) => `${row.department.map(item=>item.name)}`,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.department.map((item) => item.name)}`,
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   department = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               formatter: (cellContent, row) => (
@@ -236,12 +258,13 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterMutiSelectDepartment
-                  selected={row.department}
-                  onUpdate={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    selected={row.department}
+                    onUpdate={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
-                  </>
+                </>
               ),
             },
             {
@@ -249,11 +272,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Validation Level",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   validationLevel = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -268,27 +291,25 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
-                      onChange={(e) => {
-                        const validationLevel = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            parseInt(validationLevel),
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
-                        <option key={item.description} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                 
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
+                    onChange={(e) => {
+                      const validationLevel = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          parseInt(validationLevel),
+                          column.dataField,
+                          row._id
+                        )
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
+                      <option key={item.description} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -296,7 +317,7 @@ export const UserList = observer((props: UserListProps) => {
             //   dataField: "workStation",
             //   text: "Work Station",
             //   sort: true,
-            
+
             //   filter: textFilter({
             //   headerClasses: "textHeader3",
             // },
@@ -304,7 +325,7 @@ export const UserList = observer((props: UserListProps) => {
             //   dataField: "ipAddress",
             //   text: "IP Address",
             //   sort: true,
-            
+
             //   filter: textFilter({
             //   headerClasses: "textHeader3",
             // },
@@ -313,11 +334,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Full Name",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   fullName = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               style: { textTransform: "uppercase" },
@@ -328,11 +349,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Mobile No",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   mobileNo = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
             },
@@ -341,11 +362,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Contact No",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   contactNo = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
             },
@@ -354,11 +375,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Email",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   email = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
             },
@@ -367,11 +388,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "User Degree",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   userDegree = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
             },
@@ -380,11 +401,12 @@ export const UserList = observer((props: UserListProps) => {
               text: "Date Of Birth",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col,row) => (row.dateOfBirth ? dayjs(row.dateOfBirth).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateOfBirth ? dayjs(row.dateOfBirth).format("YYYY-MM-DD") : "",
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateOfBirth = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -417,11 +439,14 @@ export const UserList = observer((props: UserListProps) => {
               text: "Marriage Anniversery Date",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col,row) => (row.marriageAnniversary ? dayjs(row.marriageAnniversary).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.marriageAnniversary
+                  ? dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
+                  : "",
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   marriageAnniversary = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -443,7 +468,11 @@ export const UserList = observer((props: UserListProps) => {
                     value={new Date(row.marriageAnniversary)}
                     onFocusRemove={(marriageAnniversary) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(marriageAnniversary, column.dataField, row._id)
+                        props.onUpdateItem(
+                          marriageAnniversary,
+                          column.dataField,
+                          row._id
+                        )
                     }}
                   />
                 </>
@@ -454,11 +483,12 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "exipreDate",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col,row) => (row.exipreDate ? dayjs(row.exipreDate).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.exipreDate ? dayjs(row.exipreDate).format("YYYY-MM-DD") : "",
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   exipreDate = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -491,11 +521,12 @@ export const UserList = observer((props: UserListProps) => {
               text: "Role",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (cell, row, rowIndex) => `${row.role.map(item=>item.code)}`,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.role.map((item) => item.code)}`,
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   role = filter
-                }
+                },
               }),
               headerClasses: "textHeader2",
               formatter: (cellContent, row) => (
@@ -531,11 +562,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Confidential",
               sort: true,
               editable: false,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cellContent, row) => (
                 <>
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
                       props.onUpdateItem &&
@@ -549,11 +580,12 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
-              csvFormatter: (col,row) => (row.dateOfEntry ? dayjs(row.dateOfEntry).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateOfEntry ? dayjs(row.dateOfEntry).format("YYYY-MM-DD") : "",
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateOfEntry = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -576,21 +608,25 @@ export const UserList = observer((props: UserListProps) => {
                     value={new Date(row.dateOfEntry)}
                     onFocusRemove={(dateOfEntry) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(new Date(dateOfEntry), column.dataField, row._id)
+                        props.onUpdateItem(
+                          new Date(dateOfEntry),
+                          column.dataField,
+                          row._id
+                        )
                     }}
                   />
                 </>
               ),
-            },  
+            },
             {
               dataField: "createdBy",
               text: "Created  By",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   createdBy = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editable: false,
@@ -621,7 +657,6 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <Form.InputFile
-                    
                     placeholder="File"
                     onChange={(e) => {
                       const signature = e.target.files[0]
@@ -657,7 +692,6 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <Form.InputFile
-                    
                     onChange={(e) => {
                       const picture = e.target.files[0]
                       props.onUpdateImage &&
@@ -672,11 +706,11 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "status",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   status = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editorRenderer: (
@@ -688,27 +722,24 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
+                  <select
                     value={row.status}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -717,11 +748,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Environment",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environment = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editorRenderer: (
@@ -733,27 +764,24 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      value={row.environment}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={row.environment}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -762,11 +790,11 @@ export const UserList = observer((props: UserListProps) => {
               text: "Confirguration",
               sort: true,
               editable: false,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               formatter: (cellContent, row) => (
                 <>
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.confirguration}
                     onChange={(confirguration) => {
                       props.onUpdateItem &&
@@ -781,11 +809,12 @@ export const UserList = observer((props: UserListProps) => {
               text: "System Info",
               sort: true,
               editable: false,
-              csvFormatter: (cell, row, rowIndex) => `Mobile:${
-                row.systemInfo.accessInfo &&
-                row.systemInfo.accessInfo?.mobile},Desktop:${
-                  row.systemInfo.accessInfo &&
-                  row.systemInfo.accessInfo?.desktop}`,
+              csvFormatter: (cell, row, rowIndex) =>
+                `Mobile:${
+                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile
+                },Desktop:${
+                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.desktop
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <Form.InputWrapper
@@ -794,7 +823,7 @@ export const UserList = observer((props: UserListProps) => {
                   >
                     <div className="flex flex-row gap-4">
                       <Form.Toggle
-                      disabled={!editorCell(row)}
+                        disabled={!editorCell(row)}
                         label="Mobile"
                         value={
                           row.systemInfo &&
@@ -818,7 +847,7 @@ export const UserList = observer((props: UserListProps) => {
                       />
 
                       <Form.Toggle
-                      disabled={!editorCell(row)}
+                        disabled={!editorCell(row)}
                         label="Desktop"
                         value={
                           row.systemInfo &&
@@ -849,7 +878,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "opration",
               text: "Password Re-Send",
               editable: false,
-              csvExport: false,  
+              csvExport: false,
               formatter: (cellContent, row) => (
                 <>
                   <Buttons.Button
@@ -913,10 +942,7 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <Tooltip
-                      tooltipText="Delete"
-                      position="top"
-                    >
+                    <Tooltip tooltipText="Delete" position="top">
                       <Icons.IconContext
                         color="#fff"
                         size="20"
@@ -931,9 +957,7 @@ export const UserList = observer((props: UserListProps) => {
                             })
                         }}
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                   </div>
@@ -961,7 +985,7 @@ export const UserList = observer((props: UserListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             userId("")
             empCode("")
             defaultLab("")

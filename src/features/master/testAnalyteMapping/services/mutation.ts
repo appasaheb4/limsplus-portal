@@ -22,7 +22,6 @@ export const LIST = gql`
         analyteName
         testCode
         testName
-        description
         bill
         status
         environment
@@ -110,7 +109,6 @@ export const FILTER = gql`
         analyteName
         testCode
         testName
-        description
         bill
         status
         environment

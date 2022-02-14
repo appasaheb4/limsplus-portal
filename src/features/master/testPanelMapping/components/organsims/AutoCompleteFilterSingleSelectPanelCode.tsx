@@ -3,14 +3,16 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import { Icons } from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectPanelCodeProps {
+  posstion?:string
+  lab?: string
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteFilterSingleSelectPanelCode = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
+  ({ posstion ='absolute', lab, onSelect }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
     const { loading, masterPanelStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -30,13 +32,15 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
         }
       }, [ref, isListOpen])
     }
-
+   
     const wrapperRef = useRef(null)
     useOutsideAlerter(wrapperRef)
-
+  
     useEffect(() => {
-      setOptions(masterPanelStore.listMasterPanel)
-    }, [masterPanelStore.listMasterPanel])
+      setOptions(
+        masterPanelStore.listMasterPanel.filter((item) => item.pLab === lab)
+      )
+    }, [masterPanelStore.listMasterPanel, lab])
 
     const onFilter = (value: string) => {
       masterPanelStore.masterPanelService.filter({
@@ -89,7 +93,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className={`mt-1  ${posstion} bg-gray-100 p-2 rounded-sm z-50`}>
                   <ul>
                     {options?.map((item, index) => (
                       <>
@@ -100,7 +104,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
                             setValue(item.panelName)
                             setIsListOpen(false)
                             masterPanelStore.updatePanelMasterList(
-                                masterPanelStore.listMasterPanelCopy
+                              masterPanelStore.listMasterPanelCopy
                             )
                             onSelect(item)
                           }}
@@ -108,7 +112,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
                           {" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.panelCode} -  {item.panelName}
+                            {item.panelCode} - {item.panelName}
                           </label>
                         </li>
                       </>

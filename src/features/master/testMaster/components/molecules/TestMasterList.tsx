@@ -1,10 +1,24 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems} from "@/library/utils"
-import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
-import {Confirm} from "@/library/models"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectDeliverySchedule,AutoCompleteFilterSingleSelectTestMethod} from '../index'
+import { lookupItems } from "@/library/utils"
+import {
+  NumberFilter,
+  DateFilter,
+  textFilter,
+  customFilter,
+  TableBootstrap,
+  Form,
+  Icons,
+  Tooltip,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectDepartment,
+  AutoCompleteFilterSingleSelectDeliverySchedule,
+  AutoCompleteFilterSingleSelectTestMethod,
+} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let dateCreation
@@ -25,7 +39,6 @@ let schedule
 let tat
 let validationLevel
 let reportGroup
-let resultOrder
 let processing
 let tubeGroup
 let testMethodCode
@@ -44,12 +57,10 @@ let worklistCode
 let cptCode
 let prefix
 let sufix
-let deleverySchedule
 let collectionContainer
 let holdingDays
 let status
 let environment
-
 
 interface TestMasterProps {
   data: any
@@ -60,7 +71,7 @@ interface TestMasterProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onUpdateFileds?:(fileds:any,id:string)=>void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -91,11 +102,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "RLab",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   rLab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -107,24 +118,22 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const rLab = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(rLab, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.labList &&
-                        props.extraData.labList.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const rLab = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(rLab, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {props.extraData.labList &&
+                      props.extraData.labList.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
+                  </select>
                 </>
               ),
             },
@@ -133,11 +142,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "PLab",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   pLab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -150,9 +159,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectLabs
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -162,11 +172,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Department",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   department = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -179,9 +189,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDepartment
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    lab={row.pLab}
+                    posstion="relative"
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -191,11 +204,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Section",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   section = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
@@ -210,26 +223,24 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const section = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(section, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.sectionListByDeptCode &&
-                        props.extraData.sectionListByDeptCode.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const section = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(section, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {props.extraData.sectionListByDeptCode &&
+                      props.extraData.sectionListByDeptCode.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        )
+                      )}
+                  </select>
                 </>
               ),
             },
@@ -238,11 +249,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Test  Code",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testCode = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -251,11 +262,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Test  Name",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testName = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -264,11 +275,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   description = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -276,13 +287,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
                         props.onUpdateItem &&
@@ -299,11 +310,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Short Name",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   shortName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               style: { textTransform: "uppercase" },
@@ -314,11 +325,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   price = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -329,13 +340,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: col => (col ? col :false ),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -352,11 +363,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Schedule",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   schedule = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -369,10 +380,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDeliverySchedule
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.schCode,column.dataField,row._id)
-                  }}
-                 /> 
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.schCode, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },
@@ -381,11 +393,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "TAT",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   tat = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -394,11 +406,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Validation Level",
               headerClasses: "textHeader7",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   validationLevel = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -413,55 +425,40 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const validationLevel: any = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            validationLevel,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const validationLevel: any = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          validationLevel,
+                          column.dataField,
+                          row._id
                         )
-                      )}
-                    </select>
-                  
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      )
+                    )}
+                  </select>
                 </>
               ),
-            },
-            {
-              dataField: "resultOrder",
-              text: "Result Order",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) =>{
-                  resultOrder = filter
-                }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "processing",
               text: "Processing",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   processing = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -473,28 +470,26 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const processing = e.target.value as
-                          | "MANUAL"
-                          | "AEMI"
-                          | "AUTOMATIC"
-                        props.onUpdateItem &&
-                          props.onUpdateItem(processing, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["MANUAL", "AEMI", "AUTOMATIC"].map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const processing = e.target.value as
+                        | "MANUAL"
+                        | "AEMI"
+                        | "AUTOMATIC"
+                      props.onUpdateItem &&
+                        props.onUpdateItem(processing, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["MANUAL", "AEMI", "AUTOMATIC"].map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -503,11 +498,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Sample Run On",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sampleRunOn = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -519,23 +514,21 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sampleRunOn, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["LABID", "SAMPLEID"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sampleRunOn, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["LABID", "SAMPLEID"].map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -544,11 +537,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Workflow",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   workflow = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -560,26 +553,23 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const workflow = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(workflow, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "WORKFLOW"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const workflow = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(workflow, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "WORKFLOW").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -589,11 +579,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "disease",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   disease = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -605,26 +595,23 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const disease = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(disease, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "DISEASE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const disease = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(disease, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "DISEASE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -633,11 +620,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Category",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   category = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -649,26 +636,23 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const category = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(category, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "CATEGORY"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const category = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(category, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "CATEGORY").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -677,11 +661,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Test Type",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -693,26 +677,23 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const testType = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(testType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "TEST_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const testType = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(testType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "TEST_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -721,11 +702,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Workflow Code",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   workflowCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -737,23 +718,21 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const workflowCode = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(workflowCode, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["Workflow Code 1"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const workflowCode = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(workflowCode, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["Workflow Code 1"].map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </>
               ),
             },
@@ -762,11 +741,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "CPT Code",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   cptCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -775,13 +754,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "autoFinish",
               text: "Auto Finish",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.autoFinish}
                       onChange={(autoFinish) => {
                         props.onUpdateItem &&
@@ -796,13 +775,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
                         props.onUpdateItem &&
@@ -818,13 +797,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.confidential}
                       onChange={(confidential) => {
                         props.onUpdateItem &&
@@ -839,13 +818,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "urgent",
               text: "Urgent",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.urgent}
                       onChange={(urgent) => {
                         props.onUpdateItem &&
@@ -861,13 +840,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
                         props.onUpdateItem &&
@@ -883,12 +862,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Test Method Code",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testMethodCode = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -900,24 +879,31 @@ export const TestMasterList = (props: TestMasterProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectTestMethod
-                  onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({testMethodCode:item.methodsCode,testMethodName:item.methodsName},row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            testMethodCode: item.methodsCode,
+                            testMethodName: item.methodsName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
-              )
+              ),
             },
             {
               dataField: "testMethodName",
               text: "Test Method Name",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   testMethodName = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -929,23 +915,30 @@ export const TestMasterList = (props: TestMasterProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectTestMethod
-                  onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({testMethodCode:item.methodsCode,testMethodName:item.methodsName},row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            testMethodCode: item.methodsCode,
+                            testMethodName: item.methodsName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
-              ) 
+              ),
             },
             {
               dataField: "reportGroup",
               text: "Report Group",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   reportGroup = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -954,13 +947,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "accredited",
               text: "Accredited",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.accredited}
                       onChange={(accredited) => {
                         props.onUpdateItem &&
@@ -975,13 +968,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "cretical",
               text: "Cretical",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.cretical}
                       onChange={(cretical) => {
                         props.onUpdateItem &&
@@ -997,13 +990,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "repitation",
               text: "Repitation",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.repitation}
                       onChange={(repitation) => {
                         props.onUpdateItem &&
@@ -1018,13 +1011,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.printLabel}
                       onChange={(printLabel) => {
                         props.onUpdateItem &&
@@ -1039,13 +1032,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "cumulative",
               text: "Cumulative",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.cumulative}
                       onChange={(cumulative) => {
                         props.onUpdateItem &&
@@ -1061,11 +1054,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Tube Group",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   tubeGroup = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1075,11 +1068,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Label Instruction",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   labelInstruction = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1089,11 +1082,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Panel Method",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   panelMethod = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1103,11 +1096,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Sample Type",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sampleType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1117,11 +1110,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Worklist Code",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   worklistCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1130,13 +1123,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "qcHold",
               text: "QC Hold",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.qcHold}
                       onChange={(qcHold) => {
                         props.onUpdateItem &&
@@ -1151,13 +1144,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "oosHold",
               text: "OOS Hold",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.oosHold}
                       onChange={(oosHold) => {
                         props.onUpdateItem &&
@@ -1172,13 +1165,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "deltaHold",
               text: "Delta Hold",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.deltaHold}
                       onChange={(deltaHold) => {
                         props.onUpdateItem &&
@@ -1194,11 +1187,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Prefix",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   prefix = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -1210,26 +1203,23 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const prefix = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(prefix, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "PREFIX"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const prefix = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(prefix, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "PREFIX").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -1239,11 +1229,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Sufix",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sufix = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -1255,26 +1245,23 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sufix = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sufix, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "SUFIX"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sufix = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sufix, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "SUFIX").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -1283,24 +1270,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Speical Instructions",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   speicalInstructions = filter
-                }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "deleverySchedule",
-              text: "Delevery Schedule",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) =>{
-                  deleverySchedule = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1308,13 +1282,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "allowPartial",
               text: "Allow Partial",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.allowPartial}
                       onChange={(allowPartial) => {
                         props.onUpdateItem &&
@@ -1330,11 +1304,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Collection Container",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   collectionContainer = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1343,11 +1317,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Holding Days",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   holdingDays = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1356,11 +1330,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   status = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -1372,26 +1346,23 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -1400,11 +1371,11 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   enteredBy = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -1413,12 +1384,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateCreation = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -1450,12 +1422,13 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateActive = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -1488,11 +1461,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Date Expire",
               headerClasses: "textHeader11",
               sort: true,
-              csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateExpire = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -1524,12 +1498,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   version = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -1540,12 +1514,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environment = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -1556,27 +1530,24 @@ export const TestMasterList = (props: TestMasterProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      value={row.environment}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={row.environment}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -1589,10 +1560,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <Tooltip
-                      tooltipText="Delete"
-                      position="top"
-                    >
+                    <Tooltip tooltipText="Delete" position="top">
                       <Icons.IconContext
                         color="#fff"
                         size="20"
@@ -1607,17 +1575,12 @@ export const TestMasterList = (props: TestMasterProps) => {
                           })
                         }
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Version Upgrade"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Version Upgrade">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -1625,15 +1588,10 @@ export const TestMasterList = (props: TestMasterProps) => {
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconvsc.VscVersions
-                            )}
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Duplicate"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Duplicate">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -1641,10 +1599,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconio5
-                                .IoDuplicateOutline
-                            )}
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                           </Icons.IconContext>
                         </Tooltip>
                       </>
@@ -1674,7 +1629,7 @@ export const TestMasterList = (props: TestMasterProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             dateCreation()
             dateActive()
             dateExpire()
@@ -1693,7 +1648,6 @@ export const TestMasterList = (props: TestMasterProps) => {
             tat("")
             validationLevel("")
             reportGroup("")
-            resultOrder("")
             processing("")
             testMethodCode("")
             testMethodName("")
@@ -1712,7 +1666,6 @@ export const TestMasterList = (props: TestMasterProps) => {
             cptCode("")
             prefix("")
             sufix("")
-            deleverySchedule("")
             collectionContainer("")
             holdingDays("")
             status("")
@@ -1723,4 +1676,3 @@ export const TestMasterList = (props: TestMasterProps) => {
     </>
   )
 }
-

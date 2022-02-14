@@ -3,14 +3,22 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import { Icons } from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
+  lab?: string
+  posstion?:string
   onSelect: (item: any) => void
+  hasError?: boolean
 }
 
 export const AutoCompleteFilterSingleSelectDepartment = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectDepartmentProps) => {
+  ({
+    lab,
+    onSelect,
+    hasError = false,
+    posstion ='absolute'
+  }: AutoCompleteFilterSingleSelectDepartmentProps) => {
     const { loading, departmentStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -35,8 +43,8 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(departmentStore.listDepartment)
-    }, [departmentStore.listDepartment])
+      setOptions(departmentStore.listDepartment.filter((item) => item.lab === lab))
+    }, [departmentStore.listDepartment,lab])
 
     const onFilter = (value: string) => {
       departmentStore.DepartmentService.filter({
@@ -69,7 +77,9 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
       <>
         <div ref={wrapperRef}>
           <div
-            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
+            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  ${
+              hasError ? "border-red-500" : "border-gray-300"
+            } rounded-md`}
           >
             <input
               placeholder="Search by department name"
@@ -89,7 +99,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className={`mt-1 ${posstion}  bg-gray-100 p-2 rounded-sm z-50`}>
                   <ul>
                     {options?.map((item, index) => (
                       <>
@@ -100,7 +110,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
                             setValue(item.name)
                             setIsListOpen(false)
                             departmentStore.updateDepartmentList(
-                                departmentStore.listDepartmentCopy
+                              departmentStore.listDepartmentCopy
                             )
                             onSelect(item)
                           }}

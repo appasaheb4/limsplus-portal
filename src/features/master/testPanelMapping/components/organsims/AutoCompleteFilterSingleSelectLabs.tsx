@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import { Icons } from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectLabsProps {
   onSelect: (item: any) => void
@@ -42,7 +42,7 @@ export const AutoCompleteFilterSingleSelectLabs = observer(
       labStore.LabService.filter({
         input: {
           type: "filter",
-          filter: { 
+          filter: {
             name: value,
           },
           page: 0,
@@ -99,9 +99,7 @@ export const AutoCompleteFilterSingleSelectLabs = observer(
                           onClick={() => {
                             setValue(item.name)
                             setIsListOpen(false)
-                            labStore.updateLabList(
-                              labStore.listLabsCopy
-                            )
+                            labStore.updateLabList(labStore.listLabsCopy)
                             onSelect(item)
                           }}
                         >
