@@ -644,150 +644,7 @@ const TestMater = TestMasterHOC(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Grid cols={5}>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="Bill"
-                        id="modeBill"
-                        hasError={errors.bill}
-                        value={testMasterStore.testMaster?.bill}
-                        onChange={(bill) => {
-                          onChange(bill)
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            bill,
-                          })
-                        }}
-                      />
-                    )}
-                    name="bill"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="AutoFinish"
-                        id="modeAutoFinish"
-                        hasError={errors.autoFinish}
-                        value={testMasterStore.testMaster?.autoFinish}
-                        onChange={(autoFinish) => {
-                          onChange(autoFinish)
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            autoFinish,
-                          })
-                        }}
-                      />
-                    )}
-                    name="autoFinish"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="Hold OOS"
-                        id="modeHoldOOS"
-                        hasError={errors.holdOOS}
-                        value={testMasterStore.testMaster?.holdOOS}
-                        onChange={(holdOOS) => {
-                          onChange(holdOOS)
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            holdOOS,
-                          })
-                        }}
-                      />
-                    )}
-                    name="holdOOS"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="Confidential"
-                        hasError={errors.confidential}
-                        value={testMasterStore.testMaster?.confidential}
-                        onChange={(confidential) => {
-                          onChange(confidential)
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            confidential,
-                          })
-                        }}
-                      />
-                    )}
-                    name="confidential"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="Urgent"
-                        hasError={errors.urgent}
-                        value={testMasterStore.testMaster?.urgent}
-                        onChange={(urgent) => {
-                          onChange(urgent)
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            urgent,
-                          })
-                        }}
-                      />
-                    )}
-                    name="urgent"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                </Grid>
-              </List>
-
-              <List direction="col" space={4} justify="stretch" fill>
-                {/* <Form.Input
-                label="Report Group"
-                placeholder="Report Group"
-                value={testMasterStore.testMaster?.reportGroup}
-                onChange={(reportGroup) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    reportGroup,
-                  })
-                }}
-              /> */}
-
-                {/* <Form.Input
-                label="Tube Groups"
-                placeholder="Tube Groups"
-                value={testMasterStore.testMaster?.tubeGroup}
-                onChange={(tubeGroup) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    tubeGroup,
-                  })
-                }}
-              />
-              <Form.Input
-                label="Label Instruction"
-                placeholder="Label Instruction"
-                value={testMasterStore.testMaster?.labelInstruction}
-                onChange={(labelInstruction) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    labelInstruction,
-                  })
-                }}
-              /> */}
-
-              <Controller
+                 <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.InputWrapper
@@ -1045,6 +902,149 @@ const TestMater = TestMasterHOC(
                 rules={{ required: false }}
                 defaultValue=""
               />
+              
+                <Grid cols={5}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Bill"
+                        id="modeBill"
+                        hasError={errors.bill}
+                        value={testMasterStore.testMaster?.bill}
+                        onChange={(bill) => {
+                          onChange(bill)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            bill,
+                          })
+                        }}
+                      />
+                    )}
+                    name="bill"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="AutoFinish"
+                        id="modeAutoFinish"
+                        hasError={errors.autoFinish}
+                        value={testMasterStore.testMaster?.autoFinish}
+                        onChange={(autoFinish) => {
+                          onChange(autoFinish)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            autoFinish,
+                          })
+                        }}
+                      />
+                    )}
+                    name="autoFinish"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Hold OOS"
+                        id="modeHoldOOS"
+                        hasError={errors.holdOOS}
+                        value={testMasterStore.testMaster?.holdOOS}
+                        onChange={(holdOOS) => {
+                          onChange(holdOOS)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            holdOOS,
+                          })
+                        }}
+                      />
+                    )}
+                    name="holdOOS"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Confidential"
+                        hasError={errors.confidential}
+                        value={testMasterStore.testMaster?.confidential}
+                        onChange={(confidential) => {
+                          onChange(confidential)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            confidential,
+                          })
+                        }}
+                      />
+                    )}
+                    name="confidential"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Urgent"
+                        hasError={errors.urgent}
+                        value={testMasterStore.testMaster?.urgent}
+                        onChange={(urgent) => {
+                          onChange(urgent)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            urgent,
+                          })
+                        }}
+                      />
+                    )}
+                    name="urgent"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </Grid>
+              </List>
+
+              <List direction="col" space={4} justify="stretch" fill>
+                {/* <Form.Input
+                label="Report Group"
+                placeholder="Report Group"
+                value={testMasterStore.testMaster?.reportGroup}
+                onChange={(reportGroup) => {
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
+                    reportGroup,
+                  })
+                }}
+              /> */}
+
+                {/* <Form.Input
+                label="Tube Groups"
+                placeholder="Tube Groups"
+                value={testMasterStore.testMaster?.tubeGroup}
+                onChange={(tubeGroup) => {
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
+                    tubeGroup,
+                  })
+                }}
+              />
+              <Form.Input
+                label="Label Instruction"
+                placeholder="Label Instruction"
+                value={testMasterStore.testMaster?.labelInstruction}
+                onChange={(labelInstruction) => {
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
+                    labelInstruction,
+                  })
+                }}
+              /> */}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1082,6 +1082,7 @@ const TestMater = TestMasterHOC(
                 rules={{ required: false }}
                 defaultValue=""
               />
+             
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1948,7 +1949,6 @@ const TestMater = TestMasterHOC(
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <Grid cols={6}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -2140,7 +2140,8 @@ const TestMater = TestMasterHOC(
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                  <Controller
+                <Grid cols={6}>
+                <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.Toggle
@@ -2263,6 +2264,8 @@ const TestMater = TestMasterHOC(
                     defaultValue=""
                   />
                 </Grid>
+                  
+                {/* </Grid> */}
               </List>
             </Grid>
             <br />
