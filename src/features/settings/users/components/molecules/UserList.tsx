@@ -2,7 +2,7 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 import {Svg,NumberFilter,DateFilter,textFilter,TableBootstrap,Icons,Tooltip,Form,AutocompleteCheck,customFilter,Buttons,Toast} from "@/library/components"
 import {Confirm} from "@/library/models"
@@ -704,7 +704,7 @@ export const UserList = observer((props: UserListProps) => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -749,7 +749,7 @@ export const UserList = observer((props: UserListProps) => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

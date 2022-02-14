@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import {DateFilter,textFilter,TableBootstrap,customFilter,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 let additionalInfo
 let invoiceAc
@@ -161,7 +161,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - BILLING_METHOD"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -223,7 +223,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - METHOD_COLLECTION"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -449,7 +449,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - APPROVAL_STATUS"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -496,7 +496,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - REPORT_STATUS"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -619,7 +619,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - ARCHIVED"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -667,7 +667,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - LOGIN_INTERFACE"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -715,7 +715,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - REGISTRATION_INTERFACE"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -803,7 +803,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - ACCOUNT_TYPE"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -851,7 +851,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "PATIENT VISIT - DELIVERY_METHOD"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -898,7 +898,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                               "ENVIRONMENT"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>

@@ -2,7 +2,7 @@
 import React from "react"
 import {TableBootstrap,textFilter,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 let hexadecimal
 let binary
@@ -152,7 +152,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
