@@ -11,7 +11,6 @@ export class TestPanelMapping {
   panelCode: string
   testCode: Array<string>
   testName: Array<string>
-  description: string
   bill: boolean
   status: string
   environment: string
@@ -31,7 +30,6 @@ export class TestPanelMapping {
     this.panelCode = rawData.panelCode
     this.testCode = rawData.testCode
     this.testName = rawData.testName
-    this.description = rawData.description
     this.bill = rawData.bill
     this.status = rawData.status
     this.environment = rawData.environment

@@ -6,7 +6,7 @@ import {NumberFilter,customFilter,DateFilter,textFilter,Form,Tooltip,Icons,Table
 import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectPanelCode} from '../index'
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
-
+   
 let dateCreation
 let dateActive
 let dateExpire
@@ -140,19 +140,6 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 },
               }),
               editable: false,
-            },
-            {
-              dataField: "description",
-              text: "Description",
-              headerClasses: "textHeader4",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  description = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "bill",

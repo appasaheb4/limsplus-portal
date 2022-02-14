@@ -2,11 +2,22 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
-  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
-  from "@/library/components"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {TestPanelMappingList} from "../components"
+import {
+  Toast,
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  Grid,
+  List,
+  Form,
+  Svg,
+  ModalConfirm,
+  AutoCompleteFilterSingleSelect,
+  AutoCompleteCheckMultiFilterKeys,
+} from "@/library/components"
+import { lookupItems, lookupValue } from "@/library/utils"
+import { TestPanelMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectPanelCode } from "../components"
 
@@ -358,7 +369,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                         placeholder="Search by test name or test code"
                         data={{
                           defulatValues: [],
-                          list: testMasterStore.listTestMaster || [],
+                          list:
+                            testMasterStore.listTestMaster.filter(
+                              (item) =>
+                                item.pLab ===
+                                testPanelMappingStore.testPanelMapping?.lab
+                            ) || [],
                           displayKey: ["testName", "testCode"],
                           findKey: ["testName", "testCode"],
                         }}
@@ -394,33 +410,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                   )}
                   name="testName"
                   rules={{ required: true }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label="Description"
-                      name="txtDescription"
-                      placeholder={
-                        errors.description
-                          ? "Please Enter Description"
-                          : "Description"
-                      }
-                      hasError={errors.description}
-                      value={testPanelMappingStore.testPanelMapping?.description}
-                      onChange={(description) => {
-                        onChange(description)
-                        testPanelMappingStore.updateTestPanelMapping({
-                          ...testPanelMappingStore.testPanelMapping,
-                          description,
-                        })
-                      }}
-                    />
-                  )}
-                  name="description"
-                  rules={{ required: false }}
                   defaultValue=""
                 />
                 <Controller

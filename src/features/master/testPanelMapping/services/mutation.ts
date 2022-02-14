@@ -21,7 +21,6 @@ export const LIST = gql`
         panelCode
         testCode
         testName
-        description
         bill
         status
         environment
@@ -108,7 +107,6 @@ export const FILTER = gql`
         panelCode
         testCode
         testName
-        description
         bill
         status
         environment
