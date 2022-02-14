@@ -2,8 +2,8 @@
 import React from "react"
 import { observer } from "mobx-react"
 import {TableBootstrap,Icons,Form,Tooltip,textFilter} from "@/library/components"
-import * as LibraryModels from "@/library/models"
-import {lookupItems} from "@/library/utils"
+import {Confirm} from "@/library/models"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 let environmentVariable
 let category
@@ -16,7 +16,7 @@ interface EnvironmentVariableProps {
   totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedUser: LibraryModels.Confirm) => void
+  onDelete?: (selectedUser: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -85,7 +85,7 @@ export const EnvironmentVariableList = observer((props: EnvironmentVariableProps
                       "ENVIRONMENT_VARIABLES_CATEGORY"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

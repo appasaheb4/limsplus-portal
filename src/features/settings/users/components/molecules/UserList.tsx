@@ -2,7 +2,7 @@
 import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
-import { lookupItems } from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 import {
   Svg,
@@ -735,7 +735,7 @@ export const UserList = observer((props: UserListProps) => {
                     {lookupItems(props.extraData.lookupItems, "STATUS").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -777,7 +777,7 @@ export const UserList = observer((props: UserListProps) => {
                     {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}

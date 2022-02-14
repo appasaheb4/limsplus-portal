@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons,TableBootstrap} from "@/library/components"
 import {Confirm} from "@/library/models"
 import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectCorparateCode } from "../index"
@@ -209,7 +209,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "CUSTOMER_GROUP"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -251,7 +251,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "CATEGORY"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -353,7 +353,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "DELIVERY_TYPE"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -395,7 +395,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "DELIVERY_METHOD"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -463,7 +463,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   <option selected>Select</option>
                   {[].map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -540,7 +540,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "METHOD_COLN"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -598,7 +598,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "SPECIALITY"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -902,7 +902,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "AC_CLASS"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -944,7 +944,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "ACCOUNT_TYPE"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -986,7 +986,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "STATUS"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
@@ -1029,7 +1029,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>

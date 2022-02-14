@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import {TableBootstrap,textFilter,Tooltip,Icons,Form} from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 let title
 let environment
@@ -115,7 +115,7 @@ export const BannerList = (props: BannerListProps) => {
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>

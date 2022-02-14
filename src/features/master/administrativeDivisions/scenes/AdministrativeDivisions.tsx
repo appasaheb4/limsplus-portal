@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List,Form,Svg,Icons,ModalConfirm} from "@/library/components"
 import { AdminstrativeDivList } from "../components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {AdministrativeDivisionsHoc} from "../hoc"
 import { useStores, } from "@/stores"
@@ -342,7 +342,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                         "SBU"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -380,7 +380,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                         "ZONE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -429,7 +429,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

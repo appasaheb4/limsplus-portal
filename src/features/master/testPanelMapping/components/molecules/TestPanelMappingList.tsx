@@ -1,22 +1,10 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import { lookupItems } from "@/library/utils"
-import {
-  NumberFilter,
-  customFilter,
-  DateFilter,
-  textFilter,
-  Form,
-  Tooltip,
-  Icons,
-  TableBootstrap,
-} from "@/library/components"
-import { Confirm } from "@/library/models"
-import {
-  AutoCompleteFilterSingleSelectLabs,
-  AutoCompleteFilterSingleSelectPanelCode,
-} from "../index"
+import {lookupItems,lookupValue} from "@/library/utils"
+import {NumberFilter,customFilter,DateFilter,textFilter,Form,Tooltip,Icons,TableBootstrap} from "@/library/components"
+import {Confirm} from "@/library/models"
+import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectPanelCode} from '../index'
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let dateCreation
@@ -220,7 +208,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                     {lookupItems(props.extraData.lookupItems, "STATUS").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -405,7 +393,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                     {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}

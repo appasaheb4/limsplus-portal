@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
   from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {PriceListList} from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectPanelCode} from "../components"
@@ -300,7 +300,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         "PRIORIITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -358,7 +358,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         "PRICE_GROUP"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -659,7 +659,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         "SPEICAL_SCHEME"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -739,7 +739,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -857,7 +857,7 @@ export const PriceList = PriceListHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

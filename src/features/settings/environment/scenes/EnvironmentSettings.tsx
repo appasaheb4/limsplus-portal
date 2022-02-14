@@ -3,7 +3,7 @@ import React, {  useMemo, useState } from "react"
 import { observer } from "mobx-react"
 import {Toast,Buttons,Grid,List,AutoCompleteFilterSingleSelect,Form,AutoCompleteFilterMutiSelectMultiFieldsDisplay,Svg} 
   from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 import {EnvironmentSettingsList} from "../components"
 import "@/library/assets/css/accordion.css"
@@ -599,7 +599,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           "ENVIRONMENT SETTING - ENVIRONMENT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>

@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import {Header,PageHeading,PageHeadingLabDetails,Buttons,AutocompleteCheck,
   List,Grid,Svg,Toast,ModalConfirm,Form,AutoCompleteFilterSingleSelect,AutoCompleteCheckTwoTitleKeys,ModalChangePasswordByAdmin}
    from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { UserList } from "../components"
 import dayjs from "dayjs"
 import { FormHelper } from "@/helper"
@@ -905,7 +905,7 @@ export const Users = UsersHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -952,7 +952,7 @@ export const Users = UsersHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

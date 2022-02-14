@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import {Header,PageHeading,PageHeadingLabDetails,Buttons,Form,List,Grid,Svg,Toast,ModalConfirm} from "@/library/components"
 import {RoleList} from "../components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {RolesHoc} from "../hoc"
 import { useStores } from "@/stores"
@@ -184,7 +184,7 @@ const Role = RolesHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

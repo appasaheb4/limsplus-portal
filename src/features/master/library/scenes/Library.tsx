@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
   from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { LibraryList } from "../components"
 
 import { useForm, Controller } from "react-hook-form"
@@ -251,7 +251,7 @@ export const Library = LibraryHoc(observer(() => {
                         "USAGE_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -288,7 +288,7 @@ export const Library = LibraryHoc(observer(() => {
                         "LIBRARY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -325,7 +325,7 @@ export const Library = LibraryHoc(observer(() => {
                         "COMMENT_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -455,7 +455,7 @@ export const Library = LibraryHoc(observer(() => {
                         "COMMENTS_TARGET"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -521,7 +521,7 @@ export const Library = LibraryHoc(observer(() => {
                         "PARAMETER"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -558,7 +558,7 @@ export const Library = LibraryHoc(observer(() => {
                         "ACTION"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -595,7 +595,7 @@ export const Library = LibraryHoc(observer(() => {
                         "RESULTS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -724,7 +724,7 @@ export const Library = LibraryHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -878,7 +878,7 @@ export const Library = LibraryHoc(observer(() => {
                       {lookupItems(routerStore.lookupItems, "SEX").map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         )
                       )}
@@ -916,7 +916,7 @@ export const Library = LibraryHoc(observer(() => {
                         "SEX_ACTION"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -978,7 +978,7 @@ export const Library = LibraryHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

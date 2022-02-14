@@ -5,7 +5,7 @@ import _ from "lodash"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List,Icons
   ,Form,Svg,ModalConfirm} 
   from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { PossibleResultsList } from "../components"
 
 import { useForm, Controller } from "react-hook-form"
@@ -250,7 +250,7 @@ export const PossibleResults = PossibleResultHoc(observer(() => {
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>

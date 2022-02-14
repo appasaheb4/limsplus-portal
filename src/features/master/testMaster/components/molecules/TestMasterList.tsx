@@ -1,24 +1,10 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import { lookupItems } from "@/library/utils"
-import {
-  NumberFilter,
-  DateFilter,
-  textFilter,
-  customFilter,
-  TableBootstrap,
-  Form,
-  Icons,
-  Tooltip,
-} from "@/library/components"
-import { Confirm } from "@/library/models"
-import {
-  AutoCompleteFilterSingleSelectLabs,
-  AutoCompleteFilterSingleSelectDepartment,
-  AutoCompleteFilterSingleSelectDeliverySchedule,
-  AutoCompleteFilterSingleSelectTestMethod,
-} from "../index"
+import {lookupItems,lookupValue} from "@/library/utils"
+import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
+import {Confirm} from "@/library/models"
+import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectDeliverySchedule,AutoCompleteFilterSingleSelectTestMethod} from '../index'
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let dateCreation
@@ -565,7 +551,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "WORKFLOW").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -607,7 +593,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "DISEASE").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -648,7 +634,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "CATEGORY").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -689,7 +675,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "TEST_TYPE").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -1215,7 +1201,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "PREFIX").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -1257,7 +1243,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "SUFIX").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -1358,7 +1344,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "STATUS").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -1543,7 +1529,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}

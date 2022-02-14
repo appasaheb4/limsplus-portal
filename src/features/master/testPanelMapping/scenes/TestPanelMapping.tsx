@@ -2,22 +2,11 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {
-  Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  Buttons,
-  Grid,
-  List,
-  Form,
-  Svg,
-  ModalConfirm,
-  AutoCompleteFilterSingleSelect,
-  AutoCompleteCheckMultiFilterKeys,
-} from "@/library/components"
-import { lookupItems } from "@/library/utils"
-import { TestPanelMappingList } from "../components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteCheckMultiFilterKeys} 
+  from "@/library/components"
+import {lookupItems,lookupValue} from "@/library/utils"
+import {TestPanelMappingList} from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectPanelCode } from "../components"
 
@@ -651,7 +640,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}

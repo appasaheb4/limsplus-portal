@@ -304,7 +304,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                           (stores.routerStore.lookupItems, "INFORMATION GROUP - ENVIRONMENT").map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             )
                           )}
@@ -358,7 +358,7 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                                   "INFORMATION GROUP - STATUS"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>

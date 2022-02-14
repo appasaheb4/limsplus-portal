@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import daysjs from "dayjs"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,textFilter,NumberFilter,DateFilter,Form,Tooltip,Icons,customFilter} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectPlabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod} from '../index'
@@ -255,7 +255,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         "SERVICE_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -608,7 +608,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         "PROCESSING"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -665,7 +665,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         "CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -709,7 +709,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         "PANEL_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -943,7 +943,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         "SEX"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1143,7 +1143,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1328,7 +1328,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

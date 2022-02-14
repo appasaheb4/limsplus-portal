@@ -2,22 +2,11 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {
-  Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  Buttons,
-  Grid,
-  List,
-  Form,
-  Svg,
-  ModalConfirm,
-  AutoCompleteFilterSingleSelect,
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-} from "@/library/components"
-import { lookupItems } from "@/library/utils"
-import { PanelMasterList } from "../components"
+import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
+  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectMultiFieldsDisplay} 
+  from "@/library/components"
+import {lookupItems,lookupValue} from "@/library/utils"
+import {PanelMasterList} from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectDepartment } from "../components"
 import { MasterPanelHoc } from "../hoc"
@@ -420,7 +409,7 @@ const MasterPanel = MasterPanelHoc(
                         {lookupItems(routerStore.lookupItems, "SERVICE_TYPE").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -871,7 +860,7 @@ const MasterPanel = MasterPanelHoc(
                         {lookupItems(routerStore.lookupItems, "PROCESSING").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -1293,7 +1282,7 @@ const MasterPanel = MasterPanelHoc(
                         {lookupItems(routerStore.lookupItems, "STATUS").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
