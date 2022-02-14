@@ -52,8 +52,6 @@ const ShortcutMenu = observer(() => {
   }
 
   const handleOnDragEnd = (result: any) => {
-    console.log({ user: loginStore.login })
-
     const items = Array.from(
       (loginStore.login?.shortcutMenu &&
         loginStore.login?.shortcutMenu[loginStore.login.role || ""]) ||

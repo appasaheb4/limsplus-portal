@@ -13,7 +13,7 @@ import {
   Icons,
   Form,
   Svg,
-  ModalConfirm,  
+  ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteCheckMultiFilterKeys,
 } from "@/library/components"
@@ -23,9 +23,19 @@ import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectTestName } from "../components"
 import { TestAnalyteMappingHoc } from "../hoc"
 import { useStores } from "@/stores"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
+
+const grid = 8
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "none",
+  display: "flex",
+  //flexWrap:'none',
+  padding: grid,
+  overflow: "auto",
+})
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -189,6 +199,31 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       [testAnalyteMappingStore.listTestAnalyteMapping]
     )
 
+    const handleOnDragEndResultOrder = (result: any) => {
+      const items = Array.from(
+        testAnalyteMappingStore.testAnalyteMapping?.resultOrder
+      )
+      const [reorderedItem] = items.splice(result.source.index, 1)
+      items.splice(result.destination.index, 0, reorderedItem)
+      testAnalyteMappingStore.updateTestAnalyteMapping({
+        ...testAnalyteMappingStore.testAnalyteMapping,
+        resultOrder: items,
+      })
+    }
+
+    const handleOnDragEndReportOrder = (result: any) => {
+      const items = Array.from(
+        testAnalyteMappingStore.testAnalyteMapping?.reportOrder
+      )
+      const [reorderedItem] = items.splice(result.source.index, 1)
+      items.splice(result.destination.index, 0, reorderedItem)
+
+      testAnalyteMappingStore.updateTestAnalyteMapping({
+        ...testAnalyteMappingStore.testAnalyteMapping,
+        reportOrder: items,
+      })
+    }
+
     return (
       <>
         <Header>
@@ -204,7 +239,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
             <Grid cols={2}>
@@ -416,15 +451,20 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           onChange(items)
                           const analyteCode: string[] = []
                           const analyteName: string[] = []
+                          const resultOrder: string[] = []
+                          const reportOrder: string[] = []
                           items.filter((item: any) => {
                             analyteCode.push(item.analyteCode)
                             analyteName.push(item.analyteName)
+                            resultOrder.push(item.analyteCode)
+                            reportOrder.push(item.analyteCode)
                           })
-                          console.log({ analyteName, analyteCode })
                           testAnalyteMappingStore.updateTestAnalyteMapping({
                             ...testAnalyteMappingStore.testAnalyteMapping,
                             analyteName,
                             analyteCode,
+                            resultOrder,
+                            reportOrder,
                           })
                         }}
                       />
@@ -493,29 +533,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Bill"
-                      id="modeBill"
-                      hasError={errors.bill}
-                      value={testAnalyteMappingStore.testAnalyteMapping?.bill}
-                      onChange={(bill) => {
-                        onChange(bill)
-                        testAnalyteMappingStore.updateTestAnalyteMapping({
-                          ...testAnalyteMappingStore.testAnalyteMapping,
-                          bill,
-                        })
-                      }}
-                    />
-                  )}
-                  name="bill"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-              </List>
-              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -598,6 +615,108 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Toggle
+                      label="Bill"
+                      id="modeBill"
+                      hasError={errors.bill}
+                      value={testAnalyteMappingStore.testAnalyteMapping?.bill}
+                      onChange={(bill) => {
+                        onChange(bill)
+                        testAnalyteMappingStore.updateTestAnalyteMapping({
+                          ...testAnalyteMappingStore.testAnalyteMapping,
+                          bill,
+                        })
+                      }}
+                    />
+                  )}
+                  name="bill"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />   
+              </List>
+              <List direction="col" space={4} justify="stretch" fill>
+                <Form.InputWrapper label="Result Order">
+                  <DragDropContext onDragEnd={handleOnDragEndResultOrder}>
+                    <Droppable droppableId="characters" direction="horizontal">
+                      {(provided, snapshot) => (
+                        <ul
+                          style={getListStyle(snapshot.isDraggingOver)}
+                          // className="grid grid-cols-1 p-2"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {testAnalyteMappingStore.testAnalyteMapping?.resultOrder &&
+                            testAnalyteMappingStore.testAnalyteMapping?.resultOrder.map(
+                              (item, index) => (
+                                <>
+                                  <Draggable
+                                    key={item}
+                                    draggableId={item}
+                                    index={index}
+                                  >
+                                    {(provided, snapshot) => (
+                                      <div
+                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <li className="m-2 text-white">{item}</li>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                </>
+                              )
+                            )}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </Form.InputWrapper>
+
+                <Form.InputWrapper label="Report Order">
+                  <DragDropContext onDragEnd={handleOnDragEndReportOrder}>
+                    <Droppable droppableId="characters" direction="horizontal">
+                      {(provided, snapshot) => (
+                        <ul
+                          style={getListStyle(snapshot.isDraggingOver)}
+                          // className="grid grid-cols-1 p-2"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {testAnalyteMappingStore.testAnalyteMapping?.reportOrder &&
+                            testAnalyteMappingStore.testAnalyteMapping?.reportOrder.map(
+                              (item, index) => (
+                                <>
+                                  <Draggable
+                                    key={item}
+                                    draggableId={item}
+                                    index={index}
+                                  >
+                                    {(provided, snapshot) => (
+                                      <div
+                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <li className="m-2 text-white">{item}</li>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                </>
+                              )
+                            )}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </Form.InputWrapper>
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (

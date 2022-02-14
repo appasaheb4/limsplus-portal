@@ -14,6 +14,8 @@ export class TestAnalyteMapping {
   testName: string
   bill: boolean
   status: string
+  resultOrder: Array<string>
+  reportOrder: Array<string>
   environment: string
   dateOfEntry: Date
   lastUpdated: Date
@@ -34,6 +36,8 @@ export class TestAnalyteMapping {
     this.testName = rawData.testName 
     this.bill = rawData.bill 
     this.status = rawData.status 
+    this.resultOrder= rawData.resultOrder
+    this.reportOrder = rawData.reportOrder
     this.environment = rawData.environment 
     this.dateOfEntry = rawData.dateOfEntry 
     this.lastUpdated = rawData.lastUpdated 

@@ -23,6 +23,8 @@ export const LIST = gql`
         testCode
         testName
         bill
+        resultOrder
+        reportOrder
         status
         environment
         dateOfEntry
@@ -110,6 +112,8 @@ export const FILTER = gql`
         testCode
         testName
         bill
+        resultOrder
+        reportOrder
         status
         environment
         dateOfEntry
