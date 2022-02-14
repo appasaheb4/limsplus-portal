@@ -494,7 +494,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const resultType = e.target.value
                       props.onUpdateItem &&
@@ -561,7 +561,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const analyteType = e.target.value
                       props.onUpdateItem &&
@@ -602,7 +602,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const units = e.target.value as string
                       props.onUpdateItem &&
@@ -643,7 +643,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const usage = e.target.value as string
                       props.onUpdateItem &&
@@ -832,7 +832,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //     <>
             //       <Form.InputWrapper label="Workflow">
             //         <select
-            //           className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
             //             const workflow = e.target.value as string
             //             props.onUpdateItem &&
@@ -873,7 +873,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //       >
             //         <select
             //           name="optionSampleTypes"
-            //           className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
             //             const sampleType = e.target.value as string
             //             props.onUpdateItem &&
