@@ -7,7 +7,7 @@ import {
   Icons,
   Toast,
 } from "@/library/components"
-import { lookupItems, getDefaultLookupItem } from "@/library/utils"
+import { lookupItems, getDefaultLookupItem, lookupValue } from "@/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
@@ -116,7 +116,7 @@ export const RefRangesInputTable = observer(
                     {lookupItems(extraData.lookupItems, "RANGE_TYPE").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -207,7 +207,7 @@ export const RefRangesInputTable = observer(
                     {lookupItems(extraData.lookupItems, "AGE_UNIT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -424,7 +424,7 @@ export const RefRangesInputTable = observer(
                     {lookupItems(extraData.lookupItems, "SPECIES").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -460,7 +460,7 @@ export const RefRangesInputTable = observer(
                     {lookupItems(extraData.lookupItems, "SEX").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -506,7 +506,7 @@ export const RefRangesInputTable = observer(
                     {lookupItems(extraData.lookupItems, "RANGE_SET_ON").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -679,7 +679,7 @@ export const RefRangesInputTable = observer(
                     {lookupItems(extraData.lookupItems, "INTERVAL_UNIT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -727,7 +727,7 @@ export const RefRangesInputTable = observer(
                       `${row.rangeType}_LW_COLOR`
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -774,7 +774,7 @@ export const RefRangesInputTable = observer(
                       `${row.rangeType}_HI_COLOR`
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -821,7 +821,7 @@ export const RefRangesInputTable = observer(
                       `${row.rangeType}_NO_COLOR`
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -862,7 +862,7 @@ export const RefRangesInputTable = observer(
                     {lookupItems(extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}

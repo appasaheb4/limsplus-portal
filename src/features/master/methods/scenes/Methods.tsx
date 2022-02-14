@@ -15,7 +15,7 @@ import {
   ModalConfirm,
 } from "@/library/components"
 import { MethodsList } from "../components"
-import { lookupItems } from "@/library/utils"
+import { lookupItems,lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { MethodsHoc } from "../hoc"
 import { useStores } from "@/stores"
@@ -200,7 +200,7 @@ const Methods = MethodsHoc(
                         {lookupItems(routerStore.lookupItems, "STATUS").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -257,7 +257,7 @@ const Methods = MethodsHoc(
                         {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}

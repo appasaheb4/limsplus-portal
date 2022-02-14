@@ -6,7 +6,7 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
   from "@/library/components"
 import {DoctorsList} from "../components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {DoctorsHoc} from "../hoc"
 import { useStores } from "@/stores"
@@ -419,7 +419,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "TITLE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -685,7 +685,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -724,7 +724,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -894,7 +894,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -983,7 +983,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "DELIVERY_METHOD"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1066,7 +1066,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1356,7 +1356,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1420,7 +1420,7 @@ const Doctors = DoctorsHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

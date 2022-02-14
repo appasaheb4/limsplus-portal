@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
 import dayjs from "dayjs"
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay,Icons,Buttons} from "@/library/components"
-import { lookupItems, getDefaultLookupItem } from "@/library/utils"
+import { lookupItems, getDefaultLookupItem, lookupValue } from "@/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
@@ -188,7 +188,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                     {lookupItems(routerStore.lookupItems, "SPECIES").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -221,7 +221,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                     {lookupItems(routerStore.lookupItems, "SEX").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}
@@ -256,7 +256,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                     {lookupItems(routerStore.lookupItems, "RANGE_SET_ON").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       )
                     )}

@@ -3,7 +3,7 @@ import React from "react"
 import { observer } from "mobx-react"
 import {TableBootstrap,textFilter,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectState} from "../../index"
 interface ExtraDataPatientManagerProps {
   data: any
@@ -432,7 +432,7 @@ export const ExtraDataPatientManagerList = observer(
                               "PATIENT MANAGER - STATUS"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>
@@ -481,7 +481,7 @@ export const ExtraDataPatientManagerList = observer(
                               "PATIENT MANAGER - ENVIRONMENT"
                             ).map((item: any, index: number) => (
                               <option key={index} value={item.code}>
-                                {`${item.value} - ${item.code}`}
+                                {lookupValue(item)}
                               </option>
                             ))}
                           </select>

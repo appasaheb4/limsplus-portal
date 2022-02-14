@@ -6,7 +6,7 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
   from "@/library/components"
 import {LabList} from "../components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { LabHoc } from "../hoc"
 import { useStores } from "@/stores"
@@ -587,7 +587,7 @@ const Lab = LabHoc(
                           "DELIVERY_TYPE"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -811,7 +811,7 @@ const Lab = LabHoc(
                           "LAB_TYPE"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -987,7 +987,7 @@ const Lab = LabHoc(
                           "STATUS"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -1047,7 +1047,7 @@ const Lab = LabHoc(
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>

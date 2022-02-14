@@ -516,7 +516,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       "PATIENT SAMPLE - STATUS"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -563,7 +563,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       "PATIENT SAMPLE - ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

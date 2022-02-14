@@ -353,7 +353,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                       "PATIENT VISIT - AGE_UNITS"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -461,7 +461,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                       "PATIENT VISIT - AC_CLASS"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -636,7 +636,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                       "PATIENT VISIT - STATUS"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

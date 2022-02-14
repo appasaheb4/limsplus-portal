@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
 import dayjs from "dayjs"
@@ -159,7 +159,7 @@ export const PriceListList = (props: PriceListProps) => {
                         "PRIORIITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -203,7 +203,7 @@ export const PriceListList = (props: PriceListProps) => {
                         "PRICE_GROUP"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -452,7 +452,7 @@ export const PriceListList = (props: PriceListProps) => {
                         "SPECIAL_SCHEME"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -544,7 +544,7 @@ export const PriceListList = (props: PriceListProps) => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -588,7 +588,7 @@ export const PriceListList = (props: PriceListProps) => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

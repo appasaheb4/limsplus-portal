@@ -5,7 +5,7 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm} 
   from "@/library/components"
 import {SampleTypeList} from "../components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {SampleTypeHoc} from "../hoc"
 import { useStores } from "@/stores"
@@ -245,7 +245,7 @@ const SampleType = SampleTypeHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

@@ -3,7 +3,7 @@ import { onError } from "@apollo/client/link/error"
 import { stores } from "@/stores"
 import { setContext } from "@apollo/client/link/context"
 import { createUploadLink } from "apollo-upload-client"
-  
+
 const customFetch = (uri, options): Promise<any> => {
   stores.setLoading(true)
   const response = fetch(uri, options).then((response) => {
@@ -16,7 +16,7 @@ const customFetch = (uri, options): Promise<any> => {
   })
   return response
 }
-          
+  
 const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
@@ -24,18 +24,16 @@ const authLink = setContext(async (_, { headers }) => {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   }
-}) 
-                                                      
-// depoly 2  
-const UploadLink = createUploadLink({  
+})
+  
+// depoly 2
+const UploadLink = createUploadLink({
   uri: "http://localhost:8080/graphql",
   // uri: "http://d9e5-2409-4042-4c07-99a3-e878-8e4f-2676-b20b.ngrok.io/graphql",
   //uri: "https://limsplus-api.azurewebsites.net/graphql",
-  fetch: customFetch,  
+  fetch: customFetch,
 })
 
-
-       
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path, extensions }) => {
@@ -61,6 +59,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 export const client = new ApolloClient({
   link: authLink.concat(from([errorLink, UploadLink])),
   cache: new InMemoryCache(),
-})  
+})
 
 export { ApolloProvider }

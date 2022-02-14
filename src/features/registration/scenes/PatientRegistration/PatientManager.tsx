@@ -990,7 +990,7 @@ export const PatientManager = PatientManagerHoc(
                                   "PATIENT VISIT - BLOOD_GROUP"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1176,7 +1176,7 @@ export const PatientManager = PatientManagerHoc(
                                   "PATIENT MANAGER - STATUS"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>
@@ -1232,7 +1232,7 @@ export const PatientManager = PatientManagerHoc(
                                   "PATIENT MANAGER - ENVIRONMENT"
                                 ).map((item: any, index: number) => (
                                   <option key={index} value={item.code}>
-                                    {`${item.value} - ${item.code}`}
+                                    {lookupValue(item)}
                                   </option>
                                 ))}
                               </select>

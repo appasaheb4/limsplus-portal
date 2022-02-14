@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import {Grid,List,Form,Svg,Buttons} from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems, lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {SpecialResultList} from "../../components"
 import { Stores as MasterAnalyteStore } from "@/features/master/masterAnalyte/stores"
@@ -181,7 +181,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                           "SPECIAL RESULT - RESULT_TYPE"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
+                            {lookupValue(item)}
                           </option>
                         ))}
                       </select>
@@ -364,7 +364,7 @@ export const SpecialResult = observer((props:SpecialResultProps)=>{
                   {lookupItems(stores.routerStore.lookupItems, "SPECIAL RESULT - ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     )
                   )}

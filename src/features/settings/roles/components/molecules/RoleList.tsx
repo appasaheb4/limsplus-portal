@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,Icons,Tooltip,textFilter} from "@/library/components"
 import {Confirm} from "@/library/models"
 
@@ -89,7 +89,7 @@ export const RoleList = (props: RoleListProps) => {
                   {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     )
                   )}

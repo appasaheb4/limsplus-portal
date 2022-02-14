@@ -5,7 +5,7 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,} 
   from "@/library/components"
 import {DataConversationList} from "../components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 import { useForm, Controller } from "react-hook-form"
 import {DataConversationHoc} from "../hoc"
@@ -189,7 +189,7 @@ const DataConversation = DataConversationHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

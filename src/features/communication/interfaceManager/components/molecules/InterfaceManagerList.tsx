@@ -3,7 +3,7 @@ import React from "react"
 import { observer } from "mobx-react"
 import {TableBootstrap,textFilter,Form,Icons,Tooltip,List,Buttons,Grid,Svg} from "@/library/components"
 import {Confirm} from "@/library/models"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 
 let interfaceType
 let instrumentType
@@ -572,7 +572,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
                     "ENVIRONMENT"
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
-                      {`${item.value} - ${item.code}`}
+                      {lookupValue(item)}
                     </option>
                   ))}
                 </select>
