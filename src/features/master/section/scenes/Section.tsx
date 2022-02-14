@@ -5,7 +5,7 @@ import _ from "lodash"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm} 
   from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
 import { SectionList } from "../components"
@@ -399,7 +399,7 @@ const Section = SectionHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -459,7 +459,7 @@ const Section = SectionHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

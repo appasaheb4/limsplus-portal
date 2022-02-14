@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,Tooltip,Icons,Form,textFilter,List,Buttons,Grid,Svg} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../index"
@@ -331,7 +331,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

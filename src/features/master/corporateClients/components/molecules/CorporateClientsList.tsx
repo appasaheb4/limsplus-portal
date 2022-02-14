@@ -2,7 +2,7 @@
 import React from "react"
 import {NumberFilter,DateFilter,TableBootstrap,textFilter,customFilter,Form,Tooltip,Icons} from "@/library/components"
 import {Confirm} from "@/library/models"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {AutoCompleteFilterSingleSelectLabs} from "../index"
 import dayjs from "dayjs"
 let dateCreation
@@ -282,7 +282,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       "CUSTOMER_GROUP"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -327,7 +327,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       "CATEGORY"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -432,7 +432,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       "DELIVERY_TYPE"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -476,7 +476,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       "DELIVERY_METHOD"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -520,7 +520,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       "SPECIALITY"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -719,7 +719,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       "STATUS"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -764,7 +764,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       "ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                        {lookupValue(item)}
                       </option>
                     ))}
                   </select>

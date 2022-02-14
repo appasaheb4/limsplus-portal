@@ -5,7 +5,7 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
   from "@/library/components"
 import {RegistrationLocationsList} from "../components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectCorparateCode} from "../components"
 import {RegistrationLocationHoc} from "../hoc"
@@ -515,7 +515,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "CUSTOMER_GROUP"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -552,7 +552,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -667,7 +667,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -706,7 +706,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "DELIVERY_METHOD"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -814,7 +814,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "METHOD_COLN"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -877,7 +877,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1361,7 +1361,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "AC_CLASS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1400,7 +1400,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "ACCOUNT_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1440,7 +1440,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1521,7 +1521,7 @@ const RegistrationLocation = RegistrationLocationHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>

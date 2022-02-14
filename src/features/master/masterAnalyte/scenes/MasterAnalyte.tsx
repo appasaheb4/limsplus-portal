@@ -17,7 +17,7 @@ import {
   Svg,
   ModalConfirm,
 } from "@/library/components"
-import { lookupItems } from "@/library/utils"
+import { lookupItems ,lookupValue} from "@/library/utils"
 import { MasterAnalyteList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { MasterAnalyteHoc } from "../hoc"
@@ -499,7 +499,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         {lookupItems(routerStore.lookupItems, "RANGE_SET_ON").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -734,7 +734,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         {lookupItems(routerStore.lookupItems, "RESULT_TYPE").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -770,7 +770,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         {lookupItems(routerStore.lookupItems, "ANALYTE_TYPE").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -803,7 +803,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         {lookupItems(routerStore.lookupItems, "UNITS").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -836,7 +836,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         {lookupItems(routerStore.lookupItems, "USAGE").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -935,7 +935,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       })
                       .arrValue.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                 </select>
@@ -1033,7 +1033,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         {lookupItems(routerStore.lookupItems, "STATUS").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -1327,7 +1327,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}

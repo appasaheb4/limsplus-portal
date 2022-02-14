@@ -5,7 +5,7 @@ import _ from "lodash"
 import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectMultiFieldsDisplay} 
   from "@/library/components"
-import {lookupItems} from "@/library/utils"
+import {lookupItems,lookupValue} from "@/library/utils"
 import {PanelMasterList} from "../components"
 import { useForm, Controller } from "react-hook-form"
 import {AutoCompleteFilterSingleSelectDepartment } from "../components"
@@ -432,7 +432,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         "SERVICE_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -914,7 +914,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         "PROCESSING"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -974,7 +974,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         "CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1011,7 +1011,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         "PANEL_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1048,7 +1048,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         "SEX"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1344,7 +1344,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
@@ -1511,7 +1511,7 @@ const MasterPanel = MasterPanelHoc(observer(() => {
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
