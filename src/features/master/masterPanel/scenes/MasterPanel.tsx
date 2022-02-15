@@ -516,6 +516,7 @@ const MasterPanel = MasterPanelHoc(
                           list: methodsStore.listMethods,
                           displayKey: ["methodsCode", "methodsName"],
                         }}
+                        disable={!masterPanelStore.masterPanel?.method}
                         hasError={errors.panelMethod}
                         onFilter={(value: string) => {
                           methodsStore.methodsService.filterByFields({
@@ -1016,7 +1017,7 @@ const MasterPanel = MasterPanelHoc(
                     />
                   )}
                   name="hiAge"
-                  rules={{ required: false }}
+                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
                   defaultValue=""
                 />
                 <Controller
@@ -1038,7 +1039,7 @@ const MasterPanel = MasterPanelHoc(
                     />
                   )}
                   name="loAge"
-                  rules={{ required: false }}
+                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
                   defaultValue=""
                 />
 

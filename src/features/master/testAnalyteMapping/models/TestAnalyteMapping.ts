@@ -45,7 +45,9 @@ export class TestAnalyteMapping {
 }
 export class SelectedItems {
   lab: any[]
+  analyteCode: any[]
   constructor(rawData: {[key in string]: any}){
     this.lab = rawData.lab
+    this.analyteCode = rawData.analyteCode
   }
 }

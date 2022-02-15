@@ -16,6 +16,7 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteCheckMultiFilterKeys,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { TestAnalyteMappingList } from "../components"
@@ -168,6 +169,15 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               body: `Update lab!`,
             })
           }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "updateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: "Update records",
+            })
+          }}
           onVersionUpgrade={(item) => {
             setModalConfirm({
               show: true,
@@ -239,7 +249,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={2}>
@@ -414,15 +424,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       label="Analyte Code"
                       hasError={errors.analyteCode}
                     >
-                      <AutoCompleteCheckMultiFilterKeys
-                        placeholder={
-                          errors.analyteCode
-                            ? "Please Enter Analyte Code And Analyte Name"
-                            : "Search by analyte name or analyte code"
-                        }
-                        hasError={errors.analyteCode}
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
                         data={{
-                          defulatValues: [],
                           list:
                             _.uniqBy(
                               masterAnalyteStore.listMasterAnalyte.filter(
@@ -432,28 +437,19 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               ),
                               (v) => [v.analyteName, v.analyteCode, v.lab].join()
                             ) || [],
-                          displayKey: ["analyteName", "analyteCode"],
-                          findKey: ["analyteName", "analyteCode"],
+                          selected:
+                            testAnalyteMappingStore.selectedItems?.analyteCode,
+                          displayKey: ["analyteCode", "analyteName"],
                         }}
-                        onFilter={(value: string) => {
-                          masterAnalyteStore.masterAnalyteService.filter({
-                            input: {
-                              type: "filter",
-                              filter: {
-                                analyteName: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
-                        }}
-                        onUpdate={(items) => {
-                          onChange(items)
+                        hasError={errors.analyteCode}
+                        onUpdate={(item) => {
+                          const items =
+                            testAnalyteMappingStore.selectedItems?.analyteCode
                           const analyteCode: string[] = []
                           const analyteName: string[] = []
                           const resultOrder: string[] = []
                           const reportOrder: string[] = []
-                          items.filter((item: any) => {
+                          items?.filter((item: any) => {
                             analyteCode.push(item.analyteCode)
                             analyteName.push(item.analyteName)
                             resultOrder.push(item.analyteCode)
@@ -466,6 +462,39 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             resultOrder,
                             reportOrder,
                           })
+                          masterAnalyteStore.updateMasterAnalyteList(
+                            masterAnalyteStore.listMasterAnalyteCopy
+                          )
+                        }}
+                        onFilter={(value: string) => {
+                          masterAnalyteStore.masterAnalyteService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["analyteCode", "analyteName"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(new Date())
+                          let analyteCode =
+                            testAnalyteMappingStore.selectedItems?.analyteCode
+                          if (!item.selected) {
+                            if (analyteCode && analyteCode.length > 0) {
+                              analyteCode.push(item)
+                            } else analyteCode = [item]
+                          } else {
+                            analyteCode = analyteCode.filter((items) => {
+                              return items._id !== item._id
+                            })
+                          }
+                          testAnalyteMappingStore.updateSelectedItems({
+                            ...testAnalyteMappingStore.selectedItems,
+                            analyteCode,
+                          })
                         }}
                       />
                     </Form.InputWrapper>
@@ -474,6 +503,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -636,7 +666,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   name="bill"
                   rules={{ required: false }}
                   defaultValue=""
-                />   
+                />
               </List>
               <List direction="col" space={4} justify="stretch" fill>
                 <Form.InputWrapper label="Result Order">
@@ -665,7 +695,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                       >
-                                        <li className="m-2 text-white">{item}</li>
+                                        <li className="m-2 text-white">{`${
+                                          index + 1
+                                        }. ${item}`}</li>
                                       </div>
                                     )}
                                   </Draggable>
@@ -704,7 +736,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                       >
-                                        <li className="m-2 text-white">{item}</li>
+                                       <li className="m-2 text-white">{`${
+                                          index + 1
+                                        }. ${item}`}</li>
                                       </div>
                                     )}
                                   </Draggable>
@@ -866,6 +900,23 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     input: {
                       _id: modalConfirm.data.id,
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updateTestAnalyteMapping.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateTestAnalyteMapping.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      testAnalyteMappingStore.fetchTestAnalyteMapping()
+                    }
+                  })
+              } else if (type === "updateFileds") {
+                testAnalyteMappingStore.testAnalyteMappingService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
                     },
                   })
                   .then((res: any) => {

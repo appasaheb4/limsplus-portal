@@ -12,10 +12,13 @@ import {
   Tooltip,
   Form,
   List,
-  Buttons
+  Buttons,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
-import { AutoCompleteFilterSingleSelectLabs } from "../index"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectAnalyteCode,
+} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let lab
@@ -40,6 +43,7 @@ interface TestAnalyteMappingListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -131,7 +135,31 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   analyteCode = filter
                 },
               }),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectAnalyteCode
+                    lab={row.lab}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            analyteCode: [item.analyteCode],
+                            analyteName: [item.analyteName],
+                          },
+                          row._id
+                        )   
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "analyteName",
@@ -144,7 +172,31 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   analyteName = filter
                 },
               }),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectAnalyteCode
+                    lab={row.lab}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            analyteCode: [item.analyteCode],
+                            analyteName: [item.analyteName],
+                          },
+                          row._id
+                        )
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "bill",
