@@ -15,6 +15,7 @@ import {
   AutoCompleteFilterSingleSelect,
   AutoCompleteCheckMultiFilterKeys,
 } from "@/library/components"
+import _ from "lodash"
 import { lookupItems, moment, lookupValue } from "@/library/utils"
 import { PackageMasterList } from "../components"
 
@@ -301,9 +302,6 @@ const MasterPackage = MasterPackageHOC(
                           const serviceItem = JSON.parse(e.target.value)
                           onChange(serviceItem)
                           if (masterPanelStore.listMasterPanel) {
-                            console.log({
-                              items: masterPanelStore.listMasterPanel,
-                            })
                             const listPackageItems: any = masterPanelStore.listMasterPanel.filter(
                               (item) => {
                                 return item.serviceType === serviceItem.code
@@ -329,7 +327,31 @@ const MasterPackage = MasterPackageHOC(
                         }}
                       >
                         <option selected>
-                          {masterPackageStore.masterPackage?.serviceType || "Select"}
+                          {(routerStore.lookupItems.length > 0 &&
+                            _.first(
+                              getServiceTypes(
+                                routerStore?.lookupItems?.find((item) => {
+                                  return item.fieldName === "SERVICE_TYPE"
+                                })
+                              ).filter(
+                                (item) =>
+                                  item?.code ===
+                                  masterPackageStore.masterPackage?.serviceType
+                              )
+                            )?.value +
+                              " - " +
+                              _.first(
+                                getServiceTypes(
+                                  routerStore?.lookupItems?.find((item) => {
+                                    return item.fieldName === "SERVICE_TYPE"
+                                  })
+                                ).filter(
+                                  (item) =>
+                                    item?.code ===
+                                    masterPackageStore.masterPackage?.serviceType
+                                )
+                              )?.code) ||
+                            "Select"}
                         </option>
                         {routerStore.lookupItems.length > 0 &&
                           getServiceTypes(
