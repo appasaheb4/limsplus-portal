@@ -24,6 +24,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             category: getDefaultLookupItem(routerStore.lookupItems, "CATEGORY"),
             disease: getDefaultLookupItem(routerStore.lookupItems, "DISEASE"),
             workflow: getDefaultLookupItem(routerStore.lookupItems, "WORKFLOW"),
+            processing: getDefaultLookupItem(routerStore.lookupItems, "PROCESSING")
           })
           if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
             testMasterStore.updateTestMaster({

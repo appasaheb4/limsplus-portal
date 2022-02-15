@@ -1,12 +1,27 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {NumberFilter,customFilter,DateFilter,textFilter,Form,Tooltip,Icons,TableBootstrap} from "@/library/components"
-import {Confirm} from "@/library/models"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectPanelCode} from '../index'
+import { lookupItems, lookupValue } from "@/library/utils"
+import {
+  NumberFilter,
+  customFilter,
+  DateFilter,
+  textFilter,
+  Form,
+  Tooltip,
+  Icons,
+  TableBootstrap,
+  List,
+  Buttons,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectPanelCode,
+  AutoCompleteFilterSingleSelectTestName,
+} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
-   
+
 let dateCreation
 let dateActive
 let dateExpire
@@ -29,6 +44,7 @@ interface TestPanelMappingListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -126,7 +142,31 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                   testCode = filter
                 },
               }),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectTestName
+                    lab={row.lab}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            testCode: [item.testCode],
+                            testName: [item.testName],
+                          },
+                          row._id
+                        )
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "testName",
@@ -139,7 +179,31 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                   testName = filter
                 },
               }),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectTestName
+                    lab={row.lab}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            testCode: [item.testCode],
+                            testName: [item.testName],
+                          },
+                          row._id
+                        )
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "bill",
@@ -161,6 +225,30 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                   </>
                 )
               },
+            },
+            {
+              dataField: "reportOrder",
+              text: "Report Order",
+              headerClasses: "textHeader5",
+              sort: true,
+              editable: false,
+              formatter: (cellContent, row) => (
+                <>
+                  <List space={2} direction="row" justify="center">
+                    {row?.reportOrder?.map((item) => (
+                      <div className="mb-2">
+                        <Buttons.Button
+                          size="medium"
+                          type="solid"
+                          onClick={() => {}}
+                        >
+                          {item}
+                        </Buttons.Button>
+                      </div>
+                    ))}
+                  </List>
+                </>
+              ),
             },
             {
               dataField: "status",

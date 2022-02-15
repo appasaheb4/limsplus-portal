@@ -1278,7 +1278,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     />
                   )}
                   name="minReportable"
-                  rules={{ required: false }}
+                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
                   defaultValue=""
                 />
                 <Controller
@@ -1299,7 +1299,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     />
                   )}
                   name="maxReportable"
-                  rules={{ required: false }}
+                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
                   defaultValue=""
                 />
                 <Controller

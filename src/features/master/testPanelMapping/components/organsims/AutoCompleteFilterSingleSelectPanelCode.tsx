@@ -6,13 +6,19 @@ import { useStores } from "@/stores"
 import { Icons } from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectPanelCodeProps {
-  posstion?:string
+  hasError?: boolean
+  posstion?: string
   lab?: string
   onSelect: (item: any) => void
 }
 
 export const AutoCompleteFilterSingleSelectPanelCode = observer(
-  ({ posstion ='absolute', lab, onSelect }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
+  ({
+    posstion = "absolute",
+    hasError,
+    lab,
+    onSelect,
+  }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
     const { loading, masterPanelStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -32,10 +38,10 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
         }
       }, [ref, isListOpen])
     }
-   
+
     const wrapperRef = useRef(null)
     useOutsideAlerter(wrapperRef)
-  
+
     useEffect(() => {
       setOptions(
         masterPanelStore.listMasterPanel.filter((item) => item.pLab === lab)
@@ -73,7 +79,9 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
       <>
         <div ref={wrapperRef}>
           <div
-            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
+            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
+              hasError ? "border-red-500" : "border-gray-300"
+            } rounded-md`}
           >
             <input
               placeholder="Search by panel code"
