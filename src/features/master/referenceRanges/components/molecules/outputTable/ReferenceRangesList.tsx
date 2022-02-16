@@ -2,7 +2,7 @@
 import React from "react"
 import dayjs from "dayjs"
 import { lookupItems,lookupValue } from "@/library/utils"
-import {NumberFilter,DateFilter,TableBootstrap,textFilter,Icons,Tooltip,customFilter,Form} from "@/library/components"
+import {NumberFilter,DateFilter,TableBootstrap,textFilter,Icons,Tooltip,customFilter,Form,Toast} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {
   AutoCompleteFilterSingleSelectLabs,
@@ -506,6 +506,32 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    label="Lo Age"
+                    placeholder={row.loAge}
+                    onBlur={(loAge) => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(loAge)) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(loAge, column.dataField, row._id)
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "high",
@@ -519,6 +545,32 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    label="Lo Age"
+                    placeholder={row.high}
+                    onBlur={(high) => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(high)) {  
+                        props.onUpdateItem &&
+                          props.onUpdateItem(high, column.dataField, row._id)
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "alpha",

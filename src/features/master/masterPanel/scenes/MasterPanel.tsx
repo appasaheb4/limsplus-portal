@@ -2,11 +2,22 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
-  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectMultiFieldsDisplay} 
-  from "@/library/components"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {PanelMasterList} from "../components"
+import {
+  Toast,
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  Grid,
+  List,
+  Form,
+  Svg,
+  ModalConfirm,
+  AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+} from "@/library/components"
+import { lookupItems, lookupValue } from "@/library/utils"
+import { PanelMasterList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectDepartment } from "../components"
 import { MasterPanelHoc } from "../hoc"
@@ -323,6 +334,7 @@ const MasterPanel = MasterPanelHoc(
                       hasError={errors.department}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
+                        lab={masterPanelStore.masterPanel?.pLab}
                         hasError={errors.department}
                         onSelect={(item) => {
                           onChange(item.name)
@@ -1008,11 +1020,18 @@ const MasterPanel = MasterPanelHoc(
                       hasError={errors.hiAge}
                       value={masterPanelStore.masterPanel?.hiAge}
                       onChange={(hiAge) => {
-                        onChange(hiAge)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          hiAge: hiAge.toUpperCase(),
-                        })
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                        if (regex.test(hiAge)) {
+                          onChange(hiAge)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            hiAge: hiAge.toUpperCase(),
+                          })
+                        } else {
+                          Toast.warning({
+                            message: `😔 Only > and < sign and numbers should be allowed`,
+                          })
+                        }
                       }}
                     />
                   )}
@@ -1030,11 +1049,18 @@ const MasterPanel = MasterPanelHoc(
                       hasError={errors.loAge}
                       value={masterPanelStore.masterPanel?.loAge}
                       onChange={(loAge) => {
-                        onChange(loAge)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          loAge: loAge.toUpperCase(),
-                        })
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                        if (regex.test(loAge)) {
+                          onChange(loAge)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            loAge: loAge.toUpperCase(),
+                          })
+                        } else {
+                          Toast.warning({
+                            message: `😔 Only > and < sign and numbers should be allowed`,
+                          })
+                        }
                       }}
                     />
                   )}

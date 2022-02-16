@@ -1,7 +1,8 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import {MasterPanel} from "../models"
-import {MasterPanelService} from "../services"
+import { Toast } from "@/library/components"
+import { MasterPanel } from "../models"
+import { MasterPanelService } from "../services"
 import * as ModelsSection from "@/features/master/section/models"
 import dayjs from "dayjs"
 
@@ -52,7 +53,7 @@ export class MasterPanelStore {
       updateSectionListByDeptCode: action,
       updateMasterPanel: action,
       updateExistsLabEnvCode: action,
-      filterPanelMasterList: action
+      filterPanelMasterList: action,
     })
   }
 
@@ -63,31 +64,32 @@ export class MasterPanelStore {
   fetchPanelMaster(page?, limit?) {
     this.masterPanelService.listPanelMaster(page, limit)
   }
-  
+
   updatePanelMasterList(res: any) {
-    if(!Array.isArray(res)){
+    if (!Array.isArray(res)) {
       if (!res.panelMasters.success) return alert(res.panelMasters.message)
-       this.listMasterPanel = res.panelMasters.data
-       this.listMasterPanelCopy = res.panelMasters.data
-        this.listMasterPanelCount = res.panelMasters.paginatorInfo.count
-    }else{
+      this.listMasterPanel = res.panelMasters.data
+      this.listMasterPanelCopy = res.panelMasters.data
+      this.listMasterPanelCount = res.panelMasters.paginatorInfo.count
+    } else {
       this.listMasterPanel = res
     }
-    
-  }  
-         
+  }
+
   filterPanelMasterList(res: any) {
     this.listMasterPanel = res.filterPanelMaster.data
     this.listMasterPanelCount = res.filterPanelMaster.paginatorInfo.count
   }
-   
+
   findSectionListByDeptCode = (code: string) => {
     this.masterPanelService.findSectionListByDeptCode(code)
   }
 
   updateSectionListByDeptCode(res: any) {
     if (!res.findSectionListByDeptCode.success)
-      return alert(`${res.findSectionListByDeptCode.message}`)
+      return Toast.warning({
+        message: `😔 ${res.findSectionListByDeptCode.message}`,
+      })
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data
   }
 

@@ -1,10 +1,24 @@
 /* eslint-disable */
 import React from "react"
 import daysjs from "dayjs"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {TableBootstrap,textFilter,NumberFilter,DateFilter,Form,Tooltip,Icons,customFilter} from "@/library/components"
-import {Confirm} from "@/library/models"
-import {AutoCompleteFilterSingleSelectPlabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod} from '../index'
+import { lookupItems, lookupValue } from "@/library/utils"
+import {
+  TableBootstrap,
+  textFilter,
+  NumberFilter,
+  DateFilter,
+  Form,
+  Tooltip,
+  Icons,
+  customFilter,
+  Toast,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import {
+  AutoCompleteFilterSingleSelectPlabs,
+  AutoCompleteFilterSingleSelectDepartment,
+  AutoCompleteFilterSingleSelectPanelMethod,
+} from "../index"
 
 let rLab
 let pLab
@@ -52,7 +66,7 @@ interface PanelMasterListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onUpdateFileds?:(fileds:any,id:string)=>void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -83,11 +97,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "RLab",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   rLab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -99,25 +113,22 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const rLab = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(rLab, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.labList&&props.extraData.labList.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
-                    </select>
-                 
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const rLab = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(rLab, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {props.extraData.labList &&
+                      props.extraData.labList.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
+                  </select>
                 </>
               ),
             },
@@ -126,11 +137,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "PLab",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   pLab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -143,9 +154,10 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPlabs
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -156,11 +168,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Department",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   department = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -173,10 +185,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDepartment
-                   lab={row.pLab}
-                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    lab={row.pLab}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -199,7 +212,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             //     columnIndex
             //   ) => (
             //     <>
-            //       
+            //
             //         <select
             //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
@@ -215,7 +228,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             //             </option>
             //           ))}
             //         </select>
-            //      
+            //
             //     </>
             //   ),
             // },
@@ -224,11 +237,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Service Type",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   serviceType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -240,26 +253,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const serviceType = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(serviceType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "SERVICE_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const serviceType = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(serviceType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "SERVICE_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -268,11 +278,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Code",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   panelCode = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -281,24 +291,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Name",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   panelName = filter
-                }
+                },
               }),
-              editable:false,
+              editable: false,
             },
             {
               dataField: "description",
               text: "Description",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   description = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -307,12 +317,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Method Code",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   panelMethodCode = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -324,24 +334,31 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelMethod
-                   onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({panelMethodCode:item.methodsCode,panelMethodName:item.methodsName},row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            panelMethodCode: item.methodsCode,
+                            panelMethodName: item.methodsName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
-              )
+              ),
             },
             {
               dataField: "panelMethodName",
               text: "Panel Method Name",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   panelMethodName = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -353,24 +370,31 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelMethod
-                  onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({panelMethodCode:item.methodsCode,panelMethodName:item.methodsName},row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            panelMethodCode: item.methodsCode,
+                            panelMethodName: item.methodsName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
-              )
+              ),
             },
             {
               dataField: "method",
               text: "Method",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.method}
                       onChange={(method) => {
                         props.onUpdateItem &&
@@ -386,28 +410,28 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Short Name",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   shortName = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               //style : {textTransform : "uppercase"},
               // editorStyle: {
               //   textTransform: 'uppercase'
               // }
-            },  
-            {  
+            },
+            {
               dataField: "price",
               text: "Price",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   price = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -423,7 +447,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <Form.Input
-                    
                     placeholder="Price"
                     type="number"
                     value={row.price}
@@ -443,13 +466,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.bill}
                       onChange={(bill) => {
                         props.onUpdateItem &&
@@ -466,11 +489,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Schedule",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   rLab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -482,24 +505,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                      onChange={(e) => {
-                        const schedule = e.target.value
-                        props.onUpdateItem && props.onUpdateItem(schedule,column.dataField,row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listDeliverySchedule.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.schCode}>
-                            {`${item.schCode}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                 
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const schedule = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(schedule, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {props.extraData.listDeliverySchedule.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.schCode}>
+                          {`${item.schCode}`}
+                        </option>
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -508,11 +530,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "TAT",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   tat = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -521,11 +543,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Validation Level",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   validationLevel = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -537,25 +559,28 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      value={row.validationLevel}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                      onChange={(e) => {
-                        const validationLevel: any = e.target.value
-                        props.onUpdateItem && props.onUpdateItem(validationLevel,column.dataField,row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
+                  <select
+                    value={row.validationLevel}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const validationLevel: any = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          validationLevel,
+                          column.dataField,
+                          row._id
                         )
-                      )}
-                    </select>
-                 
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -564,11 +589,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Report Order",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   reportOrder = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -577,11 +602,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Processing",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   processing = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -593,26 +618,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const processing = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(processing, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "PROCESSING"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const processing = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(processing, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "PROCESSING").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -621,11 +643,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Workflow",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   workflow = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -634,11 +656,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Category",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   category = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -650,26 +672,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const category = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(category, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "CATEGORY"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const category = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(category, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "CATEGORY").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -678,11 +697,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Type",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   panelType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -694,26 +713,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const panelType = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(panelType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "PANEL_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const panelType = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(panelType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "PANEL_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -722,13 +738,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
                         props.onUpdateItem &&
@@ -743,13 +759,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.holdOOS}
                       onChange={(holdOOS) => {
                         props.onUpdateItem &&
@@ -765,13 +781,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.confidential}
                       onChange={(confidential) => {
                         props.onUpdateItem &&
@@ -787,13 +803,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "urgent",
               text: "Urgent",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.urgent}
                       onChange={(urgent) => {
                         props.onUpdateItem &&
@@ -808,13 +824,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.instantResult}
                       onChange={(instantResult) => {
                         props.onUpdateItem &&
@@ -829,13 +845,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "repitation",
               text: "Repitation",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.repitation}
                       onChange={(repitation) => {
                         props.onUpdateItem &&
@@ -850,13 +866,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.printLabel}
                       onChange={(printLabel) => {
                         props.onUpdateItem &&
@@ -871,13 +887,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "cumulative",
               text: "Cumulative",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.cumulative}
                       onChange={(cumulative) => {
                         props.onUpdateItem &&
@@ -893,17 +909,17 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Report Group",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   reportGroup = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              style : {textTransform : "uppercase"},
+              style: { textTransform: "uppercase" },
               editorStyle: {
-                textTransform: 'uppercase'
-              }
+                textTransform: "uppercase",
+              },
             },
 
             {
@@ -911,11 +927,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "sex",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sex = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -927,27 +943,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      disabled={!row.sexAction}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sex = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sex, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "SEX"
-                      ).map((item: any, index: number) => (
+                  <select
+                    disabled={!row.sexAction}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sex = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sex, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "SEX").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -956,13 +969,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "sexAction",
               text: "Age/Sex Action",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.sexAction}
                       onChange={(sexAction) => {
                         props.onUpdateItem &&
@@ -978,26 +991,80 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Hi Age",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   hiAge = filter
-                }
+                },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row) && row.sexAction,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row) && row.sexAction,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    label="Hi Age"
+                    placeholder={row.hiAge}
+                    onBlur={(hiAge) => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(hiAge)) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(hiAge, column.dataField, row._id)
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "loAge",
               text: "Lo Age",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   loAge = filter
-                }
+                },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row) && row.sexAction,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row) && row.sexAction,
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <Form.Input
+                      label="Lo Age"
+                      placeholder={row.loAge}
+                      onBlur={(loAge) => {
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                        if (regex.test(loAge)) {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(loAge, column.dataField, row._id)
+                        } else {
+                          Toast.warning({
+                            message: `😔 Only > and < sign and numbers should be allowed`,
+                          })
+                        }
+                      }}
+                    />
+                  </>
+                ),
             },
 
             {
@@ -1005,11 +1072,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Suffix",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   suffix = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1019,11 +1086,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "TubeGroup",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   tubeGroup = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1032,13 +1099,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.pageBreak}
                       onChange={(pageBreak) => {
                         props.onUpdateItem &&
@@ -1054,11 +1121,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Report Template",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   reportTemplate = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1067,11 +1134,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Sample Type",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   sampleType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -1080,31 +1147,30 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Label Instruction",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   labelInstruction = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              
             },
             {
               dataField: "specalInstructions",
               text: "Specal Instructions",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   specalInstructions = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              style : {textTransform : "uppercase"},
+              style: { textTransform: "uppercase" },
               editorStyle: {
-                textTransform: 'uppercase'
-              }
+                textTransform: "uppercase",
+              },
             },
 
             {
@@ -1112,11 +1178,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Status",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   status = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -1128,26 +1194,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -1156,11 +1219,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Entered By",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   enteredBy = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -1169,12 +1232,15 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateCreation ? daysjs(row.dateCreation).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateCreation
+                  ? daysjs(row.dateCreation).format("YYYY-MM-DD")
+                  : "",
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateCreation = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -1206,12 +1272,15 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateActive ? daysjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col, row) =>
+                row.dateActive
+                  ? daysjs(row.dateActive || 0).format("YYYY-MM-DD")
+                  : "",
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateActive = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -1243,12 +1312,15 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateExpire ? daysjs(row.dateExpire || 0).format("YYYY-MM-DD"): ""),
+              csvFormatter: (col, row) =>
+                row.dateExpire
+                  ? daysjs(row.dateExpire || 0).format("YYYY-MM-DD")
+                  : "",
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   dateExpire = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -1280,12 +1352,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: false,
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   version = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -1296,12 +1368,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Envirenvironmentonment",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   environment = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -1312,27 +1384,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      value={row.environment}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={row.environment}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                 
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -1361,17 +1430,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                           })
                         }
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Version Upgrade"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Version Upgrade">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -1379,15 +1443,10 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconvsc.VscVersions
-                            )}
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Duplicate"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Duplicate">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -1395,9 +1454,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconio5.IoDuplicateOutline
-                            )}
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                           </Icons.IconContext>
                         </Tooltip>
                       </>
@@ -1406,9 +1463,9 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -1427,7 +1484,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             dateCreation()
             dateActive()
             dateExpire()
@@ -1470,4 +1527,3 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
     </>
   )
 }
-
