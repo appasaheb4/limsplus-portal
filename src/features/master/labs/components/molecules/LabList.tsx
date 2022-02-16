@@ -1,40 +1,50 @@
 /* eslint-disable */
 import React from "react"
 import { Stores } from "../../stores"
-import {lookupItems,lookupValue} from "@/library/utils"
+import { lookupItems, lookupValue } from "@/library/utils"
 import _ from "lodash"
-import {textFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
-import {Confirm} from "@/library/models"
+import {
+  textFilter,
+  TableBootstrap,
+  Form,
+  Icons,
+  Tooltip,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
 import { useStores } from "@/stores"
-import {AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectDistrict
-,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectPostalCode} from '../organisms'
+import {
+  AutoCompleteFilterSingleSelectCountry,
+  AutoCompleteFilterSingleSelectState,
+  AutoCompleteFilterSingleSelectDistrict,
+  AutoCompleteFilterSingleSelectCity,
+  AutoCompleteFilterSingleSelectArea,
+  AutoCompleteFilterSingleSelectPostalCode,
+} from "../organisms"
 
-let code;
-let name;
-let country;
-let state;
-let district;
-let city;
-let area;
-let address;
-let postalCode;
-let deliveryType;
-let salesTerritory;
-let labLicence;
-let director;
-let physician;
-let mobileNo;
-let contactNo;
-let speciality;
-let labType;
-let openingTime;
-let closingTime;
-let email;
+let code
+let name
+let country
+let state
+let district
+let city
+let area
+let address
+let postalCode
+let deliveryType
+let salesTerritory
+let labLicence
+let director
+let physician
+let mobileNo
+let contactNo
+let speciality
+let labType
+let openingTime
+let closingTime
+let email
 let fyiLine
-let workLine;
-let environment;
-
-
+let workLine
+let environment
 
 interface LabListProps {
   data: any
@@ -71,11 +81,11 @@ export const LabList = (props: LabListProps) => {
               text: "Code",
               sort: true,
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   code = filter
-                }
+                },
               }),
-              editable:false,
+              editable: false,
               headerClasses: "textHeader",
             },
             {
@@ -83,11 +93,11 @@ export const LabList = (props: LabListProps) => {
               text: "Name",
               sort: true,
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   name = filter
-                }
+                },
               }),
-              editable:false,
+              editable: false,
               headerClasses: "textHeader",
             },
             {
@@ -95,12 +105,12 @@ export const LabList = (props: LabListProps) => {
               text: "Country",
               sort: true,
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   country = filter
-                }
+                },
               }),
               headerClasses: "textHeader1",
-              style :{textTransform :"uppercase"},
+              style: { textTransform: "uppercase" },
               editorRenderer: (
                 editorProps,
                 value,
@@ -110,15 +120,15 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                {props.extraData.listAdministrativeDiv && (
+                  {props.extraData.listAdministrativeDiv && (
                     <AutoCompleteFilterSingleSelectCountry
-                      onSelect={(item) => {  
+                      onSelect={(item) => {
                         props.onUpdateItem &&
                           props.onUpdateItem(item.country, column.dataField, row._id)
                       }}
                     />
-                )}
-               </>
+                  )}
+                </>
               ),
             },
             {
@@ -126,11 +136,11 @@ export const LabList = (props: LabListProps) => {
               text: "State",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   state = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -141,14 +151,15 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {( props.extraData.listAdministrativeDiv)  && (
+                  {props.extraData.listAdministrativeDiv && (
                     <AutoCompleteFilterSingleSelectState
-                    country={row.country}
-                      onSelect={(item)=>{
-                        props.onUpdateItem && props.onUpdateItem(item.state,column.dataField,row._id)
+                      country={row.country}
+                      onSelect={(item) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(item.state, column.dataField, row._id)
                       }}
                     />
-              )}
+                  )}
                 </>
               ),
             },
@@ -156,11 +167,11 @@ export const LabList = (props: LabListProps) => {
               dataField: "district",
               text: "District",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   district = filter
-                }
+                },
               }),
               headerClasses: "textHeader1",
               editorRenderer: (
@@ -172,17 +183,20 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.listAdministrativeDiv) && (
+                  {props.extraData.listAdministrativeDiv && (
                     <AutoCompleteFilterSingleSelectDistrict
-                    country={row.country}
-                    state={row.state}
-                    onSelect={(item)=>{
-                      props.onUpdateItem && props.onUpdateItem(item.district,column.dataField,row._id)
-                    }}
+                      country={row.country}
+                      state={row.state}
+                      onSelect={(item) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            item.district,
+                            column.dataField,
+                            row._id
+                          )
+                      }}
                     />
-                    
-                  
-              )}
+                  )}
                 </>
               ),
             },
@@ -191,11 +205,11 @@ export const LabList = (props: LabListProps) => {
               text: "City",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   city = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -206,18 +220,17 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.listAdministrativeDiv) && (
+                  {props.extraData.listAdministrativeDiv && (
                     <AutoCompleteFilterSingleSelectCity
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                      onSelect={(item)=>{
-                        props.onUpdateItem && props.onUpdateItem(item.city,column.dataField,row._id)
+                      country={row.country}
+                      state={row.state}
+                      district={row.district}
+                      onSelect={(item) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(item.city, column.dataField, row._id)
                       }}
                     />
-                    
-                  
-              )}
+                  )}
                 </>
               ),
             },
@@ -226,11 +239,11 @@ export const LabList = (props: LabListProps) => {
               text: "Area",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   area = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -241,18 +254,18 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.listAdministrativeDiv) && (
-                
+                  {props.extraData.listAdministrativeDiv && (
                     <AutoCompleteFilterSingleSelectArea
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    city={row.city}
-                      onSelect={(item)=>{
-                        props.onUpdateItem && props.onUpdateItem(item.area,column.dataField,row._id)
+                      country={row.country}
+                      state={row.state}
+                      district={row.district}
+                      city={row.city}
+                      onSelect={(item) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(item.area, column.dataField, row._id)
                       }}
                     />
-              )}
+                  )}
                 </>
               ),
             },
@@ -261,11 +274,11 @@ export const LabList = (props: LabListProps) => {
               text: "Postal Code",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   postalCode = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -276,18 +289,23 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                 {(props.extraData.listAdministrativeDiv) && (
+                  {props.extraData.listAdministrativeDiv && (
                     <AutoCompleteFilterSingleSelectPostalCode
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    city={row.city}
-                    area={row.area}
-                    onSelect={(item)=>{
-                      props.onUpdateItem && props.onUpdateItem(item.postalCode,column.dataField,row._id)
-                    }}
+                      country={row.country}
+                      state={row.state}
+                      district={row.district}
+                      city={row.city}
+                      area={row.area}
+                      onSelect={(item) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            item.postalCode,
+                            column.dataField,
+                            row._id
+                          )
+                      }}
                     />
-              )}
+                  )}
                 </>
               ),
             },
@@ -297,11 +315,11 @@ export const LabList = (props: LabListProps) => {
               text: "Address",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   address = filter
-                }
+                },
               }),
             },
             {
@@ -309,11 +327,11 @@ export const LabList = (props: LabListProps) => {
               text: "Delivery Type",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   deliveryType = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -324,26 +342,23 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                   
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const deliveryType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(deliveryType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "DELIVERY_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const deliveryType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(deliveryType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "DELIVERY_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -351,11 +366,11 @@ export const LabList = (props: LabListProps) => {
               dataField: "salesTerritory",
               text: "Sales Territory",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   salesTerritory = filter
-                }
+                },
               }),
               headerClasses: "textHeader3",
               editorRenderer: (
@@ -367,30 +382,24 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                   
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const salesTerritory = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            salesTerritory,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {salesTeamStore.listSalesTeam &&
-                        salesTeamStore.listSalesTeam.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.salesTerritory.area}>
-                              {`${item.salesTerritory.area}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const salesTerritory = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(salesTerritory, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {salesTeamStore.listSalesTeam &&
+                      salesTeamStore.listSalesTeam.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.salesTerritory.area}>
+                            {`${item.salesTerritory.area}`}
+                          </option>
+                        )
+                      )}
+                  </select>
                 </>
               ),
             },
@@ -399,16 +408,16 @@ export const LabList = (props: LabListProps) => {
               text: "Lab Licence",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   labLicence = filter
-                }
+                },
               }),
-              style : {textTransform: 'uppercase'},
+              style: { textTransform: "uppercase" },
               editorStyle: {
-                textTransform: 'uppercase'
-              }
+                textTransform: "uppercase",
+              },
             },
 
             {
@@ -416,27 +425,27 @@ export const LabList = (props: LabListProps) => {
               text: "Director",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   director = filter
-                }
+                },
               }),
-              style : {textTransform: 'uppercase'},
+              style: { textTransform: "uppercase" },
               editorStyle: {
-                textTransform: 'uppercase'
-              }
+                textTransform: "uppercase",
+              },
             },
             {
               dataField: "physician",
               text: "Physician",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   physician = filter
-                }
+                },
               }),
             },
             {
@@ -444,11 +453,11 @@ export const LabList = (props: LabListProps) => {
               text: "Mobile No",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   mobileNo = filter
-                }
+                },
               }),
             },
             {
@@ -456,11 +465,11 @@ export const LabList = (props: LabListProps) => {
               text: "Contact No",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   contactNo = filter
-                }
+                },
               }),
             },
 
@@ -469,11 +478,11 @@ export const LabList = (props: LabListProps) => {
               text: "Speciality",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   speciality = filter
-                }
+                },
               }),
             },
             {
@@ -481,11 +490,11 @@ export const LabList = (props: LabListProps) => {
               text: "Lab Type",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter)=>{
+                getFilter: (filter) => {
                   labType = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -496,27 +505,24 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                   
-                    <select
-                      value={Stores.labStore.labs?.labType}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const labType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(labType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "LAB_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={Stores.labStore.labs?.labType}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const labType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(labType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "LAB_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -525,11 +531,11 @@ export const LabList = (props: LabListProps) => {
               text: "Opening Time",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  openingTime  = filter
-                }
+                getFilter: (filter) => {
+                  openingTime = filter
+                },
               }),
             },
 
@@ -538,11 +544,11 @@ export const LabList = (props: LabListProps) => {
               text: "Closing Time",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  closingTime  = filter
-                }
+                getFilter: (filter) => {
+                  closingTime = filter
+                },
               }),
             },
             {
@@ -550,11 +556,11 @@ export const LabList = (props: LabListProps) => {
               text: "Email",
               headerClasses: "textHeader",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  email  = filter
-                }
+                getFilter: (filter) => {
+                  email = filter
+                },
               }),
             },
             {
@@ -599,10 +605,51 @@ export const LabList = (props: LabListProps) => {
               ),
             },
             {
+              dataField: "reportFormat",
+              text: "Report Format",
+              sort: true,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.reportFormat}
+                      onChange={(reportFormat) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(reportFormat, "reportFormat", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "printLable",
+              text: "Print Lable",
+              sort: true,
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.printLable}
+                      onChange={(printLable) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(printLable, "printLable", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -621,7 +668,8 @@ export const LabList = (props: LabListProps) => {
               dataField: "requireReceveInLab",
               text: "Require Receve In Lab",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -644,7 +692,8 @@ export const LabList = (props: LabListProps) => {
               dataField: "requireScainIn",
               text: "Require Scain In",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -667,7 +716,8 @@ export const LabList = (props: LabListProps) => {
               dataField: "routingDept",
               text: "Routing Dept",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col) => (col ? col : false),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -687,11 +737,11 @@ export const LabList = (props: LabListProps) => {
               text: "Fyi Line",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  fyiLine  = filter
-                }
+                getFilter: (filter) => {
+                  fyiLine = filter
+                },
               }),
             },
             {
@@ -699,11 +749,11 @@ export const LabList = (props: LabListProps) => {
               text: "Work Line",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  workLine  = filter
-                }
+                getFilter: (filter) => {
+                  workLine = filter
+                },
               }),
             },
             {
@@ -712,9 +762,9 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               filter: textFilter({
-                getFilter: (filter) =>{
-                  environment  = filter
-                }
+                getFilter: (filter) => {
+                  environment = filter
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -725,27 +775,24 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      value={row.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={row.environment}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -759,10 +806,7 @@ export const LabList = (props: LabListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <Tooltip
-                      tooltipText="Delete"
-                      position="top"
-                    >
+                    <Tooltip tooltipText="Delete" position="top">
                       <Icons.IconContext
                         color="#fff"
                         size="20"
@@ -777,9 +821,7 @@ export const LabList = (props: LabListProps) => {
                           })
                         }
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                   </div>
@@ -803,11 +845,11 @@ export const LabList = (props: LabListProps) => {
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
-          }}  
+          }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
-          }} 
-          clearAllFilter={()=>{
+          }}
+          clearAllFilter={() => {
             code("")
             name("")
             country("")
@@ -832,7 +874,7 @@ export const LabList = (props: LabListProps) => {
             fyiLine("")
             workLine("")
             environment("")
-          }}  
+          }}
         />
       </div>
     </>
