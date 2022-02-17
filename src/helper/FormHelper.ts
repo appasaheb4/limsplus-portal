@@ -43,7 +43,17 @@ export class FormHelper {
   static isValidHeight(height?: string): boolean {
     return !!Number(height) && Number(height) <= 214
   }
+
   static isValidWeight(weight?: string): boolean {
     return !!Number(weight) && Number(weight) <= 150
+  }
+
+  static isNumberAvailable(val: string): boolean {
+    var matches = val.match(/\d+/g)
+    if(val){
+      if (matches != null) return true
+      else return false
+    }
+    return true;
   }
 }
