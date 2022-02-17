@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
+import _ from "lodash"
 import { lookupItems, lookupValue } from "@/library/utils"
 import {
   NumberFilter,
@@ -234,8 +235,23 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Result Order",
               headerClasses: "textHeader5",
               sort: true,
-              editable: false,
-              formatter: (cellContent, row) => (
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {_.findIndex(row?.resultOrder, (item) => {
+                      return item == row?.analyteCode
+                    }) + 1}
+                  </>
+                )
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
                 <>
                   <DragDropContext
                     onDragEnd={(result: any) => {
@@ -284,8 +300,23 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: "Report Order",
               headerClasses: "textHeader5",
               sort: true,
-              editable: false,
-              formatter: (cellContent, row) => (
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {_.findIndex(row?.reportOrder, (item) => {
+                      return item == row?.analyteCode
+                    }) + 1}
+                  </>
+                )
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
                 <>
                   <DragDropContext
                     onDragEnd={(result: any) => {

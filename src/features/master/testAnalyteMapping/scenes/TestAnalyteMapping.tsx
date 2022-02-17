@@ -300,15 +300,16 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 ?.existsVersionId
                             ) {
                               testAnalyteMappingStore.testAnalyteMappingService
-                                .checkExitsLabEnvCode({
+                                .checkExitsRecords({
                                   input: {
-                                    code:
+                                    lab: item.code,
+                                    testCode: testAnalyteMappingStore.testAnalyteMapping?.testCode,
+                                    analyteCode:
                                       testAnalyteMappingStore.testAnalyteMapping
-                                        ?.testCode,
+                                        ?.analyteCode,
                                     env:
                                       testAnalyteMappingStore.testAnalyteMapping
                                         ?.environment,
-                                    lab: item.code,
                                   },
                                 })
                                 .then((res) => {
@@ -383,14 +384,17 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               ?.existsVersionId
                           ) {
                             testAnalyteMappingStore.testAnalyteMappingService
-                              .checkExitsLabEnvCode({
+                              .checkExitsRecords({
                                 input: {
-                                  code: item.testCode,
+                                  lab:
+                                    testAnalyteMappingStore.testAnalyteMapping?.lab,
+                                  testCode: item.testCode,
+                                  analyteCode:
+                                    testAnalyteMappingStore.testAnalyteMapping
+                                      ?.analyteCode,
                                   env:
                                     testAnalyteMappingStore.testAnalyteMapping
                                       ?.environment,
-                                  lab:
-                                    testAnalyteMappingStore.testAnalyteMapping?.lab,
                                 },
                               })
                               .then((res) => {
@@ -736,7 +740,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                       >
-                                       <li className="m-2 text-white">{`${
+                                        <li className="m-2 text-white">{`${
                                           index + 1
                                         }. ${item}`}</li>
                                       </div>
@@ -802,7 +806,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               ?.existsVersionId
                           ) {
                             testAnalyteMappingStore.testAnalyteMappingService
-                              .checkExitsLabEnvCode({
+                              .checkExitsRecords({
                                 input: {
                                   code:
                                     testAnalyteMappingStore.testAnalyteMapping

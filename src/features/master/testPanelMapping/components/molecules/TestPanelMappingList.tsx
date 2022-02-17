@@ -20,7 +20,16 @@ import {
   AutoCompleteFilterSingleSelectPanelCode,
   AutoCompleteFilterSingleSelectTestName,
 } from "../index"
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+
+const grid = 8
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "none",
+  display: "flex",
+  //flexWrap:'none',
+  padding: grid,
+  overflow: "auto",
+})
 
 let dateCreation
 let dateActive
@@ -234,19 +243,45 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               editable: false,
               formatter: (cellContent, row) => (
                 <>
-                  <List space={2} direction="row" justify="center">
-                    {row?.reportOrder?.map((item) => (
-                      <div className="mb-2">
-                        <Buttons.Button
-                          size="medium"
-                          type="solid"
-                          onClick={() => {}}
+                  <DragDropContext
+                    onDragEnd={(result: any) => {
+                      const items = Array.from(row?.reportOrder)
+                      const [reorderedItem] = items.splice(result.source.index, 1)
+                      items.splice(result.destination.index, 0, reorderedItem)
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, "reportOrder", row._id)
+                    }}
+                  >
+                    <Droppable droppableId="characters" direction="horizontal">
+                      {(provided, snapshot) => (
+                        <ul
+                          style={getListStyle(snapshot.isDraggingOver)}
+                          // className="grid grid-cols-1 p-2"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
                         >
-                          {item}
-                        </Buttons.Button>
-                      </div>
-                    ))}
-                  </List>
+                          {row?.reportOrder?.map((item, index) => (
+                            <>
+                              <Draggable key={item} draggableId={item} index={index}>
+                                {(provided, snapshot) => (
+                                  <div
+                                    className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                  >
+                                    <li className="m-2 text-white inline">{`${
+                                      index + 1
+                                    }. ${item}`}</li>
+                                  </div>
+                                )}
+                              </Draggable>
+                            </>
+                          ))}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
                 </>
               ),
             },

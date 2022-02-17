@@ -20,6 +20,8 @@ import {
   AutoCompleteDepartment,
   AutoCompleteEquipmentType,
 } from "../index"
+import { FormHelper } from "@/helper"
+
 let lab
 let analyteCode
 let analyteName
@@ -1144,7 +1146,10 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     placeholder={row.minReportable}
                     onBlur={(minReportable) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(minReportable)) {
+                      if (
+                        regex.test(minReportable) &&
+                        FormHelper.isNumberAvailable(minReportable)
+                      ) {
                         props.onUpdateItem &&
                           props.onUpdateItem(
                             minReportable,
@@ -1189,7 +1194,10 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     placeholder={row.maxReportable}
                     onBlur={(maxReportable) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(maxReportable)) {
+                      if (
+                        regex.test(maxReportable) &&
+                        FormHelper.isNumberAvailable(maxReportable)
+                      ) {
                         props.onUpdateItem &&
                           props.onUpdateItem(
                             maxReportable,
