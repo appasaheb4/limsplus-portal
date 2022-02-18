@@ -133,7 +133,7 @@ export const ExpandPatientTestTestCode = ({
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    //console.log({ type, filters })
+    
     if (type === "cellEdit") {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)

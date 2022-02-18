@@ -70,7 +70,7 @@ export class MasterAnalyteService {
     })
   duplicateAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
+      
          
       client
         .mutate({

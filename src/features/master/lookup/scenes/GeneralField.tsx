@@ -177,7 +177,7 @@ export const GeneralField = GeneralFieldHoc(observer((props: GeneralFieldProps) 
                     if (value === undefined || code === undefined)
                       return alert("Please enter value and code.")
                     if (value !== undefined) {
-                      console.log({ len: arrValue.length })
+                      
                       arrValue !== undefined
                         ? arrValue.push({
                             value,

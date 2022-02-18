@@ -562,7 +562,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Confidential",
               sort: true,
               editable: false,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
               formatter: (cellContent, row) => (
                 <>
                   <Form.Toggle
@@ -790,7 +790,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Confirguration",
               sort: true,
               editable: false,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.confirguration ? row.confirguration ? "Yes" : "No" : "No"}`,
               formatter: (cellContent, row) => (
                 <>
                   <Form.Toggle
@@ -811,9 +811,9 @@ export const UserList = observer((props: UserListProps) => {
               editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `Mobile:${
-                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile
+                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile ? row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile ? "Yes" : "No" : "No"
                 },Desktop:${
-                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.desktop
+                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.desktop ?row.systemInfo.accessInfo && row.systemInfo.accessInfo?.desktop ? "Yes" : "No" : "No"
                 }`,
               formatter: (cellContent, row) => (
                 <>
@@ -894,7 +894,7 @@ export const UserList = observer((props: UserListProps) => {
                           email: row.email,
                         },
                       }).then((res) => {
-                        console.log({ res })
+                       
                         if (res.reSendUserPassword.success) {
                           Toast.success({
                             message: `😊 ${res.reSendUserPassword.message}`,

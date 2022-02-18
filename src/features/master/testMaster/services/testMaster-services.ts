@@ -145,7 +145,7 @@ export class TestMasterService {
 
   findSectionListByDeptCode = (code: string) =>
     new Promise<any>((resolve) => {
-      console.log({ code })
+      
 
       new SectionService()
         .findSectionListByDeptCode({ input: { code } })

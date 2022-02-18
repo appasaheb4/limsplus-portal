@@ -155,7 +155,7 @@ export const PatientOrderExpandPackageList = ({
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    //console.log({ type, filters })
+    
     if (type === "cellEdit") {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
@@ -278,7 +278,7 @@ export const PatientOrderExpandPackageList = ({
                   {...searchProps}
                   {...props.searchProps}
                   onChange={(value) => {
-                    console.log({ value })
+                    
                   }}
                 />
                 <ClearSearchButton

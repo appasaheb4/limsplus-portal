@@ -43,7 +43,7 @@ export class PatientOrderService {
 
   addPatientOrder = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
+     
 
       client
         .mutate({
@@ -75,7 +75,7 @@ export class PatientOrderService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
+      
 
       client
         .mutate({
@@ -160,7 +160,7 @@ export class PatientOrderService {
           variables,
         })  
         .then((response: any) => {     
-          console.log({response});
+         
           if (!response.data.filterByFieldsPatientOrder.success)
              return this.listPatientOrder({ documentType: "patientOrder" })
           stores.patientOrderStore.filterPatientOrderList({
@@ -187,7 +187,7 @@ export class PatientOrderService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
+         
 
           stores.patientOrderStore.updatePackageList(
             response.data.getPatientOrderPackagesList.packageList

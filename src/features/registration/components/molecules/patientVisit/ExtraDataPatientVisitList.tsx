@@ -318,7 +318,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               dataField: "urgent",
               text: "Urgent",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -337,7 +337,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               dataField: "confidental",
               text: "Confidental",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.confidental ? row.confidental ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -356,7 +356,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               dataField: "pendingDataEntry",
               text: "Pending Data Entry",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.pendingDataEntry ? row.pendingDataEntry ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>

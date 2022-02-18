@@ -167,7 +167,7 @@ const TableBootstrap = ({
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    //console.log({ type, filters })
+    
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
@@ -288,7 +288,7 @@ const TableBootstrap = ({
                   {...searchProps}
                   {...props.searchProps}
                   onChange={(value) => {
-                    console.log({ value })
+                    
                   }}
                 />
                 <ClearSearchButton

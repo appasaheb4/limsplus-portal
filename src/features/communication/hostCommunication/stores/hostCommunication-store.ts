@@ -26,7 +26,7 @@ export class HostCommunicationStore {
     this.convertTo = convertTo
   }
   updateSelectedInterfaceManager(interfaceManager: InterfaceManager) {
-    console.log({ interfaceManager })
+    
     this.selectedInterfaceManager = interfaceManager
   }
 }

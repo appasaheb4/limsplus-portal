@@ -912,7 +912,7 @@ const HostCommunication =HostCommunicationHoc(observer(() => {
           reader.onload = (e: any) => {
             const file = e.target.result
             const lines = file.split(/\r/)
-            console.log({ lines })
+           
             let message = lines.join("\n")
             HostCommunicationFlows.newMessage(message)
           }

@@ -428,7 +428,7 @@ export const LibraryList = (props: LibraryListProps) => {
             },
             {
               dataField: "results",
-              text: "Aesults",
+              text: "Results",
               headerClasses: "textHeader2",
               sort: true,
               csvFormatter: col => (col ? col : ""),
@@ -567,7 +567,7 @@ export const LibraryList = (props: LibraryListProps) => {
               dataField: "abNormal",
               text: "AbNormal",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col,row) => `${row.abNormal ? row.abNormal ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
