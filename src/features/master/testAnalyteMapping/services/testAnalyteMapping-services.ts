@@ -114,13 +114,13 @@ export class TestAnalyteMappingService {
         )
     })
 
-  checkExitsLabEnvCode = (variables: any) =>
+  checkExitsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: CHECK_EXISTS_RECORD,
           variables,
-        })
+        })  
         .then((response: any) => {
           resolve(response.data)
         })

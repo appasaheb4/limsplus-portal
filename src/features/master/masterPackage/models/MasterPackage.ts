@@ -15,6 +15,7 @@ export class MasterPackage {
   bill: boolean
   status: string
   serviceType: string
+  reportOrder: Array<string>
   environment: string
   dateOfEntry: Date
   lastUpdated: Date
@@ -36,8 +37,16 @@ export class MasterPackage {
     this.bill = rawData.bill
     this.status = rawData.status
     this.serviceType = rawData.serviceType
+    this.reportOrder = rawData.reportOrder
     this.environment = rawData.environment
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated
+  }
+}
+
+export class SelectedItems {
+  panelCode: any[]
+  constructor(rawData: {[key in string]: any}){
+    this.panelCode = rawData.panelCode
   }
 }

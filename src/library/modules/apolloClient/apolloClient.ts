@@ -16,7 +16,7 @@ const customFetch = (uri, options): Promise<any> => {
   })
   return response
 }
-  
+
 const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
@@ -25,7 +25,7 @@ const authLink = setContext(async (_, { headers }) => {
     },
   }
 })
-      
+
 // depoly 2
 const UploadLink = createUploadLink({
   //uri: "http://localhost:8080/graphql",

@@ -1,6 +1,6 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import {MasterPackage} from "../models"
+import {MasterPackage, SelectedItems} from "../models"
 import {MasterPackageService} from "../services"
 import dayjs from "dayjs"
 
@@ -11,6 +11,7 @@ export class MasterPackageStore {
   listMasterPackageCopy!: MasterPackage[]
   listMasterPackageCount!: number
   checkExitsLabEnvCode!: boolean
+  selectedItems!: SelectedItems
 
   constructor() {
     this.listMasterPackage = []
@@ -31,6 +32,7 @@ export class MasterPackageStore {
       listMasterPackageCopy: observable,
       listMasterPackageCount: observable,
       checkExitsLabEnvCode: observable,
+      selectedItems: observable,
 
       masterPackageService: computed,
       fetchPackageMaster: action,
@@ -71,5 +73,10 @@ export class MasterPackageStore {
 
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
+  }
+
+  updateSelectedItems(items: SelectedItems | undefined) {
+    if (items) this.selectedItems = items
+    else this.selectedItems = new SelectedItems({})
   }
 }

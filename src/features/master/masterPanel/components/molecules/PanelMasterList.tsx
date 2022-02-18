@@ -19,6 +19,7 @@ import {
   AutoCompleteFilterSingleSelectDepartment,
   AutoCompleteFilterSingleSelectPanelMethod,
 } from "../index"
+import { FormHelper } from "@/helper"
 
 let rLab
 let pLab
@@ -1000,7 +1001,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     placeholder={row.hiAge}
                     onBlur={(hiAge) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(hiAge)) {
+                      if (regex.test(hiAge) && FormHelper.isNumberAvailable(hiAge)) {
                         props.onUpdateItem &&
                           props.onUpdateItem(hiAge, column.dataField, row._id)
                       } else {
@@ -1026,32 +1027,32 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row) && row.sexAction,
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex
-                ) => (
-                  <>
-                    <Form.Input
-                      label="Lo Age"
-                      placeholder={row.loAge}
-                      onBlur={(loAge) => {
-                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                        if (regex.test(loAge)) {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(loAge, column.dataField, row._id)
-                        } else {
-                          Toast.warning({
-                            message: `😔 Only > and < sign and numbers should be allowed`,
-                          })
-                        }
-                      }}
-                    />
-                  </>
-                ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    label="Lo Age"
+                    placeholder={row.loAge}
+                    onBlur={(loAge) => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(loAge) && FormHelper.isNumberAvailable(loAge)) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(loAge, column.dataField, row._id)
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
 
             
