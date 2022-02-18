@@ -91,7 +91,6 @@ export class BannerService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
       client
         .mutate({
           mutation: UPDATE_BANNER,
@@ -108,7 +107,6 @@ export class BannerService {
 
   updateBannerImage = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
       client
         .mutate({
           mutation: UPDATE_BANNER_IMAGE,

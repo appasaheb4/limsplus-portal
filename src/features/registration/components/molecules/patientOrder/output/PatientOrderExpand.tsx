@@ -189,7 +189,7 @@ export const PatientOrderExpand = ({
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    //console.log({ type, filters })
+    
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
@@ -292,7 +292,7 @@ export const PatientOrderExpand = ({
   }
 
   const handleOnExpand = (row, isExpand, rowIndex, e) => {
-    console.log({ row })
+    
 
     if (isExpand) {
       // this.setState(() => ({
@@ -696,10 +696,10 @@ export const PatientOrderExpand = ({
             },
           ]}
           onSelectedRow={(rows) => {
-            console.log({ row })
+           
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            console.log({ value })
+            
           }}
         />
       </div>
@@ -741,7 +741,7 @@ export const PatientOrderExpand = ({
                   {...searchProps}
                   {...props.searchProps}
                   onChange={(value) => {
-                    console.log({ value })
+                   
                   }}
                 />
                 <ClearSearchButton

@@ -301,9 +301,7 @@ const MasterPackage = MasterPackageHOC(
                           const serviceItem = JSON.parse(e.target.value)
                           onChange(serviceItem)
                           if (masterPanelStore.listMasterPanel) {
-                            console.log({
-                              items: masterPanelStore.listMasterPanel,
-                            })
+                            
                             const listPackageItems: any = masterPanelStore.listMasterPanel.filter(
                               (item) => {
                                 return item.serviceType === serviceItem.code
@@ -361,7 +359,7 @@ const MasterPackage = MasterPackageHOC(
                         } rounded-md`}
                         onChange={(e) => {
                           const packageItem = JSON.parse(e.target.value)
-                          console.log({ packageItem })
+                          
                           onChange(packageItem.panelCode)
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -746,7 +744,7 @@ const MasterPackage = MasterPackageHOC(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              console.log({ type })
+              
               if (type === "Delete") {
                 masterPackageStore.masterPackageService
                   .deletePackageMaster({ input: { id: modalConfirm.id } })

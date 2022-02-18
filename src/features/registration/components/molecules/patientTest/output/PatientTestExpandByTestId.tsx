@@ -156,7 +156,7 @@ export const PatientTestExpandByTestId = ({
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    //console.log({ type, filters })
+    
     if (type === "cellEdit") {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
@@ -492,10 +492,10 @@ export const PatientTestExpandByTestId = ({
             },
           ]}
           onSelectedRow={(rows) => {
-            console.log({ row })
+            
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            console.log({ value })
+           
           }}
         />
       </div>
@@ -528,7 +528,7 @@ export const PatientTestExpandByTestId = ({
                   {...searchProps}
                   {...props.searchProps}
                   onChange={(value) => {
-                    console.log({ value })
+                   
                   }}
                 />
                 <ClearSearchButton

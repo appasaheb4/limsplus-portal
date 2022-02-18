@@ -28,7 +28,7 @@ const ShortcutMenu = observer(() => {
             (userItem) =>
               userItem.category === item.name && userItem.name === children.name
           )
-        //console.log({ userShortcutMenu })
+        
         if (userShortcutMenu && userShortcutMenu?.length > 0) {
           children.selected = true
         } else {
@@ -46,7 +46,7 @@ const ShortcutMenu = observer(() => {
     if (list) {
       list[index].selected = !list[index].selected
     }
-    console.log({ list })
+    
 
     shortcutMenuStore.updateShortcutMenu(list)
   }
@@ -59,7 +59,7 @@ const ShortcutMenu = observer(() => {
     )
     const [reorderedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItem)
-    console.log({ items })
+    
 
     loginStore.updateLogin({
       ...loginStore.login,

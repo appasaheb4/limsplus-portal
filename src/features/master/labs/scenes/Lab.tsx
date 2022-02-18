@@ -24,12 +24,6 @@ const Lab = LabHoc(
       loading,
       loginStore,
     } = useStores()
-
-
-  
-    console.log({salesTeamStore});
-    
-
     const {
       control,
       handleSubmit,

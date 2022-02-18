@@ -33,8 +33,7 @@ export class PatientVisitService {
           variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
-          // console.log({response});
-          // console.log({date:dayjs.utc(response.data.patientVisits.data[0].visitDate).local().format()})
+          
           stores.patientVisitStore.updatePatientVisitList(response.data)
           resolve(response.data)
         })
@@ -45,7 +44,7 @@ export class PatientVisitService {
 
   addPatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
+     
 
       client
         .mutate({
@@ -77,8 +76,7 @@ export class PatientVisitService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
-
+     
       client
         .mutate({
           mutation: UPDATE_PATIENT_VISIT,

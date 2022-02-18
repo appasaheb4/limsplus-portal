@@ -325,7 +325,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "primaryContainer",
               text: "Primary Container",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.primaryContainer ? row.primaryContainer ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -348,7 +348,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "uniqueContainer",
               text: "Unique Container",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.uniqueContainer ? row.uniqueContainer ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -372,7 +372,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "centerIfuge",
               text: "CenterIfuge",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.centerIfuge ? row.centerIfuge ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -391,7 +391,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "aliquot",
               text: "Aliquot",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.aliquot ? row.aliquot ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -412,7 +412,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "labSpecfic",
               text: "Lab Specfic",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.labSpecfic ? row.labSpecfic ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -432,7 +432,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "departmentSpecfic",
               text: "Department Specfic",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.departmentSpecfic ? row.departmentSpecfic ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -456,7 +456,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "sharedSample",
               text: "Shared Sample",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.sharedSample ? row.sharedSample ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -662,7 +662,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "printLabels",
               text: "Print Labels",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.printLabels ? row.printLabels ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>

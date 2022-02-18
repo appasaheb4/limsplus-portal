@@ -127,7 +127,7 @@ export const PatientTest = PatientOrderHoc(
                             })
                           }}
                           onSelect={(item) => {
-                            console.log({ item });
+                            
                             onChange(item.orderId)
                             patientTestStore.updateTest({
                               ...patientTestStore.patientTest,

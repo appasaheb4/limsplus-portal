@@ -45,7 +45,7 @@ export class PatientRegistrationService  {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({newValue});
+    
       
       http
         .post(`/settings/environment/updateSingleFiled`, newValue)

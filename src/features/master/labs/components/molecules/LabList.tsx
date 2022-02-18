@@ -16,7 +16,6 @@ let state;
 let district;
 let city;
 let area;
-let address;
 let postalCode;
 let deliveryType;
 let salesTerritory;
@@ -32,6 +31,7 @@ let closingTime;
 let email;
 let fyiLine
 let workLine;
+let status;
 let environment;
 
 
@@ -51,6 +51,9 @@ interface LabListProps {
 }
 export const LabList = (props: LabListProps) => {
   const { administrativeDivisions, salesTeamStore } = useStores()
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
 
   return (
     <>
@@ -94,6 +97,7 @@ export const LabList = (props: LabListProps) => {
               dataField: "country",
               text: "Country",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
                 getFilter: (filter)=>{
                   country = filter
@@ -126,6 +130,7 @@ export const LabList = (props: LabListProps) => {
               text: "State",
               headerClasses: "textHeader",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -156,6 +161,7 @@ export const LabList = (props: LabListProps) => {
               dataField: "district",
               text: "District",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -191,6 +197,7 @@ export const LabList = (props: LabListProps) => {
               text: "City",
               headerClasses: "textHeader",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -226,6 +233,7 @@ export const LabList = (props: LabListProps) => {
               text: "Area",
               headerClasses: "textHeader",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -261,6 +269,7 @@ export const LabList = (props: LabListProps) => {
               text: "Postal Code",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -291,24 +300,12 @@ export const LabList = (props: LabListProps) => {
                 </>
               ),
             },
-
-            {
-              dataField: "address",
-              text: "Address",
-              headerClasses: "textHeader1",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter)=>{
-                  address = filter
-                }
-              }),
-            },
             {
               dataField: "deliveryType",
               text: "Delivery Type",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -351,6 +348,7 @@ export const LabList = (props: LabListProps) => {
               dataField: "salesTerritory",
               text: "Sales Territory",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -399,6 +397,7 @@ export const LabList = (props: LabListProps) => {
               text: "Lab Licence",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -416,6 +415,7 @@ export const LabList = (props: LabListProps) => {
               text: "Director",
               headerClasses: "textHeader1",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -432,6 +432,7 @@ export const LabList = (props: LabListProps) => {
               text: "Physician",
               headerClasses: "textHeader1",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -444,6 +445,7 @@ export const LabList = (props: LabListProps) => {
               text: "Mobile No",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -456,6 +458,7 @@ export const LabList = (props: LabListProps) => {
               text: "Contact No",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -469,6 +472,7 @@ export const LabList = (props: LabListProps) => {
               text: "Speciality",
               headerClasses: "textHeader1",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -481,6 +485,7 @@ export const LabList = (props: LabListProps) => {
               text: "Lab Type",
               headerClasses: "textHeader1",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter)=>{
@@ -525,6 +530,7 @@ export const LabList = (props: LabListProps) => {
               text: "Opening Time",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -538,6 +544,7 @@ export const LabList = (props: LabListProps) => {
               text: "Closing Time",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -550,6 +557,7 @@ export const LabList = (props: LabListProps) => {
               text: "Email",
               headerClasses: "textHeader",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -562,6 +570,7 @@ export const LabList = (props: LabListProps) => {
               text: "Lab Log",
               headerClasses: "textHeader1",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvExport: false,
               filter: textFilter(),
               formatter: (cell, row) => {
@@ -602,11 +611,13 @@ export const LabList = (props: LabListProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              editable:false,
+              csvFormatter: (col,row) => `${row.autoRelease ? row.autoRelease ? "Yes" :"No" :"No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
                         props.onUpdateItem &&
@@ -621,11 +632,13 @@ export const LabList = (props: LabListProps) => {
               dataField: "requireReceveInLab",
               text: "Require Receve In Lab",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              editable:false,
+              csvFormatter: (col,row) => `${row.requireReceveInLab ? row.requireReceveInLab ? "Yes" :"No" :"No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.requireReceveInLab}
                       onChange={(requireReceveInLab) => {
                         props.onUpdateItem &&
@@ -644,11 +657,13 @@ export const LabList = (props: LabListProps) => {
               dataField: "requireScainIn",
               text: "Require Scain In",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              editable:false,
+              csvFormatter: (col,row) => `${row.requireScainIn ? row.requireScainIn ? "Yes" :"No" :"No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.requireScainIn}
                       onChange={(requireScainIn) => {
                         props.onUpdateItem &&
@@ -667,11 +682,13 @@ export const LabList = (props: LabListProps) => {
               dataField: "routingDept",
               text: "Routing Dept",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              editable:false,
+              csvFormatter: (col,row) => `${row.routingDept ? row.routingDept ? "Yes" :"No" :"No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
+                    disabled={!editorCell(row)}
                       value={row.routingDept}
                       onChange={(routingDept) => {
                         props.onUpdateItem &&
@@ -687,6 +704,7 @@ export const LabList = (props: LabListProps) => {
               text: "Fyi Line",
               headerClasses: "textHeader1",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -699,6 +717,7 @@ export const LabList = (props: LabListProps) => {
               text: "Work Line",
               headerClasses: "textHeader1",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) =>{
@@ -707,10 +726,56 @@ export const LabList = (props: LabListProps) => {
               }),
             },
             {
+              dataField: "status",
+              text: "Status",
+              headerClasses: "textHeader1",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: col => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) =>{
+                  status  = filter
+                }
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  
+                    <select
+                      value={row.status}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      onChange={(e) => {
+                        const status = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(status, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(
+                        props.extraData.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  
+                </>
+              ),
+            },
+            {
               dataField: "environment",
               text: "Environment",
               headerClasses: "textHeader2",
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
                 getFilter: (filter) =>{
                   environment  = filter
@@ -816,7 +881,6 @@ export const LabList = (props: LabListProps) => {
             city("")
             area("")
             postalCode("")
-            address("")
             deliveryType("")
             salesTerritory("")
             labLicence("")
@@ -831,6 +895,7 @@ export const LabList = (props: LabListProps) => {
             email("")
             fyiLine("")
             workLine("")
+            status("")
             environment("")
           }}  
         />
