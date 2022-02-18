@@ -340,7 +340,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: "Confidential",
             sort: true,
             editable: false,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (col,row) => `${row.confidental ? row.confidental ? "Yes" : "No" : "No"}`,
             formatter: (cell, row) => {
               return (
                 <>
@@ -585,7 +585,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: "Urgent",
             sort: true,
             editable: false,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
             formatter: (cell, row) => {
               return (
                 <>

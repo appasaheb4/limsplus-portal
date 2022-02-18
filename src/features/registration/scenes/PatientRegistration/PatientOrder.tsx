@@ -139,7 +139,7 @@ export const PatientOrder = PatientOrderHoc(
                           })
                         }}
                         onSelect={(item) => {
-                          console.log({item});
+                        
                           
                           onChange(item.visitId)
                           patientOrderStore.updatePatientOrder({
@@ -209,7 +209,7 @@ export const PatientOrder = PatientOrderHoc(
                             onUpdate={(item) => {
                               const panels = patientOrderStore.selectedItems?.panels
                               onChange(panels)
-                              console.log({ panels });
+                            
 
                               patientOrderStore.updatePatientOrder({
                                 ...patientOrderStore.patientOrder,
@@ -257,7 +257,7 @@ export const PatientOrder = PatientOrderHoc(
                             }}
                             onSelect={(item) => {
                               let panels = patientOrderStore.selectedItems?.panels
-                              console.log({ item, panels })
+                             
                               if (!item.selected) {
                                 if (panels && panels.length > 0) {
                                   panels.push(item)

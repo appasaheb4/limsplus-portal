@@ -373,7 +373,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
-             csvFormatter: col => (col ? col : false),
+             csvFormatter: (col,row) =>  `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -635,7 +635,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             dataField: "urgent",
             text: "Urgent",
             sort: true,
-             csvFormatter: col => (col ? col : false),
+             csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (

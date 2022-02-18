@@ -434,7 +434,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               dataField: "history",
               text: "Histroy",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.history ? row.history ? "Yes" : "No" : "No"}`,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (

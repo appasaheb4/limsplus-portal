@@ -49,7 +49,6 @@ export class DeginisationStore {
   }
 
   filterDeginisationList(res: any) {
-    console.log({res});
     this.listDeginisation = res.filterDesignations.data
     this.listDeginisationCount = res.filterDesignations.paginatorInfo.count
   }

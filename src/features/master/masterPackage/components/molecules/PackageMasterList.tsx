@@ -142,7 +142,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: "bill",
             text: "Bill",
             sort: true,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (row,col) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (

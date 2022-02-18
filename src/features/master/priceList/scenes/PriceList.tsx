@@ -229,7 +229,7 @@ export const PriceList = PriceListHoc(observer(() => {
                               },
                             })
                             .then((res) => {
-                              console.log({ res })
+                              
                               if (res.checkPriceListExistsRecord.success) {
                                 priceListStore.updateExitsPriceGEnvLabCode(true)
                                 Toast.error({
@@ -340,7 +340,7 @@ export const PriceList = PriceListHoc(observer(() => {
                               },
                             })
                             .then((res) => {
-                              console.log({ res })
+                              
                               if (res.checkPriceListExistsRecord.success) {
                                 priceListStore.updateExitsPriceGEnvLabCode(true)
                                 Toast.error({
@@ -513,7 +513,7 @@ export const PriceList = PriceListHoc(observer(() => {
                             },
                           })
                           .then((res) => {
-                            console.log({ res })
+                            
                             if (res.checkPriceListExistsRecord.success) {
                               priceListStore.updateExitsPriceGEnvLabCode(true)
                               Toast.error({

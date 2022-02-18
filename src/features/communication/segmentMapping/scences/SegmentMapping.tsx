@@ -133,7 +133,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
         }
       })
       object = JSON.parse(JSON.stringify(object))
-      //console.log({ object })
+      
       // let listSegmentMapping = toJS(segmentMappingStore.listSegmentMapping)
       // listSegmentMapping?.forEach(function (v) {
       //   delete v._id, delete v.dateOfEntry, delete v.lastUpdated, delete v.__v
@@ -145,7 +145,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
       //       : ""
       //   return item
       // })
-      console.log({ object })
+     
       //object = object.concat(listSegmentMapping)
       const uniqueData = object.reduce((filtered, item) => {
         if (
@@ -156,7 +156,7 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
           filtered.push(item)
         return filtered
       }, [])
-      console.log({ uniqueData })
+      
       if (fileImaport) {
         segmentMappingStore.segmentMappingService
           .importSegmentMapping({ input: { data: { ...uniqueData } } })

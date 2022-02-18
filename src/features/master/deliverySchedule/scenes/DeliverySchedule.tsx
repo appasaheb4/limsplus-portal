@@ -217,7 +217,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                       onChange={(e) => {
                         const processingType = e.target.value as string
                         onChange(processingType)
-                        console.log({ processingType })
+                        
 
                         deliveryScheduleStore.updateDeliverySchedule({
                           ...deliveryScheduleStore.deliverySchedule,

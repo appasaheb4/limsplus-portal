@@ -171,7 +171,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: (col,row) => `${row.method ? row.method ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -320,7 +320,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -425,7 +425,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "reportable",
               text: "Reportable",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.reportable ? row.reportable ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -518,7 +518,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "calculationFlag",
               text: "Calculation Flag",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.calculationFlag ? row.calculationFlag ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -712,7 +712,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "repetition",
               text: "Repetition",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.repetition ? row.repetition ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -733,7 +733,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.autoRelease ? row.autoRelease ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -754,7 +754,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.holdOOS ? row.holdOOS ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -775,7 +775,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.instantResult ? row.instantResult ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -793,28 +793,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 )
               },
             },
-            {
-              dataField: "pageBreak",
-              text: "Page Break",
-              sort: true,
-              csvFormatter: (col) => (col ? col : false),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.pageBreak}
-                      onChange={(pageBreak) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(pageBreak, "pageBreak", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
-
+          
             // {
             //   dataField: "workflow",
             //   text: "Workflow",

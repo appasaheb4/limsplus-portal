@@ -74,7 +74,7 @@ export class LoginService {
 
   sessionAllowedLogout = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
+      
       client
         .mutate({  
           mutation: SESSION_ALLOWED_LOGOUT,

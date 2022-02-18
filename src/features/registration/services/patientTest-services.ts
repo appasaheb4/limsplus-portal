@@ -73,8 +73,7 @@
      
    updateSingleFiled = (variables: any) =>
      new Promise<any>((resolve, reject) => {
-       console.log({ variables })
- 
+      
        client
          .mutate({
            mutation: UPDATE_PATIENT_VISIT,
@@ -186,7 +185,7 @@
            variables,
          })
          .then((response: any) => {
-           console.log({ response })
+          
            stores.patientTestStore.updateTest({
              ...stores.patientTestStore.patientTest,
              panelList: response.data.getPatientTestPanelListByPanelCodes.panelList

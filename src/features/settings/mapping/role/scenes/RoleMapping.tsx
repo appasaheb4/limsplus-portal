@@ -160,7 +160,7 @@ const RoleMapping = observer(() => {
             {routerStore.router && (
               <DragDropContext
                 onDragEnd={(result: any) => {
-                  console.log({ result })
+                  
                   const items = Array.from(routerStore.router || [])
                   const [reorderedItem] = items.splice(result.source.index, 1)
                   items.splice(result.destination.index, 0, reorderedItem)
@@ -340,7 +340,7 @@ const RoleMapping = observer(() => {
                                                               ].children[
                                                                 indexChildren
                                                               ].permission[1].checked = true
-                                                              console.log("check")
+                                                              
                                                             }
                                                             routers[index].children[
                                                               indexChildren

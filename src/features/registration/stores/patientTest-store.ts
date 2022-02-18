@@ -47,7 +47,7 @@ export class PatientTestStore {
   }  
        
   filterTestList(res: any) {
-    console.log({res});
+   
     
     this.patientListTest = res.filterPatientTest.panelTestList
     this.patientListTestCount = res.filterPatientTest.paginatorInfo.count

@@ -103,7 +103,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                       })
                     }}
                     onSelect={(item) => {
-                      //console.log({item});
+                      
                       onChange(item.analyteCode)
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,

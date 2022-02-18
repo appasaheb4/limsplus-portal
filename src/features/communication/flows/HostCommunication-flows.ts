@@ -40,23 +40,23 @@ class HostCommunicationFlows {
       r[a.segments] = [...(r[a.segments] || []), a]
       return r
     }, {})
-    // console.log({ group })
+    
     const entries = Object.entries(group)
     entries.forEach((item: any) => {
       mapping.push({
         [item[0].toLowerCase() || ""]: { values: item[1] },
       })
     })
-    //console.log(mapping)
+    
     return mapping
   }
 
   convetTo = (type: string, interfaceManager, message: string) =>
     new Promise(async (resolve, reject) => {
       try {
-        //console.log({ type, instrumentType, message })
+        
         const mappingList = await this.mapping(interfaceManager)
-        console.log({ mappingList })
+        
 
         // decode
         if (type === "HL7") {

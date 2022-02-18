@@ -50,7 +50,7 @@ export const AutoCompleteFilterSingleSelectVariable = observer(
              )
            }}
            onSelect={(item) => {
-             console.log({item})
+             
             environmentStore.updatePermision({
               ...environmentStore.permission,
               allLabs: item.allLabs || false,

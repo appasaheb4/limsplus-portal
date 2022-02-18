@@ -7,7 +7,7 @@ interface HL7TableProps {
 }
 
 export const HL7Table = (props: HL7TableProps) => {
-  console.log({ data: props.data })
+  
 
   const [selectSegment, setSelectSegment] = useState(props.data[0][1])
   const [field, setField] = useState(props.data[0][0])

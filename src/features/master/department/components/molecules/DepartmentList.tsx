@@ -175,7 +175,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             dataField: "autoRelease",
             text: "Auto Release",
             sort: true,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (col,row) => `${row.autoRelease ? row.autoRelease ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -197,7 +197,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             dataField: "requireReceveInLab",
             text: "Require Receve In Lab",
             sort: true,
-            csvFormatter: col => (col ? col :false),
+            csvFormatter: (col,row) => `${row.requireReceveInLab ? row.requireReceveInLab ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -222,7 +222,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             dataField: "requireScainIn",
             text: "Require Scain In",
             sort: true,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (col,row) => `${row.requireScainIn ? row.requireScainIn ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -243,7 +243,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             dataField: "routingDept",
             text: "Routing Dept",
             sort: true,
-            csvFormatter: col => (col ? col : false),
+            csvFormatter: (col,row) => `${row.routingDept ? row.routingDept ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (

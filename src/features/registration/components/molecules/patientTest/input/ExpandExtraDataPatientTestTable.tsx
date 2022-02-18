@@ -168,7 +168,7 @@ export const ExpandExtraDataPatientTestTable = ({
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    //console.log({ type, filters })
+   
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
@@ -395,10 +395,10 @@ export const ExpandExtraDataPatientTestTable = ({
             },
           ]}
           onSelectedRow={(rows) => {
-            console.log({ row })
+           
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            console.log({ value })
+            
           }}
         />
       </div>
