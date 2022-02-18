@@ -19,6 +19,8 @@ export class LabStore {
       ...this.labs,
       openingTime: LibraryUtils.moment().format("hh:mm a"),
       closingTime: LibraryUtils.moment().format("hh:mm a"),
+      reportFormat: true,
+      printLable: false
     }
 
     makeObservable<LabStore, any>(this, {

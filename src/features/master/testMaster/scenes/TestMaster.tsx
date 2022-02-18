@@ -2,11 +2,22 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
-  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectMultiFieldsDisplay} 
-  from "@/library/components"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {TestMasterList} from "../components"
+import {
+  Toast,
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  Grid,
+  List,
+  Form,
+  Svg,
+  ModalConfirm,
+  AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+} from "@/library/components"
+import { lookupItems, lookupValue } from "@/library/utils"
+import { TestMasterList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectDepartment } from "../components"
 
@@ -314,34 +325,34 @@ const TestMater = TestMasterHOC(
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label={`Department`}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label={`Department`}
+                      hasError={errors.department}
+                    >
+                      <AutoCompleteFilterSingleSelectDepartment
+                        lab={testMasterStore.testMaster?.pLab}
                         hasError={errors.department}
-                      >
-                        <AutoCompleteFilterSingleSelectDepartment
-                          lab={testMasterStore.testMaster?.pLab}
-                          hasError={errors.department}
-                          onSelect={(item) => {
-                            onChange(item.name)
-                            testMasterStore.updateTestMaster({
-                              ...testMasterStore.testMaster,
-                              department: item.code,
-                            })
-                            departmentStore.updateDepartmentList(
-                              departmentStore.listDepartmentCopy
-                            )
-                            testMasterStore.findSectionListByDeptCode(item.code)
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="department"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
+                        onSelect={(item) => {
+                          onChange(item.name)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            department: item.code,
+                          })
+                          departmentStore.updateDepartmentList(
+                            departmentStore.listDepartmentCopy
+                          )
+                          testMasterStore.findSectionListByDeptCode(item.code)
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="department"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
 
                 {testMasterStore.sectionListByDeptCode && (
                   <Controller
@@ -614,14 +625,12 @@ const TestMater = TestMasterHOC(
                       hasError={errors.processing}
                     >
                       <select
+                        value={testMasterStore.testMaster?.processing}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.processing ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
-                          const processing = e.target.value as
-                            | "MANUAL"
-                            | "AEMI"
-                            | "AUTOMATIC"
+                          const processing = e.target.value
                           onChange(processing)
                           testMasterStore.updateTestMaster({
                             ...testMasterStore.testMaster,
@@ -630,10 +639,10 @@ const TestMater = TestMasterHOC(
                         }}
                       >
                         <option selected>Select</option>
-                        {["MANUAL", "AEMI", "AUTOMATIC"].map(
+                        {lookupItems(routerStore.lookupItems, "PROCESSING").map(
                           (item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {item}
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -644,53 +653,53 @@ const TestMater = TestMasterHOC(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Test Method"
-                    hasError={errors.testMethod}
-                  >
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder="Search by code or name"
-                      data={{
-                        list: methodsStore.listMethods,
-                        displayKey: ["methodsCode", "methodsName"],
-                      }}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Test Method"
                       hasError={errors.testMethod}
-                      onFilter={(value: string) => {
-                        methodsStore.methodsService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ["methodsCode", "methodsName"],
-                              srText: value,
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
+                        data={{
+                          list: methodsStore.listMethods,
+                          displayKey: ["methodsCode", "methodsName"],
+                        }}
+                        hasError={errors.testMethod}
+                        onFilter={(value: string) => {
+                          methodsStore.methodsService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["methodsCode", "methodsName"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
                             },
-                            page: 0,
-                            limit: 10,
-                          },
-                        })
-                      }}
-                      onSelect={(item) => {
-                        onChange(item.methodsCode)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          testMethodCode: item.methodsCode,
-                          testMethodName: item.methodsName,
-                        })
-                        methodsStore.updateMethodsList(
-                          methodsStore.listMethodsCopy
-                        )
-                      }}
-                    />
-                  </Form.InputWrapper>
-                )}
-                name="testMethod"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.methodsCode)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            testMethodCode: item.methodsCode,
+                            testMethodName: item.methodsName,
+                          })
+                          methodsStore.updateMethodsList(
+                            methodsStore.listMethodsCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="testMethod"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
 
-              {/* <Controller
+                {/* <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.Input
@@ -715,8 +724,8 @@ const TestMater = TestMasterHOC(
                 rules={{ required: false }}
                 defaultValue=""
               /> */}
-              
-              
+                
+
                 <Grid cols={5}>
                   <Controller
                     control={control}
@@ -860,76 +869,72 @@ const TestMater = TestMasterHOC(
                 }}
               /> */}
               <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Sample Run On"
-                    hasError={errors.sampleRunOn}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sampleRunOn ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
-                        onChange(sampleRunOn)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          sampleRunOn,
-                        })
-                      }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Sample Run On"
+                      hasError={errors.sampleRunOn}
                     >
-                      <option selected>Select</option>
-                      {["LABID", "SAMPLEID"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="sampleRunOn"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Workflow"
-                    hasError={errors.workflow}
-                  >
-                    <select
-                    value={testMasterStore.testMaster?.workflow}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.workflow ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const workflow = e.target.value as string
-                        onChange(workflow)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          workflow,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "WORKFLOW"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="workflow"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              {/* <Form.Input
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.sampleRunOn ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
+                          onChange(sampleRunOn)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            sampleRunOn,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {["LABID", "SAMPLEID"].map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="sampleRunOn"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Workflow" hasError={errors.workflow}>
+                      <select
+                        value={testMasterStore.testMaster?.workflow}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.workflow ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const workflow = e.target.value as string
+                          onChange(workflow)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            workflow,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "WORKFLOW").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="workflow"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                {/* <Form.Input
                 label="Sample Type"
                 placeholder="Sample Type"
                 value={testMasterStore.testMaster?.sampleType}
@@ -940,32 +945,32 @@ const TestMater = TestMasterHOC(
                   })
                 }}
               /> */}
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Speical Instruction"
-                    hasError={errors.speicalInstructions}
-                    placeholder={
-                      errors.speicalInstructions
-                        ? "Please Enter speicalInstructions"
-                        : "Speical Instrcution"
-                    }
-                    value={testMasterStore.testMaster?.speicalInstructions}
-                    onChange={(speicalInstructions) => {
-                      onChange(speicalInstructions)
-                      testMasterStore.updateTestMaster({
-                        ...testMasterStore.testMaster,
-                        speicalInstructions: speicalInstructions.toUpperCase(),
-                      })
-                    }}
-                  />
-                )}
-                name="speicalInstructions"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              {/* <Form.Input
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Speical Instruction"
+                      hasError={errors.speicalInstructions}
+                      placeholder={
+                        errors.speicalInstructions
+                          ? "Please Enter speicalInstructions"
+                          : "Speical Instrcution"
+                      }
+                      value={testMasterStore.testMaster?.speicalInstructions}
+                      onChange={(speicalInstructions) => {
+                        onChange(speicalInstructions)
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
+                          speicalInstructions: speicalInstructions.toUpperCase(),
+                        })
+                      }}
+                    />
+                  )}
+                  name="speicalInstructions"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                {/* <Form.Input
                 label="Disease"
                 placeholder="Disease"
                 value={testMasterStore.testMaster?.disease}
@@ -976,148 +981,138 @@ const TestMater = TestMasterHOC(
                   })
                 }}
               /> */}
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Disease"
-                    hasError={errors.disease}
-                  >
-                    <select
-                    value={testMasterStore.testMaster?.disease}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const disease = e.target.value as string
-                        onChange(disease)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          disease,
-                        })
-                      }}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Disease" hasError={errors.disease}>
+                      <select
+                        value={testMasterStore.testMaster?.disease}
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const disease = e.target.value as string
+                          onChange(disease)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            disease,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "DISEASE").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="disease"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Category" hasError={errors.category}>
+                      <select
+                        value={testMasterStore.testMaster?.category}
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const category = e.target.value as string
+                          onChange(category)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            category,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "CATEGORY").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="category"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Test Type" hasError={errors.testType}>
+                      <select
+                        value={testMasterStore.testMaster?.testType}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.testType ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const testType = e.target.value as string
+                          onChange(testType)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            testType,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "TEST_TYPE").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="testType"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Workflow Code"
+                      hasError={errors.workflowCode}
                     >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "DISEASE"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="disease"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Category"
-                    hasError={errors.category}
-                  >
-                    <select
-                    value={testMasterStore.testMaster?.category}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const category = e.target.value as string
-                        onChange(category)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          category,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "CATEGORY"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="category"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Test Type"
-                    hasError={errors.testType}
-                  >
-                    <select
-                    value={testMasterStore.testMaster?.testType}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.testType ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const testType = e.target.value as string
-                        onChange(testType)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          testType,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "TEST_TYPE"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="testType"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-             
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Workflow Code"
-                    hasError={errors.workflowCode}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.workflowCode ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const workflowCode = e.target.value as string
-                        onChange(workflowCode)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          workflowCode,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["Workflow Code 1"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="workflowCode"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              {/* <Form.InputWrapper label="Worklist Code">
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.workflowCode
+                            ? "border-red-500  "
+                            : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const workflowCode = e.target.value as string
+                          onChange(workflowCode)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            workflowCode,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {["Workflow Code 1"].map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="workflowCode"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                {/* <Form.InputWrapper label="Worklist Code">
                 <select
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -1136,77 +1131,73 @@ const TestMater = TestMasterHOC(
                   ))}
                 </select>
               </Form.InputWrapper> */}
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="CPT Code"
-                    placeholder={
-                      errors.cptCode ? "Please Enter cptCode" : "CPT Code"
-                    }
-                    hasError={errors.cptCode}
-                    value={testMasterStore.testMaster?.cptCode}
-                    onChange={(cptCode) => {
-                      onChange(cptCode)
-                      testMasterStore.updateTestMaster({
-                        ...testMasterStore.testMaster,
-                        cptCode: cptCode.toUpperCase(),
-                      })
-                    }}
-                  />
-                )}
-                name="cptCode"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Prefix"
-                    hasError={errors.prefix}
-                  >
-                    <select
-                    value={testMasterStore.testMaster?.prefix}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.prefix ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const prefix = e.target.value
-                        onChange(prefix)
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="CPT Code"
+                      placeholder={
+                        errors.cptCode ? "Please Enter cptCode" : "CPT Code"
+                      }
+                      hasError={errors.cptCode}
+                      value={testMasterStore.testMaster?.cptCode}
+                      onChange={(cptCode) => {
+                        onChange(cptCode)
                         testMasterStore.updateTestMaster({
                           ...testMasterStore.testMaster,
-                          prefix,
+                          cptCode: cptCode.toUpperCase(),
                         })
                       }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "PREFIX"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="prefix"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Form.Input
-                label="Label Instruction"
-                placeholder="Label Instruction"
-                value={testMasterStore.testMaster?.labelInstruction}
-                onChange={(labelInstruction) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    labelInstruction,
-                  })
-                }}
-              />
+                    />
+                  )}
+                  name="cptCode"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Prefix" hasError={errors.prefix}>
+                      <select
+                        value={testMasterStore.testMaster?.prefix}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.prefix ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const prefix = e.target.value
+                          onChange(prefix)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            prefix,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "PREFIX").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="prefix"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Form.Input
+                  label="Label Instruction"
+                  placeholder="Label Instruction"
+                  value={testMasterStore.testMaster?.labelInstruction}
+                  onChange={(labelInstruction) => {
+                    testMasterStore.updateTestMaster({
+                      ...testMasterStore.testMaster,
+                      labelInstruction,
+                    })
+                  }}
+                />
 
                 
                 <Controller
@@ -1365,205 +1356,200 @@ const TestMater = TestMasterHOC(
                   ))}
                 </select>
               </Form.InputWrapper> */}
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Status"
-                    hasError={errors.status}
-                  >
-                    <select
-                      value={testMasterStore.testMaster?.status}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const status = e.target.value
-                        onChange(status)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          status,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="status"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Entered By"
-                    placeholder={
-                      errors.dateCreation
-                        ? "Please Enter dateCreation"
-                        : "Entered By"
-                    }
-                    hasError={errors.dateCreation}
-                    value={loginStore.login?.userId}
-                    disabled={true}
-                  />
-                )}
-                name="dateCreation"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Creation"
-                    placeholder={
-                      errors.dateCreation
-                        ? "Please Enter dateCreation"
-                        : "Date Creation"
-                    }
-                    hasError={errors.dateCreation}
-                    value={testMasterStore.testMaster?.dateCreation}
-                    disabled={true}
-                  />
-                )}
-                name="dateCreation"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Active"
-                    placeholder={
-                      errors.dateActive ? "Please Enter dateActive" : "Date Active"
-                    }
-                    hasError={errors.dateActive}
-                    value={testMasterStore.testMaster?.dateActive}
-                    disabled={true}
-                  />
-                )}
-                name="dateActive"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Expire"
-                    placeholder={
-                      errors.dateExpire ? "Please Enter dateExpire" : "Date Expire"
-                    }
-                    hasError={errors.dateExpire}
-                    value={testMasterStore.testMaster?.dateExpire}
-                    onChange={(dateExpire) => {
-                      onChange(dateExpire)
-                      testMasterStore.updateTestMaster({
-                        ...testMasterStore.testMaster,
-                        dateExpire,
-                      })
-                    }}
-                  />
-                )}
-                name="dateExpire"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Version"
-                    placeholder={errors.version ? "Please Enter version" : "Version"}
-                    hasError={errors.version}
-                    value={testMasterStore.testMaster?.version}
-                    disabled={true}
-                  />
-                )}
-                name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Environment"
-                    hasError={errors.environment}
-                  >
-                    <select
-                      value={testMasterStore.testMaster?.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      disabled={
-                        loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                      <select
+                        value={testMasterStore.testMaster?.status}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.status ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const status = e.target.value
+                          onChange(status)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            status,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "STATUS").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="status"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Entered By"
+                      placeholder={
+                        errors.dateCreation
+                          ? "Please Enter dateCreation"
+                          : "Entered By"
                       }
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        onChange(environment)
+                      hasError={errors.dateCreation}
+                      value={loginStore.login?.userId}
+                      disabled={true}
+                    />
+                  )}
+                  name="dateCreation"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputDateTime
+                      label="Date Creation"
+                      placeholder={
+                        errors.dateCreation
+                          ? "Please Enter dateCreation"
+                          : "Date Creation"
+                      }
+                      hasError={errors.dateCreation}
+                      value={testMasterStore.testMaster?.dateCreation}
+                      disabled={true}
+                    />
+                  )}
+                  name="dateCreation"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputDateTime
+                      label="Date Active"
+                      placeholder={
+                        errors.dateActive ? "Please Enter dateActive" : "Date Active"
+                      }
+                      hasError={errors.dateActive}
+                      value={testMasterStore.testMaster?.dateActive}
+                      disabled={true}
+                    />
+                  )}
+                  name="dateActive"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputDateTime
+                      label="Date Expire"
+                      placeholder={
+                        errors.dateExpire ? "Please Enter dateExpire" : "Date Expire"
+                      }
+                      hasError={errors.dateExpire}
+                      value={testMasterStore.testMaster?.dateExpire}
+                      onChange={(dateExpire) => {
+                        onChange(dateExpire)
                         testMasterStore.updateTestMaster({
                           ...testMasterStore.testMaster,
-                          environment,
+                          dateExpire,
                         })
-                        if (!testMasterStore.testMaster?.existsVersionId) {
-                          testMasterStore.testMasterService
-                            .checkExitsLabEnvCode({
-                              input: {
-                                code: testMasterStore.testMaster?.testCode,
-                                env: environment,
-                                lab: testMasterStore.testMaster?.rLab,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkTestMasterExistsRecord.success) {
-                                testMasterStore.updateExistsLabEnvCode(true)
-                                Toast.error({
-                                  message: `😔 ${res.checkTestMasterExistsRecord.message}`,
-                                })
-                              } else testMasterStore.updateExistsLabEnvCode(false)
-                            })
-                        }
                       }}
+                    />
+                  )}
+                  name="dateExpire"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Version"
+                      placeholder={
+                        errors.version ? "Please Enter version" : "Version"
+                      }
+                      hasError={errors.version}
+                      value={testMasterStore.testMaster?.version}
+                      disabled={true}
+                    />
+                  )}
+                  name="version"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Environment"
+                      hasError={errors.environment}
                     >
-                      <option selected>
-                        {loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : testMasterStore.testMaster?.environment || `Select`}
-                      </option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
+                      <select
+                        value={testMasterStore.testMaster?.environment}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.environment ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        disabled={
+                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          const environment = e.target.value
+                          onChange(environment)
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            environment,
+                          })
+                          if (!testMasterStore.testMaster?.existsVersionId) {
+                            testMasterStore.testMasterService
+                              .checkExitsLabEnvCode({
+                                input: {
+                                  code: testMasterStore.testMaster?.testCode,
+                                  env: environment,
+                                  lab: testMasterStore.testMaster?.rLab,
+                                },
+                              })
+                              .then((res) => {
+                                if (res.checkTestMasterExistsRecord.success) {
+                                  testMasterStore.updateExistsLabEnvCode(true)
+                                  Toast.error({
+                                    message: `😔 ${res.checkTestMasterExistsRecord.message}`,
+                                  })
+                                } else testMasterStore.updateExistsLabEnvCode(false)
+                              })
+                          }
+                        }}
+                      >
+                        <option selected>
+                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
+                            ? `Select`
+                            : testMasterStore.testMaster?.environment || `Select`}
                         </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="environment"
-                rules={{ required: true }}
-                defaultValue=""
-              />
+                        {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="environment"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
                 
                 <Grid cols={6}>
-                <Controller
+                  <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.Toggle
@@ -1575,8 +1561,12 @@ const TestMater = TestMasterHOC(
                           testMasterStore.updateTestMaster({
                             ...testMasterStore.testMaster,
                             method,
-                            testMethodCode: !method ? '' : testMasterStore.testMaster?.testMethodCode,
-                            testMethodName: !method ? '' : testMasterStore.testMaster?.testMethodName
+                            testMethodCode: !method
+                              ? ""
+                              : testMasterStore.testMaster?.testMethodCode,
+                            testMethodName: !method
+                              ? ""
+                              : testMasterStore.testMaster?.testMethodName,
                           })
                         }}
                       />
@@ -1686,7 +1676,7 @@ const TestMater = TestMasterHOC(
                     defaultValue=""
                   />
                 </Grid>
-                  
+
                 {/* </Grid> */}
               </List>
             </Grid>

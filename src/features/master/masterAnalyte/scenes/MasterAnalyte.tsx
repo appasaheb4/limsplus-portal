@@ -17,7 +17,7 @@ import {
   Svg,
   ModalConfirm,
 } from "@/library/components"
-import { lookupItems ,lookupValue} from "@/library/utils"
+import { lookupItems, lookupValue } from "@/library/utils"
 import { MasterAnalyteList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { MasterAnalyteHoc } from "../hoc"
@@ -214,7 +214,7 @@ const MasterAnalyte = MasterAnalyteHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -398,7 +398,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         data={{
                           list: methodsStore.listMethods,
                           displayKey: ["methodsCode", "methodsName"],
-                        }}   
+                        }}
                         disable={!masterAnalyteStore.masterAnalyte?.method}
                         hasError={errors.analyteMethod}
                         onFilter={(value: string) => {
@@ -596,8 +596,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                           masterAnalyteStore.updateMasterAnalyte({
                             ...masterAnalyteStore.masterAnalyte,
                             method,
-                            analyteCode: !method ? '' : masterAnalyteStore.masterAnalyte?.analyteCode,
-                            analyteName: !method ? '' : masterAnalyteStore.masterAnalyte?.analyteName
+                            analyteCode: !method
+                              ? ""
+                              : masterAnalyteStore.masterAnalyte?.analyteCode,
+                            analyteName: !method
+                              ? ""
+                              : masterAnalyteStore.masterAnalyte?.analyteName,
                           })
                         }}
                       />
@@ -1269,16 +1273,23 @@ const MasterAnalyte = MasterAnalyteHoc(
                       hasError={errors.minReportable}
                       value={masterAnalyteStore.masterAnalyte?.minReportable}
                       onChange={(minReportable) => {
-                        onChange(minReportable)
-                        masterAnalyteStore.updateMasterAnalyte({
-                          ...masterAnalyteStore.masterAnalyte,
-                          minReportable,
-                        })
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                        if (regex.test(minReportable)) {
+                          onChange(minReportable)
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            minReportable,
+                          })
+                        } else {
+                          Toast.warning({
+                            message: `😔 Only > and < sign and numbers should be allowed`,
+                          })
+                        }
                       }}
                     />
                   )}
                   name="minReportable"
-                  rules={{ required: false }}
+                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
                   defaultValue=""
                 />
                 <Controller
@@ -1290,16 +1301,23 @@ const MasterAnalyte = MasterAnalyteHoc(
                       hasError={errors.maxReportable}
                       value={masterAnalyteStore.masterAnalyte?.maxReportable}
                       onChange={(maxReportable) => {
-                        onChange(maxReportable)
-                        masterAnalyteStore.updateMasterAnalyte({
-                          ...masterAnalyteStore.masterAnalyte,
-                          maxReportable,
-                        })
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                        if (regex.test(maxReportable)) {
+                          onChange(maxReportable)
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            maxReportable,
+                          })
+                        } else {
+                          Toast.warning({
+                            message: `😔 Only > and < sign and numbers should be allowed`,
+                          })
+                        }
                       }}
                     />
                   )}
                   name="maxReportable"
-                  rules={{ required: false }}
+                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
                   defaultValue=""
                 />
                 <Controller

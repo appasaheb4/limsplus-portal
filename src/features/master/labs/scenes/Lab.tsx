@@ -2,11 +2,21 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
-import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
-  ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
-  from "@/library/components"
-import {LabList} from "../components"
-import {lookupItems,lookupValue} from "@/library/utils"
+import {
+  Toast,
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  Grid,
+  List,
+  Form,
+  Svg,
+  ModalConfirm,
+  AutoCompleteFilterSingleSelect,
+} from "@/library/components"
+import { LabList } from "../components"
+import { lookupItems, lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { LabHoc } from "../hoc"
 import { useStores } from "@/stores"
@@ -30,10 +40,13 @@ const Lab = LabHoc(
       formState: { errors },
       setValue,
     } = useForm()
+
     setValue("environment", labStore.labs?.environment)
     setValue("status", labStore.labs?.status)
+
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+
     const onSubmitLab = () => {
       if (!labStore.checkExitsEnvCode) {
         labStore.LabService.addLab({ input: { ...labStore.labs } }).then((res) => {
@@ -61,7 +74,6 @@ const Lab = LabHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
-            
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -115,9 +127,7 @@ const Lab = LabHoc(
     return (
       <>
         <Header>
-          <PageHeading
-            title={routerStore.selectedComponents?.title || ""}
-          />
+          <PageHeading title={routerStore.selectedComponents?.title || ""} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
         {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
@@ -125,7 +135,7 @@ const Lab = LabHoc(
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
-        )}  
+        )}
         <div className="mx-auto flex-wrap">
           <div
             className={
@@ -133,12 +143,7 @@ const Lab = LabHoc(
             }
           >
             <Grid cols={3}>
-              <List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
+              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -576,14 +581,13 @@ const Lab = LabHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          "DELIVERY_TYPE"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
+                        {lookupItems(routerStore.lookupItems, "DELIVERY_TYPE").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
                       </select>
                     </Form.InputWrapper>
                   )}
@@ -592,12 +596,7 @@ const Lab = LabHoc(
                   defaultValue=""
                 />
               </List>
-              <List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
+              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -622,13 +621,13 @@ const Lab = LabHoc(
                       >
                         <option selected>Select</option>
                         {salesTeamStore.listSalesTeam &&
-                          _.union(_.map(salesTeamStore.listSalesTeam, "salesTerritory")).map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item}>
-                                {`${item}`}
-                              </option>
-                            )
-                          )}
+                          _.union(
+                            _.map(salesTeamStore.listSalesTeam, "salesTerritory")
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
+                            </option>
+                          ))}
                       </select>
                     </Form.InputWrapper>
                   )}
@@ -758,21 +757,34 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label="Speciality"
-                      placeholder={
-                        errors.speciality ? "Please Enter speciality" : "Speciality"
-                      }
                       hasError={errors.speciality}
-                      value={labStore.labs?.speciality}
-                      onChange={(speciality) => {
-                        onChange(speciality)
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          speciality,
-                        })
-                      }}
-                    />
+                    >
+                      <select
+                        value={labStore.labs?.speciality}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.speciality ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const speciality = e.target.value
+                          onChange(speciality)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            speciality,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "SPECIALITY").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
                   )}
                   name="speciality"
                   rules={{ required: false }}
@@ -781,10 +793,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Lab type"
-                      hasError={errors.labType}
-                    >
+                    <Form.InputWrapper label="Lab type" hasError={errors.labType}>
                       <select
                         value={labStore.labs?.labType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -800,29 +809,64 @@ const Lab = LabHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          "LAB_TYPE"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
+                        {lookupItems(routerStore.lookupItems, "LAB_TYPE").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
                       </select>
                     </Form.InputWrapper>
                   )}
                   name="labType"
                   rules={{ required: false }}
                   defaultValue=""
-                />
+                />  
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Report Format"
+                        hasError={errors.reportFormat}
+                        value={labStore.labs?.reportFormat}
+                        onChange={(reportFormat) => {
+                          onChange(reportFormat)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            reportFormat,
+                          })
+                        }}
+                      />
+                    )}
+                    name="reportFormat"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Print Label"
+                        hasError={errors.printLable}
+                        value={labStore.labs?.printLable}
+                        onChange={(printLable) => {
+                          onChange(printLable)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            printLable,
+                          })
+                        }}
+                      />
+                    )}
+                    name="printLable"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </Grid>
               </List>
-
-              <List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
+              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -957,10 +1001,7 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Status"
-                      hasError={errors.status}
-                    >
+                    <Form.InputWrapper label="Status" hasError={errors.status}>
                       <select
                         value={labStore.labs.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -976,14 +1017,13 @@ const Lab = LabHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          "STATUS"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
+                        {lookupItems(routerStore.lookupItems, "STATUS").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
                       </select>
                     </Form.InputWrapper>
                   )}
@@ -1036,14 +1076,13 @@ const Lab = LabHoc(
                             ? `Select`
                             : labStore.labs?.environment || `Select`}
                         </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          "ENVIRONMENT"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
+                        {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
                       </select>
                     </Form.InputWrapper>
                   )}

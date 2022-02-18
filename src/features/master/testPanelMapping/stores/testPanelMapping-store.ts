@@ -1,7 +1,7 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import {TestPanelMapping} from "../models"
-import {TestPanelMappingService} from "../services"
+import { TestPanelMapping, SelectedItems } from "../models"
+import { TestPanelMappingService } from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
@@ -10,6 +10,7 @@ export class TestPanelMappingStore {
   listTestPanelMapping: TestPanelMapping[]
   listTestPanelMappingCount: number
   checkExitsLabEnvCode!: boolean
+  selectedItems!: SelectedItems
 
   constructor() {
     this.listTestPanelMapping = []
@@ -17,11 +18,9 @@ export class TestPanelMappingStore {
     this.checkExitsLabEnvCode = false
     this.testPanelMapping = {
       ...this.testPanelMapping,
-      dateCreation: new Date(),  
+      dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
-      ),
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
     }
@@ -30,13 +29,14 @@ export class TestPanelMappingStore {
       listTestPanelMapping: observable,
       listTestPanelMappingCount: observable,
       checkExitsLabEnvCode: observable,
+      selectedItems: observable,
 
       testPanelMappingService: computed,
       fetchTestPanelMapping: action,
       updateTestPanelMappingList: action,
       updateTestPanelMapping: action,
       updateExistsLabEnvCode: action,
-      filterTestPanelMappingList: action
+      filterTestPanelMappingList: action,
     })
   }
 
@@ -65,5 +65,10 @@ export class TestPanelMappingStore {
 
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
+  }
+
+  updateSelectedItems(items: SelectedItems | undefined) {
+    if (items) this.selectedItems = items
+    else this.selectedItems = new SelectedItems({})
   }
 }

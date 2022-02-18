@@ -27,6 +27,8 @@ export class Labs {
     requireReceveInLab: boolean
     requireScainIn: boolean
     routingDept: boolean
+    reportFormat: boolean
+    printLable: boolean
     fyiLine: string
     workLine: string
     status: string
@@ -63,6 +65,8 @@ export class Labs {
         this.requireReceveInLab = rawData.requireReceveInLab  
         this.requireScainIn = rawData.requireScainIn  
         this.routingDept = rawData.routingDept  
+        this.reportFormat = rawData.reportFormat
+        this.printLable = rawData.printLable
         this.fyiLine = rawData.fyiLine  
         this.workLine = rawData.workLine  
         this.status = rawData.status 

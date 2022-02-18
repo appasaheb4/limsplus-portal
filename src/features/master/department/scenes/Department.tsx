@@ -40,9 +40,11 @@ export const Department = DeginisationHoc(
       setValue,
       reset,
     } = useForm()
+
     setValue("lab", loginStore.login.lab)
     setValue("environment", departmentStore.department?.environment)
     setValue("status", departmentStore.department?.status)
+
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
 
@@ -159,7 +161,7 @@ export const Department = DeginisationHoc(
                           displayKey: "name",
                           findKey: "name",
                         }}   
-                        hasError={errors.name}
+                        hasError={errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -219,6 +221,7 @@ export const Department = DeginisationHoc(
                         })
                       }}
                       onBlur={(code) => {
+                        onChange(code)
                         departmentStore.DepartmentService.checkExitsLabEnvCode({
                           input: {
                             code,
@@ -448,7 +451,7 @@ export const Department = DeginisationHoc(
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.Toggle
-                        label="Require receve in lab"
+                        label="Require receving in Lab"
                         hasError={errors.requireReceveInLab}
                         value={departmentStore.department?.requireReceveInLab}
                         onChange={(requireReceveInLab) => {

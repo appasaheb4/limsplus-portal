@@ -30,7 +30,6 @@ export const RefRangesInputTable = observer(
       labStore,
       refernceRangesStore,
     } = useStores()
-  
 
     const duplicateCombination = () => {
       const { refRangesInputList } = refernceRangesStore.referenceRanges
@@ -107,9 +106,9 @@ export const RefRangesInputTable = observer(
                           },
                           row.rangeId
                         )
-                        setTimeout(() => {
-                          duplicateCombination()
-                        }, 1000);
+                      setTimeout(() => {
+                        duplicateCombination()
+                      }, 1000)
                     }}
                   >
                     <option selected>Select</option>
@@ -146,7 +145,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ ageFrom }, row.rangeId)
                       setTimeout(() => {
                         duplicateCombination()
-                      }, 1000);
+                      }, 1000)
                     }}
                   />
                 </>
@@ -173,7 +172,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ ageTo }, row.rangeId)
                       setTimeout(() => {
                         duplicateCombination()
-                      }, 1000);
+                      }, 1000)
                     }}
                   />
                 </>
@@ -200,7 +199,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ ageUnit }, row.rangeId)
                       setTimeout(() => {
                         duplicateCombination()
-                      }, 1000);
+                      }, 1000)
                     }}
                   >
                     <option selected>Select</option>
@@ -232,11 +231,26 @@ export const RefRangesInputTable = observer(
                   <Form.Input
                     placeholder={row?.low}
                     onBlur={(low) => {
-                      const isNumber = Number(low)
-                     if(isNumber){
-                        onUpdateItems && onUpdateItems({ low: row?.picture ? parseFloat(low).toFixed(row?.picture) : low }, row.rangeId)
-                      }else{
-                        onUpdateItems && onUpdateItems({ low: low }, row.rangeId)
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(low)) {
+                        const isNumber = Number(low)
+                        if (isNumber) {
+                          onUpdateItems &&
+                            onUpdateItems(
+                              {
+                                low: row?.picture
+                                  ? parseFloat(low).toFixed(row?.picture)
+                                  : low,
+                              },
+                              row.rangeId
+                            )
+                        } else {
+                          onUpdateItems && onUpdateItems({ low: low }, row.rangeId)
+                        }
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
                       }
                     }}
                   />
@@ -260,11 +274,26 @@ export const RefRangesInputTable = observer(
                   <Form.Input
                     placeholder={row?.high}
                     onBlur={(high) => {
-                      const isNumber = Number(high)
-                     if(isNumber){
-                        onUpdateItems && onUpdateItems({ high: row?.picture ? parseFloat(high).toFixed(row?.picture) : high }, row.rangeId)
-                      }else{
-                        onUpdateItems && onUpdateItems({ high }, row.rangeId)
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(high)) {
+                        const isNumber = Number(high)
+                        if (isNumber) {
+                          onUpdateItems &&
+                            onUpdateItems(
+                              {
+                                high: row?.picture
+                                  ? parseFloat(high).toFixed(row?.picture)
+                                  : high,
+                              },
+                              row.rangeId
+                            )
+                        } else {
+                          onUpdateItems && onUpdateItems({ high }, row.rangeId)
+                        }
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
                       }
                     }}
                   />
@@ -417,7 +446,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ species }, row.rangeId)
                       setTimeout(() => {
                         duplicateCombination()
-                      }, 1000);
+                      }, 1000)
                     }}
                   >
                     <option selected>Select</option>
@@ -453,7 +482,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ sex }, row.rangeId)
                       setTimeout(() => {
                         duplicateCombination()
-                      }, 1000);
+                      }, 1000)
                     }}
                   >
                     <option selected>Select</option>
@@ -497,9 +526,9 @@ export const RefRangesInputTable = observer(
                           },
                           row.rangeId
                         )
-                        setTimeout(() => {
-                          duplicateCombination()
-                        }, 1000);
+                      setTimeout(() => {
+                        duplicateCombination()
+                      }, 1000)
                     }}
                   >
                     <option selected>Select</option>
@@ -855,7 +884,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ environment }, row.rangeId)
                       setTimeout(() => {
                         duplicateCombination()
-                      }, 1000);
+                      }, 1000)
                     }}
                   >
                     <option selected>Select</option>

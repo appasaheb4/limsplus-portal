@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import { lookupItems,lookupValue } from "@/library/utils"
+import { lookupItems, lookupValue } from "@/library/utils"
 import {
   NumberFilter,
   DateFilter,
@@ -11,6 +11,7 @@ import {
   Form,
   Icons,
   Tooltip,
+  Toast,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
 import {
@@ -460,10 +461,10 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 column,
                 rowIndex,
                 columnIndex
-              ) => (    
+              ) => (
                 <>
                   <AutoCompleteDepartment
-                    lab={row.lab}   
+                    lab={row.lab}
                     onSelect={(item) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(item, "departments", row._id)
@@ -882,7 +883,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   calcyName = filter
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row) && row.calculationFlag,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row) && row.calculationFlag,
             },
             {
               dataField: "cptCode",
@@ -1095,7 +1097,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             },
             {
               dataField: "minReportable",
-              editable: false,
               text: "Min Reportable",
               headerClasses: "textHeader5",
               sort: true,
@@ -1108,10 +1109,39 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    label="Min Reportable"
+                    placeholder={row.minReportable}
+                    onBlur={(minReportable) => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(minReportable)) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            minReportable,
+                            column.dataField,
+                            row._id
+                          )
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "maxReportable",
-              editable: false,
               text: "Max Reportable",
               headerClasses: "textHeader5",
               sort: true,
@@ -1123,6 +1153,36 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    label="Max Reportable"
+                    placeholder={row.maxReportable}
+                    onBlur={(maxReportable) => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(maxReportable)) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            maxReportable,
+                            column.dataField,
+                            row._id
+                          )
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
+                      }
+                    }}
+                  />
+                </>
               ),
             },
             {
