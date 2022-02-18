@@ -5,10 +5,10 @@ export const LIST = gql`
     testPanelMappings(input: $input) {
       paginatorInfo {
         count
-      }  
+      }
       success
       message
-      data {  
+      data {
         _id
         existsVersionId
         existsRecordId
@@ -22,6 +22,7 @@ export const LIST = gql`
         testCode
         testName
         bill
+        reportOrder
         status
         environment
         dateOfEntry
@@ -29,7 +30,7 @@ export const LIST = gql`
       }
     }
   }
-`
+`  
 
 export const REMOVE_RECORD = gql`
   mutation($input: TestPanelMappingRemoveInput!) {
@@ -39,7 +40,7 @@ export const REMOVE_RECORD = gql`
     }
   }
 `
-
+   
 export const CREATE_RECORD = gql`
   mutation($input: CreateTestPanelMappingInput!) {
     createTestPanelMapping(input: $input) {
@@ -57,7 +58,7 @@ export const VERSION_UPGRADE = gql`
     }
   }
 `
-    
+
 export const DUPLICATE_RECORD = gql`
   mutation($input: CreateTestPanelMappingInput!) {
     duplicateTestPanelMappings(input: $input) {
@@ -65,7 +66,7 @@ export const DUPLICATE_RECORD = gql`
       message
     }
   }
-`   
+`
 
 export const UPDATE_RECORD = gql`
   mutation($input: UpdateTestPanelMappingInput!) {
@@ -84,7 +85,6 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
-
 
 export const FILTER = gql`
   mutation($input: TestPanelMappingInput!) {
@@ -108,11 +108,12 @@ export const FILTER = gql`
         testCode
         testName
         bill
+        reportOrder
         status
         environment
         dateOfEntry
         lastUpdated
-      }
+      }  
     }
   }
 `

@@ -15,17 +15,28 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteCheckMultiFilterKeys,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { TestPanelMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectPanelCode } from "../components"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import { TestPanelMappingHoc } from "../hoc"
 import { useStores } from "@/stores"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
+
+const grid = 8
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "none",
+  display: "flex",
+  //flexWrap:'none',
+  padding: grid,
+  overflow: "auto",
+})
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -160,6 +171,15 @@ const TestPanelMapping = TestPanelMappingHoc(
               body: `Update lab!`,
             })
           }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "updateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: "Update records",
+            })
+          }}
           onVersionUpgrade={(item) => {
             setModalConfirm({
               show: true,
@@ -191,6 +211,16 @@ const TestPanelMapping = TestPanelMappingHoc(
       [testPanelMappingStore.listTestPanelMapping]
     )
 
+    const handleOnDragEndReportOrder = (result: any) => {
+      const items = Array.from(testPanelMappingStore.testPanelMapping?.reportOrder)
+      const [reorderedItem] = items.splice(result.source.index, 1)
+      items.splice(result.destination.index, 0, reorderedItem)
+      testPanelMappingStore.updateTestPanelMapping({
+        ...testPanelMappingStore.testPanelMapping,
+        reportOrder: items,
+      })
+    }
+
     return (
       <>
         <Header>
@@ -206,7 +236,7 @@ const TestPanelMapping = TestPanelMappingHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={2}>
@@ -287,9 +317,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper
                       label="Panel Code"
-                      hasError-={errors.panelCode}
+                      hasError={errors.panelCode}
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
+                        hasError={errors.panelCode}
                         lab={testPanelMappingStore.testPanelMapping?.lab}
                         onSelect={(item) => {
                           onChange(item.panelName)
@@ -365,44 +396,68 @@ const TestPanelMapping = TestPanelMappingHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label="Test Name" hasError={errors.testName}>
-                      <AutoCompleteCheckMultiFilterKeys
-                        placeholder="Search by test name or test code"
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
                         data={{
-                          defulatValues: [],
                           list:
                             testMasterStore.listTestMaster.filter(
                               (item) =>
                                 item.pLab ===
                                 testPanelMappingStore.testPanelMapping?.lab
                             ) || [],
-                          displayKey: ["testName", "testCode"],
-                          findKey: ["testName", "testCode"],
+                          selected: testPanelMappingStore.selectedItems?.testName,
+                          displayKey: ["testCode", "testName"],
                         }}
                         hasError={errors.testName}
+                        onUpdate={(item) => {
+                          const items = testPanelMappingStore.selectedItems?.testName
+                          const testCode: string[] = []
+                          const testName: string[] = []
+                          const reportOrder: string[] = []
+                          items?.filter((item: any) => {
+                            testCode.push(item.testCode)
+                            testName.push(item.testName)
+                            reportOrder.push(item.testCode)
+                          })
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            testName,
+                            testCode,
+                            reportOrder,
+                          })
+                          testMasterStore.updateTestMasterList(
+                            testMasterStore.listTestMasterCopy
+                          )
+                        }}
                         onFilter={(value: string) => {
-                          testMasterStore.testMasterService.filter({
+                          testMasterStore.testMasterService.filterByFields({
                             input: {
-                              type: "filter",
                               filter: {
-                                testName: value,
+                                fields: ["testCode", "testName"],
+                                srText: value,
                               },
                               page: 0,
                               limit: 10,
                             },
                           })
                         }}
-                        onUpdate={(items) => {
-                          onChange(items)
-                          const testCode: string[] = []
-                          const testName: string[] = []
-                          items.filter((item: any) => {
-                            testCode.push(item.testCode)
-                            testName.push(item.testName)
-                          })
-                          testPanelMappingStore.updateTestPanelMapping({
-                            ...testPanelMappingStore.testPanelMapping,
+                        onSelect={(item) => {
+                          onChange(new Date())
+                          let testName =
+                            testPanelMappingStore.selectedItems?.testName
+                          if (!item.selected) {
+                            if (testName && testName.length > 0) {
+                              testName.push(item)
+                            } else testName = [item]
+                          } else {
+                            testName = testName.filter((items) => {
+                              return items._id !== item._id
+                            })
+                          }
+                          testPanelMappingStore.updateSelectedItems({
+                            ...testPanelMappingStore.selectedItems,
                             testName,
-                            testCode,
                           })
                         }}
                       />
@@ -511,6 +566,47 @@ const TestPanelMapping = TestPanelMappingHoc(
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
+                <Form.InputWrapper label="Report Order">
+                  <DragDropContext onDragEnd={handleOnDragEndReportOrder}>
+                    <Droppable droppableId="characters" direction="horizontal">
+                      {(provided, snapshot) => (
+                        <ul
+                          style={getListStyle(snapshot.isDraggingOver)}
+                          // className="grid grid-cols-1 p-2"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {testPanelMappingStore.testPanelMapping?.reportOrder &&
+                            testPanelMappingStore.testPanelMapping?.reportOrder.map(
+                              (item, index) => (
+                                <>
+                                  <Draggable
+                                    key={item}
+                                    draggableId={item}
+                                    index={index}
+                                  >
+                                    {(provided, snapshot) => (
+                                      <div
+                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <li className="m-2 text-white">{`${
+                                          index + 1
+                                        }. ${item}`}</li>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                </>
+                              )
+                            )}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </Form.InputWrapper>
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -689,6 +785,23 @@ const TestPanelMapping = TestPanelMappingHoc(
                     input: {
                       _id: modalConfirm.data.id,
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updateTestPanelMapping.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateTestPanelMapping.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      testPanelMappingStore.fetchTestPanelMapping()
+                    }
+                  })
+              } else if (type === "updateFileds") {
+                testPanelMappingStore.testPanelMappingService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
                     },
                   })
                   .then((res: any) => {

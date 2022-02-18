@@ -1,18 +1,19 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import {TestAnalyteMapping,SelectedItems} from "../models"
-import {TestAnalyteMappingService} from "../services"
+import { TestAnalyteMapping, SelectedItems } from "../models"
+import { TestAnalyteMappingService } from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
 export class TestAnalyteMappingStore {
   testAnalyteMapping!: TestAnalyteMapping
   listTestAnalyteMapping!: TestAnalyteMapping[]
+  listTestAnalyteMappingCopy!: TestAnalyteMapping[]
   listTestAnalyteMappingCount: number = 0
   checkExitsLabEnvCode?: boolean = false
   selectedItems!: SelectedItems
 
-  constructor() {   
+  constructor() {
     this.listTestAnalyteMapping = []
     this.testAnalyteMapping = {
       ...this.testAnalyteMapping,
@@ -25,6 +26,7 @@ export class TestAnalyteMappingStore {
     makeObservable<TestAnalyteMappingStore, any>(this, {
       testAnalyteMapping: observable,
       listTestAnalyteMapping: observable,
+      listTestAnalyteMappingCopy: observable,
       listTestAnalyteMappingCount: observable,
       checkExitsLabEnvCode: observable,
       selectedItems: observable,
@@ -46,10 +48,15 @@ export class TestAnalyteMappingStore {
   }
 
   updateTestAnalyteMappingList(res: any) {
-    if (!res.testAnalyteMappings.success)
-      return alert(res.testAnalyteMappings.message)
-    this.listTestAnalyteMapping = res.testAnalyteMappings.data
-    this.listTestAnalyteMappingCount = res.testAnalyteMappings.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.testAnalyteMappings.success)
+        return alert(res.testAnalyteMappings.message)
+      this.listTestAnalyteMapping = res.testAnalyteMappings.data
+      this.listTestAnalyteMappingCopy = res.testAnalyteMappings.data
+      this.listTestAnalyteMappingCount = res.testAnalyteMappings.paginatorInfo.count
+    } else {
+      this.listTestAnalyteMapping = res
+    }
   }
 
   filterTestAnalyteMappingList(res: any) {

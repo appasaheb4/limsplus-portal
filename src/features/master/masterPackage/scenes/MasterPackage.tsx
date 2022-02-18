@@ -15,6 +15,7 @@ import {
   AutoCompleteFilterSingleSelect,
   AutoCompleteCheckMultiFilterKeys,
 } from "@/library/components"
+import _ from "lodash"
 import { lookupItems, moment, lookupValue } from "@/library/utils"
 import { PackageMasterList } from "../components"
 
@@ -300,24 +301,6 @@ const MasterPackage = MasterPackageHOC(
                         onChange={(e) => {
                           const serviceItem = JSON.parse(e.target.value)
                           onChange(serviceItem)
-                          if (masterPanelStore.listMasterPanel) {
-                            
-                            const listPackageItems: any = masterPanelStore.listMasterPanel.filter(
-                              (item) => {
-                                return item.serviceType === serviceItem.code
-                              }
-                            )
-                            setArrPackageItems(listPackageItems)
-                            const listPanelItems = masterPanelStore.listMasterPanel.filter(
-                              (item) => {
-                                return (
-                                  item.serviceType ===
-                                  (serviceItem.code === "K" ? "N" : "S")
-                                )
-                              }
-                            )
-                            setArrPanelItems(listPanelItems)
-                          }
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             serviceType: serviceItem.code,
@@ -327,7 +310,31 @@ const MasterPackage = MasterPackageHOC(
                         }}
                       >
                         <option selected>
-                          {masterPackageStore.masterPackage?.serviceType || "Select"}
+                          {(routerStore.lookupItems.length > 0 &&
+                            _.first(
+                              getServiceTypes(
+                                routerStore?.lookupItems?.find((item) => {
+                                  return item.fieldName === "SERVICE_TYPE"
+                                })
+                              ).filter(
+                                (item) =>
+                                  item?.code ===
+                                  masterPackageStore.masterPackage?.serviceType
+                              )
+                            )?.value +
+                              " - " +
+                              _.first(
+                                getServiceTypes(
+                                  routerStore?.lookupItems?.find((item) => {
+                                    return item.fieldName === "SERVICE_TYPE"
+                                  })
+                                ).filter(
+                                  (item) =>
+                                    item?.code ===
+                                    masterPackageStore.masterPackage?.serviceType
+                                )
+                              )?.code) ||
+                            "Select"}
                         </option>
                         {routerStore.lookupItems.length > 0 &&
                           getServiceTypes(
@@ -388,8 +395,15 @@ const MasterPackage = MasterPackageHOC(
                         }}
                       >
                         <option selected>Select</option>
-                        {arrPackageItems &&
-                          arrPackageItems.map((item: any, index: number) => (
+                        {masterPanelStore.listMasterPanel
+                          .filter((item) => {
+                            return (
+                              item.serviceType ===
+                                masterPackageStore.masterPackage?.serviceType &&
+                              item.pLab === masterPackageStore.masterPackage?.lab
+                            )
+                          })
+                          .map((item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
                               {`${item.panelName} - ${item.panelCode}`}
                             </option>
@@ -424,79 +438,81 @@ const MasterPackage = MasterPackageHOC(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                {arrPanelItems && (
-                  <>
-                    {" "}
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <Form.InputWrapper
-                          label="Panel Code"
-                          hasError={errors.panelCode}
-                        >
-                          <AutoCompleteCheckMultiFilterKeys
-                            placeholder={
-                              errors.panelCode
-                                ? "Please Search Panel Name Or Panel Code"
-                                : "Search by panel name or panel code"
-                            }
-                            hasError={errors.panelCode}
-                            data={{
-                              defulatValues: [],
-                              list: arrPanelItems,
-                              displayKey: ["panelName", "panelCode"],
-                              findKey: ["panelName", "panelCode"],
-                            }}
-                            onUpdate={(items) => {
-                              onChange(items)
-                              const panelCode: string[] = []
-                              const panelName: string[] = []
-                              items.filter((item: any) => {
-                                panelCode.push(item.panelCode)
-                                panelName.push(item.panelName)
-                              })
-                              masterPackageStore.updateMasterPackage({
-                                ...masterPackageStore.masterPackage,
-                                panelCode,
-                                panelName,
-                              })
-                            }}
-                          />
-                        </Form.InputWrapper>
-                      )}
-                      name="panelCode"
-                      rules={{ required: true }}
-                      defaultValue=""
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <Form.InputWrapper
-                          label="Panel Name"
-                          hasError={errors.panelName}
-                        >
-                          <select
-                            disabled={true}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.panelName
-                                ? "border-red-500  "
-                                : "border-gray-300"
-                            } rounded-md`}
-                          >
-                            <option selected>
-                              {masterPackageStore.masterPackage?.panelName?.join(
-                                ","
-                              ) || `Select`}
-                            </option>
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name="panelName"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    />
-                  </>
-                )}
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Panel Code"
+                      hasError={errors.panelCode}
+                    >
+                      <AutoCompleteCheckMultiFilterKeys
+                        placeholder={
+                          errors.panelCode
+                            ? "Please Search Panel Name Or Panel Code"
+                            : "Search by panel name or panel code"
+                        }
+                        hasError={errors.panelCode}
+                        data={{
+                          defulatValues: [],
+                          list: masterPanelStore.listMasterPanel.filter((item) => {
+                            return (
+                              item.serviceType ===
+                                (masterPackageStore.masterPackage?.serviceType ===
+                                "K"
+                                  ? "N"
+                                  : "S") &&
+                              item.pLab === masterPackageStore.masterPackage?.lab
+                            )
+                          }),
+                          displayKey: ["panelName", "panelCode"],
+                          findKey: ["panelName", "panelCode"],
+                        }}
+                        onUpdate={(items) => {
+                          onChange(items)
+                          const panelCode: string[] = []
+                          const panelName: string[] = []
+                          items.filter((item: any) => {
+                            panelCode.push(item.panelCode)
+                            panelName.push(item.panelName)
+                          })
+                          masterPackageStore.updateMasterPackage({
+                            ...masterPackageStore.masterPackage,
+                            panelCode,
+                            panelName,
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="panelCode"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Panel Name"
+                      hasError={errors.panelName}
+                    >
+                      <select
+                        disabled={true}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.panelName ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                      >
+                        <option selected>
+                          {masterPackageStore.masterPackage?.panelName?.join(",") ||
+                            `Select`}
+                        </option>
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="panelName"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (

@@ -12,6 +12,7 @@ export class TestPanelMapping {
   testCode: Array<string>
   testName: Array<string>
   bill: boolean
+  reportOrder: Array<string>
   status: string
   environment: string
   dateOfEntry: Date
@@ -31,9 +32,19 @@ export class TestPanelMapping {
     this.testCode = rawData.testCode
     this.testName = rawData.testName
     this.bill = rawData.bill
+    this.reportOrder = rawData.reportOrder
     this.status = rawData.status
     this.environment = rawData.environment
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated
+  }
+}
+
+
+
+export class SelectedItems {
+  testName: any[]
+  constructor(rawData: {[key in string]: any}){
+    this.testName = rawData.testName
   }
 }
