@@ -147,11 +147,11 @@ const SegmentList = observer((props: SegmentListProps) => {
       },
     ], // A numeric array is also available. the purpose of above example is custom the text
     onPageChange: (page, sizePerPage) => {
-      // console.log(page, sizePerPage)
+     
     },
     sizePerPageRenderer: sizePerPageRenderer,
     onSizePerPageChange: (page, sizePerPage) => {
-      //console.log(page, sizePerPage)
+      
     },
   }
 
@@ -165,7 +165,7 @@ const SegmentList = observer((props: SegmentListProps) => {
       } else {
         if (segmentMappingStore.selectedItems) {
           const position = segmentMappingStore.selectedItems.indexOf(row)
-          console.log({ position })
+          
 
           const newItem = segmentMappingStore.selectedItems.splice(0, position)
           segmentMappingStore.updateSelectedItem(newItem)
@@ -1278,7 +1278,7 @@ const SegmentList = observer((props: SegmentListProps) => {
           click={(type) => {
             setModalConfirm({ show: false })
             if (segmentMappingStore.selectedItems) {
-              console.log({type});
+              
               
               if (type === "delete") {
                 segmentMappingStore.segmentMappingService

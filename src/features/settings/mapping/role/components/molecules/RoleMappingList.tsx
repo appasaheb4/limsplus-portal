@@ -44,6 +44,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               text: "Role",
               headerClasses: "textHeader4",
               sort: true,
+              csvFormatter: (row,col) => `${col.role.description}`,
               filter: textFilter({
                 getFilter: (filter) =>{
                   role  = filter

@@ -174,11 +174,11 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           },
                           "environmentVariable"
                         ).then((res) => {
-                          console.log({ res })
+                          
                         })
                       }}
                       onSelect={(item) => {
-                        console.log({ item })
+                        
                         onChange(item.environmentVariable)
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,

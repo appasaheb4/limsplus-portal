@@ -262,7 +262,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             dataField: "confidential",
             text: "Confidential",
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: (col,row) => `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -487,7 +487,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             dataField: "printLabel",
             text: "Print Label",
             sort: true,
-            csvFormatter: (col) => (col ? col : false),
+            csvFormatter: (col,row) => `${row.printLabel ? row.printLabel ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -691,7 +691,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             dataField: "neverBill",
             text: "Never Bill",
             sort: true,
-            csvFormatter: (col) => (col ? col : false),
+            csvFormatter: (col,row) => `${row.neverBill ? row.neverBill ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -736,38 +736,12 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
-          {
-            dataField: "edi",
-            text: "EDI",
-            headerClasses: "textHeader",
-            sort: true,
-            csvFormatter: (col) => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) => {
-                edi = filter
-              },
-            }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "ediAddress",
-            text: "EDI Address",
-            headerClasses: "textHeader3",
-            sort: true,
-            csvFormatter: (col) => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) => {
-                ediAddress = filter
-              },
-            }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-
+          
           {
             dataField: "urgent",
             text: "Urgent",
             sort: true,
-            csvFormatter: (col) => (col ? col : false),
+            csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (

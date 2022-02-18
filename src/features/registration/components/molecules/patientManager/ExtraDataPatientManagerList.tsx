@@ -200,7 +200,7 @@ export const ExtraDataPatientManagerList = observer(
                 dataField: "isMobileAndWhatsApp",
                 text: "IsMobileAndWhatsapp",
                 sort: true,
-                csvFormatter: (col) => (col ? col : false),
+                csvFormatter: (col,row) => `${row.isMobileAndWhatsApp ? row.isMobileAndWhatsApp ? "Yes" : "No" : "No"}`,
                 formatter: (cell, row) => {
                   return (
                     <>
@@ -223,7 +223,7 @@ export const ExtraDataPatientManagerList = observer(
                 dataField: "confidental",
                 text: "Confidental",
                 sort: true,
-                csvFormatter: (col) => (col ? col : false),
+                csvFormatter: (col,row) => `${row.confidental ? row.confidental ? "Yes" : "No" : "No"}`,
                 formatter: (cell, row) => {
                   return (
                     <>
@@ -242,7 +242,7 @@ export const ExtraDataPatientManagerList = observer(
                 dataField: "permanent",
                 text: "Permanent",
                 sort: true,
-                csvFormatter: (col) => (col ? col : false),
+                csvFormatter: (col,row) =>  `${row.permanent ? row.permanent ? "Yes" : "No" : "No"}`,
                 formatter: (cell, row) => {
                   return (
                     <>

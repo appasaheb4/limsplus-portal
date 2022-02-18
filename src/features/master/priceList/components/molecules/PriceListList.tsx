@@ -395,7 +395,7 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: "anyScheme",
               text: "Any Scheme",
               sort: true,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col,row) => `${row.anyScheme ? row.anyScheme ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -477,7 +477,7 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: "disOnScheme",
               text: "Dis On Scheme",
               sort: true,
-              csvFormatter: col => (col ? col :false),
+              csvFormatter: (col,row) =>  `${row.disOnScheme ? row.disOnScheme ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (

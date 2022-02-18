@@ -1415,7 +1415,7 @@ const MasterAnalyte = MasterAnalyteHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              console.log(type)
+             
 
               if (type === "Delete") {
                 masterAnalyteStore.masterAnalyteService

@@ -209,7 +209,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (

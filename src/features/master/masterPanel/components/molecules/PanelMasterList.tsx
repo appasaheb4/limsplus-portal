@@ -388,7 +388,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.method ? row.method ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -466,7 +466,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -524,19 +524,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   </select>
                 </>
               ),
-            },
-            {
-              dataField: "tat",
-              text: "TAT",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  tat = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "validationLevel",
@@ -738,7 +725,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.autoRelease ? row.autoRelease ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -759,7 +746,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.holdOOS ? row.holdOOS ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -781,7 +768,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -803,7 +790,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "urgent",
               text: "Urgent",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -866,7 +853,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.printLabel ? row.printLabel ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -887,7 +874,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "cumulative",
               text: "Cumulative",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.cumulative ? row.cumulative ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -969,7 +956,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "sexAction",
               text: "Age/Sex Action",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.sexAction ? row.sexAction ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1067,39 +1054,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 ),
             },
 
-            {
-              dataField: "suffix",
-              text: "Suffix",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  suffix = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-
-            {
-              dataField: "tubeGroup",
-              text: "TubeGroup",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  tubeGroup = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+            
 
             {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.pageBreak ? row.pageBreak ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1129,19 +1090,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            {
-              dataField: "sampleType",
-              text: "Sample Type",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  sampleType = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+            
             {
               dataField: "labelInstruction",
               text: "Label Instruction",
@@ -1365,7 +1314,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
             {
               dataField: "environment",
-              text: "Envirenvironmentonment",
+              text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),

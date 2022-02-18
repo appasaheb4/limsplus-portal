@@ -48,7 +48,7 @@ export const PatientVisit = PatientVisitHoc(
     } = useForm()
      
          
-    //console.log({ appStore })
+   
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideInputView, setHideInputView] = useState<boolean>(true)
 

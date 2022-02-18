@@ -581,7 +581,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               dataField: "history",
               text: "History",
               sort: true,
-              csvFormatter: (col,row) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.history ? row.history ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>  

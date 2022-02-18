@@ -366,7 +366,7 @@ const MasterPackage = MasterPackageHOC(
                         } rounded-md`}
                         onChange={(e) => {
                           const packageItem = JSON.parse(e.target.value)
-                          console.log({ packageItem })
+                          
                           onChange(packageItem.panelCode)
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -760,7 +760,7 @@ const MasterPackage = MasterPackageHOC(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              console.log({ type })
+              
               if (type === "Delete") {
                 masterPackageStore.masterPackageService
                   .deletePackageMaster({ input: { id: modalConfirm.id } })

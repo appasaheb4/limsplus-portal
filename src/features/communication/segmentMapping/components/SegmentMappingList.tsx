@@ -499,7 +499,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.transmitted_data !== undefined ? row.transmitted_data : ""}`,
+              `${row.transmitted_data ? row.transmitted_data : ""}`,
             editorRenderer: (
               editorProps,
               value,
@@ -543,7 +543,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.field_array !== undefined ? row.field_array : ""}`,
+              `${row.field_array  ? row.field_array : ""}`,
             editorRenderer: (
               editorProps,
               value,
@@ -586,7 +586,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.field_length !== undefined ? row.field_length : ""}`,
+              `${row.field_length  ? row.field_length : ""}`,
             editorRenderer: (
               editorProps,
               value,
@@ -630,7 +630,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.field_type !== undefined ? row.field_type : ""}`,
+              `${row.field_type ? row.field_type : ""}`,
             editorRenderer: (
               editorProps,
               value,
@@ -745,7 +745,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.lims_descriptions !== undefined ? row.lims_descriptions : ""}`,
+              `${row.lims_descriptions  ? row.lims_descriptions : ""}`,
             editorRenderer: (
               editorProps,
               value,
@@ -788,7 +788,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.lims_tables !== undefined ? row.lims_tables : ""}`,
+              `${row.lims_tables  ? row.lims_tables : ""}`,
             editorRenderer: (
               editorProps,
               value,
@@ -832,7 +832,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.lims_fields !== undefined ? row.lims_fields : ""}`,
+              `${row.lims_fields  ? row.lims_fields : ""}`,
             editorRenderer: (
               editorProps,
               value,
@@ -872,7 +872,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             editable: false,
             csvFormatter: (cell, row, rowIndex) =>
               `${
-                row.required_for_lims !== undefined
+                row.required_for_lims 
                   ? row.required_for_lims
                     ? "Yes"
                     : "No"
@@ -915,7 +915,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               }
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.notes !== undefined ? row.notes : ""}`,
+              `${row.notes  ? row.notes : ""}`,
             formatter: (cellContent, row) => (
               <>
                 {row.notes !== undefined ? (
@@ -962,6 +962,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: "attachments",
             text: "ATTACHMENTS",
             headerClasses: "textHeader3",
+            csvExport: false,
             csvFormatter: (cell, row, rowIndex) =>
               `${row.attachments !== undefined ? row.attachments : ""}`,
             formatter: (cellContent, row) => (
@@ -1188,7 +1189,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
         click={(type) => {
           setModalConfirm({ show: false })
           if (segmentMappingStore.selectedItems) {
-            console.log({ type })
+            
 
             if (type === "delete") {
               segmentMappingStore.segmentMappingService

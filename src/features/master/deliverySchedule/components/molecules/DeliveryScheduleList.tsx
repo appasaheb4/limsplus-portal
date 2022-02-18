@@ -62,7 +62,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Sunday Processing",
               sort: true,
               editable:false,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col,row) => `${row.sundayProcessing ? row.sundayProcessing ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return <> <Form.Toggle
                
@@ -105,7 +105,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "Holiday Reporting",
               sort: true,
               editable:false,
-              csvFormatter: col => (col ? col : false),
+              csvFormatter: (col,row) => `${row.holidayReporting ? row.holidayReporting ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return <> <Form.Toggle
                
@@ -303,7 +303,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               text: "On Time",
               sort: true,
               editable:false,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col,row) => `${row.onTime ? row.onTime ? "Yes" : "No" : "No"}`,
               formatter: (cell, row) => {
                 return <> <Form.Toggle
                

@@ -84,7 +84,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerClasses: "textHeader4",
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
-              `Result:${row.conclusionResult.map(item => item.result)} - PossibleValue: ${row.conclusionResult.map(item => item.possibleValue)} - Ab Normal: ${row.conclusionResult.map(item => item.abNormal)},Critical: ${row.conclusionResult.map(item => item.critical)}`,
+              `Result:${row.conclusionResult.map(item => item.result)} - PossibleValue: ${row.conclusionResult.map(item => item.possibleValue)} - Ab Normal: ${row.conclusionResult.map(item => item.abNormal ? item.abNormal ? "Yes" : "No" : "No")},Critical: ${row.conclusionResult.map(item => item.critical? item.critical ? "Yes" : "No" : "No")}`,
             filter: textFilter({
               getFilter: (filter) =>{
                 conclusionResult = filter

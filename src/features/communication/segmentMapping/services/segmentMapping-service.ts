@@ -33,7 +33,7 @@ export class SegmentMappingService {
             return r
           }, {})
           const entries = Object.entries(group)
-          //console.log({ group, entries })
+          
           const values: any = []
           for (const groupSegment of entries) {
             const segmentList: any = groupSegment[1]
@@ -91,7 +91,7 @@ export class SegmentMappingService {
             r[a.segments] = [...(r[a.segments] || []), a]
             return r
           }, {})
-          //console.log({ group })
+          
           const entries = Object.entries(group)
           entries.forEach((item: any) => {
             mapping.push({
@@ -155,7 +155,7 @@ export class SegmentMappingService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
+     
 
       client
         .mutate({

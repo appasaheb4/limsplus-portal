@@ -211,7 +211,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -503,6 +503,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               editable: false,
+              csvFormatter: (col) => (col ? col : ""),
               filter: customFilter({
                 getFilter: (filter) => {
                   version = filter

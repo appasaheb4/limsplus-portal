@@ -34,7 +34,6 @@ const Lab = LabHoc(
       loading,
       loginStore,
     } = useStores()
-
     const {
       control,
       handleSubmit,

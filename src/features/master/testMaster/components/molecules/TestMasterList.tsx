@@ -190,7 +190,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: "Section",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: (col,row) => `${row.section?.code} - ${row.section?.name}`,
               filter: textFilter({
                 getFilter: (filter) => {
                   section = filter
@@ -273,7 +273,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.method ? row.method ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -326,7 +326,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -374,19 +374,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 </>
               ),
             },
-            {
-              dataField: "tat",
-              text: "TAT",
-              headerClasses: "textHeader",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  tat = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+            
             {
               dataField: "validationLevel",
               text: "Validation Level",
@@ -740,7 +728,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "autoFinish",
               text: "Auto Finish",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.autoFinish ? row.autoFinish ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -761,7 +749,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.holdOOS ? row.holdOOS ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -783,7 +771,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -804,7 +792,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "urgent",
               text: "Urgent",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -826,7 +814,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.instantResult ? row.instantResult ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -915,25 +903,13 @@ export const TestMasterList = (props: TestMasterProps) => {
                 </>
               ),
             },
-            {
-              dataField: "reportGroup",
-              text: "Report Group",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  reportGroup = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+            
 
             {
               dataField: "accredited",
               text: "Accredited",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.accredited ? row.accredited ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -954,7 +930,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "cretical",
               text: "Cretical",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.cretical ? row.cretical ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -976,7 +952,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "repitation",
               text: "Repitation",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.repitation ? row.repitation ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -997,7 +973,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.printLabel ? row.printLabel ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1018,7 +994,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "cumulative",
               text: "Cumulative",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.cumulative ? row.cumulative ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1035,19 +1011,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 )
               },
             },
-            {
-              dataField: "tubeGroup",
-              text: "Tube Group",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  tubeGroup = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+            
 
             {
               dataField: "labelInstruction",
@@ -1063,53 +1027,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
-            {
-              dataField: "panelMethod",
-              text: "Panel Method",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  panelMethod = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-
-            {
-              dataField: "sampleType",
-              text: "Sample Type",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  sampleType = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-
-            {
-              dataField: "worklistCode",
-              text: "Worklist Code",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  worklistCode = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-
+            
             {
               dataField: "qcHold",
               text: "QC Hold",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.qcHold ? row.qcHold ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1130,7 +1053,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "oosHold",
               text: "OOS Hold",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.oosHold ? row.oosHold ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1151,7 +1074,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "deltaHold",
               text: "Delta Hold",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.deltaHold ? row.deltaHold ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1268,7 +1191,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: "allowPartial",
               text: "Allow Partial",
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: (col,row) => `${row.allowPartial ? row.allowPartial ? "Yes" : "No" : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1285,32 +1208,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 )
               },
             },
-            {
-              dataField: "collectionContainer",
-              text: "Collection Container",
-              headerClasses: "textHeader5",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  collectionContainer = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "holdingDays",
-              text: "Holding Days",
-              headerClasses: "textHeader4",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  holdingDays = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+            
             {
               dataField: "status",
               text: "Status",
