@@ -15,7 +15,6 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
-  AutoCompleteCheckMultiFilterKeys,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { lookupItems, lookupValue } from "@/library/utils"
@@ -469,6 +468,38 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           masterAnalyteStore.updateMasterAnalyteList(
                             masterAnalyteStore.listMasterAnalyteCopy
                           )
+
+                          if (
+                            !testAnalyteMappingStore.testAnalyteMapping
+                              ?.existsVersionId
+                          ) {
+                            testAnalyteMappingStore.testAnalyteMappingService
+                              .checkExitsRecords({
+                                input: {
+                                  lab: testAnalyteMappingStore.testAnalyteMapping?.lab,
+                                  testCode: testAnalyteMappingStore.testAnalyteMapping?.testCode,
+                                  analyteCode,
+                                  env:
+                                    testAnalyteMappingStore.testAnalyteMapping
+                                      ?.environment,
+                                },
+                              })
+                              .then((res) => {
+                                if (
+                                  res.checkTestAnalyteMappingsExistsRecord.success
+                                ) {
+                                  testAnalyteMappingStore.updateExistsLabEnvCode(
+                                    true
+                                  )
+                                  Toast.error({
+                                    message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
+                                  })
+                                } else
+                                  testAnalyteMappingStore.updateExistsLabEnvCode(
+                                    false
+                                  )
+                              })
+                            }
                         }}
                         onFilter={(value: string) => {
                           masterAnalyteStore.masterAnalyteService.filterByFields({

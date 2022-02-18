@@ -25,7 +25,7 @@ export const LIST = gql`
         bill
         status
         serviceType
-        resultOrder
+        reportOrder
         environment
         dateOfEntry
         lastUpdated
@@ -113,7 +113,7 @@ export const FILTER = gql`
         bill
         status
         serviceType
-        resultOrder
+        reportOrder
         environment
         dateOfEntry
         lastUpdated
@@ -147,7 +147,7 @@ export const FILTER_BY_FIELDS = gql`
         bill
         status
         serviceType
-        resultOrder
+        reportOrder
         environment
         dateOfEntry
         lastUpdated

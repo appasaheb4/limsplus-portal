@@ -14,7 +14,6 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
-  AutoCompleteCheckMultiFilterKeys,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { lookupItems, lookupValue } from "@/library/utils"
@@ -282,15 +281,17 @@ const TestPanelMapping = TestPanelMappingHoc(
                             !testPanelMappingStore.testPanelMapping?.existsVersionId
                           ) {
                             testPanelMappingStore.testPanelMappingService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code:
+                                  lab: item.code,
+                                  panelCode:
                                     testPanelMappingStore.testPanelMapping
                                       ?.panelCode,
+                                  testCode:
+                                    testPanelMappingStore.testPanelMapping?.testCode,
                                   env:
                                     testPanelMappingStore.testPanelMapping
                                       ?.environment,
-                                  lab: item.code,
                                 },
                               })
                               .then((res) => {
@@ -335,13 +336,15 @@ const TestPanelMapping = TestPanelMappingHoc(
                             !testPanelMappingStore.testPanelMapping?.existsVersionId
                           ) {
                             testPanelMappingStore.testPanelMappingService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code: item.panelCode,
+                                  lab: testPanelMappingStore.testPanelMapping?.lab,
+                                  panelCode: item.panelCode,
+                                  testCode:
+                                    testPanelMappingStore.testPanelMapping?.testCode,
                                   env:
                                     testPanelMappingStore.testPanelMapping
                                       ?.environment,
-                                  lab: testPanelMappingStore.testPanelMapping?.lab,
                                 },
                               })
                               .then((res) => {
@@ -429,6 +432,33 @@ const TestPanelMapping = TestPanelMappingHoc(
                           testMasterStore.updateTestMasterList(
                             testMasterStore.listTestMasterCopy
                           )
+
+                          if (
+                            !testPanelMappingStore.testPanelMapping?.existsVersionId
+                          ) {
+                            testPanelMappingStore.testPanelMappingService
+                              .checkExistsRecords({
+                                input: {
+                                  lab: testPanelMappingStore.testPanelMapping?.lab,
+                                  panelCode:
+                                    testPanelMappingStore.testPanelMapping
+                                      ?.panelCode,
+                                  testCode,
+                                  env:
+                                    testPanelMappingStore.testPanelMapping
+                                      ?.environment,
+                                },
+                              })
+                              .then((res) => {
+                                if (res.checkTestPanelMappingsExistsRecord.success) {
+                                  testPanelMappingStore.updateExistsLabEnvCode(true)
+                                  Toast.error({
+                                    message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
+                                  })
+                                } else
+                                  testPanelMappingStore.updateExistsLabEnvCode(false)
+                              })
+                          }
                         }}
                         onFilter={(value: string) => {
                           testMasterStore.testMasterService.filterByFields({
@@ -695,13 +725,15 @@ const TestPanelMapping = TestPanelMappingHoc(
                             !testPanelMappingStore.testPanelMapping?.existsVersionId
                           ) {
                             testPanelMappingStore.testPanelMappingService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code:
+                                  lab: testPanelMappingStore.testPanelMapping?.lab,
+                                  panelCode:
                                     testPanelMappingStore.testPanelMapping
                                       ?.panelCode,
+                                  testCode:
+                                    testPanelMappingStore.testPanelMapping?.testCode,
                                   env: environment,
-                                  lab: testPanelMappingStore.testPanelMapping?.lab,
                                 },
                               })
                               .then((res) => {

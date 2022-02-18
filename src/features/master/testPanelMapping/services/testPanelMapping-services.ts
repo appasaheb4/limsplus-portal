@@ -125,7 +125,7 @@ export class TestPanelMappingService {
         )
     })
 
-  checkExitsLabEnvCode = (variables: any) =>
+  checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
