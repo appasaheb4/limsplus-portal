@@ -27,7 +27,6 @@ import { useStores } from "@/stores"
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
-
 const grid = 8
 const getListStyle = (isDraggingOver) => ({
   background: isDraggingOver ? "lightblue" : "none",
@@ -177,6 +176,15 @@ const MasterPackage = MasterPackageHOC(
               body: `Update lab!`,
             })
           }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "updateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: "Update records",
+            })
+          }}
           onVersionUpgrade={(item) => {
             setModalConfirm({
               show: true,
@@ -208,15 +216,13 @@ const MasterPackage = MasterPackageHOC(
       [masterPackageStore.listMasterPackage]
     )
 
-
-
     const handleOnDragEndResultOrder = (result: any) => {
-      const items = Array.from(masterPackageStore.masterPackage?.resultOrder)
+      const items = Array.from(masterPackageStore.masterPackage?.reportOrder)
       const [reorderedItem] = items.splice(result.source.index, 1)
       items.splice(result.destination.index, 0, reorderedItem)
       masterPackageStore.updateMasterPackage({
         ...masterPackageStore.masterPackage,
-        resultOrder: items,
+        reportOrder: items,
       })
     }
 
@@ -235,7 +241,7 @@ const MasterPackage = MasterPackageHOC(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={2}>
@@ -280,12 +286,14 @@ const MasterPackage = MasterPackageHOC(
                           labStore.updateLabList(labStore.listLabsCopy)
                           if (!masterPackageStore.masterPackage?.existsVersionId) {
                             masterPackageStore.masterPackageService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code:
-                                    masterPackageStore.masterPackage?.packageCode,
-                                  env: masterPackageStore.masterPackage?.environment,
                                   lab: item.code,
+                                  packageCode:
+                                    masterPackageStore.masterPackage?.packageCode,
+                                  panelCode:
+                                    masterPackageStore.masterPackage?.panelCode,
+                                  env: masterPackageStore.masterPackage?.environment,
                                 },
                               })
                               .then((res) => {
@@ -396,11 +404,13 @@ const MasterPackage = MasterPackageHOC(
                           })
                           if (!masterPackageStore.masterPackage?.existsVersionId) {
                             masterPackageStore.masterPackageService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code: packageItem.panelCode,
-                                  env: masterPackageStore.masterPackage?.environment,
                                   lab: masterPackageStore.masterPackage.lab,
+                                  packageCode: packageItem.panelCode,
+                                  panelCode:
+                                    masterPackageStore.masterPackage?.panelCode,
+                                  env: masterPackageStore.masterPackage?.environment,
                                 },
                               })
                               .then((res) => {
@@ -490,21 +500,42 @@ const MasterPackage = MasterPackageHOC(
                           const items = masterPackageStore.selectedItems?.panelCode
                           const panelCode: string[] = []
                           const panelName: string[] = []
-                          const resultOrder: string[] = []
+                          const reportOrder: string[] = []
                           items?.filter((item: any) => {
                             panelCode.push(item.panelCode)
                             panelName.push(item.panelName)
-                            resultOrder.push(item.panelCode)
+                            reportOrder.push(item.panelCode)
                           })
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             panelCode,
                             panelName,
-                            resultOrder,
+                            reportOrder,
                           })
                           masterPanelStore.updatePanelMasterList(
                             masterPanelStore.listMasterPanelCopy
                           )
+                          if (!masterPackageStore.masterPackage?.existsVersionId) {
+                            masterPackageStore.masterPackageService
+                              .checkExistsRecords({
+                                input: {
+                                  lab: masterPackageStore.masterPackage.lab,
+                                  packageCode:
+                                    masterPackageStore.masterPackage?.packageCode,
+                                  panelCode,
+                                  env: masterPackageStore.masterPackage?.environment,
+                                },
+                              })
+                              .then((res) => {
+                                if (res.checkPackageMasterExistsRecord.success) {
+                                  masterPackageStore.updateExistsLabEnvCode(true)
+                                  Toast.error({
+                                    message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
+                                  })
+                                } else
+                                  masterPackageStore.updateExistsLabEnvCode(false)
+                              })
+                          }
                         }}
                         onFilter={(value: string) => {
                           masterPanelStore.masterPanelService.filterByFields({
@@ -668,8 +699,8 @@ const MasterPackage = MasterPackageHOC(
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                         >
-                          {masterPackageStore.masterPackage?.resultOrder &&
-                            masterPackageStore.masterPackage?.resultOrder.map(
+                          {masterPackageStore.masterPackage?.reportOrder &&
+                            masterPackageStore.masterPackage?.reportOrder.map(
                               (item, index) => (
                                 <>
                                   <Draggable
@@ -787,11 +818,14 @@ const MasterPackage = MasterPackageHOC(
                           })
                           if (!masterPackageStore.masterPackage?.existsVersionId) {
                             masterPackageStore.masterPackageService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code: masterPackageStore.masterPackage.packageCode,
-                                  env: environment,
                                   lab: masterPackageStore.masterPackage.lab,
+                                  packageCode:
+                                    masterPackageStore.masterPackage?.packageCode,
+                                  panelCode:
+                                    masterPackageStore.masterPackage?.panelCode,
+                                  env: environment,
                                 },
                               })
                               .then((res) => {
@@ -873,6 +907,23 @@ const MasterPackage = MasterPackageHOC(
                     input: {
                       _id: modalConfirm.data.id,
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updatePackageMaster.success) {
+                      Toast.success({
+                        message: `😊 ${res.updatePackageMaster.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      masterPackageStore.fetchPackageMaster()
+                    }
+                  })
+              } else if (type === "updateFileds") {
+                masterPackageStore.masterPackageService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
                     },
                   })
                   .then((res: any) => {
