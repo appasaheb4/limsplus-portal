@@ -10,7 +10,7 @@ import {
   AutoCompleteFilterSingleSelectAnalyteCode,
   AutoCompleteFilterSingleSelectAnalyteName,
 } from "../../index"
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+import { FormHelper } from "@/helper"
 
 let analyteCode
 let analyteName
@@ -516,13 +516,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <Form.Input
-                    label="Lo Age"
-                    placeholder={row.loAge}
-                    onBlur={(loAge) => {
+                    placeholder={row.low}
+                    onBlur={(low) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(loAge)) {
+                      if (regex.test(low) && FormHelper.isNumberAvailable(low)) {
                         props.onUpdateItem &&
-                          props.onUpdateItem(loAge, column.dataField, row._id)
+                          props.onUpdateItem(low, column.dataField, row._id)
                       } else {
                         Toast.warning({
                           message: `😔 Only > and < sign and numbers should be allowed`,
@@ -555,11 +554,10 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <Form.Input
-                    label="Lo Age"
                     placeholder={row.high}
                     onBlur={(high) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(high)) {  
+                      if (regex.test(high) && FormHelper.isNumberAvailable(high)) {  
                         props.onUpdateItem &&
                           props.onUpdateItem(high, column.dataField, row._id)
                       } else {

@@ -1,12 +1,33 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
-import {Confirm} from "@/library/models"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {AutoCompleteFilterSingleSelectLabs} from '../index'
+import _ from "lodash"
+import {
+  NumberFilter,
+  DateFilter,
+  textFilter,
+  customFilter,
+  TableBootstrap,
+  Form,
+  Icons,
+  Tooltip,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import { lookupItems, lookupValue } from "@/library/utils"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectPanelCode,
+} from "../index"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
-
+const grid = 8
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "none",
+  display: "flex",
+  //flexWrap:'none',
+  padding: grid,
+  overflow: "auto",
+})
 
 let dateCreation
 let dateActive
@@ -31,6 +52,7 @@ interface PackageMasterListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -60,11 +82,11 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Lab",
             headerClasses: "textHeader",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
                 lab = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -77,9 +99,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             ) => (
               <>
                 <AutoCompleteFilterSingleSelectLabs
-                onSelect={(item)=>{
-                  props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                }}
+                  onSelect={(item) => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(item.code, column.dataField, row._id)
+                  }}
                 />
               </>
             ),
@@ -89,54 +112,164 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Package Code",
             headerClasses: "textHeader4",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
                 packageCode = filter
-              }
+              },
             }),
-            editable: false,
           },
-
           {
             dataField: "packageName",
             text: "Package Name",
             headerClasses: "textHeader4",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
                 packageName = filter
-              }
+              },
             }),
             editor: false,
-            editable: false,
           },
           {
             dataField: "panelCode",
             text: "Panel Code",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
                 panelCode = filter
-              }
+              },
             }),
-            editable: false,
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <AutoCompleteFilterSingleSelectPanelCode
+                  lab={row.lab}
+                  serviceType={row.serviceType}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          panelCode: [item.panelCode],
+                          panelName: [item.panelName],
+                        },
+                        row._id
+                      )
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: "panelName",
             text: "Panel Name",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
                 panelName = filter
-              }
+              },
             }),
-            editable: false,
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <AutoCompleteFilterSingleSelectPanelCode
+                  lab={row.lab}
+                  serviceType={row.serviceType}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          panelCode: [item.panelCode],
+                          panelName: [item.panelName],
+                        },
+                        row._id
+                      )
+                  }}
+                />
+              </>
+            ),
+          },
+          {
+            dataField: "reportOrder",
+            text: "Report Order",
+            headerClasses: "textHeader5",
+            sort: true,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {_.findIndex(row?.reportOrder, (item) => {
+                    return item == row?.panelCode
+                  }) + 1}
+                </>
+              )
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <DragDropContext
+                  onDragEnd={(result: any) => {
+                    const items = Array.from(row?.reportOrder)
+                    const [reorderedItem] = items.splice(result.source.index, 1)
+                    items.splice(result.destination.index, 0, reorderedItem)
+                    props.onUpdateItem &&
+                      props.onUpdateItem(items, "reportOrder", row._id)
+                  }}
+                >
+                  <Droppable droppableId="characters" direction="horizontal">
+                    {(provided, snapshot) => (
+                      <ul
+                        style={getListStyle(snapshot.isDraggingOver)}
+                        // className="grid grid-cols-1 p-2"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {row?.reportOrder?.map((item, index) => (
+                          <>
+                            <Draggable key={item} draggableId={item} index={index}>
+                              {(provided, snapshot) => (
+                                <div
+                                  className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <li className="m-2 text-white inline">{`${
+                                    index + 1
+                                  }. ${item}`}</li>
+                                </div>
+                              )}
+                            </Draggable>
+                          </>
+                        ))}
+                      </ul>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </>
+            ),
           },
           {
             dataField: "bill",
@@ -148,7 +281,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               return (
                 <>
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.bill}
                     onChange={(bill) => {
                       props.onUpdateItem && props.onUpdateItem(bill, "bill", row._id)
@@ -163,11 +296,11 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Status",
             headerClasses: "textHeader1",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
                 status = filter
-              }
+              },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
@@ -179,26 +312,23 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const status = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(status, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "STATUS"
-                    ).map((item: any, index: number) => (
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const status = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(status, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    ))}
-                  </select>
-                
+                    )
+                  )}
+                </select>
               </>
             ),
           },
@@ -207,11 +337,11 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Entered By",
             headerClasses: "textHeader2",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
                 enteredBy = filter
-              }
+              },
             }),
             editable: false,
           },
@@ -221,11 +351,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : ""),  
-            filter:customFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col, row) =>
+              row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
+            filter: customFilter({
+              getFilter: (filter) => {
                 dateCreation = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
@@ -257,12 +388,13 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : ""),
+            csvFormatter: (col, row) =>
+              row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
             editable: false,
-            filter:customFilter({
-              getFilter: (filter) =>{
+            filter: customFilter({
+              getFilter: (filter) => {
                 dateActive = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
@@ -295,11 +427,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader11",
             sort: true,
-            csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : ""),
-            filter:customFilter({
-              getFilter: (filter) =>{
+            csvFormatter: (col, row) =>
+              row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
+            filter: customFilter({
+              getFilter: (filter) => {
                 dateExpire = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
@@ -331,12 +464,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Version",
             headerClasses: "textHeader5",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             editable: false,
-            filter:customFilter({
-              getFilter: (filter) =>{
+            filter: customFilter({
+              getFilter: (filter) => {
                 version = filter
-              }
+              },
             }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
@@ -347,12 +480,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Environment",
             headerClasses: "textHeader3",
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            filter:textFilter({
-              getFilter: (filter) =>{
+            filter: textFilter({
+              getFilter: (filter) => {
                 environment = filter
-              }
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -363,27 +496,24 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    value={row.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(environment, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "ENVIRONMENT"
-                    ).map((item: any, index: number) => (
+                <select
+                  value={row.environment}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(environment, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    ))}
-                  </select>
-                
+                    )
+                  )}
+                </select>
               </>
             ),
           },
@@ -397,10 +527,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <Tooltip
-                    tooltipText="Delete"
-                    position="top"
-                  >
+                  <Tooltip tooltipText="Delete" position="top">
                     <Icons.IconContext
                       color="#fff"
                       size="20"
@@ -415,17 +542,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                         })
                       }
                     >
-                      {Icons.getIconTag(
-                        Icons.IconBs.BsFillTrashFill
-                      )}
+                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
                   {row.status !== "I" && (
                     <>
-                      <Tooltip
-                        className="ml-2"
-                        tooltipText="Version Upgrade"
-                      >
+                      <Tooltip className="ml-2" tooltipText="Version Upgrade">
                         <Icons.IconContext
                           color="#fff"
                           size="20"
@@ -433,23 +555,16 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                             props.onVersionUpgrade && props.onVersionUpgrade(row)
                           }
                         >
-                          {Icons.getIconTag(
-                            Icons.Iconvsc.VscVersions
-                          )}
+                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                         </Icons.IconContext>
                       </Tooltip>
-                      <Tooltip
-                        className="ml-2"
-                        tooltipText="Duplicate"
-                      >
+                      <Tooltip className="ml-2" tooltipText="Duplicate">
                         <Icons.IconContext
                           color="#fff"
                           size="20"
                           onClick={() => props.onDuplicate && props.onDuplicate(row)}
                         >
-                          {Icons.getIconTag(
-                            Icons.Iconio5.IoDuplicateOutline
-                          )}
+                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                         </Icons.IconContext>
                       </Tooltip>
                     </>
@@ -479,7 +594,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
         }}
-        clearAllFilter={()=>{
+        clearAllFilter={() => {
           dateCreation()
           dateActive()
           dateExpire()
@@ -497,4 +612,3 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
     </>
   )
 }
-

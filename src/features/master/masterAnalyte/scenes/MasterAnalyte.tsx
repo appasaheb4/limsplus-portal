@@ -22,10 +22,10 @@ import { MasterAnalyteList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { MasterAnalyteHoc } from "../hoc"
 import { useStores } from "@/stores"
+import { FormHelper } from "@/helper"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
-import { referenceEnhancer } from "mobx/dist/internal"
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -214,7 +214,7 @@ const MasterAnalyte = MasterAnalyteHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -1289,7 +1289,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                     />
                   )}
                   name="minReportable"
-                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
+                  rules={{
+                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    validate: (value) => FormHelper.isNumberAvailable(value),
+                  }}
                   defaultValue=""
                 />
                 <Controller
@@ -1317,7 +1320,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                     />
                   )}
                   name="maxReportable"
-                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
+                  rules={{
+                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    validate: (value) => FormHelper.isNumberAvailable(value),
+                  }}
                   defaultValue=""
                 />
                 <Controller

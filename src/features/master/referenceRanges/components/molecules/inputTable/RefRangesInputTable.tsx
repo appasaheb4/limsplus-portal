@@ -12,6 +12,7 @@ import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
 import { TableBootstrap } from "./TableBootstrap"
+import { FormHelper } from "@/helper"
 
 interface RefRangesInputTableProps {
   data: any
@@ -232,7 +233,7 @@ export const RefRangesInputTable = observer(
                     placeholder={row?.low}
                     onBlur={(low) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(low)) {
+                      if (regex.test(low) && FormHelper.isNumberAvailable(low)) {
                         const isNumber = Number(low)
                         if (isNumber) {
                           onUpdateItems &&
@@ -275,7 +276,7 @@ export const RefRangesInputTable = observer(
                     placeholder={row?.high}
                     onBlur={(high) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(high)) {
+                      if (regex.test(high) && FormHelper.isNumberAvailable(high)) {
                         const isNumber = Number(high)
                         if (isNumber) {
                           onUpdateItems &&

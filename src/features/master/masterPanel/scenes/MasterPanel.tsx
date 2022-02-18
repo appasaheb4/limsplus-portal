@@ -22,6 +22,7 @@ import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectDepartment } from "../components"
 import { MasterPanelHoc } from "../hoc"
 import { useStores } from "@/stores"
+import { FormHelper } from "@/helper"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
@@ -1036,7 +1037,10 @@ const MasterPanel = MasterPanelHoc(
                     />
                   )}
                   name="hiAge"
-                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
+                  rules={{
+                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    validate: (value) => FormHelper.isNumberAvailable(value),
+                  }}
                   defaultValue=""
                 />
                 <Controller
@@ -1063,9 +1067,12 @@ const MasterPanel = MasterPanelHoc(
                         }
                       }}
                     />
-                  )}
+                  )}  
                   name="loAge"
-                  rules={{ pattern: /^[0-9<>=\\-`.+,/\"]*$/ }}
+                  rules={{
+                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    validate: (value) => FormHelper.isNumberAvailable(value),
+                  }}
                   defaultValue=""
                 />
 

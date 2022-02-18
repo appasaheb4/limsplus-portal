@@ -13,11 +13,12 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
-  AutoCompleteCheckMultiFilterKeys,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from "@/library/components"
 import _ from "lodash"
 import { lookupItems, moment, lookupValue } from "@/library/utils"
 import { PackageMasterList } from "../components"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import { useForm, Controller } from "react-hook-form"
 import { MasterPackageHOC } from "../hoc"
@@ -25,6 +26,15 @@ import { useStores } from "@/stores"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
+
+const grid = 8
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "none",
+  display: "flex",
+  //flexWrap:'none',
+  padding: grid,
+  overflow: "auto",
+})
 
 const MasterPackage = MasterPackageHOC(
   observer(() => {
@@ -50,8 +60,6 @@ const MasterPackage = MasterPackageHOC(
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-    const [arrPackageItems, setArrPackageItems] = useState<Array<any>>()
-    const [arrPanelItems, setArrPanelItems] = useState<Array<any>>()
 
     const getServiceTypes = (fileds: any) => {
       if (fileds) {
@@ -168,6 +176,15 @@ const MasterPackage = MasterPackageHOC(
               body: `Update lab!`,
             })
           }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "updateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: "Update records",
+            })
+          }}
           onVersionUpgrade={(item) => {
             setModalConfirm({
               show: true,
@@ -198,6 +215,16 @@ const MasterPackage = MasterPackageHOC(
       ),
       [masterPackageStore.listMasterPackage]
     )
+
+    const handleOnDragEndResultOrder = (result: any) => {
+      const items = Array.from(masterPackageStore.masterPackage?.reportOrder)
+      const [reorderedItem] = items.splice(result.source.index, 1)
+      items.splice(result.destination.index, 0, reorderedItem)
+      masterPackageStore.updateMasterPackage({
+        ...masterPackageStore.masterPackage,
+        reportOrder: items,
+      })
+    }
 
     return (
       <>
@@ -259,12 +286,14 @@ const MasterPackage = MasterPackageHOC(
                           labStore.updateLabList(labStore.listLabsCopy)
                           if (!masterPackageStore.masterPackage?.existsVersionId) {
                             masterPackageStore.masterPackageService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code:
-                                    masterPackageStore.masterPackage?.packageCode,
-                                  env: masterPackageStore.masterPackage?.environment,
                                   lab: item.code,
+                                  packageCode:
+                                    masterPackageStore.masterPackage?.packageCode,
+                                  panelCode:
+                                    masterPackageStore.masterPackage?.panelCode,
+                                  env: masterPackageStore.masterPackage?.environment,
                                 },
                               })
                               .then((res) => {
@@ -375,11 +404,13 @@ const MasterPackage = MasterPackageHOC(
                           })
                           if (!masterPackageStore.masterPackage?.existsVersionId) {
                             masterPackageStore.masterPackageService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code: packageItem.panelCode,
-                                  env: masterPackageStore.masterPackage?.environment,
                                   lab: masterPackageStore.masterPackage.lab,
+                                  packageCode: packageItem.panelCode,
+                                  panelCode:
+                                    masterPackageStore.masterPackage?.panelCode,
+                                  env: masterPackageStore.masterPackage?.environment,
                                 },
                               })
                               .then((res) => {
@@ -446,40 +477,93 @@ const MasterPackage = MasterPackageHOC(
                       label="Panel Code"
                       hasError={errors.panelCode}
                     >
-                      <AutoCompleteCheckMultiFilterKeys
-                        placeholder={
-                          errors.panelCode
-                            ? "Please Search Panel Name Or Panel Code"
-                            : "Search by panel name or panel code"
-                        }
-                        hasError={errors.panelCode}
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
                         data={{
-                          defulatValues: [],
-                          list: masterPanelStore.listMasterPanel.filter((item) => {
-                            return (
-                              item.serviceType ===
-                                (masterPackageStore.masterPackage?.serviceType ===
-                                "K"
-                                  ? "N"
-                                  : "S") &&
-                              item.pLab === masterPackageStore.masterPackage?.lab
-                            )
-                          }),
-                          displayKey: ["panelName", "panelCode"],
-                          findKey: ["panelName", "panelCode"],
+                          list:
+                            masterPanelStore.listMasterPanel.filter((item) => {
+                              return (
+                                item.serviceType ===
+                                  (masterPackageStore.masterPackage?.serviceType ===
+                                  "K"
+                                    ? "N"
+                                    : "S") &&
+                                item.pLab === masterPackageStore.masterPackage?.lab
+                              )
+                            }) || [],
+                          selected: masterPackageStore.selectedItems?.panelCode,
+                          displayKey: ["panelCode", "panelName"],
                         }}
-                        onUpdate={(items) => {
-                          onChange(items)
+                        hasError={errors.testName}
+                        onUpdate={(item) => {
+                          const items = masterPackageStore.selectedItems?.panelCode
                           const panelCode: string[] = []
                           const panelName: string[] = []
-                          items.filter((item: any) => {
+                          const reportOrder: string[] = []
+                          items?.filter((item: any) => {
                             panelCode.push(item.panelCode)
                             panelName.push(item.panelName)
+                            reportOrder.push(item.panelCode)
                           })
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             panelCode,
                             panelName,
+                            reportOrder,
+                          })
+                          masterPanelStore.updatePanelMasterList(
+                            masterPanelStore.listMasterPanelCopy
+                          )
+                          if (!masterPackageStore.masterPackage?.existsVersionId) {
+                            masterPackageStore.masterPackageService
+                              .checkExistsRecords({
+                                input: {
+                                  lab: masterPackageStore.masterPackage.lab,
+                                  packageCode:
+                                    masterPackageStore.masterPackage?.packageCode,
+                                  panelCode,
+                                  env: masterPackageStore.masterPackage?.environment,
+                                },
+                              })
+                              .then((res) => {
+                                if (res.checkPackageMasterExistsRecord.success) {
+                                  masterPackageStore.updateExistsLabEnvCode(true)
+                                  Toast.error({
+                                    message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
+                                  })
+                                } else
+                                  masterPackageStore.updateExistsLabEnvCode(false)
+                              })
+                          }
+                        }}
+                        onFilter={(value: string) => {
+                          masterPanelStore.masterPanelService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["panelCode", "panelName"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(new Date())
+                          let panelCode = masterPackageStore.selectedItems?.panelCode
+                          if (!item.selected) {
+                            if (panelCode && panelCode.length > 0) {
+                              panelCode.push(item)
+                            } else panelCode = [item]
+                          } else {
+                            panelCode = panelCode.filter((items) => {
+                              return items._id !== item._id
+                            })
+                          }
+                          masterPackageStore.updateSelectedItems({
+                            ...masterPackageStore.selectedItems,
+                            panelCode,
                           })
                         }}
                       />
@@ -605,6 +689,47 @@ const MasterPackage = MasterPackageHOC(
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
+                <Form.InputWrapper label="Result Order">
+                  <DragDropContext onDragEnd={handleOnDragEndResultOrder}>
+                    <Droppable droppableId="characters" direction="horizontal">
+                      {(provided, snapshot) => (
+                        <ul
+                          style={getListStyle(snapshot.isDraggingOver)}
+                          // className="grid grid-cols-1 p-2"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {masterPackageStore.masterPackage?.reportOrder &&
+                            masterPackageStore.masterPackage?.reportOrder.map(
+                              (item, index) => (
+                                <>
+                                  <Draggable
+                                    key={item}
+                                    draggableId={item}
+                                    index={index}
+                                  >
+                                    {(provided, snapshot) => (
+                                      <div
+                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <li className="m-2 text-white">{`${
+                                          index + 1
+                                        }. ${item}`}</li>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                </>
+                              )
+                            )}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </Form.InputWrapper>
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -693,11 +818,14 @@ const MasterPackage = MasterPackageHOC(
                           })
                           if (!masterPackageStore.masterPackage?.existsVersionId) {
                             masterPackageStore.masterPackageService
-                              .checkExitsLabEnvCode({
+                              .checkExistsRecords({
                                 input: {
-                                  code: masterPackageStore.masterPackage.packageCode,
-                                  env: environment,
                                   lab: masterPackageStore.masterPackage.lab,
+                                  packageCode:
+                                    masterPackageStore.masterPackage?.packageCode,
+                                  panelCode:
+                                    masterPackageStore.masterPackage?.panelCode,
+                                  env: environment,
                                 },
                               })
                               .then((res) => {
@@ -779,6 +907,23 @@ const MasterPackage = MasterPackageHOC(
                     input: {
                       _id: modalConfirm.data.id,
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updatePackageMaster.success) {
+                      Toast.success({
+                        message: `😊 ${res.updatePackageMaster.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      masterPackageStore.fetchPackageMaster()
+                    }
+                  })
+              } else if (type === "updateFileds") {
+                masterPackageStore.masterPackageService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
                     },
                   })
                   .then((res: any) => {
