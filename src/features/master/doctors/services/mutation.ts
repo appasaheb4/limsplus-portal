@@ -39,15 +39,11 @@ export const LIST = gql`
         telephone
         mobileNo
         email
-        workHours
         deliveryType
         deliveryMethod
-        edi
-        ediAddress
         urgent
         registrationLocation
         lab
-        location
         schedule
         reportFormat
         info
@@ -155,15 +151,11 @@ export const FILTER = gql`
         telephone
         mobileNo
         email
-        workHours
         deliveryType
         deliveryMethod
-        edi
-        ediAddress
         urgent
         registrationLocation
         lab
-        location
         schedule
         reportFormat
         info
@@ -217,15 +209,11 @@ export const FILTER_BY_FIELDS = gql`
         telephone
         mobileNo
         email
-        workHours
         deliveryType
         deliveryMethod
-        edi
-        ediAddress
         urgent
         registrationLocation
         lab
-        location
         schedule
         reportFormat
         info
