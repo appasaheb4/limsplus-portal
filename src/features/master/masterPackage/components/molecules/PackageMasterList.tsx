@@ -76,6 +76,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Id",
             hidden: true,
             csvExport: false,
+            editable: false,
           },
           {
             dataField: "lab",
@@ -106,6 +107,19 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                 />
               </>
             ),
+          },
+          {
+            dataField: "serviceType",
+            text: "Service Type",
+            headerClasses: "textHeader2",
+            sort: true,
+            editable: false,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
+                serviceType = filter
+              },
+            }),
           },
           {
             dataField: "packageCode",
@@ -606,6 +620,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           panelCode("")
           panelName("")
           status("")
+          serviceType("")
           environment("")
         }}
       />
