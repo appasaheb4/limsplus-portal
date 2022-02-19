@@ -6,7 +6,7 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
   ,Form,Svg,ModalConfirm,AutoCompleteFilterSingleSelect} 
   from "@/library/components"
 import {DoctorsList} from "../components"
-import {lookupItems,lookupValue} from "@/library/utils"
+import {lookupItems,lookupValue,toTitleCase} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {DoctorsHoc} from "../hoc"
 import { useStores } from "@/stores"
@@ -14,7 +14,7 @@ import { useStores } from "@/stores"
 import { RouterFlow } from "@/flows"
 
 const Doctors = DoctorsHoc(observer(() => {
-  const { loginStore, labStore, routerStore, doctorsStore ,loading} = useStores()
+  const { loginStore, labStore, routerStore, doctorsStore ,loading,administrativeDivisions} = useStores()
   const {
     control,
     handleSubmit,
@@ -102,7 +102,8 @@ const Doctors = DoctorsHoc(observer(() => {
       totalSize={doctorsStore.listDoctorsCount}
       extraData={{
         lookupItems: routerStore.lookupItems,
-        listLabs: labStore.listLabs
+        listLabs: labStore.listLabs,
+        listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv
       }}
       isDelete={RouterFlow.checkPermission(
         routerStore.userPermission,
@@ -190,102 +191,7 @@ const Doctors = DoctorsHoc(observer(() => {
               justify="stretch"
               fill
             >
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Creation"
-                    placeholder={
-                      errors.dateCreation
-                        ? "Please Enter dateCreation"
-                        : "DateCreation"
-                    }
-                    hasError={errors.dateCreation}
-                    value={doctorsStore.doctors?.dateCreation}
-                    disabled={true}
-                  />
-                )}
-                name="dateCreation"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Active"
-                    placeholder={
-                      errors.dateActive
-                        ? "Please Enter DateActiveFrom"
-                        : "DateActiveFrom"
-                    }
-                    hasError={errors.dateActive}
-                    value={doctorsStore.doctors?.dateActive}
-                    disabled={true}
-                  />
-                )}
-                name="dateActive"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Expire"
-                    placeholder={
-                      errors.dateActiveTo
-                        ? "Please Enter DateActiveTo"
-                        : "DateActiveTo"
-                    }
-                    hasError={errors.dateActiveTo}
-                    value={doctorsStore.doctors?.dateExpire}
-                    onChange={(dateExpire) => {
-                      onChange(dateExpire)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        dateExpire,
-                      })
-                    }}
-                  />
-                )}
-                name="dateActiveTo"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Version"
-                    placeholder={errors.version ? "Please Enter Version" : "Version"}
-                    hasError={errors.version}
-                    value={doctorsStore.doctors?.version}
-                    disabled={true}
-                  />
-                )}
-                name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Entered By"
-                    placeholder={
-                      errors.userId ? "Please Enter userId" : "EnterEd By"
-                    }
-                    hasError={errors.userId}
-                    value={loginStore.login?.userId}
-                    disabled={true}
-                  />
-                )}
-                name="userId"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+              
 
               <Controller
                 control={control}
@@ -433,69 +339,28 @@ const Doctors = DoctorsHoc(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.Input
-                    label="First Name"
+                    label="Name"
                     placeholder={
-                      errors.firstName ? "Please Enter firstName" : "First Name"
+                      errors.name ? "Please Enter Name" : "Name"
                     }
-                    hasError={errors.firstName}
-                    value={doctorsStore.doctors?.firstName}
-                    onChange={(firstName) => {
-                      onChange(firstName)
+                    hasError={errors.name}
+                    value={doctorsStore.doctors?.name}
+                    onChange={(name) => {
+                      onChange(name)
                       doctorsStore.updateDoctors({
                         ...doctorsStore.doctors,
-                        firstName,
+                        name:name.toUpperCase(),
+                        reportName:toTitleCase(name)
                       })
+                      
                     }}
                   />
                 )}
-                name="firstName"
+                name="name"
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Middle Name"
-                    placeholder={errors.middleName ? "Please Enter" : "Middle Name"}
-                    hasError={errors.middleName}
-                    value={doctorsStore.doctors?.middleName}
-                    onChange={(middleName) => {
-                      onChange(middleName)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        middleName,
-                      })
-                    }}
-                  />
-                )}
-                name="middleName"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Last Name"
-                    placeholder={
-                      errors.lastName ? "Please Enter lastName" : "Last Name"
-                    }
-                    hasError={errors.lastName}
-                    value={doctorsStore.doctors?.lastName}
-                    onChange={(lastName) => {
-                      onChange(lastName)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        lastName,
-                      })
-                    }}
-                  />
-                )}
-                name="lastName"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -506,12 +371,14 @@ const Doctors = DoctorsHoc(observer(() => {
                     }
                     hasError={errors.reportName}
                     value={doctorsStore.doctors?.reportName}
+                    
                     onChange={(reportName) => {
                       onChange(reportName)
                       doctorsStore.updateDoctors({
                         ...doctorsStore.doctors,
-                        reportName,
+                        reportName:reportName.toUpperCase(),
                       })
+                      setValue("reportName",doctorsStore.doctors?.title)
                     }}
                   />
                 )}
@@ -519,123 +386,7 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.MultilineInput
-                    rows={3}
-                    label="Address"
-                    placeholder={errors.address ? "Please Enter address" : "Address"}
-                    hasError={errors.address}
-                    value={doctorsStore.doctors?.address}
-                    onChange={(address) => {
-                      onChange(address)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        address,
-                      })
-                    }}
-                  />
-                )}
-                name="address"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-            </List>
-            <List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="City"
-                    placeholder={errors.city ? "Please Enter city" : "City"}
-                    hasError={errors.city}
-                    value={doctorsStore.doctors?.city}
-                    onChange={(city) => {
-                      onChange(city)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        city,
-                      })
-                    }}
-                  />
-                )}
-                name="city"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="State"
-                    placeholder={errors.state ? "Please Enter state" : "State"}
-                    value={doctorsStore.doctors?.state}
-                    hasError={errors.state}
-                    onChange={(state) => {
-                      onChange(state)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        state,
-                      })
-                    }}
-                  />
-                )}
-                name="state"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Country"
-                    placeholder={errors.country ? "Please Enter country" : "Country"}
-                    hasError={errors.country}
-                    value={doctorsStore.doctors?.country}
-                    onChange={(country) => {
-                      onChange(country)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        country,
-                      })
-                    }}
-                  />
-                )}
-                name="country"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Postcode"
-                    placeholder={
-                      errors.postcode ? "Please Enter postcode" : "Postcode"
-                    }
-                    type="number"
-                    hasError={errors.postcode}
-                    value={doctorsStore.doctors?.postcode}
-                    onChange={(postcode) => {
-                      onChange(postcode)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        postcode: parseInt(postcode),
-                      })
-                    }}
-                  />
-                )}
-                name="postcode"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
+               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.Input
@@ -699,6 +450,424 @@ const Doctors = DoctorsHoc(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.InputWrapper
+                    label="Category"
+                    hasError={errors.category}
+                  >
+                    <select
+                    value={doctorsStore.doctors?.category}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.category ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const category = e.target.value
+                        onChange(category)
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          category,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(
+                        routerStore.lookupItems,
+                        "CATEGORY"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </Form.InputWrapper>
+                )}
+                name="category"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.MultilineInput
+                    rows={3}
+                    label="Address"
+                    placeholder={errors.address ? "Please Enter address" : "Address"}
+                    hasError={errors.address}
+                    value={doctorsStore.doctors?.address}
+                    onChange={(address) => {
+                      onChange(address)
+                      doctorsStore.updateDoctors({
+                        ...doctorsStore.doctors,
+                        address,
+                      })
+                    }}
+                  />
+                )}
+                name="address"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              
+              
+              {administrativeDivisions.listAdministrativeDiv && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="Country"
+                        id="country"
+                        hasError={errors.country}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv,
+                              "country"
+                            ),
+                            displayKey: "country",
+                            findKey: "country",
+                          }}
+                          hasError={errors.country}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    ["country"]: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.country)
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              country:item.country.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="country"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
+                )}
+                {(doctorsStore.doctors?.country ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="State"
+                        id="state"
+                        hasError={errors.state}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!doctorsStore.doctors?.country}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) => item.country === doctorsStore.doctors?.country
+                              ),
+                              "state"
+                            ),
+                            displayKey: "state",
+                            findKey: "state",
+                          }}
+                          hasError={errors.state}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: labStore.labs.country,
+                                    state: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.state)
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              state:item.state.toUpperCase()
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="state"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                {(doctorsStore.doctors?.state ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="District"
+                        id="district"
+                        hasError={errors.district}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!doctorsStore.doctors?.state}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === doctorsStore.doctors?.country &&
+                                  item.state === doctorsStore.doctors?.state
+                              ),
+                              "district"
+                            ),
+                            displayKey: "district",
+                            findKey: "district",
+                          }}
+                          hasError={errors.district}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: labStore.labs.country,
+                                    state: labStore.labs.state,
+                                    district: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.district)
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              district: item.district.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="district"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                {(doctorsStore.doctors?.district ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="City"
+                        id="city"
+                        hasError={errors.city}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!doctorsStore.doctors?.district}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === doctorsStore.doctors?.country &&
+                                  item.state === doctorsStore.doctors?.state &&
+                                  item.district === doctorsStore.doctors?.district
+                              ),
+                              "city"
+                            ),
+                            displayKey: "city",
+                            findKey: "city",
+                          }}
+                          hasError={errors.city}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: doctorsStore.doctors?.country,
+                                    state: doctorsStore.doctors?.state,
+                                    district: doctorsStore.doctors?.district,
+                                    city: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.city)
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              city: item.city.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="city"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+              
+            </List>
+            <List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+             {(doctorsStore.doctors?.city ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="Area"
+                        id="area"
+                        hasError={errors.area}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!doctorsStore.doctors?.city}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === doctorsStore.doctors?.country &&
+                                  item.state === doctorsStore.doctors?.state &&
+                                  item.district === doctorsStore.doctors?.district &&
+                                  item.city === doctorsStore.doctors?.city
+                              ),
+                              "area"
+                            ),
+                            displayKey: "area",
+                            findKey: "area",
+                          }}
+                          hasError={errors.area}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: doctorsStore.doctors?.country,
+                                    state: doctorsStore.doctors?.state,
+                                    district: doctorsStore.doctors?.district,
+                                    city: doctorsStore.doctors?.city,
+                                    area: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.area)
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              area: item.area.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="area "
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                {(doctorsStore.doctors?.area ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="Postal Code"
+                        id="postalCode"
+                        hasError={errors.postalCode}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!doctorsStore.doctors?.area}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === doctorsStore.doctors?.country &&
+                                  item.state === doctorsStore.doctors?.state &&
+                                  item.district === doctorsStore.doctors?.district &&
+                                  item.city === doctorsStore.doctors?.city &&
+                                  item.area === doctorsStore.doctors?.area
+                              ),
+                              "postalCode"
+                            ),
+                            displayKey: "postalCode",
+                            findKey: "postalCode",
+                          }}
+                          hasError={errors.postalCode}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: doctorsStore.doctors?.country,
+                                    state: doctorsStore.doctors?.state,
+                                    district: doctorsStore.doctors?.district,
+                                    city: doctorsStore.doctors?.city,
+                                    area: doctorsStore.doctors?.area,
+                                    postalCode: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.postalCode)
+                            console.log({item})
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              postalCode: item.postalCode,
+                            })
+                            administrativeDivisions.updateAdministrativeDivList(
+                              administrativeDivisions.listAdministrativeDivCopy
+                            )
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="postalCode"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )} 
+              
+              
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputWrapper
                     label="Sales TerritoRy"
                     hasError={errors.salesTerritoRy}
                   >
@@ -734,27 +903,7 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Area"
-                    placeholder={errors.area ? "Please Enter Area" : "Area"}
-                    hasError={errors.area}
-                    value={doctorsStore.doctors?.area}
-                    onChange={(area) => {
-                      onChange(area)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        area,
-                      })
-                    }}
-                  />
-                )}
-                name="area"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -843,30 +992,7 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Work Hours"
-                    placeholder={
-                      errors.workHours ? "Please Enter workHours" : "Work Hours"
-                    }
-                    type="number"
-                    hasError={errors.workHours}
-                    value={doctorsStore.doctors?.workHours}
-                    onChange={(workHours) => {
-                      onChange(workHours)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        workHours: parseInt(workHours),
-                      })
-                    }}
-                  />
-                )}
-                name="workHours"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -904,56 +1030,6 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-
-              <Grid cols={5}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Confidential"
-                      hasError={errors.confidential}
-                      value={doctorsStore.doctors?.confidential}
-                      onChange={(confidential) => {
-                        onChange(confidential)
-                        doctorsStore.updateDoctors({
-                          ...doctorsStore.doctors,
-                          confidential,
-                        })
-                      }}
-                    />
-                  )}
-                  name="confidential"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Urgent"
-                      hasError={errors.urgent}
-                      value={doctorsStore.doctors?.urgent}
-                      onChange={(urgent) => {
-                        onChange(urgent)
-                        doctorsStore.updateDoctors({
-                          ...doctorsStore.doctors,
-                          urgent,
-                        })
-                      }}
-                    />
-                  )}
-                  name="urgent"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-              </Grid>
-            </List>
-            <List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -993,50 +1069,8 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="EDI"
-                    placeholder={errors.edi ? "Please Enter edi" : "EDI"}
-                    hasError={errors.edi}
-                    value={doctorsStore.doctors?.edi}
-                    onChange={(edi) => {
-                      onChange(edi)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        edi,
-                      })
-                    }}
-                  />
-                )}
-                name="edi"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="EDI Address"
-                    placeholder={
-                      errors.ediAddress ? "Please Enter Edi Address" : "EDI Address"
-                    }
-                    hasError={errors.ediAddress}
-                    value={doctorsStore.doctors?.ediAddress}
-                    onChange={(ediAddress) => {
-                      onChange(ediAddress)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        ediAddress,
-                      })
-                    }}
-                  />
-                )}
-                name="ediAddress"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+              
+              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1142,54 +1176,46 @@ const Doctors = DoctorsHoc(observer(() => {
                 defaultValue=""
               />
               <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Location"
-                    hasError={errors.location}
-                  >
-                    <AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    placeholder="Search by name"
-                    data={{
-                      list:labStore.listLabs,
-                      displayKey: "name",
-                      findKey: "name",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      labStore.LabService.filter(
-                        {
-                          input: {
-                            type: "filter",
-                            filter: {
-                              name: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.name)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        location:item.code,
-                      })
-                      labStore.updateLabList(
-                        labStore.listLabsCopy
-                      )
-                      
-                    }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Clock
+                      label="Opening Time"
+                      hasError={errors.openingTime}
+                      value={doctorsStore.doctors?.openingTime}
+                      onChange={(openingTime) => {
+                        onChange(openingTime)
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          openingTime,
+                        })
+                      }}
                     />
-                  </Form.InputWrapper>
-                )}
-                name="location"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
+                  )}
+                  name="openingTime"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Clock
+                      label="Closing Time"
+                      hasError={errors.closingTime}
+                      value={doctorsStore.doctors?.closingTime}
+                      onChange={(closingTime) => {
+                        onChange(closingTime)
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                         closingTime,
+                        })
+                      }}
+                    />
+                  )}
+                  name="closingTime"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.InputWrapper
@@ -1237,31 +1263,16 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Report Format"
-                    placeholder={
-                      errors.reportFormat
-                        ? "Please Enter reportFormat"
-                        : "Report Format"
-                    }
-                    hasError={errors.reportFormat}
-                    value={doctorsStore.doctors?.reportFormat}
-                    onChange={(reportFormat) => {
-                      onChange(reportFormat)
-                      doctorsStore.updateDoctors({
-                        ...doctorsStore.doctors,
-                        reportFormat,
-                      })
-                    }}
-                  />
-                )}
-                name="reportFormat"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+              
+
+              
+            </List>
+            <List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1283,6 +1294,9 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+              
+             
+              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1326,6 +1340,104 @@ const Doctors = DoctorsHoc(observer(() => {
                   />
                 )}
                 name="workLine"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              
+              
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputDateTime
+                    label="Date Creation"
+                    placeholder={
+                      errors.dateCreation
+                        ? "Please Enter dateCreation"
+                        : "DateCreation"
+                    }
+                    hasError={errors.dateCreation}
+                    value={doctorsStore.doctors?.dateCreation}
+                    disabled={true}
+                  />
+                )}
+                name="dateCreation"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputDateTime
+                    label="Date Active"
+                    placeholder={
+                      errors.dateActive
+                        ? "Please Enter DateActiveFrom"
+                        : "DateActiveFrom"
+                    }
+                    hasError={errors.dateActive}
+                    value={doctorsStore.doctors?.dateActive}
+                    disabled={true}
+                  />
+                )}
+                name="dateActive"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputDateTime
+                    label="Date Expire"
+                    placeholder={
+                      errors.dateActiveTo
+                        ? "Please Enter DateActiveTo"
+                        : "DateActiveTo"
+                    }
+                    hasError={errors.dateActiveTo}
+                    value={doctorsStore.doctors?.dateExpire}
+                    onChange={(dateExpire) => {
+                      onChange(dateExpire)
+                      doctorsStore.updateDoctors({
+                        ...doctorsStore.doctors,
+                        dateExpire,
+                      })
+                    }}
+                  />
+                )}
+                name="dateActiveTo"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    label="Version"
+                    placeholder={errors.version ? "Please Enter Version" : "Version"}
+                    hasError={errors.version}
+                    value={doctorsStore.doctors?.version}
+                    disabled={true}
+                  />
+                )}
+                name="version"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    label="Entered By"
+                    placeholder={
+                      errors.userId ? "Please Enter userId" : "EnterEd By"
+                    }
+                    hasError={errors.userId}
+                    value={loginStore.login?.userId}
+                    disabled={true}
+                  />
+                )}
+                name="userId"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1430,7 +1542,71 @@ const Doctors = DoctorsHoc(observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              <Grid cols={5}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Toggle
+                      label="Confidential"
+                      hasError={errors.confidential}
+                      value={doctorsStore.doctors?.confidential}
+                      onChange={(confidential) => {
+                        onChange(confidential)
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          confidential,
+                        })
+                      }}
+                    />
+                  )}
+                  name="confidential"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Toggle
+                      label="Urgent"
+                      hasError={errors.urgent}
+                      value={doctorsStore.doctors?.urgent}
+                      onChange={(urgent) => {
+                        onChange(urgent)
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          urgent,
+                        })
+                      }}
+                    />
+                  )}
+                  name="urgent"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Toggle
+                    label="Report Format"
+                    
+                    hasError={errors.reportFormat}
+                    value={doctorsStore.doctors?.reportFormat}
+                    onChange={(reportFormat) => {
+                      onChange(reportFormat)
+                      doctorsStore.updateDoctors({
+                        ...doctorsStore.doctors,
+                        reportFormat,
+                      })
+                    }}
+                  />
+                )}
+                name="reportFormat"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              </Grid>
             </List>
+            
           </Grid>
           <br />
           <List direction="row" space={3} align="center">
