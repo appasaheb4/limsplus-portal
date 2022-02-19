@@ -2,49 +2,47 @@ export class RegistrationLocations {
   _id: string
   existsVersionId: string
   existsRecordId: string
-  dateCreation: Date
-  dateActive: Date
-  dateExpire: Date
-  version: number
-  enteredBy: string
   locationCode: string
   locationName: string
-  address: string
-  city: string
-  state: string
-  country: string
-  postcode: number
+  corporateCode: string
+  invoiceAc: string
+  acClass: string
+  accountType: string
   customerGroup: string
+  methodColn: string
   category: string
-  confidential: boolean
+  country: string
+  state: string
+  district: string
+  city: string
+  address: string
+  postcode: number
+  salesTerritoRy: string
+  area: string
+  zone: string
   telephone: string
   mobileNo: string
   email: string
   deliveryType: string
   deliveryMethod: string
-  corporateCode: string
-  invoiceAc: string
-  labLicence: string
-  printLabel: boolean
-  methodColn: string
-  workHrs: number
-  salesTerritoRy: string
-  area: string
-  zone: string
   route: string
   lab: string
-  location: string
-  neverBill: boolean
-  edi: string
-  ediAddress: string
-  urgent: boolean
+  openingTime: string
+  closingTime: string
   schedule: string
-  reportFormat: string
   info: string
   fyiLine: string
   workLine: string
-  acClass: string
-  accountType: string
+  confidential: boolean
+  urgent: boolean
+  printLabel: boolean
+  neverBill: boolean
+  reportFormat: boolean
+  dateCreation: Date
+  dateActive: Date
+  dateExpire: Date
+  version: number
+  enteredBy: string
   status: string
   environment: string
   dateOfEntry: Date
@@ -64,6 +62,7 @@ export class RegistrationLocations {
     this.address = rawData.address
     this.city = rawData.city
     this.state = rawData.state
+    this.district = rawData.district
     this.country = rawData.country
     this.postcode = rawData.postcode
     this.customerGroup = rawData.customerGroup
@@ -78,20 +77,17 @@ export class RegistrationLocations {
     this.urgent = rawData.urgent
     this.corporateCode = rawData.corporateCode
     this.invoiceAc = rawData.invoiceAc
-    this.labLicence = rawData.labLicence
     this.printLabel = rawData.printLabel
     this.methodColn = rawData.methodColn
-    this.workHrs = rawData.workHrs
     this.salesTerritoRy = rawData.salesTerritoRy
     this.area = rawData.area
     this.zone = rawData.zone
     this.route = rawData.route
     this.lab = rawData.lab
-    this.location = rawData.location
+    this.openingTime = rawData.openingTime
+    this.closingTime = rawData.closingTime
     this.neverBill = rawData.neverBill
-    this.edi = rawData.edi
     this.printLabel = rawData.printLabel
-    this.ediAddress = rawData.ediAddress
     this.schedule = rawData.schedule
     this.reportFormat = rawData.reportFormat
     this.info = rawData.info
