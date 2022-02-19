@@ -15,7 +15,7 @@ import {
   ModalConfirm,
 } from "@/library/components"
 import { MethodsList } from "../components"
-import { lookupItems,lookupValue } from "@/library/utils"
+import { lookupItems,lookupValue, toTitleCase } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { MethodsHoc } from "../hoc"
 import { useStores } from "@/stores"
@@ -56,6 +56,8 @@ const Methods = MethodsHoc(
         })
       }
     }
+
+   
 
     return (
       <>
@@ -141,7 +143,7 @@ const Methods = MethodsHoc(
                         methodsStore.updateMethods({
                           ...methodsStore.methods,
                           methodsName: methodsName.toUpperCase(),
-                          description: `(${_.startCase(_.toLower(methodsName))})`,
+                          description: `(${toTitleCase(methodsName)})`,
                         })
                       }}
                     />
