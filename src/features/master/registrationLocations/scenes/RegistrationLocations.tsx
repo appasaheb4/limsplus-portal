@@ -344,7 +344,22 @@ const RegistrationLocation = RegistrationLocationHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Price List"
+                      hasError={errors.priceList}
+                    >
+                      <Buttons.Button size="medium" type="solid" onClick={() => {}}>
+                        {`List`}
+                      </Buttons.Button>
+                    </Form.InputWrapper>
+                  )}
+                  name="priceList"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -534,8 +549,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </List>
-              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -685,6 +698,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
+              </List>
+              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -948,8 +963,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              </List>
-              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1086,6 +1099,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
+              </List>
+              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1294,7 +1309,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                  <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label="Status" hasError={errors.status}>
@@ -1503,32 +1518,30 @@ const RegistrationLocation = RegistrationLocationHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                   <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Report Format"
-                      hasError={errors.reportFormat}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.reportFormat
-                      }
-                      onChange={(reportFormat) => {
-                        onChange(reportFormat)
-                        registrationLocationsStore.updateRegistrationLocations({
-                          ...registrationLocationsStore.registrationLocations,
-                          reportFormat,
-                        })
-                      }}
-                    />
-                  )}
-                  name="reportFormat"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Report Format"
+                        hasError={errors.reportFormat}
+                        value={
+                          registrationLocationsStore.registrationLocations
+                            ?.reportFormat
+                        }
+                        onChange={(reportFormat) => {
+                          onChange(reportFormat)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            reportFormat,
+                          })
+                        }}
+                      />
+                    )}
+                    name="reportFormat"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
                 </Grid>
-               
-              
               </List>
             </Grid>
             <br />

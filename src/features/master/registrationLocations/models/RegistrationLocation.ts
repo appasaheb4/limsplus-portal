@@ -6,6 +6,7 @@ export class RegistrationLocations {
   locationName: string
   corporateCode: string
   invoiceAc: string
+  priceList: any
   acClass: string
   accountType: string
   customerGroup: string
@@ -19,7 +20,7 @@ export class RegistrationLocations {
   postcode: number
   salesTerritoRy: string
   area: string
-  zone: string
+  zone: string  
   telephone: string
   mobileNo: string
   email: string
@@ -47,7 +48,6 @@ export class RegistrationLocations {
   environment: string
   dateOfEntry: Date
   lastUpdated: Date
-
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.existsVersionId = rawData.existsVersionId
@@ -77,6 +77,7 @@ export class RegistrationLocations {
     this.urgent = rawData.urgent
     this.corporateCode = rawData.corporateCode
     this.invoiceAc = rawData.invoiceAc
+    this.priceList = rawData.priceList
     this.printLabel = rawData.printLabel
     this.methodColn = rawData.methodColn
     this.salesTerritoRy = rawData.salesTerritoRy
@@ -94,7 +95,7 @@ export class RegistrationLocations {
     this.fyiLine = rawData.fyiLine
     this.workLine = rawData.workLine
     this.acClass = rawData.acClass
-    this.accountType = rawData.accountType   
+    this.accountType = rawData.accountType
     this.status = rawData.status
     this.environment = rawData.environment
     this.dateOfEntry = rawData.dateOfEntry
