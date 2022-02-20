@@ -28,10 +28,12 @@ export const LIST = gql`
         address
         city
         state
+        district
         country
         postcode
         doctorType
         speciality
+        category
         confidential
         salesTerritoRy
         area
@@ -49,6 +51,8 @@ export const LIST = gql`
         info
         fyiLine
         workLine
+        openingTime
+        closingTime
         status
         environment
         dateOfEntry
@@ -140,10 +144,12 @@ export const FILTER = gql`
         address
         city
         state
+        district
         country
         postcode
         doctorType
         speciality
+        category
         confidential
         salesTerritoRy
         area
@@ -161,6 +167,8 @@ export const FILTER = gql`
         info
         fyiLine
         workLine
+        openingTime
+        closingTime
         status
         environment
         dateOfEntry
@@ -198,10 +206,12 @@ export const FILTER_BY_FIELDS = gql`
         address
         city
         state
+        district
         country
         postcode
         doctorType
         speciality
+        category
         confidential
         salesTerritoRy
         area
@@ -219,6 +229,8 @@ export const FILTER_BY_FIELDS = gql`
         info
         fyiLine
         workLine
+        openingTime
+        closingTime
         status
         environment
         dateOfEntry

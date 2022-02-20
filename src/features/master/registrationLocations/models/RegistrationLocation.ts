@@ -17,7 +17,7 @@ export class RegistrationLocations {
   district: string
   city: string
   address: string
-  postcode: number
+  postalCode: number
   salesTerritoRy: string
   area: string
   zone: string  
@@ -64,7 +64,7 @@ export class RegistrationLocations {
     this.state = rawData.state
     this.district = rawData.district
     this.country = rawData.country
-    this.postcode = rawData.postcode
+    this.postalCode = rawData.postalCode
     this.customerGroup = rawData.customerGroup
     this.category = rawData.category
     this.confidential = rawData.confidential

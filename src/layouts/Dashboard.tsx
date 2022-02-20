@@ -135,7 +135,10 @@ const Dashboard = observer(({ children }) => {
         await TestPanelMapping.startup()
       if (pathname === "/collection/masterPackage") await PackageMaster.startup()
       if (pathname === "/collection/methods") await Methods.startup()
-      if (pathname === "/collection/doctors") await Doctors.startup()
+      if (pathname === "/collection/doctors") {
+        await Doctors.startup()
+        await AdministrativeDivisions.startup()
+      } 
       if (pathname === "/collection/registrationLocations")
         await RegistrationLocations.startup()
       if (
