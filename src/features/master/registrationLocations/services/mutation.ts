@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-
+    
 export const LIST = gql`
   mutation($input: RegistrationLocationInput!) {
     registrationLocations(input: $input) {
@@ -22,6 +22,7 @@ export const LIST = gql`
         address
         city
         state
+        district
         country
         postcode
         customerGroup
@@ -34,19 +35,15 @@ export const LIST = gql`
         deliveryMethod
         corporateCode
         invoiceAc
-        labLicence
+        priceList
         printLabel
         methodColn
-        workHrs
         salesTerritoRy
         area
         zone
         route
         lab
-        location
         neverBill
-        edi
-        ediAddress
         urgent
         schedule
         reportFormat
@@ -55,6 +52,8 @@ export const LIST = gql`
         workLine
         acClass
         accountType
+        openingTime
+        closingTime
         status
         environment
         dateOfEntry
@@ -140,6 +139,7 @@ export const FILTER = gql`
         address
         city
         state
+        district
         country
         postcode
         customerGroup
@@ -152,19 +152,15 @@ export const FILTER = gql`
         deliveryMethod
         corporateCode
         invoiceAc
-        labLicence
+        priceList
         printLabel
         methodColn
-        workHrs
         salesTerritoRy
         area
         zone
         route
         lab
-        location
         neverBill
-        edi
-        ediAddress
         urgent
         schedule
         reportFormat
@@ -173,6 +169,8 @@ export const FILTER = gql`
         workLine
         acClass
         accountType
+        openingTime
+        closingTime
         status
         environment
         dateOfEntry
@@ -181,7 +179,7 @@ export const FILTER = gql`
     }
   }
 `
-
+  
 export const FILTER_BY_FIELDS = gql`
   mutation($input: RegistrationLocationInput!) {
     filterByFieldsRegistrationLocations(input: $input) {
@@ -204,6 +202,7 @@ export const FILTER_BY_FIELDS = gql`
         address
         city
         state
+        district
         country
         postcode
         customerGroup
@@ -216,19 +215,15 @@ export const FILTER_BY_FIELDS = gql`
         deliveryMethod
         corporateCode
         invoiceAc
-        labLicence
+        priceList
         printLabel
         methodColn
-        workHrs
         salesTerritoRy
         area
         zone
         route
         lab
-        location
         neverBill
-        edi
-        ediAddress
         urgent
         schedule
         reportFormat
@@ -237,6 +232,8 @@ export const FILTER_BY_FIELDS = gql`
         workLine
         acClass
         accountType
+        openingTime
+        closingTime
         status
         environment
         dateOfEntry
@@ -245,3 +242,4 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `
+  
