@@ -15,7 +15,7 @@ import { useStores } from "@/stores"
 import { RouterFlow } from "@/flows"
 
 const CorporateClients = CorporateClientsHoc(observer(() => {
-  const { loginStore, labStore, corporateClientsStore, routerStore,loading } = useStores()
+  const { loginStore, labStore, corporateClientsStore, routerStore,loading ,administrativeDivisions} = useStores()
   const {
     control,
     handleSubmit,
@@ -193,105 +193,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
               justify="stretch"
               fill
             >
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Creation"
-                    placeholder={
-                      errors.dateCreation
-                        ? "Please Enter Date Creation "
-                        : "Created By"
-                    }
-                    hasError={errors.dateCreation}
-                    value={
-                      corporateClientsStore.corporateClients?.dateCreation
-                    }
-                    disabled={true}
-                  />
-                )}
-                name="dateCreation"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Active"
-                    hasError={errors.dateActive}
-                    placeholder={
-                      errors.dateActive ? "Please Enter Date Active" : "Date Active"
-                    }
-                    value={
-                      corporateClientsStore.corporateClients?.dateActive
-                    }
-                    disabled={true}
-                  />
-                )}
-                name="dateActive"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputDateTime
-                    label="Date Expire"
-                    hasError={errors.dateExpire}
-                    placeholder={
-                      errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
-                    }
-                    value={
-                      corporateClientsStore.corporateClients?.dateExpire
-                    }
-                    onChange={(dateExpire) => {
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        dateExpire,
-                      })
-                    }}
-                  />
-                )}
-                name="dateExpire"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Version"
-                    placeholder={errors.version ? "Please Enter Version" : "Version"}
-                    hasError={errors.version}
-                    value={corporateClientsStore.corporateClients?.version}
-                    disabled={true}
-                  />
-                )}
-                name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Entered By"
-                    hasError={errors.enteredBy}
-                    placeholder={
-                      errors.enteredBy ? "Please Enter Entered By" : "Entered By"
-                    }
-                    value={loginStore.login?.userId}
-                    disabled={true}
-                  />
-                )}
-                name="enteredBy"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+              
 
               <Controller
                 control={control}
@@ -393,62 +295,98 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 defaultValue=""
               />
               <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Price List"
+                      hasError={errors.priceList}
+                    >
+                      <Buttons.Button size="medium" type="solid" onClick={() => {}}>
+                        {`List`}
+                      </Buttons.Button>
+                    </Form.InputWrapper>
+                  )}
+                  name="priceList"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.InputWrapper
-                    label="Price List"
-                    hasError={errors.priceList}
+                    label="Ac Type"
+                    hasError={errors.acType}
                   >
                     <select
+                    value={corporateClientsStore.corporateClients?.acType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.priceList ? "border-red-500  " : "border-gray-300"
+                        errors.acType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const priceList = e.target.value
-                        onChange(priceList)
+                        const acType = e.target.value
+                        onChange(acType)
                         corporateClientsStore.updateCorporateClients({
                           ...corporateClientsStore.corporateClients,
-                          priceList,
+                          acType,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {[].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {`${item}`}
+                      {lookupItems(
+                        routerStore.lookupItems,
+                        "AC_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
                         </option>
                       ))}
                     </select>
                   </Form.InputWrapper>
                 )}
-                name="priceList"
+                name="acType"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputWrapper
+                    label="Ac Class"
+                    hasError={errors.acClass}
+                  >
+                    <select
+                    value={corporateClientsStore.corporateClients?.acClass}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.acClass ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const acClass = e.target.value
+                        onChange(acClass)
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          acClass,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(
+                        routerStore.lookupItems,
+                        "AC_CLASS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </Form.InputWrapper>
+                )}
+                name="acClass"
                 rules={{ required: false }}
                 defaultValue=""
               />
 
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Price Group"
-                    placeholder={
-                      errors.priceGroup ? "Please Enter Price Group" : "Price Group"
-                    }
-                    value={corporateClientsStore.corporateClients?.priceGroup}
-                    hasError={errors.priceGroup}
-                    onChange={(priceGroup) => {
-                      onChange(priceGroup)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        priceGroup,
-                      })
-                    }}
-                  />
-                )}
-                name="priceGroup"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+                      
+              
 
               <Controller
                 control={control}
@@ -470,122 +408,6 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                   />
                 )}
                 name="billingOn"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.MultilineInput
-                    rows={3}
-                    label="Address"
-                    placeholder={errors.address ? "Please Enter Address" : "Address"}
-                    hasError={errors.address}
-                    value={corporateClientsStore.corporateClients?.address}
-                    onChange={(address) => {
-                      onChange(address)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        address,
-                      })
-                    }}
-                  />
-                )}
-                name="address"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-            </List>
-            <List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="City"
-                    placeholder={errors.city ? "Please Enter City" : "City"}
-                    hasError={errors.city}
-                    value={corporateClientsStore.corporateClients?.city}
-                    onChange={(city) => {
-                      onChange(city)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        city,
-                      })
-                    }}
-                  />
-                )}
-                name="city"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="State"
-                    placeholder={errors.state ? "Please Enter State" : "State"}
-                    hasError={errors.state}
-                    value={corporateClientsStore.corporateClients?.state}
-                    onChange={(state) => {
-                      onChange(state)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        state,
-                      })
-                    }}
-                  />
-                )}
-                name="state"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Country"
-                    placeholder={errors.country ? "Please Enter Country" : "Country"}
-                    hasError={errors.country}
-                    value={corporateClientsStore.corporateClients?.country}
-                    onChange={(country) => {
-                      onChange(country)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        country,
-                      })
-                    }}
-                  />
-                )}
-                name="country"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Postcode"
-                    placeholder={
-                      errors.postCode ? "Please Enter PostCode" : "Post Code"
-                    }
-                    hasError={errors.postCode}
-                    type="number"
-                    value={corporateClientsStore.corporateClients?.postcode}
-                    onChange={(postcode) => {
-                      onChange(postcode)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        postcode: parseInt(postcode),
-                      })
-                    }}
-                  />
-                )}
-                name="postCode"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -664,6 +486,442 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+              {administrativeDivisions.listAdministrativeDiv && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="Country"
+                        id="country"
+                        hasError={errors.country}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv,
+                              "country"
+                            ),
+                            displayKey: "country",
+                            findKey: "country",
+                          }}
+                          hasError={errors.country}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    ["country"]: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.country)
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              country: item.country.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="country"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
+                )}
+                {(corporateClientsStore.corporateClients?.country ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="State"
+                        id="state"
+                        hasError={errors.state}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!corporateClientsStore.corporateClients?.country}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) => item.country === corporateClientsStore.corporateClients?.country
+                              ),
+                              "state"
+                            ),
+                            displayKey: "state",
+                            findKey: "state",
+                          }}
+                          hasError={errors.state}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: corporateClientsStore.corporateClients?.country,
+                                    state: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.state)
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              state: item.state.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="state"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                {(corporateClientsStore.corporateClients?.state ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="District"
+                        id="district"
+                        hasError={errors.district}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!corporateClientsStore.corporateClients?.state}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === corporateClientsStore.corporateClients?.country &&
+                                  item.state === corporateClientsStore.corporateClients?.state
+                              ),
+                              "district"
+                            ),
+                            displayKey: "district",
+                            findKey: "district",
+                          }}
+                          hasError={errors.district}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: corporateClientsStore.corporateClients?.country,
+                                    state: corporateClientsStore.corporateClients?.state,
+                                    district: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.district)
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              district: item.district.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="district"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                {(corporateClientsStore.corporateClients?.district ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="City"
+                        id="city"
+                        hasError={errors.city}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!corporateClientsStore.corporateClients.district}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === corporateClientsStore.corporateClients.country &&
+                                  item.state === corporateClientsStore.corporateClients.state &&
+                                  item.district === corporateClientsStore.corporateClients.district
+                              ),
+                              "city"
+                            ),
+                            displayKey: "city",
+                            findKey: "city",
+                          }}
+                          hasError={errors.city}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: corporateClientsStore.corporateClients?.country,
+                                    state: corporateClientsStore.corporateClients?.state,
+                                    district: corporateClientsStore.corporateClients?.district,
+                                    city: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.city)
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              city: item.city.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="city"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Toggle
+                      label="Client Specific Price"
+                      hasError={errors.clientSpecificPrice}
+                      value={corporateClientsStore.corporateClients?.clientSpecificPrice}
+                      onChange={(clientSpecificPrice) => {
+                        onChange(clientSpecificPrice)
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          clientSpecificPrice,
+                        })
+                      }}
+                    />
+                  )}
+                  name="clientSpecificPrice"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+
+            </List>
+            <List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              {(corporateClientsStore.corporateClients?.city ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="Area"
+                        id="area"
+                        hasError={errors.area}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!corporateClientsStore.corporateClients?.city}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === corporateClientsStore.corporateClients?.country &&
+                                  item.state === corporateClientsStore.corporateClients?.state &&
+                                  item.district === corporateClientsStore.corporateClients?.district &&
+                                  item.city === corporateClientsStore.corporateClients?.city
+                              ),
+                              "area"
+                            ),
+                            
+                            displayKey: "area",
+                            findKey: "area",
+                          }}
+                          hasError={errors.area}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: corporateClientsStore.corporateClients?.country,
+                                    state: corporateClientsStore.corporateClients?.state,
+                                    district: corporateClientsStore.corporateClients?.district,
+                                    city: corporateClientsStore.corporateClients?.city,
+                                    area: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.city)
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              area: item.area.toUpperCase(),
+                            })
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="area "
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                {(corporateClientsStore.corporateClients?.area ||
+                  administrativeDivisions.listAdministrativeDiv) && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper
+                        label="Postal Code"
+                        id="postalCode"
+                        hasError={errors.postalCode}
+                      >
+                        <AutoCompleteFilterSingleSelect
+                          loader={loading}
+                          disable={!corporateClientsStore.corporateClients?.area}
+                          data={{
+                            list: _.uniqBy(
+                              administrativeDivisions.listAdministrativeDiv.filter(
+                                (item) =>
+                                  item.country === corporateClientsStore.corporateClients?.country &&
+                                  item.state === corporateClientsStore.corporateClients?.state &&
+                                  item.district === corporateClientsStore.corporateClients?.district &&
+                                  item.city === corporateClientsStore.corporateClients?.city &&
+                                  item.area === corporateClientsStore.corporateClients?.area
+                              ),
+                              "postalCode"
+                            ),
+                            displayKey: "postalCode",
+                            findKey: "postalCode",
+                          }}
+                          hasError={errors.postalCode}
+                          onFilter={(value: string) => {
+                            administrativeDivisions.administrativeDivisionsService.filter(
+                              {
+                                input: {
+                                  filter: {
+                                    type: "search",
+                                    country: corporateClientsStore.corporateClients?.country,
+                                    state: corporateClientsStore.corporateClients?.state,
+                                    district: corporateClientsStore.corporateClients?.district,
+                                    city: corporateClientsStore.corporateClients?.city,
+                                    area: corporateClientsStore.corporateClients?.area,
+                                    postalCode: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              }
+                            )
+                          }}
+                          onSelect={(item) => {
+                            onChange(item.postalCode)
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              postalCode: item,
+                            })
+                            administrativeDivisions.updateAdministrativeDivList(
+                              administrativeDivisions.listAdministrativeDivCopy
+                            )
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name="postalCode"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                )}
+                <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputWrapper
+                    label="Sales Territory"
+                    hasError={errors.salesTerritoRy}
+                  >
+                    <select
+                    value={corporateClientsStore.corporateClients?.salesTerritoRy}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.salesTerritoRy
+                          ? "border-red-500  "
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const salesTerritoRy = e.target.value
+                        onChange(salesTerritoRy)
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          salesTerritoRy,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(
+                        routerStore.lookupItems,
+                        "SPECIALITY"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </Form.InputWrapper>
+                )}
+                name="salesTerritory"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    label="Zone"
+                    placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
+                    hasError={errors.zone}
+                    value={corporateClientsStore.corporateClients?.zone}
+                    onChange={(zone) => {
+                      onChange(zone)
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
+                        zone,
+                      })
+                    }}
+                  />
+                )}
+                name="zone"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -807,181 +1065,7 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.InputWrapper
-                    label="Sales TerritoRy"
-                    hasError={errors.salesTerritoRy}
-                  >
-                    <select
-                    value={corporateClientsStore.corporateClients?.salesTerritoRy}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.salesTerritoRy
-                          ? "border-red-500  "
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const salesTerritoRy = e.target.value
-                        onChange(salesTerritoRy)
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          salesTerritoRy,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        "SPECIALITY"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name="salesTerritoRy"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Grid cols={5}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Confidential"
-                      hasError={errors.confidential}
-                      value={corporateClientsStore.corporateClients?.confidential}
-                      onChange={(confidential) => {
-                        onChange(confidential)
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          confidential,
-                        })
-                      }}
-                    />
-                  )}
-                  name="confidential"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Urgent"
-                      hasError={errors.urgent}
-                      value={corporateClientsStore.corporateClients?.urgent}
-                      onChange={(urgent) => {
-                        onChange(urgent)
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          urgent,
-                        })
-                      }}
-                    />
-                  )}
-                  name="urgent"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-              </Grid>
-            </List>
-            <List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Area"
-                    placeholder={errors.area ? "Please Enter Area" : "Area"}
-                    hasError={errors.area}
-                    value={corporateClientsStore.corporateClients?.area}
-                    onChange={(area) => {
-                      onChange(area)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        area,
-                      })
-                    }}
-                  />
-                )}
-                name="area"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Zone"
-                    placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
-                    hasError={errors.zone}
-                    value={corporateClientsStore.corporateClients?.zone}
-                    onChange={(zone) => {
-                      onChange(zone)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        zone,
-                      })
-                    }}
-                  />
-                )}
-                name="zone"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="EDI"
-                    placeholder={errors.edi ? "Please Enter EDI" : "EDI"}
-                    hasError={errors.edi}
-                    value={corporateClientsStore.corporateClients?.edi}
-                    onChange={(edi) => {
-                      onChange(edi)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        edi,
-                      })
-                    }}
-                  />
-                )}
-                name="edi"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="EDI Address"
-                    placeholder={
-                      errors.ediAddress ? "Please Enter EDI Address" : "EDI Address"
-                    }
-                    hasError={errors.ediAddress}
-                    value={corporateClientsStore.corporateClients?.ediAddress}
-                    onChange={(ediAddress) => {
-                      onChange(ediAddress)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        ediAddress,
-                      })
-                    }}
-                  />
-                )}
-                name="ediAddress"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
+               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.InputWrapper
@@ -1033,31 +1117,6 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.Input
-                    label="Report Format"
-                    placeholder={
-                      errors.reportFormat
-                        ? "Please Enter Report Format"
-                        : "ReportFormat"
-                    }
-                    hasError={errors.reportFormat}
-                    value={corporateClientsStore.corporateClients?.reportFormat}
-                    onChange={(reportFormat) => {
-                      onChange(reportFormat)
-                      corporateClientsStore.updateCorporateClients({
-                        ...corporateClientsStore.corporateClients,
-                        reportFormat,
-                      })
-                    }}
-                  />
-                )}
-                name="reportFormat"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
                     label="Info"
                     placeholder={errors.info ? "Please Enter INFO" : "INFO"}
                     hasError={errors.info}
@@ -1075,7 +1134,81 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
+              
+              
+              <Grid cols={5}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Toggle
+                      label="Confidential"
+                      hasError={errors.confidential}
+                      value={corporateClientsStore.corporateClients?.confidential}
+                      onChange={(confidential) => {
+                        onChange(confidential)
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          confidential,
+                        })
+                      }}
+                    />
+                  )}
+                  name="confidential"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Toggle
+                      label="Urgent"
+                      hasError={errors.urgent}
+                      value={corporateClientsStore.corporateClients?.urgent}
+                      onChange={(urgent) => {
+                        onChange(urgent)
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          urgent,
+                        })
+                      }}
+                    />
+                  )}
+                  name="urgent"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Toggle
+                    label="Report Format"
+                    
+                    hasError={errors.reportFormat}
+                    value={corporateClientsStore.corporateClients?.reportFormat}
+                    onChange={(reportFormat) => {
+                      onChange(reportFormat)
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
+                        reportFormat,
+                      })
+                    }}
+                  />
+                )}
+                name="reportFormat"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              
+              </Grid>
+            </List>
+            <List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+             
+             <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Form.Input
@@ -1096,6 +1229,10 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+              
+             
+             
+              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1116,6 +1253,105 @@ const CorporateClients = CorporateClientsHoc(observer(() => {
                   />
                 )}
                 name="workLine"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputDateTime
+                    label="Date Creation"
+                    placeholder={
+                      errors.dateCreation
+                        ? "Please Enter Date Creation "
+                        : "Created By"
+                    }
+                    hasError={errors.dateCreation}
+                    value={
+                      corporateClientsStore.corporateClients?.dateCreation
+                    }
+                    disabled={true}
+                  />
+                )}
+                name="dateCreation"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputDateTime
+                    label="Date Active"
+                    hasError={errors.dateActive}
+                    placeholder={
+                      errors.dateActive ? "Please Enter Date Active" : "Date Active"
+                    }
+                    value={
+                      corporateClientsStore.corporateClients?.dateActive
+                    }
+                    disabled={true}
+                  />
+                )}
+                name="dateActive"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputDateTime
+                    label="Date Expire"
+                    hasError={errors.dateExpire}
+                    placeholder={
+                      errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
+                    }
+                    value={
+                      corporateClientsStore.corporateClients?.dateExpire
+                    }
+                    onChange={(dateExpire) => {
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
+                        dateExpire,
+                      })
+                    }}
+                  />
+                )}
+                name="dateExpire"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    label="Version"
+                    placeholder={errors.version ? "Please Enter Version" : "Version"}
+                    hasError={errors.version}
+                    value={corporateClientsStore.corporateClients?.version}
+                    disabled={true}
+                  />
+                )}
+                name="version"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    label="Entered By"
+                    hasError={errors.enteredBy}
+                    placeholder={
+                      errors.enteredBy ? "Please Enter Entered By" : "Entered By"
+                    }
+                    value={loginStore.login?.userId}
+                    disabled={true}
+                  />
+                )}
+                name="enteredBy"
                 rules={{ required: false }}
                 defaultValue=""
               />
