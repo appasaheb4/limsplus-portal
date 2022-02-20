@@ -159,8 +159,8 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
-            dataField: "postcode",
-            text: "Postcode",
+            dataField: "postalCode",
+            text: "Postal Code",
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),

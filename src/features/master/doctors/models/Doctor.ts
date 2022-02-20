@@ -6,7 +6,6 @@ export class Doctors {
     doctorName: string
     sex: string
     title: string
-    name: string
     reportName: string
     doctorType: string
     speciality: string
@@ -54,7 +53,6 @@ export class Doctors {
         this.doctorName = rawData.doctorName
         this.sex = rawData.sex
         this.title = rawData.title
-        this.name = rawData.name
         this.reportName = rawData.reportName
         this.doctorType = rawData.doctorType
         this.speciality = rawData.speciality
