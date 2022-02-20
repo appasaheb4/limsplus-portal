@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-
+  
 export const LIST = gql`
   mutation($input: CorporateClientInput!) {
     corporateClients(input: $input) {
@@ -21,11 +21,14 @@ export const LIST = gql`
         corporateName
         invoiceAc
         priceList
-        priceGroup
+        clientSpecificPrice
+        acType
+        acClass
         billingOn
         address
         city
         state
+        district
         country
         postcode
         customerGroup
@@ -39,8 +42,6 @@ export const LIST = gql`
         salesTerritoRy
         area
         zone
-        edi
-        ediAddress
         urgent
         schedule
         reportFormat
@@ -131,11 +132,14 @@ export const FILTER = gql`
         corporateName
         invoiceAc
         priceList
-        priceGroup
+        clientSpecificPrice
+        acType
+        acClass
         billingOn
         address
         city
         state
+        district
         country
         postcode
         customerGroup
@@ -149,8 +153,6 @@ export const FILTER = gql`
         salesTerritoRy
         area
         zone
-        edi
-        ediAddress
         urgent
         schedule
         reportFormat
@@ -186,11 +188,14 @@ export const FILTER_BY_FIELDS = gql`
         corporateName
         invoiceAc
         priceList
-        priceGroup
+        clientSpecificPrice
+        acType
+        acClass
         billingOn
         address
         city
         state
+        district
         country
         postcode
         customerGroup
@@ -204,8 +209,6 @@ export const FILTER_BY_FIELDS = gql`
         salesTerritoRy
         area
         zone
-        edi
-        ediAddress
         urgent
         schedule
         reportFormat

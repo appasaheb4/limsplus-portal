@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState, useMemo } from "react"
 import { observer } from "mobx-react"
-import {ModalIdleTimeout} from "@/library/components"
+import { ModalIdleTimeout } from "@/library/components"
 import Wrapper from "./components/Wrapper"
 import Sidebar from "./components/Sidebar"
 import Main from "./components/Main"
@@ -90,7 +90,7 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testAnalyteMapping" ||
         pathname === "/collection/possibleResults" ||
         pathname === "/collection/referenceRanges"
-      ){
+      ) {
         await MasterAnalyte.startup()
         await Methods.startup()
         await InterfaceManager.startup()
@@ -100,7 +100,7 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testSampleMapping" ||
         pathname === "/collection/testAnalyteMapping" ||
         pathname === "/collection/testPanelMapping"
-      ){
+      ) {
         await TestMaster.startup()
         await Methods.startup()
       }
@@ -110,7 +110,7 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/masterPackage" ||
         pathname === "/collection/library" ||
         pathname === "/collection/priceList"
-      ) {  
+      ) {
         await PanelMaster.startup()
         await Methods.startup()
       }
@@ -138,15 +138,18 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/doctors") {
         await Doctors.startup()
         await AdministrativeDivisions.startup()
-      } 
+      }
       if (pathname === "/collection/registrationLocations")
         await RegistrationLocations.startup()
+      await AdministrativeDivisions.startup()
       if (
         pathname === "/collection/corporateClients" ||
         pathname === "/collection/registrationLocations" ||
         pathname === "/collection/priceList"
-      )
+      ) {
         await CorporateClients.startup()
+        await AdministrativeDivisions.startup()
+      }
       if (
         pathname === "/collection/deliverySchedule" ||
         pathname === "/collection/testMaster" ||
@@ -165,10 +168,10 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/possibleResults") await PossibleResults.startup()
       if (pathname === "/collection/library") await Library.startup()
       if (pathname === "/collection/priceList") await PriceList.startup()
-      if (pathname === "/collection/referenceRanges"){
+      if (pathname === "/collection/referenceRanges") {
         await ReferenceRanges.startup()
         await InterfaceManager.startup()
-      }  
+      }
       if (pathname === "/settings/environment") await Environment.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
       if (pathname === "/communication/interfaceManager")
