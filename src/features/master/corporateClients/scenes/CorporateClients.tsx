@@ -124,6 +124,7 @@ const CorporateClients = CorporateClientsHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,
+            listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv
           }}
           isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
           isEditModify={RouterFlow.checkPermission(
