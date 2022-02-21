@@ -30,7 +30,7 @@ export const LIST = gql`
         state
         district
         country
-        postcode
+        postalCode
         customerGroup
         category
         confidential
@@ -141,7 +141,7 @@ export const FILTER = gql`
         state
         district
         country
-        postcode
+        postalCode
         customerGroup
         category
         confidential
@@ -197,7 +197,7 @@ export const FILTER_BY_FIELDS = gql`
         state
         district
         country
-        postcode
+        postalCode
         customerGroup
         category
         confidential

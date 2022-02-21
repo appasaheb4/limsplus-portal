@@ -7,12 +7,12 @@ import { configure } from "mobx";
 
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-       
+           
 // toast ui
 import "react-toastify/dist/ReactToastify.css"
-
+  
 import { stores } from "@/stores"
-   
+     
 import hydrateStore from "@/library/modules/startup"
 import { ApolloProvider, client } from "@/library/modules/apolloClient"
       
