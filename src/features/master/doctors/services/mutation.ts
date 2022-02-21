@@ -30,7 +30,7 @@ export const LIST = gql`
         state
         district
         country
-        postcode
+        postalCode
         doctorType
         speciality
         category
@@ -146,7 +146,7 @@ export const FILTER = gql`
         state
         district
         country
-        postcode
+        postalCode
         doctorType
         speciality
         category
@@ -208,7 +208,7 @@ export const FILTER_BY_FIELDS = gql`
         state
         district
         country
-        postcode
+        postalCode
         doctorType
         speciality
         category

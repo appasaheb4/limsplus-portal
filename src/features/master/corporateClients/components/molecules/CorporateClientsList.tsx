@@ -231,8 +231,8 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             }),
           },
           {
-            dataField: "postcode",
-            text: "Postcode",
+            dataField: "postalCode",
+            text: "Postal Code",
             headerClasses: "textHeader6",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),

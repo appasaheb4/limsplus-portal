@@ -13,7 +13,7 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { PriceListList } from "../components"
@@ -204,7 +204,7 @@ export const PriceList = PriceListHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -237,7 +237,7 @@ export const PriceList = PriceListHoc(
                           })
                           if (!priceListStore.priceList?.existsVersionId) {
                             priceListStore.priceListService
-                              .checkExitsPriceGEnvLabCode({
+                              .checkExitsRecords({
                                 input: {
                                   priceGroup,
                                   panelCode: priceListStore.priceList.panelCode,
@@ -274,21 +274,56 @@ export const PriceList = PriceListHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label="Price List"
-                      disabled={true}
-                      placeholder="Price List"
-                      value={priceListStore.priceList?.priceList}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.priceList ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
                       hasError={errors.priceList}
-                    />
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
+                        data={{
+                          list: corporateClientsStore?.listCorporateClients,
+                          displayKey: ["corporateCode", "corporateName"],
+                        }}
+                        displayValue={priceListStore.priceList?.priceList}
+                        disable={
+                          priceListStore.priceList?.priceGroup !== "CSP001"
+                            ? true
+                            : false
+                        }
+                        hasError={errors.priceList}
+                        onFilter={(value: string) => {
+                          corporateClientsStore.corporateClientsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ["corporateCode", "corporateName"],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          priceListStore.updatePriceList({
+                            ...priceListStore.priceList,
+                            priceList: item.corporateCode,
+                            description: item.corporateName,
+                          })
+                          corporateClientsStore.updateCorporateClientsList(
+                            corporateClientsStore.listCorporateClientsCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
                   )}
                   name="priceList"
                   rules={{ required: false }}
                   defaultValue=""
                 />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -337,11 +372,11 @@ export const PriceList = PriceListHoc(
                           )
                           if (!priceListStore.priceList?.existsVersionId) {
                             priceListStore.priceListService
-                              .checkExitsPriceGEnvLabCode({
+                              .checkExitsRecords({
                                 input: {
                                   priceGroup: priceListStore.priceList.priceGroup,
+                                  panelCode: item.panelCode,
                                   env: priceListStore.priceList.environment,
-                                  code: item.panelCode,
                                 },
                               })
                               .then((res) => {
@@ -663,11 +698,11 @@ export const PriceList = PriceListHoc(
                           })
                           if (!priceListStore.priceList?.existsVersionId) {
                             priceListStore.priceListService
-                              .checkExitsPriceGEnvLabCode({
+                              .checkExitsRecords({
                                 input: {
                                   priceGroup: priceListStore.priceList.priceGroup,
+                                  panelCode: priceListStore.priceList.panelCode,
                                   env: environment,
-                                  code: priceListStore.priceList.panelCode,
                                 },
                               })
                               .then((res) => {
@@ -806,5 +841,4 @@ export const PriceList = PriceListHoc(
     )
   })
 )
-
 export default PriceList
