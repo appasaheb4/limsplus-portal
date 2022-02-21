@@ -2,22 +2,16 @@ export class PriceList {
   _id: string
   existsVersionId: string
   existsRecordId: string
+  priceGroup: string
+  priceList: string
+  description: string
   panelCode: string
   panelName: string
-  priority: string
-  priceGroup: string
-  billTo: string
-  clientName: string
-  invoiceAc: string
-  lab: string
   price: number
-  fixedPrice: number
   minSp: number
   maxSp: number
-  anyScheme: boolean
-  speicalScheme: string
-  schemePrice: string
-  disOnScheme: boolean
+  maxDis: number
+  fixedPrice: boolean
   enteredBy: string
   status: string
   environment: string
@@ -32,22 +26,16 @@ export class PriceList {
     this._id = rawData._id
     this.existsVersionId = rawData.existsVersionId
     this.existsRecordId = rawData.existsRecordId
+    this.priceGroup = rawData.priceGroup
+    this.priceList = rawData.priceList
+    this.description = rawData.description
     this.panelCode = rawData.panel
     this.panelName = rawData.panelName
-    this.priority = rawData.priority
-    this.priceGroup = rawData.priceGroup
-    this.billTo = rawData.billTo
-    this.clientName = rawData.clientName
-    this.invoiceAc = rawData.invoiceAc
-    this.lab = rawData.lab
     this.price = rawData.price
-    this.fixedPrice = rawData.fixedPrice
     this.minSp = rawData.minSp
     this.maxSp = rawData.maxSp
-    this.anyScheme = rawData.anyScheme
-    this.speicalScheme = rawData.speicalScheme
-    this.schemePrice = rawData.schemePrice
-    this.disOnScheme = rawData.disOnScheme
+    this.maxDis = rawData.maxDis
+    this.fixedPrice = rawData.fixedPrice
     this.enteredBy = rawData.enteredBy
     this.status = rawData.status
     this.environment = rawData.environment

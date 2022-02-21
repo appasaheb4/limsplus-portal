@@ -9,26 +9,12 @@ export const PriceListHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, priceListStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          priceListStore.updatePriceList({
-            ...priceListStore.priceList,
-            lab: loginStore.login.lab,
-            environment: loginStore.login.environment,
-          })
-        }
+       
         priceListStore.updatePriceList({
           ...priceListStore.priceList,
-          priority: getDefaultLookupItem(
-            routerStore.lookupItems,
-            "PRIORIITY"
-          ),
           priceGroup: getDefaultLookupItem(
             routerStore.lookupItems,
             "PRICE_GROUP"
-          ),
-          speicalScheme: getDefaultLookupItem(
-            routerStore.lookupItems,
-            "SPEICAL_SCHEME"
           ),
           environment: getDefaultLookupItem(
             routerStore.lookupItems,
@@ -39,6 +25,13 @@ export const PriceListHoc = (Component: React.FC<any>) => {
             "STATUS"
           ),
         })
+
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          priceListStore.updatePriceList({
+            ...priceListStore.priceList,
+            environment: loginStore.login.environment,
+          })
+        }
        
       }, [loginStore.login, routerStore.lookupItems])
 
