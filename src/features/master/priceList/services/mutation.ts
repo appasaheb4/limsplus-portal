@@ -12,22 +12,16 @@ export const LIST = gql`
         _id
         existsVersionId
         existsRecordId
+        priceGroup
+        priceList
+        description
         panelCode
         panelName
-        priority
-        priceGroup
-        billTo
-        clientName
-        invoiceAc
-        lab
         price
-        fixedPrice
         minSp
         maxSp
-        anyScheme
-        speicalScheme
-        schemePrice
-        disOnScheme
+        maxDis
+        fixedPrice
         enteredBy
         status
         environment
@@ -101,29 +95,23 @@ export const FILTER = gql`
     filterPriceList(input: $input) {
       paginatorInfo {
         count
-      }  
+      }
       success
       message
       data {
         _id
         existsVersionId
         existsRecordId
+        priceGroup
+        priceList
+        description
         panelCode
         panelName
-        priority
-        priceGroup
-        billTo
-        clientName
-        invoiceAc
-        lab
         price
-        fixedPrice
         minSp
         maxSp
-        anyScheme
-        speicalScheme
-        schemePrice
-        disOnScheme
+        maxDis
+        fixedPrice
         enteredBy
         status
         environment
