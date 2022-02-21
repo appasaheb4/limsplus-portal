@@ -31,6 +31,8 @@ export class CorporateClientsService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
+          console.log({response});
+          
           stores.corporateClientsStore.updateCorporateClientsList(response.data)
           resolve(response.data)
         })
