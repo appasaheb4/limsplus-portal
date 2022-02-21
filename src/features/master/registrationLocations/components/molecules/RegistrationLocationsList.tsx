@@ -404,7 +404,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           },
           {
             dataField: "corporateCode",
-            text: "Corporate Code",
+            text: "Client Code",
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),

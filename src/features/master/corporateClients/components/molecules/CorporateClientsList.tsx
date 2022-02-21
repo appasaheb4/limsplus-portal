@@ -74,7 +74,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           },
           {
             dataField: "corporateCode",
-            text: "Corporate Code",
+            text: "Client Code",
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
@@ -87,7 +87,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           },
           {
             dataField: "corporateName",
-            text: "Corporate Name",
+            text: "Client Name",
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
@@ -350,7 +350,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                     value={row.confidential}
                     onChange={(confidential) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(confidential, "confidental", row._id)
+                        props.onUpdateItem(confidential, "confidential", row._id)
                     }}
                   />
                 </>
