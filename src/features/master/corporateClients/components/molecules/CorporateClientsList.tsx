@@ -324,7 +324,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                 country = filter
               },
             }),
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             style: { textTransform: "uppercase" },
             editorRenderer: (
               editorProps,
@@ -349,7 +349,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "state",
             text: "State",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -390,7 +390,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                 district = filter
               },
             }),
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             editorRenderer: (
               editorProps,
               value,
@@ -420,7 +420,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "city",
             text: "City",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -455,7 +455,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "area",
             text: "Area",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -751,7 +751,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "info",
             text: "Info",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
