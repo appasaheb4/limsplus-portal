@@ -304,9 +304,9 @@ export const PriceListTable = observer(({}) => {
                 </td>
               </tr>
             )
-          )}
+          )}   
         </tbody>
-        {registrationLocationsStore.registrationLocations?.priceList.length ===
+        {registrationLocationsStore.registrationLocations?.priceList?.length ===
             0 && (
             <Buttons.Button
               size="small"
