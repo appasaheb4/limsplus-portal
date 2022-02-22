@@ -7,7 +7,6 @@ import { lookupItems, getDefaultLookupItem, lookupValue } from "@/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
-import { v4 as uuidv4 } from "uuid"
 import { useForm, Controller } from "react-hook-form"
 interface CommonInputTableProps {
   data?: any
@@ -21,7 +20,6 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
     departmentStore,
     routerStore,
     interfaceManagerStore,
-    labStore,
     loginStore,
   } = useStores()
   const {
@@ -103,7 +101,6 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
                       })
                     }}
                     onSelect={(item) => {
-                      
                       onChange(item.analyteCode)
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,

@@ -30,6 +30,36 @@ export const LOOKUPITEM_BY_PATH = gql`
   }
 `
 
+export const LOOKUPITEM_BY_PATH_N_FIELD = gql`
+  mutation($input: LookupInput!) {
+    lookupItemsByPathNField(input: $input) {
+      success
+      message
+      data {
+        _id
+        defaultItem {
+          code
+          value
+        }
+        documentName {
+          name
+          title
+          path
+          children
+        }
+        fieldName
+        arrValue {
+          code
+          value
+        }
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
+
 export const LIST = gql`
   mutation($input: LookupInput!) {
     lookups(input: $input) {

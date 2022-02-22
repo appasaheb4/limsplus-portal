@@ -6,7 +6,14 @@ export class RegistrationLocations {
   locationName: string
   corporateCode: string
   invoiceAc: string
-  priceList: any
+  priceList: Array<{
+    id: number
+    priceGroup?: string
+    priceList?: string
+    description?: string
+    priority?: number
+    maxDis?: number
+  }>
   acClass: string
   accountType: string
   customerGroup: string
