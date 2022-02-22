@@ -40,6 +40,7 @@ export class RegistrationLocationsService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+    
   addRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -57,7 +58,7 @@ export class RegistrationLocationsService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-    
+
   versionUpgradeRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

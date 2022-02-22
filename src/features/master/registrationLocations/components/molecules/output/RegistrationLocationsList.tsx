@@ -1,10 +1,28 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons,TableBootstrap} from "@/library/components"
-import {Confirm} from "@/library/models"
-import { AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectCorparateCode,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectState } from "../../index"
+import { lookupItems, lookupValue } from "@/library/utils"
+import {
+  NumberFilter,
+  DateFilter,
+  textFilter,
+  customFilter,
+  Form,
+  Tooltip,
+  Icons,
+  TableBootstrap,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import {
+  AutoCompleteFilterSingleSelectLabs,
+  AutoCompleteFilterSingleSelectCorparateCode,
+  AutoCompleteFilterSingleSelectArea,
+  AutoCompleteFilterSingleSelectCity,
+  AutoCompleteFilterSingleSelectCountry,
+  AutoCompleteFilterSingleSelectDistrict,
+  AutoCompleteFilterSingleSelectPostalCode,
+  AutoCompleteFilterSingleSelectState,
+} from "../../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let dateCreation
@@ -28,7 +46,7 @@ let email
 let deliveryType
 let deliveryMethod
 let corporateCode
-let invoiceAc 
+let invoiceAc
 let openingTime
 let closingTime
 let methodColn
@@ -126,13 +144,16 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             ) => (
               <>
                 <AutoCompleteFilterSingleSelectCorparateCode
-                onSelect={(item)=>{
-                  props.onUpdateFileds &&
-                  props.onUpdateFileds({
-                    corporateCode: item.corporateCode,
-                    invoiceAc:item.invoiceAc
-                  },row._id)
-                }}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          corporateCode: item.corporateCode,
+                          invoiceAc: item.invoiceAc,
+                        },
+                        row._id
+                      )
+                  }}
                 />
               </>
             ),
@@ -149,7 +170,6 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               },
             }),
             editable: false,
-            
           },
           {
             dataField: "priceList",
@@ -163,6 +183,22 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               },
             }),
             editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {row?.priceList?.map((item) => (
+                    <div className="p-2">
+                      <h4>Price Group{item.priceGroup}</h4>
+                      <h4>Price List{item.priceList}</h4>
+                      <h4>Description{item.description}</h4>
+                      <h4>Priority{item.priority}</h4>
+                      <h4>Max Dis{item.maxDis}</h4>
+                      <hr/>
+                    </div>
+                  ))}
+                </>
+              )
+            },
           },
           {
             dataField: "acClass",
@@ -194,14 +230,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "AC_CLASS"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "AC_CLASS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -236,14 +271,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "ACCOUNT_TYPE"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "ACCOUNT_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -278,14 +312,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "CUSTOMER_GROUP"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "CUSTOMER_GROUP").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -320,14 +353,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "METHOD_COLN"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "METHOD_COLN").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -362,14 +394,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "CATEGORY"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "CATEGORY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -412,7 +443,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) => {
                 state = filter
@@ -444,7 +475,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             text: "District",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) => {
                 district = filter
@@ -466,11 +497,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     state={row.state}
                     onSelect={(item) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.district,
-                          column.dataField,
-                          row._id
-                        )
+                        props.onUpdateItem(item.district, column.dataField, row._id)
                     }}
                   />
                 )}
@@ -483,7 +510,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) => {
                 city = filter
@@ -518,7 +545,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) => {
                 area = filter
@@ -622,14 +649,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "SPECIALITY"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "SPECIALITY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -647,8 +673,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
-          
-          
+
           {
             dataField: "telephone",
             text: "Telephone",
@@ -718,14 +743,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "DELIVERY_TYPE"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "DELIVERY_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -760,14 +784,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "DELIVERY_METHOD"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "DELIVERY_METHOD").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -821,7 +844,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) => {
                 openingTime = filter
@@ -835,24 +858,25 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) => {
                 closingTime = filter
               },
             }),
-          }, 
+          },
           {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
-            csvFormatter: (col,row) => `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
+            csvFormatter: (col, row) =>
+              `${row.confidential ? (row.confidential ? "Yes" : "No") : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.confidential}
                     onChange={(confidential) => {
                       props.onUpdateItem &&
@@ -867,14 +891,15 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             dataField: "printLabel",
             text: "Print Label",
             sort: true,
-            csvFormatter: (col,row) => `${row.printLabel ? row.printLabel ? "Yes" : "No" : "No"}`,
+            csvFormatter: (col, row) =>
+              `${row.printLabel ? (row.printLabel ? "Yes" : "No") : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.printLabel}
                     onChange={(printLabel) => {
                       props.onUpdateItem &&
@@ -885,19 +910,20 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               )
             },
           },
-         
+
           {
             dataField: "neverBill",
             text: "Never Bill",
             sort: true,
-            csvFormatter: (col,row) => `${row.neverBill ? row.neverBill ? "Yes" : "No" : "No"}`,
+            csvFormatter: (col, row) =>
+              `${row.neverBill ? (row.neverBill ? "Yes" : "No") : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.neverBill}
                     onChange={(neverBill) => {
                       props.onUpdateItem &&
@@ -912,14 +938,15 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             dataField: "urgent",
             text: "Urgent",
             sort: true,
-            csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
+            csvFormatter: (col, row) =>
+              `${row.urgent ? (row.urgent ? "Yes" : "No") : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.urgent}
                     onChange={(urgent) => {
                       props.onUpdateItem &&
@@ -934,14 +961,15 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             dataField: "reportFormat",
             text: "Report Format",
             sort: true,
-            csvFormatter: (col,row) => `${row.reportFormat ? row.reportFormat ? "Yes" : "No" : "No"}`,
+            csvFormatter: (col, row) =>
+              `${row.reportFormat ? (row.reportFormat ? "Yes" : "No") : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
                 <>
                   {" "}
                   <Form.Toggle
-                  disabled={!editorCell(row)}
+                    disabled={!editorCell(row)}
                     value={row.reportFormat}
                     onChange={(reportFormat) => {
                       props.onUpdateItem &&
@@ -1021,15 +1049,16 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
-          
-          
-         
+
           {
             dataField: "dateCreation",
             text: "Date Creation",
             headerClasses: "textHeader7",
             sort: true,
-            csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD") : ""),
+            csvFormatter: (col, row) =>
+              row.dateCreation
+                ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD")
+                : "",
             editable: false,
             filter: customFilter({
               getFilter: (filter) => {
@@ -1066,7 +1095,8 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
+            csvFormatter: (col, row) =>
+              row.dateActive ? dayjs(row.dateActive || 0).format("YYYY-MM-DD") : "",
             editable: false,
             filter: customFilter({
               getFilter: (filter) => {
@@ -1103,7 +1133,8 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             text: "Date Expire",
             headerClasses: "textHeader6",
             sort: true,
-            csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD") : ""),
+            csvFormatter: (col, row) =>
+              row.dateExpire ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD") : "",
             editable: false,
             filter: customFilter({
               getFilter: (filter) => {
@@ -1194,14 +1225,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "STATUS"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -1237,14 +1267,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    "ENVIRONMENT"
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
+                  {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </>
             ),
@@ -1258,10 +1287,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <Tooltip
-                    tooltipText="Delete"
-                    position="top"
-                  >
+                  <Tooltip tooltipText="Delete" position="top">
                     <Icons.IconContext
                       color="#fff"
                       size="20"
@@ -1276,17 +1302,12 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                         })
                       }
                     >
-                      {Icons.getIconTag(
-                        Icons.IconBs.BsFillTrashFill
-                      )}
+                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
                   {row.status !== "I" && (
                     <>
-                      <Tooltip
-                        className="ml-2"
-                        tooltipText="Version Upgrade"
-                      >
+                      <Tooltip className="ml-2" tooltipText="Version Upgrade">
                         <Icons.IconContext
                           color="#fff"
                           size="20"
@@ -1294,23 +1315,16 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                             props.onVersionUpgrade && props.onVersionUpgrade(row)
                           }
                         >
-                          {Icons.getIconTag(
-                            Icons.Iconvsc.VscVersions
-                          )}
+                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                         </Icons.IconContext>
                       </Tooltip>
-                      <Tooltip
-                        className="ml-2"
-                        tooltipText="Duplicate"
-                      >
+                      <Tooltip className="ml-2" tooltipText="Duplicate">
                         <Icons.IconContext
                           color="#fff"
                           size="20"
                           onClick={() => props.onDuplicate && props.onDuplicate(row)}
                         >
-                          {Icons.getIconTag(
-                            Icons.Iconio5.IoDuplicateOutline
-                          )}
+                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                         </Icons.IconContext>
                       </Tooltip>
                     </>
@@ -1384,5 +1398,3 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
     </div>
   )
 }
-
-

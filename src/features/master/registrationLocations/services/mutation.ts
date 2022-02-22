@@ -240,6 +240,6 @@ export const FILTER_BY_FIELDS = gql`
         lastUpdated
       }
     }
-  }
+  }  
 `
   
