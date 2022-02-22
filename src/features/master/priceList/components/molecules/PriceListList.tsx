@@ -4,8 +4,8 @@ import {lookupItems,lookupValue} from "@/library/utils"
 import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
 import dayjs from "dayjs"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectBillTo,
-  AutoCompleteFilterSingleSelectCorporateName,AutoCompleteFilterSingleSelectInvoiceAc,
+import _ from "lodash"
+import {AutoCompletePriceList,
   AutoCompleteFilterSingleSelectPanelCode,AutoCompleteFilterSingleSelectPanelName} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
@@ -35,6 +35,7 @@ interface PriceListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -83,11 +84,22 @@ export const PriceListList = (props: PriceListProps) => {
                 <>
                   
                     <select
+                    value={row.priceGroup}
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                       onChange={(e) => {
                         const priceGroup = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(priceGroup, column.dataField, row._id)
+                        props.onUpdateFileds && props.onUpdateFileds({
+                          priceGroup:priceGroup,
+                          priceList:priceGroup,
+                          description:_.first(
+                            lookupItems(
+                              props.extraData.lookupItems,
+                              "PRICE_GROUP"
+                            ).filter((item) => item.code === priceGroup)
+                          ).value, 
+                        },row._id)
+                        // props.onUpdateItem &&
+                        //   props.onUpdateItem(priceGroup, column.dataField, row._id)
                       }}
                     >
                       <option selected>Select</option>
@@ -107,7 +119,7 @@ export const PriceListList = (props: PriceListProps) => {
             {
               dataField: "priceList",
               text: "Price List",
-              headerClasses: "textHeader6",
+              headerClasses: "textHeader4",
               sort: true,
               csvFormatter: col => (col ? col : ""),
               filter:textFilter({
@@ -116,6 +128,23 @@ export const PriceListList = (props: PriceListProps) => {
                  }
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompletePriceList
+                    priceGroup={row.priceGroup}
+                    onSelect={(item)=>{
+                      props.onUpdateFileds && props.onUpdateFileds({priceList:item.corporateCode,description:item.corporateName},row._id)
+                    }}
+                  />
+                </>
+              )
             },
             {
               dataField: "description",
@@ -128,7 +157,7 @@ export const PriceListList = (props: PriceListProps) => {
                   description = filter
                  }
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
             },
             
             {
@@ -154,7 +183,10 @@ export const PriceListList = (props: PriceListProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectPanelCode
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.panelCode,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({
+                      panelCode:item.panelCode,
+                      panelName:item.panelName
+                    },row._id)
                   }}
                   />
                 </>
@@ -183,8 +215,12 @@ export const PriceListList = (props: PriceListProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectPanelName
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.panelName,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({
+                      panelCode:item.panelCode,
+                      panelName:item.panelName
+                    },row._id)
                   }}
+                
                   />
                 </>
               ),
