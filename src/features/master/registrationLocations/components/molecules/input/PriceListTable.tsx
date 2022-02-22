@@ -16,13 +16,8 @@ import { useForm, Controller } from "react-hook-form"
 import { RouterFlow } from "@/flows"
 
 export const PriceListTable = observer(({}) => {
-  const {
-    loading,
-    refernceRangesStore,
-    registrationLocationsStore,
-    departmentStore,
-    routerStore,
-  } = useStores()
+  const { loading, registrationLocationsStore, corporateClientsStore } = useStores()
+
   const {
     control,
     handleSubmit,
@@ -31,7 +26,7 @@ export const PriceListTable = observer(({}) => {
     clearErrors,
   } = useForm()
 
-  const [priceGroup, setPriceGroup] = useState<any>()
+  const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>()
 
   useEffect(() => {
     ;(async function () {
@@ -40,13 +35,39 @@ export const PriceListTable = observer(({}) => {
           "/collection/priceList",
           "PRICE_GROUP"
         ).then((res) => {
-          setPriceGroup(res)
+          setPriceGroupLookupItems(res)
         })
       } catch (e) {
         console.error(e)
       }
     })()
   }, [])
+
+  const addItem = () => {
+    let priceList = registrationLocationsStore.registrationLocations?.priceList
+    priceList.push({
+      id: registrationLocationsStore.registrationLocations?.priceList.length + 1,
+    })
+    registrationLocationsStore.updateRegistrationLocations({
+      ...registrationLocationsStore.registrationLocations,
+      priceList,
+    })
+  }
+
+  const removeItem = (index: number) => {
+    const firstArr =
+      registrationLocationsStore.registrationLocations?.priceList?.slice(0, index) ||
+      []
+    const secondArr =
+      registrationLocationsStore.registrationLocations?.priceList?.slice(
+        index + 1
+      ) || []
+    const finalArray = [...firstArr, ...secondArr]
+    registrationLocationsStore.updateRegistrationLocations({
+      ...registrationLocationsStore.registrationLocations,
+      priceList: finalArray,
+    })
+  }
 
   return (
     <div className="flex flex-row gap-2 items-center overflow-auto">
@@ -90,9 +111,16 @@ export const PriceListTable = observer(({}) => {
                           const priceList =
                             registrationLocationsStore.registrationLocations
                               ?.priceList
-                          priceList[index] = { ...priceList[index], priceGroup }
-                          console.log({priceList});
-                          
+                          priceList[index] = {
+                            ...priceList[index],
+                            priceGroup,
+                            priceList: priceGroup,
+                            description: _.first(
+                              priceGroupLookupItems.filter(
+                                (item) => item.code === priceGroup
+                              )
+                            ).value,
+                          }
                           registrationLocationsStore.updateRegistrationLocations({
                             ...registrationLocationsStore.registrationLocations,
                             priceList,
@@ -100,14 +128,14 @@ export const PriceListTable = observer(({}) => {
                         }}
                       >
                         <option selected>Select</option>
-                        {priceGroup?.map((item: any, index: number) => (
+                        {priceGroupLookupItems?.map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
                           </option>
                         ))}
                       </select>
                     )}
-                    name="analyte"
+                    name="priceGroup"
                     rules={{ required: true }}
                     defaultValue=""
                   />
@@ -118,46 +146,106 @@ export const PriceListTable = observer(({}) => {
                     render={({ field: { onChange } }) => (
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        hasError={errors.department}
                         placeholder="Search by code or name"
                         data={{
-                          list: departmentStore.listDepartment.filter((item) =>
-                            refernceRangesStore.referenceRanges?.analyteDepartments?.includes(
-                              item.code
-                            )
-                          ),
-                          displayKey: ["code", "name"],
+                          list: corporateClientsStore?.listCorporateClients,
+                          displayKey: ["corporateCode", "corporateName"],
                         }}
-                        disable={
-                          refernceRangesStore.referenceRanges?.analyteCode
-                            ? false
-                            : true
-                        }
+                        displayValue={item?.priceList}
+                        disable={item?.priceGroup !== "CSP001" ? true : false}
+                        hasError={errors.priceList}
                         onFilter={(value: string) => {
-                          departmentStore.DepartmentService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ["code", "name"],
-                                srText: value,
+                          corporateClientsStore.corporateClientsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ["corporateCode", "corporateName"],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
                               },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
+                            }
+                          )
                         }}
                         onSelect={(item) => {
-                          onChange(item.code)
-                          refernceRangesStore.updateReferenceRanges({
-                            ...refernceRangesStore.referenceRanges,
-                            department: item.code,
+                          onChange(item.corporateCode)
+                          const priceList =
+                            registrationLocationsStore.registrationLocations
+                              ?.priceList
+                          priceList[index] = {
+                            ...priceList[index],
+                            priceList: item.corporateCode,
+                            description: item.corporateName,
+                          }
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            priceList,
                           })
-                          departmentStore.updateDepartmentList(
-                            departmentStore.listDepartmentCopy
+                          corporateClientsStore.updateCorporateClientsList(
+                            corporateClientsStore.listCorporateClientsCopy
                           )
                         }}
                       />
                     )}
-                    name="department"
+                    name="priceList"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </td>
+                <td>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.MultilineInput
+                        rows={2}
+                        label=""
+                        disabled={true}
+                        placeholder={
+                          errors.description
+                            ? "Please Enter description"
+                            : "Description"
+                        }
+                        hasError={errors.description}
+                        value={item?.description}
+                        onChange={(description) => {
+                          onChange(description)
+                        }}
+                      />
+                    )}
+                    name="description"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </td>
+                <td>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Input
+                        label=""
+                        value={item?.priority}
+                        type="number"
+                        placeholder="Priority"
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        hasError={errors.priority}
+                        onChange={(priority) => {
+                          onChange(priority)
+                          const priceList =
+                            registrationLocationsStore.registrationLocations
+                              ?.priceList
+                          priceList[index] = {
+                            ...priceList[index],
+                            priority,
+                          }
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            priceList,
+                          })
+                        }}
+                      />
+                    )}
+                    name="priority"
                     rules={{ required: true }}
                     defaultValue=""
                   />
@@ -166,115 +254,50 @@ export const PriceListTable = observer(({}) => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <select
-                        value={refernceRangesStore.referenceRanges?.species}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.species ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const species = e.target.value as string
-                          onChange(species)
-                          refernceRangesStore.updateReferenceRanges({
-                            ...refernceRangesStore.referenceRanges,
-                            species,
+                      <Form.Input
+                        label=""
+                        value={item?.maxDis}
+                        type="number"
+                        placeholder="Max Discount"
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        hasError={errors.maxDis}
+                        onChange={(maxDis) => {
+                          onChange(maxDis)
+                          const priceList =
+                            registrationLocationsStore.registrationLocations
+                              ?.priceList
+                          priceList[index] = {
+                            ...priceList[index],
+                            maxDis,
+                          }
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            priceList,
                           })
                         }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SPECIES").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
+                      />
                     )}
-                    name="species"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                </td>
-                <td>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <select
-                        value={refernceRangesStore.referenceRanges?.sex}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const sex = e.target.value as string
-                          onChange(sex)
-                          refernceRangesStore.updateReferenceRanges({
-                            ...refernceRangesStore.referenceRanges,
-                            sex,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SEX").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    )}
-                    name="sex"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                </td>
-                <td>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <select
-                        value={refernceRangesStore.referenceRanges?.rangeSetOn}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.rangeSetOn ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const rangeSetOn = e.target.value as string
-                          onChange(rangeSetOn)
-                          refernceRangesStore.updateReferenceRanges({
-                            ...refernceRangesStore.referenceRanges,
-                            rangeSetOn,
-                            equipmentType:
-                              rangeSetOn === "L"
-                                ? undefined
-                                : refernceRangesStore.referenceRanges?.equipmentType,
-                            lab:
-                              rangeSetOn === "I"
-                                ? undefined
-                                : refernceRangesStore.referenceRanges?.lab,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "RANGE_SET_ON").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    )}
-                    name="rangeSetOn"
+                    name="maxDis"
                     rules={{ required: true }}
                     defaultValue=""
                   />
                 </td>
                 <td className="sticky right-0 z-10 bg-gray-500">
                   <div className="flex flex-col gap-1">
-                    <Buttons.Button size="small" type="outline" onClick={() => {}}>
+                    <Buttons.Button
+                      size="small"
+                      type="outline"
+                      onClick={() => {
+                        removeItem(index)
+                      }}
+                    >
                       <Icons.EvaIcon icon="minus-circle-outline" color="#fff" />
                     </Buttons.Button>
-                    <Buttons.Button size="small" type="outline" onClick={() => {}}>
+                    <Buttons.Button
+                      size="small"
+                      type="outline"
+                      onClick={handleSubmit(addItem)}
+                    >
                       <Icons.EvaIcon icon="plus-circle-outline" color="#fff" />
                     </Buttons.Button>
                   </div>
@@ -283,7 +306,18 @@ export const PriceListTable = observer(({}) => {
             )
           )}
         </tbody>
+        {registrationLocationsStore.registrationLocations?.priceList.length ===
+            0 && (
+            <Buttons.Button
+              size="small"
+              type="outline"
+              onClick={handleSubmit(addItem)}
+            >
+              <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
+            </Buttons.Button>
+          )}
       </Table>
+      
     </div>
   )
 })
