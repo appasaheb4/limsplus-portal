@@ -118,7 +118,7 @@ export class PriceListService {
         )
     })
 
-  checkExitsPriceGEnvLabCode = (variables) =>
+  checkExitsRecords = (variables) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({

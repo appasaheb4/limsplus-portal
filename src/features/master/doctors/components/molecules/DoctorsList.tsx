@@ -492,7 +492,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           
           {
             dataField: "salesTerritoRy",
-            text: "Sales TerritoRy",
+            text: "Sales Territory",
             headerClasses: "textHeader4",
             sort: true,
              csvFormatter: col => (col ? col : ""),

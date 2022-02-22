@@ -72,7 +72,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           },
           {
             dataField: "corporateCode",
-            text: "Corporate Code",
+            text: "Client Code",
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
@@ -85,7 +85,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           },
           {
             dataField: "corporateName",
-            text: "Corporate Name",
+            text: "Client Name",
             headerClasses: "textHeader5",
             sort: true,
             csvFormatter: col => (col ? col : ""),
@@ -534,7 +534,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           },
           {
             dataField: "salesTerritoRy",
-            text: "Sales TerritoRy",
+            text: "Sales Territory",
             headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),

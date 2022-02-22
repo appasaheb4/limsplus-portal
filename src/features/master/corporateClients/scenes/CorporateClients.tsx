@@ -206,7 +206,7 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Corporate Code"
+                      label="Client Code"
                       placeholder={
                         errors.corporateCode
                           ? "Please Enter Coporate Code"
@@ -259,7 +259,7 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Corporate Name"
+                      label="Client Name"
                       placeholder={
                         errors.corporateName
                           ? "Please Enter Coporate Name"
@@ -285,7 +285,7 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Invoice AC"
+                      label="Invoice Ac"
                       placeholder={
                         errors.invoiceAc ? "Please Enter Invoice AC" : "Invoice AC"
                       }
