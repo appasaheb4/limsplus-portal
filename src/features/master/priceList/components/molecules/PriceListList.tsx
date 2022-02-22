@@ -4,25 +4,20 @@ import {lookupItems,lookupValue} from "@/library/utils"
 import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
 import dayjs from "dayjs"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectBillTo,
-  AutoCompleteFilterSingleSelectCorporateName,AutoCompleteFilterSingleSelectInvoiceAc,
+import _ from "lodash"
+import {AutoCompletePriceList,
   AutoCompleteFilterSingleSelectPanelCode,AutoCompleteFilterSingleSelectPanelName} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let panelCode
 let panelName
-let priority
+let priceList
 let priceGroup
-let billTo
-let clientName
-let invoiceAc
-let lab
+let description
 let price
-let fixedPrice
 let minSp
 let maxSp
-let specialScheme
-let schemePrice
+let maxDiscount
 let enteredBy
 let status
 let environment
@@ -40,6 +35,7 @@ interface PriceListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -66,6 +62,105 @@ export const PriceListList = (props: PriceListProps) => {
               csvExport: false,
             },
             {
+              dataField: "priceGroup",
+              text: "Price Group",
+              headerClasses: "textHeader3",
+              sort: true,
+              csvFormatter: col => (col ? col : ""),
+              filter:textFilter({
+                getFilter: (filter) =>{
+                  priceGroup = filter
+                 }
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  
+                    <select
+                    value={row.priceGroup}
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                      onChange={(e) => {
+                        const priceGroup = e.target.value as string
+                        props.onUpdateFileds && props.onUpdateFileds({
+                          priceGroup:priceGroup,
+                          priceList:priceGroup,
+                          description:_.first(
+                            lookupItems(
+                              props.extraData.lookupItems,
+                              "PRICE_GROUP"
+                            ).filter((item) => item.code === priceGroup)
+                          ).value, 
+                        },row._id)
+                        // props.onUpdateItem &&
+                        //   props.onUpdateItem(priceGroup, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(
+                        props.extraData.lookupItems,
+                        "PRICE_GROUP"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  
+                </>
+              ),
+            },
+            {
+              dataField: "priceList",
+              text: "Price List",
+              headerClasses: "textHeader4",
+              sort: true,
+              csvFormatter: col => (col ? col : ""),
+              filter:textFilter({
+                getFilter: (filter) =>{
+                  priceList = filter
+                 }
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompletePriceList
+                    priceGroup={row.priceGroup}
+                    onSelect={(item)=>{
+                      props.onUpdateFileds && props.onUpdateFileds({priceList:item.corporateCode,description:item.corporateName},row._id)
+                    }}
+                  />
+                </>
+              )
+            },
+            {
+              dataField: "description",
+              text: "Description",
+              headerClasses: "textHeader6",
+              sort: true,
+              csvFormatter: col => (col ? col : ""),
+              filter:textFilter({
+                getFilter: (filter) =>{
+                  description = filter
+                 }
+              }),
+              editable: false,
+            },
+            
+            {
               dataField: "panelCode",
               text: "Panel Code",
               headerClasses: "textHeader3",
@@ -88,7 +183,10 @@ export const PriceListList = (props: PriceListProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectPanelCode
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.panelCode,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({
+                      panelCode:item.panelCode,
+                      panelName:item.panelName
+                    },row._id)
                   }}
                   />
                 </>
@@ -117,216 +215,19 @@ export const PriceListList = (props: PriceListProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectPanelName
                   onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.panelName,column.dataField,row._id)
+                    props.onUpdateFileds && props.onUpdateFileds({
+                      panelCode:item.panelCode,
+                      panelName:item.panelName
+                    },row._id)
                   }}
+                
                   />
                 </>
               ),
             },
-            {
-              dataField: "priority",
-              text: "Priority",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  priority = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const priority = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(priority, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "PRIORIITY"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  
-                </>
-              ),
-            },
-            {
-              dataField: "priceGroup",
-              text: "Price Group",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  priceGroup = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const priceGroup = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(priceGroup, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "PRICE_GROUP"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  
-                </>
-              ),
-            },
-            {
-              dataField: "billTo",
-              text: "Bill To",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  billTo = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectBillTo
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.corporateCode,column.dataField,row._id)
-                  }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: "clientName",
-              text: "Client Name",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  clientName = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectCorporateName
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.corporateName,column.dataField,row._id)
-                  }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: "invoiceAc",
-              text: "Invoice Ac",
-              headerClasses: "textHeader3",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  invoiceAc = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectInvoiceAc
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.invoiceAc,column.dataField,row._id)
-                  }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: "lab",
-              text: "Lab",
-              headerClasses: "textHeader",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  lab = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectLabs
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
-                  />
-                </>
-              ),
-            },
+            
+            
+            
             {
               dataField: "price",
               text: "Price",
@@ -336,22 +237,6 @@ export const PriceListList = (props: PriceListProps) => {
               filter:customFilter({
                 getFilter: (filter) =>{
                   price = filter
-                }
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "fixedPrice",
-              text: "Fixed Price",
-              headerClasses: "textHeader6",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
-                  fixedPrice = filter
                 }
               }),
               filterRenderer: (onFilter, column) => (
@@ -392,108 +277,41 @@ export const PriceListList = (props: PriceListProps) => {
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataField: "anyScheme",
-              text: "Any Scheme",
+              dataField: "maxDis",
+              text: "Max Discount",
+              headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => `${row.anyScheme ? row.anyScheme ? "Yes" : "No" : "No"}`,
+              csvFormatter: col => (col ? col : ""),
+              filter:textFilter({
+                getFilter: (filter) =>{
+                  maxDiscount = filter
+                 }
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
+              dataField: "fixedPrice",
+              text: "Fixed Price",
+              sort: true,
+              csvFormatter: (col,row) => (row.fixedPrice ? row.fixedPrice ? "Yes" : "No" : "No"),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
-                      value={row.anyScheme}
-                      onChange={(anyScheme) => {
+                      disabled={!editorCell(row)}
+                      value={row.fixedPrice}
+                      onChange={(fixedPrice) => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(anyScheme, "anyScheme", row._id)
+                          props.onUpdateItem(fixedPrice, "fixedPrice", row._id)
                       }}
                     />
                   </>
                 )
               },
             },
-            {
-              dataField: "specialScheme",
-              text: "Special Scheme",
-              headerClasses: "textHeader4",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  specialScheme = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const speicalScheme = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            speicalScheme,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "SPECIAL_SCHEME"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  
-                </>
-              ),
-            },
-            {
-              dataField: "schemePrice",
-              text: "Scheme Price",
-              headerClasses: "textHeader4",
-              sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
-                  schemePrice = filter
-                 }
-              }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "disOnScheme",
-              text: "Dis On Scheme",
-              sort: true,
-              csvFormatter: (col,row) =>  `${row.disOnScheme ? row.disOnScheme ? "Yes" : "No" : "No"}`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                    disabled={!editorCell(row)}
-                      value={row.disOnScheme}
-                      onChange={(disOnScheme) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(disOnScheme, "disOnScheme", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
+            
+           
 
             {
               dataField: "enteredBy",
@@ -820,18 +638,13 @@ export const PriceListList = (props: PriceListProps) => {
           clearAllFilter={()=>{
             panelCode("")
             panelName("")
-            priority("")
+            priceList("")
             priceGroup("")
-            billTo("")
-            clientName("")
-            invoiceAc("")
-            lab("")
             price("")
-            fixedPrice("")
             minSp("")
             maxSp("")
-            specialScheme("")
-            schemePrice("")
+            maxDiscount("")
+            description("")
             enteredBy("")
             status("")
             environment("")
