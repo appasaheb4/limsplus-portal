@@ -312,7 +312,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper
-                      label="Corporate Code"
+                      label="Client Code"
                       hasError={errors.corporateCode}
                     >
                       <AutoCompleteFilterSingleSelectCorparateCode
