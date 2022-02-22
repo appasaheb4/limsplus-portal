@@ -384,7 +384,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                 country = filter
               },
             }),
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             style: { textTransform: "uppercase" },
             editorRenderer: (
               editorProps,
@@ -409,7 +409,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           {
             dataField: "state",
             text: "State",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -450,7 +450,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                 district = filter
               },
             }),
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             editorRenderer: (
               editorProps,
               value,
@@ -480,7 +480,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           {
             dataField: "city",
             text: "City",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -515,7 +515,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           {
             dataField: "area",
             text: "Area",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -652,7 +652,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           {
             dataField: "telephone",
             text: "Telephone",
-            headerClasses: "textHeader3",
+            headerClasses: "textHeader4",
             sort: true,
             csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
@@ -818,7 +818,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           {
             dataField: "openingTime",
             text: "Opening Time",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -832,7 +832,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           {
             dataField: "closingTime",
             text: "Closing Time",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
