@@ -15,9 +15,7 @@ let doctorCode
 let doctorName
 let sex
 let title
-let name
 let reportName
-let address
 let category
 let city
 let state
@@ -35,15 +33,11 @@ let zone
 let telephone
 let mobileNo
 let email
-
 let deliveryType
 let deliveryMethod
-
 let registrationLocation
 let lab
-
 let schedule
-let reportFormat
 let info
 let fyiLine
 let workLine
@@ -83,76 +77,9 @@ export const DoctorsList = (props: DoctorsListProps) => {
             csvExport: false,
           },
           {
-            dataField: "doctorCode",
-            text: "Doctor Code",
-            headerClasses: "textHeader3",
-            sort: true,
-             csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                doctorCode = filter
-              }
-            }),
-            editable: false,
-          },
-          {
-            dataField: "doctorName",
-            text: "Doctor Name",
-            headerClasses: "textHeader3",
-            sort: true,
-             csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                doctorName = filter
-              }
-            }),
-            editable: false,
-          },
-          {
-            dataField: "sex",
-            text: "Sex",
-            headerClasses: "textHeader",
-            sort: true,
-             csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                sex = filter
-              }
-            }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const sex = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(sex, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {["Male", "Female"].map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {`${item}`}
-                      </option>
-                    ))}
-                  </select>
-                
-              </>
-            ),
-          },
-          {
             dataField: "title",
             text: "Title",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
@@ -194,23 +121,35 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ),
           },
           {
-            dataField: "name",
-            text: "Name",
+            dataField: "doctorCode",
+            text: "Doctor Code",
             headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) =>{
-                name = filter
+                doctorCode = filter
               }
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
           },
-          
+          {
+            dataField: "doctorName",
+            text: "Doctor Name",
+            headerClasses: "textHeader4",
+            sort: true,
+             csvFormatter: col => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) =>{
+                doctorName = filter
+              }
+            }),
+            editable: false,
+          },
           {
             dataField: "reportName",
             text: "Report Name",
-            headerClasses: "textHeader3",
+            headerClasses: "textHeader4",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
@@ -218,8 +157,52 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 reportName = filter
               }
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
           },
+          {
+            dataField: "sex",
+            text: "Sex",
+            headerClasses: "textHeader4",
+            sort: true,
+             csvFormatter: col => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) =>{
+                sex = filter
+              }
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sex = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sex, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["Male", "Female"].map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {`${item}`}
+                      </option>
+                    ))}
+                  </select>
+                
+              </>
+            ),
+          },
+        
+          
+          
           {
             dataField: "doctorType",
             text: "Doctor Type",
@@ -292,20 +275,6 @@ export const DoctorsList = (props: DoctorsListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
-            dataField: "address",
-            text: "Address",
-            headerClasses: "textHeader2",
-            sort: true,
-             csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                address = filter
-              }
-            }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          
-          {
             dataField: "country",
             text: "Country",
             sort: true,
@@ -315,7 +284,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 country = filter
               },
             }),
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             style: { textTransform: "uppercase" },
             editorRenderer: (
               editorProps,
@@ -340,7 +309,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "state",
             text: "State",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -381,7 +350,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 district = filter
               },
             }),
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             editorRenderer: (
               editorProps,
               value,
@@ -411,7 +380,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "city",
             text: "City",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -446,7 +415,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "area",
             text: "Area",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -482,7 +451,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "postalCode",
             text: "Postal Code",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -523,7 +492,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           
           {
             dataField: "salesTerritoRy",
-            text: "Sales TerritoRy",
+            text: "Sales Territory",
             headerClasses: "textHeader4",
             sort: true,
              csvFormatter: col => (col ? col : ""),
@@ -582,7 +551,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "telephone",
             text: "Telephone",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
@@ -622,7 +591,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "deliveryType",
             text: "Delivery Type",
-            headerClasses: "textHeader3",
+            headerClasses: "textHeader5",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
@@ -666,7 +635,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "deliveryMethod",
             text: "Delivery Method",
-            headerClasses: "textHeader3",
+            headerClasses: "textHeader5",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
@@ -711,7 +680,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "registrationLocation",
             text: "Registration Location",
-            headerClasses: "textHeader5",
+            headerClasses: "textHeader6",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
@@ -788,7 +757,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "openingTime",
             text: "Opening Time",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -802,7 +771,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "closingTime",
             text: "Closing Time",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader5",
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ""),
@@ -845,7 +814,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "info",
             text: "Info",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
              csvFormatter: col => (col ? col : ""),
             filter: textFilter({
@@ -1276,15 +1245,13 @@ export const DoctorsList = (props: DoctorsListProps) => {
           doctorName("")
           sex("")
           title("")
-          name("")
           reportName("")
-          address("")
           postalCode("")
           district("")
           city("")
           state("")
           country("")
-          postcode("")
+          postalCode("")
           doctorType("")
           speciality("")
           salesTerritoRy("")

@@ -45,6 +45,14 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
                 routerStore.lookupItems,
                 "CUSTOMER_GROUP"
               ),
+              acClass:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "AC_CLASS"
+              ),
+              acType:getDefaultLookupItem(
+                routerStore.lookupItems,
+                "AC_TYPE"
+              ),
           })
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />
