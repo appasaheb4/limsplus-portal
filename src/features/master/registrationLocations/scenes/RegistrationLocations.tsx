@@ -18,7 +18,7 @@ import {
 import { RegistrationLocationsList } from "../components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import { AutoCompleteFilterSingleSelectCorparateCode } from "../components"
+import { AutoCompleteFilterSingleSelectCorparateCode, PriceListTable } from "../components"
 import { RegistrationLocationHoc } from "../hoc"
 import { useStores } from "@/stores"
 import { RouterFlow } from "@/flows"
@@ -39,11 +39,19 @@ const RegistrationLocation = RegistrationLocationHoc(
       formState: { errors },
       setValue,
     } = useForm()
-    setValue("environment", loginStore.login.environment)
+
     setValue("status", registrationLocationsStore.registrationLocations?.status)
     setValue(
       "environment",
       registrationLocationsStore.registrationLocations?.environment
+    )
+    setValue(
+      "acClass",
+      registrationLocationsStore.registrationLocations?.acClass
+    )
+    setValue(
+      "accountType",
+      registrationLocationsStore.registrationLocations?.accountType
     )
 
     const [modalConfirm, setModalConfirm] = useState<any>()
@@ -107,9 +115,9 @@ const RegistrationLocation = RegistrationLocationHoc(
               }
             })
         }
-        setTimeout(() => {
-          window.location.reload()
-        }, 2000)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 2000)
       } else {
         Toast.warning({
           message: `😔 Please enter diff code!`,
@@ -207,7 +215,7 @@ const RegistrationLocation = RegistrationLocationHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -279,7 +287,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     Code already exits. Please use other code.
                   </span>
                 )}
-
+   
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -361,9 +369,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       label="Price List"
                       hasError={errors.priceList}
                     >
-                      <Buttons.Button size="medium" type="solid" onClick={() => {}}>
-                        {`List`}
-                      </Buttons.Button>
+                     <PriceListTable/>
                     </Form.InputWrapper>
                   )}
                   name="priceList"
@@ -430,7 +436,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "ACCOUNT_TYPE").map(
+                        {lookupItems(routerStore.lookupItems, "AC_TYPE").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}

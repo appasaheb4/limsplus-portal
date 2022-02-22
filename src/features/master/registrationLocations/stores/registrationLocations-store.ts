@@ -1,6 +1,6 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import {RegistrationLocations} from "../models"
-import {RegistrationLocationsService} from "../services"
+import { RegistrationLocations } from "../models"
+import { RegistrationLocationsService } from "../services"
 import dayjs from "dayjs"
 
 export class RegistrationLocationsStore {
@@ -9,7 +9,7 @@ export class RegistrationLocationsStore {
   listRegistrationLocationsCopy: RegistrationLocations[]
   listRegistrationLocationsCount: number
   checkExitsLabEnvCode: boolean
-  
+
   constructor() {
     this.listRegistrationLocations = []
     this.listRegistrationLocationsCopy = []
@@ -19,14 +19,17 @@ export class RegistrationLocationsStore {
       ...this.registrationLocations,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD hh:mm:ss")),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD hh:mm:ss")
+      ),
       version: 1,
       confidential: false,
       printLabel: false,
       neverBill: false,
       urgent: false,
+      priceList: [{ id: 0 }],
     }
-   
+
     makeObservable<RegistrationLocationsStore, any>(this, {
       registrationLocations: observable,
       listRegistrationLocations: observable,
@@ -39,7 +42,7 @@ export class RegistrationLocationsStore {
       updateRegistrationLocationsList: action,
       updateRegistrationLocations: action,
       updateExistsLabEnvCode: action,
-      filterRegistrationLocationList: action
+      filterRegistrationLocationList: action,
     })
   }
 
@@ -52,29 +55,28 @@ export class RegistrationLocationsStore {
   }
 
   updateRegistrationLocationsList(res: any) {
-    if(!Array.isArray(res)){
+    if (!Array.isArray(res)) {
       if (!res.registrationLocations.success)
-      return alert(res.registrationLocations.message)
-    this.listRegistrationLocationsCount =
-      res.registrationLocations.paginatorInfo.count
-    this.listRegistrationLocations = res.registrationLocations.data
-    this.listRegistrationLocationsCopy = res.registrationLocations.data
-    }else{
-      this.listRegistrationLocations = res;
+        return alert(res.registrationLocations.message)
+      this.listRegistrationLocationsCount =
+        res.registrationLocations.paginatorInfo.count
+      this.listRegistrationLocations = res.registrationLocations.data
+      this.listRegistrationLocationsCopy = res.registrationLocations.data
+    } else {
+      this.listRegistrationLocations = res
     }
-   
   }
 
-  filterRegistrationLocationList(res: any){
+  filterRegistrationLocationList(res: any) {
     this.listRegistrationLocationsCount =
       res.filterRegistrationLocations.paginatorInfo.count
     this.listRegistrationLocations = res.filterRegistrationLocations.data
-  }  
+  }
 
   updateRegistrationLocations(locations: RegistrationLocations) {
     this.registrationLocations = locations
   }
-  
+
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }

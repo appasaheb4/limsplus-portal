@@ -42,20 +42,23 @@ export class RegistrationLocationsService {
     })
   addRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: CREATE_RECORD,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data)
-          stores.registrationLocationsStore.updateRegistrationLocations(
-            new Model.RegistrationLocations({})
-          )
-        })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
+
+      console.log({variables});
+      
+      // client
+      //   .mutate({
+      //     mutation: CREATE_RECORD,
+      //     variables,
+      //   })
+      //   .then((response: any) => {
+      //     resolve(response.data)
+      //     stores.registrationLocationsStore.updateRegistrationLocations(
+      //       new Model.RegistrationLocations({})
+      //     )
+      //   })
+      //   .catch((error) =>
+      //     reject(new ServiceResponse<any>(0, error.message, undefined))
+      //   )
     })
   versionUpgradeRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {

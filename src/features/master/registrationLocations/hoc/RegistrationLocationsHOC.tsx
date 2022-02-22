@@ -31,7 +31,7 @@ export const RegistrationLocationHoc = (Component: React.FC<any>) => {
               ),
               accountType:getDefaultLookupItem(
                 routerStore.lookupItems,
-                "ACCOUNT_TYPE"
+                "AC_TYPE"
               ),
               salesTerritoRy:getDefaultLookupItem(
                 routerStore.lookupItems,

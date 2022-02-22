@@ -9,14 +9,15 @@ import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import { stores } from "@/stores"
 import {
   LOOKUPITEM_BY_PATH,
+  LOOKUPITEM_BY_PATH_N_FIELD,
   LIST,
   CREATE_DOCUMENT_RECORD,
   REMOVE_DOCUMENT_RECORD,
   UPDATE_RECORD,
   GENERAL_SETTINGS_UPDATE,
-  FILTER
+  FILTER,
 } from "./mutation"
-import * as Model from '../models'
+import * as Model from "../models"
 
 export class LookupService {
   listLookup = (page = 0, limit = 10) =>
@@ -85,9 +86,7 @@ export class LookupService {
     })
   generalSettingsUpdate = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      
-      
-      client  
+      client
         .mutate({
           mutation: GENERAL_SETTINGS_UPDATE,
           variables: variables,
@@ -116,7 +115,23 @@ export class LookupService {
         )
     })
 
-    filter = (variables: any) =>
+
+  lookupItemsByPathNField = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: LOOKUPITEM_BY_PATH_N_FIELD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
