@@ -84,6 +84,7 @@ export const PriceList = PriceListHoc(
               },
             })
             .then((res) => {
+              console.log({res})
               if (res.versionUpgradePriceList.success) {
                 Toast.success({
                   message: `😊 ${res.versionUpgradePriceList.message}`,
@@ -156,6 +157,15 @@ export const PriceList = PriceListHoc(
               data: { value, dataField, id },
               title: "Are you sure?",
               body: `Update item!`,
+            })
+          }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "UpdateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: `Update records!`,
             })
           }}
           onVersionUpgrade={(item) => {
@@ -793,6 +803,24 @@ export const PriceList = PriceListHoc(
                       priceListStore.fetchListPriceList()
                     }
                   })
+              }
+              else if (type === "UpdateFileds") {
+                priceListStore.priceListService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updatePriceList.success) {
+                      Toast.success({
+                        message: `😊 ${res.updatePriceList.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      priceListStore.fetchListPriceList()
+                    }
+                  })
               } else if (type === "versionUpgrade") {
                 priceListStore.updatePriceList({
                   ...modalConfirm.data,
@@ -803,6 +831,8 @@ export const PriceList = PriceListHoc(
                   version: parseInt(modalConfirm.data.version + 1),
                   dateCreation: new Date(),
                 })
+                setHideAddLab(!hideAddLab)
+                setModalConfirm({show: false})
                 setValue("panelCode", modalConfirm.data.panelCode)
                 setValue("panelName", modalConfirm.data.panelName)
                 setValue("billTo", modalConfirm.data.billTo)
@@ -822,6 +852,7 @@ export const PriceList = PriceListHoc(
                   dateCreation: new Date(),
                 })
                 setHideAddLab(!hideAddLab)
+                setModalConfirm({show: false})
                 setValue("panelCode", modalConfirm.data.panelCode)
                 setValue("panelName", modalConfirm.data.panelName)
                 setValue("billTo", modalConfirm.data.billTo)
