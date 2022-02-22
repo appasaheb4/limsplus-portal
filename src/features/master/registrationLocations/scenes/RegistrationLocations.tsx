@@ -125,6 +125,7 @@ const RegistrationLocation = RegistrationLocationHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,
+            listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv
           }}
           isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
           isEditModify={RouterFlow.checkPermission(
@@ -149,6 +150,15 @@ const RegistrationLocation = RegistrationLocationHoc(
               data: { value, dataField, id },
               title: "Are you sure?",
               body: `Update Section!`,
+            })
+          }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "UpdateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: `Update records!`,
             })
           }}
           onVersionUpgrade={(item) => {
@@ -1741,6 +1751,24 @@ const RegistrationLocation = RegistrationLocationHoc(
                     input: {
                       _id: modalConfirm.data.id,
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updateRegistrationLocation.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateRegistrationLocation.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      registrationLocationsStore.fetchRegistrationLocations()
+                    }
+                  })
+              }
+              else if (type === "UpdateFileds") {
+                registrationLocationsStore.registrationLocationsService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
                     },
                   })
                   .then((res: any) => {
