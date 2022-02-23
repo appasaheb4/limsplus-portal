@@ -31,6 +31,14 @@ export const DoctorsHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             "STATUS"
           ),
+          category:getDefaultLookupItem(
+            routerStore.lookupItems,
+            "CATEGORY"
+          ),
+          doctorType:getDefaultLookupItem(
+            routerStore.lookupItems,
+            "DOCTOR_TYPE"
+          ),
         })
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           doctorsStore.updateDoctors({
