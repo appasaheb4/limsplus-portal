@@ -829,28 +829,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             },
           },
           
-          {
-            dataField: "clientSpecificPrice",
-            text: "Client Specific Price",
-            sort: true,
-            editable: false,
-            csvFormatter: (col,row) => `${row.clientSpecificPrice ? row.clientSpecificPrice ? "Yes" : "No" : "No"}`,
-            formatter: (cell, row) => {
-              return (
-                <>
-                  {" "}
-                  <Form.Toggle
-                  disabled={!editorCell(row)}
-                    value={row.clientSpecificPrice}
-                    onChange={(clientSpecificPrice) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(clientSpecificPrice, "clientSpecificPrice", row._id)
-                    }}
-                  />
-                </>
-              )
-            },
-          },
+          
           
           {
             dataField: "fyiLine",
