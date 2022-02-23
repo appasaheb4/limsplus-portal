@@ -138,6 +138,7 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/doctors") {
         await Doctors.startup()
         await AdministrativeDivisions.startup()
+        await RegistrationLocations.startup()
       }
       if (pathname === "/collection/registrationLocations")
         await RegistrationLocations.startup()
