@@ -35,6 +35,7 @@ const Doctors = DoctorsHoc(
       loading,
       administrativeDivisions,
       registrationLocationsStore,
+      salesTeamStore,
     } = useStores()
     const {
       control,
@@ -823,6 +824,7 @@ const Doctors = DoctorsHoc(
                               ...doctorsStore.doctors,
                               postalCode: item?.postalCode,
                               zone: item?.zone,
+                              sbu: item?.sbu
                             })
                             administrativeDivisions.updateAdministrativeDivList(
                               administrativeDivisions.listAdministrativeDivCopy
@@ -838,6 +840,27 @@ const Doctors = DoctorsHoc(
                 )}
               </List>
               <List direction="col" space={4} justify="stretch" fill>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="SBU"
+                      placeholder={errors.sbu ? "Please Enter sbu" : "SBU"}
+                      hasError={errors.sbu}
+                      value={doctorsStore.doctors?.sbu}
+                      onChange={(sbu) => {
+                        onChange(sbu)
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          sbu,
+                        })
+                      }}
+                    />
+                  )}
+                  name="sbu"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -866,31 +889,40 @@ const Doctors = DoctorsHoc(
                       label="Sales Territory"
                       hasError={errors.salesTerritoRy}
                     >
-                      <select
-                        value={doctorsStore.doctors?.salesTerritoRy}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.salesTerritoRy
-                            ? "border-red-500  "
-                            : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const salesTerritoRy = e.target.value
-                          onChange(salesTerritoRy)
-                          doctorsStore.updateDoctors({
-                            ...doctorsStore.doctors,
-                            salesTerritoRy,
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by sales territory"
+                        data={{
+                          list: _.uniqBy(
+                            salesTeamStore.listSalesTeam,
+                            "salesTerritory"
+                          ),
+                          displayKey: ["salesTerritory"],
+                        }}
+                        hasError={errors.salesTerritoRy}
+                        onFilter={(value: string) => {
+                          salesTeamStore.salesTeamService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["salesTerritory"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
                           })
                         }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SPECIALITY").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
+                        onSelect={(item) => {
+                          onChange(item.salesTerritory)
+                          doctorsStore.updateDoctors({
+                            ...doctorsStore.doctors,
+                            salesTerritoRy: item.salesTerritory,
+                          })
+                          salesTeamStore.updateSalesTeamList(
+                            salesTeamStore.listSalesTeamCopy
                           )
-                        )}
-                      </select>
+                        }}
+                      />
                     </Form.InputWrapper>
                   )}
                   name="salesTerritoRy"

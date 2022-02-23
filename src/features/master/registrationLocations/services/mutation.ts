@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-    
+      
 export const LIST = gql`
   mutation($input: RegistrationLocationInput!) {
     registrationLocations(input: $input) {
@@ -40,12 +40,12 @@ export const LIST = gql`
         methodColn
         salesTerritoRy
         area
+        sbu
         zone
         route
         lab
         neverBill
         urgent
-        schedule
         reportFormat
         info
         fyiLine
@@ -157,12 +157,12 @@ export const FILTER = gql`
         methodColn
         salesTerritoRy
         area
+        sbu
         zone
         route
         lab
         neverBill
         urgent
-        schedule
         reportFormat
         info
         fyiLine
@@ -220,12 +220,12 @@ export const FILTER_BY_FIELDS = gql`
         methodColn
         salesTerritoRy
         area
+        sbu
         zone
         route
         lab
         neverBill
         urgent
-        schedule
         reportFormat
         info
         fyiLine

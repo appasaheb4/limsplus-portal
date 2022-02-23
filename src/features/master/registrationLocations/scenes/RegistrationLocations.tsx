@@ -14,14 +14,19 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { RegistrationLocationsList } from "../components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import { AutoCompleteFilterSingleSelectCorparateCode, PriceListTable } from "../components"
+import {
+  AutoCompleteFilterSingleSelectCorparateCode,
+  PriceListTable,
+} from "../components"
 import { RegistrationLocationHoc } from "../hoc"
 import { useStores } from "@/stores"
 import { RouterFlow } from "@/flows"
+import { FormHelper } from "@/helper"
 
 const RegistrationLocation = RegistrationLocationHoc(
   observer(() => {
@@ -32,6 +37,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       routerStore,
       loading,
       administrativeDivisions,
+      salesTeamStore,
     } = useStores()
     const {
       control,
@@ -45,10 +51,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       "environment",
       registrationLocationsStore.registrationLocations?.environment
     )
-    setValue(
-      "acClass",
-      registrationLocationsStore.registrationLocations?.acClass
-    )
+    setValue("acClass", registrationLocationsStore.registrationLocations?.acClass)
     setValue(
       "accountType",
       registrationLocationsStore.registrationLocations?.accountType
@@ -133,7 +136,7 @@ const RegistrationLocation = RegistrationLocationHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,
-            listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv
+            listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
           }}
           isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
           isEditModify={RouterFlow.checkPermission(
@@ -239,7 +242,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         onChange(locationCode)
                         registrationLocationsStore.updateRegistrationLocations({
                           ...registrationLocationsStore.registrationLocations,
-                          locationCode,
+                          locationCode: locationCode.toUpperCase(),
                         })
                       }}
                       onBlur={(code) => {
@@ -287,7 +290,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     Code already exits. Please use other code.
                   </span>
                 )}
-   
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -307,7 +310,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         onChange(locationName)
                         registrationLocationsStore.updateRegistrationLocations({
                           ...registrationLocationsStore.registrationLocations,
-                          locationName,
+                          locationName: locationName.toUpperCase(),
                         })
                       }}
                     />
@@ -359,20 +362,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                     />
                   )}
                   name="invoiceAc"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Price List"
-                      hasError={errors.priceList}
-                    >
-                     <PriceListTable/>
-                    </Form.InputWrapper>
-                  )}
-                  name="priceList"
                   rules={{ required: false }}
                   defaultValue=""
                 />
@@ -627,12 +616,17 @@ const RegistrationLocation = RegistrationLocationHoc(
                       >
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
-                          disable={!registrationLocationsStore.registrationLocations?.country}
+                          disable={
+                            !registrationLocationsStore.registrationLocations
+                              ?.country
+                          }
                           data={{
                             list: _.uniqBy(
                               administrativeDivisions.listAdministrativeDiv.filter(
                                 (item) =>
-                                  item.country === registrationLocationsStore.registrationLocations?.country
+                                  item.country ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.country
                               ),
                               "state"
                             ),
@@ -682,13 +676,19 @@ const RegistrationLocation = RegistrationLocationHoc(
                       >
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
-                          disable={!registrationLocationsStore.registrationLocations?.state}
+                          disable={
+                            !registrationLocationsStore.registrationLocations?.state
+                          }
                           data={{
                             list: _.uniqBy(
                               administrativeDivisions.listAdministrativeDiv.filter(
                                 (item) =>
-                                  item.country === registrationLocationsStore.registrationLocations?.country &&
-                                  item.state === registrationLocationsStore.registrationLocations?.state
+                                  item.country ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.country &&
+                                  item.state ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.state
                               ),
                               "district"
                             ),
@@ -739,14 +739,23 @@ const RegistrationLocation = RegistrationLocationHoc(
                       >
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
-                          disable={!registrationLocationsStore.registrationLocations?.district}
+                          disable={
+                            !registrationLocationsStore.registrationLocations
+                              ?.district
+                          }
                           data={{
                             list: _.uniqBy(
                               administrativeDivisions.listAdministrativeDiv.filter(
                                 (item) =>
-                                  item.country === registrationLocationsStore.registrationLocations?.country &&
-                                  item.state === registrationLocationsStore.registrationLocations?.state &&
-                                  item.district === registrationLocationsStore.registrationLocations?.district
+                                  item.country ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.country &&
+                                  item.state ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.state &&
+                                  item.district ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.district
                               ),
                               "city"
                             ),
@@ -760,9 +769,15 @@ const RegistrationLocation = RegistrationLocationHoc(
                                 input: {
                                   filter: {
                                     type: "search",
-                                    country: registrationLocationsStore.registrationLocations?.country,
-                                    state: registrationLocationsStore.registrationLocations?.state,
-                                    district: registrationLocationsStore.registrationLocations?.district,
+                                    country:
+                                      registrationLocationsStore
+                                        .registrationLocations?.country,
+                                    state:
+                                      registrationLocationsStore
+                                        .registrationLocations?.state,
+                                    district:
+                                      registrationLocationsStore
+                                        .registrationLocations?.district,
                                     city: value,
                                   },
                                   page: 0,
@@ -788,7 +803,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 )}
               </List>
               <List direction="col" space={4} justify="stretch" fill>
-              {(registrationLocationsStore.registrationLocations?.city ||
+                {(registrationLocationsStore.registrationLocations?.city ||
                   administrativeDivisions.listAdministrativeDiv) && (
                   <Controller
                     control={control}
@@ -800,15 +815,25 @@ const RegistrationLocation = RegistrationLocationHoc(
                       >
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
-                          disable={!registrationLocationsStore.registrationLocations?.city}
+                          disable={
+                            !registrationLocationsStore.registrationLocations?.city
+                          }
                           data={{
                             list: _.uniqBy(
                               administrativeDivisions.listAdministrativeDiv.filter(
                                 (item) =>
-                                  item.country === registrationLocationsStore.registrationLocations?.country &&
-                                  item.state === registrationLocationsStore.registrationLocations?.state &&
-                                  item.district === registrationLocationsStore.registrationLocations?.district &&
-                                  item.city === registrationLocationsStore.registrationLocations?.city
+                                  item.country ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.country &&
+                                  item.state ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.state &&
+                                  item.district ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.district &&
+                                  item.city ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.city
                               ),
                               "area"
                             ),
@@ -822,10 +847,18 @@ const RegistrationLocation = RegistrationLocationHoc(
                                 input: {
                                   filter: {
                                     type: "search",
-                                    country: registrationLocationsStore.registrationLocations?.country,
-                                    state: registrationLocationsStore.registrationLocations?.state,
-                                    district: registrationLocationsStore.registrationLocations?.district,
-                                    city: registrationLocationsStore.registrationLocations?.city,
+                                    country:
+                                      registrationLocationsStore
+                                        .registrationLocations?.country,
+                                    state:
+                                      registrationLocationsStore
+                                        .registrationLocations?.state,
+                                    district:
+                                      registrationLocationsStore
+                                        .registrationLocations?.district,
+                                    city:
+                                      registrationLocationsStore
+                                        .registrationLocations?.city,
                                     area: value,
                                   },
                                   page: 0,
@@ -861,16 +894,28 @@ const RegistrationLocation = RegistrationLocationHoc(
                       >
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
-                          disable={!registrationLocationsStore.registrationLocations?.area}
+                          disable={
+                            !registrationLocationsStore.registrationLocations?.area
+                          }
                           data={{
                             list: _.uniqBy(
                               administrativeDivisions.listAdministrativeDiv.filter(
                                 (item) =>
-                                  item.country === registrationLocationsStore.registrationLocations?.country &&
-                                  item.state === registrationLocationsStore.registrationLocations?.state &&
-                                  item.district === registrationLocationsStore.registrationLocations?.district &&
-                                  item.city === registrationLocationsStore.registrationLocations?.city &&
-                                  item.area === registrationLocationsStore.registrationLocations?.area
+                                  item.country ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.country &&
+                                  item.state ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.state &&
+                                  item.district ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.district &&
+                                  item.city ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.city &&
+                                  item.area ===
+                                    registrationLocationsStore.registrationLocations
+                                      ?.area
                               ),
                               "postalCode"
                             ),
@@ -884,11 +929,21 @@ const RegistrationLocation = RegistrationLocationHoc(
                                 input: {
                                   filter: {
                                     type: "search",
-                                    country: registrationLocationsStore.registrationLocations?.country,
-                                    state: registrationLocationsStore.registrationLocations?.state,
-                                    district: registrationLocationsStore.registrationLocations?.district,
-                                    city: registrationLocationsStore.registrationLocations?.city,
-                                    area: registrationLocationsStore.registrationLocations?.area,
+                                    country:
+                                      registrationLocationsStore
+                                        .registrationLocations?.country,
+                                    state:
+                                      registrationLocationsStore
+                                        .registrationLocations?.state,
+                                    district:
+                                      registrationLocationsStore
+                                        .registrationLocations?.district,
+                                    city:
+                                      registrationLocationsStore
+                                        .registrationLocations?.city,
+                                    area:
+                                      registrationLocationsStore
+                                        .registrationLocations?.area,
                                     postalCode: value,
                                   },
                                   page: 0,
@@ -903,6 +958,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
                               postalCode: item?.postalCode,
+                              zone: item?.zone,
+                              sbu: item?.sbu,
                             })
                             administrativeDivisions.updateAdministrativeDivList(
                               administrativeDivisions.listAdministrativeDivCopy
@@ -919,44 +976,25 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Sales TerritoRy"
-                      hasError={errors.salesTerritoRy}
-                    >
-                      <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.salesTerritoRy
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.salesTerritoRy
-                            ? "border-red-500  "
-                            : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const salesTerritoRy = e.target.value
-                          onChange(salesTerritoRy)
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
-                            salesTerritoRy,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SPECIALITY").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </Form.InputWrapper>
+                    <Form.Input
+                      label="SBU"
+                      placeholder={errors.sbu ? "Please Enter sbu" : "SBU"}
+                      hasError={errors.sbu}
+                      value={registrationLocationsStore.registrationLocations?.sbu}
+                      onChange={(sbu) => {
+                        onChange(sbu)
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          sbu,
+                        })
+                      }}
+                    />
                   )}
-                  name="salesTerritoRy"
+                  name="sbu"
                   rules={{ required: false }}
                   defaultValue=""
                 />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -975,6 +1013,53 @@ const RegistrationLocation = RegistrationLocationHoc(
                     />
                   )}
                   name="zone"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Sales Territory"
+                      hasError={errors.salesTerritoRy}
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by sales territory"
+                        data={{
+                          list: _.uniqBy(
+                            salesTeamStore.listSalesTeam,
+                            "salesTerritory"
+                          ),
+                          displayKey: ["salesTerritory"],
+                        }}
+                        hasError={errors.salesTerritoRy}
+                        onFilter={(value: string) => {
+                          salesTeamStore.salesTeamService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["salesTerritory"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.salesTerritory)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            salesTerritoRy: item.salesTerritory,
+                          })
+                          salesTeamStore.updateSalesTeamList(
+                            salesTeamStore.listSalesTeamCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="salesTerritoRy"
                   rules={{ required: false }}
                   defaultValue=""
                 />
@@ -1016,6 +1101,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       value={
                         registrationLocationsStore.registrationLocations?.mobileNo
                       }
+                      type="number"
                       onChange={(mobileNo) => {
                         onChange(mobileNo)
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1026,7 +1112,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     />
                   )}
                   name="mobileNo"
-                  rules={{ required: false }}
+                  rules={{ required: false, pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -1157,32 +1243,18 @@ const RegistrationLocation = RegistrationLocationHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label="Lab" hasError={errors.lab}>
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        data={{
-                          list: labStore.listLabs,
-                          displayKey: "name",
-                        }}
-                        hasError={errors.lab}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filter({
-                            input: {
-                              filter: {
-                                type: "search",
-                                ["name"]: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.name)
+                      <select
+                        value={registrationLocationsStore.registrationLocations?.lab}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.lab ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const lab = e.target.value
+                          onChange(lab)
                           registrationLocationsStore.updateRegistrationLocations({
                             ...registrationLocationsStore.registrationLocations,
-                            lab: item.code,
+                            lab,
                           })
-                          labStore.updateLabList(labStore.listLabsCopy)
                           if (
                             !registrationLocationsStore.registrationLocations
                               ?.existsVersionId
@@ -1196,7 +1268,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                                   env:
                                     registrationLocationsStore.registrationLocations
                                       ?.environment,
-                                  lab: item.code,
+                                  lab,
                                 },
                               })
                               .then((res) => {
@@ -1216,7 +1288,16 @@ const RegistrationLocation = RegistrationLocationHoc(
                               })
                           }
                         }}
-                      />
+                      >
+                        <option selected>Select</option>
+                        {loginStore.login?.labList?.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {`${item.code} - ${item.name}`}
+                            </option>
+                          )
+                        )}
+                      </select>
                     </Form.InputWrapper>
                   )}
                   name="lab"
@@ -1270,46 +1351,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
               </List>
               <List direction="col" space={4} justify="stretch" fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Schedule" hasError={errors.schedule}>
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        placeholder="Search by name"
-                        data={{
-                          list: labStore.listLabs,
-                          displayKey: "name",
-                          findKey: "name",
-                        }}
-                        hasError={errors.name}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filter({
-                            input: {
-                              type: "filter",
-                              filter: {
-                                name: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.name)
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
-                            schedule: item.code,
-                          })
-                          labStore.updateLabList(labStore.listLabsCopy)
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name="schedule"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1713,6 +1754,19 @@ const RegistrationLocation = RegistrationLocationHoc(
                 </Grid>
               </List>
             </Grid>
+            <List direction="row" space={3} align="center">
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputWrapper label="Price List" hasError={errors.priceList}>
+                    <PriceListTable />
+                  </Form.InputWrapper>
+                )}
+                name="priceList"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+            </List>
             <br />
             <List direction="row" space={3} align="center">
               <Buttons.Button
@@ -1768,8 +1822,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       registrationLocationsStore.fetchRegistrationLocations()
                     }
                   })
-              }
-              else if (type === "UpdateFileds") {
+              } else if (type === "UpdateFileds") {
                 registrationLocationsStore.registrationLocationsService
                   .updateSingleFiled({
                     input: {

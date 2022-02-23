@@ -27,7 +27,7 @@ export class RegistrationLocationsStore {
       printLabel: false,
       neverBill: false,
       urgent: false,
-      priceList: [{ id: 0 }],
+      priceList: [{ id: 0,maxDis:0 }],
     }
 
     makeObservable<RegistrationLocationsStore, any>(this, {

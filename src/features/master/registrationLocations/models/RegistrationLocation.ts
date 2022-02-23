@@ -27,6 +27,7 @@ export class RegistrationLocations {
   postalCode: number
   salesTerritoRy: string
   area: string
+  sbu: string
   zone: string  
   telephone: string
   mobileNo: string
@@ -37,7 +38,6 @@ export class RegistrationLocations {
   lab: string
   openingTime: string
   closingTime: string
-  schedule: string
   info: string
   fyiLine: string
   workLine: string
@@ -75,7 +75,6 @@ export class RegistrationLocations {
     this.customerGroup = rawData.customerGroup
     this.category = rawData.category
     this.confidential = rawData.confidential
-    this.schedule = rawData.schedule
     this.telephone = rawData.telephone
     this.mobileNo = rawData.mobileNo
     this.email = rawData.email
@@ -89,6 +88,7 @@ export class RegistrationLocations {
     this.methodColn = rawData.methodColn
     this.salesTerritoRy = rawData.salesTerritoRy
     this.area = rawData.area
+    this.sbu = rawData.sbu
     this.zone = rawData.zone
     this.route = rawData.route
     this.lab = rawData.lab
@@ -96,7 +96,6 @@ export class RegistrationLocations {
     this.closingTime = rawData.closingTime
     this.neverBill = rawData.neverBill
     this.printLabel = rawData.printLabel
-    this.schedule = rawData.schedule
     this.reportFormat = rawData.reportFormat
     this.info = rawData.info
     this.fyiLine = rawData.fyiLine
