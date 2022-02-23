@@ -46,7 +46,6 @@ export const LIST = gql`
         urgent
         registrationLocation
         lab
-        schedule
         reportFormat
         info
         fyiLine
@@ -162,7 +161,6 @@ export const FILTER = gql`
         urgent
         registrationLocation
         lab
-        schedule
         reportFormat
         info
         fyiLine
@@ -224,7 +222,6 @@ export const FILTER_BY_FIELDS = gql`
         urgent
         registrationLocation
         lab
-        schedule
         reportFormat
         info
         fyiLine

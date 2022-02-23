@@ -115,9 +115,9 @@ const RegistrationLocation = RegistrationLocationHoc(
               }
             })
         }
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 2000)
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
       } else {
         Toast.warning({
           message: `😔 Please enter diff code!`,
