@@ -462,10 +462,10 @@ export const PriceList = PriceListHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Min SP"
+                      label="Min Sales Price"
                       name="txtMinSp"
                       type="number"
-                      placeholder={errors.minSp ? "Please Enter Min SP" : " Min Sp"}
+                      placeholder={errors.minSp ? "Please Enter Min Sales Price" : "Min Sales Price"}
                       hasError={errors.minSp}
                       value={priceListStore.priceList?.minSp}
                       onChange={(minSp) => {
@@ -485,10 +485,10 @@ export const PriceList = PriceListHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Max SP"
+                      label="Max Sales Price"
                       name="txtMaxSp"
                       type="number"
-                      placeholder={errors.maxSp ? "Please Enter Min SP" : " Min Sp"}
+                      placeholder={errors.maxSp ? "Please Enter Max Sales Price" : " Max Sales Price"}
                       hasError={errors.minSp}
                       value={priceListStore.priceList?.maxSp}
                       onChange={(maxSp) => {
@@ -508,10 +508,10 @@ export const PriceList = PriceListHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Max Discount"
+                      label="Max Dis%"
                       name="txtMaxDis"
                       type="number"
-                      placeholder="Max Discount"
+                      placeholder="Max Dis%"
                       hasError={errors.maxDis}
                       value={priceListStore.priceList?.maxDis}
                       onChange={(maxDis) => {
