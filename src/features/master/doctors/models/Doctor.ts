@@ -17,6 +17,7 @@ export class Doctors {
     city: string
     area: string
     postalCode: number
+    sbu: string
     zone: string
     salesTerritoRy: string
     telephone: string
@@ -63,6 +64,7 @@ export class Doctors {
         this.city = rawData.city
         this.area = rawData.area
         this.postalCode = rawData.postalCode
+        this.sbu = rawData.sbu
         this.zone = rawData.zone
         this.salesTerritoRy = rawData.salesTerritoRy
         this.telephone = rawData.telephone

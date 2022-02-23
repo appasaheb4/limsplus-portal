@@ -47,6 +47,7 @@ export const PriceListTable = observer(({}) => {
     let priceList = registrationLocationsStore.registrationLocations?.priceList
     priceList.push({
       id: registrationLocationsStore.registrationLocations?.priceList.length + 1,
+      maxDis:0
     })
     registrationLocationsStore.updateRegistrationLocations({
       ...registrationLocationsStore.registrationLocations,
@@ -87,7 +88,7 @@ export const PriceListTable = observer(({}) => {
               Priority
             </th>
             <th className="text-white" style={{ minWidth: 100 }}>
-              Max Dis
+              Max Dis%
             </th>
             <th className="text-white sticky right-0 z-10">Action</th>
           </tr>
@@ -256,9 +257,8 @@ export const PriceListTable = observer(({}) => {
                     render={({ field: { onChange } }) => (
                       <Form.Input
                         label=""
-                        value={item?.maxDis}
                         type="number"
-                        placeholder="Max Discount"
+                        placeholder={item?.maxDis?.toString()}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                         hasError={errors.maxDis}
                         onChange={(maxDis) => {

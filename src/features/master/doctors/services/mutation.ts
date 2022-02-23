@@ -37,6 +37,7 @@ export const LIST = gql`
         confidential
         salesTerritoRy
         area
+        sbu
         zone
         telephone
         mobileNo
@@ -152,6 +153,7 @@ export const FILTER = gql`
         confidential
         salesTerritoRy
         area
+        sbu
         zone
         telephone
         mobileNo
@@ -213,6 +215,7 @@ export const FILTER_BY_FIELDS = gql`
         confidential
         salesTerritoRy
         area
+        sbu
         zone
         telephone
         mobileNo

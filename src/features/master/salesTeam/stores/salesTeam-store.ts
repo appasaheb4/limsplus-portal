@@ -1,9 +1,10 @@
 import { makeObservable, action, observable, computed } from "mobx"
-import {SalesTeam} from "../models"
+import { SalesTeam } from "../models"
 import { SalesTeamService } from "../services"
 
 export class SalesTeamStore {
   listSalesTeam!: SalesTeam[]
+  listSalesTeamCopy!: SalesTeam[]
   salesTeam!: SalesTeam
   listSalesTeamCount: number = 0
   checkExistsEnvCode?: boolean = false
@@ -21,7 +22,7 @@ export class SalesTeamStore {
       updateSalesTeamList: action,
       updateSalesTeam: action,
       updateExistsEnvCode: action,
-      filterSalesTeamList: action
+      filterSalesTeamList: action,
     })
   }
 
@@ -34,12 +35,17 @@ export class SalesTeamStore {
   }
 
   updateSalesTeamList(res: any) {
-    if (!res.salesTeams.success) return alert(res.salesTeams.message)
-    this.listSalesTeam = res.salesTeams.data
-    this.listSalesTeamCount = res.salesTeams.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.salesTeams.success) return alert(res.salesTeams.message)
+      this.listSalesTeam = res.salesTeams.data
+      this.listSalesTeamCopy = res.salesTeams.data
+      this.listSalesTeamCount = res.salesTeams.paginatorInfo.count
+    } else {
+      this.listSalesTeam = res
+    }
   }
 
-  filterSalesTeamList(res: any){
+  filterSalesTeamList(res: any) {
     this.listSalesTeam = res.filterSalesTeams.data
     this.listSalesTeamCount = res.filterSalesTeams.paginatorInfo.count
   }
