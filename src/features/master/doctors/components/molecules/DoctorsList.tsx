@@ -37,7 +37,6 @@ let deliveryType
 let deliveryMethod
 let registrationLocation
 let lab
-let schedule
 let info
 let fyiLine
 let workLine
@@ -782,36 +781,6 @@ export const DoctorsList = (props: DoctorsListProps) => {
             }),
           },
           {
-            dataField: "schedule",
-            text: "Schedule",
-            headerClasses: "textHeader3",
-            sort: true,
-             csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                schedule = filter
-              }
-            }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectLabs
-                onSelect={(item)=>{
-                  props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                }}
-                />
-              </>
-            ),
-          },
-          
-          {
             dataField: "info",
             text: "Info",
             headerClasses: "textHeader3",
@@ -1267,7 +1236,6 @@ export const DoctorsList = (props: DoctorsListProps) => {
           registrationLocation("")
           lab("")
           closingTime("")
-          schedule("")
           info("")
           fyiLine("")
           workLine("")
