@@ -14,6 +14,7 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { CorporateClient } from "../components"
 import { lookupItems, lookupValue } from "@/library/utils"
@@ -33,6 +34,7 @@ const CorporateClients = CorporateClientsHoc(
       routerStore,
       loading,
       administrativeDivisions,
+      salesTeamStore,
     } = useStores()
     const {
       control,
@@ -40,7 +42,7 @@ const CorporateClients = CorporateClientsHoc(
       formState: { errors },
       setValue,
     } = useForm()
-    setValue("environment", loginStore.login.environment)
+
     setValue("status", corporateClientsStore.corporateClients?.status)
     setValue("environment", corporateClientsStore.corporateClients?.environment)
 
@@ -124,7 +126,7 @@ const CorporateClients = CorporateClientsHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,
-            listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv
+            listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
           }}
           isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
           isEditModify={RouterFlow.checkPermission(
@@ -197,7 +199,7 @@ const CorporateClients = CorporateClientsHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -218,7 +220,7 @@ const CorporateClients = CorporateClientsHoc(
                         onChange(corporateCode)
                         corporateClientsStore.updateCorporateClients({
                           ...corporateClientsStore.corporateClients,
-                          corporateCode,
+                          corporateCode: corporateCode.toUpperCase(),
                         })
                       }}
                       onBlur={(code) => {
@@ -271,7 +273,7 @@ const CorporateClients = CorporateClientsHoc(
                         onChange(corporateName)
                         corporateClientsStore.updateCorporateClients({
                           ...corporateClientsStore.corporateClients,
-                          corporateName,
+                          corporateName: corporateName.toUpperCase(),
                         })
                       }}
                     />
@@ -390,23 +392,78 @@ const CorporateClients = CorporateClientsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label="Billing on"
-                      placeholder={
-                        errors.billingOn ? "Please Enter Biling On" : "Billing On"
-                      }
                       hasError={errors.billingOn}
-                      value={corporateClientsStore.corporateClients?.billingOn}
-                      onChange={(billingOn) => {
-                        onChange(billingOn)
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          billingOn,
-                        })
-                      }}
-                    />
+                    >
+                      <select
+                        value={corporateClientsStore.corporateClients?.billingOn}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.billingOn ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const billingOn = e.target.value
+                          onChange(billingOn)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            billingOn,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "BILLING_ON").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
                   )}
                   name="billingOn"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Billing Frequency"
+                      hasError={errors.billingFrequency}
+                    >
+                      <select
+                        value={
+                          corporateClientsStore.corporateClients?.billingFrequency
+                        }
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.billingFrequency
+                            ? "border-red-500  "
+                            : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const billingFrequency = e.target.value
+                          onChange(billingFrequency)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            billingFrequency,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          "BILLING_FREQUENCY"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="billingFrequency"
                   rules={{ required: false }}
                   defaultValue=""
                 />
@@ -861,7 +918,9 @@ const CorporateClients = CorporateClientsHoc(
                             onChange(item.postalCode)
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
-                              postalCode: item,
+                              postalCode: item.postalCode,
+                              zone: item?.zone,
+                              sbu: item?.sbu,
                             })
                             administrativeDivisions.updateAdministrativeDivList(
                               administrativeDivisions.listAdministrativeDivCopy
@@ -878,40 +937,21 @@ const CorporateClients = CorporateClientsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Sales Territory"
-                      hasError={errors.salesTerritoRy}
-                    >
-                      <select
-                        value={
-                          corporateClientsStore.corporateClients?.salesTerritoRy
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.salesTerritoRy
-                            ? "border-red-500  "
-                            : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const salesTerritoRy = e.target.value
-                          onChange(salesTerritoRy)
-                          corporateClientsStore.updateCorporateClients({
-                            ...corporateClientsStore.corporateClients,
-                            salesTerritoRy,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SPECIALITY").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </Form.InputWrapper>
+                    <Form.Input
+                      label="SBU"
+                      placeholder={errors.sbu ? "Please Enter sbu" : "SBU"}
+                      hasError={errors.sbu}
+                      value={corporateClientsStore.corporateClients?.sbu}
+                      onChange={(sbu) => {
+                        onChange(sbu)
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          sbu,
+                        })
+                      }}
+                    />
                   )}
-                  name="salesTerritory"
+                  name="sbu"
                   rules={{ required: false }}
                   defaultValue=""
                 />
@@ -933,6 +973,53 @@ const CorporateClients = CorporateClientsHoc(
                     />
                   )}
                   name="zone"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Sales Territory"
+                      hasError={errors.salesTerritory}
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by sales territory"
+                        data={{
+                          list: _.uniqBy(
+                            salesTeamStore.listSalesTeam,
+                            "salesTerritory"
+                          ),
+                          displayKey: ["salesTerritory"],
+                        }}
+                        hasError={errors.salesTerritory}
+                        onFilter={(value: string) => {
+                          salesTeamStore.salesTeamService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["salesTerritory"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.salesTerritory)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            salesTerritoRy: item.salesTerritory,
+                          })
+                          salesTeamStore.updateSalesTeamList(
+                            salesTeamStore.listSalesTeamCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="salesTerritory"
                   rules={{ required: false }}
                   defaultValue=""
                 />
@@ -1205,7 +1292,6 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                    
                 </Grid>
               </List>
               <List direction="col" space={4} justify="stretch" fill>
