@@ -14,12 +14,14 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { DoctorsList } from "../components"
 import { lookupItems, lookupValue, toTitleCase } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { DoctorsHoc } from "../hoc"
 import { useStores } from "@/stores"
+import { FormHelper } from "@/helper"
 
 import { RouterFlow } from "@/flows"
 
@@ -32,6 +34,7 @@ const Doctors = DoctorsHoc(
       doctorsStore,
       loading,
       administrativeDivisions,
+      registrationLocationsStore,
     } = useStores()
     const {
       control,
@@ -39,9 +42,10 @@ const Doctors = DoctorsHoc(
       formState: { errors },
       setValue,
     } = useForm()
-    setValue("environment", loginStore.login.environment)
+
     setValue("status", doctorsStore.doctors?.status)
     setValue("environment", doctorsStore.doctors?.environment)
+
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddSection, setHideAddSection] = useState<boolean>(true)
     const onSubmitDoctors = () => {
@@ -194,7 +198,7 @@ const Doctors = DoctorsHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -249,7 +253,7 @@ const Doctors = DoctorsHoc(
                         onChange(doctorCode)
                         doctorsStore.updateDoctors({
                           ...doctorsStore.doctors,
-                          doctorCode,
+                          doctorCode: doctorCode.toUpperCase(),
                         })
                       }}
                       onBlur={(code) => {
@@ -299,7 +303,7 @@ const Doctors = DoctorsHoc(
                         onChange(doctorName)
                         doctorsStore.updateDoctors({
                           ...doctorsStore.doctors,
-                          doctorName,
+                          doctorName: doctorName.toUpperCase(),
                           reportName: `${doctorsStore.doctors?.title}. ${toTitleCase(
                             doctorName
                           )}`,
@@ -371,21 +375,33 @@ const Doctors = DoctorsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label="Doctor Type"
-                      placeholder={
-                        errors.doctorType ? "Please Enter doctorType" : "Doctor Type"
-                      }
                       hasError={errors.doctorType}
-                      value={doctorsStore.doctors?.doctorType}
-                      onChange={(doctorType) => {
-                        onChange(doctorType)
-                        doctorsStore.updateDoctors({
-                          ...doctorsStore.doctors,
-                          doctorType,
-                        })
-                      }}
-                    />
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.doctorType ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const doctorType = e.target.value
+                          onChange(doctorType)
+                          doctorsStore.updateDoctors({
+                            ...doctorsStore.doctors,
+                            doctorType,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "DOCTOR_TYPE").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
                   )}
                   name="doctorType"
                   rules={{ required: false }}
@@ -795,6 +811,7 @@ const Doctors = DoctorsHoc(
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
                               postalCode: item?.postalCode,
+                              zone: item?.zone,
                             })
                             administrativeDivisions.updateAdministrativeDivList(
                               administrativeDivisions.listAdministrativeDivCopy
@@ -813,8 +830,29 @@ const Doctors = DoctorsHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Zone"
+                      placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
+                      hasError={errors.zone}
+                      value={doctorsStore.doctors?.zone}
+                      onChange={(zone) => {
+                        onChange(zone)
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          zone,
+                        })
+                      }}
+                    />
+                  )}
+                  name="zone"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <Form.InputWrapper
-                      label="Sales TerritoRy"
+                      label="Sales Territory"
                       hasError={errors.salesTerritoRy}
                     >
                       <select
@@ -853,27 +891,6 @@ const Doctors = DoctorsHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Zone"
-                      placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
-                      hasError={errors.zone}
-                      value={doctorsStore.doctors?.zone}
-                      onChange={(zone) => {
-                        onChange(zone)
-                        doctorsStore.updateDoctors({
-                          ...doctorsStore.doctors,
-                          zone,
-                        })
-                      }}
-                    />
-                  )}
-                  name="zone"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
                       label="Telephone"
                       placeholder={
                         errors.telephone ? "Please Enter telephone" : "Telephone"
@@ -899,8 +916,9 @@ const Doctors = DoctorsHoc(
                     <Form.Input
                       label="Mobile No"
                       placeholder={
-                        errors.mobileNo ? "Please Enter mobileNo" : "Mobile No"
+                        errors.mobileNo ? "Please Enter mobile no" : "Mobile No"
                       }
+                      type="number"
                       hasError={errors.mobileNo}
                       value={doctorsStore.doctors?.mobileNo}
                       onChange={(mobileNo) => {
@@ -913,7 +931,7 @@ const Doctors = DoctorsHoc(
                     />
                   )}
                   name="mobileNo"
-                  rules={{ required: false }}
+                  rules={{ required: false, pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -1022,31 +1040,39 @@ const Doctors = DoctorsHoc(
                       label="Registartion Location"
                       hasError={errors.registrationLocation}
                     >
-                      <select
-                        value={doctorsStore.doctors?.registrationLocation}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.registrationLocation
-                            ? "border-red-500  "
-                            : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const registrationLocation = e.target.value
-                          onChange(registrationLocation)
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by locationCode or locationName"
+                        data={{
+                          list: registrationLocationsStore.listRegistrationLocations,
+                          displayKey: ["locationCode", "locationName"],
+                        }}
+                        hasError={errors.registrationLocation}
+                        onFilter={(value: string) => {
+                          registrationLocationsStore.registrationLocationsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ["locationCode", "locationName"],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.locationCode)
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            registrationLocation,
+                            registrationLocation: item.locationCode,
                           })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "STATUS").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
+                          registrationLocationsStore.updateRegistrationLocationsList(
+                            registrationLocationsStore.listRegistrationLocationsCopy
                           )
-                        )}
-                      </select>
+                        }}
+                      />
                     </Form.InputWrapper>
                   )}
                   name="registrationLocation"
@@ -1057,32 +1083,19 @@ const Doctors = DoctorsHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label="Lab" hasError={errors.lab}>
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        placeholder="Search by name"
-                        data={{
-                          list: labStore.listLabs,
-                          displayKey: "name",
-                          findKey: "name",
-                        }}
-                        hasError={errors.lab}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filter({
-                            input: {
-                              type: "search",
-                              filter: {
-                                name: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.name)
+                      <select
+                        value={doctorsStore.doctors?.lab}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.lab ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const lab = e.target.value
+                          console.log({ lab })
+
+                          onChange(lab)
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            lab: item.code,
+                            lab,
                           })
                           labStore.updateLabList(labStore.listLabsCopy)
                           if (!doctorsStore.doctors?.existsVersionId) {
@@ -1091,7 +1104,7 @@ const Doctors = DoctorsHoc(
                                 input: {
                                   code: doctorsStore.doctors?.doctorCode,
                                   env: doctorsStore.doctors?.environment,
-                                  lab: item.code,
+                                  lab,
                                 },
                               })
                               .then((res) => {
@@ -1104,11 +1117,20 @@ const Doctors = DoctorsHoc(
                               })
                           }
                         }}
-                      />
+                      >
+                        <option selected>Select</option>
+                        {loginStore.login?.labList?.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {`${item.code} - ${item.name}`}
+                            </option>
+                          )
+                        )}
+                      </select>
                     </Form.InputWrapper>
                   )}
                   name="lab"
-                  rules={{ required: true }}
+                  rules={{ required: false }}
                   defaultValue=""
                 />
                 <Controller
@@ -1148,46 +1170,6 @@ const Doctors = DoctorsHoc(
                     />
                   )}
                   name="closingTime"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Schedule" hasError={errors.schedule}>
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        placeholder="Search by name"
-                        data={{
-                          list: labStore.listLabs,
-                          displayKey: "name",
-                          findKey: "name",
-                        }}
-                        hasError={errors.name}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filter({
-                            input: {
-                              type: "filter",
-                              filter: {
-                                name: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.name)
-                          doctorsStore.updateDoctors({
-                            ...doctorsStore.doctors,
-                            schedule: item.code,
-                          })
-                          labStore.updateLabList(labStore.listLabsCopy)
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name="schedule"
                   rules={{ required: false }}
                   defaultValue=""
                 />

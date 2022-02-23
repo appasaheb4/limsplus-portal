@@ -28,7 +28,6 @@ export class Doctors {
     lab: string
     openingTime: string
     closingTime: string
-    schedule: string
     info: string
     fyiLine: string
     workLine: string
@@ -74,8 +73,7 @@ export class Doctors {
         this.registrationLocation = rawData.registrationLocation
         this.lab = rawData.lab
         this.openingTime = rawData.openingTime 
-        this.closingTime = rawData.closingTime         
-        this.schedule = rawData.schedule
+        this.closingTime = rawData.closingTime   
         this.info = rawData.info
         this.fyiLine = rawData.fyiLine
         this.workLine = rawData.workLine
