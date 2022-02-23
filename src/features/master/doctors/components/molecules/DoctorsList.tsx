@@ -4,7 +4,9 @@ import dayjs from "dayjs"
 import {lookupItems,lookupValue} from "@/library/utils"
 import {NumberFilter,DateFilter,Icons,Tooltip,textFilter,customFilter,TableBootstrap,Form} from "@/library/components"
 import {Confirm} from "@/library/models"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectCity} from '../index'
+import { FormHelper } from "@/helper"
+import { useForm, Controller } from "react-hook-form"
+import {AutoCompleteRegistrationLocation,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectCity} from '../index'
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 let dateCreation
 let dateActive
@@ -20,7 +22,6 @@ let category
 let city
 let state
 let country
-let postcode
 let doctorType
 let speciality
 let salesTerritoRy
@@ -51,6 +52,7 @@ interface DoctorsListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -58,6 +60,12 @@ interface DoctorsListProps {
 }
 
 export const DoctorsList = (props: DoctorsListProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -214,6 +222,38 @@ export const DoctorsList = (props: DoctorsListProps) => {
               }
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+               
+                  <select
+                    value={row.doctorType}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const doctorType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(doctorType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      "DOCTOR_TYPE"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                
+              </>
+            ),
           },
 
           {
@@ -272,6 +312,38 @@ export const DoctorsList = (props: DoctorsListProps) => {
               }
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+               
+                  <select
+                    value={row.category}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const category = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(category, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      "CATEGORY"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                
+              </>
+            ),
           },
           {
             dataField: "country",
@@ -476,12 +548,15 @@ export const DoctorsList = (props: DoctorsListProps) => {
                     city={row.city}
                     area={row.area}
                     onSelect={(item) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.postalCode,
-                          column.dataField,
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            postalCode:item.postalCode,
+                            zone:item.zone
+                          },
                           row._id
                         )
+                          
                     }}
                   />
                 )}
@@ -545,7 +620,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 zone = filter
               }
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
           },
           {
             dataField: "telephone",
@@ -572,6 +647,40 @@ export const DoctorsList = (props: DoctorsListProps) => {
               }
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      placeholder={
+                        errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
+                      }
+                      hasError={errors.mobileNo}
+                      type="number"
+                      defaultValue={row.mobileNo}
+                      onChange={(mobileNo) => {
+                        onChange(mobileNo)
+                      }}
+                      onBlur={(mobileNo) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(mobileNo, column.dataField, row._id)
+                      }}
+                    />
+                  )}
+                  name="mobileNo"
+                  rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                  defaultValue=""
+                />
+              </>
+            ),
           },
           {
             dataField: "email",
@@ -697,30 +806,12 @@ export const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-               
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const registrationLocation = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          registrationLocation,
-                          column.dataField,
-                          row._id
-                        )
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "STATUS"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
-                  </select>
-                
+               <AutoCompleteRegistrationLocation
+               onSelect={(item)=>{
+                 props.onUpdateItem && props.onUpdateItem(item,column.dataField,row._id)
+               }}
+               />
+                  
               </>
             ),
           },
@@ -745,11 +836,23 @@ export const DoctorsList = (props: DoctorsListProps) => {
               columnIndex
             ) => (
               <>
-                <AutoCompleteFilterSingleSelectLabs
-                onSelect={(item)=>{
-                  props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                }}
-                />
+                <select
+                        value={row?.lab}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        onChange={(e) => {
+                          const lab = e.target.value
+                          props.onUpdateItem && props.onUpdateItem(lab,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData?.labList?.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {`${item.code} - ${item.name}`}
+                            </option>
+                          )
+                        )}
+                      </select>
               </>
             ),
           },
@@ -1220,7 +1323,6 @@ export const DoctorsList = (props: DoctorsListProps) => {
           city("")
           state("")
           country("")
-          postalCode("")
           doctorType("")
           speciality("")
           salesTerritoRy("")

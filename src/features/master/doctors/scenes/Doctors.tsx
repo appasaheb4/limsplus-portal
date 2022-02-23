@@ -126,6 +126,7 @@ const Doctors = DoctorsHoc(
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,
             listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
+            labList:loginStore.login?.labList
           }}
           isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
           isEditModify={RouterFlow.checkPermission(
@@ -150,6 +151,15 @@ const Doctors = DoctorsHoc(
               data: { value, dataField, id },
               title: "Are you sure?",
               body: `Update Section!`,
+            })
+          }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "UpdateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: `Update records!`,
             })
           }}
           onVersionUpgrade={(item) => {
@@ -380,6 +390,7 @@ const Doctors = DoctorsHoc(
                       hasError={errors.doctorType}
                     >
                       <select
+                      value={doctorsStore.doctors?.doctorType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.doctorType ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
@@ -1557,7 +1568,25 @@ const Doctors = DoctorsHoc(
                       doctorsStore.fetchDoctors()
                     }
                   })
-              } else if (type === "versionUpgrade") {
+              } 
+              else if (type === "UpdateFileds") {
+                doctorsStore.doctorsService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updateDoctor.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateDoctor.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      doctorsStore.fetchDoctors()
+                    }
+                  })
+              }else if (type === "versionUpgrade") {
                 doctorsStore.updateDoctors({
                   ...modalConfirm.data,
                   _id: undefined,

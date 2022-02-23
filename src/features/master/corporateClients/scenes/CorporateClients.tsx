@@ -1205,28 +1205,7 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                    <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Client Specific Price"
-                      hasError={errors.clientSpecificPrice}
-                      value={
-                        corporateClientsStore.corporateClients?.clientSpecificPrice
-                      }
-                      onChange={(clientSpecificPrice) => {
-                        onChange(clientSpecificPrice)
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          clientSpecificPrice,
-                        })
-                      }}
-                    />
-                  )}
-                  name="clientSpecificPrice"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                    
                 </Grid>
               </List>
               <List direction="col" space={4} justify="stretch" fill>

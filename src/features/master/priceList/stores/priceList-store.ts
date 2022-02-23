@@ -18,7 +18,10 @@ export class PriceListStore {
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
-      version: 1
+      version: 1,
+      minSp:0,
+      maxDis:0,
+      maxSp:0
     }
 
     makeObservable<PriceListStore, any>(this, {
