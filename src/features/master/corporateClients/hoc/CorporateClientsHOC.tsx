@@ -2,59 +2,44 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
-import {getDefaultLookupItem} from "@/library/utils"
+import { getDefaultLookupItem } from "@/library/utils"
 
 export const CorporateClientsHoc = (Component: React.FC<any>) => {
   return observer(
     (props: any): JSX.Element => {
       const { loginStore, corporateClientsStore, routerStore } = useStores()
-      useEffect(()=>{
+      useEffect(() => {
+        corporateClientsStore.updateCorporateClients({
+          ...corporateClientsStore.corporateClients,
+          status: getDefaultLookupItem(routerStore.lookupItems, "STATUS"),
+          environment: getDefaultLookupItem(routerStore.lookupItems, "ENVIRONMENT"),
+          salesTerritoRy: getDefaultLookupItem(
+            routerStore.lookupItems,
+            "SPECIALITY"
+          ),
+          deliveryMethod: getDefaultLookupItem(
+            routerStore.lookupItems,
+            "DELIVERY_METHOD"
+          ),
+          deliveryType: getDefaultLookupItem(
+            routerStore.lookupItems,
+            "DELIVERY_TYPE"
+          ),
+          category: getDefaultLookupItem(routerStore.lookupItems, "CATEGORY"),
+          customerGroup: getDefaultLookupItem(
+            routerStore.lookupItems,
+            "CUSTOMER_GROUP"
+          ),
+          acClass: getDefaultLookupItem(routerStore.lookupItems, "AC_CLASS"),
+          acType: getDefaultLookupItem(routerStore.lookupItems, "AC_TYPE"),
+        })
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           corporateClientsStore.updateCorporateClients({
             ...corporateClientsStore.corporateClients,
             environment: loginStore.login.environment,
           })
-        }  
-        corporateClientsStore.updateCorporateClients({
-            ...corporateClientsStore.corporateClients,
-            status: getDefaultLookupItem(
-                routerStore.lookupItems,
-                "STATUS"
-              ),
-              environment:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "ENVIRONMENT"
-              ),
-              salesTerritoRy:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "SPECIALITY"
-              ),
-              deliveryMethod:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "DELIVERY_METHOD"
-              ),
-              deliveryType:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "DELIVERY_TYPE"
-              ),
-              category:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "CATEGORY"
-              ),
-              customerGroup:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "CUSTOMER_GROUP"
-              ),
-              acClass:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "AC_CLASS"
-              ),
-              acType:getDefaultLookupItem(
-                routerStore.lookupItems,
-                "AC_TYPE"
-              ),
-          })
-      },[loginStore.login,routerStore.lookupItems])
+        }
+      }, [loginStore.login, routerStore.lookupItems])
       return <Component {...props} />
     }
   )

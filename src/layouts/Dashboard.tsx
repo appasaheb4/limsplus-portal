@@ -151,6 +151,7 @@ const Dashboard = observer(({ children }) => {
       ) {
         await CorporateClients.startup()
         await AdministrativeDivisions.startup()
+        await SalesTeam.startup()
       }
       if (
         pathname === "/collection/deliverySchedule" ||

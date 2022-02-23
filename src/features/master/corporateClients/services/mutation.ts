@@ -25,6 +25,7 @@ export const LIST = gql`
         acType
         acClass
         billingOn
+        billingFrequency
         address
         city
         state
@@ -41,6 +42,7 @@ export const LIST = gql`
         deliveryMethod
         salesTerritoRy
         area
+        sbu
         zone
         urgent
         schedule
@@ -136,6 +138,7 @@ export const FILTER = gql`
         acType
         acClass
         billingOn
+        billingFrequency
         address
         city
         state
@@ -152,6 +155,7 @@ export const FILTER = gql`
         deliveryMethod
         salesTerritoRy
         area
+        sbu
         zone
         urgent
         schedule
@@ -192,6 +196,7 @@ export const FILTER_BY_FIELDS = gql`
         acType
         acClass
         billingOn
+        billingFrequency
         address
         city
         state
@@ -208,6 +213,7 @@ export const FILTER_BY_FIELDS = gql`
         deliveryMethod
         salesTerritoRy
         area
+        sbu
         zone
         urgent
         schedule

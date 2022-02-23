@@ -10,6 +10,7 @@ export class CorporateClients {
   acType: string
   acClass: string
   billingOn: string
+  billingFrequency: string
   customerGroup: string
   category: string
   country: string
@@ -19,6 +20,7 @@ export class CorporateClients {
   area: string
   postalCode: number
   salesTerritoRy: string
+  sbu: string
   zone: string
   telephone: string
   mobileNo: string
@@ -54,6 +56,7 @@ export class CorporateClients {
     this.acType = rawData.acType
     this.acClass = rawData.acClass
     this.billingOn = rawData.billingOn
+    this.billingFrequency = rawData.billingFrequency
     this.customerGroup = rawData.customerGroup
     this.category = rawData.category
     this.country = rawData.country
@@ -63,6 +66,7 @@ export class CorporateClients {
     this.area = rawData.area
     this.postalCode = rawData.postalCode
     this.salesTerritoRy = rawData.salesTerritoRy
+    this.sbu = rawData.sbu
     this.zone = rawData.zone
     this.telephone = rawData.telephone
     this.mobileNo = rawData.mobileNo
