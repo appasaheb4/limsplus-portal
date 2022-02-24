@@ -22,7 +22,8 @@ export class CorporateClientsStore {
       version: 1,
       confidential: false,
       urgent: false,
-    }
+      priceList: [{ id: 0,maxDis:0 }],
+    }  
 
     makeObservable<CorporateClientsStore, any>(this, {
       corporateClients: observable,

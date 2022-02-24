@@ -18,6 +18,7 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
+  COUNTER_CORPORATE_CLIENTS_INVOICEAC
 } from "./mutation"
 
 export class CorporateClientsService {
@@ -177,6 +178,33 @@ export class CorporateClientsService {
             },
           })
           stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+
+    counterInvoiceAc = () =>
+    new Promise<any>((resolve, reject) => {
+      const variables = {
+        input: {
+          filter: {
+            id: "corporateClient_invoiceAc",
+          },
+        },
+      }
+      client
+        .mutate({
+          mutation: COUNTER_CORPORATE_CLIENTS_INVOICEAC,
+          variables,
+        })
+        .then((response: any) => {
+          stores.corporateClientsStore.updateCorporateClients({
+            ...stores.corporateClientsStore.corporateClients,
+            invoiceAc: response.data.counter.data[0]?.seq + 1 || 1000001,
+          })
           resolve(response.data)
         })
         .catch((error) =>

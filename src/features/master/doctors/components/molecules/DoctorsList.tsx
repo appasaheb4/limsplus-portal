@@ -552,13 +552,12 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateFileds &&
                         props.onUpdateFileds(
                           {
-                            postalCode:item.postalCode,
+                            postalCode: parseInt(item.postalCode),
                             zone:item.zone,
                             sbu:item.sbu
                           },
                           row._id
                         )
-                          
                     }}
                   />
                 )}

@@ -3,7 +3,7 @@ import React from "react"
 import {NumberFilter,DateFilter,TableBootstrap,textFilter,customFilter,Form,Tooltip,Icons} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {lookupItems,lookupValue} from "@/library/utils"
-import {AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectPostalCode} from "../index"
+import {AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectPostalCode} from "../../index"
 import dayjs from "dayjs"
 import { FormHelper } from "@/helper"
 import { useForm, Controller } from "react-hook-form"
@@ -133,6 +133,22 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                 priceList = filter
               }
             }),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {row?.priceList?.map((item) => (
+                    <div className="p-2">
+                      <h4>{`${item?.priceGroup ? `Price Group ${item?.priceGroup}` : ''}`}</h4>
+                      <h4>{`${item?.priceList ? `Price List ${item?.priceList}` : ''}`} </h4>
+                      <h4>{`${item?.description ? `Description ${item?.description}` :''}`}</h4>
+                      <h4>{`${item?.priority ? `Priority ${item?.priority}` :''}`} </h4>
+                      <h4>{`${item?.maxDis ? `Max Dis ${item?.maxDis}` :''}`}</h4>
+                      <hr />
+                    </div>
+                  ))}
+                </>
+              )
+            },
           },
           {
             dataField: "acType",
@@ -604,7 +620,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                     area={row.area}
                     onSelect={(item) => {
                       props.onUpdateFileds && props.onUpdateFileds({
-                        postalCode:item.postalCode,
+                        postalCode: parseInt(item.postalCode),
                         zone:item.zone,
                         sbu:item.sbu
                       },row._id)

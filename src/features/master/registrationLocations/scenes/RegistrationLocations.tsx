@@ -957,7 +957,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             console.log({ item })
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
-                              postalCode: item?.postalCode,
+                              postalCode:  parseInt(item?.postalCode),
                               zone: item?.zone,
                               sbu: item?.sbu,
                             })

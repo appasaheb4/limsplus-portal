@@ -198,11 +198,11 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                 <>
                   {row?.priceList?.map((item) => (
                     <div className="p-2">
-                      <h4>Price Group{item.priceGroup}</h4>
-                      <h4>Price List{item.priceList}</h4>
-                      <h4>Description{item.description}</h4>
-                      <h4>Priority{item.priority}</h4>
-                      <h4>Max Dis{item.maxDis}</h4>
+                      <h4>{`${item?.priceGroup ? `Price Group ${item?.priceGroup}` : ''}`}</h4>
+                      <h4>{`${item?.priceList ? `Price List ${item?.priceList}` : ''}`} </h4>
+                      <h4>{`${item?.description ? `Description ${item?.description}` :''}`}</h4>
+                      <h4>{`${item?.priority ? `Priority ${item?.priority}` :''}`} </h4>
+                      <h4>{`${item?.maxDis ? `Max Dis ${item?.maxDis}` :''}`}</h4>
                       <hr />
                     </div>
                   ))}
@@ -620,7 +620,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                       props.onUpdateFileds &&
                         props.onUpdateFileds(
                           {
-                            postalCode: item.postalCode,
+                            postalCode: parseInt(item.postalCode),
                             sbu: item.sbu,
                             zone: item.zone,
                           },

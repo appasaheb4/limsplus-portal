@@ -7,10 +7,11 @@ import {Icons} from "@/library/components"
 
 interface AutoCompleteFilterSingleSelectPanelCodeProps {
   onSelect: (item: any) => void
+  hasError?: boolean
 }
 
 export const AutoCompleteFilterSingleSelectPanelCode = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
+  ({ onSelect, hasError }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
     const { loading, masterPanelStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -69,7 +70,9 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
       <>
         <div ref={wrapperRef}>
           <div
-            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
+            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
+              hasError ? "border-red-500  " : "border-gray-300"
+            } rounded-md`}
           >
             <input
               placeholder="Search by panel code"

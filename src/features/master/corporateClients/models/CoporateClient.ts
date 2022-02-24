@@ -5,7 +5,14 @@ export class CorporateClients {
   corporateCode: string
   corporateName: string
   invoiceAc: string
-  priceList: string
+  priceList: Array<{
+    id: number
+    priceGroup?: string
+    priceList?: string
+    description?: string
+    priority?: number
+    maxDis?: number
+  }>
   clientSpecificPrice: boolean
   acType: string
   acClass: string

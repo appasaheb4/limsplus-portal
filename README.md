@@ -11,6 +11,7 @@
  - 3. Node, NestJs, Graphql, Typeorm, Mongodb
  - 4. Mobx (State management)
  
+ 
 
 ```sh
 git clone https://github.com/appasaheb4/limsplus-portal
@@ -18,7 +19,6 @@ cd limsplus-portal
 yarn install
 npm run dev
 ```
-
 
 ## Contributing
 

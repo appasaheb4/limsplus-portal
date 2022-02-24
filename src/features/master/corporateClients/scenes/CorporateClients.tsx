@@ -16,7 +16,7 @@ import {
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from "@/library/components"
-import { CorporateClient } from "../components"
+import { CorporateClient, PriceListTable } from "../components"
 import { lookupItems, lookupValue } from "@/library/utils"
 
 import { useForm, Controller } from "react-hook-form"
@@ -205,7 +205,7 @@ const CorporateClients = CorporateClientsHoc(
             onClick={() => setHideAddSection(!hideAddSection)}
           />
         )}
-        <div className=" mx-auto flex-wrap">
+        <div className="mx-auto flex-wrap">
           <div
             className={
               "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
@@ -300,6 +300,7 @@ const CorporateClients = CorporateClientsHoc(
                       placeholder={
                         errors.invoiceAc ? "Please Enter Invoice AC" : "Invoice AC"
                       }
+                      disabled={true}
                       hasError={errors.invoiceAc}
                       value={corporateClientsStore.corporateClients?.invoiceAc}
                       onChange={(invoiceAc) => {
@@ -312,22 +313,6 @@ const CorporateClients = CorporateClientsHoc(
                     />
                   )}
                   name="invoiceAc"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Price List"
-                      hasError={errors.priceList}
-                    >
-                      <Buttons.Button size="medium" type="solid" onClick={() => {}}>
-                        {`List`}
-                      </Buttons.Button>
-                    </Form.InputWrapper>
-                  )}
-                  name="priceList"
                   rules={{ required: false }}
                   defaultValue=""
                 />
@@ -927,7 +912,7 @@ const CorporateClients = CorporateClientsHoc(
                             onChange(item.postalCode)
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
-                              postalCode: item.postalCode,
+                              postalCode: parseInt(item.postalCode),
                               zone: item?.zone,
                               sbu: item?.sbu,
                             })
@@ -1077,7 +1062,7 @@ const CorporateClients = CorporateClientsHoc(
                     />
                   )}
                   name="mobileNo"
-                  rules={{ required: false,pattern: FormHelper.patterns.mobileNo }}
+                  rules={{ required: false, pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -1179,7 +1164,7 @@ const CorporateClients = CorporateClientsHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1515,6 +1500,20 @@ const CorporateClients = CorporateClientsHoc(
                 />
               </List>
             </Grid>
+            <br/>
+            <List direction="row" space={3} align="center">
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputWrapper label="Price List" hasError={errors.priceList}>
+                    <PriceListTable />
+                  </Form.InputWrapper>
+                )}
+                name="priceList"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+            </List>
             <br />
             <List direction="row" space={3} align="center">
               <Buttons.Button
@@ -1570,8 +1569,7 @@ const CorporateClients = CorporateClientsHoc(
                       corporateClientsStore.fetchCorporateClients()
                     }
                   })
-              }
-              else if (type === "UpdateFileds") {
+              } else if (type === "UpdateFileds") {
                 corporateClientsStore.corporateClientsService
                   .updateSingleFiled({
                     input: {

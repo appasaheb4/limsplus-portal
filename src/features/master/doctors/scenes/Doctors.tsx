@@ -822,7 +822,7 @@ const Doctors = DoctorsHoc(
                             console.log({ item })
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
-                              postalCode: item?.postalCode,
+                              postalCode: parseInt(item?.postalCode),
                               zone: item?.zone,
                               sbu: item?.sbu
                             })

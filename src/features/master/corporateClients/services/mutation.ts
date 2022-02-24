@@ -229,3 +229,13 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `
+
+export const COUNTER_CORPORATE_CLIENTS_INVOICEAC = gql`
+  mutation($input: CounterInput!) {
+    counter(input: $input) {
+      message
+      success
+      data
+    }
+  }
+`

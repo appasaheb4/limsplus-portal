@@ -84,7 +84,7 @@ export const PriceList = PriceListHoc(
               },
             })
             .then((res) => {
-              console.log({res})
+              console.log({ res })
               if (res.versionUpgradePriceList.success) {
                 Toast.success({
                   message: `😊 ${res.versionUpgradePriceList.message}`,
@@ -369,6 +369,7 @@ export const PriceList = PriceListHoc(
                       hasError={errors.panelCode}
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
+                        hasError={errors.panelCode}
                         onSelect={(item) => {
                           onChange(item.panelName)
                           setValue("panelName", item.panelName)
@@ -465,7 +466,11 @@ export const PriceList = PriceListHoc(
                       label="Min Sales Price"
                       name="txtMinSp"
                       type="number"
-                      placeholder={errors.minSp ? "Please Enter Min Sales Price" : "Min Sales Price"}
+                      placeholder={
+                        errors.minSp
+                          ? "Please Enter Min Sales Price"
+                          : "Min Sales Price"
+                      }
                       hasError={errors.minSp}
                       value={priceListStore.priceList?.minSp}
                       onChange={(minSp) => {
@@ -488,7 +493,11 @@ export const PriceList = PriceListHoc(
                       label="Max Sales Price"
                       name="txtMaxSp"
                       type="number"
-                      placeholder={errors.maxSp ? "Please Enter Max Sales Price" : " Max Sales Price"}
+                      placeholder={
+                        errors.maxSp
+                          ? "Please Enter Max Sales Price"
+                          : " Max Sales Price"
+                      }
                       hasError={errors.minSp}
                       value={priceListStore.priceList?.maxSp}
                       onChange={(maxSp) => {
@@ -803,8 +812,7 @@ export const PriceList = PriceListHoc(
                       priceListStore.fetchListPriceList()
                     }
                   })
-              }
-              else if (type === "UpdateFileds") {
+              } else if (type === "UpdateFileds") {
                 priceListStore.priceListService
                   .updateSingleFiled({
                     input: {
@@ -832,7 +840,7 @@ export const PriceList = PriceListHoc(
                   dateCreation: new Date(),
                 })
                 setHideAddLab(!hideAddLab)
-                setModalConfirm({show: false})
+                setModalConfirm({ show: false })
                 setValue("panelCode", modalConfirm.data.panelCode)
                 setValue("panelName", modalConfirm.data.panelName)
                 setValue("billTo", modalConfirm.data.billTo)
@@ -852,7 +860,7 @@ export const PriceList = PriceListHoc(
                   dateCreation: new Date(),
                 })
                 setHideAddLab(!hideAddLab)
-                setModalConfirm({show: false})
+                setModalConfirm({ show: false })
                 setValue("panelCode", modalConfirm.data.panelCode)
                 setValue("panelName", modalConfirm.data.panelName)
                 setValue("billTo", modalConfirm.data.billTo)

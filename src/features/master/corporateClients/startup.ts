@@ -1,6 +1,8 @@
-import { Stores } from "./stores"
+import { stores } from "@/stores"
 const startup = async () => {
-  Stores.corporateClientsStore.fetchCorporateClients()
+  stores.corporateClientsStore.fetchCorporateClients()
+
+  stores.corporateClientsStore.corporateClientsService.counterInvoiceAc()
 }
    
 export default startup
