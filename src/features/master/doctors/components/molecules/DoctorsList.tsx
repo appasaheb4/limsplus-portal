@@ -6,7 +6,7 @@ import {NumberFilter,DateFilter,Icons,Tooltip,textFilter,customFilter,TableBoots
 import {Confirm} from "@/library/models"
 import { FormHelper } from "@/helper"
 import { useForm, Controller } from "react-hook-form"
-import {AutoCompleteRegistrationLocation,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectCity} from '../index'
+import {AutoCompleteRegistrationLocation,AutoCompleteSalesTerritory,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectPostalCode,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectCity} from '../index'
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 let dateCreation
 let dateActive
@@ -17,6 +17,7 @@ let doctorCode
 let doctorName
 let sex
 let title
+let sbu
 let reportName
 let category
 let city
@@ -552,7 +553,8 @@ export const DoctorsList = (props: DoctorsListProps) => {
                         props.onUpdateFileds(
                           {
                             postalCode:item.postalCode,
-                            zone:item.zone
+                            zone:item.zone,
+                            sbu:item.sbu
                           },
                           row._id
                         )
@@ -563,7 +565,32 @@ export const DoctorsList = (props: DoctorsListProps) => {
               </>
             ),
           },
-          
+          {
+            dataField: "sbu",
+            text: "SBU",
+            headerClasses: "textHeader1",
+            sort: true,
+             csvFormatter: col => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) =>{
+                sbu = filter
+              }
+            }),
+            editable: false,
+          },
+          {
+            dataField: "zone",
+            text: "Zone",
+            headerClasses: "textHeader1",
+            sort: true,
+             csvFormatter: col => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) =>{
+                zone = filter
+              }
+            }),
+            editable: false,
+          },
           {
             dataField: "salesTerritoRy",
             text: "Sales Territory",
@@ -586,42 +613,17 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ) => (
               <>
                 
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const salesTerritoRy = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(salesTerritoRy, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "SPECIALITY"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
-                  </select>
+                  <AutoCompleteSalesTerritory
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item,column.dataField,row._id)
+                  }}
+                  />
                 
               </>
             ),
           },
           
-          {
-            dataField: "zone",
-            text: "Zone",
-            headerClasses: "textHeader1",
-            sort: true,
-             csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                zone = filter
-              }
-            }),
-            editable: false,
-          },
+          
           {
             dataField: "telephone",
             text: "Telephone",
@@ -1316,6 +1318,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           doctorCode("")
           doctorName("")
           sex("")
+          sbu("")
           title("")
           reportName("")
           postalCode("")

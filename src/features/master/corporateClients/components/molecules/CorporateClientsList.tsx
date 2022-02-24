@@ -3,8 +3,11 @@ import React from "react"
 import {NumberFilter,DateFilter,TableBootstrap,textFilter,customFilter,Form,Tooltip,Icons} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {lookupItems,lookupValue} from "@/library/utils"
-import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectPostalCode} from "../index"
+import {AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectCountry,AutoCompleteFilterSingleSelectDistrict,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectPostalCode} from "../index"
 import dayjs from "dayjs"
+import { FormHelper } from "@/helper"
+import { useForm, Controller } from "react-hook-form"
+import { AutoCompleteSalesTerritory } from "@/features/master/registrationLocations/components"
 let dateCreation
 let dateActive
 let dateExpire
@@ -15,7 +18,9 @@ let corporateName
 let invoiceAc
 let priceList
 let acType
+let sbu
 let acClass
+let billingFrequency
 let billingOn
 let city
 let state
@@ -48,12 +53,19 @@ interface CorporateClientListProps {
   onSelectedRow?: (selectedItem: any) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 export const CorporateClient = (props: CorporateClientListProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -224,6 +236,77 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                 billingOn = filter
               }
             }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+               <select
+                        value={row?.billingOn}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        onChange={(e) => {
+                          const billingOn = e.target.value
+                          props.onUpdateItem &&
+                        props.onUpdateItem(billingOn, column.dataField, row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(props.extraData.lookupItems, "BILLING_ON").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select> 
+              </>
+            )
+          },
+          {
+            dataField: "billingFrequency",
+            text: "Billing Frequency",
+            headerClasses: "textHeader5",
+            sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) =>{
+                billingFrequency = filter
+              }
+            }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+               <select
+                        value={row?.billingFrequency}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        onChange={(e) => {
+                          const billingFrequency = e.target.value
+                          props.onUpdateItem &&
+                        props.onUpdateItem(billingFrequency, column.dataField, row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(props.extraData.lookupItems, "BILLING_FREQUENCY").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select> 
+              </>
+            )
           },
           {
             dataField: "customerGroup",
@@ -520,17 +603,42 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                     city={row.city}
                     area={row.area}
                     onSelect={(item) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.postalCode,
-                          column.dataField,
-                          row._id
-                        )
+                      props.onUpdateFileds && props.onUpdateFileds({
+                        postalCode:item.postalCode,
+                        zone:item.zone,
+                        sbu:item.sbu
+                      },row._id)
                     }}
                   />
                 )}
               </>
             ),
+          },
+          {
+            dataField: "zone",
+            text: "Zone",
+            headerClasses: "textHeader1",
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) =>{
+                zone = filter
+              }
+            }),
+          },
+          {
+            dataField: "sbu",
+            text: "SBU",
+            headerClasses: "textHeader1",
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) =>{
+                sbu = filter
+              }
+            }),
           },
           {
             dataField: "salesTerritoRy",
@@ -553,43 +661,17 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const salesTerritoRy = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(salesTerritoRy, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      "SPECIALITY"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
-                  </select>
-                
+                <AutoCompleteSalesTerritory
+                onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item,column.dataField,row._id)
+                }}
+                />
+                  
               </>
             ),
           },
 
-          {
-            dataField: "zone",
-            text: "Zone",
-            headerClasses: "textHeader1",
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                zone = filter
-              }
-            }),
-          },
+          
           
           
           {
@@ -617,6 +699,40 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                 mobileNo = filter
               }
             }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      placeholder={
+                        errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
+                      }
+                      hasError={errors.mobileNo}
+                      type="number"
+                      defaultValue={row.mobileNo}
+                      onChange={(mobileNo) => {
+                        onChange(mobileNo)
+                      }}
+                      onBlur={(mobileNo) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(mobileNo, column.dataField, row._id)
+                      }}
+                    />
+                  )}
+                  name="mobileNo"
+                  rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                  defaultValue=""
+                />
+              </>
+            )
           },
           {
             dataField: "email",
@@ -719,35 +835,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               </>
             ),
           },
-          {
-            dataField: "schedule",
-            text: "Schedule",
-            headerClasses: "textHeader5",
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) =>{
-                schedule = filter
-              }
-            }),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectLabs
-                onSelect={(item)=>{
-                  props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                }}
-                />
-              </>
-            ),
-          },
+          
           {
             dataField: "info",
             text: "Info",
@@ -1200,6 +1288,8 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           category("")
           telephone("")
           mobileNo("")
+          billingFrequency("")
+          sbu("")
           email("")
           deliveryType("")
           deliveryMethod("")

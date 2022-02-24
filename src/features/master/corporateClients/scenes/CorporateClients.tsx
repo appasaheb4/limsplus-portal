@@ -22,7 +22,7 @@ import { lookupItems, lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { CorporateClientsHoc } from "../hoc"
 import { useStores } from "@/stores"
-
+import { FormHelper } from "@/helper"
 import { RouterFlow } from "@/flows"
 
 const CorporateClients = CorporateClientsHoc(
@@ -169,6 +169,15 @@ const CorporateClients = CorporateClientsHoc(
               data: { value, dataField, id },
               title: "Are you sure?",
               body: `Update Section!`,
+            })
+          }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "UpdateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: `Update records!`,
             })
           }}
           onPageSizeChange={(page, limit) => {
@@ -1055,6 +1064,7 @@ const CorporateClients = CorporateClientsHoc(
                       placeholder={
                         errors.mobileNo ? "Please Enter Mobile No" : "Mobile No"
                       }
+                      type="number"
                       hasError={errors.mobileNo}
                       value={corporateClientsStore.corporateClients?.mobileNo}
                       onChange={(mobileNo) => {
@@ -1067,7 +1077,7 @@ const CorporateClients = CorporateClientsHoc(
                     />
                   )}
                   name="mobileNo"
-                  rules={{ required: false }}
+                  rules={{ required: false,pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -1169,46 +1179,7 @@ const CorporateClients = CorporateClientsHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Schedule" hasError={errors.schedule}>
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        placeholder="Search by name"
-                        data={{
-                          list: labStore.listLabs,
-                          displayKey: "name",
-                          findKey: "name",
-                        }}
-                        hasError={errors.name}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filter({
-                            input: {
-                              type: "filter",
-                              filter: {
-                                name: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          })
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.name)
-                          corporateClientsStore.updateCorporateClients({
-                            ...corporateClientsStore.corporateClients,
-                            schedule: item.code,
-                          })
-                          labStore.updateLabList(labStore.listLabsCopy)
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name="schedule"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1588,6 +1559,24 @@ const CorporateClients = CorporateClientsHoc(
                     input: {
                       _id: modalConfirm.data.id,
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updateCorporateClient.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateCorporateClient.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      corporateClientsStore.fetchCorporateClients()
+                    }
+                  })
+              }
+              else if (type === "UpdateFileds") {
+                corporateClientsStore.corporateClientsService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
                     },
                   })
                   .then((res: any) => {
