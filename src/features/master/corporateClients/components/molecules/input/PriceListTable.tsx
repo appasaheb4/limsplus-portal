@@ -16,7 +16,7 @@ import { useForm, Controller } from "react-hook-form"
 import { RouterFlow } from "@/flows"
 
 export const PriceListTable = observer(({}) => {
-  const { loading, registrationLocationsStore, corporateClientsStore } = useStores()
+  const { loading, corporateClientsStore } = useStores()
 
   const {
     control,
@@ -44,28 +44,25 @@ export const PriceListTable = observer(({}) => {
   }, [])
 
   const addItem = () => {
-    let priceList = registrationLocationsStore.registrationLocations?.priceList
+    let priceList = corporateClientsStore.corporateClients?.priceList
     priceList.push({
-      id: registrationLocationsStore.registrationLocations?.priceList.length + 1,
-      maxDis:0
+      id: corporateClientsStore.corporateClients?.priceList.length + 1,
+      maxDis: 0,
     })
-    registrationLocationsStore.updateRegistrationLocations({
-      ...registrationLocationsStore.registrationLocations,
+    corporateClientsStore.updateCorporateClients({
+      ...corporateClientsStore.corporateClients,
       priceList,
     })
   }
 
   const removeItem = (index: number) => {
     const firstArr =
-      registrationLocationsStore.registrationLocations?.priceList?.slice(0, index) ||
-      []
+      corporateClientsStore.corporateClients?.priceList?.slice(0, index) || []
     const secondArr =
-      registrationLocationsStore.registrationLocations?.priceList?.slice(
-        index + 1
-      ) || []
+      corporateClientsStore.corporateClients?.priceList?.slice(index + 1) || []
     const finalArray = [...firstArr, ...secondArr]
-    registrationLocationsStore.updateRegistrationLocations({
-      ...registrationLocationsStore.registrationLocations,
+    corporateClientsStore.updateCorporateClients({
+      ...corporateClientsStore.corporateClients,
       priceList: finalArray,
     })
   }
@@ -94,7 +91,7 @@ export const PriceListTable = observer(({}) => {
           </tr>
         </thead>
         <tbody className="text-xs">
-          {registrationLocationsStore?.registrationLocations?.priceList?.map(
+          {corporateClientsStore.corporateClients?.priceList?.map(
             (item, index) => (
               <tr>
                 <td>
@@ -110,7 +107,7 @@ export const PriceListTable = observer(({}) => {
                           const priceGroup = e.target.value as string
                           onChange(priceGroup)
                           const priceList =
-                            registrationLocationsStore.registrationLocations
+                          corporateClientsStore.corporateClients
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
@@ -122,8 +119,8 @@ export const PriceListTable = observer(({}) => {
                               )
                             ).value,
                           }
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
                             priceList,
                           })
                         }}
@@ -172,15 +169,15 @@ export const PriceListTable = observer(({}) => {
                         onSelect={(item) => {
                           onChange(item.corporateCode)
                           const priceList =
-                            registrationLocationsStore.registrationLocations
+                          corporateClientsStore.corporateClients
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
                             priceList: item.corporateCode,
                             description: item.corporateName,
                           }
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
                             priceList,
                           })
                           corporateClientsStore.updateCorporateClientsList(
@@ -233,14 +230,14 @@ export const PriceListTable = observer(({}) => {
                         onChange={(priority) => {
                           onChange(priority)
                           const priceList =
-                            registrationLocationsStore.registrationLocations
+                          corporateClientsStore.corporateClients
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
                             priority,
                           }
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
                             priceList,
                           })
                         }}
@@ -264,14 +261,14 @@ export const PriceListTable = observer(({}) => {
                         onChange={(maxDis) => {
                           onChange(maxDis)
                           const priceList =
-                            registrationLocationsStore.registrationLocations
+                          corporateClientsStore.corporateClients
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
                             maxDis,
                           }
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
                             priceList,
                           })
                         }}
@@ -304,20 +301,19 @@ export const PriceListTable = observer(({}) => {
                 </td>
               </tr>
             )
-          )}   
-        </tbody>
-        {registrationLocationsStore.registrationLocations?.priceList?.length ===
-            0 && (
-            <Buttons.Button
-              size="small"
-              type="outline"
-              onClick={handleSubmit(addItem)}
-            >
-              <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
-            </Buttons.Button>
           )}
+        </tbody>
+        {corporateClientsStore.corporateClients?.priceList?.length ===
+          0 && (
+          <Buttons.Button
+            size="small"
+            type="outline"
+            onClick={handleSubmit(addItem)}
+          >
+            <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
+          </Buttons.Button>
+        )}
       </Table>
-      
     </div>
   )
 })
