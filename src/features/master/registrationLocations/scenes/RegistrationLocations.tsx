@@ -135,7 +135,7 @@ const RegistrationLocation = RegistrationLocationHoc(
           totalSize={registrationLocationsStore.listRegistrationLocationsCount}
           extraData={{
             lookupItems: routerStore.lookupItems,
-            listLabs: labStore.listLabs,
+            labList: loginStore.login?.labList,
             listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
           }}
           isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
