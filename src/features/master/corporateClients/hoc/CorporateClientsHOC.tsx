@@ -32,6 +32,8 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
           ),
           acClass: getDefaultLookupItem(routerStore.lookupItems, "AC_CLASS"),
           acType: getDefaultLookupItem(routerStore.lookupItems, "AC_TYPE"),
+          billingOn:getDefaultLookupItem(routerStore.lookupItems, "BILLING_ON"),
+          billingFrequency:getDefaultLookupItem(routerStore.lookupItems, "BILLING_FREQUENCY"),
         })
         if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
           corporateClientsStore.updateCorporateClients({

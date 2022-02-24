@@ -12,6 +12,8 @@ import {
   Icons,
   TableBootstrap,
 } from "@/library/components"
+import { FormHelper } from "@/helper"
+import { useForm, Controller } from "react-hook-form"
 import { Confirm } from "@/library/models"
 import {
   AutoCompleteFilterSingleSelectLabs,
@@ -22,6 +24,7 @@ import {
   AutoCompleteFilterSingleSelectDistrict,
   AutoCompleteFilterSingleSelectPostalCode,
   AutoCompleteFilterSingleSelectState,
+  AutoCompleteSalesTerritory,
 } from "../../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
@@ -53,6 +56,7 @@ let methodColn
 let salesTerritoRy
 let area
 let zone
+let sbu
 let route
 let lab
 let schedule
@@ -80,6 +84,12 @@ interface RegistrationLocationsListProps {
 }
 
 export const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -193,7 +203,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                       <h4>Description{item.description}</h4>
                       <h4>Priority{item.priority}</h4>
                       <h4>Max Dis{item.maxDis}</h4>
-                      <hr/>
+                      <hr />
                     </div>
                   ))}
                 </>
@@ -607,10 +617,13 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                     city={row.city}
                     area={row.area}
                     onSelect={(item) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.postalCode,
-                          column.dataField,
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            postalCode: item.postalCode,
+                            sbu: item.sbu,
+                            zone: item.zone,
+                          },
                           row._id
                         )
                     }}
@@ -618,6 +631,32 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                 )}
               </>
             ),
+          },
+          {
+            dataField: "sbu",
+            text: "SBU",
+            headerClasses: "textHeader2",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
+                sbu = filter
+              },
+            }),
+            editable: false,
+          },
+          {
+            dataField: "zone",
+            text: "Zone",
+            headerClasses: "textHeader2",
+            sort: true,
+            csvFormatter: (col) => (col ? col : ""),
+            filter: textFilter({
+              getFilter: (filter) => {
+                zone = filter
+              },
+            }),
+            editable: false,
           },
           {
             dataField: "salesTerritoRy",
@@ -640,38 +679,14 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               columnIndex
             ) => (
               <>
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const salesTerritoRy = e.target.value
+                <AutoCompleteSalesTerritory
+                  onSelect={(item) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(salesTerritoRy, column.dataField, row._id)
+                      props.onUpdateItem(item, column.dataField, row._id)
                   }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "SPECIALITY").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    )
-                  )}
-                </select>
+                />
               </>
             ),
-          },
-          {
-            dataField: "zone",
-            text: "Zone",
-            headerClasses: "textHeader2",
-            sort: true,
-            csvFormatter: (col) => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) => {
-                zone = filter
-              },
-            }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -699,6 +714,40 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      placeholder={
+                        errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
+                      }
+                      hasError={errors.mobileNo}
+                      type="number"
+                      defaultValue={row.mobileNo}
+                      onChange={(mobileNo) => {
+                        onChange(mobileNo)
+                      }}
+                      onBlur={(mobileNo) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(mobileNo, column.dataField, row._id)
+                      }}
+                    />
+                  )}
+                  name="mobileNo"
+                  rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                  defaultValue=""
+                />
+              </>
+            )
           },
           {
             dataField: "email",
@@ -829,12 +878,21 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               columnIndex
             ) => (
               <>
-                <AutoCompleteFilterSingleSelectLabs
-                  onSelect={(item) => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(item.code, column.dataField, row._id)
+                <select
+                  value={row?.lab}
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  onChange={(e) => {
+                    const lab = e.target.value
+                    props.onUpdateItem && props.onUpdateItem(lab, "lab", row._id)
                   }}
-                />
+                >
+                  <option selected>Select</option>
+                  {props?.extraData?.labList?.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.code} - ${item.name}`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
@@ -1338,6 +1396,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
           state("")
           country("")
           postcode("")
+          sbu("")
           customerGroup("")
           category("")
           telephone("")
