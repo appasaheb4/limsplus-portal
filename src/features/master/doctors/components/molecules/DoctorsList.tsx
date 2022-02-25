@@ -801,8 +801,14 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <AutoCompleteRegistrationLocation
                   onSelect={(item) => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(item, column.dataField, row._id)
+                    console.log({ item })
+                    if (item !== "RemoveItem") {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id)
+                    } else {
+                      props.onUpdateItem &&
+                        props.onUpdateItem("", column.dataField, row._id)
+                    }
                   }}
                 />
               </>

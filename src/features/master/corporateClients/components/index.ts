@@ -7,4 +7,6 @@ export * from "./organsims/AutoCompleteFilterSingleSelectDistrict"
 export * from "./organsims/AutoCompleteFilterSingleSelectPostalCode"
 export * from "./organsims/AutoCompleteFilterSingleSelectState"
 export * from "./organsims/AutoCompleteSalesTerritory"
+
 export * from './molecules/input/PriceListTable'
+export * from './molecules/input/PriceListTableForCopClientList'

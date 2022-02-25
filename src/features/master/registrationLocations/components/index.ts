@@ -8,4 +8,5 @@ export * from "./organsims/AutoCompleteFilterSingleSelectPostalCode"
 export * from "./organsims/AutoCompleteFilterSingleSelectState"
 export * from "./molecules/output/RegistrationLocationsList"
 export * from './molecules/input/PriceListTable'
+export * from './molecules/input/PriceListTableForRegLocationsList'
 export * from "./organsims/AutoCompleteSalesTerritory"

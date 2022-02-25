@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import dayjs from "dayjs"
+import _ from "lodash"
 import { lookupItems, lookupValue } from "@/library/utils"
 import {
   NumberFilter,
@@ -25,6 +26,7 @@ import {
   AutoCompleteFilterSingleSelectPostalCode,
   AutoCompleteFilterSingleSelectState,
   AutoCompleteSalesTerritory,
+  PriceListTableForRegLocationsList,
 } from "../../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
@@ -196,16 +198,15 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
             formatter: (cell, row) => {
               return (
                 <>
-                  {row?.priceList?.map((item) => (
-                    <div className="p-2">
-                      <h4>{`${item?.priceGroup ? `Price Group: ${item?.priceGroup}` : ''}`}</h4>
-                      <h4>{`${item?.priceList ? `Price List: ${item?.priceList}` : ''}`} </h4>
-                      <h4>{`${item?.description ? `Description: ${item?.description}` :''}`}</h4>
-                      <h4>{`${item?.priority ? `Priority: ${item?.priority}` :''}`} </h4>
-                      <h4>{`Max Dis: ${item?.maxDis}`}</h4>
-                      <hr />
-                    </div>
-                  ))}
+                  {row?.priceList ? (
+                    <PriceListTableForRegLocationsList
+                      data={row?.priceList}
+                      onUpdate={(data) => {
+                        props.onUpdateItem &&
+                        props.onUpdateItem(data, "priceList", row._id)
+                      }}
+                    />
+                  ) : null}
                 </>
               )
             },
@@ -747,7 +748,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   defaultValue=""
                 />
               </>
-            )
+            ),
           },
           {
             dataField: "email",

@@ -1,5 +1,5 @@
 /* eslint-disable  */
-import React from "react"
+import React, { useState } from "react"
 import _ from "lodash"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
@@ -12,14 +12,18 @@ interface AutoCompleteRegistrationLocationProps {
 export const AutoCompleteRegistrationLocation = observer(
   ({ onSelect }: AutoCompleteRegistrationLocationProps) => {
     const { loading, registrationLocationsStore } = useStores()
+
+
+    //setList(list.concat({ locationCode: "removeItem", locationName: "Remove Item" }))
+
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-        posstion="sticky"
+          posstion="sticky"
           loader={loading}
           placeholder="Search by locationCode or locationName"
           data={{
-            list: registrationLocationsStore.listRegistrationLocations,
+            list: [{ locationCode: "RemoveItem", locationName: "Remove Item" }].concat(registrationLocationsStore.listRegistrationLocations),
             displayKey: ["locationCode", "locationName"],
           }}
           onFilter={(value: string) => {

@@ -139,7 +139,7 @@ const Lab = LabHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -822,7 +822,7 @@ const Lab = LabHoc(
                   name="labType"
                   rules={{ required: false }}
                   defaultValue=""
-                />  
+                />
                 <Grid cols={4}>
                   <Controller
                     control={control}
