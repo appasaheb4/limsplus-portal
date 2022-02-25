@@ -29,6 +29,7 @@ export class MasterPanel {
   reportGroup: string
   reportOrder: number
   sex: string
+  ageAction: string
   sexAction: boolean
   hiAge: string
   loAge: string
@@ -85,6 +86,7 @@ export class MasterPanel {
     this.reportGroup = rawData.reportGroup
     this.reportOrder = rawData.reportOrder
     this.sex = rawData.sex
+    this.ageAction = rawData.ageAction
     this.sexAction = rawData.sexAction
     this.hiAge = rawData.hiAge
     this.loAge = rawData.loAge

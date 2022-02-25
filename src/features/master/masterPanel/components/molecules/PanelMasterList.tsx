@@ -36,6 +36,7 @@ let validationLevel
 let reportGroup
 let reportOrder
 let sex
+let ageAction
 let hiAge
 let loAge
 let processing
@@ -808,27 +809,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 )
               },
             },
-            {
-              dataField: "instantResult",
-              text: "Instant Result",
-              sort: true,
-              csvFormatter: (col) => (col ? col : false),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.instantResult}
-                      onChange={(instantResult) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(instantResult, "instantResult", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
+            
             {
               dataField: "repitation",
               text: "Repitation",
@@ -942,6 +923,48 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   >
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, "SEX").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: "ageAction",
+              text: "Age Action",
+              headerClasses: "textHeader4",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  ageAction = filter
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    value={row.ageAction}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const ageAction = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(ageAction, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "AGE_ACTION").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -1455,6 +1478,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             reportGroup("")
             reportOrder("")
             sex("")
+            ageAction("")
             hiAge("")
             loAge("")
             processing("")
