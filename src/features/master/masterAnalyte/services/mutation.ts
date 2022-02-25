@@ -48,6 +48,7 @@ export const LIST = gql`
         cptCode
         departments
         resultType
+        defaultResult
         analyteType
         status
         minReportable
@@ -162,6 +163,7 @@ export const FILTER = gql`
         cptCode
         departments
         resultType
+        defaultResult
         analyteType
         status
         minReportable
@@ -223,6 +225,7 @@ export const FILTER_BY_FIELDS = gql`
         cptCode
         departments
         resultType
+        defaultResult
         analyteType
         status
         minReportable

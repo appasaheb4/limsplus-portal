@@ -38,6 +38,7 @@ export const LIST = gql`
         reportOrder
         sex
         sexAction
+        ageAction
         hiAge
         loAge
         processing
@@ -159,6 +160,7 @@ export const FILTER = gql`
         reportOrder
         sex
         sexAction
+        ageAction
         hiAge
         loAge
         processing
@@ -227,6 +229,7 @@ export const FILTER_BY_FIELDS = gql`
         reportOrder
         sex
         sexAction
+        ageAction
         hiAge
         loAge
         processing
