@@ -808,27 +808,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 )
               },
             },
-            {
-              dataField: "instantResult",
-              text: "Instant Result",
-              sort: true,
-              csvFormatter: (col) => (col ? col : false),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.instantResult}
-                      onChange={(instantResult) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(instantResult, "instantResult", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
+            
             {
               dataField: "repitation",
               text: "Repitation",

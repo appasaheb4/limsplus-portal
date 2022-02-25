@@ -39,6 +39,7 @@ let usage
 let cptCode
 let departments
 let resultType
+let defaultResult
 let analyteType
 let status
 let environment
@@ -516,7 +517,18 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 </>
               ),
             },
-
+            {
+              dataField: "defaultResult",
+              text: "Default Result",
+              headerClasses: "textHeader4",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  defaultResult = filter
+                },
+              }),
+            },
             {
               dataField: "calculationFlag",
               text: "Calculation Flag",
@@ -732,48 +744,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 )
               },
             },
-            {
-              dataField: "autoRelease",
-              text: "Auto Release",
-              sort: true,
-              csvFormatter: (col,row) => `${row.autoRelease ? row.autoRelease ? "Yes" : "No" : "No"}`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.autoRelease}
-                      onChange={(autoRelease) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(autoRelease, "autoRelease", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
-            {
-              dataField: "holdOOS",
-              text: "Hold OOS",
-              sort: true,
-              csvFormatter: (col,row) => `${row.holdOOS ? row.holdOOS ? "Yes" : "No" : "No"}`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.holdOOS}
-                      onChange={(holdOOS) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(holdOOS, "holdOOS", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
+            
+            
             {
               dataField: "instantResult",
               text: "Instant Result",
@@ -1330,6 +1302,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             usage("")
             cptCode("")
             resultType("")
+            defaultResult("")
             analyteType("")
             status("")
             environment("")
