@@ -1,3 +1,4 @@
+import {PriceList} from '@/models'
 export class RegistrationLocations {
   _id: string
   existsVersionId: string
@@ -6,14 +7,7 @@ export class RegistrationLocations {
   locationName: string
   corporateCode: string
   invoiceAc: string
-  priceList: Array<{
-    id: number
-    priceGroup?: string
-    priceList?: string
-    description?: string
-    priority?: number
-    maxDis?: number
-  }>
+  priceList: Array<PriceList>
   acClass: string
   accountType: string
   customerGroup: string

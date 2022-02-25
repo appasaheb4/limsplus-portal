@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import {List,ModalClock} from ".."
+import { List, ModalClock } from ".."
 import dayjs from "dayjs"
 import "./css/toggle.css"
 import classNames from "classnames"
@@ -32,7 +32,7 @@ interface InputWrapperProps {
   className?: string
   hasError?: boolean
   style?: any
-  ref?: any;
+  ref?: any
 }
 
 export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
@@ -60,12 +60,22 @@ interface InputProps extends InputWrapperProps {
   rows?: number
   style?: any
   hasError?: boolean
+  pattern?: any
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
   onKeyDown?: (e: any) => void
 }
 
 export const Input = (props: InputProps) => {
+  
+  const handleKeyPress = (e) => {
+    var key = e.key
+    var regex = props.pattern
+    if (regex && !regex?.test(key)) {
+      e.preventDefault()
+    }
+  }
+
   return (
     <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
       <input
@@ -80,6 +90,7 @@ export const Input = (props: InputProps) => {
         autoComplete="given-name"
         value={props.value}
         onChange={(e) => props.onChange && props.onChange(e.target.value)}
+        onKeyPress={(e) => handleKeyPress(e)}
         className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? "border-red-500 " : "border-gray-300"
         } rounded-md`}
@@ -165,22 +176,24 @@ export const InputDate = (props: InputDateProps) => (
 )
 
 export const InputDateTime = (props: InputDateProps) => {
-  const [date,setDate] = useState(props.value);
+  const [date, setDate] = useState(props.value)
 
   return (
-    <InputWrapper label={props.label} id={props.id} hasError={props.hasError} >
+    <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
       <div style={props.style}>
-        <DateTimePicker  
+        <DateTimePicker
           disabled={props.disabled}
-          onChange={(value) =>{
+          onChange={(value) => {
             setDate(value)
             props.onChange && props.onChange(value)
           }}
-          onCalendarClose={()=>{
-           if(props.value !== date)  props.onFocusRemove && props.onFocusRemove(date)
+          onCalendarClose={() => {
+            if (props.value !== date)
+              props.onFocusRemove && props.onFocusRemove(date)
           }}
-          onClockClose={()=>{
-            if(props.value !== date)  props.onFocusRemove && props.onFocusRemove(date)
+          onClockClose={() => {
+            if (props.value !== date)
+              props.onFocusRemove && props.onFocusRemove(date)
           }}
           value={props.value}
           amPmAriaLabel="AM/PM"
@@ -337,9 +350,7 @@ interface ClockProps extends InputWrapperProps {
 }
 
 export const Clock = (props: ClockProps) => {
-  const [time, setTime] = useState(
-    props.value || dayjs().format("hh:mm a")
-  )
+  const [time, setTime] = useState(props.value || dayjs().format("hh:mm a"))
   const [showTime, setShowTime] = useState(false)
 
   return (

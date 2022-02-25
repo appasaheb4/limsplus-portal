@@ -20,7 +20,8 @@ export class LabStore {
       openingTime: LibraryUtils.moment().format("hh:mm a"),
       closingTime: LibraryUtils.moment().format("hh:mm a"),
       reportFormat: true,
-      printLable: false
+      printLable: false,
+      priceList: [{ id: 0,maxDis:0 }],
     }
 
     makeObservable<LabStore, any>(this, {

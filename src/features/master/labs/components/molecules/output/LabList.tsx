@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import { Stores } from "../../stores"
+import { Stores } from "../../../stores"
 import { lookupItems, lookupValue } from "@/library/utils"
 import _ from "lodash"
 import {
@@ -19,7 +19,7 @@ import {
   AutoCompleteFilterSingleSelectCity,
   AutoCompleteFilterSingleSelectArea,
   AutoCompleteFilterSingleSelectPostalCode,
-} from "../organisms"
+} from "../../organisms"
 
 let code
 let name
@@ -30,6 +30,7 @@ let city
 let area
 let address
 let postalCode
+let priceList
 let deliveryType
 let salesTerritory
 let labLicence
@@ -318,6 +319,35 @@ export const LabList = (props: LabListProps) => {
                   )}
                 </>
               ),
+            },
+            {
+              dataField: "priceList",
+              text: "Price List",
+              headerClasses: "textHeader5",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  priceList = filter
+                },
+              }),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row?.priceList?.map((item) => (
+                      <div className="p-2">
+                        <h4>{`${item?.priceGroup ? `Price Group: ${item?.priceGroup}` : ''}`}</h4>
+                        <h4>{`${item?.priceList ? `Price List: ${item?.priceList}` : ''}`} </h4>
+                        <h4>{`${item?.description ? `Description: ${item?.description}` :''}`}</h4>
+                        <h4>{`${item?.priority ? `Priority: ${item?.priority}` :''}`} </h4>
+                        <h4>{`Max Dis: ${item?.maxDis}`}</h4>
+                        <hr />
+                      </div>
+                    ))}
+                  </>
+                )
+              },
             },
             {
               dataField: "deliveryType",
@@ -920,6 +950,7 @@ export const LabList = (props: LabListProps) => {
             city("")
             area("")
             postalCode("")
+            priceList("")
             deliveryType("")
             salesTerritory("")
             labLicence("")

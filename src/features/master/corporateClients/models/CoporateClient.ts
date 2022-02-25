@@ -1,18 +1,12 @@
+import {PriceList} from '@/models'
 export class CorporateClients {
   _id: string
   existsVersionId: string
   existsRecordId: string
   corporateCode: string
   corporateName: string
-  invoiceAc: string
-  priceList: Array<{
-    id: number
-    priceGroup?: string
-    priceList?: string
-    description?: string
-    priority?: number
-    maxDis?: number
-  }>
+  invoiceAc: string  
+  priceList: Array<PriceList>
   clientSpecificPrice: boolean
   acType: string
   acClass: string
