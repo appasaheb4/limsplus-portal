@@ -957,14 +957,16 @@ const Doctors = DoctorsHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Mobile No"
+                      label="Mobile No"      
                       placeholder={
                         errors.mobileNo ? "Please Enter mobile no" : "Mobile No"
                       }
                       type="number"
+                      pattern={FormHelper.patterns.mobileNo}
                       hasError={errors.mobileNo}
                       value={doctorsStore.doctors?.mobileNo}
                       onChange={(mobileNo) => {
+                        console.log({mobileNo});
                         onChange(mobileNo)
                         doctorsStore.updateDoctors({
                           ...doctorsStore.doctors,

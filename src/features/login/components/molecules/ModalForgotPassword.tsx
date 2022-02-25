@@ -129,7 +129,7 @@ export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) =>
                       control={control}
                       render={({ field: { onChange } }) => (
                         <Form.Input
-                          type="number"
+                          pattern={FormHelper.patterns.mobileNo}
                           label="Mobile Number"
                           placeholder="Mobile Number"
                           hasError={errors.mobileNo}

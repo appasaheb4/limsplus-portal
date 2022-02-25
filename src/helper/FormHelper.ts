@@ -6,7 +6,7 @@ export class FormHelper {
     nonEmptyString: /^(?!\s*$).+/,
     userName: /^[a-z][a-z0-9_.]+$/,
     password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
-    mobileNo: /^[0-9]{10}$/g,
+    mobileNo: /^[0-9]{0,10}$/,
   }
 
   static isUserNameValid(userName: string): boolean {

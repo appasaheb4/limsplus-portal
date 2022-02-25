@@ -15,7 +15,7 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
 } from "@/library/components"
-import { LabList } from "../components"
+import { LabList, PriceListTable } from "../components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { LabHoc } from "../hoc"
@@ -139,7 +139,7 @@ const Lab = LabHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -1176,6 +1176,19 @@ const Lab = LabHoc(
                 </Grid>
               </List>
             </Grid>
+            <List direction="row" space={3} align="center">
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.InputWrapper label="Price List" hasError={errors.priceList}>
+                    <PriceListTable />
+                  </Form.InputWrapper>
+                )}
+                name="priceList"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+            </List>
             <br />
             <List direction="row" space={3} align="center">
               <Buttons.Button

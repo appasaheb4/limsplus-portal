@@ -208,7 +208,7 @@ const CorporateClients = CorporateClientsHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
