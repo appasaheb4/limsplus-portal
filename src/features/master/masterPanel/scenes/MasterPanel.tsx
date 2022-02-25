@@ -930,7 +930,7 @@ const MasterPanel = MasterPanelHoc(
                         {lookupItems(routerStore.lookupItems, "CATEGORY").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -966,7 +966,7 @@ const MasterPanel = MasterPanelHoc(
                         {lookupItems(routerStore.lookupItems, "PANEL_TYPE").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -1000,7 +1000,7 @@ const MasterPanel = MasterPanelHoc(
                         {lookupItems(routerStore.lookupItems, "SEX").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}
@@ -1011,6 +1011,41 @@ const MasterPanel = MasterPanelHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Age Action" hasError={errors.ageAction}>
+                      <select
+                        value={masterPanelStore.masterPanel?.ageAction}
+                        // disabled={!masterPanelStore.masterPanel?.sexAction}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.ageAction ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const ageAction = e.target.value as string
+                          onChange(ageAction)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            ageAction,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "AGE_ACTION").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="ageAction"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1123,26 +1158,7 @@ const MasterPanel = MasterPanelHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="Instant Result"
-                        hasError={errors.instantResult}
-                        value={masterPanelStore.masterPanel?.instantResult}
-                        onChange={(instantResult) => {
-                          onChange(instantResult)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            instantResult,
-                          })
-                        }}
-                      />
-                    )}
-                    name="instantResult"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
+                  
 
                   <Controller
                     control={control}
@@ -1479,7 +1495,7 @@ const MasterPanel = MasterPanelHoc(
                         {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
+                              {lookupValue(item)}
                             </option>
                           )
                         )}

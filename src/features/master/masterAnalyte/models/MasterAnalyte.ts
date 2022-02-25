@@ -38,6 +38,7 @@ export class MasterAnalyte {
   usage: string
   cptCode: string
   resultType: string
+  defaultResult: string
   analyteType: string
   status: string
   minReportable: string
@@ -86,6 +87,7 @@ export class MasterAnalyte {
     this.usage = rawData.usage 
     this.cptCode = rawData.cptCode 
     this.resultType = rawData.resultType 
+    this.defaultResult = rawData.defaultResult
     this.analyteType = rawData.analyteType 
     this.status = rawData.status   
     this.minReportable = rawData.minReportable

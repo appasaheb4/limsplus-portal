@@ -810,27 +810,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               },
             },
 
-            {
-              dataField: "instantResult",
-              text: "Instant Result",
-              sort: true,
-              csvFormatter: (col,row) => `${row.instantResult ? row.instantResult ? "Yes" : "No" : "No"}`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.instantResult}
-                      onChange={(instantResult) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(instantResult, "instantResult", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
+            
             {
               dataField: "testMethodCode",
               text: "Test Method Code",

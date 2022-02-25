@@ -768,6 +768,30 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
+                <Form.Input
+                label="Default Result"
+                name="txtDefaultResult"
+                placeholder={
+                  errors.defaultResult ? "Please Enter Default Result" : "Default Result"
+                }
+                hasError={errors.defaultResult}
+                value={masterAnalyteStore.masterAnalyte?.defaultResult}
+                onChange={(defaultResult) => {
+                  onChange(defaultResult)
+                  masterAnalyteStore.updateMasterAnalyte({
+                    ...masterAnalyteStore.masterAnalyte,
+                    defaultResult,
+                  })
+                }}
+              />
+              )}
+                  name="defaultResult"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <Form.InputWrapper
                       label="Analyte Type"
                       hasError={errors.analyteType}
@@ -1082,48 +1106,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
 
                 <Grid cols={5}>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="AutoRelease"
-                        id="modeAutoRelease"
-                        hasError={errors.autoRelease}
-                        value={masterAnalyteStore.masterAnalyte?.autoRelease}
-                        onChange={(autoRelease) => {
-                          onChange(autoRelease)
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            autoRelease,
-                          })
-                        }}
-                      />
-                    )}
-                    name="autoRelease"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="Hold OOS"
-                        id="modeHoldOOS"
-                        hasError={errors.holdOOS}
-                        value={masterAnalyteStore.masterAnalyte?.holdOOS}
-                        onChange={(holdOOS) => {
-                          onChange(holdOOS)
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            holdOOS,
-                          })
-                        }}
-                      />
-                    )}
-                    name="holdOOS"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
+                  
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (

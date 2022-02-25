@@ -1234,26 +1234,7 @@ const TestMater = TestMasterHOC(
                   defaultValue=""
                 />
                 <Grid cols={5}>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Toggle
-                        label="Instant Result"
-                        hasError={errors.instantResult}
-                        value={testMasterStore.testMaster?.instantResult}
-                        onChange={(instantResult) => {
-                          onChange(instantResult)
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            instantResult,
-                          })
-                        }}
-                      />
-                    )}
-                    name="instantResult"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
+                  
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
