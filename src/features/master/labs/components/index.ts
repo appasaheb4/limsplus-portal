@@ -1,6 +1,7 @@
 
 export * from "./molecules/output/LabList"
 export * from "./molecules/input/PriceListTable"
+export * from './molecules/input/PriceListTableForLabList'
   
 export * from './organisms/AutoCompleteFilterSingleSelectArea'
 export * from './organisms/AutoCompleteFilterSingleSelectCity'
