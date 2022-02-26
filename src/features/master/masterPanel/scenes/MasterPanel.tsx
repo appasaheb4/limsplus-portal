@@ -653,6 +653,70 @@ const MasterPanel = MasterPanelHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Validation Level"
+                      hasError={errors.validationLevel}
+                    >
+                      <select
+                        value={masterPanelStore.masterPanel.validationLevel}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.validationLevel
+                            ? "border-red-500  "
+                            : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const validationLevel: any = e.target.value
+                          onChange(validationLevel)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            validationLevel: parseInt(validationLevel),
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {item}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="validationLevel"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Report Groups"
+                      placeholder={
+                        errors.reportGroup
+                          ? "Please Enter ReportGroup"
+                          : "Report Groups"
+                      }
+                      hasError={errors.reportGroup}
+                      value={masterPanelStore.masterPanel?.reportGroup}
+                      onChange={(reportGroup) => {
+                        onChange(reportGroup)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          reportGroup: reportGroup.toUpperCase(),
+                        })
+                      }}
+                    />
+                  )}
+                  name="reportGroup"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                
                 <Grid cols={5}>
                   <Controller
                     control={control}
@@ -761,70 +825,7 @@ const MasterPanel = MasterPanelHoc(
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Validation Level"
-                      hasError={errors.validationLevel}
-                    >
-                      <select
-                        value={masterPanelStore.masterPanel.validationLevel}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.validationLevel
-                            ? "border-red-500  "
-                            : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const validationLevel: any = e.target.value
-                          onChange(validationLevel)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            validationLevel: parseInt(validationLevel),
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name="validationLevel"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
-                      label="Report Groups"
-                      placeholder={
-                        errors.reportGroup
-                          ? "Please Enter ReportGroup"
-                          : "Report Groups"
-                      }
-                      hasError={errors.reportGroup}
-                      value={masterPanelStore.masterPanel?.reportGroup}
-                      onChange={(reportGroup) => {
-                        onChange(reportGroup)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          reportGroup: reportGroup.toUpperCase(),
-                        })
-                      }}
-                    />
-                  )}
-                  name="reportGroup"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
+              <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
@@ -978,6 +979,79 @@ const MasterPanel = MasterPanelHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
+               
+                
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Sex Action"
+                      hasError={errors.sexAction}
+                    >
+                      <select
+                        value={masterPanelStore.masterPanel?.sexAction}
+                        disabled={!masterPanelStore.masterPanel?.ageSexAction}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.sexAction ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const sexAction = e.target.value as string
+                          onChange(sexAction)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            sexAction,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "SEX_ACTION").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="sexAction"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                 <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Sex" hasError={errors.sex}>
+                      <select
+                        value={masterPanelStore.masterPanel?.sex}
+                        disabled={!masterPanelStore.masterPanel?.ageSexAction}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.sex ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const sex = e.target.value as string
+                          onChange(sex)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            sex,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "SEX").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="sex"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
 
                 <Controller
                   control={control}
@@ -1080,78 +1154,6 @@ const MasterPanel = MasterPanelHoc(
                   }}
                   defaultValue=""
                 />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Sex Action"
-                      hasError={errors.sexAction}
-                    >
-                      <select
-                        value={masterPanelStore.masterPanel?.sexAction}
-                        disabled={!masterPanelStore.masterPanel?.ageSexAction}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sexAction ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const sexAction = e.target.value as string
-                          onChange(sexAction)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            sexAction,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SEX_ACTION").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name="sexAction"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Sex" hasError={errors.sex}>
-                      <select
-                        value={masterPanelStore.masterPanel?.sex}
-                        disabled={!masterPanelStore.masterPanel?.ageSexAction}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const sex = e.target.value as string
-                          onChange(sex)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            sex,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SEX").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name="sex"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1180,6 +1182,10 @@ const MasterPanel = MasterPanelHoc(
                   }}
                   defaultValue=""
                 />
+
+                
+                
+                
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
