@@ -14,6 +14,7 @@ import {SectionHoc} from "../hoc"
 import { useStores, } from "@/stores"
 
 import { RouterFlow } from "@/flows"
+import { FormHelper } from "@/helper"
 
 const Section = SectionHoc(observer(() => {
   const { loginStore, sectionStore, departmentStore,routerStore } = useStores()
@@ -279,6 +280,7 @@ const Section = SectionHoc(observer(() => {
                     placeholder={
                       errors.mobieNo ? "Please Enter mobile no" : "Mobile No"
                     }
+                    pattern={FormHelper.patterns.mobileNo}
                     value={sectionStore.section?.mobileNo}
                     hasError={errors.mobieNo}
                     onChange={(mobileNo) => {
@@ -291,7 +293,7 @@ const Section = SectionHoc(observer(() => {
                   />
                 )}
                 name="mobieNo"
-                rules={{ required: false }}
+                rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                 defaultValue=""
               />
               <Controller
@@ -304,6 +306,7 @@ const Section = SectionHoc(observer(() => {
                       errors.contactNo ? "Please Enter contactNo" : "Contact No"
                     }
                     hasError={errors.contactNo}
+                    pattern={FormHelper.patterns.mobileNo}
                     value={sectionStore.section?.contactNo}
                     onChange={(contactNo) => {
                       onChange(contactNo)
@@ -315,7 +318,7 @@ const Section = SectionHoc(observer(() => {
                   />
                 )}
                 name="contactNo"
-                rules={{ required: false }}
+                rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                 defaultValue=""
               />
             </List>

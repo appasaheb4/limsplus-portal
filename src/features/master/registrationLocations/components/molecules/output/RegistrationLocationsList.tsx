@@ -702,6 +702,41 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      placeholder={
+                        errors.telephone ? "Please Enter Telephone No" : "Telephone No"
+                      }
+                      hasError={errors.telephone}
+                      type="number"
+                      defaultValue={row.telephone}
+                      pattern={FormHelper.patterns.mobileNo}
+                      onChange={(telephone) => {
+                        onChange(telephone)
+                      }}
+                      onBlur={(telephone) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(telephone, column.dataField, row._id)
+                      }}
+                    />
+                  )}
+                  name="telephone"
+                  rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                  defaultValue=""
+                />
+              </>
+            ),
           },
           {
             dataField: "mobileNo",
@@ -734,6 +769,7 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                       hasError={errors.mobileNo}
                       type="number"
                       defaultValue={row.mobileNo}
+                      pattern={FormHelper.patterns.mobileNo}
                       onChange={(mobileNo) => {
                         onChange(mobileNo)
                       }}

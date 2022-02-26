@@ -117,6 +117,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         }
                         hasError={errors.mobileNo}
                         type="number"
+                        pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.mobileNo}
                         onChange={(mobileNo) => {
                           onChange(mobileNo)

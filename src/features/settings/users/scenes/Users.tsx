@@ -584,6 +584,8 @@ export const Users = UsersHoc(observer(() => {
                     placeholder={
                       errors.mobileNo ? "Please enter mobile no" : "Mobile No"
                     }
+                    pattern={FormHelper.patterns.mobileNo}
+                    type="number"
                     hasError={errors.mobileNo}
                     value={userStore && userStore.user.mobileNo}
                     onChange={(mobileNo) => {
@@ -596,7 +598,7 @@ export const Users = UsersHoc(observer(() => {
                   />
                 )}
                 name="mobileNo"
-                rules={{ required: true }}
+                rules={{ required: true,pattern:FormHelper.patterns.mobileNo }}
                 defaultValue=""
               />
               <Controller
@@ -604,9 +606,11 @@ export const Users = UsersHoc(observer(() => {
                 render={({ field: { onChange } }) => (
                   <Form.Input
                     label="Contact No"
+                    type="number"
                     placeholder={
                       errors.contactNo ? "Please enter contact no" : "Contact No"
                     }
+                    pattern={FormHelper.patterns.mobileNo}
                     hasError={errors.contactNo}
                     value={userStore && userStore.user.contactNo}
                     onChange={(contactNo) => {
@@ -619,7 +623,7 @@ export const Users = UsersHoc(observer(() => {
                   />
                 )}
                 name="contactNo"
-                rules={{ required: false }}
+                rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                 defaultValue=""
               />
               <Controller
