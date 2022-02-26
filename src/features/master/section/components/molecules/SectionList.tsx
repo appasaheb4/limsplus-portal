@@ -4,7 +4,8 @@ import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,textFilter,Icons,Tooltip,Form} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectDepartment} from '../index'
-
+import { useForm, Controller } from "react-hook-form"
+import { FormHelper } from "@/helper"
 let departmentCode
 let code
 let name
@@ -31,6 +32,12 @@ interface SectionListProps {
 }
 
 export const SectionList = (props: SectionListProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -142,6 +149,42 @@ export const SectionList = (props: SectionListProps) => {
               }
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    type="number"
+                    
+                    placeholder={
+                      errors.mobieNo ? "Please Enter mobile no" : "Mobile No"
+                    }
+                    pattern={FormHelper.patterns.mobileNo}
+                    defaultValue={row?.mobileNo}
+                    hasError={errors.mobieNo}
+                    onChange={(mobileNo) => {
+                      onChange(mobileNo)
+            
+                    }}
+                    onBlur={(mobileNo)=>{
+                      props.onUpdateItem && props.onUpdateItem(mobileNo,column.dataField,row._id)
+                    }}
+                  />
+                )}
+                name="mobieNo"
+                rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
+                defaultValue=""
+              />
+              </>
+            )
           },
           {
             dataField: "contactNo",
@@ -155,6 +198,42 @@ export const SectionList = (props: SectionListProps) => {
               }
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    type="number"
+                    
+                    placeholder={
+                      errors.contactNo ? "Please Enter contactNo" : "Contact No"
+                    }
+                    hasError={errors.contactNo}
+                    pattern={FormHelper.patterns.mobileNo}
+                    defaultValue={row?.contactNo}
+                    onChange={(contactNo) => {
+                      onChange(contactNo)
+                      
+                    }}
+                    onBlur={(contactNo)=>{
+                      props.onUpdateItem && props.onUpdateItem(contactNo,column.dataField,row._id)
+                    }}
+                  />
+                )}
+                name="contactNo"
+                rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
+                defaultValue=""
+              />
+              </>
+            )
           },
           {
             dataField: "fyiLine",

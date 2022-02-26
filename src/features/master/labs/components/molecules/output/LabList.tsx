@@ -21,7 +21,8 @@ import {
   AutoCompleteFilterSingleSelectPostalCode,
   PriceListTableForLabList
 } from "../.."
-
+import { FormHelper } from "@/helper"
+import { useForm, Controller } from "react-hook-form"
 let code
 let name
 let country
@@ -64,6 +65,14 @@ interface LabListProps {
 }
 export const LabList = (props: LabListProps) => {
   const { administrativeDivisions, salesTeamStore } = useStores()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    setError,
+    clearErrors,
+  } = useForm()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -492,6 +501,41 @@ export const LabList = (props: LabListProps) => {
                   mobileNo = filter
                 },
               }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Input
+                        placeholder={
+                          errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
+                        }
+                        hasError={errors.mobileNo}
+                        pattern={FormHelper.patterns.mobileNo}
+                        defaultValue={row.mobileNo}
+                        type="number"
+                        onChange={(mobileNo) => {
+                          onChange(mobileNo)
+                        }}
+                        onBlur={(mobileNo) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(mobileNo, column.dataField, row._id)
+                        }}
+                      />
+                    )}
+                    name="mobileNo"
+                    rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                    defaultValue=""
+                  />
+                </>
+              ),
             },
             {
               dataField: "contactNo",
@@ -505,6 +549,41 @@ export const LabList = (props: LabListProps) => {
                   contactNo = filter
                 },
               }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Input
+                        placeholder={
+                          errors.contactNo ? "Please Enter ContactNo" : "Contact No"
+                        }
+                        hasError={errors.contactNo}
+                        pattern={FormHelper.patterns.mobileNo}
+                        defaultValue={row.contactNo}
+                        type="number"
+                        onChange={(contactNo) => {
+                          onChange(contactNo)
+                        }}
+                        onBlur={(contactNo) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(contactNo, column.dataField, row._id)
+                        }}
+                      />
+                    )}
+                    name="contactNo"
+                    rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                    defaultValue=""
+                  />
+                </>
+              ),
             },
 
             {
