@@ -23,6 +23,8 @@ export const LIST = gql`
         testCode
         testName
         bill
+        testMethod
+        analyteMethod
         resultOrder
         reportOrder
         status
@@ -112,6 +114,8 @@ export const FILTER = gql`
         testCode
         testName
         bill
+        testMethod
+        analyteMethod
         resultOrder
         reportOrder
         status
