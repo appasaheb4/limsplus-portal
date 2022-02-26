@@ -23,6 +23,9 @@ export class TestPanelMappingStore {
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
+      printTestName: false,
+      panelMethod: false,
+      testMethod: true
     }
     makeObservable<TestPanelMappingStore, any>(this, {
       testPanelMapping: observable,
