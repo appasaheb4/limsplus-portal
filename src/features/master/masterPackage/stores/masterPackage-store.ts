@@ -1,7 +1,7 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import {MasterPackage, SelectedItems} from "../models"
-import {MasterPackageService} from "../services"
+import { MasterPackage, SelectedItems } from "../models"
+import { MasterPackageService } from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
@@ -25,6 +25,8 @@ export class MasterPackageStore {
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
+      printPackageName: false,
+      printPanelName: true,
     }
     makeObservable<MasterPackageStore, any>(this, {
       masterPackage: observable,

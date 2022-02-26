@@ -13,6 +13,8 @@ export class MasterPackage {
   panelCode: string[]
   panelName: string[]
   bill: boolean
+  printPackageName: boolean
+  printPanelName: boolean
   status: string
   serviceType: string
   reportOrder: Array<string>
@@ -35,6 +37,8 @@ export class MasterPackage {
     this.panelCode = rawData.panelCode
     this.panelName = rawData.panelName
     this.bill = rawData.bill
+    this.printPackageName = rawData.printPackageName
+    this.printPanelName = rawData.printPanelName
     this.status = rawData.status
     this.serviceType = rawData.serviceType
     this.reportOrder = rawData.reportOrder

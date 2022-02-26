@@ -22,6 +22,8 @@ export class TestAnalyteMappingStore {
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
+      testMethod: true,
+      analyteMethod: false,
     }
     makeObservable<TestAnalyteMappingStore, any>(this, {
       testAnalyteMapping: observable,

@@ -572,27 +572,90 @@ const TestPanelMapping = TestPanelMappingHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Bill"
-                      id="modeBill"
-                      hasError={errors.bill}
-                      value={testPanelMappingStore.testPanelMapping?.bill}
-                      onChange={(bill) => {
-                        onChange(bill)
-                        testPanelMappingStore.updateTestPanelMapping({
-                          ...testPanelMappingStore.testPanelMapping,
-                          bill,
-                        })
-                      }}
-                    />
-                  )}
-                  name="bill"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Bill"
+                        id="modeBill"
+                        hasError={errors.bill}
+                        value={testPanelMappingStore.testPanelMapping?.bill}
+                        onChange={(bill) => {
+                          onChange(bill)
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            bill,
+                          })
+                        }}
+                      />
+                    )}
+                    name="bill"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                   <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Print Test Name"
+                        hasError={errors.printTestName}
+                        value={testPanelMappingStore.testPanelMapping?.printTestName}
+                        onChange={(printTestName) => {
+                          onChange(printTestName)
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            printTestName,
+                          })
+                        }}
+                      />
+                    )}
+                    name="printTestName"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Panel Method"
+                        hasError={errors.panelMethod}
+                        value={testPanelMappingStore.testPanelMapping?.panelMethod}
+                        onChange={(panelMethod) => {
+                          onChange(panelMethod)
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            panelMethod,
+                          })
+                        }}
+                      />
+                    )}
+                    name="panelMethod"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                    <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Test Method"
+                        hasError={errors.testMethod}
+                        value={testPanelMappingStore.testPanelMapping?.testMethod}
+                        onChange={(testMethod) => {
+                          onChange(testMethod)
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            testMethod,
+                          })
+                        }}
+                      />
+                    )}
+                    name="testMethod"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </Grid>
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
