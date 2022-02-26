@@ -134,6 +134,7 @@ export const PatientManager = PatientManagerHoc(
                       }
                       hasError={errors.txtMobileNo}
                       type="number"
+                      pattern={FormHelper.patterns.mobileNo}
                       value={patientManagerStore.patientManger?.mobileNo}
                       onChange={(mobileNo) => {
                         onChange(mobileNo)
@@ -890,6 +891,8 @@ export const PatientManager = PatientManagerHoc(
                                   ? "Please Enter WhatsappNumber"
                                   : "WhatsAppNumber"
                               }
+                              type="number"
+                              pattern={FormHelper.patterns.mobileNo}
                               hasError={errors.whatsappNumber}
                               value={
                                 patientManagerStore.patientManger?.extraData
@@ -908,7 +911,7 @@ export const PatientManager = PatientManagerHoc(
                             />
                           )}
                           name="whatsappNumber"
-                          rules={{ required: false }}
+                          rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                           defaultValue=""
                         />
                         <Controller

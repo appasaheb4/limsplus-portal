@@ -22,6 +22,7 @@ import { DeginisationHoc } from "../hoc"
 import { useStores } from "@/stores"
 
 import { RouterFlow } from "@/flows"
+import { FormHelper } from "@/helper"
 
 export const Department = DeginisationHoc(
   observer(() => {
@@ -347,7 +348,9 @@ export const Department = DeginisationHoc(
                       placeholder={
                         errors.mobileNo ? "Please Enter MobileNo" : "MobileNo"
                       }
+                      type="number"
                       hasError={errors.mobileNo}
+                      pattern={FormHelper.patterns.mobileNo}
                       value={departmentStore.department?.mobileNo}
                       onChange={(mobileNo) => {
                         onChange(mobileNo)
@@ -359,7 +362,7 @@ export const Department = DeginisationHoc(
                     />
                   )}
                   name="mobileNo"
-                  rules={{ required: false }}
+                  rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -370,6 +373,8 @@ export const Department = DeginisationHoc(
                       placeholder={
                         errors.contactNo ? "Please Enter contactNo" : "contactNo"
                       }
+                      type="number"
+                      pattern={FormHelper.patterns.mobileNo}
                       hasError={errors.contactNo}
                       value={departmentStore.department?.contactNo}
                       onChange={(contactNo) => {
@@ -382,7 +387,7 @@ export const Department = DeginisationHoc(
                     />
                   )}
                   name="contactNo"
-                  rules={{ required: false }}
+                  rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller

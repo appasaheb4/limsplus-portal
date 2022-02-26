@@ -1072,10 +1072,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                       placeholder={
                         errors.telephone ? "Please Enter telephone" : "Telephone"
                       }
+                      type="number"
                       hasError={errors.telephone}
                       value={
                         registrationLocationsStore.registrationLocations?.telephone
                       }
+                      pattern={FormHelper.patterns.mobileNo}
                       onChange={(telephone) => {
                         onChange(telephone)
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1086,7 +1088,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     />
                   )}
                   name="telephone"
-                  rules={{ required: false }}
+                  rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -1101,6 +1103,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       value={
                         registrationLocationsStore.registrationLocations?.mobileNo
                       }
+                      pattern={FormHelper.patterns.mobileNo}
                       type="number"
                       onChange={(mobileNo) => {
                         onChange(mobileNo)

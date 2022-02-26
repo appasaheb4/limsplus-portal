@@ -4,7 +4,8 @@ import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,textFilter,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectHod} from '../index'
-
+import { useForm, Controller } from "react-hook-form"
+import { FormHelper } from "@/helper"
 let lab;
 let code;
 let name;
@@ -33,6 +34,13 @@ interface DepartmentListProps {
 }
 
 export const DepartmentList = (props: DepartmentListProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+  } = useForm()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -157,6 +165,41 @@ export const DepartmentList = (props: DepartmentListProps) => {
               }
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+               <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      
+                      placeholder={
+                        errors.mobileNo ? "Please Enter MobileNo" : "MobileNo"
+                      }
+                      type="number"
+                      hasError={errors.mobileNo}
+                      pattern={FormHelper.patterns.mobileNo}
+                      defaultValue={row?.mobileNo}
+                      onChange={(mobileNo) => {
+                        onChange(mobileNo)
+                      }}
+                      onBlur={(mobileNo)=>{
+                        props.onUpdateItem && props.onUpdateItem(mobileNo,"mobileNo",row._id)
+                      }}
+                    />
+                  )}
+                  name="mobileNo"
+                  rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
+                  defaultValue=""
+                /> 
+              </>
+            )
           },
           {
             dataField: "contactNo",
@@ -170,6 +213,41 @@ export const DepartmentList = (props: DepartmentListProps) => {
               }
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      
+                      placeholder={
+                        errors.contactNo ? "Please Enter contactNo" : "contactNo"
+                      }
+                      hasError={errors.contactNo}
+                      type="number"
+                      pattern={FormHelper.patterns.mobileNo}
+                      defaultValue={row?.contactNo}
+                      onChange={(contactNo) => {
+                        onChange(contactNo)
+                      }}
+                      onBlur={(contactNo)=>{
+                        props.onUpdateItem && props.onUpdateItem(contactNo,"contactNo",row._id)
+                      }}
+                    />
+                  )}
+                  name="contactNo"
+                  rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
+                  defaultValue=""
+                />
+              </>
+            )
           },
           {
             dataField: "autoRelease",

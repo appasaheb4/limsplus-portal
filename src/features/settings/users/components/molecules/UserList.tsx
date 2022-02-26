@@ -3,7 +3,8 @@ import React from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import {lookupItems,lookupValue} from "@/library/utils"
-
+import { useForm, Controller } from "react-hook-form"
+import { FormHelper } from "@/helper"
 import {
   Svg,
   NumberFilter,
@@ -67,6 +68,12 @@ interface UserListProps {
 }
 
 export const UserList = observer((props: UserListProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   function priceFormatter(column, colIndex, { sortElement, filterElement }) {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -356,6 +363,42 @@ export const UserList = observer((props: UserListProps) => {
                 },
               }),
               headerClasses: "textHeader3",
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    
+                    placeholder={
+                      errors.mobileNo ? "Please enter mobile no" : "Mobile No"
+                    }
+                    pattern={FormHelper.patterns.mobileNo}
+                    type="number"
+                    hasError={errors.mobileNo}
+                    defaultValue={row?.mobileNo}
+                    onChange={(mobileNo) => {
+                      onChange(mobileNo)
+                      
+                    }}
+                    onBlur={(mobileNo)=>{
+                      props.onUpdateItem && props.onUpdateItem(mobileNo,"mobileNo",row._id)
+                    }}
+                  />
+                )}
+                name="mobileNo"
+                rules={{ required: true,pattern:FormHelper.patterns.mobileNo }}
+                defaultValue=""
+              />
+                </>
+              )
             },
             {
               dataField: "contactNo",
@@ -369,6 +412,42 @@ export const UserList = observer((props: UserListProps) => {
                 },
               }),
               headerClasses: "textHeader3",
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                   <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Form.Input
+                    
+                    type="number"
+                    placeholder={
+                      errors.contactNo ? "Please enter contact no" : "Contact No"
+                    }
+                    pattern={FormHelper.patterns.mobileNo}
+                    hasError={errors.contactNo}
+                    defaultValue={row?.contactNo}
+                    onChange={(contactNo) => {
+                      onChange(contactNo)
+                      
+                    }}
+                    onBlur={(contactNo)=>{
+                      props.onUpdateItem && props.onUpdateItem(contactNo,"contactNo",row._id)
+                    }}
+                  />
+                )}
+                name="contactNo"
+                rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
+                defaultValue=""
+              />
+                </>
+              )
             },
             {
               dataField: "email",
