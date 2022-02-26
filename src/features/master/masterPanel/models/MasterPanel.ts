@@ -25,14 +25,15 @@ export class MasterPanel {
   validationLevel: number
   confidential: boolean
   urgent: boolean
-  instantResult: boolean
   reportGroup: string
   reportOrder: number
-  sex: string
   ageAction: string
-  sexAction: boolean
   hiAge: string
   loAge: string
+  sexAction: string
+  sex: string
+  actionMessage: string
+  ageSexAction: boolean
   processing: string
   category: string
   suffix: string
@@ -54,7 +55,7 @@ export class MasterPanel {
   environment: string
   dateOfEntry: Date
   lastUpdated: Date
-  
+
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.existsVersionId = rawData.existsVersionId
@@ -82,14 +83,15 @@ export class MasterPanel {
     this.validationLevel = rawData.validationLevel
     this.confidential = rawData.confidential
     this.urgent = rawData.urgent
-    this.instantResult = rawData.instantResult
     this.reportGroup = rawData.reportGroup
     this.reportOrder = rawData.reportOrder
-    this.sex = rawData.sex
     this.ageAction = rawData.ageAction
-    this.sexAction = rawData.sexAction
     this.hiAge = rawData.hiAge
     this.loAge = rawData.loAge
+    this.sexAction = rawData.sexAction
+    this.sex = rawData.sex
+    this.actionMessage = rawData.actionMessage
+    this.ageSexAction = rawData.ageSexAction
     this.method = rawData.method
     this.panelMethod = rawData.panelMethod
     this.processing = rawData.processing
@@ -113,4 +115,4 @@ export class MasterPanel {
     this.dateOfEntry = rawData.dateOfEntry
     this.lastUpdated = rawData.lastUpdated
   }
-}  
+}

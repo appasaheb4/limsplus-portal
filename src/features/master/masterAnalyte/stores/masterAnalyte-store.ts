@@ -26,8 +26,6 @@ export class MasterAnalyteStore {
       version: 1,
       schedule: new Date(),
       bill: false,
-      autoRelease: false,
-      holdOOS: false,
       instantResult: false,
       method: false,
       reportable: true,

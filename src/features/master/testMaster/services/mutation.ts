@@ -33,7 +33,6 @@ export const LIST = gql`
         validationLevel
         confidential
         urgent
-        instantResult
         reportGroup
         accredited
         cretical
@@ -159,7 +158,6 @@ export const FILTER = gql`
         validationLevel
         confidential
         urgent
-        instantResult
         reportGroup
         accredited
         cretical
@@ -231,7 +229,6 @@ export const FILTER_BY_FIELDS = gql`
         validationLevel
         confidential
         urgent
-        instantResult
         reportGroup
         accredited
         cretical

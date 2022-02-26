@@ -25,8 +25,6 @@ export const LIST = gql`
         bill
         price
         schedule
-        autoRelease
-        holdOOS
         instantResult
         tubeGroups
         pageBreak
@@ -140,8 +138,6 @@ export const FILTER = gql`
         bill
         price
         schedule
-        autoRelease
-        holdOOS
         instantResult
         tubeGroups
         pageBreak
@@ -202,8 +198,6 @@ export const FILTER_BY_FIELDS = gql`
         bill
         price
         schedule
-        autoRelease
-        holdOOS
         instantResult
         tubeGroups
         pageBreak

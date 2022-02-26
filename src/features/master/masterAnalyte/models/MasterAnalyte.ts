@@ -15,8 +15,6 @@ export class MasterAnalyte {
   bill: boolean
   price: number
   schedule: Date
-  autoRelease: boolean
-  holdOOS: boolean
   instantResult: boolean
   tubeGroups: string
   pageBreak: boolean
@@ -64,8 +62,6 @@ export class MasterAnalyte {
     this.bill = rawData.bill 
     this.price = rawData.price 
     this.schedule = rawData.schedule 
-    this.autoRelease = rawData.autoRelease 
-    this.holdOOS = rawData.holdOOS 
     this.instantResult = rawData.instantResult 
     this.tubeGroups = rawData.tubeGroups 
     this.pageBreak = rawData.pageBreak 

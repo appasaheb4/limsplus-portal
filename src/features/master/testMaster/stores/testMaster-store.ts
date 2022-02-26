@@ -32,7 +32,6 @@ export class TestMasterStore {
       holdOOS: false,
       confidential: false,
       urgent: false,
-      instantResult: false,
       accredited: false,
       cretical: false,
       repitation: false,
