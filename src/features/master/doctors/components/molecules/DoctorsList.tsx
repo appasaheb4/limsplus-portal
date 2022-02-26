@@ -633,6 +633,40 @@ export const DoctorsList = (props: DoctorsListProps) => {
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      placeholder={
+                        errors.telephone ? "Please Enter Telephone" : "Telephone"
+                      }
+                      hasError={errors.telephone}
+                      pattern={FormHelper.patterns.mobileNo}
+                      defaultValue={row.telephone}
+                      onChange={(telephone) => {
+                        onChange(telephone)
+                      }}
+                      onBlur={(telephone) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(telephone, column.dataField, row._id)
+                      }}
+                    />
+                  )}
+                  name="telephone"
+                  rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
+                  defaultValue=""
+                />
+              </>
+            ),
           },
           {
             dataField: "mobileNo",
