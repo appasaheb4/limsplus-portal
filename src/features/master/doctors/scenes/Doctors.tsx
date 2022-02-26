@@ -938,6 +938,8 @@ const Doctors = DoctorsHoc(
                       placeholder={
                         errors.telephone ? "Please Enter telephone" : "Telephone"
                       }
+                      type="number"
+                      pattern={FormHelper.patterns.mobileNo}
                       hasError={errors.telephone}
                       value={doctorsStore.doctors?.telephone}
                       onChange={(telephone) => {
@@ -950,7 +952,7 @@ const Doctors = DoctorsHoc(
                     />
                   )}
                   name="telephone"
-                  rules={{ required: false }}
+                  rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
