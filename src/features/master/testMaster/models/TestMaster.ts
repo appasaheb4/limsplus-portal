@@ -23,7 +23,6 @@ export class TestMaster {
     validationLevel: number
     confidential: boolean
     urgent: boolean
-    instantResult: boolean
     reportGroup: string
     accredited: boolean
     cretical: boolean
@@ -83,7 +82,6 @@ export class TestMaster {
         this.validationLevel = rawData.validationLevel 
         this.confidential = rawData.confidential 
         this.urgent = rawData.urgent 
-        this.instantResult = rawData.instantResult 
         this.reportGroup = rawData.reportGroup 
         this.accredited = rawData.accredited 
         this.cretical = rawData.cretical 

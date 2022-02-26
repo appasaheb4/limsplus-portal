@@ -33,14 +33,15 @@ export const LIST = gql`
         validationLevel
         confidential
         urgent
-        instantResult
         reportGroup
         reportOrder
-        sex
-        sexAction
         ageAction
         hiAge
         loAge
+        sexAction
+        sex
+        actionMessage
+        ageSexAction
         processing
         category
         suffix
@@ -121,7 +122,7 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
-  
+
 export const FILTER = gql`
   mutation($input: PanelMasterInput!) {
     filterPanelMaster(input: $input) {
@@ -155,14 +156,15 @@ export const FILTER = gql`
         validationLevel
         confidential
         urgent
-        instantResult
         reportGroup
         reportOrder
-        sex
-        sexAction
         ageAction
         hiAge
         loAge
+        sexAction
+        sex
+        actionMessage
+        ageSexAction
         processing
         category
         suffix
@@ -189,7 +191,6 @@ export const FILTER = gql`
     }
   }
 `
-
 
 export const FILTER_BY_FIELDS = gql`
   mutation($input: PanelMasterInput!) {
@@ -224,14 +225,15 @@ export const FILTER_BY_FIELDS = gql`
         validationLevel
         confidential
         urgent
-        instantResult
         reportGroup
         reportOrder
-        sex
-        sexAction
         ageAction
         hiAge
         loAge
+        sexAction
+        sex
+        actionMessage
+        ageSexAction
         processing
         category
         suffix
@@ -254,7 +256,7 @@ export const FILTER_BY_FIELDS = gql`
         environment
         dateOfEntry
         lastUpdated
-      }   
+      }
     }
   }
 `

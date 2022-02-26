@@ -45,11 +45,12 @@ const MasterPanel = MasterPanelHoc(
       formState: { errors },
       setValue,
     } = useForm()
-    setValue("environment", masterPanelStore.masterPanel?.environment)
+
     setValue("status", masterPanelStore.masterPanel?.status)
     setValue("rLab", loginStore.login.lab)
     setValue("pLab", loginStore.login.lab)
-    setValue("environment", loginStore.login.environment)
+    setValue("environment", masterPanelStore.masterPanel?.environment)
+
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
     const onSubmitMasterPanel = () => {
@@ -217,7 +218,7 @@ const MasterPanel = MasterPanelHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -977,13 +978,153 @@ const MasterPanel = MasterPanelHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Age Action"
+                      hasError={errors.ageAction}
+                    >
+                      <select
+                        value={masterPanelStore.masterPanel?.ageAction}
+                        disabled={!masterPanelStore.masterPanel?.ageSexAction}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.ageAction ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const ageAction = e.target.value as string
+                          onChange(ageAction)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            ageAction,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "AGE_ACTION").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="ageAction"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Lo Age"
+                      disabled={!masterPanelStore.masterPanel?.ageSexAction}
+                      placeholder={errors.loAge ? "Please Enter LoAge" : "Lo Age"}
+                      hasError={errors.loAge}
+                      value={masterPanelStore.masterPanel?.loAge}
+                      onChange={(loAge) => {
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                        if (regex.test(loAge)) {
+                          onChange(loAge)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            loAge: loAge.toUpperCase(),
+                          })
+                        } else {
+                          Toast.warning({
+                            message: `😔 Only > and < sign and numbers should be allowed`,
+                          })
+                        }
+                      }}
+                    />
+                  )}
+                  name="loAge"
+                  rules={{
+                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    validate: (value) => FormHelper.isNumberAvailable(value),
+                  }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label="Hi Age"
+                      disabled={!masterPanelStore.masterPanel?.ageSexAction}
+                      placeholder={errors.hiAge ? "Please Enter HiAge" : "Hi Age"}
+                      hasError={errors.hiAge}
+                      value={masterPanelStore.masterPanel?.hiAge}
+                      onChange={(hiAge) => {
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                        if (regex.test(hiAge)) {
+                          onChange(hiAge)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            hiAge: hiAge.toUpperCase(),
+                          })
+                        } else {
+                          Toast.warning({
+                            message: `😔 Only > and < sign and numbers should be allowed`,
+                          })
+                        }
+                      }}
+                    />
+                  )}
+                  name="hiAge"
+                  rules={{
+                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    validate: (value) => FormHelper.isNumberAvailable(value),
+                  }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Sex Action"
+                      hasError={errors.sexAction}
+                    >
+                      <select
+                        value={masterPanelStore.masterPanel?.sexAction}
+                        disabled={!masterPanelStore.masterPanel?.ageSexAction}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.sexAction ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const sexAction = e.target.value as string
+                          onChange(sexAction)
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            sexAction,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, "SEX_ACTION").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="sexAction"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label="Sex" hasError={errors.sex}>
                       <select
                         value={masterPanelStore.masterPanel?.sex}
-                        disabled={!masterPanelStore.masterPanel?.sexAction}
+                        disabled={!masterPanelStore.masterPanel?.ageSexAction}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sex ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
@@ -1014,103 +1155,31 @@ const MasterPanel = MasterPanelHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Age Action" hasError={errors.ageAction}>
-                      <select
-                        value={masterPanelStore.masterPanel?.ageAction}
-                        // disabled={!masterPanelStore.masterPanel?.sexAction}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.ageAction ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const ageAction = e.target.value as string
-                          onChange(ageAction)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            ageAction,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "AGE_ACTION").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name="ageAction"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
                     <Form.Input
-                      label="Hi Age"
-                      disabled={!masterPanelStore.masterPanel?.sexAction}
-                      placeholder={errors.hiAge ? "Please Enter HiAge" : "Hi Age"}
-                      hasError={errors.hiAge}
-                      value={masterPanelStore.masterPanel?.hiAge}
-                      onChange={(hiAge) => {
-                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                        if (regex.test(hiAge)) {
-                          onChange(hiAge)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            hiAge: hiAge.toUpperCase(),
-                          })
-                        } else {
-                          Toast.warning({
-                            message: `😔 Only > and < sign and numbers should be allowed`,
-                          })
-                        }
+                      label="Action Message"
+                      disabled={!masterPanelStore.masterPanel?.ageSexAction}
+                      placeholder={
+                        errors.actionMessage
+                          ? "Please Enter action message"
+                          : "Action Message"
+                      }
+                      hasError={errors.actionMessage}
+                      value={masterPanelStore.masterPanel?.actionMessage}
+                      onChange={(actionMessage) => {
+                        onChange(actionMessage)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          actionMessage,
+                        })
                       }}
                     />
                   )}
-                  name="hiAge"
+                  name="actionMessage"
                   rules={{
-                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
-                    validate: (value) => FormHelper.isNumberAvailable(value),
+                    required: false,
                   }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
-                      label="Lo Age"
-                      disabled={!masterPanelStore.masterPanel?.sexAction}
-                      placeholder={errors.loAge ? "Please Enter LoAge" : "Lo Age"}
-                      hasError={errors.loAge}
-                      value={masterPanelStore.masterPanel?.loAge}
-                      onChange={(loAge) => {
-                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                        if (regex.test(loAge)) {
-                          onChange(loAge)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            loAge: loAge.toUpperCase(),
-                          })
-                        } else {
-                          Toast.warning({
-                            message: `😔 Only > and < sign and numbers should be allowed`,
-                          })
-                        }
-                      }}
-                    />
-                  )}  
-                  name="loAge"
-                  rules={{
-                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
-                    validate: (value) => FormHelper.isNumberAvailable(value),
-                  }}
-                  defaultValue=""
-                />
-
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1158,31 +1227,30 @@ const MasterPanel = MasterPanelHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                  
 
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.Toggle
                         label="Age/Sex Action"
-                        hasError={errors.sexAction}
-                        value={masterPanelStore.masterPanel?.sexAction}
-                        onChange={(sexAction) => {
-                          onChange(sexAction)
+                        hasError={errors.ageSexAction}
+                        value={masterPanelStore.masterPanel?.ageSexAction}
+                        onChange={(ageSexAction) => {
+                          onChange(ageSexAction)
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
-                            sexAction,
-                            hiAge: !sexAction
+                            ageSexAction,
+                            hiAge: !ageSexAction
                               ? ""
                               : masterPanelStore.masterPanel?.hiAge,
-                            loAge: !sexAction
+                            loAge: !ageSexAction
                               ? ""
                               : masterPanelStore.masterPanel?.loAge,
                           })
                         }}
                       />
                     )}
-                    name="sexAction"
+                    name="ageSexAction"
                     rules={{ required: false }}
                     defaultValue=""
                   />
