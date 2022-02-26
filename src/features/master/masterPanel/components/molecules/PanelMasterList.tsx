@@ -36,7 +36,9 @@ let validationLevel
 let reportGroup
 let reportOrder
 let sex
+let sexAction
 let ageAction
+let actionMessage
 let hiAge
 let loAge
 let processing
@@ -390,7 +392,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
-              csvFormatter: (col,row) => `${row.method ? row.method ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.method ? (row.method ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -468,7 +471,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: (col,row) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.bill ? (row.bill ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -727,7 +731,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              csvFormatter: (col,row) => `${row.autoRelease ? row.autoRelease ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.autoRelease ? (row.autoRelease ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -748,7 +753,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-              csvFormatter: (col,row) => `${row.holdOOS ? row.holdOOS ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.holdOOS ? (row.holdOOS ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -770,7 +776,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
-              csvFormatter: (col,row) => `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.confidential ? (row.confidential ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -792,7 +799,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "urgent",
               text: "Urgent",
               sort: true,
-              csvFormatter: (col,row) => `${row.urgent ? row.urgent ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.urgent ? (row.urgent ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -809,7 +817,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 )
               },
             },
-            
+
             {
               dataField: "repitation",
               text: "Repitation",
@@ -835,7 +843,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
-              csvFormatter: (col,row) => `${row.printLabel ? row.printLabel ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.printLabel ? (row.printLabel ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -856,7 +865,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "cumulative",
               text: "Cumulative",
               sort: true,
-              csvFormatter: (col,row) => `${row.cumulative ? row.cumulative ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.cumulative ? (row.cumulative ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -890,6 +900,49 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 textTransform: "uppercase",
               },
             },
+            {
+              dataField: "sexAction",
+              text: "Sex Action",
+              headerClasses: "textHeader4",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  sexAction = filter
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    value={row.sexAction}
+                    disabled={!row.ageSexAction}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sexAction = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sexAction, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "SEX_ACTION").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
+            },
 
             {
               dataField: "sex",
@@ -913,7 +966,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <select
-                    disabled={!row.sexAction}
+                    value={row.sex}
+                    disabled={!row.ageSexAction}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const sex = e.target.value as string
@@ -956,6 +1010,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <>
                   <select
                     value={row.ageAction}
+                    disabled={!row.ageSexAction}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const ageAction = e.target.value as string
@@ -972,68 +1027,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                       )
                     )}
                   </select>
-                </>
-              ),
-            },
-
-            {
-              dataField: "sexAction",
-              text: "Age/Sex Action",
-              sort: true,
-              csvFormatter: (col,row) => `${row.sexAction ? row.sexAction ? "Yes" : "No" : "No"}`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.sexAction}
-                      onChange={(sexAction) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sexAction, "sexAction", row._id)
-                      }}
-                    />
-                  </>
-                )
-              },
-            },
-            {
-              dataField: "hiAge",
-              text: "Hi Age",
-              headerClasses: "textHeader2",
-              sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              filter: textFilter({
-                getFilter: (filter) => {
-                  hiAge = filter
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row) && row.sexAction,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <Form.Input
-                    label="Hi Age"
-                    placeholder={row.hiAge}
-                    onBlur={(hiAge) => {
-                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(hiAge) && FormHelper.isNumberAvailable(hiAge)) {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(hiAge, column.dataField, row._id)
-                      } else {
-                        Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
-                        })
-                      }
-                    }}
-                  />
                 </>
               ),
             },
@@ -1060,7 +1053,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <Form.Input
-                    label="Lo Age"
+                    disabled={!row?.ageSexAction}
                     placeholder={row.loAge}
                     onBlur={(loAge) => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
@@ -1077,14 +1070,109 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 </>
               ),
             },
+            {
+              dataField: "hiAge",
+              text: "Hi Age",
+              headerClasses: "textHeader2",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  hiAge = filter
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row) && row.sexAction,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    disabled={!row?.ageSexAction}
+                    placeholder={row.hiAge}
+                    onBlur={(hiAge) => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      if (regex.test(hiAge) && FormHelper.isNumberAvailable(hiAge)) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(hiAge, column.dataField, row._id)
+                      } else {
+                        Toast.warning({
+                          message: `😔 Only > and < sign and numbers should be allowed`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "actionMessage",
+              text: "Action Message",
+              headerClasses: "textHeader4",
+              sort: true,
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  actionMessage = filter
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Form.Input
+                    disabled={!row?.ageSexAction}
+                    placeholder={"Action Message"}
+                    value={row?.actionMessage}
+                    onChange={(actionMessage) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(actionMessage, "actionMessage", row._id)
+                    }}
+                  />
+                </>
+              ),
+            },
 
-            
+            {
+              dataField: "ageSexAction",
+              text: "Age/Sex Action",
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row.ageSexAction ? (row.ageSexAction ? "Yes" : "No") : "No"}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.ageSexAction}
+                      onChange={(ageSexAction) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(ageSexAction, "ageSexAction", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
 
             {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
-              csvFormatter: (col,row) => `${row.pageBreak ? row.pageBreak ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.pageBreak ? (row.pageBreak ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1114,7 +1202,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            
+
             {
               dataField: "labelInstruction",
               text: "Label Instruction",
@@ -1473,25 +1561,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             description("")
             shortName("")
             price("")
-            tat("")
             validationLevel("")
             reportGroup("")
             reportOrder("")
             sex("")
             ageAction("")
             hiAge("")
+            sexAction("")
+            actionMessage("")
             loAge("")
             processing("")
             category("")
-            suffix("")
             serviceType("")
             panelType("")
-            tubeGroup("")
             labelInstruction("")
-            panelMethod("")
+
             workflow("")
             reportTemplate("")
-            sampleType("")
+
             specalInstructions("")
             status("")
             environment("")
