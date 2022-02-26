@@ -22,6 +22,9 @@ export const LIST = gql`
         testCode
         testName
         bill
+        printTestName
+        panelMethod
+        testMethod
         reportOrder
         status
         environment
@@ -30,7 +33,7 @@ export const LIST = gql`
       }
     }
   }
-`  
+`
 
 export const REMOVE_RECORD = gql`
   mutation($input: TestPanelMappingRemoveInput!) {
@@ -40,7 +43,7 @@ export const REMOVE_RECORD = gql`
     }
   }
 `
-   
+
 export const CREATE_RECORD = gql`
   mutation($input: CreateTestPanelMappingInput!) {
     createTestPanelMapping(input: $input) {
@@ -108,12 +111,15 @@ export const FILTER = gql`
         testCode
         testName
         bill
+        printTestName
+        panelMethod
+        testMethod
         reportOrder
         status
         environment
         dateOfEntry
         lastUpdated
-      }  
+      }
     }
   }
 `

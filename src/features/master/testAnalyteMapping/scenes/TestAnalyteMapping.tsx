@@ -302,7 +302,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 .checkExitsRecords({
                                   input: {
                                     lab: item.code,
-                                    testCode: testAnalyteMappingStore.testAnalyteMapping?.testCode,
+                                    testCode:
+                                      testAnalyteMappingStore.testAnalyteMapping
+                                        ?.testCode,
                                     analyteCode:
                                       testAnalyteMappingStore.testAnalyteMapping
                                         ?.analyteCode,
@@ -476,8 +478,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             testAnalyteMappingStore.testAnalyteMappingService
                               .checkExitsRecords({
                                 input: {
-                                  lab: testAnalyteMappingStore.testAnalyteMapping?.lab,
-                                  testCode: testAnalyteMappingStore.testAnalyteMapping?.testCode,
+                                  lab:
+                                    testAnalyteMappingStore.testAnalyteMapping?.lab,
+                                  testCode:
+                                    testAnalyteMappingStore.testAnalyteMapping
+                                      ?.testCode,
                                   analyteCode,
                                   env:
                                     testAnalyteMappingStore.testAnalyteMapping
@@ -499,7 +504,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                     false
                                   )
                               })
-                            }
+                          }
                         }}
                         onFilter={(value: string) => {
                           masterAnalyteStore.masterAnalyteService.filterByFields({
@@ -681,27 +686,75 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   defaultValue=""
                 />
 
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Bill"
-                      id="modeBill"
-                      hasError={errors.bill}
-                      value={testAnalyteMappingStore.testAnalyteMapping?.bill}
-                      onChange={(bill) => {
-                        onChange(bill)
-                        testAnalyteMappingStore.updateTestAnalyteMapping({
-                          ...testAnalyteMappingStore.testAnalyteMapping,
-                          bill,
-                        })
-                      }}
-                    />
-                  )}
-                  name="bill"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                <Grid cols={3}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Bill"
+                        id="modeBill"
+                        hasError={errors.bill}
+                        value={testAnalyteMappingStore.testAnalyteMapping?.bill}
+                        onChange={(bill) => {
+                          onChange(bill)
+                          testAnalyteMappingStore.updateTestAnalyteMapping({
+                            ...testAnalyteMappingStore.testAnalyteMapping,
+                            bill,
+                          })
+                        }}
+                      />
+                    )}
+                    name="bill"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Test Method"
+                        id="testMethod"
+                        hasError={errors.testMethod}
+                        value={
+                          testAnalyteMappingStore.testAnalyteMapping?.testMethod
+                        }
+                        onChange={(testMethod) => {
+                          onChange(testMethod)
+                          testAnalyteMappingStore.updateTestAnalyteMapping({
+                            ...testAnalyteMappingStore.testAnalyteMapping,
+                            testMethod,
+                          })
+                        }}
+                      />
+                    )}
+                    name="testMethod"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Analyte Method"
+                        id="analyteMethod"
+                        hasError={errors.analyteMethod}
+                        value={
+                          testAnalyteMappingStore.testAnalyteMapping?.analyteMethod
+                        }
+                        onChange={(analyteMethod) => {
+                          onChange(analyteMethod)
+                          testAnalyteMappingStore.updateTestAnalyteMapping({
+                            ...testAnalyteMappingStore.testAnalyteMapping,
+                            analyteMethod,
+                          })
+                        }}
+                      />
+                    )}
+                    name="analyteMethod"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </Grid>
               </List>
               <List direction="col" space={4} justify="stretch" fill>
                 <Form.InputWrapper label="Result Order">

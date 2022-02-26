@@ -23,6 +23,8 @@ export const LIST = gql`
         panelCode
         panelName
         bill
+        printPackageName
+        printPanelName
         status
         serviceType
         reportOrder
@@ -111,6 +113,8 @@ export const FILTER = gql`
         panelCode
         panelName
         bill
+        printPackageName
+        printPanelName
         status
         serviceType
         reportOrder
@@ -145,6 +149,8 @@ export const FILTER_BY_FIELDS = gql`
         panelCode
         panelName
         bill
+        printPackageName
+        printPanelName
         status
         serviceType
         reportOrder

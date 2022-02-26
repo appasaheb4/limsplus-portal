@@ -395,7 +395,7 @@ const MasterPackage = MasterPackageHOC(
                         } rounded-md`}
                         onChange={(e) => {
                           const packageItem = JSON.parse(e.target.value)
-                          
+
                           onChange(packageItem.panelCode)
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -666,26 +666,70 @@ const MasterPackage = MasterPackageHOC(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Toggle
-                      label="Bill"
-                      id="modeBill"
-                      hasError={errors.bill}
-                      value={masterPackageStore.masterPackage?.bill}
-                      onChange={(bill) => {
-                        masterPackageStore.updateMasterPackage({
-                          ...masterPackageStore.masterPackage,
-                          bill,
-                        })
-                      }}
-                    />
-                  )}
-                  name="bill"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+
+                <Grid cols={3}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Bill"
+                        id="modeBill"
+                        hasError={errors.bill}
+                        value={masterPackageStore.masterPackage?.bill}
+                        onChange={(bill) => {
+                          masterPackageStore.updateMasterPackage({
+                            ...masterPackageStore.masterPackage,
+                            bill,
+                          })
+                        }}
+                      />
+                    )}
+                    name="bill"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Print Package Name"
+                        id="printPackageName"
+                        hasError={errors.printPackageName}
+                        value={masterPackageStore.masterPackage?.printPackageName}
+                        onChange={(printPackageName) => {
+                          masterPackageStore.updateMasterPackage({
+                            ...masterPackageStore.masterPackage,
+                            printPackageName,
+                          })
+                        }}
+                      />
+                    )}
+                    name="printPackageName"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.Toggle
+                        label="Print Panel Name"
+                        id="printPanelName"
+                        hasError={errors.printPanelName}
+                        value={masterPackageStore.masterPackage?.printPanelName}
+                        onChange={(printPanelName) => {
+                          masterPackageStore.updateMasterPackage({
+                            ...masterPackageStore.masterPackage,
+                            printPanelName,
+                          })
+                        }}
+                      />
+                    )}
+                    name="printPanelName"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                </Grid>
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
@@ -888,7 +932,6 @@ const MasterPackage = MasterPackageHOC(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              
               if (type === "Delete") {
                 masterPackageStore.masterPackageService
                   .deletePackageMaster({ input: { id: modalConfirm.id } })
