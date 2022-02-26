@@ -229,6 +229,50 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               },
             },
             {
+              dataField: "testMethod",
+              text: "Test Method",
+              sort: true,
+              csvFormatter: (col,row) => `${row.testMethod ? row.testMethod ? "Yes" : "No" : "No"}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {" "}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.testMethod}
+                      onChange={(testMethod) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(testMethod, "testMethod", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "analyteMethod",
+              text: "Analyte Method",
+              sort: true,
+              csvFormatter: (col,row) => `${row.analyteMethod ? row.analyteMethod ? "Yes" : "No" : "No"}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {" "}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.analyteMethod}
+                      onChange={(analyteMethod) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(analyteMethod, "analyteMethod", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
               dataField: "resultOrder",
               text: "Result Order",
               headerClasses: "textHeader5",

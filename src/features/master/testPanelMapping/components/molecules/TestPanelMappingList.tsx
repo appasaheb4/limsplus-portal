@@ -237,6 +237,69 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
             {
+              dataField: "printTestName",
+              text: "Print Test Name",
+              sort: true,
+              csvFormatter: (col,row) => `${row.printTestName ? row.printTestName ? "Yes" : "No" : "No"}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.printTestName}
+                      onChange={(printTestName) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(printTestName, "printTestName", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "panelMethod",
+              text: "Panel Method",
+              sort: true,
+              csvFormatter: (col,row) => `${row.panelMethod ? row.panelMethod ? "Yes" : "No" : "No"}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.panelMethod}
+                      onChange={(panelMethod) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(panelMethod, "panelMethod", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "testMethod",
+              text: "Test Method",
+              sort: true,
+              csvFormatter: (col,row) => `${row.testMethod ? row.testMethod ? "Yes" : "No" : "No"}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.testMethod}
+                      onChange={(testMethod) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(testMethod, "testMethod", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
+            },
+            {
               dataField: "reportOrder",
               text: "Report Order",
               headerClasses: "textHeader5",

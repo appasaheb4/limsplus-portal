@@ -306,6 +306,46 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             },
           },
           {
+            dataField: "printPackageName",
+            text: "Print Package Name",
+            sort: true,
+            csvFormatter: (row,col) => `${row.printPackageName ? row.printPackageName ? "Yes" : "No" : "No"}`,
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.printPackageName}
+                    onChange={(printPackageName) => {
+                      props.onUpdateItem && props.onUpdateItem(printPackageName, "printPackageName", row._id)
+                    }}
+                  />
+                </>
+              )
+            },
+          },
+          {
+            dataField: "printPanelName",
+            text: "Print Panel Name",
+            sort: true,
+            csvFormatter: (row,col) => `${row.printPanelName ? row.printPanelName ? "Yes" : "No" : "No"}`,
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.printPanelName}
+                    onChange={(printPanelName) => {
+                      props.onUpdateItem && props.onUpdateItem(printPanelName, "printPanelName", row._id)
+                    }}
+                  />
+                </>
+              )
+            },
+          },
+          {
             dataField: "status",
             text: "Status",
             headerClasses: "textHeader1",
