@@ -1050,6 +1050,7 @@ const CorporateClients = CorporateClientsHoc(
                         errors.mobileNo ? "Please Enter Mobile No" : "Mobile No"
                       }
                       type="number"
+                      pattern={FormHelper.patterns.mobileNo}
                       hasError={errors.mobileNo}
                       value={corporateClientsStore.corporateClients?.mobileNo}
                       onChange={(mobileNo) => {

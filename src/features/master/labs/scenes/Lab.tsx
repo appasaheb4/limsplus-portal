@@ -20,7 +20,7 @@ import { lookupItems, lookupValue } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { LabHoc } from "../hoc"
 import { useStores } from "@/stores"
-
+import { FormHelper } from "@/helper"
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
@@ -713,6 +713,7 @@ const Lab = LabHoc(
                       placeholder={
                         errors.mobileNo ? "Please Enter mobileNo" : "Mobile Number"
                       }
+                      pattern={FormHelper.patterns.mobileNo}
                       hasError={errors.mobileNo}
                       value={labStore.labs?.mobileNo}
                       onChange={(mobileNo) => {
@@ -725,7 +726,7 @@ const Lab = LabHoc(
                     />
                   )}
                   name="mobileNo"
-                  rules={{ required: false }}
+                  rules={{ required: false,pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -739,6 +740,7 @@ const Lab = LabHoc(
                           ? "Please Enter contactNo"
                           : "Contact Number"
                       }
+                      pattern={FormHelper.patterns.mobileNo}
                       hasError={errors.contactNo}
                       value={labStore.labs?.contactNo}
                       onChange={(contactNo) => {
@@ -751,7 +753,7 @@ const Lab = LabHoc(
                     />
                   )}
                   name="contactNo"
-                  rules={{ required: false }}
+                  rules={{ required: false,pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
