@@ -143,7 +143,7 @@ export const Login = observer(() => {
 
   return (
     <>
-      <Container fluid className="bg-gray-600">
+      <Container fluid className="bg-yellow-300">
         <Row className="h-screen items-center">
           <Col md="7">
             <div className="flex flex-col justify-center items-center">
@@ -166,9 +166,9 @@ export const Login = observer(() => {
           </Col>
           <Col md="5">
             <div className="flex mt-2 justify-center items-center">
-              <label className="font-bold text-3xl text-white">Login</label>
+              <label className="font-bold text-3xl text-black">Login</label>
             </div>
-            <div className="flex flex-col rounded-md bg-white shadow-sm">
+            <div className="flex flex-col rounded-md bg-black shadow-sm">
               <div className="p-3">
                 <List direction="col" space={4} justify="stretch" fill>
                   <Controller
@@ -178,6 +178,7 @@ export const Login = observer(() => {
                         label="User Id"
                         id="userId"
                         name="userId"
+                        wrapperStyle={{color:'white'}}
                         placeholder={
                           errors.userId ? "Please enter userId" : "UserId"
                         }
@@ -237,6 +238,7 @@ export const Login = observer(() => {
                       <Form.Input
                         type="password"
                         label="Password"
+                        wrapperStyle={{color:'white'}}
                         placeholder={
                           errors.password ? "Please enter password" : "Password"
                         }
@@ -259,7 +261,7 @@ export const Login = observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <Form.InputWrapper label="Lab" hasError={errors.lab}>
+                      <Form.InputWrapper label="Lab" hasError={errors.lab} style={{color:'white'}}>
                         <select
                           value={loginStore.inputLogin?.lab}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -291,7 +293,7 @@ export const Login = observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <Form.InputWrapper label="Role" hasError={errors.role}>
+                      <Form.InputWrapper label="Role" hasError={errors.role} style={{color:'white'}}>
                         <select
                           value={loginStore.inputLogin?.role}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -356,7 +358,7 @@ export const Login = observer(() => {
                   <a
                     href="#"
                     onClick={() => setModalForgotPassword({ show: true })}
-                    className="text-blue-700 mr-2"
+                    className="text-white mr-2"
                   >
                     {`Forgot Password`}
                   </a>
@@ -384,7 +386,7 @@ export const Login = observer(() => {
                   </a>
                 </div>
                 <div>
-                  <a href="privacy-policy" className="text-blue-700">
+                  <a href="privacy-policy" className="text-white">
                     Privacy and Policy
                   </a>
                 </div>

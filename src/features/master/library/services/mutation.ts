@@ -86,7 +86,46 @@ export const FILTER = gql`
       }
       success
       message
-      data{
+      data {
+        _id
+        code
+        description
+        usageType
+        libraryType
+        commentType
+        lab
+        department
+        commentsTarget
+        details
+        parameter
+        action
+        results
+        value
+        reflex
+        analyte
+        rule
+        abNormal
+        status
+        organismGroup
+        organismClass
+        loAge
+        hiAge
+        sex
+        sexAction
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
+   
+export const LIBRARYS_BY_CODE = gql`
+  mutation($input: LibraryInput!) {
+    librarysByCode(input: $input) {
+      success
+      message
+      data {
         _id
         code
         description

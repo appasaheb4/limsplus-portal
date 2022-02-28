@@ -59,6 +59,7 @@ interface InputProps extends InputWrapperProps {
   className?: string
   rows?: number
   style?: any
+  wrapperStyle?: any;
   hasError?: boolean
   pattern?: any
   onChange?: (e: any) => void
@@ -77,7 +78,7 @@ export const Input = (props: InputProps) => {
   }
 
   return (
-    <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
+    <InputWrapper label={props.label} id={props.id} hasError={props.hasError} style={props.wrapperStyle}>
       <input
         type={props.type || "text"}
         id={props.id}

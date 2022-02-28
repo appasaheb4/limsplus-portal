@@ -50,6 +50,7 @@ const MasterPanel = MasterPanelHoc(
     setValue("rLab", loginStore.login.lab)
     setValue("pLab", loginStore.login.lab)
     setValue("environment", masterPanelStore.masterPanel?.environment)
+    setValue("serviceType", masterPanelStore.masterPanel?.serviceType)
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -716,7 +717,7 @@ const MasterPanel = MasterPanelHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                
+
                 <Grid cols={5}>
                   <Controller
                     control={control}
@@ -825,7 +826,7 @@ const MasterPanel = MasterPanelHoc(
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
-              <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.Input
@@ -979,8 +980,7 @@ const MasterPanel = MasterPanelHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-               
-                
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1018,7 +1018,7 @@ const MasterPanel = MasterPanelHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                 <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label="Sex" hasError={errors.sex}>
@@ -1183,9 +1183,6 @@ const MasterPanel = MasterPanelHoc(
                   defaultValue=""
                 />
 
-                
-                
-                
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
