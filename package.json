@@ -40,6 +40,7 @@
     "firebase": "^9.6.1",
     "fs": "^0.0.1-security",
     "graphql": "^15.5.3",
+    "html-react-parser": "^1.4.8",
     "husky": "^4.3.8",
     "lodash": "^4.17.21",
     "mobx": "^6.2.0",

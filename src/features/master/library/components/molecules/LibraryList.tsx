@@ -1,9 +1,23 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {TableBootstrap,Form,Tooltip,Icons,NumberFilter,textFilter,AutoCompleteCheckMultiFilterKeys,Buttons,customFilter} from "@/library/components"
-import {Confirm} from "@/library/models"
-import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../index"  
+import _ from "lodash"
+import { lookupItems, lookupValue } from "@/library/utils"
+import {
+  TableBootstrap,
+  Form,
+  Tooltip,
+  Icons,
+  NumberFilter,
+  textFilter,
+  AutoCompleteCheckMultiFilterKeys,
+  Buttons,
+  customFilter,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
+import {
+  AutoCompleteFilterSingleSelectDepartment,
+  AutoCompleteFilterSingleSelectPlabs,
+} from "../index"
 
 let code
 let description
@@ -68,11 +82,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Code",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   code = filter
-                }
+                },
               }),
               editable: false,
             },
@@ -81,24 +95,32 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Description",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   description = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cellContent, row) => (
+                <>
+                  {_.truncate(row.description, {
+                    length: 22,
+                    omission: "***",
+                  })}
+                </>
+              ),
             },
             {
               dataField: "usageType",
               text: "Usage Type",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   usageType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -110,26 +132,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const usageType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(usageType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "USAGE_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const usageType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(usageType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "USAGE_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -138,11 +157,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Library Type",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   libraryType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -154,26 +173,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const libraryType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(libraryType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "LIBRARY_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const libraryType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(libraryType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "LIBRARY_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -182,11 +198,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Comment Type",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   commentType = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -198,26 +214,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const commentType = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(commentType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "COMMENT_TYPE"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const commentType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(commentType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "COMMENT_TYPE").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -226,11 +239,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Lab",
               headerClasses: "textHeader1",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   lab = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -243,9 +256,10 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPlabs
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -255,11 +269,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Department",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   department = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -272,9 +286,10 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDepartment
-                  onSelect={(item)=>{
-                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item.code, column.dataField, row._id)
+                    }}
                   />
                 </>
               ),
@@ -284,11 +299,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "CommentsTarget",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   commentsTarget = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -300,30 +315,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const commentsTarget = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            commentsTarget,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "COMMENTS_TARGET"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const commentsTarget = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(commentsTarget, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "COMMENTS_TARGET").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -332,24 +340,50 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Details",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  details = filter}
+                getFilter: (filter) => {
+                  details = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cellContent, row) => (
+                <>
+                  {_.truncate(row.details, {
+                    length: 22,
+                    omission: "***",
+                  })}
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <Form.MultilineInput
+                  rows={3}
+                  placeholder={row?.details}
+                  onBlur={(details) => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(details, column.dataField, row._id)
+                  }} 
+                />
+              ),
             },
             {
               dataField: "parameter",
               text: "Parameter",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   parameter = filter
-                }
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -360,26 +394,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const parameter = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(parameter, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "PARAMETER"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const parameter = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(parameter, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "PARAMETER").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -388,11 +419,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Action",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   action = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -404,25 +435,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const action = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(action, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ACTION"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const action = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(action, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ACTION").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -431,10 +460,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Results",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  results = filter}
+                getFilter: (filter) => {
+                  results = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -446,26 +476,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const results = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(results, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "RESULTS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const results = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(results, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "RESULTS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -474,10 +501,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Value",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  value = filter}
+                getFilter: (filter) => {
+                  value = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -487,12 +515,13 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader4",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (cell, row, rowIndex) => 
-              `PanelCode${reflex.panelName} ,
+              csvFormatter: (cell, row, rowIndex) =>
+                `PanelCode${reflex.panelName} ,
                PanelName${reflex.panelCode}`,
               filter: textFilter({
-                getFilter: (filter) =>{
-                  reflex = filter}
+                getFilter: (filter) => {
+                  reflex = filter
+                },
               }),
               formatter: (cellContent, row) => (
                 <>
@@ -521,21 +550,19 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <AutoCompleteCheckMultiFilterKeys
-                      placeholder="Search by panel name or panel code"
-                      data={{
-                        defulatValues: [],
-                        list: props.extraData.listMasterPanel || [],
-                        displayKey: ["panelName", "panelCode"],
-                        findKey: ["panelName", "panelCode"],
-                      }}
-                      onUpdate={(items) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(items, column.dataField, row._id)
-                      }}
-                    />
-                  
+                  <AutoCompleteCheckMultiFilterKeys
+                    placeholder="Search by panel name or panel code"
+                    data={{
+                      defulatValues: [],
+                      list: props.extraData.listMasterPanel || [],
+                      displayKey: ["panelName", "panelCode"],
+                      findKey: ["panelName", "panelCode"],
+                    }}
+                    onUpdate={(items) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },
@@ -544,10 +571,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Analyte",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  analyte = filter}
+                getFilter: (filter) => {
+                  analyte = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -556,10 +584,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Rule",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  rule = filter}
+                getFilter: (filter) => {
+                  rule = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -567,14 +596,15 @@ export const LibraryList = (props: LibraryListProps) => {
               dataField: "abNormal",
               text: "AbNormal",
               sort: true,
-              csvFormatter: (col,row) => `${row.abNormal ? row.abNormal ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.abNormal ? (row.abNormal ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     {" "}
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.abNormal}
                       onChange={(abNormal) => {
                         props.onUpdateItem &&
@@ -590,10 +620,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  status = filter}
+                getFilter: (filter) => {
+                  status = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -605,25 +636,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -632,10 +661,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Organism Group",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  organismGroup = filter}
+                getFilter: (filter) => {
+                  organismGroup = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -644,10 +674,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Organism Class",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  organismClass = filter}
+                getFilter: (filter) => {
+                  organismClass = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -656,11 +687,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "LO Age",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   loAge = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -672,11 +703,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "HI Age",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: customFilter({
-                getFilter: (filter) =>{
+                getFilter: (filter) => {
                   hiAge = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -688,10 +719,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Sex",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  sex = filter}
+                getFilter: (filter) => {
+                  sex = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -703,26 +735,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sex = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sex, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "SEX"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sex = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sex, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "SEX").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -731,10 +760,11 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Sex Action",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  sexAction = filter}
+                getFilter: (filter) => {
+                  sexAction = filter
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -746,26 +776,23 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sexAction = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sexAction, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "SEX_ACTION"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const sexAction = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(sexAction, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "SEX_ACTION").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -774,11 +801,12 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  environment = filter}
+                getFilter: (filter) => {
+                  environment = filter
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -789,27 +817,24 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      value={row.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={row.environment}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -822,10 +847,7 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <Tooltip
-                      tooltipText="Delete"
-                      position="top"
-                    >
+                    <Tooltip tooltipText="Delete" position="top">
                       <Icons.IconContext
                         color="#fff"
                         size="20"
@@ -840,9 +862,7 @@ export const LibraryList = (props: LibraryListProps) => {
                           })
                         }
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                   </div>
@@ -870,7 +890,7 @@ export const LibraryList = (props: LibraryListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             code("")
             description("")
             usageType("")

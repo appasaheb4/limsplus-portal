@@ -15,6 +15,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  LIBRARYS_BY_CODE,
 } from "./mutation"
 
 export class MasterAnalyteService {
@@ -38,6 +39,8 @@ export class MasterAnalyteService {
     })
   addLibrary = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables })
+
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -45,7 +48,6 @@ export class MasterAnalyteService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.libraryStore.updateLibrary(new Models.Library({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -67,6 +69,9 @@ export class MasterAnalyteService {
     })
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+
+      console.log({variables});
+      
       client
         .mutate({
           mutation: UPDATE_RECORD,
@@ -81,7 +86,7 @@ export class MasterAnalyteService {
         )
     })
 
-  checkExistsLabEnvCode = (variables: any) =>
+  checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -95,7 +100,7 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -114,6 +119,19 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
+  librarysByCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: LIBRARYS_BY_CODE,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }
-
-
