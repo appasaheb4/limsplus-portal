@@ -11,7 +11,6 @@ import Header from "./Header"
 import LineChart from "./LineChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
-import moment from "moment"
 import { useHistory } from "react-router-dom"
 
 // registration
