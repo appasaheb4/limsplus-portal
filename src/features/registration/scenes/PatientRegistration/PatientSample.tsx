@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import {Grid,List,Form,Buttons,Svg} from "@/library/components"
-import { lookupItems,lookupValue,moment } from "@/library/utils"
+import { lookupItems,lookupValue,dayjs } from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { PatientSampleList } from "../../components"
 import { Stores as SampleTypeStore } from "@/features/master/sampleType/stores"
@@ -370,14 +370,14 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       : "Received Date"
                   }
                   hasError={errors.receivedDate}
-                  value={moment(
+                  value={dayjs(
                     Stores.patientRegistationStore.patientSample?.receivedDate
                   ).format("YYYY-MM-DD")}
                   onChange={(e) => {
                     let receivedDate = new Date(e.target.value)
                     onChange(receivedDate)
                     const formatDate =
-                      moment(receivedDate).format("YYYY-MM-DD HH:mm")
+                      dayjs(receivedDate).format("YYYY-MM-DD HH:mm")
 
                     Stores.patientRegistationStore.updatePatientSample({
                       ...Stores.patientRegistationStore.patientSample,
@@ -402,14 +402,14 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       : "Collection Date"
                   }
                   hasError={errors.collectionDate}
-                  value={moment(
+                  value={dayjs(
                     Stores.patientRegistationStore.patientSample?.collectionDate
                   ).format("YYYY-MM-DD")}
                   onChange={(e) => {
                     let collectionDate = new Date(e.target.value)
                     onChange(collectionDate)
                     const formatDate =
-                      moment(collectionDate).format("YYYY-MM-DD HH:mm")
+                      dayjs(collectionDate).format("YYYY-MM-DD HH:mm")
 
                     Stores.patientRegistationStore.updatePatientSample({
                       ...Stores.patientRegistationStore.patientSample,
@@ -472,14 +472,14 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                       : "Date Collection"
                   }
                   hasError={errors.dateCollection}
-                  value={moment(
+                  value={dayjs(
                     Stores.patientRegistationStore.patientSample?.dateCollection
                   ).format("YYYY-MM-DD")}
                   onChange={(e) => {
                     let dateCollection = new Date(e.target.value)
                     onChange(dateCollection)
                     const formatDate =
-                      moment(dateCollection).format("YYYY-MM-DD HH:mm")
+                      dayjs(dateCollection).format("YYYY-MM-DD HH:mm")
 
                     Stores.patientRegistationStore.updatePatientSample({
                       ...Stores.patientRegistationStore.patientSample,

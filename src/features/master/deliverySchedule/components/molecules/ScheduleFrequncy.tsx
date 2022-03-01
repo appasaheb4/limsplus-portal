@@ -4,7 +4,7 @@ import _ from "lodash"
 import classnames from "classnames"
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap"
 
-import {moment} from "@/library/utils"
+import dayjs from "dayjs"
 import {Form} from "@/library/components"
 
 interface ScheduleFrequencyProps {
@@ -293,11 +293,11 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
                   placeholder="Date"
                   onChange={(e) => {
                     const schedule = new Date(e.target.value)
-                    setMonthlyDate(moment(schedule).unix())
+                    setMonthlyDate(dayjs(schedule).unix())
                     onChnage &&
                       onChnage({
                         value: monthlyDateValue,
-                        date: moment(schedule).unix(),
+                        date: dayjs(schedule).unix(),
                         units: monthlyUnits,
                       })
                   }}

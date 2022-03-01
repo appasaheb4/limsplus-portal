@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
 import {Icons, Buttons} from "../.."
-import moment from "moment"
+import dayjs from "dayjs"
 
 interface ModalProps {
   show?: boolean
@@ -70,9 +70,10 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                               <h6>City: {item.systemInfo.ipInfo.city}</h6>
                             )}
                             <h6>
-                              {moment(item.dateOfEntry).format("YYYY-MM-DD HH:mm A")}
+                              {dayjs(item.dateOfEntry).format("YYYY-MM-DD HH:mm A")}
                             </h6>
-                            <h6> {moment(item.dateOfEntry).fromNow()}</h6>
+                            <h6> {dayjs(item.dateOfEntry)}</h6>
+                            {/* tempory hide from  */}
                           </div>
                           <Buttons.Button
                             size="medium"

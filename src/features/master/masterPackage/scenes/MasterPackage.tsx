@@ -16,10 +16,10 @@ import {
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from "@/library/components"
 import _ from "lodash"
-import { lookupItems, moment, lookupValue } from "@/library/utils"
+import { lookupItems,  lookupValue } from "@/library/utils"
 import { PackageMasterList } from "../components"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-
+import dayjs from "dayjs"
 import { useForm, Controller } from "react-hook-form"
 import { MasterPackageHOC } from "../hoc"
 import { useStores } from "@/stores"
@@ -985,7 +985,7 @@ const MasterPackage = MasterPackageHOC(
                   existsVersionId: modalConfirm.data._id,
                   existsRecordId: undefined,
                   version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: moment().unix(),
+                  dateActive: dayjs().unix(),
                 })
                 setValue("lab", modalConfirm.data.lab)
                 setValue("environment", modalConfirm.data.environment)
@@ -997,7 +997,7 @@ const MasterPackage = MasterPackageHOC(
                   existsVersionId: undefined,
                   existsRecordId: modalConfirm.data._id,
                   version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: moment().unix(),
+                  dateActive: dayjs().unix(),
                 })
                 setHideAddLab(!hideAddLab)
                 setValue("lab", modalConfirm.data.lab)

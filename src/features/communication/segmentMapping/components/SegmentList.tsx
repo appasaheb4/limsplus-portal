@@ -7,7 +7,7 @@ import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolk
 import paginationFactory from "react-bootstrap-table2-paginator"
 import cellEditFactory from "react-bootstrap-table2-editor"
 import filterFactory from "react-bootstrap-table2-filter"
-import moment from "moment"
+import dayjs from "dayjs"
 import {options as EquipmentModel,} from "../../models"
 import { SegmentMapping } from "../models"
 import {Styles} from "@/config"
@@ -1230,7 +1230,7 @@ const SegmentList = observer((props: SegmentListProps) => {
           ]}
           search
           exportCSV={{
-            fileName: `segmentMapping_${moment(new Date()).format(
+            fileName: `segmentMapping_${dayjs(new Date()).format(
               "YYYY-MM-DD HH:mm"
             )}.csv`,
             noAutoBOM: false,
