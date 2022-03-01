@@ -34,6 +34,7 @@ const Lab = LabHoc(
       loading,
       loginStore,
     } = useStores()
+
     const {
       control,
       handleSubmit,
@@ -139,7 +140,7 @@ const Lab = LabHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
             <Grid cols={3}>

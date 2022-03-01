@@ -6,9 +6,9 @@ import {
   Toast,
   List,
   Form,
-  Buttons,  
-  Svg,  
-  Icons,  
+  Buttons,
+  Svg,
+  Icons,
   ModalChangePassword,
   ModalSessionAllowed,
 } from "@/library/components"
@@ -148,7 +148,7 @@ export const Login = observer(() => {
           <Col md="7">
             <div className="flex flex-col justify-center items-center">
               <img src={logo} className="w-20 h-15" alt="logo" />
-              <div className="mt-2 mb-2">
+              <div className="mt-2">
                 <Carousel>
                   {bannerStore.listAllBanner.map((item, key) => (
                     <Carousel.Item interval={5000} key={key}>
@@ -157,215 +157,229 @@ export const Login = observer(() => {
                         src={item.image}
                         className="img-thumbnail img-fluid"
                         alt={key.toString()}
+                        style={{ width: 650, height: 550 }}
                       />
                     </Carousel.Item>
                   ))}
                 </Carousel>
               </div>
             </div>
-          </Col>
+          </Col>   
           <Col md="5">
-            <div className="flex mt-2 justify-center items-center">
-              <label className="font-bold text-3xl text-black">Login</label>
-            </div>
-            <div className="flex flex-col rounded-md bg-black shadow-sm">
-              <div className="p-3">
-                <List direction="col" space={4} justify="stretch" fill>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Input
-                        label="User Id"
-                        id="userId"
-                        name="userId"
-                        wrapperStyle={{color:'white'}}
-                        placeholder={
-                          errors.userId ? "Please enter userId" : "UserId"
-                        }
-                        hasError={errors.userId}
-                        value={loginStore.inputLogin?.userId}
-                        onChange={(userId) => {
-                          onChange(userId)
-                          loginStore.updateInputUser({
-                            ...loginStore.inputLogin,
-                            userId: userId.toUpperCase(),
-                          })
-                        }}
-                        onBlur={(userId) => {
-                          if (userId) {
-                            userStore.UsersService.checkExitsUserId(
-                              userId.trim()
-                            ).then((res) => {
-                              if (res.checkUserExitsUserId.success) {
-                                const {
-                                  data: { user },
-                                } = res.checkUserExitsUserId
-                                setValue("lab", user.defaultLab)
-                                clearErrors("lab")
-                                if (user.role.length == 1)
-                                  setValue("role", user.role[0].code)
-                                clearErrors("role")
-                                loginStore.updateInputUser({
-                                  ...loginStore.inputLogin,
-                                  lab: user.defaultLab,
-                                  role:
-                                    user.role.length == 1 ? user.role[0].code : "",
-                                })
-                                labStore.fetchListLab()
-                                roleStore.fetchListRole()
-                                setlabRoleList({
-                                  labList: user.lab,
-                                  roleList: user.role,
-                                })
-                              } else {
-                                Toast.error({
-                                  message: `😔 ${res.checkUserExitsUserId.message}`,
-                                })
-                              }
-                            })
-                          }
-                        }}
-                      />
-                    )}
-                    name="userId"
-                    rules={{ required: true }}
-                    defaultValue={loginStore.inputLogin?.userId}
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Input
-                        type="password"
-                        label="Password"
-                        wrapperStyle={{color:'white'}}
-                        placeholder={
-                          errors.password ? "Please enter password" : "Password"
-                        }
-                        hasError={errors.password}
-                        value={loginStore.inputLogin?.password}
-                        onChange={(password) => {
-                          onChange(password)
-                          loginStore.updateInputUser({
-                            ...loginStore.inputLogin,
-                            password,
-                          })
-                        }}
-                      />
-                    )}
-                    name="password"
-                    rules={{ required: true, pattern: FormHelper.patterns.password }}
-                    defaultValue={loginStore.inputLogin?.password}
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper label="Lab" hasError={errors.lab} style={{color:'white'}}>
-                        <select
-                          value={loginStore.inputLogin?.lab}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.lab ? "border-red-500" : "border-gray-300"
-                          } rounded-md`}
-                          onChange={(e) => {
-                            const lab = e.target.value
-                            onChange(lab)
-                            loginStore.updateInputUser({
-                              ...loginStore.inputLogin,
-                              lab,
-                            })
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {labRoleList.labList.map((item: any) => (
-                            <option key={item.code} value={item.code}>
-                              {item.name}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name="lab"
-                    rules={{ required: true }}
-                    defaultValue={loginStore.inputLogin?.lab}
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper label="Role" hasError={errors.role} style={{color:'white'}}>
-                        <select
-                          value={loginStore.inputLogin?.role}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.role ? "border-red-500" : "border-gray-300"
-                          } rounded-md`}
-                          onChange={(e) => {
-                            const role = e.target.value
-                            onChange(role)
-                            loginStore.updateInputUser({
-                              ...loginStore.inputLogin,
-                              role,
-                            })
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {labRoleList.roleList.map((item: any) => (
-                            <option key={item.code} value={item.code}>
-                              {item.description}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name="role"
-                    rules={{ required: true }}
-                    defaultValue={loginStore.inputLogin?.role}
-                  />
-                </List>
-   
-                <br />
-                <List direction="row" space={3} align="center">
-                  <Buttons.Button
-                    size="medium"
-                    type="solid"
-                    icon={Svg.Check}
-                    onClick={handleSubmit(onLogin)}
-                  >
-                    Login
-                  </Buttons.Button>
-                  <Buttons.Button
-                    size="medium"
-                    type="solid"
-                    icon={Svg.Remove}
-                    onClick={() => {
-                      window.location.reload()
-                    }}
-                  >
-                    Clear
-                  </Buttons.Button>
-                </List>
-                <h4 className="text-center mt-2">
-                  {" "}
-                  <b>Note</b>: After 3 invalid login attempts, accounts will be
-                  locked.
-                </h4>
-                <h4 className="text-center">
-                  In that case contact the Support Team.
-                </h4>
-              </div>
-              <div className="flex p-4 flex-row items-center justify-around">
+            <div className="flex flex-col items-center">
+              <img src={logo} className="w-20 h-15  self-center" alt="logo" />
+              <div className="flex flex-col mt-2 rounded-md bg-black shadow-sm w-full" style={{ width: 650, height: 550}}>
                 <div className="flex mt-2 justify-center items-center">
-                  <a
-                    href="#"
-                    onClick={() => setModalForgotPassword({ show: true })}
-                    className="text-white mr-2"
-                  >
-                    {`Forgot Password`}
-                  </a>
-                  <a
-                    onClick={() =>
-                      Toast.warning({
-                        message: `
+                  <label className="font-bold text-3xl text-white">Login</label>
+                </div>
+                <div className="p-3">
+                  <List direction="col" space={4} justify="stretch" fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <Form.Input
+                          label="User Id"
+                          id="userId"
+                          name="userId"
+                          wrapperStyle={{ color: "white" }}
+                          placeholder={
+                            errors.userId ? "Please enter userId" : "UserId"
+                          }
+                          hasError={errors.userId}
+                          value={loginStore.inputLogin?.userId}
+                          onChange={(userId) => {
+                            onChange(userId)
+                            loginStore.updateInputUser({
+                              ...loginStore.inputLogin,
+                              userId: userId.toUpperCase(),
+                            })
+                          }}
+                          onBlur={(userId) => {
+                            if (userId) {
+                              userStore.UsersService.checkExitsUserId(
+                                userId.trim()
+                              ).then((res) => {
+                                if (res.checkUserExitsUserId.success) {
+                                  const {
+                                    data: { user },
+                                  } = res.checkUserExitsUserId
+                                  setValue("lab", user.defaultLab)
+                                  clearErrors("lab")
+                                  if (user.role.length == 1)
+                                    setValue("role", user.role[0].code)
+                                  clearErrors("role")
+                                  loginStore.updateInputUser({
+                                    ...loginStore.inputLogin,
+                                    lab: user.defaultLab,
+                                    role:
+                                      user.role.length == 1 ? user.role[0].code : "",
+                                  })
+                                  labStore.fetchListLab()
+                                  roleStore.fetchListRole()
+                                  setlabRoleList({
+                                    labList: user.lab,
+                                    roleList: user.role,
+                                  })
+                                } else {
+                                  Toast.error({
+                                    message: `😔 ${res.checkUserExitsUserId.message}`,
+                                  })
+                                }
+                              })
+                            }
+                          }}
+                        />
+                      )}
+                      name="userId"
+                      rules={{ required: true }}
+                      defaultValue={loginStore.inputLogin?.userId}
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <Form.Input
+                          type="password"
+                          label="Password"
+                          wrapperStyle={{ color: "white" }}
+                          placeholder={
+                            errors.password ? "Please enter password" : "Password"
+                          }
+                          hasError={errors.password}
+                          value={loginStore.inputLogin?.password}
+                          onChange={(password) => {
+                            onChange(password)
+                            loginStore.updateInputUser({
+                              ...loginStore.inputLogin,
+                              password,
+                            })
+                          }}
+                        />
+                      )}
+                      name="password"
+                      rules={{
+                        required: true,
+                        pattern: FormHelper.patterns.password,
+                      }}
+                      defaultValue={loginStore.inputLogin?.password}
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <Form.InputWrapper
+                          label="Lab"
+                          hasError={errors.lab}
+                          style={{ color: "white" }}
+                        >
+                          <select
+                            value={loginStore.inputLogin?.lab}
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.lab ? "border-red-500" : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const lab = e.target.value
+                              onChange(lab)
+                              loginStore.updateInputUser({
+                                ...loginStore.inputLogin,
+                                lab,
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {labRoleList.labList.map((item: any) => (
+                              <option key={item.code} value={item.code}>
+                                {item.name}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name="lab"
+                      rules={{ required: true }}
+                      defaultValue={loginStore.inputLogin?.lab}
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <Form.InputWrapper
+                          label="Role"
+                          hasError={errors.role}
+                          style={{ color: "white" }}
+                        >
+                          <select
+                            value={loginStore.inputLogin?.role}
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.role ? "border-red-500" : "border-gray-300"
+                            } rounded-md`}
+                            onChange={(e) => {
+                              const role = e.target.value
+                              onChange(role)
+                              loginStore.updateInputUser({
+                                ...loginStore.inputLogin,
+                                role,
+                              })
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {labRoleList.roleList.map((item: any) => (
+                              <option key={item.code} value={item.code}>
+                                {item.description}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name="role"
+                      rules={{ required: true }}
+                      defaultValue={loginStore.inputLogin?.role}
+                    />
+                  </List>
+
+                  <br />
+                  <List direction="row" space={3} align="center">
+                    <Buttons.Button
+                      size="medium"
+                      type="solid"
+                      icon={Svg.Check}
+                      onClick={handleSubmit(onLogin)}
+                    >
+                      Login
+                    </Buttons.Button>
+                    <Buttons.Button
+                      size="medium"
+                      type="solid"
+                      icon={Svg.Remove}
+                      onClick={() => {
+                        window.location.reload()
+                      }}
+                    >
+                      Clear
+                    </Buttons.Button>
+                  </List>
+                  <h4 className="text-center mt-2 text-white">
+                    {" "}
+                    <b>Note</b>: After 3 invalid login attempts, accounts will be
+                    locked.
+                  </h4>
+                  <h4 className="text-center text-white">
+                    In that case contact the Support Team.
+                  </h4>
+                </div>
+                <div className="flex p-4 flex-row items-center justify-around">
+                  <div className="flex mt-2 justify-center items-center">
+                    <a
+                      href="#"
+                      onClick={() => setModalForgotPassword({ show: true })}
+                      className="text-white mr-2"
+                    >
+                      {`Forgot Password`}
+                    </a>
+                    <a
+                      onClick={() =>
+                        Toast.warning({
+                          message: `
                         PASSWORD REQUIREMENTS: \n
                   Minimum 4 Total Characters
                   Maximum 8 Total Characters
@@ -376,19 +390,17 @@ export const Login = observer(() => {
                   Cannot user previous 4 password
                   Cannot use same password before specify number of days \n
                   `,
-                        timer: 50000,
-                      })
-                    }
-                  >
-                    <Icons.IconContext color="#000" size="22">
-                      {Icons.getIconTag(Icons.IconGr.GrTooltip)}
-                    </Icons.IconContext>
-                  </a>
-                </div>
-                <div>
-                  <a href="privacy-policy" className="text-white">
-                    Privacy and Policy
-                  </a>
+                          timer: 50000,
+                        })
+                      }
+                    >
+                    </a>
+                  </div>
+                  <div>
+                    <a href="privacy-policy" className="text-white">
+                      Privacy and Policy
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

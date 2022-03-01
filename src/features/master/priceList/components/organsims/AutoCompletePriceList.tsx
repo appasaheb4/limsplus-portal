@@ -16,19 +16,20 @@ export const AutoCompletePriceList = observer(
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+          posstion="relative"
           loader={loading}
           placeholder="Search by code or name"
           data={{
             list: corporateClientsStore?.listCorporateClients,
-            displayKey: ["corporateCode", "corporateName"],
+            displayKey: ["invoiceAc", "corporateName"],
           }}
-          displayValue={priceListStore.priceList?.priceList}
+          displayValue={priceListStore.priceList?.priceList?.toString()}
           disable={priceGroup !== "CSP001" ? true : false}
           onFilter={(value: string) => {
             corporateClientsStore.corporateClientsService.filterByFields({
               input: {
                 filter: {
-                  fields: ["corporateCode", "corporateName"],
+                  fields: ["invoiceAc", "corporateName"],
                   srText: value,
                 },
                 page: 0,
@@ -37,7 +38,7 @@ export const AutoCompletePriceList = observer(
             })
           }}
           onSelect={(item) => {
-            console.log({item})
+            console.log({ item })
             onSelect && onSelect(item)
             corporateClientsStore.updateCorporateClientsList(
               corporateClientsStore.listCorporateClientsCopy
