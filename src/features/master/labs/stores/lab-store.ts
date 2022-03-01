@@ -1,8 +1,8 @@
 import { version } from "mobx-sync"
+import dayjs from 'dayjs'
 import { makeObservable, action, observable, computed } from "mobx"
 import {Labs,SelectedItems} from "../models"
 import {LabService} from "../services"
-import * as LibraryUtils from "@/library/utils"
 
 @version(0.1)
 export class LabStore {
@@ -17,8 +17,8 @@ export class LabStore {
     this.listLabs = []
     this.labs = {
       ...this.labs,
-      openingTime: LibraryUtils.moment().format("hh:mm a"),
-      closingTime: LibraryUtils.moment().format("hh:mm a"),
+      openingTime: dayjs().format("hh:mm a"),
+      closingTime: dayjs().format("hh:mm a"),
       reportFormat: true,
       printLable: false,
       priceList: [{ id: 0,maxDis:0 }],

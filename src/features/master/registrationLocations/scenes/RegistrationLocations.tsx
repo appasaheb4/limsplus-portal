@@ -37,6 +37,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       routerStore,
       loading,
       administrativeDivisions,
+      corporateClientsStore,
       salesTeamStore,
     } = useStores()
     const {
@@ -333,6 +334,9 @@ const RegistrationLocation = RegistrationLocationHoc(
                             ...registrationLocationsStore.registrationLocations,
                             corporateCode: item.corporateCode,
                             invoiceAc: item.invoiceAc,
+                            acClass: item.acClass,
+                            accountType: item.acType,
+                            customerGroup: item.customerGroup
                           })
                         }}
                       />
@@ -348,18 +352,45 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label="Invoice Ac"
-                      placeholder="Invoice Ac"
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.invoiceAc ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
                       hasError={errors.invoiceAc}
-                      disabled={true}
-                      value={
-                        registrationLocationsStore.registrationLocations?.invoiceAc
-                      }
-                    />
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by invoiceAc"
+                        data={{
+                          list: corporateClientsStore.listCorporateClients,
+                          displayKey: ["invoiceAc"],
+                        }}
+                        displayValue={registrationLocationsStore.registrationLocations?.invoiceAc}
+                        hasError={errors.invoiceAc}
+                        onFilter={(value: string) => {
+                          corporateClientsStore.corporateClientsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ["invoiceAc"],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.invoiceAc)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            invoiceAc: item.invoiceAc,
+                          })
+                          corporateClientsStore.updateCorporateClientsList(
+                            corporateClientsStore.listCorporateClientsCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
                   )}
                   name="invoiceAc"
                   rules={{ required: false }}
@@ -957,7 +988,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             console.log({ item })
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
-                              postalCode:  parseInt(item?.postalCode),
+                              postalCode: parseInt(item?.postalCode),
                               zone: item?.zone,
                               sbu: item?.sbu,
                             })
@@ -1088,7 +1119,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     />
                   )}
                   name="telephone"
-                  rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
+                  rules={{ required: false, pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller

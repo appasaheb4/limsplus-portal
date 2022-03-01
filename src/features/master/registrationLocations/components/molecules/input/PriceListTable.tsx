@@ -47,7 +47,7 @@ export const PriceListTable = observer(({}) => {
     let priceList = registrationLocationsStore.registrationLocations?.priceList
     priceList.push({
       id: registrationLocationsStore.registrationLocations?.priceList.length + 1,
-      maxDis:0
+      maxDis: 0,
     })
     registrationLocationsStore.updateRegistrationLocations({
       ...registrationLocationsStore.registrationLocations,
@@ -107,18 +107,18 @@ export const PriceListTable = observer(({}) => {
                           errors.priceGroup ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
-                          const priceGroup = e.target.value as string
-                          onChange(priceGroup)
+                          const priceGroup = JSON.parse(e.target.value)
+                          onChange(priceGroup.code)
                           const priceList =
                             registrationLocationsStore.registrationLocations
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
-                            priceGroup,
+                            priceGroup: priceGroup.code,
                             priceList: priceGroup,
                             description: _.first(
                               priceGroupLookupItems.filter(
-                                (item) => item.code === priceGroup
+                                (item) => item.code === priceGroup.code
                               )
                             ).value,
                           }
@@ -130,7 +130,7 @@ export const PriceListTable = observer(({}) => {
                       >
                         <option selected>Select</option>
                         {priceGroupLookupItems?.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
+                          <option key={index} value={JSON.stringify(item)}>
                             {lookupValue(item)}
                           </option>
                         ))}
@@ -304,20 +304,19 @@ export const PriceListTable = observer(({}) => {
                 </td>
               </tr>
             )
-          )}   
+          )}
         </tbody>
         {registrationLocationsStore.registrationLocations?.priceList?.length ===
-            0 && (
-            <Buttons.Button
-              size="small"
-              type="outline"
-              onClick={handleSubmit(addItem)}
-            >
-              <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
-            </Buttons.Button>
-          )}
+          0 && (
+          <Buttons.Button
+            size="small"
+            type="outline"
+            onClick={handleSubmit(addItem)}
+          >
+            <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
+          </Buttons.Button>
+        )}
       </Table>
-      
     </div>
   )
 })

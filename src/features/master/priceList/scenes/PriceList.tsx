@@ -237,7 +237,7 @@ export const PriceList = PriceListHoc(
                           priceListStore.updatePriceList({
                             ...priceListStore.priceList,
                             priceGroup,
-                            priceList: priceGroup,
+                            priceList: priceGroup !== "CSP001" ? priceGroup : "",
                             description: _.first(
                               lookupItems(
                                 routerStore.lookupItems,
@@ -293,7 +293,7 @@ export const PriceList = PriceListHoc(
                         placeholder="Search by code or name"
                         data={{
                           list: corporateClientsStore?.listCorporateClients,
-                          displayKey: ["corporateCode", "corporateName"],
+                          displayKey: ["invoiceAc", "corporateName"],
                         }}
                         displayValue={priceListStore.priceList?.priceList}
                         disable={
@@ -307,7 +307,7 @@ export const PriceList = PriceListHoc(
                             {
                               input: {
                                 filter: {
-                                  fields: ["corporateCode", "corporateName"],
+                                  fields: ["invoiceAc", "corporateName"],
                                   srText: value,
                                 },
                                 page: 0,
@@ -315,11 +315,11 @@ export const PriceList = PriceListHoc(
                               },
                             }
                           )
-                        }}
+                        }}  
                         onSelect={(item) => {
                           priceListStore.updatePriceList({
                             ...priceListStore.priceList,
-                            priceList: item.corporateCode,
+                            priceList: item.invoiceAc?.toString(),
                             description: item.corporateName,
                           })
                           corporateClientsStore.updateCorporateClientsList(

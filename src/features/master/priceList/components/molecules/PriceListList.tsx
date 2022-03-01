@@ -1,12 +1,24 @@
 /* eslint-disable */
 import React from "react"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {NumberFilter,DateFilter,textFilter,customFilter,TableBootstrap,Form,Icons,Tooltip} from "@/library/components"
-import {Confirm} from "@/library/models"
+import { lookupItems, lookupValue } from "@/library/utils"
+import {
+  NumberFilter,
+  DateFilter,
+  textFilter,
+  customFilter,
+  TableBootstrap,
+  Form,
+  Icons,
+  Tooltip,
+} from "@/library/components"
+import { Confirm } from "@/library/models"
 import dayjs from "dayjs"
 import _ from "lodash"
-import {AutoCompletePriceList,
-  AutoCompleteFilterSingleSelectPanelCode,AutoCompleteFilterSingleSelectPanelName} from "../index"
+import {
+  AutoCompletePriceList,
+  AutoCompleteFilterSingleSelectPanelCode,
+  AutoCompleteFilterSingleSelectPanelName,
+} from "../index"
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let panelCode
@@ -26,7 +38,7 @@ let dateActive
 let dateExpire
 let version
 
-interface PriceListProps {   
+interface PriceListProps {
   data: any
   extraData: any
   isDelete?: boolean
@@ -66,11 +78,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Price Group",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   priceGroup = filter
-                 }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -82,37 +94,38 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
+                  <select
                     value={row.priceGroup}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const priceGroup = e.target.value as string
-                        props.onUpdateFileds && props.onUpdateFileds({
-                          priceGroup:priceGroup,
-                          priceList:priceGroup,
-                          description:_.first(
-                            lookupItems(
-                              props.extraData.lookupItems,
-                              "PRICE_GROUP"
-                            ).filter((item) => item.code === priceGroup)
-                          ).value, 
-                        },row._id)
-                        // props.onUpdateItem &&
-                        //   props.onUpdateItem(priceGroup, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "PRICE_GROUP"
-                      ).map((item: any, index: number) => (
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                    onChange={(e) => {
+                      const priceGroup = e.target.value as string
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            priceGroup: priceGroup,
+                            priceList: priceGroup !== "CSP001" ? priceGroup : "",
+                            description: _.first(
+                              lookupItems(
+                                props.extraData.lookupItems,
+                                "PRICE_GROUP"
+                              ).filter((item) => item.code === priceGroup)
+                            ).value,
+                          },
+                          row._id
+                        )
+                      // props.onUpdateItem &&
+                      //   props.onUpdateItem(priceGroup, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "PRICE_GROUP").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -121,11 +134,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Price List",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   priceList = filter
-                 }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -139,37 +152,44 @@ export const PriceListList = (props: PriceListProps) => {
                 <>
                   <AutoCompletePriceList
                     priceGroup={row.priceGroup}
-                    onSelect={(item)=>{
-                      props.onUpdateFileds && props.onUpdateFileds({priceList:item.corporateCode,description:item.corporateName},row._id)
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            priceList: item.invoiceAc?.toString(),
+                            description: item.corporateName,
+                          },
+                          row._id
+                        )
                     }}
                   />
                 </>
-              )
+              ),
             },
             {
               dataField: "description",
               text: "Description",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   description = filter
-                 }
+                },
               }),
               editable: false,
             },
-            
+
             {
               dataField: "panelCode",
               text: "Panel Code",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   panelCode = filter
-                }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -182,12 +202,16 @@ export const PriceListList = (props: PriceListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelCode
-                  onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({
-                      panelCode:item.panelCode,
-                      panelName:item.panelName
-                    },row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            panelCode: item.panelCode,
+                            panelName: item.panelName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
@@ -197,11 +221,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Panel Name",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   panelName = filter
-                 }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -214,30 +238,31 @@ export const PriceListList = (props: PriceListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelName
-                  onSelect={(item)=>{
-                    props.onUpdateFileds && props.onUpdateFileds({
-                      panelCode:item.panelCode,
-                      panelName:item.panelName
-                    },row._id)
-                  }}
-                
+                    onSelect={(item) => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            panelCode: item.panelCode,
+                            panelName: item.panelName,
+                          },
+                          row._id
+                        )
+                    }}
                   />
                 </>
               ),
             },
-            
-            
-            
+
             {
               dataField: "price",
               text: "Price",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: customFilter({
+                getFilter: (filter) => {
                   price = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -249,11 +274,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Min Sp",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: customFilter({
+                getFilter: (filter) => {
                   minSp = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -265,11 +290,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Max Sp",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: customFilter({
+                getFilter: (filter) => {
                   maxSp = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -281,11 +306,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Max Discount",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   maxDiscount = filter
-                 }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -293,7 +318,8 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: "fixedPrice",
               text: "Fixed Price",
               sort: true,
-              csvFormatter: (col,row) => (row.fixedPrice ? row.fixedPrice ? "Yes" : "No" : "No"),
+              csvFormatter: (col, row) =>
+                row.fixedPrice ? (row.fixedPrice ? "Yes" : "No") : "No",
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -310,8 +336,6 @@ export const PriceListList = (props: PriceListProps) => {
                 )
               },
             },
-            
-           
 
             {
               dataField: "enteredBy",
@@ -319,11 +343,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Entered By",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   enteredBy = filter
-                 }
+                },
               }),
             },
             {
@@ -331,11 +355,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Status",
               headerClasses: "textHeader2",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   status = filter
-                 }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -347,26 +371,23 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                 
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -375,11 +396,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Environment",
               headerClasses: "textHeader3",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:textFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
                   environment = filter
-                 }
+                },
               }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -391,26 +412,23 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(environment, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -420,11 +438,14 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateCreation ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD") : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col, row) =>
+                row.dateCreation
+                  ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD")
+                  : "",
+              filter: customFilter({
+                getFilter: (filter) => {
                   dateCreation = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -457,11 +478,14 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateActive ? dayjs(row.dateActive || 0).format("YYYY-MM-DD") : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col, row) =>
+                row.dateActive
+                  ? dayjs(row.dateActive || 0).format("YYYY-MM-DD")
+                  : "",
+              filter: customFilter({
+                getFilter: (filter) => {
                   dateActive = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -494,11 +518,14 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              csvFormatter: (col,row) => (row.dateExpire ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD") : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col, row) =>
+                row.dateExpire
+                  ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD")
+                  : "",
+              filter: customFilter({
+                getFilter: (filter) => {
                   dateExpire = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
@@ -531,11 +558,11 @@ export const PriceListList = (props: PriceListProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
-              csvFormatter: col => (col ? col : ""),
-              filter:customFilter({
-                getFilter: (filter) =>{
+              csvFormatter: (col) => (col ? col : ""),
+              filter: customFilter({
+                getFilter: (filter) => {
                   version = filter
-                }
+                },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
@@ -550,10 +577,7 @@ export const PriceListList = (props: PriceListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <Tooltip
-                      tooltipText="Delete"
-                      position="top"
-                    >
+                    <Tooltip tooltipText="Delete" position="top">
                       <Icons.IconContext
                         color="#fff"
                         size="20"
@@ -568,17 +592,12 @@ export const PriceListList = (props: PriceListProps) => {
                           })
                         }
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                     {row.status !== "I" && (
                       <>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Version Upgrade"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Version Upgrade">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -586,15 +605,10 @@ export const PriceListList = (props: PriceListProps) => {
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconvsc.VscVersions
-                            )}
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip
-                          className="ml-2"
-                          tooltipText="Duplicate"
-                        >
+                        <Tooltip className="ml-2" tooltipText="Duplicate">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -602,10 +616,7 @@ export const PriceListList = (props: PriceListProps) => {
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
-                            {Icons.getIconTag(
-                              Icons.Iconio5
-                                .IoDuplicateOutline
-                            )}
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                           </Icons.IconContext>
                         </Tooltip>
                       </>
@@ -635,7 +646,7 @@ export const PriceListList = (props: PriceListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)
           }}
-          clearAllFilter={()=>{
+          clearAllFilter={() => {
             panelCode("")
             panelName("")
             priceList("")
