@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import {DeliverySchedule} from "../models"
 import {DeliveryScheduleService} from "../services"
-import {moment} from "@/library/utils"
+import dayjs from "dayjs"
 
 export class DeliveryScheduleStore {
   deliverySchedule!: DeliverySchedule
@@ -21,10 +21,10 @@ export class DeliveryScheduleStore {
       sundayReporting: false,
       holidayReporting: false,
       onTime: false,
-      pStartTime: moment().format("hh:mm a"),
-      pEndTime: moment().format("hh:mm a"),
-      cutofTime: moment().format("hh:mm a"),
-      secoundCutofTime: moment().format("hh:mm a"),
+      pStartTime: dayjs().format("hh:mm a"),
+      pEndTime: dayjs().format("hh:mm a"),
+      cutofTime: dayjs().format("hh:mm a"),
+      secoundCutofTime: dayjs().format("hh:mm a"),
     }
     makeObservable<DeliveryScheduleStore, any>(this, {
       deliverySchedule: observable,
