@@ -9,3 +9,4 @@ export *  from './organisms/AutoCompleteFilterSingleSelectCountry'
 export * from './organisms/AutoCompleteFilterSingleSelectDistrict'
 export * from './organisms/AutoCompleteFilterSingleSelectPostalCode'
 export * from './organisms/AutoCompleteFilterSingleSelectState'
+export * from "./organisms/AutoCompleteDefaultLabs"
