@@ -14,6 +14,7 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from "@/library/components"
 import { LabList, PriceListTable } from "../components"
 import { lookupItems, lookupValue } from "@/library/utils"
@@ -50,16 +51,28 @@ const Lab = LabHoc(
 
     const onSubmitLab = () => {
       if (!labStore.checkExitsEnvCode) {
-        labStore.LabService.addLab({ input: { ...labStore.labs } }).then((res) => {
-          if (res.createLab.success) {
-            Toast.success({
-              message: `😊 ${res.createLab.message}`,
-            })
-          }
-        })
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
+        if (
+          labStore.labs?.priceList?.filter((item) => {
+            return (
+              item.hasOwnProperty("priceGroup") && item.hasOwnProperty("priority")
+            )
+          }).length > 0
+        ) {
+          labStore.LabService.addLab({ input: { ...labStore.labs } }).then((res) => {
+            if (res.createLab.success) {
+              Toast.success({
+                message: `😊 ${res.createLab.message}`,
+              })
+            }
+          })
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        } else {
+          return Toast.warning({
+            message: "😔 Price list min 1 recored requied.",
+          })
+        }
       } else {
         Toast.warning({
           message: "😔 Please enter diff code and environment",
@@ -727,7 +740,7 @@ const Lab = LabHoc(
                     />
                   )}
                   name="mobileNo"
-                  rules={{ required: false,pattern: FormHelper.patterns.mobileNo }}
+                  rules={{ required: false, pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -754,7 +767,7 @@ const Lab = LabHoc(
                     />
                   )}
                   name="contactNo"
-                  rules={{ required: false,pattern: FormHelper.patterns.mobileNo }}
+                  rules={{ required: false, pattern: FormHelper.patterns.mobileNo }}
                   defaultValue=""
                 />
                 <Controller
@@ -825,6 +838,48 @@ const Lab = LabHoc(
                   name="labType"
                   rules={{ required: false }}
                   defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Default Lab"
+                      hasError={errors.defaultLab}
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by code or name"
+                        data={{
+                          list: labStore?.listLabs,
+                          displayKey: ["code", "name"],
+                        }}
+                        hasError={errors.defaultLab}
+                        onFilter={(value: string) => {
+                          labStore.LabService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["code", "name"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.code)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            defaultLab: item.code,
+                          })
+                          labStore.updateLabList(labStore.listLabsCopy)
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="defaultLab"
+                  rules={{ required: true }}
+                  defaultValue={labStore.listLabs}
                 />
                 <Grid cols={4}>
                   <Controller
