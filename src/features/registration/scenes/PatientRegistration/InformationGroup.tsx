@@ -4,7 +4,8 @@ import { observer } from "mobx-react"
 import {Buttons,
   List,Grid,Svg,Form}
    from "@/library/components"
-import {lookupItems,moment,lookupValue} from "@/library/utils"
+import dayjs from "dayjs"
+import {lookupItems,lookupValue} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {InformationGroupList} from "../../components"
 import { Stores as LoginStore } from "@/features/login/stores"
@@ -50,13 +51,13 @@ export const InformationGroup  = observer((props:InformationGroupProps)=>{
                             name="txtInformationDate"
                             placeholder={errors.infoDate?"Please Enter Information Date":"Information Date"}
                             hasError={errors.infoDate}
-                            value={moment(
+                            value={dayjs(
                                 Stores.patientRegistationStore.informationGroup?.infoDate
                             ).format("YYYY-MM-DD")}
                             onChange={(e) => {
                                 let infoDate = new Date(e.target.value)
                                 onChange(infoDate)
-                                const formatDate = moment(infoDate).format(
+                                const formatDate = dayjs(infoDate).format(
                                 "YYYY-MM-DD HH:mm"
                                 )
                                 

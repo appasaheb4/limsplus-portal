@@ -1,16 +1,16 @@
 import validate from "validate.js"
-import moment from "moment"
+import dayjs from "dayjs"
 export { validate }
 validate.extend(validate.validators.datetime, {
     // The value is guaranteed not to be null or undefined but otherwise it
     // could be anything.
     parse: function (value: any) {
-      return +moment.utc(value)
+      return +dayjs.utc(value)
     },
     // Input is a unix timestamp
     format: function (value: any, options: any) {
       var format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DD hh:mm:ss"
-      return moment.utc(value).format(format)
+      return dayjs.utc(value).format(format)
     },
   })
 export const constraintsUser = {
@@ -49,7 +49,7 @@ export const constraintsUser = {
       presence: true,
       datetime: {
         dateOnly: false,
-        earliest: moment.utc().subtract(1, "days"),
+        earliest: dayjs.utc().subtract(1, "days"),
         message: "^You need to be at least 1 month earliest",
       },
     },
