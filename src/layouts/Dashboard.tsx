@@ -84,6 +84,10 @@ const Dashboard = observer(({ children }) => {
       })
 
       // specific api load
+      if (pathname === "/collection/lab") {
+        await PriceList.startup()
+        await CorporateClients.startup()
+      }
       if (pathname === "/collection/banner") await Banner.startup()
       if (
         pathname === "/collection/masterAnalyte" ||

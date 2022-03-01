@@ -19,6 +19,7 @@ export class Labs {
   contactNo: string
   speciality: string
   labType: string
+  defaultLab: string
   openingTime: string
   closingTime: string
   email: string
@@ -58,10 +59,11 @@ export class Labs {
     this.contactNo = rawData.contactNo
     this.speciality = rawData.speciality
     this.labType = rawData.labType
+    this.defaultLab = rawData.defaultLab
     this.openingTime = rawData.openingTime
     this.closingTime = rawData.closingTime
     this.email = rawData.email
-    this.labLog = rawData
+    this.labLog = rawData.labLog
     this.image = rawData.image
     this.autoRelease = rawData.autoRelease
     this.requireReceveInLab = rawData.requireReceveInLab

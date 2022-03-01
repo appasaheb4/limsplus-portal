@@ -15,6 +15,7 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FILTER_BY_FIELDS
 } from "./mutation"
 import { stores } from "@/stores"
 import * as Models from "../models"
@@ -47,7 +48,6 @@ export class PriceListService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          console.log({ response })
           stores.priceListStore.updatePriceListRecords(response.data)
           resolve(response.data)
         })
@@ -152,4 +152,34 @@ export class PriceListService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
+
+    filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsPriceList.success)
+            return this.listPiceList()
+          stores.priceListStore.filterPriceList({
+            filterPriceList: {
+              data: response.data.filterByFieldsPriceList.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsPriceList.paginatorInfo.count,
+              },
+            },
+          })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+
 }
