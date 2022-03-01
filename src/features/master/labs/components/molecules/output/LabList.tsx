@@ -665,7 +665,7 @@ export const LabList = (props: LabListProps) => {
                 <>
                   <AutoCompleteDefaultLab
                   onSelect={(item)=>{
-                      props.onUpdateItem && props.onUpdateItem(item,"defaultLab",row._id)
+                      props.onUpdateItem && props.onUpdateItem(item,column.dataField,row._id)
                   }}
                   />
                 </>
