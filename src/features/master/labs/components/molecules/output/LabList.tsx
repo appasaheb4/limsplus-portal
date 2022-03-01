@@ -19,7 +19,8 @@ import {
   AutoCompleteFilterSingleSelectCity,
   AutoCompleteFilterSingleSelectArea,
   AutoCompleteFilterSingleSelectPostalCode,
-  PriceListTableForLabList
+  PriceListTableForLabList,
+  AutoCompleteDefaultLab
 } from "../.."
 import { FormHelper } from "@/helper"
 import { useForm, Controller } from "react-hook-form"
@@ -30,12 +31,12 @@ let state
 let district
 let city
 let area
-let address
 let postalCode
 let priceList
 let deliveryType
 let salesTerritory
 let labLicence
+let defaultLab
 let director
 let physician
 let mobileNo
@@ -101,7 +102,7 @@ export const LabList = (props: LabListProps) => {
                 },
               }),
               editable: false,
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
             },
             {
               dataField: "name",
@@ -113,7 +114,7 @@ export const LabList = (props: LabListProps) => {
                 },
               }),
               editable: false,
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
             },
             {
               dataField: "country",
@@ -125,7 +126,7 @@ export const LabList = (props: LabListProps) => {
                   country = filter
                 },
               }),
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               style: { textTransform: "uppercase" },
               editorRenderer: (
                 editorProps,
@@ -150,7 +151,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "state",
               text: "State",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -191,7 +192,7 @@ export const LabList = (props: LabListProps) => {
                   district = filter
                 },
               }),
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
                 value,
@@ -221,7 +222,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "city",
               text: "City",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -256,7 +257,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "area",
               text: "Area",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -292,7 +293,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "postalCode",
               text: "Postal Code",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -333,7 +334,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "priceList",
               text: "Price List",
-              headerClasses: "textHeader5",
+              headerClasses: "textHeader3",
               sort: true,
               csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
@@ -361,7 +362,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "deliveryType",
               text: "Delivery Type",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -410,7 +411,7 @@ export const LabList = (props: LabListProps) => {
                   salesTerritory = filter
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader5",
               editorRenderer: (
                 editorProps,
                 value,
@@ -444,7 +445,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "labLicence",
               text: "Lab Licence",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -462,7 +463,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "director",
               text: "Director",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -479,7 +480,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "physician",
               text: "Physician",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -492,7 +493,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "mobileNo",
               text: "Mobile No",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -540,7 +541,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "contactNo",
               text: "Contact No",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -589,7 +590,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "speciality",
               text: "Speciality",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -602,7 +603,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "labType",
               text: "Lab Type",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -642,9 +643,38 @@ export const LabList = (props: LabListProps) => {
               ),
             },
             {
+              dataField: "defaultLab",
+              text: "Default Lab",
+              headerClasses: "textHeader3",
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: col => (col ? col : ""),
+              filter: textFilter({
+                getFilter: (filter) => {
+                  defaultLab = filter
+                },
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <AutoCompleteDefaultLab
+                  onSelect={(item)=>{
+                      props.onUpdateItem && props.onUpdateItem(item,column.dataField,row._id)
+                  }}
+                  />
+                </>
+              )
+            },
+            {
               dataField: "openingTime",
               text: "Opening Time",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -658,7 +688,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "closingTime",
               text: "Closing Time",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -671,7 +701,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "email",
               text: "Email",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -684,7 +714,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "image",
               text: "Lab Log",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvExport: false,
@@ -858,7 +888,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "fyiLine",
               text: "Fyi Line",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -871,7 +901,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "workLine",
               text: "Work Line",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -884,7 +914,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "status",
               text: "Status",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               csvFormatter: col => (col ? col : ""),
@@ -929,7 +959,7 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: textFilter({
@@ -1039,6 +1069,7 @@ export const LabList = (props: LabListProps) => {
             contactNo("")
             speciality("")
             labType("")
+            defaultLab("")
             openingTime("")
             closingTime("")
             email("")
