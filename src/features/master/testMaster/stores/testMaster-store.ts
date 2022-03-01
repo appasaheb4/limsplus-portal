@@ -1,8 +1,8 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import {TestMaster} from "../models"
 import {TestMasterService} from "../services"
-import * as ModelsSection from "@/features/master/section/models"
-import dayjs from 'dayjs'
+import {Section} from "@/features/master/section/models"
+import {moment} from '@/library/utils'
 import {
   Toast
 } from "@/library/components"
@@ -13,7 +13,7 @@ export class TestMasterStore {
   listTestMasterCopy!: TestMaster[]
   listTestMasterCount!: number
   checkExitsLabEnvCode!: boolean
-  sectionListByDeptCode!: ModelsSection.Section[]
+  sectionListByDeptCode!: Section[]
 
   constructor() {
     this.listTestMaster = []
@@ -24,7 +24,7 @@ export class TestMasterStore {
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
-        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
+        moment(new Date()).add(365, "days").format("YYYY-MM-DD")
       ),
       version: 1,
       bill: false,

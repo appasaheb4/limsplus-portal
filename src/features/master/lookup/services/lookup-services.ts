@@ -17,7 +17,7 @@ import {
   GENERAL_SETTINGS_UPDATE,
   FILTER,
 } from "./mutation"
-import * as Model from "../models"
+import {Lookup} from "../models"
 
 export class LookupService {
   listLookup = (page = 0, limit = 10) =>
@@ -47,7 +47,7 @@ export class LookupService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.lookupStore.updateLookup(new Model.Lookup({}))
+          stores.lookupStore.updateLookup(new Lookup({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -78,7 +78,7 @@ export class LookupService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.lookupStore.updateLookup(new Model.Lookup({}))
+          stores.lookupStore.updateLookup(new Lookup({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -93,7 +93,7 @@ export class LookupService {
         })
         .then((response: any) => {
           resolve(response.data)
-          // stores.lookupStore.updateLookup(new Model.({}))
+          // stores.lookupStore.updateLookup(new ({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

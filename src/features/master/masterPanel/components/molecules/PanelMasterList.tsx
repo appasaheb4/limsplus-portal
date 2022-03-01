@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
-import daysjs from "dayjs"
-import { lookupItems, lookupValue } from "@/library/utils"
+// import moment from "dayjs"
+import { lookupItems, lookupValue,moment } from "@/library/utils"
 import {
   TableBootstrap,
   textFilter,
@@ -1295,7 +1295,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateCreation
-                  ? daysjs(row.dateCreation).format("YYYY-MM-DD")
+                  ? moment(row.dateCreation).format("YYYY-MM-DD")
                   : "",
               editable: false,
               filter: customFilter({
@@ -1307,7 +1307,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateCreation).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateCreation).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -1335,7 +1335,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateActive
-                  ? daysjs(row.dateActive || 0).format("YYYY-MM-DD")
+                  ? moment(row.dateActive || 0).format("YYYY-MM-DD")
                   : "",
               editable: false,
               filter: customFilter({
@@ -1347,7 +1347,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateActive || 0).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -1375,7 +1375,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateExpire
-                  ? daysjs(row.dateExpire || 0).format("YYYY-MM-DD")
+                  ? moment(row.dateExpire || 0).format("YYYY-MM-DD")
                   : "",
               editable: false,
               filter: customFilter({
@@ -1387,7 +1387,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateExpire || 0).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateExpire || 0).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,

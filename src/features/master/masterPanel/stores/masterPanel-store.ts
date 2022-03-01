@@ -4,7 +4,7 @@ import { Toast } from "@/library/components"
 import { MasterPanel } from "../models"
 import { MasterPanelService } from "../services"
 import * as ModelsSection from "@/features/master/section/models"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 
 @version(0.1)
 export class MasterPanelStore {
@@ -23,7 +23,7 @@ export class MasterPanelStore {
       ...this.masterPanel,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      dateExpire: new Date(moment(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
       autoRelease: false,

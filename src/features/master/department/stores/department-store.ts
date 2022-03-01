@@ -2,7 +2,7 @@ import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import {Department,SelectedItems} from "../models"
 import {DepartmentService} from "../services"
-import * as LibraryUtils from "@/library/utils"
+import {moment} from "@/library/utils"
 
 @version(0.1)
 export class DepartmentStore {
@@ -21,8 +21,8 @@ export class DepartmentStore {
       requireReceveInLab: false,
       requireScainIn: false,
       routingDept: false,
-      openingTime: LibraryUtils.moment().format("hh:mm a"),
-      closingTime: LibraryUtils.moment().format("hh:mm a"),
+      openingTime: moment().format("hh:mm a"),
+      closingTime: moment().format("hh:mm a"),
     }
     makeObservable<DepartmentStore, any>(this, {
       listDepartment: observable,

@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import { RegistrationLocations } from "../models"
 import { RegistrationLocationsService } from "../services"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 
 export class RegistrationLocationsStore {
   registrationLocations!: RegistrationLocations
@@ -20,7 +20,7 @@ export class RegistrationLocationsStore {
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
-        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD hh:mm:ss")
+        moment(new Date()).add(365, "days").format("YYYY-MM-DD hh:mm:ss")
       ),
       version: 1,
       confidential: false,

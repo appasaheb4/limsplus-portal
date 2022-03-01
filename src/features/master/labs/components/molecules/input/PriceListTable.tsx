@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
-import dayjs from "dayjs"
+// import dayjs from "dayjs"
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,

@@ -2,7 +2,7 @@ import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import {MasterAnalyte,SelectedItems} from "../models"
 import {MasterAnalyteService} from "../services"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 
 @version(0.1)
 export class MasterAnalyteStore {
@@ -21,7 +21,7 @@ export class MasterAnalyteStore {
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
-        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
+        moment(new Date()).add(365, "days").format("YYYY-MM-DD")
       ),
       version: 1,
       schedule: new Date(),

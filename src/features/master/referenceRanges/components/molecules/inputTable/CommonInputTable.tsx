@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
-import dayjs from "dayjs"
+// import dayjs from "dayjs"
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay,Icons,Buttons} from "@/library/components"
-import { lookupItems, getDefaultLookupItem, lookupValue } from "@/library/utils"
+import { lookupItems, getDefaultLookupItem, lookupValue,moment } from "@/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
@@ -49,7 +49,7 @@ export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
       version: 1,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      dateExpire: new Date(moment(new Date()).add(365, "days").format("YYYY-MM-DD")),
       enterBy: loginStore.login.userId,
       status: "A",
       environment: getDefaultLookupItem(routerStore.lookupItems, `ENVIRONMENT`),

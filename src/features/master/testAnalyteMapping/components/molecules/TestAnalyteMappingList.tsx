@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import dayjs from "dayjs"
+// import moment from "moment"
 import _ from "lodash"
-import { lookupItems, lookupValue } from "@/library/utils"
+import { lookupItems, lookupValue,moment } from "@/library/utils"
 import {
   NumberFilter,
   DateFilter,
@@ -463,7 +463,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col, row) =>
-                row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
+                row.dateCreation ? moment(row.dateCreation).format("YYYY-MM-DD") : "",
               filter: customFilter({
                 getFilter: (filter) => {
                   dateCreation = filter
@@ -473,7 +473,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateCreation).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -501,7 +501,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               sort: true,
               editable: false,
               csvFormatter: (col, row) =>
-                row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
+                row.dateActive ? moment(row.dateActive).format("YYYY-MM-DD") : "",
               filter: customFilter({
                 getFilter: (filter) => {
                   dateActive = filter
@@ -511,7 +511,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateActive).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -539,7 +539,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               sort: true,
               editable: false,
               csvFormatter: (col, row) =>
-                row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
+                row.dateExpire ? moment(row.dateExpire).format("YYYY-MM-DD") : "",
               filter: customFilter({
                 getFilter: (filter) => {
                   dateExpire = filter
@@ -549,7 +549,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateExpire).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,

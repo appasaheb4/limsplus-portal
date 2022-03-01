@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 import {ModalChangePassword, Toast, ModalConfirm} from "@/library/components"
 
 import BarChart from "./BarChart"
@@ -11,7 +11,6 @@ import Header from "./Header"
 import LineChart from "./LineChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
-import moment from "moment"
 import { useHistory } from "react-router-dom"
 
 // registration
@@ -26,8 +25,8 @@ const Default = observer(() => {
 
   useEffect(() => {
     if (loginStore.login) {
-      const date1 = dayjs(loginStore.login.exipreDate)
-      const date2 = dayjs(new Date())
+      const date1 = moment(loginStore.login.exipreDate)
+      const date2 = moment(new Date())
       let days = date1.diff(date2, "day")
       
       if (days >= 0 && days <= 5 && userStore.changePassword?.tempHide !== true) {
@@ -73,7 +72,7 @@ const Default = observer(() => {
         <ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
-            let exipreDate = new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"))
+            let exipreDate = new Date(moment(new Date()).add(30, "days").format("YYYY-MM-DD"))
             userStore.UsersService.changePassword({
               input: {
                 _id: loginStore.login._id,

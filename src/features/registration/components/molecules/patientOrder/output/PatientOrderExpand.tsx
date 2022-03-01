@@ -11,13 +11,13 @@ import paginationFactory, {
   PaginationTotalStandalone,
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 import "@/library/components/Organisms/style.css"
 
 import {Buttons,Icons,Form} from "@/library/components"
 import {Confirm} from "@/library/models"
 
-import * as Config from "@/config"
+import {Styles} from "@/config"
 import { PatientOrderExpandPackageList } from "./PatientOrderExpandPackageList"
 
 const { SearchBar, ClearSearchButton } = Search
@@ -95,7 +95,7 @@ export const PatientOrderExpand = ({
           <Icons.EvaIcon
             icon="trash-outline"
             size="large"
-            color={Config.Styles.COLORS.BLACK}
+            color={Styles.COLORS.BLACK}
           />
           Remove Selected
         </Buttons.Button>
@@ -724,7 +724,7 @@ export const PatientOrderExpand = ({
           columns={columns}
           search
           exportCSV={{
-            fileName: `${fileName}_${dayjs(new Date()).format(
+            fileName: `${fileName}_${moment(new Date()).format(
               "YYYY-MM-DD HH:mm"
             )}.csv`,
             noAutoBOM: false,

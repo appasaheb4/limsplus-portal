@@ -2,7 +2,7 @@ import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import { TestAnalyteMapping, SelectedItems } from "../models"
 import { TestAnalyteMappingService } from "../services"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 
 @version(0.1)
 export class TestAnalyteMappingStore {
@@ -19,7 +19,7 @@ export class TestAnalyteMappingStore {
       ...this.testAnalyteMapping,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      dateExpire: new Date(moment(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
       testMethod: true,

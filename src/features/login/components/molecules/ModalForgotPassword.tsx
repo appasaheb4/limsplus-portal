@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
 import { observer } from "mobx-react"
-import * as Assets from "@/library/assets"
+import {logo} from "@/library/assets"
 import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@/helper"
 
@@ -59,7 +59,7 @@ export const ModalForgotPassword = observer((props: ModalForgotPasswordProps) =>
                 <div className="flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                   <div className="items-center justify-center flex mb-2">
                     <img
-                      src={Assets.logo}
+                      src={logo}
                       className=" img-thumbnail img-fluid"
                       style={{ width: 70, height: 55, marginRight: 10 }}
                       alt="lims plus"

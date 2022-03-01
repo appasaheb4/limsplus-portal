@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import dayjs from "dayjs"
+// import moment from "moment"
 import _ from "lodash"
 import {
   NumberFilter,
@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
-import { lookupItems, lookupValue } from "@/library/utils"
+import { lookupItems, lookupValue,moment } from "@/library/utils"
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectPanelCode,
@@ -406,7 +406,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
+              row.dateCreation ? moment(row.dateCreation).format("YYYY-MM-DD") : "",
             filter: customFilter({
               getFilter: (filter) => {
                 dateCreation = filter
@@ -416,7 +416,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+              return <>{moment(row.dateCreation).format("YYYY-MM-DD")}</>
             },
             editorRenderer: (
               editorProps,
@@ -443,7 +443,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
+              row.dateActive ? moment(row.dateActive).format("YYYY-MM-DD") : "",
             editable: false,
             filter: customFilter({
               getFilter: (filter) => {
@@ -454,7 +454,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+              return <>{moment(row.dateActive).format("YYYY-MM-DD")}</>
             },
             editorRenderer: (
               editorProps,
@@ -482,7 +482,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader11",
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
+              row.dateExpire ? moment(row.dateExpire).format("YYYY-MM-DD") : "",
             filter: customFilter({
               getFilter: (filter) => {
                 dateExpire = filter
@@ -492,7 +492,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+              return <>{moment(row.dateExpire).format("YYYY-MM-DD")}</>
             },
             editorRenderer: (
               editorProps,

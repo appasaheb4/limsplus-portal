@@ -7,9 +7,9 @@ import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory, {
   PaginationProvider
 } from "react-bootstrap-table2-paginator"
-import dayjs from "dayjs"
+// import dayjs from "dayjs"
 import "@/library/components/Organisms/style.css"
-   
+import {moment} from "@/library/utils"
 import {Icons,Buttons,} from "@/library/components"
 import {Confirm} from "@/library/models"
 import  './style.css'
@@ -175,7 +175,7 @@ export const TableBootstrap = ({
           columns={columns}
           search
           exportCSV={{
-            fileName: `${fileName}_${dayjs(new Date()).format(
+            fileName: `${fileName}_${moment(new Date()).format(
               "YYYY-MM-DD HH:mm"
             )}.csv`,
             noAutoBOM: false,

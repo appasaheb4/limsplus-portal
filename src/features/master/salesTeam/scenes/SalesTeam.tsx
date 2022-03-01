@@ -7,7 +7,7 @@ import {Toast,Header,PageHeading,PageHeadingLabDetails,Buttons,Grid,List
 import { SalesTeamList } from "../components"
 import {lookupItems,lookupValue} from "@/library/utils"
 
-import * as Utils from "../util"
+import {filterUsersItems} from "../util"
 import {SalesTeamHoc} from "../hoc"
 import { useForm, Controller } from "react-hook-form"
 import {  useStores } from "@/stores"
@@ -68,7 +68,7 @@ export const SalesTeam = SalesTeamHoc(observer(() => {
               listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
               userList: userStore.userList,
               userStore: userStore,
-              filterUsersItems: Utils.filterUsersItems,
+              filterUsersItems: filterUsersItems,
             }}
             isDelete={RouterFlow.checkPermission(
               routerStore.userPermission,

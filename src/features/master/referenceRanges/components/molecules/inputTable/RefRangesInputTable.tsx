@@ -1,13 +1,13 @@
 /* eslint-disable */
 import React from "react"
-import dayjs from "dayjs"
+// import dayjs from "dayjs"
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Form,
   Icons,
   Toast,
 } from "@/library/components"
-import { lookupItems, getDefaultLookupItem, lookupValue } from "@/library/utils"
+import { lookupItems, getDefaultLookupItem, lookupValue ,moment} from "@/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
@@ -906,7 +906,7 @@ export const RefRangesInputTable = observer(
               csvExport: false,
               headerClasses: "textHeader4",
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateCreation).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -915,7 +915,7 @@ export const RefRangesInputTable = observer(
               csvExport: false,
               headerClasses: "textHeader4",
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateActive).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -924,7 +924,7 @@ export const RefRangesInputTable = observer(
               csvExport: false,
               headerClasses: "textHeader4",
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateExpire).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,

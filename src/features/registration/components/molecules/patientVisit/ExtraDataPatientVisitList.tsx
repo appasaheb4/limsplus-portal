@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 import {DateFilter,textFilter,TableBootstrap,customFilter,Form,Icons,Tooltip} from "@/library/components"
 import {Confirm} from "@/library/models"
 import {lookupItems,lookupValue} from "@/library/utils"
@@ -250,7 +250,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               text: "Received Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData.receivedDate ? dayjs(row.extraData.receivedDate).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col,row) => (row.extraData.receivedDate ? moment(row.extraData.receivedDate).format("YYYY-MM-DD") : ""),
               filter: customFilter({
                 getFilter: (filter) => {
                   receivedDate = filter
@@ -260,7 +260,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.extraData.receivedDate).format("YYYY-MM-DD")}</>
+                return <>{moment(row.extraData.receivedDate).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -285,7 +285,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               text: "Result Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData?.resultDate ? dayjs(row.extraData?.resultDate).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col,row) => (row.extraData?.resultDate ? moment(row.extraData?.resultDate).format("YYYY-MM-DD") : ""),
               filter: customFilter({
                 getFilter: (filter) => {
                   resultDate = filter
@@ -295,7 +295,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.extraData.resultDate).format("YYYY-MM-DD")}</>
+                return <>{moment(row.extraData.resultDate).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -381,7 +381,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               text: "Approval Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData?.approvalDate ? dayjs(row.extraData.approvalDate).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col,row) => (row.extraData?.approvalDate ? moment(row.extraData.approvalDate).format("YYYY-MM-DD") : ""),
               filter: customFilter({
                 getFilter: (filter) => {
                   approvalDate = filter
@@ -391,7 +391,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.extraData.approvalDate).format("YYYY-MM-DD")}</>
+                return <>{moment(row.extraData.approvalDate).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -509,7 +509,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
               text: "Reported Date",
               headerClasses: "textHeader4",
               sort: true,
-              csvFormatter: (col,row) => (row.extraData?.reportedDate ? dayjs(row.extraData.reportedDate).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col,row) => (row.extraData?.reportedDate ? moment(row.extraData.reportedDate).format("YYYY-MM-DD") : ""),
               filter: customFilter({
                 getFilter: (filter) => {
                   reportedDate = filter
@@ -519,7 +519,7 @@ export const ExtraDataPatientVisitList = observer((props: ExtraDataPatientVisitP
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.extraData.reportedDate).format("YYYY-MM-DD")}</>
+                return <>{moment(row.extraData.reportedDate).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,

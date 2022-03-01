@@ -3,7 +3,7 @@ import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import {Header,PageHeading,PageHeadingLabDetails,TableBootstrap,DateFilter,textFilter,customFilter} 
   from "@/library/components"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 import { useStores } from "@/stores"
 // import { DateFilter } from "@/library/components/Organisms"
 
@@ -130,13 +130,13 @@ const LoginActivity = observer(() => {
                   text: "In",
                   headerClasses: "textHeader4",
                   sort: true,
-                  csvFormatter: (cell, row, rowIndex) => (row.dateOfEntry ? dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a"):""),
+                  csvFormatter: (cell, row, rowIndex) => (row.dateOfEntry ? moment(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a"):""),
                   filter:customFilter(),
                   filterRenderer: (onFilter, column) => (
                     <DateFilter onFilter={onFilter} column={column} />
                   ),
                   formatter: (cell, row) => {
-                    return dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
+                    return moment(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                   },
                 },
                 {
@@ -144,14 +144,14 @@ const LoginActivity = observer(() => {
                   text: "Out",
                   headerClasses: "textHeader4",
                   sort: true,
-                  csvFormatter: (cell, row, rowIndex) => (row.lastUpdated ? dayjs(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a"):""),
+                  csvFormatter: (cell, row, rowIndex) => (row.lastUpdated ? moment(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a"):""),
                   filter:customFilter(),
                   filterRenderer: (onFilter, column) => (
                     <DateFilter onFilter={onFilter} column={column} />
                   ),
                   formatter: (cell, row) => {
                     return row.lastUpdated
-                      ? dayjs(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
+                      ? moment(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
                       : "Active User"
                   },
                 },

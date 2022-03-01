@@ -8,10 +8,10 @@ import {
   customFilter,
   Form,
   Tooltip,
-  Icons,
+  Icons
 } from "@/library/components"
 import { Confirm } from "@/library/models"
-import { lookupItems, lookupValue } from "@/library/utils"
+import { lookupItems, lookupValue,moment} from "@/library/utils"
 import {
   AutoCompleteFilterSingleSelectArea,
   AutoCompleteFilterSingleSelectCity,
@@ -21,7 +21,7 @@ import {
   AutoCompleteFilterSingleSelectPostalCode,
   PriceListTableForCopClientList
 } from "../../index"
-import dayjs from "dayjs"
+// import moment from "moment"
 import { FormHelper } from "@/helper"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteSalesTerritory } from "@/features/master/registrationLocations/components"
@@ -967,7 +967,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             sort: true,
             csvFormatter: (col, row) =>
               row.dateCreation
-                ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD")
+                ? moment(row.dateCreation || 0).format("YYYY-MM-DD")
                 : "",
             filter: customFilter({
               getFilter: (filter) => {
@@ -978,7 +978,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateCreation || 0).format("YYYY-MM-DD")}</>
+              return <>{moment(row.dateCreation || 0).format("YYYY-MM-DD")}</>
             },
             editorRenderer: (
               editorProps,
@@ -1006,7 +1006,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateActive ? dayjs(row.dateActive || 0).format("YYYY-MM-DD") : "",
+              row.dateActive ? moment(row.dateActive || 0).format("YYYY-MM-DD") : "",
             filter: customFilter({
               getFilter: (filter) => {
                 dateActive = filter
@@ -1016,7 +1016,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
+              return <>{moment(row.dateActive || 0).format("YYYY-MM-DD")}</>
             },
             editorRenderer: (
               editorProps,
@@ -1044,7 +1044,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateExpire ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD") : "",
+              row.dateExpire ? moment(row.dateExpire || 0).format("YYYY-MM-DD") : "",
             filter: customFilter({
               getFilter: (filter) => {
                 dateExpire = filter
@@ -1054,7 +1054,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+              return <>{moment(row.dateExpire).format("YYYY-MM-DD")}</>
             },
             editorRenderer: (
               editorProps,

@@ -2,7 +2,7 @@
 import React from "react"
 import {lookupItems,lookupValue} from "@/library/utils"
 import {TableBootstrap,textFilter,Icons,Tooltip} from "@/library/components"
-import * as LibraryModels from "@/library/models"
+import {Confirm} from "@/library/models"
 import {AutoCompleteFilterSingleSelectSalesTerrority,AutoCompleteFilterSingleSelectReportingTo} from "../index"
 let salesHierarchy
 let salesTerritory
@@ -16,7 +16,7 @@ interface SalesTeamListProps {
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
-  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void

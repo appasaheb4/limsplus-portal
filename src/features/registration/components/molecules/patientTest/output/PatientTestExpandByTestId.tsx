@@ -11,7 +11,7 @@ import paginationFactory, {
   PaginationTotalStandalone,
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
-import dayjs from "dayjs"
+// import {moment} from "@/library/utils"
 import "@/library/components/Organisms/style.css"
 import {PatientTestExpandExtraData} from './PatientTestExpandExtraData'
 

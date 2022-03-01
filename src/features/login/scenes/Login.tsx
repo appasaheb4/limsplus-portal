@@ -17,7 +17,7 @@ import { ModalForgotPassword, ModalNoticeBoard } from "../components"
 import { Col, Container, Row } from "reactstrap"
 import { logo } from "@/library/assets"
 import { Carousel } from "react-bootstrap"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@/helper"
 
@@ -465,7 +465,7 @@ export const Login = observer(() => {
           {...modalChangePassword}
           onClick={() => {
             const exipreDate = new Date(
-              dayjs(new Date()).add(30, "days").format("YYYY-MM-DD")
+              moment(new Date()).add(30, "days").format("YYYY-MM-DD")
             )
             let body = Object.assign(loginStore.inputLogin, userStore.changePassword)
             body = {

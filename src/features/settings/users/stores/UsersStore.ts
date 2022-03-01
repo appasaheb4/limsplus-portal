@@ -1,6 +1,6 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import {Users,SelectedItems,ChangePassword} from "../models"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 import { UserService } from "../services"
 
 export class UserStore {
@@ -19,14 +19,14 @@ export class UserStore {
     this.checkExistsEmpCode = false
     this.user = new Users({
       ...this.user,
-      exipreDate: new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD")),
+      exipreDate: new Date(moment(new Date()).add(30, "days").format("YYYY-MM-DD")),
       expireDays: 30,
       dateOfEntry: new Date(),
       dateOfBirth: new Date(
-        dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD")
+        moment(new Date()).add(-30, "years").format("YYYY-MM-DD")
       ),
       marriageAnniversary: new Date(
-        dayjs(new Date()).add(-5, "years").format("YYYY-MM-DD HH:mm:ss")
+        moment(new Date()).add(-5, "years").format("YYYY-MM-DD HH:mm:ss")
       ),
       confidential: false,
       confirguration: false,

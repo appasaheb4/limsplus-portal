@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import dayjs from "dayjs"
+// import moment from "moment"
 import _ from "lodash"
-import { lookupItems, lookupValue } from "@/library/utils"
+import { lookupItems, lookupValue,moment } from "@/library/utils"
 import {
   NumberFilter,
   customFilter,
@@ -426,7 +426,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col, row) =>
-                row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
+                row.dateCreation ? moment(row.dateCreation).format("YYYY-MM-DD") : "",
               filter: customFilter({
                 getFilter: (filter) => {
                   dateCreation = filter
@@ -436,7 +436,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateCreation).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -463,7 +463,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col, row) =>
-                row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
+                row.dateActive ? moment(row.dateActive).format("YYYY-MM-DD") : "",
               editable: false,
               filter: customFilter({
                 getFilter: (filter) => {
@@ -474,7 +474,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateActive).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -501,7 +501,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               csvFormatter: (col, row) =>
-                row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
+                row.dateExpire ? moment(row.dateExpire).format("YYYY-MM-DD") : "",
               editable: false,
               filter: customFilter({
                 getFilter: (filter) => {
@@ -512,7 +512,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire || 0).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateExpire || 0).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,

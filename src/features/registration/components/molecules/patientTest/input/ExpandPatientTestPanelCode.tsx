@@ -11,7 +11,7 @@ import paginationFactory, {
   PaginationTotalStandalone,
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 import "@/library/components/Organisms/style.css"
 
 import {Buttons,Icons,Form} from "@/library/components"
@@ -346,7 +346,7 @@ export const ExpandPatientTestPanelCode = ({
           columns={columns}
           search
           exportCSV={{
-            fileName: `${fileName}_${dayjs(new Date()).format(
+            fileName: `${fileName}_${moment(new Date()).format(
               "YYYY-MM-DD HH:mm"
             )}.csv`,
             noAutoBOM: false,

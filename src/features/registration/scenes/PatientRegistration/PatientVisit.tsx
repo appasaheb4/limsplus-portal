@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, {  useState } from "react"
 import { observer } from "mobx-react"
-import dayjs from "dayjs"
+// import moment from "moment"
 import {Toast,Heading,Form,List,Buttons,Grid,AutoCompleteFilterSingleSelectMultiFieldsDisplay,AutoCompleteFilterSingleSelect,ModalConfirm,Svg} from "@/library/components"
-import {calculateTimimg,lookupItems,lookupValue} from "@/library/utils"
+import {calculateTimimg,lookupItems,lookupValue,moment} from "@/library/utils"
 import "@/library/assets/css/accordion.css"
 import {AutoCompleteFilterSingleSelectPid,ExtraDataPatientVisitList,PatientVisitList} from "../../components"
 import { useForm, Controller } from "react-hook-form"
@@ -209,7 +209,7 @@ export const PatientVisit = PatientVisitHoc(
                         onSelect={(item) => {
                           onChange(item.pId)
                           const resultAge = calculateTimimg(
-                            Math.abs(dayjs(item.birthDate).diff(new Date(), "days"))
+                            Math.abs(moment(item.birthDate).diff(new Date(), "days"))
                           )
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,

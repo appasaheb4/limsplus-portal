@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react"
-import { lookupItems, lookupValue } from "@/library/utils"
+import { lookupItems, lookupValue,moment } from "@/library/utils"
 import {
   NumberFilter,
   DateFilter,
@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
-import dayjs from "dayjs"
+// import moment from "moment"
 import _ from "lodash"
 import {
   AutoCompletePriceList,
@@ -440,7 +440,7 @@ export const PriceListList = (props: PriceListProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateCreation
-                  ? dayjs(row.dateCreation || 0).format("YYYY-MM-DD")
+                  ? moment(row.dateCreation || 0).format("YYYY-MM-DD")
                   : "",
               filter: customFilter({
                 getFilter: (filter) => {
@@ -451,7 +451,7 @@ export const PriceListList = (props: PriceListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation || 0).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateCreation || 0).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -480,7 +480,7 @@ export const PriceListList = (props: PriceListProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateActive
-                  ? dayjs(row.dateActive || 0).format("YYYY-MM-DD")
+                  ? moment(row.dateActive || 0).format("YYYY-MM-DD")
                   : "",
               filter: customFilter({
                 getFilter: (filter) => {
@@ -491,7 +491,7 @@ export const PriceListList = (props: PriceListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateActive || 0).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,
@@ -520,7 +520,7 @@ export const PriceListList = (props: PriceListProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateExpire
-                  ? dayjs(row.dateExpire || 0).format("YYYY-MM-DD")
+                  ? moment(row.dateExpire || 0).format("YYYY-MM-DD")
                   : "",
               filter: customFilter({
                 getFilter: (filter) => {
@@ -531,7 +531,7 @@ export const PriceListList = (props: PriceListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire || 0).format("YYYY-MM-DD")}</>
+                return <>{moment(row.dateExpire || 0).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,

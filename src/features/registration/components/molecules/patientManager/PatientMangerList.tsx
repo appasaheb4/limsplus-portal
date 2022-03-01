@@ -1,8 +1,7 @@
 /* eslint-disable */
 import React from "react"
 import { observer } from "mobx-react"
-import dayjs from "dayjs"
-import {lookupItems,lookupValue} from "@/library/utils"
+import {lookupItems,lookupValue,moment} from "@/library/utils"
 import {TableBootstrap,NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons} from "@/library/components"
 import {Confirm} from "@/library/models"
 import { FormHelper } from "@/helper"
@@ -140,7 +139,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               text: "Birthdate",
               headerClasses: "textHeader11",
               sort: true,
-              csvFormatter: (col,row) => (row.birthDate ? dayjs(row.birthDate).format("YYYY-MM-DD") : ""),
+              csvFormatter: (col,row) => (row.birthDate ? moment(row.birthDate).format("YYYY-MM-DD") : ""),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               filter: customFilter({
                 getFilter: (filter) => {
@@ -151,7 +150,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.birthDate).format("YYYY-MM-DD")}</>
+                return <>{moment(row.birthDate).format("YYYY-MM-DD")}</>
               },
               editorRenderer: (
                 editorProps,

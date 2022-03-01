@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
-import * as Assets from "@/library/assets"
+import {logo} from "@/library/assets"
 import { Frown as Sad } from "react-feather"
-import * as Config from "@/config"
+import {Styles} from "@/config"
 
 interface ModalProps {
   show?: boolean
@@ -42,7 +42,7 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                 <div className="flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                   <div className="items-center justify-center flex mb-2">
                     <img
-                      src={Assets.logo}
+                      src={logo}
                       className=" img-thumbnail img-fluid"
                       style={{ width: 70, height: 55, marginRight: 10 }}
                       alt="lims plus"
@@ -54,7 +54,7 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                       {props.data.action !== "login" && (
                         <Sad
                           size={60}
-                          color={Config.Styles.COLORS.BLACK}
+                          color={Styles.COLORS.BLACK}
                           style={{ marginRight: 10 }}
                         />
                       )}

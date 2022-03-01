@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from "mobx"
 import {Doctors} from "../models"
 import {DoctorsService} from "../services"
-import dayjs from "dayjs"
+import {moment} from "@/library/utils"
 
 export class DoctorsStore {
   doctors!: Doctors
@@ -19,7 +19,7 @@ export class DoctorsStore {
       ...this.doctors,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      dateExpire: new Date(moment(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       confidential: false,
       urgent: false,

@@ -4,9 +4,8 @@ import { observer } from "mobx-react"
 import {Header,PageHeading,PageHeadingLabDetails,Buttons,AutocompleteCheck,
   List,Grid,Svg,Toast,ModalConfirm,Form,AutoCompleteFilterSingleSelect,AutoCompleteCheckTwoTitleKeys,ModalChangePasswordByAdmin}
    from "@/library/components"
-import {lookupItems,lookupValue} from "@/library/utils"
+import {lookupItems,lookupValue,moment} from "@/library/utils"
 import { UserList } from "../components"
-import dayjs from "dayjs"
 import { FormHelper } from "@/helper"
 
 import { useForm, Controller } from "react-hook-form"
@@ -710,7 +709,7 @@ export const Users = UsersHoc(observer(() => {
                 )}
                 name="marriageAnniversary"
                 rules={{ required: true }}
-                defaultValue={dayjs(
+                defaultValue={moment(
                   userStore && userStore.user.marriageAnniversary
                 ).format("YYYY-MM-DD")}
               />
@@ -733,7 +732,7 @@ export const Users = UsersHoc(observer(() => {
                 )}
                 name="exipreDate"
                 rules={{ required: true }}
-                defaultValue={dayjs(userStore && userStore.user.exipreDate).format(
+                defaultValue={moment(userStore && userStore.user.exipreDate).format(
                   "YYYY-MM-DD"
                 )}
               />
@@ -770,7 +769,7 @@ export const Users = UsersHoc(observer(() => {
                     type="solid"
                     onClick={() => {
                       const date = new Date(
-                        dayjs(userStore && userStore.user.exipreDate)
+                        moment(userStore && userStore.user.exipreDate)
                           .add(userStore && userStore.user.expireDays, "days")
                           .format("YYYY-MM-DD HH:mm")
                       )
@@ -1135,7 +1134,7 @@ export const Users = UsersHoc(observer(() => {
           {...modalChangePasswordByadmin}
           onClick={() => {
             const exipreDate = new Date(
-              dayjs(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+              moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
             )
             const body = {
               userId: modalChangePasswordByadmin.data.userId,
