@@ -16,7 +16,12 @@ import { useForm, Controller } from "react-hook-form"
 import { RouterFlow } from "@/flows"
 
 export const PriceListTable = observer(({}) => {
-  const { loading, registrationLocationsStore, corporateClientsStore } = useStores()
+  const {
+    loading,
+    registrationLocationsStore,
+    corporateClientsStore,
+    priceListStore,
+  } = useStores()
 
   const {
     control,
@@ -101,44 +106,63 @@ export const PriceListTable = observer(({}) => {
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <select
-                        value={item?.priceGroup}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.priceGroup ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const priceGroup = JSON.parse(e.target.value)
-                          onChange(priceGroup.code)
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder="Search by priceGroup or description"
+                        data={{
+                          list: _.unionBy(
+                            registrationLocationsStore.registrationLocations
+                              ?.invoiceAc
+                              ? priceListStore?.listPriceList
+                              : priceListStore?.listPriceList.filter((item) => {
+                                  if (item.priceGroup === "CSP001") return
+                                  else return item
+                                }),
+                            "priceGroup"
+                          ),
+                          displayKey: ["priceGroup", "description"],
+                        }}
+                        hasError={errors.priceGroup}
+                        onFilter={(value: string) => {
+                          priceListStore.priceListService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["priceGroup", "description"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(item) => {
+                          console.log({ item })
+                          onChange(item.priceGroup)
                           const priceList =
                             registrationLocationsStore.registrationLocations
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
-                            priceGroup: priceGroup.code,
-                            priceList: priceGroup,
-                            description: _.first(
-                              priceGroupLookupItems.filter(
-                                (item) => item.code === priceGroup.code
-                              )
-                            ).value,
+                            priceGroup: item.priceGroup,
+                            priceList:
+                              item.priceGroup !== "CSP001"
+                                ? item.priceGroup
+                                : item.priceList,
+                            description: item.description,
                           }
                           registrationLocationsStore.updateRegistrationLocations({
                             ...registrationLocationsStore.registrationLocations,
                             priceList,
                           })
+                          priceListStore.updatePriceListRecords(
+                            priceListStore.listPriceListCopy
+                          )
                         }}
-                      >
-                        <option selected>Select</option>
-                        {priceGroupLookupItems?.map((item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     )}
                     name="priceGroup"
                     rules={{ required: true }}
-                    defaultValue=""
+                    defaultValue={priceListStore.listPriceList}
                   />
                 </td>
                 <td>
@@ -147,10 +171,10 @@ export const PriceListTable = observer(({}) => {
                     render={({ field: { onChange } }) => (
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder="Search by invoiceAc or name"
                         data={{
                           list: corporateClientsStore?.listCorporateClients,
-                          displayKey: ["corporateCode", "corporateName"],
+                          displayKey: ["invoiceAc", "corporateName"],
                         }}
                         displayValue={item?.priceList}
                         disable={item?.priceGroup !== "CSP001" ? true : false}
@@ -160,7 +184,7 @@ export const PriceListTable = observer(({}) => {
                             {
                               input: {
                                 filter: {
-                                  fields: ["corporateCode", "corporateName"],
+                                  fields: ["invoiceAc", "corporateName"],
                                   srText: value,
                                 },
                                 page: 0,
@@ -170,13 +194,13 @@ export const PriceListTable = observer(({}) => {
                           )
                         }}
                         onSelect={(item) => {
-                          onChange(item.corporateCode)
+                          onChange(item.invoiceAc)
                           const priceList =
                             registrationLocationsStore.registrationLocations
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
-                            priceList: item.corporateCode,
+                            priceList: item.invoiceAc,
                             description: item.corporateName,
                           }
                           registrationLocationsStore.updateRegistrationLocations({
@@ -191,7 +215,7 @@ export const PriceListTable = observer(({}) => {
                     )}
                     name="priceList"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={corporateClientsStore.listCorporateClients}
                   />
                 </td>
                 <td>
@@ -237,7 +261,7 @@ export const PriceListTable = observer(({}) => {
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
-                            priority,
+                            priority: parseInt(priority),
                           }
                           registrationLocationsStore.updateRegistrationLocations({
                             ...registrationLocationsStore.registrationLocations,
@@ -268,7 +292,7 @@ export const PriceListTable = observer(({}) => {
                               ?.priceList
                           priceList[index] = {
                             ...priceList[index],
-                            maxDis,
+                            maxDis: parseFloat(maxDis),
                           }
                           registrationLocationsStore.updateRegistrationLocations({
                             ...registrationLocationsStore.registrationLocations,

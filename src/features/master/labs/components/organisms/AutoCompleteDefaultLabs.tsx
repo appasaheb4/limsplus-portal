@@ -19,7 +19,7 @@ export const AutoCompleteDefaultLab = observer(
           loader={loading}
           placeholder="Search by code or name"
           data={{
-            list: labStore?.listLabs,
+            list: labStore?.listLabs.filter((item)=> item.labType === 'R'),
             displayKey: ["code", "name"],
           }}
           onFilter={(value: string) => {

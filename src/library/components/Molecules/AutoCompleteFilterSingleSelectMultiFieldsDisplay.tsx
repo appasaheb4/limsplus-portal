@@ -29,7 +29,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   const [value, setValue] = useState<string>(displayValue)
   const [options, setOptions] = useState<any[]>(data.list)
   const [isListOpen, setIsListOpen] = useState<boolean>(false)
-  
+
   const useOutsideAlerter = (ref) => {
     useEffect(() => {
       function handleClickOutside(event) {

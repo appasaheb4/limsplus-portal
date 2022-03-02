@@ -16,7 +16,7 @@ import { useForm, Controller } from "react-hook-form"
 import { RouterFlow } from "@/flows"
 
 export const PriceListTable = observer(({}) => {
-  const { loading, corporateClientsStore } = useStores()
+  const { loading, corporateClientsStore, priceListStore } = useStores()
 
   const {
     control,
@@ -91,220 +91,223 @@ export const PriceListTable = observer(({}) => {
           </tr>
         </thead>
         <tbody className="text-xs">
-          {corporateClientsStore.corporateClients?.priceList?.map(
-            (item, index) => (
-              <tr>
-                <td>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <select
-                        value={item?.priceGroup}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.priceGroup ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const priceGroup = e.target.value as string
-                          onChange(priceGroup)
-                          const priceList =
-                          corporateClientsStore.corporateClients
-                              ?.priceList
-                          priceList[index] = {
-                            ...priceList[index],
-                            priceGroup,
-                            priceList: priceGroup,
-                            description: _.first(
-                              priceGroupLookupItems.filter(
-                                (item) => item.code === priceGroup
-                              )
-                            ).value,
-                          }
-                          corporateClientsStore.updateCorporateClients({
-                            ...corporateClientsStore.corporateClients,
-                            priceList,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {priceGroupLookupItems?.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-                    name="priceGroup"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                </td>
-                <td>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder="Search by code or name"
-                        data={{
-                          list: corporateClientsStore?.listCorporateClients,
-                          displayKey: ["corporateCode", "corporateName"],
-                        }}
-                        displayValue={item?.priceList}
-                        disable={item?.priceGroup !== "CSP001" ? true : false}
-                        hasError={errors.priceList}
-                        onFilter={(value: string) => {
-                          corporateClientsStore.corporateClientsService.filterByFields(
-                            {
-                              input: {
-                                filter: {
-                                  fields: ["corporateCode", "corporateName"],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            }
-                          )
-                        }}
-                        onSelect={(item) => {
-                          onChange(item.corporateCode)
-                          const priceList =
-                          corporateClientsStore.corporateClients
-                              ?.priceList
-                          priceList[index] = {
-                            ...priceList[index],
-                            priceList: item.corporateCode,
-                            description: item.corporateName,
-                          }
-                          corporateClientsStore.updateCorporateClients({
-                            ...corporateClientsStore.corporateClients,
-                            priceList,
-                          })
-                          corporateClientsStore.updateCorporateClientsList(
-                            corporateClientsStore.listCorporateClientsCopy
-                          )
-                        }}
-                      />
-                    )}
-                    name="priceList"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                </td>
-                <td>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.MultilineInput
-                        rows={2}
-                        label=""
-                        disabled={true}
-                        placeholder={
-                          errors.description
-                            ? "Please Enter description"
-                            : "Description"
-                        }
-                        hasError={errors.description}
-                        value={item?.description}
-                        onChange={(description) => {
-                          onChange(description)
-                        }}
-                      />
-                    )}
-                    name="description"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                </td>
-                <td>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Input
-                        label=""
-                        value={item?.priority}
-                        type="number"
-                        placeholder="Priority"
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                        hasError={errors.priority}
-                        onChange={(priority) => {
-                          onChange(priority)
-                          const priceList =
-                          corporateClientsStore.corporateClients
-                              ?.priceList
-                          priceList[index] = {
-                            ...priceList[index],
-                            priority,
-                          }
-                          corporateClientsStore.updateCorporateClients({
-                            ...corporateClientsStore.corporateClients,
-                            priceList,
-                          })
-                        }}
-                      />
-                    )}
-                    name="priority"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                </td>
-                <td>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Input
-                        label=""
-                        type="number"
-                        placeholder={item?.maxDis?.toString()}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                        hasError={errors.maxDis}
-                        onChange={(maxDis) => {
-                          onChange(maxDis)
-                          const priceList =
-                          corporateClientsStore.corporateClients
-                              ?.priceList
-                          priceList[index] = {
-                            ...priceList[index],
-                            maxDis,
-                          }
-                          corporateClientsStore.updateCorporateClients({
-                            ...corporateClientsStore.corporateClients,
-                            priceList,
-                          })
-                        }}
-                      />
-                    )}
-                    name="maxDis"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                </td>
-                <td className="sticky right-0 z-10 bg-gray-500">
-                  <div className="flex flex-col gap-1">
-                    <Buttons.Button
-                      size="small"
-                      type="outline"
-                      onClick={() => {
-                        removeItem(index)
+          {corporateClientsStore.corporateClients?.priceList?.map((item, index) => (
+            <tr>
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      placeholder="Search by priceGroup or description"
+                      data={{
+                        list: _.unionBy(priceListStore?.listPriceList, "priceGroup"),
+                        displayKey: ["priceGroup", "description"],
                       }}
-                    >
-                      <Icons.EvaIcon icon="minus-circle-outline" color="#fff" />
-                    </Buttons.Button>
-                    <Buttons.Button
-                      size="small"
-                      type="outline"
-                      onClick={handleSubmit(addItem)}
-                    >
-                      <Icons.EvaIcon icon="plus-circle-outline" color="#fff" />
-                    </Buttons.Button>
-                  </div>
-                </td>
-              </tr>
-            )
-          )}
+                      hasError={errors.priceGroup}
+                      onFilter={(value: string) => {
+                        priceListStore.priceListService.filterByFields({
+                          input: {
+                            filter: {
+                              fields: ["priceGroup", "description"],
+                              srText: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        console.log({ item })
+                        onChange(item.priceGroup)
+                        const priceList =
+                          corporateClientsStore.corporateClients?.priceList
+                        priceList[index] = {
+                          ...priceList[index],
+                          priceGroup: item.priceGroup,
+                          priceList:
+                            item.priceGroup !== "CSP001"
+                              ? item.priceGroup
+                              : item.priceList,
+                          description: item.description,
+                        }
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          priceList,
+                        })
+                        priceListStore.updatePriceListRecords(
+                          priceListStore.listPriceListCopy
+                        )
+                      }}
+                    />
+                  )}
+                  name="priceGroup"
+                  rules={{ required: true }}
+                  defaultValue={priceListStore.listPriceList}
+                />
+              </td>
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      placeholder="Search by invoiceAc or name"
+                      data={{
+                        list: corporateClientsStore?.listCorporateClients,
+                        displayKey: ["invoiceAc", "corporateName"],
+                      }}
+                      displayValue={item?.priceList}
+                      disable={item?.priceGroup !== "CSP001" ? true : false}
+                      hasError={errors.priceList}
+                      onFilter={(value: string) => {
+                        corporateClientsStore.corporateClientsService.filterByFields(
+                          {
+                            input: {
+                              filter: {
+                                fields: ["invoiceAc", "corporateName"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          }
+                        )
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.invoiceAc)
+                        const priceList =
+                          corporateClientsStore.corporateClients?.priceList
+                        priceList[index] = {
+                          ...priceList[index],
+                          priceList: item.invoiceAc,
+                          description: item.corporateName,
+                        }
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          priceList,
+                        })
+                        corporateClientsStore.updateCorporateClientsList(
+                          corporateClientsStore.listCorporateClientsCopy
+                        )
+                      }}
+                    />
+                  )}
+                  name="priceList"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              </td>
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label=""
+                      disabled={true}
+                      placeholder={
+                        errors.description
+                          ? "Please Enter description"
+                          : "Description"
+                      }
+                      hasError={errors.description}
+                      value={item?.description}
+                      onChange={(description) => {
+                        onChange(description)
+                      }}
+                    />
+                  )}
+                  name="description"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              </td>
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label=""
+                      value={item?.priority}
+                      type="number"
+                      placeholder="Priority"
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      hasError={errors.priority}
+                      onChange={(priority) => {
+                        onChange(priority)
+                        const priceList =
+                          corporateClientsStore.corporateClients?.priceList
+                        priceList[index] = {
+                          ...priceList[index],
+                          priority: parseInt(priority),
+                        }
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          priceList,
+                        })
+                      }}
+                    />
+                  )}
+                  name="priority"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+              </td>
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.Input
+                      label=""
+                      type="number"
+                      placeholder={item?.maxDis?.toString()}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      hasError={errors.maxDis}
+                      onChange={(maxDis) => {
+                        onChange(maxDis)
+                        const priceList =
+                          corporateClientsStore.corporateClients?.priceList
+                        priceList[index] = {
+                          ...priceList[index],
+                          maxDis: parseFloat(maxDis),
+                        }
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          priceList,
+                        })
+                      }}
+                    />
+                  )}
+                  name="maxDis"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              </td>
+              <td className="sticky right-0 z-10 bg-gray-500">
+                <div className="flex flex-col gap-1">
+                  <Buttons.Button
+                    size="small"
+                    type="outline"
+                    onClick={() => {
+                      removeItem(index)
+                    }}
+                  >
+                    <Icons.EvaIcon icon="minus-circle-outline" color="#fff" />
+                  </Buttons.Button>
+                  <Buttons.Button
+                    size="small"
+                    type="outline"
+                    onClick={handleSubmit(addItem)}
+                  >
+                    <Icons.EvaIcon icon="plus-circle-outline" color="#fff" />
+                  </Buttons.Button>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
-        {corporateClientsStore.corporateClients?.priceList?.length ===
-          0 && (
+        {corporateClientsStore.corporateClients?.priceList?.length === 0 && (
           <Buttons.Button
             size="small"
             type="outline"

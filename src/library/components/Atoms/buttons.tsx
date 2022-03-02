@@ -1,9 +1,9 @@
 import React, { CSSProperties } from "react"
 import { IconProps } from "./svg"
-import {Buttons,Icons} from ".."
-import {Styles} from "@/config"
+import { Buttons, Icons } from ".."
+import { Styles } from "@/config"
 
-interface ButtonProps {
+export interface ButtonProps {
   type?: "solid" | "outline"
   onClick?: () => void
   style?: CSSProperties
@@ -11,12 +11,12 @@ interface ButtonProps {
   icon?: React.FunctionComponent<IconProps>
   pill?: boolean
   disabled?: string
+  id?: string
+  innerRef?: any;
   children?: React.ReactNode
-}    
-   
-export const Button: React.FunctionComponent<ButtonProps> = (
-  props: ButtonProps
-): JSX.Element => {
+}
+
+export const Button = React.forwardRef((props: ButtonProps) => {
   const buttonSizeClass =
     props.size === "small"
       ? `px-2 py-1 text-xs`
@@ -39,6 +39,8 @@ export const Button: React.FunctionComponent<ButtonProps> = (
       type="button"
       disabled={!!props.disabled}
       title={props.disabled}
+      id={props.id}
+      ref={props.innerRef}
       className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
     >
       {Icon && (
@@ -51,7 +53,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (
       {props.children}
     </button>
   )
-}
+})
 
 interface ButtonCircleAddRemoveProps {
   show?: boolean
@@ -119,7 +121,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
 export const ButtonCircleAddRemoveBottom: React.FunctionComponent<ButtonCircleAddRemoveProps> = (
   props
 ) => {
-  return (  
+  return (
     <>
       {props.show && (
         <Buttons.CircleButton
@@ -169,8 +171,8 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<ButtonCircleAd
 }
 
 interface CircleButtonProps {
-  style?: CSSProperties;
-  onClick: () => void;
+  style?: CSSProperties
+  onClick: () => void
 }
 
 export const CircleButton: React.FunctionComponent<CircleButtonProps> = (props) => (
@@ -181,4 +183,4 @@ export const CircleButton: React.FunctionComponent<CircleButtonProps> = (props) 
   >
     {props.children}
   </div>
-);
+)

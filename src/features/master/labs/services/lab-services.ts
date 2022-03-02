@@ -146,7 +146,7 @@ export class LabService {
         .then((response: any) => {
           if (!response.data.filterByFieldsLab.success) return this.listLabs()
           stores.labStore.filterLabList({
-            filterLabs: {  
+            filterLabs: {
               data: response.data.filterByFieldsLab.data,
               paginatorInfo: {
                 count: response.data.filterByFieldsLab.paginatorInfo.count,

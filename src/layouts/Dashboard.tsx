@@ -145,9 +145,11 @@ const Dashboard = observer(({ children }) => {
         await RegistrationLocations.startup()
         await SalesTeam.startup()
       }
-      if (pathname === "/collection/registrationLocations")
+      if (pathname === "/collection/registrationLocations") {
         await RegistrationLocations.startup()
-      await AdministrativeDivisions.startup()
+        await AdministrativeDivisions.startup()
+        await PriceList.startup()
+      }
       if (
         pathname === "/collection/corporateClients" ||
         pathname === "/collection/registrationLocations" ||
@@ -156,6 +158,7 @@ const Dashboard = observer(({ children }) => {
         await CorporateClients.startup()
         await AdministrativeDivisions.startup()
         await SalesTeam.startup()
+        await PriceList.startup()
       }
       if (
         pathname === "/collection/deliverySchedule" ||

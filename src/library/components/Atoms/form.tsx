@@ -59,16 +59,16 @@ interface InputProps extends InputWrapperProps {
   className?: string
   rows?: number
   style?: any
-  wrapperStyle?: any;
+  wrapperStyle?: any
   hasError?: boolean
   pattern?: any
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
   onKeyDown?: (e: any) => void
+  inputRef?: any;
 }
 
-export const Input = (props: InputProps) => {
-  
+export const Input = React.forwardRef((props: InputProps) => {
   const handleKeyPress = (e) => {
     var key = e.key
     var regex = props.pattern
@@ -78,10 +78,16 @@ export const Input = (props: InputProps) => {
   }
 
   return (
-    <InputWrapper label={props.label} id={props.id} hasError={props.hasError} style={props.wrapperStyle}>
+    <InputWrapper
+      label={props.label}
+      id={props.id}
+      hasError={props.hasError}
+      style={props.wrapperStyle}
+    >
       <input
         type={props.type || "text"}
         id={props.id}
+        ref={props.inputRef}
         name={props.name}
         style={props.style}
         defaultValue={props.defaultValue}
@@ -100,7 +106,7 @@ export const Input = (props: InputProps) => {
       />
     </InputWrapper>
   )
-}
+})
 
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id} className={props.className}>

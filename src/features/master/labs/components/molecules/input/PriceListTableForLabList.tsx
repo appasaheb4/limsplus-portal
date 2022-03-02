@@ -21,7 +21,7 @@ interface PriceListTableForLabListProps {
 
 export const PriceListTableForLabList = observer(
   ({ data, onUpdate }: PriceListTableForLabListProps) => {
-    const { loading, corporateClientsStore } = useStores()
+    const { loading, corporateClientsStore, priceListStore } = useStores()
 
     const {
       control,
@@ -30,7 +30,8 @@ export const PriceListTableForLabList = observer(
       setValue,
       clearErrors,
     } = useForm()
-
+    const priceList = useRef(data);
+    const [reload,setReload] = useState(false)
     const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>()
 
     useEffect(() => {
@@ -49,25 +50,18 @@ export const PriceListTableForLabList = observer(
     }, [])
 
     const addItem = () => {
-      let priceList = data
-      priceList.push({
-        id: data.length + 1,
+      priceList.current.push({
+        id: priceList.current.length + 1,
         maxDis: 0,
       })
-      data = {
-        ...data,
-        priceList,
-      }
     }
 
     const removeItem = (index: number) => {
-      const firstArr = data?.slice(0, index) || []
-      const secondArr = data?.slice(index + 1) || []
+      const firstArr = priceList.current?.slice(0, index) || []
+      const secondArr = priceList.current?.slice(index + 1) || []
       const finalArray = [...firstArr, ...secondArr]
-      data = {
-        ...data,
-        priceList: finalArray,
-      }
+      priceList.current = finalArray
+      setReload(!reload)
     }
 
     return (
@@ -94,44 +88,57 @@ export const PriceListTableForLabList = observer(
             </tr>
           </thead>
           <tbody className="text-xs">
-            {data?.map((item, index) => (
+            {priceList.current?.map((item, index) => (
               <tr>
                 <td>
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
-                      <select
-                        value={item?.priceGroup}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.priceGroup ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const priceGroup = e.target.value as string
-                          onChange(priceGroup)
-                          const priceList = data
-                          priceList[index] = {
-                            ...priceList[index],
-                            priceGroup,
-                            priceList: priceGroup,
-                            description: _.first(
-                              priceGroupLookupItems.filter(
-                                (item) => item.code === priceGroup
-                              )
-                            ).value,
-                          }
-                          data = {
-                            ...data,
-                            priceList,
-                          }
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        posstion="sticky"
+                        loader={loading}
+                        placeholder="Search by priceGroup or description"
+                        displayValue={item?.priceGroup}
+                        data={{
+                          list: _.unionBy(
+                            priceListStore?.listPriceList.filter((element) => {
+                              if (element.priceGroup === "CSP001") return
+                              else return element
+                            }),
+                            "priceGroup"
+                          ),
+                          displayKey: ["priceGroup", "description"],
                         }}
-                      >
-                        <option selected>Select</option>
-                        {priceGroupLookupItems?.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                        hasError={errors.priceGroup}
+                        onFilter={(value: string) => {
+                          priceListStore.priceListService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ["priceGroup", "description"],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          })
+                        }}
+                        onSelect={(element) => {
+                          console.log({ item })
+                          onChange(element.priceGroup)
+                          priceList.current[index] = {
+                            ...priceList.current[index],
+                            priceGroup: element.priceGroup,
+                            priceList:
+                              element.priceGroup !== "CSP001"
+                                ? element.priceGroup
+                                : element.priceList,
+                            description: element.description,
+                          }
+                          priceListStore.updatePriceListRecords(
+                            priceListStore.listPriceListCopy
+                          )
+                        }}
+                      />
                     )}
                     name="priceGroup"
                     rules={{ required: true }}
@@ -145,10 +152,10 @@ export const PriceListTableForLabList = observer(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         posstion="relative"
-                        placeholder="Search by code or name"
+                        placeholder="Search by invoiceAc or name"
                         data={{
                           list: corporateClientsStore?.listCorporateClients,
-                          displayKey: ["corporateCode", "corporateName"],
+                          displayKey: ["invoiceAc", "corporateName"],
                         }}
                         displayValue={item?.priceList}
                         disable={item?.priceGroup !== "CSP001" ? true : false}
@@ -158,7 +165,7 @@ export const PriceListTableForLabList = observer(
                             {
                               input: {
                                 filter: {
-                                  fields: ["corporateCode", "corporateName"],
+                                  fields: ["invoiceAc", "corporateName"],
                                   srText: value,
                                 },
                                 page: 0,
@@ -168,16 +175,11 @@ export const PriceListTableForLabList = observer(
                           )
                         }}
                         onSelect={(item) => {
-                          onChange(item.corporateCode)
-                          const priceList = data
-                          priceList[index] = {
-                            ...priceList[index],
-                            priceList: item.corporateCode,
+                          onChange(item.invoiceAc)
+                          priceList.current[index] = {
+                            ...priceList.current[index],
+                            priceList: item.invoiceAc,
                             description: item.corporateName,
-                          }
-                          data = {
-                            ...data,
-                            priceList,
                           }
                           corporateClientsStore.updateCorporateClientsList(
                             corporateClientsStore.listCorporateClientsCopy
@@ -228,21 +230,16 @@ export const PriceListTableForLabList = observer(
                         hasError={errors.priority}
                         onChange={(priority) => {
                           onChange(priority)
-                          const priceList = data
-                          priceList[index] = {
-                            ...priceList[index],
+                          priceList.current[index] = {
+                            ...priceList.current[index],
                             priority,
-                          }
-                          data = {
-                            ...data,
-                            priceList,
                           }
                         }}
                       />
                     )}
                     name="priority"
                     rules={{ required: true }}
-                    defaultValue=""
+                    defaultValue={item?.priority}
                   />
                 </td>
                 <td>
@@ -257,21 +254,16 @@ export const PriceListTableForLabList = observer(
                         hasError={errors.maxDis}
                         onChange={(maxDis) => {
                           onChange(maxDis)
-                          const priceList = data
-                          priceList[index] = {
-                            ...priceList[index],
+                          priceList.current[index] = {
+                            ...priceList.current[index],
                             maxDis,
-                          }
-                          data = {
-                            ...data,
-                            priceList,
                           }
                         }}
                       />
                     )}
                     name="maxDis"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={item?.maxDis}
                   />
                 </td>
                 <td className="sticky right-0 z-10 bg-gray-500">
@@ -297,7 +289,7 @@ export const PriceListTableForLabList = observer(
               </tr>
             ))}
           </tbody>
-          {data?.length === 0 && (
+          {priceList.current?.length === 0 && (
             <Buttons.Button
               size="small"
               type="outline"
@@ -306,15 +298,14 @@ export const PriceListTableForLabList = observer(
               <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
             </Buttons.Button>
           )}
-         
         </Table>
         <Buttons.Button
-            size="small"
-            type="solid"
-            onClick={() => onUpdate && onUpdate(data)}
-          >
-            Update
-          </Buttons.Button>
+          size="small"
+          type="solid"
+          onClick={() => onUpdate && onUpdate(priceList.current)}
+        >
+          Update
+        </Buttons.Button>
       </div>
     )
   }
