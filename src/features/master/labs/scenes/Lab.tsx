@@ -153,7 +153,7 @@ const Lab = LabHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -850,7 +850,7 @@ const Lab = LabHoc(
                         loader={loading}
                         placeholder="Search by code or name"
                         data={{
-                          list: labStore?.listLabs,
+                          list: labStore?.listLabs.filter((item)=> item.labType === "R"),
                           displayKey: ["code", "name"],
                         }}
                         hasError={errors.defaultLab}

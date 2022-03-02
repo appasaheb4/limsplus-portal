@@ -200,10 +200,11 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                 <>
                   {row?.priceList ? (
                     <PriceListTableForRegLocationsList
+                      invoiceAc={row?.invoiceAc}
                       data={row?.priceList}
                       onUpdate={(data) => {
                         props.onUpdateItem &&
-                        props.onUpdateItem(data, "priceList", row._id)
+                          props.onUpdateItem(data, "priceList", row._id)
                       }}
                     />
                   ) : null}
@@ -716,7 +717,9 @@ export const RegistrationLocationsList = (props: RegistrationLocationsListProps)
                   render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
-                        errors.telephone ? "Please Enter Telephone No" : "Telephone No"
+                        errors.telephone
+                          ? "Please Enter Telephone No"
+                          : "Telephone No"
                       }
                       hasError={errors.telephone}
                       type="number"

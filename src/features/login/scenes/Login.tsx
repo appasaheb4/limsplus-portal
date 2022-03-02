@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect,useRef } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import {
@@ -38,6 +38,8 @@ export const Login = observer(() => {
   const [width, setWidth] = useState<number>(window.innerWidth)
   const [labRoleList, setlabRoleList] = useState({ labList: [], roleList: [] })
 
+  const refUserId = useRef<any>()
+
   const [modalForgotPassword, setModalForgotPassword] = useState<any>()
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [modalSessionAllowed, setModalSessionAllowed] = useState<any>()
@@ -66,6 +68,7 @@ export const Login = observer(() => {
         history.push("/")
       }
     })
+    refUserId.current && refUserId.current?.focus()
     window.addEventListener("resize", handleWindowSizeChange)
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange)
@@ -157,7 +160,7 @@ export const Login = observer(() => {
                         src={item.image}
                         className="img-thumbnail img-fluid"
                         alt={key.toString()}
-                        style={{ width: 650, height: 550 }}
+                        style={{ width: width <= 768 ? 400 : 700, height: width <= 768 ? 300 : 600 }}
                       />
                     </Carousel.Item>
                   ))}
@@ -168,11 +171,11 @@ export const Login = observer(() => {
           <Col md="5">
             <div className="flex flex-col items-center">
               <img src={logo} className="w-20 h-15  self-center" alt="logo" />
-              <div className="flex flex-col mt-2 rounded-md bg-black shadow-sm w-full" style={{ width: 650, height: 550}}>
+              <div className="flex flex-col p-3 mt-2 rounded-md bg-black shadow-sm w-full">
                 <div className="flex mt-2 justify-center items-center">
                   <label className="font-bold text-3xl text-white">Login</label>
                 </div>
-                <div className="p-3">
+                <div>
                   <List direction="col" space={4} justify="stretch" fill>
                     <Controller
                       control={control}
@@ -181,6 +184,7 @@ export const Login = observer(() => {
                           label="User Id"
                           id="userId"
                           name="userId"
+                          inputRef={refUserId}
                           wrapperStyle={{ color: "white" }}
                           placeholder={
                             errors.userId ? "Please enter userId" : "UserId"

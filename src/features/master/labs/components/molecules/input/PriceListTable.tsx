@@ -99,9 +99,12 @@ export const PriceListTable = observer(({}) => {
                       loader={loading}
                       placeholder="Search by priceGroup or description"
                       data={{
-                        list: priceListStore?.listPriceList,
+                        list: _.unionBy(priceListStore?.listPriceList.filter((item) => {
+                          if(item.priceGroup === 'CSP001') return;
+                          else return item;
+                        }),'priceGroup'),
                         displayKey: ["priceGroup", "description"],
-                      }}   
+                      }}
                       hasError={errors.priceGroup}
                       onFilter={(value: string) => {
                         priceListStore.priceListService.filterByFields({
@@ -123,7 +126,9 @@ export const PriceListTable = observer(({}) => {
                           ...priceList[index],
                           priceGroup: item.priceGroup,
                           priceList:
-                            item.priceGroup !== "CSP001" ? item.priceGroup : item.priceList,
+                            item.priceGroup !== "CSP001"
+                              ? item.priceGroup
+                              : item.priceList,
                           description: item.description,
                         }
                         labStore.updateLabs({
@@ -233,7 +238,7 @@ export const PriceListTable = observer(({}) => {
                         const priceList = labStore.labs?.priceList
                         priceList[index] = {
                           ...priceList[index],
-                          priority,
+                          priority: parseInt(priority),
                         }
                         labStore.updateLabs({
                           ...labStore.labs,
@@ -262,7 +267,7 @@ export const PriceListTable = observer(({}) => {
                         const priceList = labStore.labs?.priceList
                         priceList[index] = {
                           ...priceList[index],
-                          maxDis,
+                          maxDis: parseFloat(maxDis),
                         }
                         labStore.updateLabs({
                           ...labStore.labs,
