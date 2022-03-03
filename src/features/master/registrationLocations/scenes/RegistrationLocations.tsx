@@ -219,11 +219,94 @@ const RegistrationLocation = RegistrationLocationHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
               <List direction="col" space={4} justify="stretch" fill>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Lab" hasError={errors.lab}>
+                      <select
+                        value={registrationLocationsStore.registrationLocations?.lab}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.lab ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const lab = e.target.value
+                          onChange(lab)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            lab,
+                          })
+                          if (
+                            !registrationLocationsStore.registrationLocations
+                              ?.existsVersionId
+                          ) {
+                            registrationLocationsStore.registrationLocationsService
+                              .checkExitsLabEnvCode({
+                                input: {
+                                  code:
+                                    registrationLocationsStore.registrationLocations
+                                      ?.locationCode,
+                                  env:
+                                    registrationLocationsStore.registrationLocations
+                                      ?.environment,
+                                  lab,
+                                },
+                              })
+                              .then((res) => {
+                                if (
+                                  res.checkRegistrationLocationExistsRecord.success
+                                ) {
+                                  registrationLocationsStore.updateExistsLabEnvCode(
+                                    true
+                                  )
+                                  Toast.error({
+                                    message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
+                                  })
+                                } else {
+                                  registrationLocationsStore.updateExistsLabEnvCode(
+                                    false
+                                  )
+                                  labStore.LabService.findByFields({
+                                    input: {
+                                      filter: { code: lab },
+                                    },
+                                  }).then((res) => {
+                                    registrationLocationsStore.updateRegistrationLocations(
+                                      {
+                                        ...registrationLocationsStore.registrationLocations,
+                                        priceList:
+                                          res.findByFieldsLabs.data.length > 0
+                                            ? _.first(res.findByFieldsLabs.data)
+                                                .priceList
+                                            : registrationLocationsStore
+                                                .registrationLocations.priceList,
+                                      }
+                                    )
+                                  })
+                                }
+                              })
+                          }
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {loginStore.login?.labList?.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {`${item.code} - ${item.name}`}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="lab"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -336,7 +419,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             invoiceAc: item.invoiceAc,
                             acClass: item.acClass,
                             accountType: item.acType,
-                            customerGroup: item.customerGroup
+                            customerGroup: item.customerGroup,
                           })
                         }}
                       />
@@ -363,7 +446,9 @@ const RegistrationLocation = RegistrationLocationHoc(
                           list: corporateClientsStore.listCorporateClients,
                           displayKey: ["invoiceAc"],
                         }}
-                        displayValue={registrationLocationsStore.registrationLocations?.invoiceAc}
+                        displayValue={
+                          registrationLocationsStore.registrationLocations?.invoiceAc
+                        }
                         hasError={errors.invoiceAc}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(
@@ -1270,71 +1355,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                     />
                   )}
                   name="route"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Lab" hasError={errors.lab}>
-                      <select
-                        value={registrationLocationsStore.registrationLocations?.lab}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.lab ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const lab = e.target.value
-                          onChange(lab)
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
-                            lab,
-                          })
-                          if (
-                            !registrationLocationsStore.registrationLocations
-                              ?.existsVersionId
-                          ) {
-                            registrationLocationsStore.registrationLocationsService
-                              .checkExitsLabEnvCode({
-                                input: {
-                                  code:
-                                    registrationLocationsStore.registrationLocations
-                                      ?.locationCode,
-                                  env:
-                                    registrationLocationsStore.registrationLocations
-                                      ?.environment,
-                                  lab,
-                                },
-                              })
-                              .then((res) => {
-                                if (
-                                  res.checkRegistrationLocationExistsRecord.success
-                                ) {
-                                  registrationLocationsStore.updateExistsLabEnvCode(
-                                    true
-                                  )
-                                  Toast.error({
-                                    message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
-                                  })
-                                } else
-                                  registrationLocationsStore.updateExistsLabEnvCode(
-                                    false
-                                  )
-                              })
-                          }
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {loginStore.login?.labList?.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.code} - ${item.name}`}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name="lab"
                   rules={{ required: false }}
                   defaultValue=""
                 />

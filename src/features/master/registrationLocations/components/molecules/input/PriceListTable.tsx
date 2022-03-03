@@ -122,6 +122,7 @@ export const PriceListTable = observer(({}) => {
                           ),
                           displayKey: ["priceGroup", "description"],
                         }}
+                        displayValue={item.priceGroup}
                         hasError={errors.priceGroup}
                         onFilter={(value: string) => {
                           priceListStore.priceListService.filterByFields({
@@ -161,7 +162,7 @@ export const PriceListTable = observer(({}) => {
                       />
                     )}
                     name="priceGroup"
-                    rules={{ required: true }}
+                    rules={{ required: false }}
                     defaultValue={priceListStore.listPriceList}
                   />
                 </td>
@@ -271,8 +272,8 @@ export const PriceListTable = observer(({}) => {
                       />
                     )}
                     name="priority"
-                    rules={{ required: true }}
-                    defaultValue=""
+                    rules={{ required: false }}
+                    defaultValue={item?.priority}
                   />
                 </td>
                 <td>

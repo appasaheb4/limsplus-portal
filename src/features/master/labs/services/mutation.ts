@@ -58,20 +58,18 @@ export const CHECK_EXISTS_RECORD = gql`
   }
 `
 
-
 export const FILTER = gql`
   mutation($input: LabInput!) {
     filterLabs(input: $input) {
       paginatorInfo {
         count
-      }     
+      }
       success
       message
       data
     }
-  }  
+  }
 `
-
 
 export const FILTER_BY_FIELDS = gql`
   mutation($input: LabInput!) {
@@ -81,7 +79,17 @@ export const FILTER_BY_FIELDS = gql`
       }
       success
       message
-      data  
+      data
+    }
+  }
+`
+
+export const FIND_BY_FIELDS = gql`
+  mutation($input: LabInput!) {
+    findByFieldsLabs(input: $input) {
+      success
+      message
+      data
     }
   }
 `
