@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect,useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import {
@@ -15,7 +15,7 @@ import {
 
 import { ModalForgotPassword, ModalNoticeBoard } from "../components"
 import { Col, Container, Row } from "reactstrap"
-import { logo } from "@/library/assets"
+import { logo, images } from "@/library/assets"
 import { Carousel } from "react-bootstrap"
 import dayjs from "dayjs"
 import { useForm, Controller } from "react-hook-form"
@@ -146,8 +146,8 @@ export const Login = observer(() => {
 
   return (
     <>
-      <Container fluid className="bg-yellow-300">
-        <Row className="h-screen items-center">
+      <Container fluid className="bg-yellow-300 h-screen">
+        <Row className="items-center pt-4 mb-4">
           <Col md="7">
             <div className="flex flex-col justify-center items-center">
               <img src={logo} className="w-20 h-15" alt="logo" />
@@ -160,14 +160,17 @@ export const Login = observer(() => {
                         src={item.image}
                         className="img-thumbnail img-fluid"
                         alt={key.toString()}
-                        style={{ width: width <= 768 ? 400 : 700, height: width <= 768 ? 300 : 600 }}
+                        style={{
+                          width: width <= 768 ? 400 : 700,
+                          height: width <= 768 ? 300 : 600,
+                        }}
                       />
                     </Carousel.Item>
                   ))}
                 </Carousel>
               </div>
             </div>
-          </Col>   
+          </Col>
           <Col md="5">
             <div className="flex flex-col items-center">
               <img src={logo} className="w-20 h-15  self-center" alt="logo" />
@@ -397,8 +400,7 @@ export const Login = observer(() => {
                           timer: 50000,
                         })
                       }
-                    >
-                    </a>
+                    ></a>
                   </div>
                   <div>
                     <a href="privacy-policy" className="text-white">
@@ -410,6 +412,18 @@ export const Login = observer(() => {
             </div>
           </Col>
         </Row>
+        <div className="flex flex-row justify-center">
+          <a href="https://appho.st/d/VZXlvzKV">
+            <img
+              src={images.playStore}
+              className="h-15"
+            />
+          </a>
+          &nbsp; &nbsp;&nbsp;
+          <a href="https://apps.apple.com/us/app/memetoons/id1517184743">
+            <img src={images.appStore} className="h-15" />
+          </a>
+        </div>
         <ModalNoticeBoard
           {...noticeBoard}
           click={async (action) => {
