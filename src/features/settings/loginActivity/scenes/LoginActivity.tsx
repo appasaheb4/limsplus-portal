@@ -55,10 +55,10 @@ const LoginActivity = observer(() => {
                   formatter: (cell, row) => {
                     return (
                       <div>
-                        <h6>{`UserId: ${row.user.userId}`} </h6>
-                        <h6>{`User Name: ${row.user.fullName}`}</h6>
-                        <h6>{`Lab: ${row.user.lab}`}</h6>
-                        <h6>{`Role: ${row.user.role}`}</h6>
+                        <h6>{`UserId: ${row.user?.userId}`} </h6>
+                        <h6>{`User Name: ${row.user?.fullName}`}</h6>
+                        <h6>{`Lab: ${row.user?.lab}`}</h6>
+                        <h6>{`Role: ${row.user?.role}`}</h6>
                       </div>
                     )
                   },
@@ -79,7 +79,7 @@ const LoginActivity = observer(() => {
                   formatter: (cell, row) => {
                     return (
                       <div>
-                        <h6>{`Device: ${row.systemInfo.device}`} </h6>
+                        <h6>{`Device: ${row.systemInfo?.device}`} </h6>
                         <h6> OS:</h6>
                         <h6 className="ml-4">
                           {`name: ${row.systemInfo?.workstation?.os?.name}
@@ -110,14 +110,14 @@ const LoginActivity = observer(() => {
                     return (
                       <>
                         <div>
-                          <h6>Ip: {row.systemInfo.ipInfo.ip}</h6>
+                          <h6>Ip: {row.systemInfo?.ipInfo?.ip}</h6>
                           {row.systemInfo.ipInfo.city && (
                             <>
                               <h6>
                                 Address:{" "}
                                 {`${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}`}
                               </h6>
-                              <h6>Location: {`${row.systemInfo.ipInfo.ll}`}</h6>
+                              <h6>Location: {`${row.systemInfo?.ipInfo?.ll}`}</h6>
                             </>
                           )}
                         </div>

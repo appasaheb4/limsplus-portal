@@ -1,3 +1,4 @@
+/* eslint-disable  */
 import React, { useEffect } from "react"
 import { Container } from "reactstrap"
 import {Icons, Buttons} from "../.."
@@ -24,9 +25,7 @@ export const ModalSessionAllowed = (props: ModalProps) => {
         <>
           <div className="justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
                 <div className="flex items-start justify-between p-3 border-b border-solid border-gray-300 rounded-t">
                   <h3 className="text-3xl font-semibold">
                     {props.title || "Session Allowed"}
@@ -43,7 +42,6 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                     </span>
                   </button>
                 </div>
-                {/*body*/}
                 <div className="relative p-2 flex-auto">
                   <div className="grid grid-flow-row grid-cols-3  gap-4">
                     {props.data?.length === 0 && (
@@ -52,8 +50,7 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                       </div>   
                     )}
                     {props.data?.map((item, index) => (
-                      <>
-                        <div className="flex-col flex p-2  items-center rounded-md bg-gray-400">
+                        <div className="flex-col flex p-2  items-center rounded-md bg-gray-400" key={index}>
                           <Icons.IconContext
                             color="#000"
                             size="80"
@@ -64,16 +61,15 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                             )}
                           </Icons.IconContext>
                           <div className="flex flex-col p-2 items-center text-center">
-                            <h6>Device: {item.systemInfo.device}</h6>
-                            <h6>Ip: {item.systemInfo.ipInfo.ip}</h6>
-                            {item.systemInfo.ipInfo.city && (
-                              <h6>City: {item.systemInfo.ipInfo.city}</h6>
+                            <h6>Device: {item.systemInfo?.device}</h6>
+                            <h6>Ip: {item.systemInfo?.ipInfo?.ip}</h6>
+                            {item.systemInfo?.ipInfo?.city && (
+                              <h6>City: {item.systemInfo?.ipInfo?.city}</h6>
                             )}
                             <h6>
                               {dayjs(item.dateOfEntry).format("YYYY-MM-DD HH:mm A")}
                             </h6>
-                            <h6> {dayjs(item.dateOfEntry)}</h6>
-                            {/* tempory hide from  */}
+                            {/* <h6> {item?.dateOfEntry}</h6> */}
                           </div>
                           <Buttons.Button
                             size="medium"
@@ -85,11 +81,9 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                             Logout
                           </Buttons.Button>
                         </div>
-                      </>
                     ))}
                   </div>
                 </div>
-                {/*footer*/}
                 <div className="flex items-center justify-end p-3 border-t border-solid border-gray-300 rounded-b">
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
