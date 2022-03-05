@@ -46,12 +46,9 @@
     "mobx": "^6.2.0",
     "mobx-react": "^7.1.0",
     "mobx-session": "^1.0.0",
-    "mobx-shallow-undo": "^1.0.0",
     "mobx-sync": "^3.0.0",
-    "moment": "^2.29.1",
     "numeral": "^2.0.6",
     "postcss": "^7.0.35",
-    "public-ip": "^4.0.3",
     "react": "^16.13.1",
     "react-accessible-accordion": "^4.0.0",
     "react-autocomplete": "^1.8.1",
@@ -91,13 +88,11 @@
     "reactstrap": "^8.9.0",
     "redux": "4.0.5",
     "remove": "^0.1.5",
-    "simple-hl7": "^3.2.1",
     "socket.io-client": "^4.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
     "typescript": "^4.3.5",
     "validate.js": "^0.13.1",
-    "xlsx": "^0.16.9",
-    "yarn": "^1.22.17"
+    "xlsx": "^0.16.9"
   },
   "eslintConfig": {
     "extends": "react-app"
