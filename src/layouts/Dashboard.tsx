@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import { ModalIdleTimeout } from "@/library/components"
 import Wrapper from "./components/Wrapper"
