@@ -5,6 +5,7 @@ import * as Form from './Atoms/form'
 import * as Svg from './Atoms/svg'
 import * as Icons from './Atoms/icons'
 export {ToastContainer,Toast, Buttons,Form,Svg,Icons}
+
 export *  from './Atoms/carousel'
 export * from './Atoms/grid'
 export *  from './Atoms/header'  
@@ -14,8 +15,6 @@ export * from './Atoms/loader'
 export * from './Atoms/modals'
 export * from './Atoms/tooltip'
 
-
-  
 export * from './Molecules/AutoComplete'
 export * from './Molecules/AutocompleteCheck'
 export * from './Molecules/AutoCompleteCheckMultiFilterKeys'
@@ -29,13 +28,13 @@ export * from './Molecules/AutoCompleteGroupByCheck'
 export * from './Molecules/modal/ModalChangePassword'
 export * from './Molecules/modal/ModalChangePasswordByAdmin'
 export * from './Molecules/modal/ModalClock'
-
-// modalConfirm and modalFileUpload
 export * from './Molecules/modal/ModalIdleTimeout'
 export * from './Molecules/modal/ModalSessionAllowed'
 export * from './Molecules/modal/ModalTokenExpire'
 export * from './Molecules/modal/ModalTransition'
 export * from "./Molecules/modal/ModalFileUpload"
+// export * from './Molecules/modal/ModalResultOrder'
+
 export * from './Organisms/FilterComp'
 export * from './Organisms/TableBootstrap'
 export * from './Organisms/utils'

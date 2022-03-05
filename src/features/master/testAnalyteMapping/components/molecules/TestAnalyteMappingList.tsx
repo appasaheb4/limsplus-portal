@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from "react"
+import React, { useState } from "react"
 import dayjs from "dayjs"
 import _ from "lodash"
 import { lookupItems, lookupValue } from "@/library/utils"
@@ -11,7 +11,9 @@ import {
   TableBootstrap,
   Icons,
   Tooltip,
-  Form
+  Form,
+  // ModalResultOrder,
+  // ModalResultOrderProps,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
 import {
@@ -59,6 +61,7 @@ interface TestAnalyteMappingListProps {
 }
 
 export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
+  // const [modalResultOrder, setModalResultOrder] = useState<ModalResultOrderProps>()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -210,7 +213,8 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              csvFormatter: (col,row) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.bill ? (row.bill ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -232,7 +236,8 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: "testMethod",
               text: "Test Method",
               sort: true,
-              csvFormatter: (col,row) => `${row.testMethod ? row.testMethod ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.testMethod ? (row.testMethod ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -254,7 +259,8 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: "analyteMethod",
               text: "Analyte Method",
               sort: true,
-              csvFormatter: (col,row) => `${row.analyteMethod ? row.analyteMethod ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${row.analyteMethod ? (row.analyteMethod ? "Yes" : "No") : "No"}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -275,14 +281,30 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "resultOrder",
               text: "Result Order",
-              headerClasses: "textHeader5",
+              headerClasses: "textHeader2",
               sort: true,
               formatter: (cell, row) => {
                 return (
                   <>
-                    {_.findIndex(row?.resultOrder, (item) => {
-                      return item == row?.analyteCode
-                    }) + 1}
+                    <div className=" flex flex-row justify-around">
+                      <span>
+                        {_.findIndex(row?.resultOrder, (item) => {
+                          return item == row?.analyteCode
+                        }) + 1}
+                      </span>
+                      <button
+                        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        onClick={() => {
+                          // setModalResultOrder({
+                          //   isVisible: true,
+                          //   title: "Result Order",
+                          //   data: row.resultOrder,
+                          // })
+                        }}
+                      >
+                        Modify
+                      </button>
+                    </div>
                   </>
                 )
               },
@@ -721,6 +743,15 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             enteredBy("")
           }}
         />
+        {/* <ModalResultOrder
+          {...modalResultOrder}
+          onClick={() => {
+            setModalResultOrder({ isVisible: false })
+          }}
+          onClose={() => {
+            setModalResultOrder({ isVisible: false })
+          }}
+        /> */}
       </div>
     </>
   )
