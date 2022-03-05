@@ -54,7 +54,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <div>
-                    <h6>{`${row.role.description}`} </h6>
+                    <h6>{`${row.role?.description}`} </h6>
                   </div>
                 )
               },
