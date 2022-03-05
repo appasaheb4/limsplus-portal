@@ -106,7 +106,7 @@ class Settings extends React.Component<Props, State> {
                     >
                       {sidebar.isSticky ? "Static Sidebar" : "Sticky Sidebar"}
                       <Badge tag="small" className="float-right mt-1">
-                        <FontAwesomeIcon icon={faAngleRight} />
+                        <FontAwesomeIcon icon={faAngleRight as any} />
                       </Badge>
                     </span>
                   </li>
@@ -117,7 +117,7 @@ class Settings extends React.Component<Props, State> {
                     >
                       {sidebar.isOpen ? "Collapsed Sidebar" : "Visible Sidebar"}
                       <Badge tag="small" className="float-right mt-1">
-                        <FontAwesomeIcon icon={faAngleRight} />
+                        <FontAwesomeIcon icon={faAngleRight as any} />
                       </Badge>
                     </span>
                   </li>
@@ -130,7 +130,7 @@ class Settings extends React.Component<Props, State> {
                     >
                       {layout.isBoxed ? "Full Layout" : "Boxed Layout"}
                       <Badge tag="small" className="float-right mt-1">
-                        <FontAwesomeIcon icon={faAngleRight} />
+                        <FontAwesomeIcon icon={faAngleRight as any} />
                       </Badge>
                     </span>
                   </li>

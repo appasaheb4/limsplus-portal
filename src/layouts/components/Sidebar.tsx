@@ -269,7 +269,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                       {stores.loginStore.login?.fullName}
                     </h5>
                     <div>
-                      <FontAwesomeIcon icon={faCircle} className="text-success" />{" "}
+                      <FontAwesomeIcon icon={faCircle as any} className="text-success" />{" "}
                       Online
                     </div>
                   </div>
