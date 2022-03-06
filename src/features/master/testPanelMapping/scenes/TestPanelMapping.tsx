@@ -167,7 +167,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: "Update",
               data: { value, dataField, id },
               title: "Are you sure?",
-              body: `Update lab!`,
+              body: `Update items!`,
             })
           }}
           onUpdateFileds={(fileds: any, id: string) => {
