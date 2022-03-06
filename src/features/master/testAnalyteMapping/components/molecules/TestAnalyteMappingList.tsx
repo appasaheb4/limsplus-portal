@@ -12,8 +12,8 @@ import {
   Icons,
   Tooltip,
   Form,
-  // ModalResultOrder,
-  // ModalResultOrderProps,
+  ModalResultOrder,
+  ModalResultOrderProps,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
 import {
@@ -26,7 +26,6 @@ const grid = 8
 const getListStyle = (isDraggingOver) => ({
   background: isDraggingOver ? "lightblue" : "none",
   display: "flex",
-  //flexWrap:'none',
   padding: grid,
   overflow: "auto",
 })
@@ -61,7 +60,7 @@ interface TestAnalyteMappingListProps {
 }
 
 export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
-  // const [modalResultOrder, setModalResultOrder] = useState<ModalResultOrderProps>()
+  const [modalResultOrder, setModalResultOrder] = useState<ModalResultOrderProps>()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -295,11 +294,13 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                       <button
                         className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                         onClick={() => {
-                          // setModalResultOrder({
-                          //   isVisible: true,
-                          //   title: "Result Order",
-                          //   data: row.resultOrder,
-                          // })
+                          setModalResultOrder({
+                            isVisible: true,
+                            title: "Result Order",
+                            data: row.resultOrder,
+                            id: row._id,
+                            field: "resultOrder",
+                          })
                         }}
                       >
                         Modify
@@ -308,56 +309,6 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   </>
                 )
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <DragDropContext
-                    onDragEnd={(result: any) => {
-                      const items = Array.from(row?.resultOrder)
-                      const [reorderedItem] = items.splice(result.source.index, 1)
-                      items.splice(result.destination.index, 0, reorderedItem)
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, "resultOrder", row._id)
-                    }}
-                  >
-                    <Droppable droppableId="characters" direction="horizontal">
-                      {(provided, snapshot) => (
-                        <ul
-                          style={getListStyle(snapshot.isDraggingOver)}
-                          // className="grid grid-cols-1 p-2"
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                        >
-                          {row?.resultOrder?.map((item, index) => (
-                            <>
-                              <Draggable key={item} draggableId={item} index={index}>
-                                {(provided, snapshot) => (
-                                  <div
-                                    className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                  >
-                                    <li className="m-2 text-white inline">{`${
-                                      index + 1
-                                    }. ${item}`}</li>
-                                  </div>
-                                )}
-                              </Draggable>
-                            </>
-                          ))}
-                        </ul>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                </>
-              ),
             },
             {
               dataField: "reportOrder",
@@ -366,63 +317,29 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               sort: true,
               formatter: (cell, row) => {
                 return (
-                  <>
-                    {_.findIndex(row?.reportOrder, (item) => {
-                      return item == row?.analyteCode
-                    }) + 1}
-                  </>
+                  <div className=" flex flex-row justify-around">
+                    <span>
+                      {_.findIndex(row?.reportOrder, (item) => {
+                        return item == row?.analyteCode
+                      }) + 1}
+                    </span>
+                    <button
+                      className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                      onClick={() => {
+                        setModalResultOrder({
+                          isVisible: true,
+                          title: "Report Order",
+                          data: row.reportOrder,
+                          id: row._id,
+                          field: "reportOrder",
+                        })
+                      }}
+                    >
+                      Modify
+                    </button>
+                  </div>
                 )
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <DragDropContext
-                    onDragEnd={(result: any) => {
-                      const items = Array.from(row?.reportOrder)
-                      const [reorderedItem] = items.splice(result.source.index, 1)
-                      items.splice(result.destination.index, 0, reorderedItem)
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, "reportOrder", row._id)
-                    }}
-                  >
-                    <Droppable droppableId="characters" direction="horizontal">
-                      {(provided, snapshot) => (
-                        <ul
-                          style={getListStyle(snapshot.isDraggingOver)}
-                          // className="grid grid-cols-1 p-2"
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                        >
-                          {row?.reportOrder?.map((item, index) => (
-                            <>
-                              <Draggable key={item} draggableId={item} index={index}>
-                                {(provided, snapshot) => (
-                                  <div
-                                    className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                  >
-                                    <li className="m-2 text-white inline">{`${
-                                      index + 1
-                                    }. ${item}`}</li>
-                                  </div>
-                                )}
-                              </Draggable>
-                            </>
-                          ))}
-                        </ul>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                </>
-              ),
             },
             {
               dataField: "status",
@@ -743,15 +660,19 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             enteredBy("")
           }}
         />
-        {/* <ModalResultOrder
+        <ModalResultOrder
           {...modalResultOrder}
-          onClick={() => {
+          onClick={(items) => {
+            modalResultOrder?.id &&
+              modalResultOrder.field &&
+              props.onUpdateItem &&
+              props.onUpdateItem(items, modalResultOrder.field, modalResultOrder.id)
             setModalResultOrder({ isVisible: false })
           }}
           onClose={() => {
             setModalResultOrder({ isVisible: false })
           }}
-        /> */}
+        />
       </div>
     </>
   )

@@ -33,7 +33,7 @@ export * from './Molecules/modal/ModalSessionAllowed'
 export * from './Molecules/modal/ModalTokenExpire'
 export * from './Molecules/modal/ModalTransition'
 export * from "./Molecules/modal/ModalFileUpload"
-// export * from './Molecules/modal/ModalResultOrder'
+export * from './Molecules/modal/ModalResultOrder'
 
 export * from './Organisms/FilterComp'
 export * from './Organisms/TableBootstrap'

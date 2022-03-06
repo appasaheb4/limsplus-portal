@@ -38,7 +38,7 @@ export class TestAnalyteMappingStore {
       updateTestAnalyteMappingList: action,
       updateTestAnalyteMapping: action,
       updateExistsLabEnvCode: action,
-      filterTestAnalyteMappingList: action,
+      filterTestAnalyteMappingList: action
     })
   }
   get testAnalyteMappingService() {

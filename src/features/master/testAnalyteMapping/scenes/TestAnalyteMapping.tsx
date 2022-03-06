@@ -16,6 +16,8 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  ModalResultOrder,
+  ModalResultOrderProps,
 } from "@/library/components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { TestAnalyteMappingList } from "../components"
@@ -165,7 +167,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               type: "Update",
               data: { value, dataField, id },
               title: "Are you sure?",
-              body: `Update lab!`,
+              body: `Update items!`,
             })
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -308,9 +310,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                     analyteCode:
                                       testAnalyteMappingStore.testAnalyteMapping
                                         ?.analyteCode,
-                                    env:
-                                      testAnalyteMappingStore.testAnalyteMapping
-                                        ?.environment,
+                                    env: testAnalyteMappingStore.testAnalyteMapping
+                                      ?.environment,
                                   },
                                 })
                                 .then((res) => {
@@ -387,15 +388,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             testAnalyteMappingStore.testAnalyteMappingService
                               .checkExitsRecords({
                                 input: {
-                                  lab:
-                                    testAnalyteMappingStore.testAnalyteMapping?.lab,
+                                  lab: testAnalyteMappingStore.testAnalyteMapping
+                                    ?.lab,
                                   testCode: item.testCode,
                                   analyteCode:
                                     testAnalyteMappingStore.testAnalyteMapping
                                       ?.analyteCode,
-                                  env:
-                                    testAnalyteMappingStore.testAnalyteMapping
-                                      ?.environment,
+                                  env: testAnalyteMappingStore.testAnalyteMapping
+                                    ?.environment,
                                 },
                               })
                               .then((res) => {
@@ -478,15 +478,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             testAnalyteMappingStore.testAnalyteMappingService
                               .checkExitsRecords({
                                 input: {
-                                  lab:
-                                    testAnalyteMappingStore.testAnalyteMapping?.lab,
+                                  lab: testAnalyteMappingStore.testAnalyteMapping
+                                    ?.lab,
                                   testCode:
                                     testAnalyteMappingStore.testAnalyteMapping
                                       ?.testCode,
                                   analyteCode,
-                                  env:
-                                    testAnalyteMappingStore.testAnalyteMapping
-                                      ?.environment,
+                                  env: testAnalyteMappingStore.testAnalyteMapping
+                                    ?.environment,
                                 },
                               })
                               .then((res) => {
@@ -892,12 +891,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             testAnalyteMappingStore.testAnalyteMappingService
                               .checkExitsRecords({
                                 input: {
-                                  code:
-                                    testAnalyteMappingStore.testAnalyteMapping
-                                      ?.testCode,
+                                  code: testAnalyteMappingStore.testAnalyteMapping
+                                    ?.testCode,
                                   env: environment,
-                                  lab:
-                                    testAnalyteMappingStore.testAnalyteMapping?.lab,
+                                  lab: testAnalyteMappingStore.testAnalyteMapping
+                                    ?.lab,
                                 },
                               })
                               .then((res) => {
@@ -1053,6 +1051,15 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               setModalConfirm({ show: false })
             }}
           />
+          {/* <ModalResultOrder
+            {...testAnalyteMappingStore.modalResultOrder}
+            onClick={() => {
+              testAnalyteMappingStore.updateModalResultOrder({ isVisible: false })
+            }}
+            onClose={() => {
+             // testAnalyteMappingStore.updateModalResultOrder({ isVisible: false })
+            }}
+          /> */}
         </div>
       </>
     )

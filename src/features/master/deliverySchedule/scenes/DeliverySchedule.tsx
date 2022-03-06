@@ -644,7 +644,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
                 type: "Update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
-                body: `Update lab!`,
+                body: `Update items!`,
               })
             }}
             onPageSizeChange={(page, limit) => {
