@@ -116,6 +116,15 @@ const Lab = LabHoc(
               body: `Update lab!`,
             })
           }}
+          onUpdateFields={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "UpdateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: `Update records!`,
+            })
+          }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
             setModalConfirm({
               show: true,
@@ -266,7 +275,7 @@ const Lab = LabHoc(
                             district: "",
                             city: "",
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -323,7 +332,7 @@ const Lab = LabHoc(
                             district: "",
                             city: "",
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -382,7 +391,7 @@ const Lab = LabHoc(
                             district: item.district.toUpperCase(),
                             city: "",
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -438,7 +447,7 @@ const Lab = LabHoc(
                             ...labStore.labs,
                             city: item.city.toUpperCase(),
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -496,7 +505,7 @@ const Lab = LabHoc(
                           labStore.updateLabs({
                             ...labStore.labs,
                             area: item.area.toUpperCase(),
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -1292,6 +1301,21 @@ const Lab = LabHoc(
                   input: {
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                }).then((res: any) => {
+                  if (res.updateLab.success) {
+                    Toast.success({
+                      message: `😊 ${res.updateLab.message}`,
+                    })
+                    setModalConfirm({ show: false })
+                    labStore.fetchListLab()
+                  }
+                })
+              } else if (type === "UpdateFileds") {
+                labStore.LabService.updateSingleFiled({
+                  input: {
+                    ...modalConfirm.data.fileds,
+                    _id: modalConfirm.data.id,
                   },
                 }).then((res: any) => {
                   if (res.updateLab.success) {
