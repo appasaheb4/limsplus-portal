@@ -153,7 +153,7 @@ const Lab = LabHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
             }
           >
             <Grid cols={3}>
@@ -223,354 +223,354 @@ const Lab = LabHoc(
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                {administrativeDivisions.listAdministrativeDiv && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Country"
-                        id="country"
-                        hasError={errors.country}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv,
-                              "country"
-                            ),
-                            displayKey: "country",
-                            findKey: "country",
-                          }}
-                          hasError={errors.country}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    ["country"]: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.country)
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              country: item.country.toUpperCase(),
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="country"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                )}
 
-                {(labStore.labs.country ||
-                  administrativeDivisions.listAdministrativeDiv) && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="State"
-                        id="state"
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Country"
+                      id="country"
+                      hasError={errors.country}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv,
+                            "country"
+                          ),
+                          displayKey: "country",
+                          findKey: "country",
+                        }}
+                        hasError={errors.country}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["country"]: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.country)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            country: item.country.toUpperCase(),
+                            state: "",
+                            district: "",
+                            city: "",
+                            area: "",
+                            postalCode: '',
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="country"
+                  rules={{ required: true }}
+                  defaultValue={administrativeDivisions.listAdministrativeDiv}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="State"
+                      id="state"
+                      hasError={errors.state}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!labStore.labs.country}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) => item.country === labStore.labs.country
+                            ),
+                            "state"
+                          ),
+                          displayKey: "state",
+                          findKey: "state",
+                        }}
+                        displayValue={labStore.labs?.state}
                         hasError={errors.state}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!labStore.labs.country}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) => item.country === labStore.labs.country
-                              ),
-                              "state"
-                            ),
-                            displayKey: "state",
-                            findKey: "state",
-                          }}
-                          hasError={errors.state}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country: labStore.labs.country,
-                                    state: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country: labStore.labs.country,
+                                  state: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.state)
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              state: item.state.toUpperCase(),
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="state"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                )}
-                {(labStore.labs.district ||
-                  administrativeDivisions.listAdministrativeDiv) && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="District"
-                        id="district"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.state)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            state: item.state.toUpperCase(),
+                            district: "",
+                            city: "",
+                            area: "",
+                            postalCode: '',
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="state"
+                  rules={{ required: false }}
+                  defaultValue={labStore.labs.country}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="District"
+                      id="district"
+                      hasError={errors.district}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!labStore.labs.state}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state
+                            ),
+                            "district"
+                          ),
+                          displayKey: "district",
+                          findKey: "district",
+                        }}
+                        displayValue={labStore.labs?.district}
                         hasError={errors.district}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!labStore.labs.state}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country === labStore.labs.country &&
-                                  item.state === labStore.labs.state
-                              ),
-                              "district"
-                            ),
-                            displayKey: "district",
-                            findKey: "district",
-                          }}
-                          hasError={errors.district}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country: labStore.labs.country,
-                                    state: labStore.labs.state,
-                                    district: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.district)
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              district: item.district.toUpperCase(),
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="district"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                )}
-                {(labStore.labs.district ||
-                  administrativeDivisions.listAdministrativeDiv) && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="City"
-                        id="city"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.district)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            district: item.district.toUpperCase(),
+                            city: "",
+                            area: "",
+                            postalCode: '',
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="district"
+                  rules={{ required: false }}
+                  defaultValue={labStore.labs.state}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="City" id="city" hasError={errors.city}>
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!labStore.labs.district}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state &&
+                                item.district === labStore.labs.district
+                            ),
+                            "city"
+                          ),
+                          displayKey: "city",
+                          findKey: "city",
+                        }}
+                        displayValue={labStore.labs?.city}
                         hasError={errors.city}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!labStore.labs.district}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country === labStore.labs.country &&
-                                  item.state === labStore.labs.state &&
-                                  item.district === labStore.labs.district
-                              ),
-                              "city"
-                            ),
-                            displayKey: "city",
-                            findKey: "city",
-                          }}
-                          hasError={errors.city}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country: labStore.labs.country,
-                                    state: labStore.labs.state,
-                                    district: labStore.labs.district,
-                                    city: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: labStore.labs.district,
+                                  city: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.city)
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              city: item.city.toUpperCase(),
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="city"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                )}
-                {(labStore.labs.city ||
-                  administrativeDivisions.listAdministrativeDiv) && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Area"
-                        id="area"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.city)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            city: item.city.toUpperCase(),
+                            area: "",
+                            postalCode: '',
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="city"
+                  rules={{ required: false }}
+                  defaultValue={labStore.labs.district}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Area" id="area" hasError={errors.area}>
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!labStore.labs.city}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state &&
+                                item.district === labStore.labs.district &&
+                                item.city === labStore.labs.city
+                            ),
+                            "area"
+                          ),
+                          selected: labStore.selectedItems?.area,
+                          displayKey: "area",
+                          findKey: "area",
+                        }}
+                        displayValue={labStore.labs?.area}
                         hasError={errors.area}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!labStore.labs.city}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country === labStore.labs.country &&
-                                  item.state === labStore.labs.state &&
-                                  item.district === labStore.labs.district &&
-                                  item.city === labStore.labs.city
-                              ),
-                              "area"
-                            ),
-                            selected: labStore.selectedItems?.area,
-                            displayKey: "area",
-                            findKey: "area",
-                          }}
-                          hasError={errors.area}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country: labStore.labs.country,
-                                    state: labStore.labs.state,
-                                    district: labStore.labs.district,
-                                    city: labStore.labs.city,
-                                    area: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: labStore.labs.district,
+                                  city: labStore.labs.city,
+                                  area: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.city)
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              area: item.area.toUpperCase(),
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="area "
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                )}
-                {(labStore.labs.area ||
-                  administrativeDivisions.listAdministrativeDiv) && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Postal Code"
-                        id="postalCode"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.city)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            area: item.area.toUpperCase(),
+                            postalCode: '',
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="area"
+                  rules={{ required: false }}
+                  defaultValue={labStore.labs.city}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Postal Code"
+                      id="postalCode"
+                      hasError={errors.postalCode}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!labStore.labs.area}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country === labStore.labs.country &&
+                                item.state === labStore.labs.state &&
+                                item.district === labStore.labs.district &&
+                                item.city === labStore.labs.city &&
+                                item.area === labStore.labs.area
+                            ),
+                            "postalCode"
+                          ),
+                          displayKey: "postalCode",
+                          findKey: "postalCode",
+                        }}
+                        displayValue={labStore.labs?.postalCode}
                         hasError={errors.postalCode}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!labStore.labs.area}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country === labStore.labs.country &&
-                                  item.state === labStore.labs.state &&
-                                  item.district === labStore.labs.district &&
-                                  item.city === labStore.labs.city &&
-                                  item.area === labStore.labs.area
-                              ),
-                              "postalCode"
-                            ),
-                            displayKey: "postalCode",
-                            findKey: "postalCode",
-                          }}
-                          hasError={errors.postalCode}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country: labStore.labs.country,
-                                    state: labStore.labs.state,
-                                    district: labStore.labs.district,
-                                    city: labStore.labs.city,
-                                    area: labStore.labs.area,
-                                    postalCode: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: labStore.labs.district,
+                                  city: labStore.labs.city,
+                                  area: labStore.labs.area,
+                                  postalCode: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.postalCode)
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              postalCode: item,
-                            })
-                            administrativeDivisions.updateAdministrativeDivList(
-                              administrativeDivisions.listAdministrativeDivCopy
-                            )
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="postalCode"
-                    rules={{ required: false }}
-                    defaultValue=""
-                  />
-                )}
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.postalCode)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            postalCode: item,
+                          })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="postalCode"
+                  rules={{ required: false }}
+                  defaultValue={labStore.labs.area}
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -850,7 +850,9 @@ const Lab = LabHoc(
                         loader={loading}
                         placeholder="Search by code or name"
                         data={{
-                          list: labStore?.listLabs.filter((item)=> item.labType === "R"),
+                          list: labStore?.listLabs.filter(
+                            (item) => item.labType === "R"
+                          ),
                           displayKey: ["code", "name"],
                         }}
                         hasError={errors.defaultLab}
