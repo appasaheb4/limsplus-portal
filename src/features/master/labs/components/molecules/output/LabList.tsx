@@ -20,7 +20,7 @@ import {
   AutoCompleteFilterSingleSelectArea,
   AutoCompleteFilterSingleSelectPostalCode,
   PriceListTableForLabList,
-  AutoCompleteDefaultLab
+  AutoCompleteDefaultLab,
 } from "../.."
 import { FormHelper } from "@/helper"
 import { useForm, Controller } from "react-hook-form"
@@ -60,6 +60,7 @@ interface LabListProps {
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateFields?: (items: any, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
@@ -140,8 +141,18 @@ export const LabList = (props: LabListProps) => {
                   {props.extraData.listAdministrativeDiv && (
                     <AutoCompleteFilterSingleSelectCountry
                       onSelect={(item) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(item.country, column.dataField, row._id)
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {
+                              country: item.country,
+                              state: "",
+                              district: "",
+                              city: "",
+                              area: "",
+                              postalCode: "",
+                            },
+                            row._id
+                          )
                       }}
                     />
                   )}
@@ -154,7 +165,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   state = filter
@@ -186,7 +197,7 @@ export const LabList = (props: LabListProps) => {
               text: "District",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   district = filter
@@ -225,7 +236,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   city = filter
@@ -260,7 +271,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   area = filter
@@ -296,7 +307,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   postalCode = filter
@@ -351,7 +362,7 @@ export const LabList = (props: LabListProps) => {
                         data={row?.priceList}
                         onUpdate={(data) => {
                           props.onUpdateItem &&
-                          props.onUpdateItem(data, "priceList", row._id)
+                            props.onUpdateItem(data, "priceList", row._id)
                         }}
                       />
                     ) : null}
@@ -365,7 +376,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   deliveryType = filter
@@ -405,7 +416,7 @@ export const LabList = (props: LabListProps) => {
               text: "Sales Territory",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   salesTerritory = filter
@@ -448,7 +459,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   labLicence = filter
@@ -466,7 +477,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   director = filter
@@ -483,7 +494,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   physician = filter
@@ -496,7 +507,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   mobileNo = filter
@@ -544,7 +555,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   contactNo = filter
@@ -593,7 +604,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   speciality = filter
@@ -606,7 +617,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   labType = filter
@@ -648,7 +659,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   defaultLab = filter
@@ -664,12 +675,13 @@ export const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   <AutoCompleteDefaultLab
-                  onSelect={(item)=>{
-                      props.onUpdateItem && props.onUpdateItem(item,column.dataField,row._id)
-                  }}
+                    onSelect={(item) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id)
+                    }}
                   />
                 </>
-              )
+              ),
             },
             {
               dataField: "openingTime",
@@ -677,7 +689,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   openingTime = filter
@@ -691,7 +703,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   closingTime = filter
@@ -704,7 +716,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   email = filter
@@ -797,13 +809,14 @@ export const LabList = (props: LabListProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              editable:false,
-              csvFormatter: (col,row) => `${row.autoRelease ? row.autoRelease ? "Yes" :"No" :"No"}`,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.autoRelease ? (row.autoRelease ? "Yes" : "No") : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.autoRelease}
                       onChange={(autoRelease) => {
                         props.onUpdateItem &&
@@ -818,13 +831,20 @@ export const LabList = (props: LabListProps) => {
               dataField: "requireReceveInLab",
               text: "Require Receve In Lab",
               sort: true,
-              editable:false,
-              csvFormatter: (col,row) => `${row.requireReceveInLab ? row.requireReceveInLab ? "Yes" :"No" :"No"}`,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.requireReceveInLab
+                    ? row.requireReceveInLab
+                      ? "Yes"
+                      : "No"
+                    : "No"
+                }`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.requireReceveInLab}
                       onChange={(requireReceveInLab) => {
                         props.onUpdateItem &&
@@ -843,13 +863,14 @@ export const LabList = (props: LabListProps) => {
               dataField: "requireScainIn",
               text: "Require Scain In",
               sort: true,
-              editable:false,
-              csvFormatter: (col,row) => `${row.requireScainIn ? row.requireScainIn ? "Yes" :"No" :"No"}`,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.requireScainIn ? (row.requireScainIn ? "Yes" : "No") : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.requireScainIn}
                       onChange={(requireScainIn) => {
                         props.onUpdateItem &&
@@ -868,13 +889,14 @@ export const LabList = (props: LabListProps) => {
               dataField: "routingDept",
               text: "Routing Dept",
               sort: true,
-              editable:false,
-              csvFormatter: (col,row) => `${row.routingDept ? row.routingDept ? "Yes" :"No" :"No"}`,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.routingDept ? (row.routingDept ? "Yes" : "No") : "No"}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                    disabled={!editorCell(row)}
+                      disabled={!editorCell(row)}
                       value={row.routingDept}
                       onChange={(routingDept) => {
                         props.onUpdateItem &&
@@ -891,7 +913,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   fyiLine = filter
@@ -904,7 +926,7 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
                 getFilter: (filter) => {
                   workLine = filter
@@ -917,11 +939,11 @@ export const LabList = (props: LabListProps) => {
               headerClasses: "textHeader3",
               sort: true,
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: col => (col ? col : ""),
+              csvFormatter: (col) => (col ? col : ""),
               filter: textFilter({
-                getFilter: (filter) =>{
-                  status  = filter
-                }
+                getFilter: (filter) => {
+                  status = filter
+                },
               }),
               editorRenderer: (
                 editorProps,
@@ -932,27 +954,24 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
-                    <select
-                      value={row.status}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                      onChange={(e) => {
-                        const status = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        "STATUS"
-                      ).map((item: any, index: number) => (
+                  <select
+                    value={row.status}
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ))}
-                    </select>
-                  
+                      )
+                    )}
+                  </select>
                 </>
               ),
             },
