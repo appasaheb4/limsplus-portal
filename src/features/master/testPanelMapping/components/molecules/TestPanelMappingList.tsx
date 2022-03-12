@@ -12,8 +12,6 @@ import {
   Tooltip,
   Icons,
   TableBootstrap,
-  ModalResultOrder,
-  ModalResultOrderProps,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
 import {
@@ -21,16 +19,7 @@ import {
   AutoCompleteFilterSingleSelectPanelCode,
   AutoCompleteFilterSingleSelectTestName,
 } from "../index"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
-  //flexWrap:'none',
-  padding: grid,
-  overflow: "auto",
-})
+import { ModalReportOrder } from "./ModalReportOrder"
 
 let dateCreation
 let dateActive
@@ -59,10 +48,11 @@ interface TestPanelMappingListProps {
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  onUpdateOrderSeq?: (orderSeq: any) => void
 }
 
 export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
-  const [modalResultOrder, setModalResultOrder] = useState<ModalResultOrderProps>()
+  const [modalResultOrder, setModalResultOrder] = useState<any>()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -312,20 +302,14 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <div className=" flex flex-row justify-around">
-                    <span>
-                      {_.findIndex(row?.reportOrder, (item) => {
-                        return item == row?.testCode
-                      }) + 1}
-                    </span>
+                    <span>{row?.reportOrder}</span>
                     <button
                       className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                       onClick={() => {
                         setModalResultOrder({
                           isVisible: true,
                           title: "Report Order",
-                          data: row.reportOrder,
-                          id: row._id,
-                          field: "reportOrder",
+                          panelCode: row.panelCode,
                         })
                       }}
                     >
@@ -655,13 +639,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             environment("")
           }}
         />
-        <ModalResultOrder
+        <ModalReportOrder
           {...modalResultOrder}
-          onClick={(items) => {
-            modalResultOrder?.id &&
-              modalResultOrder.field &&
-              props.onUpdateItem &&
-              props.onUpdateItem(items, modalResultOrder.field, modalResultOrder.id)
+          onClick={(orderSeq) => {
+            props.onUpdateOrderSeq && props.onUpdateOrderSeq(orderSeq)
             setModalResultOrder({ isVisible: false })
           }}
           onClose={() => {

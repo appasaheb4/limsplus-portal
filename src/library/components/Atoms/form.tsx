@@ -65,7 +65,7 @@ interface InputProps extends InputWrapperProps {
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
   onKeyDown?: (e: any) => void
-  inputRef?: any;
+  inputRef?: any
 }
 
 export const Input = React.forwardRef((props: InputProps) => {
