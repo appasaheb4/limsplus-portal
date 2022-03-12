@@ -213,16 +213,6 @@ const TestPanelMapping = TestPanelMappingHoc(
       [testPanelMappingStore.listTestPanelMapping]
     )
 
-    const handleOnDragEndReportOrder = (result: any) => {
-      const items = Array.from(testPanelMappingStore.testPanelMapping?.reportOrder)
-      const [reorderedItem] = items.splice(result.source.index, 1)
-      items.splice(result.destination.index, 0, reorderedItem)
-      testPanelMappingStore.updateTestPanelMapping({
-        ...testPanelMappingStore.testPanelMapping,
-        reportOrder: items,
-      })
-    }
-
     return (
       <>
         <Header>
@@ -238,7 +228,7 @@ const TestPanelMapping = TestPanelMappingHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={2}>
