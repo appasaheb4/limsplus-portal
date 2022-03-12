@@ -81,6 +81,15 @@ export const UPDATE_RECORD = gql`
   }
 `
 
+export const UPDATE_ORDER_SEQ_RECORD = gql`
+  mutation($input: UpdateTestAnalyteMappingInput!) {
+    updateRROTestAnalyteMapping(input: $input) {
+      success
+      message
+    }
+  }
+`
+
 export const CHECK_EXISTS_RECORD = gql`
   mutation($input: TestAnalyteMappingInput!) {
     checkTestAnalyteMappingsExistsRecord(input: $input) {
@@ -97,6 +106,39 @@ export const FILTER = gql`
       paginatorInfo {
         count
       }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        lab
+        analyteCode
+        analyteName
+        testCode
+        testName
+        bill
+        testMethod
+        analyteMethod
+        resultOrder
+        reportOrder
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
+
+export const FIND_BY_FILEDS = gql`
+  mutation($input: TestAnalyteMappingInput!) {
+    findByFiledsTestAnalyteMappings(input: $input) {
       success
       message
       data {

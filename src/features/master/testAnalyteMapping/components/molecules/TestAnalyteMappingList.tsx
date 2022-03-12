@@ -12,23 +12,16 @@ import {
   Icons,
   Tooltip,
   Form,
-  ModalResultOrder,
-  ModalResultOrderProps,
 } from "@/library/components"
 import { Confirm } from "@/library/models"
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectAnalyteCode,
 } from "../index"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
-  padding: grid,
-  overflow: "auto",
-})
+import {
+  ModalResultReportOrder,
+  ModalResultReportOrderProps,
+} from "./ModalResultReportOrder"
 
 let lab
 let analyteCode
@@ -57,10 +50,12 @@ interface TestAnalyteMappingListProps {
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  onUpdateOrderSeq?: (orderSeq: any) => void
 }
 
 export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
-  const [modalResultOrder, setModalResultOrder] = useState<ModalResultOrderProps>()
+  const [modalResultOrder, setModalResultOrder] =
+    useState<ModalResultReportOrderProps>()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -286,19 +281,14 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 return (
                   <>
                     <div className=" flex flex-row justify-around">
-                      <span>
-                        {_.findIndex(row?.resultOrder, (item) => {
-                          return item == row?.analyteCode
-                        }) + 1}
-                      </span>
+                      <span>{row?.resultOrder}</span>
                       <button
                         className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                         onClick={() => {
                           setModalResultOrder({
                             isVisible: true,
-                            title: "Result Order",
-                            data: row.resultOrder,
-                            id: row._id,
+                            title: "Order",
+                            testCode: row.testCode,
                             field: "resultOrder",
                           })
                         }}
@@ -318,19 +308,14 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <div className=" flex flex-row justify-around">
-                    <span>
-                      {_.findIndex(row?.reportOrder, (item) => {
-                        return item == row?.analyteCode
-                      }) + 1}
-                    </span>
+                    <span>{row?.reportOrder}</span>
                     <button
                       className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                       onClick={() => {
                         setModalResultOrder({
                           isVisible: true,
-                          title: "Report Order",
-                          data: row.reportOrder,
-                          id: row._id,
+                          title: "Order",
+                          testCode: row.testCode,
                           field: "reportOrder",
                         })
                       }}
@@ -660,13 +645,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             enteredBy("")
           }}
         />
-        <ModalResultOrder
+        <ModalResultReportOrder
           {...modalResultOrder}
-          onClick={(items) => {
-            modalResultOrder?.id &&
-              modalResultOrder.field &&
-              props.onUpdateItem &&
-              props.onUpdateItem(items, modalResultOrder.field, modalResultOrder.id)
+          onClick={(orderSeq) => {
+            props.onUpdateOrderSeq && props.onUpdateOrderSeq(orderSeq)
             setModalResultOrder({ isVisible: false })
           }}
           onClose={() => {

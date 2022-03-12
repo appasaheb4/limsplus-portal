@@ -14,7 +14,9 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
-  FILTER
+  FILTER,
+  FIND_BY_FILEDS,
+  UPDATE_ORDER_SEQ_RECORD
 } from "./mutation"
 import * as Model from '../models'
 
@@ -114,6 +116,21 @@ export class TestAnalyteMappingService {
         )
     })
 
+    updateOrderSeq = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_ORDER_SEQ_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
   checkExitsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -141,6 +158,25 @@ export class TestAnalyteMappingService {
           if (!response.data.filterTestAnalyteMappings.success)
             return this.listTestAnalyteMapping()
           stores.testAnalyteMappingStore.filterTestAnalyteMappingList(response.data)
+          stores.uploadLoadingFlag(false)
+          resolve(response.data)
+        })  
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    findByFileds = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FIND_BY_FILEDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.findByFiledsTestAnalyteMappings.success)
+            return []
           stores.uploadLoadingFlag(false)
           resolve(response.data)
         })  

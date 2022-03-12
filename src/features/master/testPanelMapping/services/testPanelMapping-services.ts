@@ -16,6 +16,8 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FIND_BY_FIELDS,
+  UPDATE_REPOSEQ_RECORD,
 } from "./mutation"
 
 export class TestPanelMappingService {
@@ -125,6 +127,21 @@ export class TestPanelMappingService {
         )
     })
 
+  updateOrderSeq = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_REPOSEQ_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
   checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -158,7 +175,23 @@ export class TestPanelMappingService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })  
-}   
+    })
 
-
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.findByFieldsTestPanelMappings.success) return []
+          stores.uploadLoadingFlag(false)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+}

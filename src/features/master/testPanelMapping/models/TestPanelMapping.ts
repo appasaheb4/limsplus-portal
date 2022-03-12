@@ -7,7 +7,7 @@ export class TestPanelMapping {
   dateExpire: Date
   version: number
   enteredBy: string
-  lab: string  
+  lab: string
   panelCode: string
   testCode: Array<string>
   testName: Array<string>
@@ -15,7 +15,7 @@ export class TestPanelMapping {
   printTestName: boolean
   panelMethod: boolean
   testMethod: boolean
-  reportOrder: Array<string>
+  reportOrder: Array<any>
   status: string
   environment: string
   dateOfEntry: Date
@@ -35,7 +35,7 @@ export class TestPanelMapping {
     this.testCode = rawData.testCode
     this.testName = rawData.testName
     this.bill = rawData.bill
-    this.printTestName =  rawData.printTestName
+    this.printTestName = rawData.printTestName
     this.panelMethod = rawData.panelMethod
     this.testMethod = rawData.testMethod
     this.reportOrder = rawData.reportOrder
@@ -46,11 +46,9 @@ export class TestPanelMapping {
   }
 }
 
-
-
 export class SelectedItems {
   testName: any[]
-  constructor(rawData: {[key in string]: any}){
+  constructor(rawData: { [key in string]: any }) {
     this.testName = rawData.testName
   }
 }
