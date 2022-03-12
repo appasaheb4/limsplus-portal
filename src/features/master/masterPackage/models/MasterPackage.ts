@@ -1,5 +1,5 @@
 export class MasterPackage {
-  _id: string  
+  _id: string
   existsVersionId: string
   existsRecordId: string
   dateCreation: Date
@@ -17,11 +17,11 @@ export class MasterPackage {
   printPanelName: boolean
   status: string
   serviceType: string
-  reportOrder: Array<string>
+  reportOrder:  any
   environment: string
   dateOfEntry: Date
   lastUpdated: Date
-  
+
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.existsVersionId = rawData.existsVersionId
@@ -50,7 +50,7 @@ export class MasterPackage {
 
 export class SelectedItems {
   panelCode: any[]
-  constructor(rawData: {[key in string]: any}){
+  constructor(rawData: { [key in string]: any }) {
     this.panelCode = rawData.panelCode
   }
 }

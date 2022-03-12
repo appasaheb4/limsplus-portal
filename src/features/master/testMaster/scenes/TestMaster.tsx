@@ -47,7 +47,6 @@ const TestMater = TestMasterHOC(
     } = useForm()
 
     setValue("rLab", loginStore.login.lab)
-    setValue("environment", loginStore.login.environment)
     setValue("status", testMasterStore.testMaster?.status)
     setValue("environment", testMasterStore.testMaster?.environment)
 
@@ -64,6 +63,7 @@ const TestMater = TestMasterHOC(
               input: {
                 ...testMasterStore.testMaster,
                 enteredBy: loginStore.login.userId,
+                disableTestName: undefined,
               },
             })
             .then((res) => {
@@ -83,6 +83,7 @@ const TestMater = TestMasterHOC(
                 ...testMasterStore.testMaster,
                 enteredBy: loginStore.login.userId,
                 __typename: undefined,
+                disableTestName: undefined,
               },
             })
             .then((res) => {
@@ -102,6 +103,7 @@ const TestMater = TestMasterHOC(
                 ...testMasterStore.testMaster,
                 enteredBy: loginStore.login.userId,
                 __typename: undefined,
+                disableTestName: undefined,
               },
             })
             .then((res) => {
@@ -365,7 +367,6 @@ const TestMater = TestMasterHOC(
                           } rounded-md`}
                           onChange={(e) => {
                             const section = JSON.parse(e.target.value) as any
-                           
 
                             onChange(section)
                             testMasterStore.updateTestMaster({
@@ -426,6 +427,23 @@ const TestMater = TestMasterHOC(
                                 })
                               } else testMasterStore.updateExistsLabEnvCode(false)
                             })
+                          testMasterStore.testMasterService
+                            .findByFields({ input: { filter: { testCode: code } } })
+                            .then((res) => {
+                              if (res.findByFieldsTestMaster.success) {
+                                testMasterStore.updateTestMaster({
+                                  ...testMasterStore.testMaster,
+                                  testName: _.first(res.findByFieldsTestMaster.data)
+                                    .testName,
+                                  disableTestName: true,
+                                })
+                              } else {
+                                testMasterStore.updateTestMaster({
+                                  ...testMasterStore.testMaster,
+                                  disableTestName: false,
+                                })
+                              }
+                            })
                         }
                       }}
                     />
@@ -448,6 +466,7 @@ const TestMater = TestMasterHOC(
                         errors.testName ? "Please Enter testName" : "Test Name"
                       }
                       hasError={errors.testName}
+                      disabled={testMasterStore.testMaster?.disableTestName}
                       value={testMasterStore.testMaster?.testName}
                       onChange={(testName) => {
                         onChange(testName)
@@ -724,7 +743,6 @@ const TestMater = TestMasterHOC(
                 rules={{ required: false }}
                 defaultValue=""
               /> */}
-                
 
                 <Grid cols={5}>
                   <Controller
@@ -868,7 +886,7 @@ const TestMater = TestMasterHOC(
                   })
                 }}
               /> */}
-              <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper
@@ -1199,7 +1217,6 @@ const TestMater = TestMasterHOC(
                   }}
                 />
 
-                
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1234,7 +1251,6 @@ const TestMater = TestMasterHOC(
                   defaultValue=""
                 />
                 <Grid cols={5}>
-                  
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -1528,7 +1544,7 @@ const TestMater = TestMasterHOC(
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                
+
                 <Grid cols={6}>
                   <Controller
                     control={control}

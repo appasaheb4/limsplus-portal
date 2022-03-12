@@ -15,7 +15,7 @@ export class TestPanelMapping {
   printTestName: boolean
   panelMethod: boolean
   testMethod: boolean
-  reportOrder: Array<any>
+  reportOrder: any
   status: string
   environment: string
   dateOfEntry: Date
