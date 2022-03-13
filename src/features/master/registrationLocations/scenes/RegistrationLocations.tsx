@@ -667,7 +667,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   defaultValue=""
                 />
 
-                {administrativeDivisions.listAdministrativeDiv && (
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -706,6 +706,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
                               country: item?.country?.toUpperCase(),
+                              state:"",
+                              district:"",
+                              city:"",
+                              area:"",
+                              postalCode:parseInt("")
                             })
                           }}
                         />
@@ -713,11 +718,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                     )}
                     name="country"
                     rules={{ required: true }}
-                    defaultValue=""
+                    defaultValue={administrativeDivisions.listAdministrativeDiv}
                   />
-                )}
-                {(registrationLocationsStore.registrationLocations?.country ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+               
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -746,6 +750,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             findKey: "state",
                           }}
                           hasError={errors.state}
+                          displayValue={registrationLocationsStore.registrationLocations?.state}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -766,6 +771,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
                               state: item?.state?.toUpperCase(),
+                              district:"",
+                              city:"",
+                              area:"",
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -773,11 +782,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                     )}
                     name="state"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={registrationLocationsStore.registrationLocations?.country}
                   />
-                )}
-                {(registrationLocationsStore.registrationLocations?.state ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -808,6 +816,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             findKey: "district",
                           }}
                           hasError={errors.district}
+                          displayValue={registrationLocationsStore.registrationLocations?.district}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -829,6 +838,9 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
                               district: item?.district?.toUpperCase(),
+                              city:"",
+                              area:"",
+                              postalCode:parseInt("")
                             })
                           }}
                         />
@@ -836,11 +848,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                     )}
                     name="district"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={registrationLocationsStore.registrationLocations?.state}
                   />
-                )}
-                {(registrationLocationsStore.registrationLocations?.district ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -875,6 +886,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             findKey: "city",
                           }}
                           hasError={errors.city}
+                          displayValue={registrationLocationsStore.registrationLocations.city}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -903,6 +915,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
                               city: item?.city?.toUpperCase(),
+                              area: "",
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -910,13 +924,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                     )}
                     name="city"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={registrationLocationsStore.registrationLocations?.district}
                   />
-                )}
+                
               </List>
               <List direction="col" space={4} justify="stretch" fill>
-                {(registrationLocationsStore.registrationLocations?.city ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -953,6 +966,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             findKey: "area",
                           }}
                           hasError={errors.area}
+                          displayValue={registrationLocationsStore.registrationLocations.area}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -983,6 +997,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations({
                               ...registrationLocationsStore.registrationLocations,
                               area: item?.area?.toUpperCase(),
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -990,11 +1005,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                     )}
                     name="area"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={registrationLocationsStore.registrationLocations?.city}
                   />
-                )}
-                {(registrationLocationsStore.registrationLocations?.area ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -1034,6 +1048,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             findKey: "postalCode",
                           }}
                           hasError={errors.postalCode}
+                          displayValue={registrationLocationsStore.registrationLocations?.postalCode?.toString()}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -1079,9 +1094,9 @@ const RegistrationLocation = RegistrationLocationHoc(
                     )}
                     name="postalCode"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={registrationLocationsStore.registrationLocations?.area}
                   />
-                )}
+                
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (

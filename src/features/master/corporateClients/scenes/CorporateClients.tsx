@@ -533,7 +533,7 @@ const CorporateClients = CorporateClientsHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                {administrativeDivisions.listAdministrativeDiv && (
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -572,6 +572,11 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
                               country: item.country.toUpperCase(),
+                              state:"",
+                              district:"",
+                              city:"",
+                              area:"",
+                              postalCode:parseInt("")
                             })
                           }}
                         />
@@ -579,11 +584,10 @@ const CorporateClients = CorporateClientsHoc(
                     )}
                     name="country"
                     rules={{ required: true }}
-                    defaultValue=""
+                    defaultValue={administrativeDivisions.listAdministrativeDiv}
                   />
-                )}
-                {(corporateClientsStore.corporateClients?.country ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -607,6 +611,7 @@ const CorporateClients = CorporateClientsHoc(
                             displayKey: "state",
                             findKey: "state",
                           }}
+                          displayValue={corporateClientsStore.corporateClients?.state}
                           hasError={errors.state}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
@@ -630,6 +635,10 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
                               state: item.state.toUpperCase(),
+                              district:"",
+                              city:"",
+                              area:"",
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -637,11 +646,10 @@ const CorporateClients = CorporateClientsHoc(
                     )}
                     name="state"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={corporateClientsStore.corporateClients.country}
                   />
-                )}
-                {(corporateClientsStore.corporateClients?.state ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -668,6 +676,7 @@ const CorporateClients = CorporateClientsHoc(
                             displayKey: "district",
                             findKey: "district",
                           }}
+                          displayValue={corporateClientsStore.corporateClients?.district}
                           hasError={errors.district}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
@@ -693,6 +702,9 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
                               district: item.district.toUpperCase(),
+                              city:"",
+                              area:"",
+                              postalCode:parseInt("")
                             })
                           }}
                         />
@@ -700,11 +712,10 @@ const CorporateClients = CorporateClientsHoc(
                     )}
                     name="district"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={corporateClientsStore.corporateClients?.state}
                   />
-                )}
-                {(corporateClientsStore.corporateClients?.district ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -733,6 +744,7 @@ const CorporateClients = CorporateClientsHoc(
                             findKey: "city",
                           }}
                           hasError={errors.city}
+                          displayValue={corporateClientsStore.corporateClients?.city}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -760,6 +772,8 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
                               city: item.city.toUpperCase(),
+                              area: "",
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -767,13 +781,12 @@ const CorporateClients = CorporateClientsHoc(
                     )}
                     name="city"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={corporateClientsStore.corporateClients?.district}
                   />
-                )}
+      
               </List>
               <List direction="col" space={4} justify="stretch" fill>
-                {(corporateClientsStore.corporateClients?.city ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -806,6 +819,7 @@ const CorporateClients = CorporateClientsHoc(
                             displayKey: "area",
                             findKey: "area",
                           }}
+                          displayValue={corporateClientsStore.corporateClients?.area}
                           hasError={errors.area}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
@@ -836,6 +850,7 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
                               area: item.area.toUpperCase(),
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -843,11 +858,10 @@ const CorporateClients = CorporateClientsHoc(
                     )}
                     name="area "
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={corporateClientsStore.corporateClients?.city}
                   />
-                )}
-                {(corporateClientsStore.corporateClients?.area ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -881,6 +895,7 @@ const CorporateClients = CorporateClientsHoc(
                             displayKey: "postalCode",
                             findKey: "postalCode",
                           }}
+                          displayValue={corporateClientsStore.corporateClients.postalCode?.toString()}
                           hasError={errors.postalCode}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
@@ -925,9 +940,9 @@ const CorporateClients = CorporateClientsHoc(
                     )}
                     name="postalCode"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={corporateClientsStore.corporateClients?.area}
                   />
-                )}
+               
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
