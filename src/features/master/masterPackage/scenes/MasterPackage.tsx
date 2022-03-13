@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
+import { Table } from "reactstrap"
 import {
   Toast,
   Header,
@@ -16,9 +17,11 @@ import {
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from "@/library/components"
 import _ from "lodash"
-import { lookupItems,  lookupValue } from "@/library/utils"
+import { lookupItems, lookupValue } from "@/library/utils"
 import { PackageMasterList } from "../components"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { IconContext } from "react-icons"
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
+
 import dayjs from "dayjs"
 import { useForm, Controller } from "react-hook-form"
 import { MasterPackageHOC } from "../hoc"
@@ -54,12 +57,12 @@ const MasterPackage = MasterPackageHOC(
     } = useForm()
 
     setValue("lab", loginStore.login.lab)
-    setValue("environment", loginStore.login.environment)
     setValue("status", masterPackageStore.masterPackage?.status)
     setValue("environment", masterPackageStore.masterPackage?.environment)
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+    const [txtDisable, setTxtDisable] = useState(true)
 
     const getServiceTypes = (fileds: any) => {
       if (fileds) {
@@ -202,6 +205,16 @@ const MasterPackage = MasterPackageHOC(
               title: "Are you duplicate?",
               body: `Duplicate this record`,
             })
+          }}
+          onUpdateOrderSeq={(orderSeq) => {
+            masterPackageStore.masterPackageService
+              .updateOrderSeq({ input: { filter: { orderSeq } } })
+              .then((res) => {
+                Toast.success({
+                  message: `😊 ${res.updateRepOPackageMaster.message}`,
+                })
+                masterPackageStore.fetchPackageMaster()
+              })
           }}
           onPageSizeChange={(page, limit) => {
             masterPackageStore.fetchPackageMaster(page, limit)
@@ -500,11 +513,15 @@ const MasterPackage = MasterPackageHOC(
                           const items = masterPackageStore.selectedItems?.panelCode
                           const panelCode: string[] = []
                           const panelName: string[] = []
-                          const reportOrder: string[] = []
+                          const reportOrder: any[] = []
                           items?.filter((item: any) => {
                             panelCode.push(item.panelCode)
                             panelName.push(item.panelName)
-                            reportOrder.push(item.panelCode)
+                            reportOrder.push({
+                              panelCode: item.panelCode,
+                              panelName: item.panelName,
+                              order: 1,
+                            })
                           })
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -733,45 +750,98 @@ const MasterPackage = MasterPackageHOC(
               </List>
 
               <List direction="col" space={4} justify="stretch" fill>
-                <Form.InputWrapper label="Result Order">
-                  <DragDropContext onDragEnd={handleOnDragEndResultOrder}>
-                    <Droppable droppableId="characters" direction="horizontal">
-                      {(provided, snapshot) => (
-                        <ul
-                          style={getListStyle(snapshot.isDraggingOver)}
-                          // className="grid grid-cols-1 p-2"
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
+                <Form.InputWrapper label="Report Order">
+                  <Table striped bordered className="max-h-5" size="sm">
+                    <thead>
+                      <tr className="text-xs">
+                        <th className="text-white" style={{ minWidth: 150 }}>
+                          Panel
+                        </th>
+                        <th
+                          className="text-white flex flex-row gap-2 items-center"
+                          style={{ minWidth: 150 }}
                         >
-                          {masterPackageStore.masterPackage?.reportOrder &&
-                            masterPackageStore.masterPackage?.reportOrder.map(
-                              (item, index) => (
-                                <>
-                                  <Draggable
-                                    key={item}
-                                    draggableId={item}
-                                    index={index}
+                          Order
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowUpCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let reportOrder =
+                                masterPackageStore.masterPackage.reportOrder
+                              reportOrder = _.orderBy(reportOrder, "order", "asc")
+                              masterPackageStore.updateMasterPackage({
+                                ...masterPackageStore.masterPackage,
+                                reportOrder,
+                              })
+                            }}
+                          />
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowDownCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let reportOrder =
+                                masterPackageStore.masterPackage.reportOrder
+                              reportOrder = _.orderBy(reportOrder, "order", "desc")
+                              masterPackageStore.updateMasterPackage({
+                                ...masterPackageStore.masterPackage,
+                                reportOrder,
+                              })
+                            }}
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-xs">
+                      {masterPackageStore.masterPackage?.reportOrder &&
+                        masterPackageStore.masterPackage?.reportOrder.map(
+                          (item, index) => (
+                            <tr
+                              onMouseEnter={() => {
+                                setTxtDisable(false)
+                              }}
+                              onMouseLeave={() => {
+                                setTxtDisable(true)
+                              }}
+                            >
+                              <td>{`${index + 1}. ${
+                                item.panelName + " - " + item.panelCode
+                              }`}</td>
+                              <td style={{ width: 150 }}>
+                                {txtDisable ? (
+                                  <span
+                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
                                   >
-                                    {(provided, snapshot) => (
-                                      <div
-                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                      >
-                                        <li className="m-2 text-white">{`${
-                                          index + 1
-                                        }. ${item}`}</li>
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                </>
-                              )
-                            )}
-                        </ul>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
+                                    {item.order}
+                                  </span>
+                                ) : (
+                                  <Form.Input
+                                    type="number"
+                                    placeholder={item.order}
+                                    onChange={(order) => {
+                                      const reportOrder =
+                                        masterPackageStore.masterPackage?.reportOrder
+                                      reportOrder[index].order = parseInt(order)
+                                      masterPackageStore.updateMasterPackage({
+                                        ...masterPackageStore.masterPackage,
+                                        reportOrder,
+                                      })
+                                    }}
+                                  />
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                    </tbody>
+                  </Table>
                 </Form.InputWrapper>
 
                 <Controller

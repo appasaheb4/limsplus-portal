@@ -6,7 +6,7 @@
  */
 import { client, ServiceResponse } from "@/library/modules/apolloClient"
 import { stores } from "@/stores"
-import * as Model from '../models'
+import * as Model from "../models"
 import {
   LIST,
   REMOVE_RECORD,
@@ -16,7 +16,8 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
-  FILTER_BY_FIELDS
+  FILTER_BY_FIELDS,
+  FIND_BY_FIELDS,
 } from "./mutation"
 
 export class MasterAnalyteService {
@@ -38,6 +39,7 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
   addAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -53,6 +55,7 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
   versionUpgradeAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -68,10 +71,9 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
   duplicateAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      
-         
       client
         .mutate({
           mutation: DUPLICATE_RECORD,
@@ -131,7 +133,7 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-    filter = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
@@ -145,13 +147,13 @@ export class MasterAnalyteService {
           stores.masterAnalyteStore.filterMasterAnalyteList(response.data)
           stores.uploadLoadingFlag(false)
           resolve(response.data)
-        })  
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-    filterByFields = (variables: any) =>
+  filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
@@ -177,5 +179,21 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-}
 
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+}

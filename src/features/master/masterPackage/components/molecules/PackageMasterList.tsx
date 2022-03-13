@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from "react"
+import React, { useState } from "react"
 import dayjs from "dayjs"
 import _ from "lodash"
 import {
@@ -18,16 +18,7 @@ import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectPanelCode,
 } from "../index"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
-
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
-  //flexWrap:'none',
-  padding: grid,
-  overflow: "auto",
-})
+import { ModalReportOrder } from "./ModalReportOrder"
 
 let dateCreation
 let dateActive
@@ -57,9 +48,11 @@ interface PackageMasterListProps {
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  onUpdateOrderSeq?: (orderSeq: any) => void
 }
 
 export const PackageMasterList = (props: PackageMasterListProps) => {
+  const [modalResultOrder, setModalResultOrder] = useState<any>()
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -227,69 +220,30 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sort: true,
             formatter: (cell, row) => {
               return (
-                <>
-                  {_.findIndex(row?.reportOrder, (item) => {
-                    return item == row?.panelCode
-                  }) + 1}
-                </>
+                <div className=" flex flex-row justify-around">
+                  <span>{row?.reportOrder}</span>
+                  <button
+                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    onClick={() => {
+                      setModalResultOrder({
+                        isVisible: true,
+                        title: "Report Order",
+                        packageCode: row.packageCode,
+                      })
+                    }}
+                  >
+                    Modify
+                  </button>
+                </div>
               )
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                <DragDropContext
-                  onDragEnd={(result: any) => {
-                    const items = Array.from(row?.reportOrder)
-                    const [reorderedItem] = items.splice(result.source.index, 1)
-                    items.splice(result.destination.index, 0, reorderedItem)
-                    props.onUpdateItem &&
-                      props.onUpdateItem(items, "reportOrder", row._id)
-                  }}
-                >
-                  <Droppable droppableId="characters" direction="horizontal">
-                    {(provided, snapshot) => (
-                      <ul
-                        style={getListStyle(snapshot.isDraggingOver)}
-                        // className="grid grid-cols-1 p-2"
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                      >
-                        {row?.reportOrder?.map((item, index) => (
-                          <>
-                            <Draggable key={item} draggableId={item} index={index}>
-                              {(provided, snapshot) => (
-                                <div
-                                  className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  <li className="m-2 text-white inline">{`${
-                                    index + 1
-                                  }. ${item}`}</li>
-                                </div>
-                              )}
-                            </Draggable>
-                          </>
-                        ))}
-                      </ul>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-              </>
-            ),
           },
           {
             dataField: "bill",
             text: "Bill",
             sort: true,
-            csvFormatter: (row,col) => `${row.bill ? row.bill ? "Yes" : "No" : "No"}`,
+            csvFormatter: (row, col) =>
+              `${row.bill ? (row.bill ? "Yes" : "No") : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -309,7 +263,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: "printPackageName",
             text: "Print Package Name",
             sort: true,
-            csvFormatter: (row,col) => `${row.printPackageName ? row.printPackageName ? "Yes" : "No" : "No"}`,
+            csvFormatter: (row, col) =>
+              `${
+                row.printPackageName ? (row.printPackageName ? "Yes" : "No") : "No"
+              }`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -318,7 +275,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                     disabled={!editorCell(row)}
                     value={row.printPackageName}
                     onChange={(printPackageName) => {
-                      props.onUpdateItem && props.onUpdateItem(printPackageName, "printPackageName", row._id)
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          printPackageName,
+                          "printPackageName",
+                          row._id
+                        )
                     }}
                   />
                 </>
@@ -329,7 +291,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: "printPanelName",
             text: "Print Panel Name",
             sort: true,
-            csvFormatter: (row,col) => `${row.printPanelName ? row.printPanelName ? "Yes" : "No" : "No"}`,
+            csvFormatter: (row, col) =>
+              `${row.printPanelName ? (row.printPanelName ? "Yes" : "No") : "No"}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -338,7 +301,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                     disabled={!editorCell(row)}
                     value={row.printPanelName}
                     onChange={(printPanelName) => {
-                      props.onUpdateItem && props.onUpdateItem(printPanelName, "printPanelName", row._id)
+                      props.onUpdateItem &&
+                        props.onUpdateItem(printPanelName, "printPanelName", row._id)
                     }}
                   />
                 </>
@@ -662,6 +626,16 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           status("")
           serviceType("")
           environment("")
+        }}
+      />
+      <ModalReportOrder
+        {...modalResultOrder}
+        onClick={(orderSeq) => {
+          props.onUpdateOrderSeq && props.onUpdateOrderSeq(orderSeq)
+          setModalResultOrder({ isVisible: false })
+        }}
+        onClose={() => {
+          setModalResultOrder({ isVisible: false })
         }}
       />
     </>

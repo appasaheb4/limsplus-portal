@@ -19,7 +19,7 @@ import {
   AutoCompleteFilterSingleSelectDistrict,
   AutoCompleteFilterSingleSelectState,
   AutoCompleteFilterSingleSelectPostalCode,
-  PriceListTableForCopClientList
+  PriceListTableForCopClientList,
 } from "../../index"
 import dayjs from "dayjs"
 import { FormHelper } from "@/helper"
@@ -156,6 +156,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                   {row?.priceList ? (
                     <PriceListTableForCopClientList
                       data={row?.priceList}
+                      invoiceAc={row.invoiceAc}
                       onUpdate={(data) => {
                         props.onUpdateItem &&
                           props.onUpdateItem(data, "priceList", row._id)

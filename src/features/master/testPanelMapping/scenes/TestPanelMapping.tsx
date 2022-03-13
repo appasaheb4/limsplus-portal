@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
+import { Table } from "reactstrap"
 import {
   Toast,
   Header,
@@ -20,22 +21,14 @@ import { lookupItems, lookupValue } from "@/library/utils"
 import { TestPanelMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectPanelCode } from "../components"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { IconContext } from "react-icons"
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
 
 import { TestPanelMappingHoc } from "../hoc"
 import { useStores } from "@/stores"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
-
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
-  //flexWrap:'none',
-  padding: grid,
-  overflow: "auto",
-})
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -56,12 +49,12 @@ const TestPanelMapping = TestPanelMappingHoc(
     } = useForm()
 
     setValue("lab", loginStore.login.lab)
-    setValue("environment", loginStore.login.environment)
     setValue("status", testPanelMappingStore.testPanelMapping?.status)
     setValue("environment", testPanelMappingStore.testPanelMapping?.environment)
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+    const [txtDisable, setTxtDisable] = useState(true)
 
     const onSubmitTestPanelMapping = () => {
       if (!testPanelMappingStore.checkExitsLabEnvCode) {
@@ -197,6 +190,16 @@ const TestPanelMapping = TestPanelMappingHoc(
               body: `Duplicate this record`,
             })
           }}
+          onUpdateOrderSeq={(orderSeq) => {
+            testPanelMappingStore.testPanelMappingService
+              .updateOrderSeq({ input: { filter: { orderSeq } } })
+              .then((res) => {
+                Toast.success({
+                  message: `😊 ${res.updateROTestPanelMapping.message}`,
+                })
+                testPanelMappingStore.fetchTestPanelMapping()
+              })
+          }}
           onPageSizeChange={(page, limit) => {
             testPanelMappingStore.fetchTestPanelMapping(page, limit)
           }}
@@ -209,16 +212,6 @@ const TestPanelMapping = TestPanelMappingHoc(
       ),
       [testPanelMappingStore.listTestPanelMapping]
     )
-
-    const handleOnDragEndReportOrder = (result: any) => {
-      const items = Array.from(testPanelMappingStore.testPanelMapping?.reportOrder)
-      const [reorderedItem] = items.splice(result.source.index, 1)
-      items.splice(result.destination.index, 0, reorderedItem)
-      testPanelMappingStore.updateTestPanelMapping({
-        ...testPanelMappingStore.testPanelMapping,
-        reportOrder: items,
-      })
-    }
 
     return (
       <>
@@ -289,9 +282,8 @@ const TestPanelMapping = TestPanelMappingHoc(
                                       ?.panelCode,
                                   testCode:
                                     testPanelMappingStore.testPanelMapping?.testCode,
-                                  env:
-                                    testPanelMappingStore.testPanelMapping
-                                      ?.environment,
+                                  env: testPanelMappingStore.testPanelMapping
+                                    ?.environment,
                                 },
                               })
                               .then((res) => {
@@ -342,9 +334,8 @@ const TestPanelMapping = TestPanelMappingHoc(
                                   panelCode: item.panelCode,
                                   testCode:
                                     testPanelMappingStore.testPanelMapping?.testCode,
-                                  env:
-                                    testPanelMappingStore.testPanelMapping
-                                      ?.environment,
+                                  env: testPanelMappingStore.testPanelMapping
+                                    ?.environment,
                                 },
                               })
                               .then((res) => {
@@ -417,11 +408,15 @@ const TestPanelMapping = TestPanelMappingHoc(
                           const items = testPanelMappingStore.selectedItems?.testName
                           const testCode: string[] = []
                           const testName: string[] = []
-                          const reportOrder: string[] = []
+                          const reportOrder: any[] = []
                           items?.filter((item: any) => {
                             testCode.push(item.testCode)
                             testName.push(item.testName)
-                            reportOrder.push(item.testCode)
+                            reportOrder.push({
+                              testCode: item.testCode,
+                              testName: item.testName,
+                              order: 1,
+                            })
                           })
                           testPanelMappingStore.updateTestPanelMapping({
                             ...testPanelMappingStore.testPanelMapping,
@@ -444,9 +439,8 @@ const TestPanelMapping = TestPanelMappingHoc(
                                     testPanelMappingStore.testPanelMapping
                                       ?.panelCode,
                                   testCode,
-                                  env:
-                                    testPanelMappingStore.testPanelMapping
-                                      ?.environment,
+                                  env: testPanelMappingStore.testPanelMapping
+                                    ?.environment,
                                 },
                               })
                               .then((res) => {
@@ -595,7 +589,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                   <Controller
+                  <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.Toggle
@@ -635,7 +629,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     rules={{ required: false }}
                     defaultValue=""
                   />
-                    <Controller
+                  <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.Toggle
@@ -660,44 +654,98 @@ const TestPanelMapping = TestPanelMappingHoc(
 
               <List direction="col" space={4} justify="stretch" fill>
                 <Form.InputWrapper label="Report Order">
-                  <DragDropContext onDragEnd={handleOnDragEndReportOrder}>
-                    <Droppable droppableId="characters" direction="horizontal">
-                      {(provided, snapshot) => (
-                        <ul
-                          style={getListStyle(snapshot.isDraggingOver)}
-                          // className="grid grid-cols-1 p-2"
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
+                  <Table striped bordered className="max-h-5" size="sm">
+                    <thead>
+                      <tr className="text-xs">
+                        <th className="text-white" style={{ minWidth: 150 }}>
+                          Test
+                        </th>
+                        <th
+                          className="text-white flex flex-row gap-2 items-center"
+                          style={{ minWidth: 150 }}
                         >
-                          {testPanelMappingStore.testPanelMapping?.reportOrder &&
-                            testPanelMappingStore.testPanelMapping?.reportOrder.map(
-                              (item, index) => (
-                                <>
-                                  <Draggable
-                                    key={item}
-                                    draggableId={item}
-                                    index={index}
+                          Order
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowUpCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let reportOrder =
+                                testPanelMappingStore.testPanelMapping.reportOrder
+                              reportOrder = _.orderBy(reportOrder, "order", "asc")
+                              testPanelMappingStore.updateTestPanelMapping({
+                                ...testPanelMappingStore.testPanelMapping,
+                                reportOrder,
+                              })
+                            }}
+                          />
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowDownCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let reportOrder =
+                                testPanelMappingStore.testPanelMapping.reportOrder
+                              reportOrder = _.orderBy(reportOrder, "order", "desc")
+                              testPanelMappingStore.updateTestPanelMapping({
+                                ...testPanelMappingStore.testPanelMapping,
+                                reportOrder,
+                              })
+                            }}
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-xs">
+                      {testPanelMappingStore.testPanelMapping?.reportOrder &&
+                        testPanelMappingStore.testPanelMapping?.reportOrder.map(
+                          (item, index) => (
+                            <tr
+                              onMouseEnter={() => {
+                                setTxtDisable(false)
+                              }}
+                              onMouseLeave={() => {
+                                setTxtDisable(true)
+                              }}
+                            >
+                              <td>{`${index + 1}. ${
+                                item.testName + " - " + item.testCode
+                              }`}</td>
+                              <td style={{ width: 150 }}>
+                                {txtDisable ? (
+                                  <span
+                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
                                   >
-                                    {(provided, snapshot) => (
-                                      <div
-                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                      >
-                                        <li className="m-2 text-white">{`${
-                                          index + 1
-                                        }. ${item}`}</li>
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                </>
-                              )
-                            )}
-                        </ul>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
+                                    {item.order}
+                                  </span>
+                                ) : (
+                                  <Form.Input
+                                    type="number"
+                                    placeholder={item.order}
+                                    onChange={(order) => {
+                                      const reportOrder =
+                                        testPanelMappingStore.testPanelMapping
+                                          ?.reportOrder
+                                      reportOrder[index].order = parseInt(order)
+                                      testPanelMappingStore.updateTestPanelMapping({
+                                        ...testPanelMappingStore.testPanelMapping,
+                                        reportOrder,
+                                      })
+                                    }}
+                                  />
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                    </tbody>
+                  </Table>
                 </Form.InputWrapper>
 
                 <Controller

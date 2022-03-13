@@ -113,7 +113,6 @@ const MasterAnalyte = MasterAnalyteHoc(
             })
         }
         setTimeout(() => {
-          // masterAnalyteStore.fetchAnalyteMaster()
           window.location.reload()
         }, 2000)
       } else {
@@ -261,8 +260,8 @@ const MasterAnalyte = MasterAnalyteHoc(
                             masterAnalyteStore.masterAnalyteService
                               .checkExitsLabEnvCode({
                                 input: {
-                                  code:
-                                    masterAnalyteStore.masterAnalyte?.analyteCode,
+                                  code: masterAnalyteStore.masterAnalyte
+                                    ?.analyteCode,
                                   env: masterAnalyteStore.masterAnalyte?.environment,
                                   lab: item.code,
                                 },
@@ -323,6 +322,29 @@ const MasterAnalyte = MasterAnalyteHoc(
                                 })
                               } else masterAnalyteStore.updateExistsLabEnvCode(false)
                             })
+                          masterAnalyteStore.masterAnalyteService
+                            .findByFields({
+                              input: { filter: { analyteCode: code } },
+                            })
+                            .then((res) => {
+                              if (res.findByFieldsAnalyteMaster.success) {
+                                masterAnalyteStore.updateMasterAnalyte({
+                                  ...masterAnalyteStore.masterAnalyte,
+                                  analyteName: _.first(
+                                    res.findByFieldsAnalyteMaster.data
+                                  ).analyteName,
+                                })
+                                masterAnalyteStore.updateMasterAnalyteActivity({
+                                  ...masterAnalyteStore.masterAnalyteActivity,
+                                  disableAnalyteName: true,
+                                })
+                              } else {
+                                masterAnalyteStore.updateMasterAnalyteActivity({
+                                  ...masterAnalyteStore.masterAnalyteActivity,
+                                  disableAnalyteName: false,
+                                })
+                              }
+                            })
                         }
                       }}
                     />
@@ -345,6 +367,9 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder="Analyte Name"
                       hasError={errors.analyteName}
                       value={masterAnalyteStore.masterAnalyte?.analyteName}
+                      disabled={
+                        masterAnalyteStore.masterAnalyteActivity?.disableAnalyteName
+                      }
                       onChange={(analyteName) => {
                         onChange(analyteName)
                         masterAnalyteStore.updateMasterAnalyte({
@@ -768,23 +793,25 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                <Form.Input
-                label="Default Result"
-                name="txtDefaultResult"
-                placeholder={
-                  errors.defaultResult ? "Please Enter Default Result" : "Default Result"
-                }
-                hasError={errors.defaultResult}
-                value={masterAnalyteStore.masterAnalyte?.defaultResult}
-                onChange={(defaultResult) => {
-                  onChange(defaultResult)
-                  masterAnalyteStore.updateMasterAnalyte({
-                    ...masterAnalyteStore.masterAnalyte,
-                    defaultResult,
-                  })
-                }}
-              />
-              )}
+                    <Form.Input
+                      label="Default Result"
+                      name="txtDefaultResult"
+                      placeholder={
+                        errors.defaultResult
+                          ? "Please Enter Default Result"
+                          : "Default Result"
+                      }
+                      hasError={errors.defaultResult}
+                      value={masterAnalyteStore.masterAnalyte?.defaultResult}
+                      onChange={(defaultResult) => {
+                        onChange(defaultResult)
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          defaultResult,
+                        })
+                      }}
+                    />
+                  )}
                   name="defaultResult"
                   rules={{ required: false }}
                   defaultValue=""
@@ -1106,7 +1133,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
 
                 <Grid cols={5}>
-                  
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -1337,8 +1363,8 @@ const MasterAnalyte = MasterAnalyteHoc(
                             masterAnalyteStore.masterAnalyteService
                               .checkExitsLabEnvCode({
                                 input: {
-                                  code:
-                                    masterAnalyteStore.masterAnalyte?.analyteCode,
+                                  code: masterAnalyteStore.masterAnalyte
+                                    ?.analyteCode,
                                   env: environment,
                                   lab: masterAnalyteStore.masterAnalyte?.lab,
                                 },
@@ -1404,8 +1430,6 @@ const MasterAnalyte = MasterAnalyteHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-             
-
               if (type === "Delete") {
                 masterAnalyteStore.masterAnalyteService
                   .deleteAnalyteMaster({ input: { id: modalConfirm.id } })
