@@ -128,7 +128,7 @@ export const PriceListTable = observer(({}) => {
                           priceList:
                             item.priceGroup !== "CSP001"
                               ? item.priceGroup
-                              : item.priceList,
+                              : corporateClientsStore.corporateClients?.invoiceAc,
                           description: item.description,
                         }
                         corporateClientsStore.updateCorporateClients({
@@ -158,7 +158,8 @@ export const PriceListTable = observer(({}) => {
                         displayKey: ["invoiceAc", "corporateName"],
                       }}
                       displayValue={item?.priceList}
-                      disable={item?.priceGroup !== "CSP001" ? true : false}
+                      // disable={item?.priceGroup !== "CSP001" ? true : false}
+                      disable={true}
                       hasError={errors.priceList}
                       onFilter={(value: string) => {
                         corporateClientsStore.corporateClientsService.filterByFields(

@@ -30,14 +30,6 @@ import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
-  //flexWrap:'none',
-  padding: grid,
-  overflow: "auto",
-})
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
