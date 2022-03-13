@@ -107,6 +107,15 @@ const Lab = LabHoc(
               body: `Delete selected items!`,
             })
           }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "UpdateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: `Update records!`,
+            })
+          }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             setModalConfirm({
               show: true,
@@ -558,7 +567,7 @@ const Lab = LabHoc(
                           onChange(item.postalCode)
                           labStore.updateLabs({
                             ...labStore.labs,
-                            postalCode: item,
+                            postalCode: item.postalCode,
                           })
                           administrativeDivisions.updateAdministrativeDivList(
                             administrativeDivisions.listAdministrativeDivCopy
@@ -1302,7 +1311,25 @@ const Lab = LabHoc(
                     labStore.fetchListLab()
                   }
                 })
-              } else {
+              } 
+              else if (type === "UpdateFileds") {
+                labStore.LabService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updateLab.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateLab.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      labStore.fetchListLab()
+                    }
+                  })
+              }else {
                 labStore.LabService.updateLabImages({
                   input: {
                     _id: modalConfirm.data.id,

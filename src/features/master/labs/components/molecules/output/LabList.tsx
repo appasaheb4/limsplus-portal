@@ -59,6 +59,7 @@ interface LabListProps {
   isEditModify?: boolean
   onDelete?: (selectedItem: Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
+  onUpdateFileds?: (fileds: any, id: string) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
@@ -137,14 +138,14 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {props.extraData.listAdministrativeDiv && (
+                  
                     <AutoCompleteFilterSingleSelectCountry
                       onSelect={(item) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(item.country, column.dataField, row._id)
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds({country:item.country,state:"",district:"",city:"",area:"",postalCode:""}, row._id)
                       }}
                     />
-                  )}
+                  
                 </>
               ),
             },
@@ -169,15 +170,15 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {props.extraData.listAdministrativeDiv && (
+                  
                     <AutoCompleteFilterSingleSelectState
                       country={row.country}
                       onSelect={(item) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(item.state, column.dataField, row._id)
-                      }}
+                        props.onUpdateFileds &&
+                        props.onUpdateFileds({state:item.state,district:"",city:"",area:"",postalCode:""}, row._id)
+                    }}
                     />
-                  )}
+                  
                 </>
               ),
             },
@@ -202,20 +203,16 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {props.extraData.listAdministrativeDiv && (
+                 
                     <AutoCompleteFilterSingleSelectDistrict
                       country={row.country}
                       state={row.state}
                       onSelect={(item) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            item.district,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
+                        props.onUpdateFileds &&
+                        props.onUpdateFileds({district:item.district,city:"",area:"",postalCode:""}, row._id)
+                    }}
                     />
-                  )}
+                  
                 </>
               ),
             },
@@ -240,17 +237,17 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {props.extraData.listAdministrativeDiv && (
+                  
                     <AutoCompleteFilterSingleSelectCity
                       country={row.country}
                       state={row.state}
                       district={row.district}
                       onSelect={(item) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(item.city, column.dataField, row._id)
+                        props.onUpdateFileds &&
+                        props.onUpdateFileds({city:item.city,area:"",postalCode:""}, row._id)
                       }}
                     />
-                  )}
+                  
                 </>
               ),
             },
@@ -275,18 +272,18 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {props.extraData.listAdministrativeDiv && (
+                  
                     <AutoCompleteFilterSingleSelectArea
                       country={row.country}
                       state={row.state}
                       district={row.district}
                       city={row.city}
                       onSelect={(item) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(item.area, column.dataField, row._id)
+                        props.onUpdateFileds &&
+                        props.onUpdateFileds({area:item.area,postalCode:""}, row._id)
                       }}
                     />
-                  )}
+                  
                 </>
               ),
             },
@@ -311,7 +308,7 @@ export const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {props.extraData.listAdministrativeDiv && (
+                  
                     <AutoCompleteFilterSingleSelectPostalCode
                       country={row.country}
                       state={row.state}
@@ -319,15 +316,11 @@ export const LabList = (props: LabListProps) => {
                       city={row.city}
                       area={row.area}
                       onSelect={(item) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            item.postalCode,
-                            column.dataField,
-                            row._id
-                          )
+                        props.onUpdateFileds &&
+                        props.onUpdateFileds({postalCode:item.postalCode}, row._id)
                       }}
                     />
-                  )}
+                  
                 </>
               ),
             },

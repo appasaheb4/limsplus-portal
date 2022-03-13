@@ -488,7 +488,7 @@ const Doctors = DoctorsHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                {administrativeDivisions.listAdministrativeDiv && (
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -527,6 +527,11 @@ const Doctors = DoctorsHoc(
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
                               country: item?.country?.toUpperCase(),
+                              state:"",
+                              district:"",
+                              city:"",
+                              area:"",
+                              postalCode:parseInt("")
                             })
                           }}
                         />
@@ -534,11 +539,10 @@ const Doctors = DoctorsHoc(
                     )}
                     name="country"
                     rules={{ required: true }}
-                    defaultValue=""
+                    defaultValue={administrativeDivisions.listAdministrativeDiv}
                   />
-                )}
-                {(doctorsStore.doctors?.country ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -562,6 +566,7 @@ const Doctors = DoctorsHoc(
                             findKey: "state",
                           }}
                           hasError={errors.state}
+                          displayValue={doctorsStore.doctors?.state}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -582,6 +587,10 @@ const Doctors = DoctorsHoc(
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
                               state: item?.state?.toUpperCase(),
+                              district:"",
+                              city:"",
+                              area:"",
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -589,11 +598,10 @@ const Doctors = DoctorsHoc(
                     )}
                     name="state"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={doctorsStore.doctors?.country}
                   />
-                )}
-                {(doctorsStore.doctors?.state ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -617,6 +625,7 @@ const Doctors = DoctorsHoc(
                             displayKey: "district",
                             findKey: "district",
                           }}
+                          displayValue={doctorsStore.doctors.district}
                           hasError={errors.district}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
@@ -639,6 +648,9 @@ const Doctors = DoctorsHoc(
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
                               district: item?.district?.toUpperCase(),
+                              city:"",
+                              area:"",
+                              postalCode:parseInt("")
                             })
                           }}
                         />
@@ -646,11 +658,10 @@ const Doctors = DoctorsHoc(
                     )}
                     name="district"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={doctorsStore.doctors?.state}
                   />
-                )}
-                {(doctorsStore.doctors?.district ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -676,6 +687,7 @@ const Doctors = DoctorsHoc(
                             findKey: "city",
                           }}
                           hasError={errors.city}
+                          displayValue={doctorsStore.doctors.city}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -698,6 +710,8 @@ const Doctors = DoctorsHoc(
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
                               city: item?.city?.toUpperCase(),
+                              area: "",
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -705,11 +719,10 @@ const Doctors = DoctorsHoc(
                     )}
                     name="city"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={doctorsStore.doctors.district}
                   />
-                )}
-                {(doctorsStore.doctors?.city ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -736,6 +749,7 @@ const Doctors = DoctorsHoc(
                             findKey: "area",
                           }}
                           hasError={errors.area}
+                          displayValue={doctorsStore.doctors.area}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -759,6 +773,7 @@ const Doctors = DoctorsHoc(
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
                               area: item?.area?.toUpperCase(),
+                              postalCode: parseInt("")
                             })
                           }}
                         />
@@ -766,11 +781,10 @@ const Doctors = DoctorsHoc(
                     )}
                     name="area"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={doctorsStore.doctors.city}
                   />
-                )}
-                {(doctorsStore.doctors?.area ||
-                  administrativeDivisions.listAdministrativeDiv) && (
+                
+                
                   <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
@@ -798,6 +812,7 @@ const Doctors = DoctorsHoc(
                             findKey: "postalCode",
                           }}
                           hasError={errors.postalCode}
+                          displayValue={doctorsStore.doctors?.postalCode?.toString()}
                           onFilter={(value: string) => {
                             administrativeDivisions.administrativeDivisionsService.filter(
                               {
@@ -835,9 +850,9 @@ const Doctors = DoctorsHoc(
                     )}
                     name="postalCode"
                     rules={{ required: false }}
-                    defaultValue=""
+                    defaultValue={doctorsStore.doctors.area}
                   />
-                )}
+                
               </List>
               <List direction="col" space={4} justify="stretch" fill>
                 <Controller
