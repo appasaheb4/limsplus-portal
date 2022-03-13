@@ -219,7 +219,7 @@ const MasterPanel = MasterPanelHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -249,8 +249,8 @@ const MasterPanel = MasterPanelHoc(
                             masterPanelStore.masterPanelService
                               .checkExitsLabEnvCode({
                                 input: {
-                                  code:
-                                    masterPanelStore.masterPanel?.panelMethodCode,
+                                  code: masterPanelStore.masterPanel
+                                    ?.panelMethodCode,
                                   env: masterPanelStore.masterPanel?.environment,
                                   lab: rLab,
                                 },
@@ -453,7 +453,28 @@ const MasterPanel = MasterPanelHoc(
                           panelCode: panelCode.toUpperCase(),
                         })
                       }}
-                      onBlur={(code) => {}}
+                      onBlur={(panelCode) => {
+                        masterPanelStore.masterPanelService
+                          .findByFields({ input: { filter: { panelCode } } })
+                          .then((res) => {
+                            if (res.findByFieldsPanelMaster.success) {
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                panelName: _.first(res.findByFieldsPanelMaster.data)
+                                  .panelName,
+                              })
+                              masterPanelStore.updateMasterPanelActivity({
+                                ...masterPanelStore.masterPanelActivity,
+                                disablePanelName: true,
+                              })
+                            } else {
+                              masterPanelStore.updateMasterPanelActivity({
+                                ...masterPanelStore.masterPanelActivity,
+                                disablePanelName: false,
+                              })
+                            }
+                          })
+                      }}
                     />
                   )}
                   name="panelCode"
@@ -475,6 +496,9 @@ const MasterPanel = MasterPanelHoc(
                         errors.panelName ? "Please Enter Panel  Name" : "Panel  Name"
                       }
                       hasError={errors.panelName}
+                      disabled={
+                        masterPanelStore.masterPanelActivity?.disablePanelName
+                      }
                       value={masterPanelStore.masterPanel?.panelName}
                       onChange={(panelName) => {
                         onChange(panelName)
@@ -1117,6 +1141,11 @@ const MasterPanel = MasterPanelHoc(
                   )}
                   name="loAge"
                   rules={{
+                    required:
+                      masterPanelStore.masterPanel?.ageSexAction &&
+                      masterPanelStore.masterPanel?.ageAction !== "N"
+                        ? true
+                        : false,
                     pattern: /^[0-9<>=\\-`.+,/\"]*$/,
                     validate: (value) => FormHelper.isNumberAvailable(value),
                   }}
@@ -1149,6 +1178,11 @@ const MasterPanel = MasterPanelHoc(
                   )}
                   name="hiAge"
                   rules={{
+                    required:
+                      masterPanelStore.masterPanel?.ageSexAction &&
+                      masterPanelStore.masterPanel?.ageAction !== "N"
+                        ? true
+                        : false,
                     pattern: /^[0-9<>=\\-`.+,/\"]*$/,
                     validate: (value) => FormHelper.isNumberAvailable(value),
                   }}
@@ -1178,7 +1212,11 @@ const MasterPanel = MasterPanelHoc(
                   )}
                   name="actionMessage"
                   rules={{
-                    required: false,
+                    required:
+                      masterPanelStore.masterPanel?.sexAction !== "N" ||
+                      masterPanelStore.masterPanel?.ageAction !== "N"
+                        ? true
+                        : false,
                   }}
                   defaultValue=""
                 />
@@ -1541,8 +1579,8 @@ const MasterPanel = MasterPanelHoc(
                             masterPanelStore.masterPanelService
                               .checkExitsLabEnvCode({
                                 input: {
-                                  code:
-                                    masterPanelStore.masterPanel?.panelMethodCode,
+                                  code: masterPanelStore.masterPanel
+                                    ?.panelMethodCode,
                                   env: environment,
                                   lab: masterPanelStore.masterPanel?.rLab,
                                 },

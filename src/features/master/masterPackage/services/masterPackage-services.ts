@@ -17,6 +17,8 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
+  FIND_BY_FIELDS,
+  UPDATE_REPO_RECORD,
 } from "./mutation"
 
 export class MasterPackageService {
@@ -115,6 +117,21 @@ export class MasterPackageService {
         )
     })
 
+  updateOrderSeq = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_REPO_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
   checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -149,7 +166,7 @@ export class MasterPackageService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-   
+
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -158,7 +175,7 @@ export class MasterPackageService {
           mutation: FILTER_BY_FIELDS,
           variables,
         })
-        .then((response: any) => {  
+        .then((response: any) => {
           if (!response.data.filterByFieldsPackageMaster.success)
             return this.listPackageMaster()
           stores.masterPackageStore.filterPackageMasterList({
@@ -176,6 +193,22 @@ export class MasterPackageService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.findByFieldsPackageMaster.success) return []
+          stores.uploadLoadingFlag(false)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }
-
-

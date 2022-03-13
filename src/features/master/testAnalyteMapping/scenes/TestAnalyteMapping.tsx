@@ -10,34 +10,26 @@ import {
   Buttons,
   Grid,
   List,
-  Icons,
   Form,
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-  ModalResultOrder,
-  ModalResultOrderProps,
+  Icons,
 } from "@/library/components"
+import { Table } from "reactstrap"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { TestAnalyteMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { AutoCompleteFilterSingleSelectTestName } from "../components"
 import { TestAnalyteMappingHoc } from "../hoc"
 import { useStores } from "@/stores"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { IconContext } from "react-icons"
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
 
 import { RouterFlow } from "@/flows"
 import { toJS } from "mobx"
 
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
-  //flexWrap:'none',
-  padding: grid,
-  overflow: "auto",
-})
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -57,12 +49,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     } = useForm()
 
     setValue("lab", loginStore.login.lab)
-    setValue("environment", loginStore.login.environment)
     setValue("status", testAnalyteMappingStore.testAnalyteMapping?.status)
     setValue("environment", testAnalyteMappingStore.testAnalyteMapping?.environment)
 
     const [modalConfirm, setModalConfirm] = useState<any>()
     const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+    const [txtDisable, setTxtDisable] = useState(true)
 
     const onSubmitTestAnalyteMapping = () => {
       if (!testAnalyteMappingStore.checkExitsLabEnvCode) {
@@ -124,7 +116,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             })
         }
         setTimeout(() => {
-          // testAnalyteMappingStore.fetchTestAnalyteMapping()
           window.location.reload()
         }, 2000)
       } else {
@@ -200,6 +191,16 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           onPageSizeChange={(page, limit) => {
             testAnalyteMappingStore.fetchTestAnalyteMapping(page, limit)
           }}
+          onUpdateOrderSeq={(orderSeq) => {
+            testAnalyteMappingStore.testAnalyteMappingService
+              .updateOrderSeq({ input: { filter: { orderSeq } } })
+              .then((res) => {
+                Toast.success({
+                  message: `😊 ${res.updateRROTestAnalyteMapping.message}`,
+                })
+                testAnalyteMappingStore.fetchTestAnalyteMapping()
+              })
+          }}
           onFilter={(type, filter, page, limit) => {
             testAnalyteMappingStore.testAnalyteMappingService.filter({
               input: { type, filter, page, limit },
@@ -209,31 +210,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       ),
       [testAnalyteMappingStore.listTestAnalyteMapping]
     )
-
-    const handleOnDragEndResultOrder = (result: any) => {
-      const items = Array.from(
-        testAnalyteMappingStore.testAnalyteMapping?.resultOrder
-      )
-      const [reorderedItem] = items.splice(result.source.index, 1)
-      items.splice(result.destination.index, 0, reorderedItem)
-      testAnalyteMappingStore.updateTestAnalyteMapping({
-        ...testAnalyteMappingStore.testAnalyteMapping,
-        resultOrder: items,
-      })
-    }
-
-    const handleOnDragEndReportOrder = (result: any) => {
-      const items = Array.from(
-        testAnalyteMappingStore.testAnalyteMapping?.reportOrder
-      )
-      const [reorderedItem] = items.splice(result.source.index, 1)
-      items.splice(result.destination.index, 0, reorderedItem)
-
-      testAnalyteMappingStore.updateTestAnalyteMapping({
-        ...testAnalyteMappingStore.testAnalyteMapping,
-        reportOrder: items,
-      })
-    }
 
     return (
       <>
@@ -452,13 +428,21 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             testAnalyteMappingStore.selectedItems?.analyteCode
                           const analyteCode: string[] = []
                           const analyteName: string[] = []
-                          const resultOrder: string[] = []
-                          const reportOrder: string[] = []
+                          const resultOrder: any[] = []
+                          const reportOrder: any[] = []
                           items?.filter((item: any) => {
                             analyteCode.push(item.analyteCode)
                             analyteName.push(item.analyteName)
-                            resultOrder.push(item.analyteCode)
-                            reportOrder.push(item.analyteCode)
+                            resultOrder.push({
+                              analyteCode: item.analyteCode,
+                              analyteName: item.analyteName,
+                              order: 1,
+                            })
+                            reportOrder.push({
+                              analyteCode: item.analyteCode,
+                              analyteName: item.analyteName,
+                              order: 1,
+                            })
                           })
                           testAnalyteMappingStore.updateTestAnalyteMapping({
                             ...testAnalyteMappingStore.testAnalyteMapping,
@@ -757,87 +741,202 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               </List>
               <List direction="col" space={4} justify="stretch" fill>
                 <Form.InputWrapper label="Result Order">
-                  <DragDropContext onDragEnd={handleOnDragEndResultOrder}>
-                    <Droppable droppableId="characters" direction="horizontal">
-                      {(provided, snapshot) => (
-                        <ul
-                          style={getListStyle(snapshot.isDraggingOver)}
-                          // className="grid grid-cols-1 p-2"
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
+                  <Table striped bordered className="max-h-5" size="sm">
+                    <thead>
+                      <tr className="text-xs">
+                        <th className="text-white" style={{ minWidth: 150 }}>
+                          Analyte
+                        </th>
+                        <th
+                          className="text-white flex flex-row gap-2 items-center"
+                          style={{ minWidth: 150 }}
                         >
-                          {testAnalyteMappingStore.testAnalyteMapping?.resultOrder &&
-                            testAnalyteMappingStore.testAnalyteMapping?.resultOrder.map(
-                              (item, index) => (
-                                <>
-                                  <Draggable
-                                    key={item}
-                                    draggableId={item}
-                                    index={index}
+                          Order
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowUpCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let resultOrder =
+                                testAnalyteMappingStore.testAnalyteMapping
+                                  .resultOrder
+                              resultOrder = _.orderBy(resultOrder, "order", "asc")
+                              testAnalyteMappingStore.updateTestAnalyteMapping({
+                                ...testAnalyteMappingStore.testAnalyteMapping,
+                                resultOrder,
+                              })
+                            }}
+                          />
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowDownCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let resultOrder =
+                                testAnalyteMappingStore.testAnalyteMapping
+                                  .resultOrder
+                              resultOrder = _.orderBy(resultOrder, "order", "desc")
+                              testAnalyteMappingStore.updateTestAnalyteMapping({
+                                ...testAnalyteMappingStore.testAnalyteMapping,
+                                resultOrder,
+                              })
+                            }}
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-xs">
+                      {testAnalyteMappingStore.testAnalyteMapping?.resultOrder &&
+                        testAnalyteMappingStore.testAnalyteMapping?.resultOrder.map(
+                          (item, index) => (
+                            <tr
+                              onMouseEnter={() => {
+                                setTxtDisable(false)
+                              }}
+                              onMouseLeave={() => {
+                                setTxtDisable(true)
+                              }}
+                            >
+                              <td>{`${index + 1}. ${
+                                item.analyteName + " - " + item.analyteCode
+                              }`}</td>
+                              <td style={{ width: 150 }}>
+                                {txtDisable ? (
+                                  <span
+                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
                                   >
-                                    {(provided, snapshot) => (
-                                      <div
-                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                      >
-                                        <li className="m-2 text-white">{`${
-                                          index + 1
-                                        }. ${item}`}</li>
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                </>
-                              )
-                            )}
-                        </ul>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
+                                    {item.order}
+                                  </span>
+                                ) : (
+                                  <Form.Input
+                                    type="number"
+                                    placeholder={item.order}
+                                    onChange={(order) => {
+                                      const resultOrder =
+                                        testAnalyteMappingStore.testAnalyteMapping
+                                          ?.resultOrder
+                                      resultOrder[index].order = parseInt(order)
+                                      testAnalyteMappingStore.updateTestAnalyteMapping(
+                                        {
+                                          ...testAnalyteMappingStore.testAnalyteMapping,
+                                          resultOrder,
+                                        }
+                                      )
+                                    }}
+                                  />
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                    </tbody>
+                  </Table>
                 </Form.InputWrapper>
 
                 <Form.InputWrapper label="Report Order">
-                  <DragDropContext onDragEnd={handleOnDragEndReportOrder}>
-                    <Droppable droppableId="characters" direction="horizontal">
-                      {(provided, snapshot) => (
-                        <ul
-                          style={getListStyle(snapshot.isDraggingOver)}
-                          // className="grid grid-cols-1 p-2"
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
+                  <Table striped bordered className="max-h-5" size="sm">
+                    <thead>
+                      <tr className="text-xs">
+                        <th className="text-white" style={{ minWidth: 150 }}>
+                          Analyte
+                        </th>
+                        <th
+                          className="text-white flex flex-row gap-2 items-center"
+                          style={{ minWidth: 150 }}
                         >
-                          {testAnalyteMappingStore.testAnalyteMapping?.reportOrder &&
-                            testAnalyteMappingStore.testAnalyteMapping?.reportOrder.map(
-                              (item, index) => (
-                                <>
-                                  <Draggable
-                                    key={item}
-                                    draggableId={item}
-                                    index={index}
+                          Order
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowUpCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let reportOrder =
+                                testAnalyteMappingStore.testAnalyteMapping
+                                  .reportOrder
+                              reportOrder = _.orderBy(reportOrder, "order", "asc")
+                              testAnalyteMappingStore.updateTestAnalyteMapping({
+                                ...testAnalyteMappingStore.testAnalyteMapping,
+                                reportOrder,
+                              })
+                            }}
+                          />
+                          <Buttons.ButtonIcon
+                            icon={
+                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                                <BsFillArrowDownCircleFill />
+                              </IconContext.Provider>
+                            }
+                            title=""
+                            onClick={() => {
+                              let reportOrder =
+                                testAnalyteMappingStore.testAnalyteMapping
+                                  .reportOrder
+                              reportOrder = _.orderBy(reportOrder, "order", "desc")
+                              testAnalyteMappingStore.updateTestAnalyteMapping({
+                                ...testAnalyteMappingStore.testAnalyteMapping,
+                                reportOrder,
+                              })
+                            }}
+                          />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-xs">
+                      {testAnalyteMappingStore.testAnalyteMapping?.reportOrder &&
+                        testAnalyteMappingStore.testAnalyteMapping?.reportOrder.map(
+                          (item, index) => (
+                            <tr
+                              onMouseEnter={() => {
+                                setTxtDisable(false)
+                              }}
+                              onMouseLeave={() => {
+                                setTxtDisable(true)
+                              }}
+                            >
+                              <td>{`${index + 1}. ${
+                                item.analyteName + " - " + item.analyteCode
+                              }`}</td>
+                              <td style={{ width: 150 }}>
+                                {txtDisable ? (
+                                  <span
+                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
                                   >
-                                    {(provided, snapshot) => (
-                                      <div
-                                        className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                      >
-                                        <li className="m-2 text-white">{`${
-                                          index + 1
-                                        }. ${item}`}</li>
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                </>
-                              )
-                            )}
-                        </ul>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
+                                    {item.order}
+                                  </span>
+                                ) : (
+                                  <Form.Input
+                                    type="number"
+                                    placeholder={item.order}
+                                    onChange={(order) => {
+                                      const reportOrder =
+                                        testAnalyteMappingStore.testAnalyteMapping
+                                          ?.reportOrder
+                                      reportOrder[index].order = parseInt(order)
+                                      testAnalyteMappingStore.updateTestAnalyteMapping(
+                                        {
+                                          ...testAnalyteMappingStore.testAnalyteMapping,
+                                          reportOrder,
+                                        }
+                                      )
+                                    }}
+                                  />
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                    </tbody>
+                  </Table>
                 </Form.InputWrapper>
-
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (

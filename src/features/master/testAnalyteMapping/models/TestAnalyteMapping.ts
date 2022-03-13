@@ -16,8 +16,8 @@ export class TestAnalyteMapping {
   testMethod: boolean
   analyteMethod: boolean
   status: string
-  resultOrder: Array<string>
-  reportOrder: Array<string>
+  resultOrder: any
+  reportOrder: any
   environment: string
   dateOfEntry: Date
   lastUpdated: Date

@@ -1,7 +1,7 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import { Toast } from "@/library/components"
-import { MasterPanel } from "../models"
+import { MasterPanel, MasterPanelActivity } from "../models"
 import { MasterPanelService } from "../services"
 import * as ModelsSection from "@/features/master/section/models"
 import dayjs from "dayjs"
@@ -14,6 +14,7 @@ export class MasterPanelStore {
   listMasterPanelCount!: number
   checkExitsLabEnvCode!: boolean
   sectionListByDeptCode!: ModelsSection.Section[]
+  masterPanelActivity!: MasterPanelActivity
 
   constructor() {
     this.listMasterPanel = []
@@ -44,6 +45,7 @@ export class MasterPanelStore {
       listMasterPanelCount: observable,
       checkExitsLabEnvCode: observable,
       sectionListByDeptCode: observable,
+      masterPanelActivity: observable,
 
       masterPanelService: computed,
       fetchPanelMaster: action,
@@ -53,6 +55,7 @@ export class MasterPanelStore {
       updateMasterPanel: action,
       updateExistsLabEnvCode: action,
       filterPanelMasterList: action,
+      updateMasterPanelActivity: action,
     })
   }
 
@@ -98,5 +101,9 @@ export class MasterPanelStore {
 
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
+  }
+
+  updateMasterPanelActivity = (items: MasterPanelActivity) => {
+    this.masterPanelActivity = items
   }
 }

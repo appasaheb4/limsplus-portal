@@ -125,6 +125,15 @@ const Lab = LabHoc(
               body: `Update lab!`,
             })
           }}
+          onUpdateFields={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "UpdateFileds",
+              data: { fileds, id },
+              title: "Are you sure?",
+              body: `Update records!`,
+            })
+          }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
             setModalConfirm({
               show: true,
@@ -162,7 +171,7 @@ const Lab = LabHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -275,7 +284,7 @@ const Lab = LabHoc(
                             district: "",
                             city: "",
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -332,7 +341,7 @@ const Lab = LabHoc(
                             district: "",
                             city: "",
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -391,7 +400,7 @@ const Lab = LabHoc(
                             district: item.district.toUpperCase(),
                             city: "",
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -447,7 +456,7 @@ const Lab = LabHoc(
                             ...labStore.labs,
                             city: item.city.toUpperCase(),
                             area: "",
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -505,7 +514,7 @@ const Lab = LabHoc(
                           labStore.updateLabs({
                             ...labStore.labs,
                             area: item.area.toUpperCase(),
-                            postalCode: '',
+                            postalCode: "",
                           })
                         }}
                       />
@@ -1311,25 +1320,22 @@ const Lab = LabHoc(
                     labStore.fetchListLab()
                   }
                 })
-              } 
-              else if (type === "UpdateFileds") {
-                labStore.LabService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateLab.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateLab.message}`,
-                      })
-                      setModalConfirm({ show: false })
-                      labStore.fetchListLab()
-                    }
-                  })
-              }else {
+              } else if (type === "UpdateFileds") {
+                labStore.LabService.updateSingleFiled({
+                  input: {
+                    ...modalConfirm.data.fileds,
+                    _id: modalConfirm.data.id,
+                  },
+                }).then((res: any) => {
+                  if (res.updateLab.success) {
+                    Toast.success({
+                      message: `😊 ${res.updateLab.message}`,
+                    })
+                    setModalConfirm({ show: false })
+                    labStore.fetchListLab()
+                  }
+                })
+              } else {
                 labStore.LabService.updateLabImages({
                   input: {
                     _id: modalConfirm.data.id,

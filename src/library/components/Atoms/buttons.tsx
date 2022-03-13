@@ -12,7 +12,7 @@ export interface ButtonProps {
   pill?: boolean
   disabled?: string
   id?: string
-  innerRef?: any;
+  innerRef?: any
   children?: React.ReactNode
 }
 
@@ -66,9 +66,9 @@ interface ButtonCircleAddRemoveProps {
   disabled?: string
 }
 
-export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemoveProps> = (
-  props
-) => {
+export const ButtonCircleAddRemove: React.FunctionComponent<
+  ButtonCircleAddRemoveProps
+> = (props) => {
   return (
     <>
       {props.show && (
@@ -118,9 +118,9 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
   )
 }
 
-export const ButtonCircleAddRemoveBottom: React.FunctionComponent<ButtonCircleAddRemoveProps> = (
-  props
-) => {
+export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
+  ButtonCircleAddRemoveProps
+> = (props) => {
   return (
     <>
       {props.show && (
@@ -182,5 +182,20 @@ export const CircleButton: React.FunctionComponent<CircleButtonProps> = (props) 
     onClick={props.onClick}
   >
     {props.children}
+  </div>
+)
+
+interface ButtonIconProps {
+  title: string
+  icon: React.ReactNode
+  onClick: () => void
+}
+
+export const ButtonIcon = ({ title, icon, onClick }: ButtonIconProps) => (
+  <div
+    className="rounded-full  border border-gray-300 text-gray-400 flex justify-center items-center"
+    onClick={() => onClick()}
+  >
+    {icon}
   </div>
 )

@@ -18,6 +18,7 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
+  FIND_BY_FIELDS,
 } from "./mutation"
 
 import * as Model from "../models"
@@ -145,8 +146,6 @@ export class TestMasterService {
 
   findSectionListByDeptCode = (code: string) =>
     new Promise<any>((resolve) => {
-      
-
       new SectionService()
         .findSectionListByDeptCode({ input: { code } })
         .then((res) => {
@@ -193,6 +192,23 @@ export class TestMasterService {
               },
             },
           })
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

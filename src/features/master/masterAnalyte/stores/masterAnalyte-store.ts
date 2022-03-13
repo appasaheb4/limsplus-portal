@@ -1,7 +1,7 @@
 import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import {MasterAnalyte,SelectedItems} from "../models"
-import {MasterAnalyteService} from "../services"
+import { MasterAnalyte, SelectedItems, MasterAnalyteActivity } from "../models"
+import { MasterAnalyteService } from "../services"
 import dayjs from "dayjs"
 
 @version(0.1)
@@ -12,17 +12,15 @@ export class MasterAnalyteStore {
   listMasterAnalyteCount: number = 0
   checkExitsLabEnvCode: boolean = false
   selectedItems!: SelectedItems
+  masterAnalyteActivity!: MasterAnalyteActivity
 
-  
   constructor() {
     this.listMasterAnalyte = []
     this.masterAnalyte = {
       ...this.masterAnalyte,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
-      ),
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       schedule: new Date(),
       bill: false,
@@ -38,13 +36,15 @@ export class MasterAnalyteStore {
       listMasterAnalyteCount: observable,
       checkExitsLabEnvCode: observable,
       selectedItems: observable,
+      masterAnalyteActivity: observable,
 
       masterAnalyteService: computed,
       fetchAnalyteMaster: action,
       updateMasterAnalyteList: action,
       updateMasterAnalyte: action,
       updateExistsLabEnvCode: action,
-      filterMasterAnalyteList: action
+      filterMasterAnalyteList: action,
+      updateMasterAnalyteActivity: action,
     })
   }
 
@@ -57,17 +57,16 @@ export class MasterAnalyteStore {
   }
 
   updateMasterAnalyteList(res: any) {
-    if(!Array.isArray(res)){
+    if (!Array.isArray(res)) {
       if (!res.analyteMasters.success) return alert(res.analyteMasters.message)
-    this.listMasterAnalyte = res.analyteMasters.data
-    this.listMasterAnalyteCopy = res.analyteMasters.data
-    this.listMasterAnalyteCount = res.analyteMasters.paginatorInfo.count
-    }else{
+      this.listMasterAnalyte = res.analyteMasters.data
+      this.listMasterAnalyteCopy = res.analyteMasters.data
+      this.listMasterAnalyteCount = res.analyteMasters.paginatorInfo.count
+    } else {
       this.listMasterAnalyte = res
     }
-    
   }
-    
+
   filterMasterAnalyteList(res: any) {
     this.listMasterAnalyte = res.filterAnalyteMaster.data
     this.listMasterAnalyteCount = res.filterAnalyteMaster.paginatorInfo.count
@@ -83,5 +82,8 @@ export class MasterAnalyteStore {
   updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items
     else this.selectedItems = new SelectedItems({})
+  }
+  updateMasterAnalyteActivity(items: MasterAnalyteActivity) {
+    this.masterAnalyteActivity = items
   }
 }
