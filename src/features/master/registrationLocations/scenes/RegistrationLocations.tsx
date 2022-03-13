@@ -247,12 +247,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.registrationLocationsService
                               .checkExitsLabEnvCode({
                                 input: {
-                                  code:
-                                    registrationLocationsStore.registrationLocations
-                                      ?.locationCode,
-                                  env:
-                                    registrationLocationsStore.registrationLocations
-                                      ?.environment,
+                                  code: registrationLocationsStore
+                                    .registrationLocations?.locationCode,
+                                  env: registrationLocationsStore
+                                    .registrationLocations?.environment,
                                   lab,
                                 },
                               })
@@ -338,12 +336,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                             .checkExitsLabEnvCode({
                               input: {
                                 code,
-                                env:
-                                  registrationLocationsStore.registrationLocations
-                                    ?.environment,
-                                lab:
-                                  registrationLocationsStore.registrationLocations
-                                    ?.lab,
+                                env: registrationLocationsStore.registrationLocations
+                                  ?.environment,
+                                lab: registrationLocationsStore.registrationLocations
+                                  ?.lab,
                               },
                             })
                             .then((res) => {
@@ -972,9 +968,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                                     district:
                                       registrationLocationsStore
                                         .registrationLocations?.district,
-                                    city:
-                                      registrationLocationsStore
-                                        .registrationLocations?.city,
+                                    city: registrationLocationsStore
+                                      .registrationLocations?.city,
                                     area: value,
                                   },
                                   page: 0,
@@ -1054,12 +1049,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                                     district:
                                       registrationLocationsStore
                                         .registrationLocations?.district,
-                                    city:
-                                      registrationLocationsStore
-                                        .registrationLocations?.city,
-                                    area:
-                                      registrationLocationsStore
-                                        .registrationLocations?.area,
+                                    city: registrationLocationsStore
+                                      .registrationLocations?.city,
+                                    area: registrationLocationsStore
+                                      .registrationLocations?.area,
                                     postalCode: value,
                                   },
                                   page: 0,
@@ -1643,13 +1636,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.registrationLocationsService
                               .checkExitsLabEnvCode({
                                 input: {
-                                  code:
-                                    registrationLocationsStore.registrationLocations
-                                      ?.locationCode,
+                                  code: registrationLocationsStore
+                                    .registrationLocations?.locationCode,
                                   env: environment,
-                                  lab:
-                                    registrationLocationsStore.registrationLocations
-                                      ?.lab,
+                                  lab: registrationLocationsStore
+                                    .registrationLocations?.lab,
                                 },
                               })
                               .then((res) => {
@@ -1808,6 +1799,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 </Grid>
               </List>
             </Grid>
+            <div className="mt-2" />
             <List direction="row" space={3} align="center">
               <Controller
                 control={control}

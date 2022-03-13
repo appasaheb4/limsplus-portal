@@ -1,14 +1,12 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
-import dayjs from "dayjs"
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,
   Buttons,
   Form,
 } from "@/library/components"
-import { lookupItems, lookupValue } from "@/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
@@ -148,7 +146,8 @@ export const PriceListTable = observer(({}) => {
                             priceList:
                               item.priceGroup !== "CSP001"
                                 ? item.priceGroup
-                                : item.priceList,
+                                : registrationLocationsStore.registrationLocations
+                                    ?.invoiceAc,
                             description: item.description,
                           }
                           registrationLocationsStore.updateRegistrationLocations({
@@ -178,7 +177,8 @@ export const PriceListTable = observer(({}) => {
                           displayKey: ["invoiceAc", "corporateName"],
                         }}
                         displayValue={item?.priceList}
-                        disable={item?.priceGroup !== "CSP001" ? true : false}
+                        //disable={item?.priceGroup !== "CSP001" ? true : false}
+                        disable={true}
                         hasError={errors.priceList}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(

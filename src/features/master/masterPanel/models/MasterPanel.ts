@@ -116,3 +116,11 @@ export class MasterPanel {
     this.lastUpdated = rawData.lastUpdated
   }
 }
+
+export class MasterPanelActivity {
+  disablePanelName: boolean
+
+  constructor(rawData: { [key in string]: any }) {
+    this.disablePanelName = rawData.disablePanelName
+  }
+}
