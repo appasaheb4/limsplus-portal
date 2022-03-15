@@ -34,23 +34,7 @@ export const PriceListTableForLabList = observer(
     } = useForm()
     const priceList = useRef(data)
     const [reload, setReload] = useState(false)
-    const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>()
     const [displayPriceList, setDisplayPriceList] = useState("")
-
-    useEffect(() => {
-      ;(async function () {
-        try {
-          RouterFlow.getLookupValuesByPathNField(
-            "/collection/priceList",
-            "PRICE_GROUP"
-          ).then((res) => {
-            setPriceGroupLookupItems(res)
-          })
-        } catch (e) {
-          console.error(e)
-        }
-      })()
-    }, [])
 
     const addItem = () => {
       priceList.current.push({
@@ -71,7 +55,7 @@ export const PriceListTableForLabList = observer(
       <div className="flex flex-col gap-2 items-center overflow-auto">
         <Table striped bordered>
           <thead>
-            <tr className="p-0 text-xs">
+            <tr className="p-0 text-xs z-0">
               <th className="text-white" style={{ minWidth: 150 }}>
                 Price Group
               </th>
@@ -87,7 +71,7 @@ export const PriceListTableForLabList = observer(
               <th className="text-white" style={{ minWidth: 100 }}>
                 Max Dis%
               </th>
-              <th className="text-white sticky right-0 z-10 flex flex-row gap-2">
+              <th className="text-white sticky right-0 flex flex-row gap-2">
                 Action
                 <Buttons.ButtonIcon
                   icon={
