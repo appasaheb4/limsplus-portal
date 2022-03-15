@@ -1,22 +1,21 @@
-import React from "react"
-import { observer } from "mobx-react"
-import {ToastContainer,ModalLoader} from "@/library/components"
-import { Provider } from "react-redux"   
-import ReduxToastr from "react-redux-toastr"
-import { configure } from "mobx";
+import React from 'react';
+import {observer} from 'mobx-react';
+import {ToastContainer, ModalLoader} from '@/library/components';
+import {Provider} from 'react-redux';
+import ReduxToastr from 'react-redux-toastr';
+import {configure} from 'mobx';
 
+import store from './redux/store/index';
+import Routes from './routes/Routes';
 
-import store from "./redux/store/index"
-import Routes from "./routes/Routes"
-           
 // toast ui
-import "react-toastify/dist/ReactToastify.css"
-  
-import { stores } from "@/stores"
-     
-import hydrateStore from "@/library/modules/startup"
-import { ApolloProvider, client } from "@/library/modules/apolloClient"
-      
+import 'react-toastify/dist/ReactToastify.css';
+
+import {stores} from '@/stores';
+
+import hydrateStore from '@/library/modules/startup';
+import {ApolloProvider, client} from '@/library/modules/apolloClient';
+
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 // const firebaseConfig = {
@@ -32,20 +31,19 @@ import { ApolloProvider, client } from "@/library/modules/apolloClient"
 configure({
   reactionScheduler: (f): void => {
     setTimeout(f, 1);
-  }
+  },
 });
 
 const App = observer(() => {
-  
   const loader = async () => {
-    await hydrateStore("loginStore", stores.loginStore)
-    await hydrateStore("routerStore", stores.routerStore)
-    await hydrateStore("appStore", stores.appStore)
-  }
+    await hydrateStore('loginStore', stores.loginStore);
+    await hydrateStore('routerStore', stores.routerStore);
+    await hydrateStore('appStore', stores.appStore);
+  };
 
   React.useEffect(() => {
-    loader()   
-  }, []) 
+    loader();
+  }, []);
 
   return (
     <>
@@ -63,17 +61,12 @@ const App = observer(() => {
           />
         </Provider>
         <ToastContainer />
-        {stores.flagLoading && stores.loading && (
-          <ModalLoader />
-        )}
+        {stores.flagLoading && stores.loading && <ModalLoader />}
       </ApolloProvider>
     </>
-  )
-})
+  );
+});
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
-export default App
-
-
-
+export default App;
