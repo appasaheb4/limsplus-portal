@@ -141,7 +141,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "priceList",
             text: "Price List",
-            headerClasses: "textHeader5",
+            headerClasses: "textHeader5 z-10",
             sort: true,
             editable: false,
             csvFormatter: (col) => (col ? col : ""),
