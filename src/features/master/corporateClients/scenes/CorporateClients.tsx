@@ -208,7 +208,7 @@ const CorporateClients = CorporateClientsHoc(
         <div className="mx-auto flex-wrap">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
             }
           >
             <Grid cols={3}>
@@ -240,9 +240,8 @@ const CorporateClients = CorporateClientsHoc(
                             .checkExistsEnvCode({
                               input: {
                                 code,
-                                env:
-                                  corporateClientsStore.corporateClients
-                                    ?.environment,
+                                env: corporateClientsStore.corporateClients
+                                  ?.environment,
                               },
                             })
                             .then((res) => {
@@ -533,416 +532,391 @@ const CorporateClients = CorporateClientsHoc(
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Country"
-                        id="country"
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Country"
+                      id="country"
+                      hasError={errors.country}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv,
+                            "country"
+                          ),
+                          displayKey: "country",
+                          findKey: "country",
+                        }}
                         hasError={errors.country}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv,
-                              "country"
-                            ),
-                            displayKey: "country",
-                            findKey: "country",
-                          }}
-                          hasError={errors.country}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    ["country"]: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["country"]: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.country)
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              country: item.country.toUpperCase(),
-                              state:"",
-                              district:"",
-                              city:"",
-                              area:"",
-                              postalCode:parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="country"
-                    rules={{ required: true }}
-                    defaultValue={administrativeDivisions.listAdministrativeDiv}
-                  />
-                
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="State"
-                        id="state"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.country)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            country: item.country.toUpperCase(),
+                            state: "",
+                            district: "",
+                            city: "",
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="country"
+                  rules={{ required: true }}
+                  defaultValue={administrativeDivisions.listAdministrativeDiv}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="State"
+                      id="state"
+                      hasError={errors.state}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!corporateClientsStore.corporateClients?.country}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                corporateClientsStore.corporateClients?.country
+                            ),
+                            "state"
+                          ),
+                          displayKey: "state",
+                          findKey: "state",
+                        }}
+                        displayValue={corporateClientsStore.corporateClients?.state}
                         hasError={errors.state}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!corporateClientsStore.corporateClients?.country}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
-                                  corporateClientsStore.corporateClients?.country
-                              ),
-                              "state"
-                            ),
-                            displayKey: "state",
-                            findKey: "state",
-                          }}
-                          displayValue={corporateClientsStore.corporateClients?.state}
-                          hasError={errors.state}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      corporateClientsStore.corporateClients
-                                        ?.country,
-                                    state: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
+                                    corporateClientsStore.corporateClients?.country,
+                                  state: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.state)
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              state: item.state.toUpperCase(),
-                              district:"",
-                              city:"",
-                              area:"",
-                              postalCode: parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="state"
-                    rules={{ required: false }}
-                    defaultValue={corporateClientsStore.corporateClients.country}
-                  />
-                
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="District"
-                        id="district"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.state)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            state: item.state.toUpperCase(),
+                            district: "",
+                            city: "",
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="state"
+                  rules={{ required: false }}
+                  defaultValue={corporateClientsStore.corporateClients.country}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="District"
+                      id="district"
+                      hasError={errors.district}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!corporateClientsStore.corporateClients?.state}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                  corporateClientsStore.corporateClients?.country &&
+                                item.state ===
+                                  corporateClientsStore.corporateClients?.state
+                            ),
+                            "district"
+                          ),
+                          displayKey: "district",
+                          findKey: "district",
+                        }}
+                        displayValue={
+                          corporateClientsStore.corporateClients?.district
+                        }
                         hasError={errors.district}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!corporateClientsStore.corporateClients?.state}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
-                                    corporateClientsStore.corporateClients
-                                      ?.country &&
-                                  item.state ===
-                                    corporateClientsStore.corporateClients?.state
-                              ),
-                              "district"
-                            ),
-                            displayKey: "district",
-                            findKey: "district",
-                          }}
-                          displayValue={corporateClientsStore.corporateClients?.district}
-                          hasError={errors.district}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      corporateClientsStore.corporateClients
-                                        ?.country,
-                                    state:
-                                      corporateClientsStore.corporateClients?.state,
-                                    district: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
+                                    corporateClientsStore.corporateClients?.country,
+                                  state:
+                                    corporateClientsStore.corporateClients?.state,
+                                  district: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.district)
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              district: item.district.toUpperCase(),
-                              city:"",
-                              area:"",
-                              postalCode:parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="district"
-                    rules={{ required: false }}
-                    defaultValue={corporateClientsStore.corporateClients?.state}
-                  />
-                
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="City"
-                        id="city"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.district)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            district: item.district.toUpperCase(),
+                            city: "",
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="district"
+                  rules={{ required: false }}
+                  defaultValue={corporateClientsStore.corporateClients?.state}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="City" id="city" hasError={errors.city}>
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!corporateClientsStore.corporateClients.district}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                  corporateClientsStore.corporateClients.country &&
+                                item.state ===
+                                  corporateClientsStore.corporateClients.state &&
+                                item.district ===
+                                  corporateClientsStore.corporateClients.district
+                            ),
+                            "city"
+                          ),
+                          displayKey: "city",
+                          findKey: "city",
+                        }}
                         hasError={errors.city}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!corporateClientsStore.corporateClients.district}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
-                                    corporateClientsStore.corporateClients.country &&
-                                  item.state ===
-                                    corporateClientsStore.corporateClients.state &&
-                                  item.district ===
-                                    corporateClientsStore.corporateClients.district
-                              ),
-                              "city"
-                            ),
-                            displayKey: "city",
-                            findKey: "city",
-                          }}
-                          hasError={errors.city}
-                          displayValue={corporateClientsStore.corporateClients?.city}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      corporateClientsStore.corporateClients
-                                        ?.country,
-                                    state:
-                                      corporateClientsStore.corporateClients?.state,
-                                    district:
-                                      corporateClientsStore.corporateClients
-                                        ?.district,
-                                    city: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        displayValue={corporateClientsStore.corporateClients?.city}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
+                                    corporateClientsStore.corporateClients?.country,
+                                  state:
+                                    corporateClientsStore.corporateClients?.state,
+                                  district:
+                                    corporateClientsStore.corporateClients?.district,
+                                  city: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.city)
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              city: item.city.toUpperCase(),
-                              area: "",
-                              postalCode: parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="city"
-                    rules={{ required: false }}
-                    defaultValue={corporateClientsStore.corporateClients?.district}
-                  />
-      
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.city)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            city: item.city.toUpperCase(),
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="city"
+                  rules={{ required: false }}
+                  defaultValue={corporateClientsStore.corporateClients?.district}
+                />
               </List>
               <List direction="col" space={4} justify="stretch" fill>
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Area"
-                        id="area"
-                        hasError={errors.area}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!corporateClientsStore.corporateClients?.city}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
-                                    corporateClientsStore.corporateClients
-                                      ?.country &&
-                                  item.state ===
-                                    corporateClientsStore.corporateClients?.state &&
-                                  item.district ===
-                                    corporateClientsStore.corporateClients
-                                      ?.district &&
-                                  item.city ===
-                                    corporateClientsStore.corporateClients?.city
-                              ),
-                              "area"
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Area" id="area" hasError={errors.area}>
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!corporateClientsStore.corporateClients?.city}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                  corporateClientsStore.corporateClients?.country &&
+                                item.state ===
+                                  corporateClientsStore.corporateClients?.state &&
+                                item.district ===
+                                  corporateClientsStore.corporateClients?.district &&
+                                item.city ===
+                                  corporateClientsStore.corporateClients?.city
                             ),
+                            "area"
+                          ),
 
-                            displayKey: "area",
-                            findKey: "area",
-                          }}
-                          displayValue={corporateClientsStore.corporateClients?.area}
-                          hasError={errors.area}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      corporateClientsStore.corporateClients
-                                        ?.country,
-                                    state:
-                                      corporateClientsStore.corporateClients?.state,
-                                    district:
-                                      corporateClientsStore.corporateClients
-                                        ?.district,
-                                    city:
-                                      corporateClientsStore.corporateClients?.city,
-                                    area: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                          displayKey: "area",
+                          findKey: "area",
+                        }}
+                        displayValue={corporateClientsStore.corporateClients?.area}
+                        hasError={errors.area}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
+                                    corporateClientsStore.corporateClients?.country,
+                                  state:
+                                    corporateClientsStore.corporateClients?.state,
+                                  district:
+                                    corporateClientsStore.corporateClients?.district,
+                                  city: corporateClientsStore.corporateClients?.city,
+                                  area: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.city)
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              area: item.area.toUpperCase(),
-                              postalCode: parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="area "
-                    rules={{ required: false }}
-                    defaultValue={corporateClientsStore.corporateClients?.city}
-                  />
-                
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Postal Code"
-                        id="postalCode"
-                        hasError={errors.postalCode}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={!corporateClientsStore.corporateClients?.area}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
-                                    corporateClientsStore.corporateClients
-                                      ?.country &&
-                                  item.state ===
-                                    corporateClientsStore.corporateClients?.state &&
-                                  item.district ===
-                                    corporateClientsStore.corporateClients
-                                      ?.district &&
-                                  item.city ===
-                                    corporateClientsStore.corporateClients?.city &&
-                                  item.area ===
-                                    corporateClientsStore.corporateClients?.area
-                              ),
-                              "postalCode"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.city)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            area: item.area.toUpperCase(),
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="area "
+                  rules={{ required: false }}
+                  defaultValue={corporateClientsStore.corporateClients?.city}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Postal Code"
+                      id="postalCode"
+                      hasError={errors.postalCode}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={!corporateClientsStore.corporateClients?.area}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                  corporateClientsStore.corporateClients?.country &&
+                                item.state ===
+                                  corporateClientsStore.corporateClients?.state &&
+                                item.district ===
+                                  corporateClientsStore.corporateClients?.district &&
+                                item.city ===
+                                  corporateClientsStore.corporateClients?.city &&
+                                item.area ===
+                                  corporateClientsStore.corporateClients?.area
                             ),
-                            displayKey: "postalCode",
-                            findKey: "postalCode",
-                          }}
-                          displayValue={corporateClientsStore.corporateClients.postalCode?.toString()}
-                          hasError={errors.postalCode}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      corporateClientsStore.corporateClients
-                                        ?.country,
-                                    state:
-                                      corporateClientsStore.corporateClients?.state,
-                                    district:
-                                      corporateClientsStore.corporateClients
-                                        ?.district,
-                                    city:
-                                      corporateClientsStore.corporateClients?.city,
-                                    area:
-                                      corporateClientsStore.corporateClients?.area,
-                                    postalCode: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                            "postalCode"
+                          ),
+                          displayKey: "postalCode",
+                          findKey: "postalCode",
+                        }}
+                        displayValue={
+                          corporateClientsStore.corporateClients.postalCode?.toString() ||
+                          ""
+                        }
+                        hasError={errors.postalCode}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
+                                    corporateClientsStore.corporateClients?.country,
+                                  state:
+                                    corporateClientsStore.corporateClients?.state,
+                                  district:
+                                    corporateClientsStore.corporateClients?.district,
+                                  city: corporateClientsStore.corporateClients?.city,
+                                  area: corporateClientsStore.corporateClients?.area,
+                                  postalCode: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.postalCode)
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              postalCode: parseInt(item.postalCode),
-                              zone: item?.zone,
-                              sbu: item?.sbu,
-                            })
-                            administrativeDivisions.updateAdministrativeDivList(
-                              administrativeDivisions.listAdministrativeDivCopy
-                            )
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="postalCode"
-                    rules={{ required: false }}
-                    defaultValue={corporateClientsStore.corporateClients?.area}
-                  />
-               
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.postalCode)
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            postalCode: parseInt(item.postalCode),
+                            zone: item?.zone,
+                            sbu: item?.sbu,
+                          })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="postalCode"
+                  rules={{ required: false }}
+                  defaultValue={corporateClientsStore.corporateClients?.area}
+                />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1476,9 +1450,8 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.corporateClientsService
                               .checkExistsEnvCode({
                                 input: {
-                                  code:
-                                    corporateClientsStore.corporateClients
-                                      ?.corporateCode,
+                                  code: corporateClientsStore.corporateClients
+                                    ?.corporateCode,
                                   env: environment,
                                 },
                               })
@@ -1516,7 +1489,7 @@ const CorporateClients = CorporateClientsHoc(
                 />
               </List>
             </Grid>
-            <br/>
+            <br />
             <List direction="row" space={3} align="center">
               <Controller
                 control={control}

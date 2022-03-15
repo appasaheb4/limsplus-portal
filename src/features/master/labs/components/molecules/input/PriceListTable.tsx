@@ -1,12 +1,12 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { Table } from "reactstrap"
-import dayjs from "dayjs"
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,
   Buttons,
   Form,
+  Toast,
 } from "@/library/components"
 import { lookupItems, lookupValue } from "@/library/utils"
 import { observer } from "mobx-react"
@@ -14,6 +14,7 @@ import { useStores } from "@/stores"
 import _ from "lodash"
 import { useForm, Controller } from "react-hook-form"
 import { RouterFlow } from "@/flows"
+import { toJS } from "mobx"
 
 export const PriceListTable = observer(({}) => {
   const { loading, labStore, priceListStore, corporateClientsStore } = useStores()
@@ -99,13 +100,17 @@ export const PriceListTable = observer(({}) => {
                       loader={loading}
                       placeholder="Search by priceGroup or description"
                       data={{
-                        list: _.unionBy(priceListStore?.listPriceList.filter((item) => {
-                          if(item.priceGroup === 'CSP001') return;
-                          else return item;
-                        }),'priceGroup'),
+                        list: _.unionBy(
+                          priceListStore?.listPriceList.filter((item) => {
+                            if (item.priceGroup === "CSP001") return
+                            else return item
+                          }),
+                          "priceGroup"
+                        ),
                         displayKey: ["priceGroup", "description"],
                       }}
                       hasError={errors.priceGroup}
+                      displayValue={item?.priceGroup}
                       onFilter={(value: string) => {
                         priceListStore.priceListService.filterByFields({
                           input: {
@@ -119,22 +124,32 @@ export const PriceListTable = observer(({}) => {
                         })
                       }}
                       onSelect={(item) => {
-                        console.log({ item })
                         onChange(item.priceGroup)
-                        const priceList = labStore.labs?.priceList
-                        priceList[index] = {
-                          ...priceList[index],
-                          priceGroup: item.priceGroup,
-                          priceList:
-                            item.priceGroup !== "CSP001"
-                              ? item.priceGroup
-                              : item.priceList,
-                          description: item.description,
+                        const priceList = toJS(labStore.labs?.priceList)
+                        if (
+                          _.findIndex(priceList, (o) => {
+                            return _.isMatch(o, { priceGroup: item.priceGroup })
+                          }) >= 0
+                        ) {
+                          removeItem(index)
+                          Toast.warning({
+                            message: "😔 Already exists same record found!",
+                          })
+                        } else {
+                          priceList[index] = {
+                            ...priceList[index],
+                            priceGroup: item.priceGroup,
+                            priceList:
+                              item.priceGroup !== "CSP001"
+                                ? item.priceGroup
+                                : item.priceList,
+                            description: item.description,
+                          }
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            priceList,
+                          })
                         }
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          priceList,
-                        })
                         priceListStore.updatePriceListRecords(
                           priceListStore.listPriceListCopy
                         )

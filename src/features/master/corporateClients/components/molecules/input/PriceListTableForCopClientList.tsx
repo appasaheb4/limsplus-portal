@@ -1,19 +1,20 @@
 /* eslint-disable */
-import React, { useEffect, useState, useRef } from "react"
+import React, { useState, useRef } from "react"
 import { Table } from "reactstrap"
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,
   Buttons,
   Form,
+  Toast,
 } from "@/library/components"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
 import { useForm, Controller } from "react-hook-form"
-import { RouterFlow } from "@/flows"
 import { IconContext } from "react-icons"
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
+
 interface PriceListTableForCopClientListProps {
   data?: any
   invoiceAc?: string
@@ -34,23 +35,6 @@ export const PriceListTableForCopClientList = observer(
     const priceList = useRef(data)
     const [reload, setReload] = useState(false)
     const [displayPriceList, setDisplayPriceList] = useState("")
-
-    const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>()
-
-    useEffect(() => {
-      ;(async function () {
-        try {
-          RouterFlow.getLookupValuesByPathNField(
-            "/collection/priceList",
-            "PRICE_GROUP"
-          ).then((res) => {
-            setPriceGroupLookupItems(res)
-          })
-        } catch (e) {
-          console.error(e)
-        }
-      })()
-    }, [])
 
     const addItem = () => {
       priceList.current.push({
@@ -149,31 +133,41 @@ export const PriceListTableForCopClientList = observer(
                           }}
                           onSelect={(element) => {
                             onChange(element.priceGroup)
-                            priceList.current[index] = {
-                              ...priceList.current[index],
-                              priceGroup: element.priceGroup,
-                              priceList:
-                                element.priceGroup !== "CSP001"
-                                  ? element.priceGroup
-                                  : invoiceAc,
-                              description: element.description,
+                            if (
+                              _.findIndex(priceList.current, (o) => {
+                                return _.isMatch(o, {
+                                  priceGroup: element.priceGroup,
+                                  priceList:
+                                    element.priceGroup !== "CSP001"
+                                      ? element.priceGroup
+                                      : invoiceAc,
+                                })
+                              }) >= 0
+                            ) {
+                              removeItem(index)
+                              Toast.warning({
+                                message: "😔 Already exists same record found!",
+                              })
+                            } else {
+                              priceList.current[index] = {
+                                ...priceList.current[index],
+                                priceGroup: element.priceGroup,
+                                priceList:
+                                  element.priceGroup !== "CSP001"
+                                    ? element.priceGroup
+                                    : invoiceAc,
+                                description: element.description,
+                              }
+                              setReload(!reload)
                             }
-                            // data = {
-                            //   ...data,
-                            //   priceList,
-                            // }
                             priceListStore.updatePriceListRecords(
                               priceListStore.listPriceListCopy
                             )
-                            // if change price list then auto old price group set so update fun
-                            // document.getElementById("btnUpdate").onclick()
-                            //console.log({ link: refBtnUpdate.current })
-                            //refBtnUpdate.current.link.click()
                           }}
                         />
                       )}
                       name="priceGroup"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue={item.priceGroup}
                     />
                   </td>
@@ -276,7 +270,7 @@ export const PriceListTableForCopClientList = observer(
                         />
                       )}
                       name="priority"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue={item?.priority}
                     />
                   </td>

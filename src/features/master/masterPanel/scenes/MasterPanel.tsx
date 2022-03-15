@@ -468,6 +468,10 @@ const MasterPanel = MasterPanelHoc(
                                 disablePanelName: true,
                               })
                             } else {
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                panelName: "",
+                              })
                               masterPanelStore.updateMasterPanelActivity({
                                 ...masterPanelStore.masterPanelActivity,
                                 disablePanelName: false,
@@ -1143,7 +1147,8 @@ const MasterPanel = MasterPanelHoc(
                   rules={{
                     required:
                       masterPanelStore.masterPanel?.ageSexAction &&
-                      masterPanelStore.masterPanel?.ageAction !== "N"
+                      masterPanelStore.masterPanel?.ageAction !== "N" &&
+                      !masterPanelStore.masterPanel?.hiAge
                         ? true
                         : false,
                     pattern: /^[0-9<>=\\-`.+,/\"]*$/,
@@ -1178,11 +1183,7 @@ const MasterPanel = MasterPanelHoc(
                   )}
                   name="hiAge"
                   rules={{
-                    required:
-                      masterPanelStore.masterPanel?.ageSexAction &&
-                      masterPanelStore.masterPanel?.ageAction !== "N"
-                        ? true
-                        : false,
+                    required: false,
                     pattern: /^[0-9<>=\\-`.+,/\"]*$/,
                     validate: (value) => FormHelper.isNumberAvailable(value),
                   }}

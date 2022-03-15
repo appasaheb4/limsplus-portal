@@ -7,8 +7,8 @@ import {
   Icons,
   Buttons,
   Form,
+  Toast,
 } from "@/library/components"
-import { lookupItems, lookupValue } from "@/library/utils"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
@@ -25,23 +25,6 @@ export const PriceListTable = observer(({}) => {
     setValue,
     clearErrors,
   } = useForm()
-
-  const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>()
-
-  useEffect(() => {
-    ;(async function () {
-      try {
-        RouterFlow.getLookupValuesByPathNField(
-          "/collection/priceList",
-          "PRICE_GROUP"
-        ).then((res) => {
-          setPriceGroupLookupItems(res)
-        })
-      } catch (e) {
-        console.error(e)
-      }
-    })()
-  }, [])
 
   const addItem = () => {
     let priceList = corporateClientsStore.corporateClients?.priceList
@@ -122,19 +105,37 @@ export const PriceListTable = observer(({}) => {
                         onChange(item.priceGroup)
                         const priceList =
                           corporateClientsStore.corporateClients?.priceList
-                        priceList[index] = {
-                          ...priceList[index],
-                          priceGroup: item.priceGroup,
-                          priceList:
-                            item.priceGroup !== "CSP001"
-                              ? item.priceGroup
-                              : corporateClientsStore.corporateClients?.invoiceAc,
-                          description: item.description,
+                        if (
+                          _.findIndex(priceList, (o) => {
+                            return _.isMatch(o, {
+                              priceGroup: item.priceGroup,
+                              priceList:
+                                item.priceGroup !== "CSP001"
+                                  ? item.priceGroup
+                                  : corporateClientsStore.corporateClients
+                                      ?.invoiceAc,
+                            })
+                          }) >= 0
+                        ) {
+                          removeItem(index)
+                          Toast.warning({
+                            message: "😔 Already exists same record found!",
+                          })
+                        } else {
+                          priceList[index] = {
+                            ...priceList[index],
+                            priceGroup: item.priceGroup,
+                            priceList:
+                              item.priceGroup !== "CSP001"
+                                ? item.priceGroup
+                                : corporateClientsStore.corporateClients?.invoiceAc,
+                            description: item.description,
+                          }
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            priceList,
+                          })
                         }
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          priceList,
-                        })
                         priceListStore.updatePriceListRecords(
                           priceListStore.listPriceListCopy
                         )
