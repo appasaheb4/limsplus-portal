@@ -143,7 +143,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: "Price List",
             headerClasses: "textHeader5",
             sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             csvFormatter: (col) => (col ? col : ""),
             filter: textFilter({
               getFilter: (filter) => {
@@ -439,14 +439,22 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectCountry
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds({country:item.country,state:"",district:"",city:"",area:"",postalCode:parseInt("")}, row._id)
-                    }}
-                  />
-                
+                <AutoCompleteFilterSingleSelectCountry
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          country: item.country,
+                          state: "",
+                          district: "",
+                          city: "",
+                          area: "",
+                          postalCode: parseInt(""),
+                        },
+                        row._id
+                      )
+                  }}
+                />
               </>
             ),
           },
@@ -471,15 +479,22 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectState
-                    country={row.country}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({state:item.state,district:"",city:"",area:"",postalCode:parseInt("")}, row._id)
+                <AutoCompleteFilterSingleSelectState
+                  country={row.country}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          state: item.state,
+                          district: "",
+                          city: "",
+                          area: "",
+                          postalCode: parseInt(""),
+                        },
+                        row._id
+                      )
                   }}
-                  />
-                
+                />
               </>
             ),
           },
@@ -504,16 +519,22 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectDistrict
-                    country={row.country}
-                    state={row.state}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({district:item.district,city:"",area:"",postalCode:parseInt("")}, row._id)
+                <AutoCompleteFilterSingleSelectDistrict
+                  country={row.country}
+                  state={row.state}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          district: item.district,
+                          city: "",
+                          area: "",
+                          postalCode: parseInt(""),
+                        },
+                        row._id
+                      )
                   }}
-                  />
-                
+                />
               </>
             ),
           },
@@ -538,17 +559,18 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectCity
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({city:item.city,area:"",postalCode:parseInt("")}, row._id)
-                    }}
-                  />
-                
+                <AutoCompleteFilterSingleSelectCity
+                  country={row.country}
+                  state={row.state}
+                  district={row.district}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        { city: item.city, area: "", postalCode: parseInt("") },
+                        row._id
+                      )
+                  }}
+                />
               </>
             ),
           },
@@ -573,18 +595,19 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectArea
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    city={row.city}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({area:item.area,postalCode:parseInt("")}, row._id)
-                    }}
-                  />
-                
+                <AutoCompleteFilterSingleSelectArea
+                  country={row.country}
+                  state={row.state}
+                  district={row.district}
+                  city={row.city}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        { area: item.area, postalCode: parseInt("") },
+                        row._id
+                      )
+                  }}
+                />
               </>
             ),
           },
@@ -612,26 +635,24 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectPostalCode
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    city={row.city}
-                    area={row.area}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds(
-                          {
-                            postalCode: parseInt(item.postalCode),
-                            zone: item.zone,
-                            sbu: item.sbu,
-                          },
-                          row._id
-                        )
-                    }}
-                  />
-                
+                <AutoCompleteFilterSingleSelectPostalCode
+                  country={row.country}
+                  state={row.state}
+                  district={row.district}
+                  city={row.city}
+                  area={row.area}
+                  onSelect={(item) => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          postalCode: parseInt(item.postalCode),
+                          zone: item.zone,
+                          sbu: item.sbu,
+                        },
+                        row._id
+                      )
+                  }}
+                />
               </>
             ),
           },

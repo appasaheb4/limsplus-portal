@@ -6,6 +6,7 @@ import {
   Icons,
   Buttons,
   Form,
+  Toast,
 } from "@/library/components"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
@@ -152,14 +153,27 @@ export const PriceListTableForLabList = observer(
                           onSelect={(element) => {
                             console.log({ item })
                             onChange(element.priceGroup)
-                            priceList.current[index] = {
-                              ...priceList.current[index],
-                              priceGroup: element.priceGroup,
-                              priceList:
-                                element.priceGroup !== "CSP001"
-                                  ? element.priceGroup
-                                  : element.priceList,
-                              description: element.description,
+                            if (
+                              _.findIndex(priceList.current, (o) => {
+                                return _.isMatch(o, {
+                                  priceGroup: element.priceGroup,
+                                })
+                              }) >= 0
+                            ) {
+                              removeItem(index)
+                              Toast.warning({
+                                message: "😔 Already exists same record found!",
+                              })
+                            } else {
+                              priceList.current[index] = {
+                                ...priceList.current[index],
+                                priceGroup: element.priceGroup,
+                                priceList:
+                                  element.priceGroup !== "CSP001"
+                                    ? element.priceGroup
+                                    : element.priceList,
+                                description: element.description,
+                              }
                             }
                             priceListStore.updatePriceListRecords(
                               priceListStore.listPriceListCopy
@@ -168,7 +182,7 @@ export const PriceListTableForLabList = observer(
                         />
                       )}
                       name="priceGroup"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                   </td>
@@ -265,7 +279,7 @@ export const PriceListTableForLabList = observer(
                         />
                       )}
                       name="priority"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue={item?.priority}
                     />
                   </td>

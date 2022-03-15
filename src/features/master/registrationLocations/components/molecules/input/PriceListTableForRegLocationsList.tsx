@@ -6,12 +6,12 @@ import {
   Icons,
   Buttons,
   Form,
+  Toast,
 } from "@/library/components"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
 import _ from "lodash"
 import { useForm, Controller } from "react-hook-form"
-import { RouterFlow } from "@/flows"
 import { IconContext } from "react-icons"
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
 interface PriceListTableForRegLocationsListProps {
@@ -33,23 +33,7 @@ export const PriceListTableForRegLocationsList = observer(
     } = useForm()
     const priceList = useRef(data)
     const [reload, setReload] = useState(false)
-    const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>()
     const [displayPriceList, setDisplayPriceList] = useState("")
-
-    useEffect(() => {
-      ;(async function () {
-        try {
-          RouterFlow.getLookupValuesByPathNField(
-            "/collection/priceList",
-            "PRICE_GROUP"
-          ).then((res) => {
-            setPriceGroupLookupItems(res)
-          })
-        } catch (e) {
-          console.error(e)
-        }
-      })()
-    }, [])
 
     const addItem = () => {
       priceList.current.push({
@@ -153,15 +137,34 @@ export const PriceListTableForRegLocationsList = observer(
                           }}
                           onSelect={(element) => {
                             onChange(element.priceGroup)
-                            priceList.current[index] = {
-                              ...priceList.current[index],
-                              priceGroup: element.priceGroup,
-                              priceList:
-                                element.priceGroup !== "CSP001"
-                                  ? element.priceGroup
-                                  : invoiceAc,
-                              description: element.description,
+                            if (
+                              _.findIndex(priceList.current, (o) => {
+                                return _.isMatch(o, {
+                                  priceGroup: element.priceGroup,
+                                  priceList:
+                                    element.priceGroup !== "CSP001"
+                                      ? element.priceGroup
+                                      : invoiceAc,
+                                })
+                              }) >= 0
+                            ) {
+                              removeItem(index)
+                              Toast.warning({
+                                message: "😔 Already exists same record found!",
+                              })
+                            } else {
+                              priceList.current[index] = {
+                                ...priceList.current[index],
+                                priceGroup: element.priceGroup,
+                                priceList:
+                                  element.priceGroup !== "CSP001"
+                                    ? element.priceGroup
+                                    : invoiceAc,
+                                description: element.description,
+                              }
+                              setReload(!reload)
                             }
+
                             priceListStore.updatePriceListRecords(
                               priceListStore.listPriceListCopy
                             )
@@ -169,7 +172,7 @@ export const PriceListTableForRegLocationsList = observer(
                         />
                       )}
                       name="priceGroup"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                   </td>
@@ -266,7 +269,7 @@ export const PriceListTableForRegLocationsList = observer(
                         />
                       )}
                       name="priority"
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=""
                     />
                   </td>

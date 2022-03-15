@@ -667,436 +667,440 @@ const RegistrationLocation = RegistrationLocationHoc(
                   defaultValue=""
                 />
 
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Country"
-                        id="country"
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Country"
+                      id="country"
+                      hasError={errors.country}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv,
+                            "country"
+                          ),
+                          displayKey: "country",
+                          findKey: "country",
+                        }}
                         hasError={errors.country}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv,
-                              "country"
-                            ),
-                            displayKey: "country",
-                            findKey: "country",
-                          }}
-                          hasError={errors.country}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    ["country"]: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["country"]: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.country)
-                            registrationLocationsStore.updateRegistrationLocations({
-                              ...registrationLocationsStore.registrationLocations,
-                              country: item?.country?.toUpperCase(),
-                              state:"",
-                              district:"",
-                              city:"",
-                              area:"",
-                              postalCode:parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="country"
-                    rules={{ required: true }}
-                    defaultValue={administrativeDivisions.listAdministrativeDiv}
-                  />
-               
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="State"
-                        id="state"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.country)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            country: item?.country?.toUpperCase(),
+                            state: "",
+                            district: "",
+                            city: "",
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="country"
+                  rules={{ required: true }}
+                  defaultValue={administrativeDivisions.listAdministrativeDiv}
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="State"
+                      id="state"
+                      hasError={errors.state}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={
+                          !registrationLocationsStore.registrationLocations?.country
+                        }
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                registrationLocationsStore.registrationLocations
+                                  ?.country
+                            ),
+                            "state"
+                          ),
+                          displayKey: "state",
+                          findKey: "state",
+                        }}
                         hasError={errors.state}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={
-                            !registrationLocationsStore.registrationLocations
-                              ?.country
-                          }
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
+                        displayValue={
+                          registrationLocationsStore.registrationLocations?.state
+                        }
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country: labStore.labs.country,
+                                  state: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.state)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            state: item?.state?.toUpperCase(),
+                            district: "",
+                            city: "",
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="state"
+                  rules={{ required: false }}
+                  defaultValue={
+                    registrationLocationsStore.registrationLocations?.country
+                  }
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="District"
+                      id="district"
+                      hasError={errors.district}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={
+                          !registrationLocationsStore.registrationLocations?.state
+                        }
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
                                   registrationLocationsStore.registrationLocations
-                                    ?.country
-                              ),
-                              "state"
+                                    ?.country &&
+                                item.state ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.state
                             ),
-                            displayKey: "state",
-                            findKey: "state",
-                          }}
-                          hasError={errors.state}
-                          displayValue={registrationLocationsStore.registrationLocations?.state}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country: labStore.labs.country,
-                                    state: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.state)
-                            registrationLocationsStore.updateRegistrationLocations({
-                              ...registrationLocationsStore.registrationLocations,
-                              state: item?.state?.toUpperCase(),
-                              district:"",
-                              city:"",
-                              area:"",
-                              postalCode: parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="state"
-                    rules={{ required: false }}
-                    defaultValue={registrationLocationsStore.registrationLocations?.country}
-                  />
-                
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="District"
-                        id="district"
+                            "district"
+                          ),
+                          displayKey: "district",
+                          findKey: "district",
+                        }}
                         hasError={errors.district}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={
-                            !registrationLocationsStore.registrationLocations?.state
-                          }
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
-                                    registrationLocationsStore.registrationLocations
-                                      ?.country &&
-                                  item.state ===
-                                    registrationLocationsStore.registrationLocations
-                                      ?.state
-                              ),
-                              "district"
-                            ),
-                            displayKey: "district",
-                            findKey: "district",
-                          }}
-                          hasError={errors.district}
-                          displayValue={registrationLocationsStore.registrationLocations?.district}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country: labStore.labs.country,
-                                    state: labStore.labs.state,
-                                    district: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                        displayValue={
+                          registrationLocationsStore.registrationLocations?.district
+                        }
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.district)
-                            registrationLocationsStore.updateRegistrationLocations({
-                              ...registrationLocationsStore.registrationLocations,
-                              district: item?.district?.toUpperCase(),
-                              city:"",
-                              area:"",
-                              postalCode:parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="district"
-                    rules={{ required: false }}
-                    defaultValue={registrationLocationsStore.registrationLocations?.state}
-                  />
-                
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="City"
-                        id="city"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.district)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            district: item?.district?.toUpperCase(),
+                            city: "",
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="district"
+                  rules={{ required: false }}
+                  defaultValue={
+                    registrationLocationsStore.registrationLocations?.state
+                  }
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="City" id="city" hasError={errors.city}>
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={
+                          !registrationLocationsStore.registrationLocations?.district
+                        }
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.country &&
+                                item.state ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.state &&
+                                item.district ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.district
+                            ),
+                            "city"
+                          ),
+                          displayKey: "city",
+                          findKey: "city",
+                        }}
                         hasError={errors.city}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={
-                            !registrationLocationsStore.registrationLocations
-                              ?.district
-                          }
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
+                        displayValue={
+                          registrationLocationsStore.registrationLocations.city
+                        }
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
                                     registrationLocationsStore.registrationLocations
-                                      ?.country &&
-                                  item.state ===
+                                      ?.country,
+                                  state:
                                     registrationLocationsStore.registrationLocations
-                                      ?.state &&
-                                  item.district ===
+                                      ?.state,
+                                  district:
                                     registrationLocationsStore.registrationLocations
-                                      ?.district
-                              ),
-                              "city"
-                            ),
-                            displayKey: "city",
-                            findKey: "city",
-                          }}
-                          hasError={errors.city}
-                          displayValue={registrationLocationsStore.registrationLocations.city}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      registrationLocationsStore
-                                        .registrationLocations?.country,
-                                    state:
-                                      registrationLocationsStore
-                                        .registrationLocations?.state,
-                                    district:
-                                      registrationLocationsStore
-                                        .registrationLocations?.district,
-                                    city: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                                      ?.district,
+                                  city: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.city)
-                            registrationLocationsStore.updateRegistrationLocations({
-                              ...registrationLocationsStore.registrationLocations,
-                              city: item?.city?.toUpperCase(),
-                              area: "",
-                              postalCode: parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="city"
-                    rules={{ required: false }}
-                    defaultValue={registrationLocationsStore.registrationLocations?.district}
-                  />
-                
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.city)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            city: item?.city?.toUpperCase(),
+                            area: "",
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="city"
+                  rules={{ required: false }}
+                  defaultValue={
+                    registrationLocationsStore.registrationLocations?.district
+                  }
+                />
               </List>
               <List direction="col" space={4} justify="stretch" fill>
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Area"
-                        id="area"
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper label="Area" id="area" hasError={errors.area}>
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={
+                          !registrationLocationsStore.registrationLocations?.city
+                        }
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.country &&
+                                item.state ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.state &&
+                                item.district ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.district &&
+                                item.city ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.city
+                            ),
+                            "area"
+                          ),
+                          displayKey: "area",
+                          findKey: "area",
+                        }}
                         hasError={errors.area}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={
-                            !registrationLocationsStore.registrationLocations?.city
-                          }
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
+                        displayValue={
+                          registrationLocationsStore.registrationLocations.area
+                        }
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
                                     registrationLocationsStore.registrationLocations
-                                      ?.country &&
-                                  item.state ===
+                                      ?.country,
+                                  state:
                                     registrationLocationsStore.registrationLocations
-                                      ?.state &&
-                                  item.district ===
+                                      ?.state,
+                                  district:
                                     registrationLocationsStore.registrationLocations
-                                      ?.district &&
-                                  item.city ===
-                                    registrationLocationsStore.registrationLocations
-                                      ?.city
-                              ),
-                              "area"
-                            ),
-                            displayKey: "area",
-                            findKey: "area",
-                          }}
-                          hasError={errors.area}
-                          displayValue={registrationLocationsStore.registrationLocations.area}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      registrationLocationsStore
-                                        .registrationLocations?.country,
-                                    state:
-                                      registrationLocationsStore
-                                        .registrationLocations?.state,
-                                    district:
-                                      registrationLocationsStore
-                                        .registrationLocations?.district,
-                                    city: registrationLocationsStore
-                                      .registrationLocations?.city,
-                                    area: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                                      ?.district,
+                                  city: registrationLocationsStore
+                                    .registrationLocations?.city,
+                                  area: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.area)
-                            registrationLocationsStore.updateRegistrationLocations({
-                              ...registrationLocationsStore.registrationLocations,
-                              area: item?.area?.toUpperCase(),
-                              postalCode: parseInt("")
-                            })
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="area"
-                    rules={{ required: false }}
-                    defaultValue={registrationLocationsStore.registrationLocations?.city}
-                  />
-                
-                
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper
-                        label="Postal Code"
-                        id="postalCode"
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.area)
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            area: item?.area?.toUpperCase(),
+                            postalCode: parseInt(""),
+                          })
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="area"
+                  rules={{ required: false }}
+                  defaultValue={
+                    registrationLocationsStore.registrationLocations?.city
+                  }
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Form.InputWrapper
+                      label="Postal Code"
+                      id="postalCode"
+                      hasError={errors.postalCode}
+                    >
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        disable={
+                          !registrationLocationsStore.registrationLocations?.area
+                        }
+                        data={{
+                          list: _.uniqBy(
+                            administrativeDivisions.listAdministrativeDiv.filter(
+                              (item) =>
+                                item.country ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.country &&
+                                item.state ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.state &&
+                                item.district ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.district &&
+                                item.city ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.city &&
+                                item.area ===
+                                  registrationLocationsStore.registrationLocations
+                                    ?.area
+                            ),
+                            "postalCode"
+                          ),
+                          displayKey: "postalCode",
+                          findKey: "postalCode",
+                        }}
                         hasError={errors.postalCode}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          disable={
-                            !registrationLocationsStore.registrationLocations?.area
-                          }
-                          data={{
-                            list: _.uniqBy(
-                              administrativeDivisions.listAdministrativeDiv.filter(
-                                (item) =>
-                                  item.country ===
+                        displayValue={
+                          registrationLocationsStore.registrationLocations?.postalCode?.toString() ||
+                          ""
+                        }
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  country:
                                     registrationLocationsStore.registrationLocations
-                                      ?.country &&
-                                  item.state ===
+                                      ?.country,
+                                  state:
                                     registrationLocationsStore.registrationLocations
-                                      ?.state &&
-                                  item.district ===
+                                      ?.state,
+                                  district:
                                     registrationLocationsStore.registrationLocations
-                                      ?.district &&
-                                  item.city ===
-                                    registrationLocationsStore.registrationLocations
-                                      ?.city &&
-                                  item.area ===
-                                    registrationLocationsStore.registrationLocations
-                                      ?.area
-                              ),
-                              "postalCode"
-                            ),
-                            displayKey: "postalCode",
-                            findKey: "postalCode",
-                          }}
-                          hasError={errors.postalCode}
-                          displayValue={registrationLocationsStore.registrationLocations?.postalCode?.toString()}
-                          onFilter={(value: string) => {
-                            administrativeDivisions.administrativeDivisionsService.filter(
-                              {
-                                input: {
-                                  filter: {
-                                    type: "search",
-                                    country:
-                                      registrationLocationsStore
-                                        .registrationLocations?.country,
-                                    state:
-                                      registrationLocationsStore
-                                        .registrationLocations?.state,
-                                    district:
-                                      registrationLocationsStore
-                                        .registrationLocations?.district,
-                                    city: registrationLocationsStore
-                                      .registrationLocations?.city,
-                                    area: registrationLocationsStore
-                                      .registrationLocations?.area,
-                                    postalCode: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
+                                      ?.district,
+                                  city: registrationLocationsStore
+                                    .registrationLocations?.city,
+                                  area: registrationLocationsStore
+                                    .registrationLocations?.area,
+                                  postalCode: value,
                                 },
-                              }
-                            )
-                          }}
-                          onSelect={(item) => {
-                            onChange(item.postalCode)
-                            console.log({ item })
-                            registrationLocationsStore.updateRegistrationLocations({
-                              ...registrationLocationsStore.registrationLocations,
-                              postalCode: parseInt(item?.postalCode),
-                              zone: item?.zone,
-                              sbu: item?.sbu,
-                            })
-                            administrativeDivisions.updateAdministrativeDivList(
-                              administrativeDivisions.listAdministrativeDivCopy
-                            )
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name="postalCode"
-                    rules={{ required: false }}
-                    defaultValue={registrationLocationsStore.registrationLocations?.area}
-                  />
-                
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.postalCode)
+                          console.log({ item })
+                          registrationLocationsStore.updateRegistrationLocations({
+                            ...registrationLocationsStore.registrationLocations,
+                            postalCode: parseInt(item?.postalCode),
+                            zone: item?.zone,
+                            sbu: item?.sbu,
+                          })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name="postalCode"
+                  rules={{ required: false }}
+                  defaultValue={
+                    registrationLocationsStore.registrationLocations?.area
+                  }
+                />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (

@@ -70,7 +70,7 @@ const Lab = LabHoc(
           }, 1000)
         } else {
           return Toast.warning({
-            message: "😔 Price list min 1 recored requied.",
+            message: "😔 Price list min 1 record required.",
           })
         }
       } else {
@@ -155,7 +155,6 @@ const Lab = LabHoc(
       ),
       [labStore.listLabs]
     )
-
     return (
       <>
         <Header>

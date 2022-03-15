@@ -6,6 +6,7 @@ import {
   Icons,
   Buttons,
   Form,
+  Toast,
 } from "@/library/components"
 import { observer } from "mobx-react"
 import { useStores } from "@/stores"
@@ -28,23 +29,6 @@ export const PriceListTable = observer(({}) => {
     setValue,
     clearErrors,
   } = useForm()
-
-  const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>()
-
-  useEffect(() => {
-    ;(async function () {
-      try {
-        RouterFlow.getLookupValuesByPathNField(
-          "/collection/priceList",
-          "PRICE_GROUP"
-        ).then((res) => {
-          setPriceGroupLookupItems(res)
-        })
-      } catch (e) {
-        console.error(e)
-      }
-    })()
-  }, [])
 
   const addItem = () => {
     let priceList = registrationLocationsStore.registrationLocations?.priceList
@@ -140,20 +124,38 @@ export const PriceListTable = observer(({}) => {
                           const priceList =
                             registrationLocationsStore.registrationLocations
                               ?.priceList
-                          priceList[index] = {
-                            ...priceList[index],
-                            priceGroup: item.priceGroup,
-                            priceList:
-                              item.priceGroup !== "CSP001"
-                                ? item.priceGroup
-                                : registrationLocationsStore.registrationLocations
-                                    ?.invoiceAc,
-                            description: item.description,
+                          if (
+                            _.findIndex(priceList, (o) => {
+                              return _.isMatch(o, {
+                                priceGroup: item.priceGroup,
+                                priceList:
+                                  item.priceGroup !== "CSP001"
+                                    ? item.priceGroup
+                                    : registrationLocationsStore
+                                        .registrationLocations?.invoiceAc,
+                              })
+                            }) >= 0
+                          ) {
+                            removeItem(index)
+                            Toast.warning({
+                              message: "😔 Already exists same record found!",
+                            })
+                          } else {
+                            priceList[index] = {
+                              ...priceList[index],
+                              priceGroup: item.priceGroup,
+                              priceList:
+                                item.priceGroup !== "CSP001"
+                                  ? item.priceGroup
+                                  : registrationLocationsStore.registrationLocations
+                                      ?.invoiceAc,
+                              description: item.description,
+                            }
+                            registrationLocationsStore.updateRegistrationLocations({
+                              ...registrationLocationsStore.registrationLocations,
+                              priceList,
+                            })
                           }
-                          registrationLocationsStore.updateRegistrationLocations({
-                            ...registrationLocationsStore.registrationLocations,
-                            priceList,
-                          })
                           priceListStore.updatePriceListRecords(
                             priceListStore.listPriceListCopy
                           )
@@ -272,7 +274,7 @@ export const PriceListTable = observer(({}) => {
                       />
                     )}
                     name="priority"
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue={item?.priority}
                   />
                 </td>

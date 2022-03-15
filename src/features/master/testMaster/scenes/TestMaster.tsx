@@ -440,6 +440,7 @@ const TestMater = TestMasterHOC(
                               } else {
                                 testMasterStore.updateTestMaster({
                                   ...testMasterStore.testMaster,
+                                  testName: "",
                                   disableTestName: false,
                                 })
                               }

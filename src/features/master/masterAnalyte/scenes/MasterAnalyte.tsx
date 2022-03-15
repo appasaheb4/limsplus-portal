@@ -339,6 +339,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                                   disableAnalyteName: true,
                                 })
                               } else {
+                                masterAnalyteStore.updateMasterAnalyte({
+                                  ...masterAnalyteStore.masterAnalyte,
+                                  analyteName: "",
+                                })
                                 masterAnalyteStore.updateMasterAnalyteActivity({
                                   ...masterAnalyteStore.masterAnalyteActivity,
                                   disableAnalyteName: false,
