@@ -1,0 +1,5 @@
+// Special typescript project file, used by eslint only.
+{
+  "extends": "./tsconfig.json",
+  "include": ["**/*", "**/.*", "metro.config.js", "babel.config.js"]
+}

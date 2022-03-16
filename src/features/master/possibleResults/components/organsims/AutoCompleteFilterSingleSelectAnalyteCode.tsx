@@ -1,5 +1,6 @@
 /* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
+import _ from 'lodash';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -38,27 +39,40 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 
-    useEffect(() => {
+    const getAnalyteList = () => {
       masterAnalyteStore.masterAnalyteService
         .findByFields({input: {filter: {resultType: 'D'}}})
         .then(res => {
           if (!res.findByFieldsAnalyteMaster.success)
             return alert(res.findByFieldsAnalyteMaster.message);
-          setOptions(res.findByFieldsAnalyteMaster.data);
+          setOptions(
+            _.uniqBy(res.findByFieldsAnalyteMaster.data, 'analyteCode'),
+          );
         });
-    }, [masterAnalyteStore.listMasterAnalyte]);
+    };
+
+    useEffect(() => {
+      getAnalyteList();
+    }, []);
 
     const onFilter = (value: string) => {
-      masterAnalyteStore.masterAnalyteService.filter({
-        input: {
-          type: 'filter',
-          filter: {
-            analyteCode: value,
+      masterAnalyteStore.masterAnalyteService
+        .filter({
+          input: {
+            type: 'filter',
+            filter: {
+              analyteCode: value,
+              resultType: 'D',
+            },
+            page: 0,
+            limit: 10,
           },
-          page: 0,
-          limit: 10,
-        },
-      });
+        })
+        .then(res => {
+          console.log({res});
+          if (!res.filterAnalyteMaster.success) return getAnalyteList();
+          setOptions(_.uniqBy(res.filterAnalyteMaster.data, 'analyteCode'));
+        });
     };
 
     const onChange = e => {
