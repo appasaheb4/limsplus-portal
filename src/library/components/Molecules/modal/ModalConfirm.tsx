@@ -1,21 +1,21 @@
-import React, { useEffect } from "react"
-import { Container } from "reactstrap"
+import React, {useEffect} from 'react';
+import {Container} from 'reactstrap';
 
 interface ModalProps {
-  show?: boolean
-  title?: string
-  type?: string
-  body?: string
-  click: (type?: string) => void
-  onClose: () => void
+  show?: boolean;
+  title?: string;
+  type?: string;
+  body?: string;
+  click: (type?: string) => void;
+  onClose: () => void;
 }
 
 export const ModalConfirm = (props: ModalProps) => {
-  const [showModal, setShowModal] = React.useState(props.show)
+  const [showModal, setShowModal] = React.useState(props.show);
   useEffect(() => {
-    setShowModal(props.show)
-  }, [props])
-   
+    setShowModal(props.show);
+  }, [props]);
+
   return (
     <Container>
       {showModal && (
@@ -23,8 +23,8 @@ export const ModalConfirm = (props: ModalProps) => {
           <div
             className="justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             onClick={() => {
-              props.onClose()
-              setShowModal(false)
+              props.onClose();
+              setShowModal(false);
             }}
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -36,8 +36,8 @@ export const ModalConfirm = (props: ModalProps) => {
                   <button
                     className="p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => {
-                      props.onClose()
-                      setShowModal(false)
+                      props.onClose();
+                      setShowModal(false);
                     }}
                   >
                     <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
@@ -61,10 +61,10 @@ export const ModalConfirm = (props: ModalProps) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      props.onClose()
-                      setShowModal(false)
+                      props.onClose();
+                      setShowModal(false);
                     }}
                   >
                     Close
@@ -72,10 +72,10 @@ export const ModalConfirm = (props: ModalProps) => {
                   <button
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      setShowModal(false)
-                      props.click(props.type)
+                      setShowModal(false);
+                      props.click(props.type);
                     }}
                   >
                     Yes
@@ -88,5 +88,5 @@ export const ModalConfirm = (props: ModalProps) => {
         </>
       )}
     </Container>
-  )
-}
+  );
+};
