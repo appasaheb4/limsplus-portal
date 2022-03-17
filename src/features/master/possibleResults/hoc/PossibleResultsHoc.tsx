@@ -4,6 +4,7 @@ import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import {getDefaultLookupItem} from '@/library/utils';
 import {dashboardRouter as dashboardRoutes} from '@/routes';
+import * as LibraryUtils from '@/library/utils';
 let router = dashboardRoutes;
 export const PossibleResultHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
@@ -23,6 +24,10 @@ export const PossibleResultHoc = (Component: React.FC<any>) => {
       });
       possibleResultsStore.updatePossibleResults({
         ...possibleResultsStore.possibleResults,
+        status: LibraryUtils.getDefaultLookupItem(
+          routerStore.lookupItems,
+          'STATUS',
+        ),
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',

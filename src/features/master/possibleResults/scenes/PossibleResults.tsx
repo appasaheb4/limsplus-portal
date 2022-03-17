@@ -37,6 +37,7 @@ export const PossibleResults = PossibleResultHoc(
     } = useForm();
 
     setValue('environment', possibleResultsStore.possibleResults?.environment);
+    setValue('status', possibleResultsStore.possibleResults?.status);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLookup, setHideAddLookup] = useState<boolean>(true);
@@ -149,6 +150,7 @@ export const PossibleResults = PossibleResultHoc(
                       hasError={errors.analyte}
                     >
                       <AutoCompleteFilterSingleSelectAnalyteCode
+                        hasError={errors.analyte}
                         onSelect={item => {
                           onChange(item.analyteCode);
                           possibleResultsStore.updatePossibleResults({
@@ -520,9 +522,6 @@ export const PossibleResults = PossibleResultHoc(
                   rules={{required: true}}
                   defaultValue=""
                 />
-              </List>
-
-              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -540,6 +539,9 @@ export const PossibleResults = PossibleResultHoc(
                   rules={{required: false}}
                   defaultValue=""
                 />
+              </List>
+
+              <List direction="col" space={4} justify="stretch" fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -618,6 +620,39 @@ export const PossibleResults = PossibleResultHoc(
                   )}
                   name="version"
                   rules={{required: false}}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                      <select
+                        value={possibleResultsStore.possibleResults?.status}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const status = e.target.value;
+                          onChange(status);
+                          possibleResultsStore.updatePossibleResults({
+                            ...possibleResultsStore.possibleResults,
+                            status,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="status"
+                  rules={{required: true}}
                   defaultValue=""
                 />
               </List>

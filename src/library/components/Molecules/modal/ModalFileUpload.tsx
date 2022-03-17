@@ -1,21 +1,21 @@
-import React, { useEffect } from "react"
-import { Container } from "reactstrap"
-import {Form} from "../.."
+import React, {useEffect} from 'react';
+import {Container} from 'reactstrap';
+import {Form} from '../..';
 
 interface ModalProps {
-  show?: boolean
-  title?: string
-  onClick: (image: any) => void
-  onClose: () => void
-}  
-   
+  show?: boolean;
+  title?: string;
+  onClick: (image: any) => void;
+  onClose: () => void;
+}
+
 export const ModalFileUpload = (props: ModalProps) => {
-  const [showModal, setShowModal] = React.useState(props.show)
-  const [image, setImage] = React.useState<any>()
+  const [showModal, setShowModal] = React.useState(props.show);
+  const [image, setImage] = React.useState<any>();
 
   useEffect(() => {
-    setShowModal(props.show)
-  }, [props.show])
+    setShowModal(props.show);
+  }, [props.show]);
 
   return (
     <Container>
@@ -31,8 +31,8 @@ export const ModalFileUpload = (props: ModalProps) => {
                   <button
                     className="p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => {
-                      setShowModal(false)
-                      props.onClose && props.onClose()
+                      setShowModal(false);
+                      props.onClose && props.onClose();
                     }}
                   >
                     <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
@@ -46,9 +46,9 @@ export const ModalFileUpload = (props: ModalProps) => {
                     label="File"
                     id="file"
                     placeholder="File"
-                    onChange={(e) => {
-                      const image = e.target.files[0]
-                      setImage(image)
+                    onChange={e => {
+                      const image = e.target.files[0];
+                      setImage(image);
                     }}
                   />
                 </div>
@@ -57,10 +57,10 @@ export const ModalFileUpload = (props: ModalProps) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      setShowModal(false)
-                      props.onClose && props.onClose()
+                      setShowModal(false);
+                      props.onClose && props.onClose();
                     }}
                   >
                     Close
@@ -68,12 +68,12 @@ export const ModalFileUpload = (props: ModalProps) => {
                   <button
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
                       if (image !== undefined) {
-                        props.onClick && props.onClick(image)
+                        props.onClick && props.onClick(image);
                       } else {
-                        alert("Please select image")
+                        alert('Please select image');
                       }
                     }}
                   >
@@ -87,7 +87,5 @@ export const ModalFileUpload = (props: ModalProps) => {
         </>
       )}
     </Container>
-  )
-}
-
-
+  );
+};
