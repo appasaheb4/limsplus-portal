@@ -1,5 +1,7 @@
 export class PossibleResults {
   _id: string;
+  existsVersionId: string;
+  existsRecordId: string;
   analyteCode: string;
   analyteName: string;
   result: string;
@@ -17,7 +19,7 @@ export class PossibleResults {
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
-  version: string;
+  version: number;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -25,6 +27,8 @@ export class PossibleResults {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.existsVersionId = rawData.existsVersionId;
+    this.existsRecordId = rawData.existsRecordId;
     this.analyteCode = rawData.anlyteCode;
     this.analyteName = rawData.analyteName;
     this.result = rawData.result;
