@@ -35,7 +35,6 @@ export const PossibleResultHoc = (Component: React.FC<any>) => {
         });
       }
     }, [loginStore.login, routerStore.lookupItems]);
-
     return <Component {...props} />;
   });
 };

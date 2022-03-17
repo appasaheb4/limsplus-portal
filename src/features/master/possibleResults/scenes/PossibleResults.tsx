@@ -40,11 +40,15 @@ export const PossibleResults = PossibleResultHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLookup, setHideAddLookup] = useState<boolean>(true);
+
     const onSubmitPossibleResult = () => {
-      if (!possibleResultsStore.checkExistsEnvCode) {
+      if (!possibleResultsStore.checkExistsRecords) {
         possibleResultsStore.possibleResultsService
           .addPossibleResults({
-            input: {...possibleResultsStore.possibleResults},
+            input: {
+              ...possibleResultsStore.possibleResults,
+              enteredBy: loginStore.login.userId,
+            },
           })
           .then(res => {
             if (res.createPossibleResult.success) {
@@ -165,12 +169,12 @@ export const PossibleResults = PossibleResultHoc(
                             })
                             .then(res => {
                               if (res.checkPossibleResultExistsRecord.success) {
-                                possibleResultsStore.updateExistsEnvCode(true);
+                                possibleResultsStore.updateExistsRecords(true);
                                 Toast.error({
                                   message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
                                 });
                               } else
-                                possibleResultsStore.updateExistsEnvCode(false);
+                                possibleResultsStore.updateExistsRecords(false);
                             });
                         }}
                       />
@@ -180,7 +184,7 @@ export const PossibleResults = PossibleResultHoc(
                   rules={{required: true}}
                   defaultValue=""
                 />
-                {possibleResultsStore.checkExistsEnvCode && (
+                {possibleResultsStore.checkExistsRecords && (
                   <span className="text-red-600 font-medium relative">
                     Code already exits. Please use other code.
                   </span>
@@ -204,73 +208,7 @@ export const PossibleResults = PossibleResultHoc(
                   rules={{required: false}}
                   defaultValue=""
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Environment">
-                      <select
-                        value={
-                          possibleResultsStore.possibleResults?.environment
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          possibleResultsStore.updatePossibleResults({
-                            ...possibleResultsStore.possibleResults,
-                            environment,
-                          });
-                          possibleResultsStore.possibleResultsService
-                            .checkExistsEnvCode({
-                              input: {
-                                code: possibleResultsStore.possibleResults
-                                  .analyteCode,
-                                env: environment,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkPossibleResultExistsRecord.success) {
-                                possibleResultsStore.updateExistsEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
-                                });
-                              } else
-                                possibleResultsStore.updateExistsEnvCode(false);
-                            });
-                        }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : possibleResultsStore.possibleResults
-                                ?.environment || `Select`}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name="environment"
-                  rules={{required: true}}
-                  defaultValue=""
-                />
+
                 <Form.InputWrapper label="Conclusion Value">
                   <Grid cols={5}>
                     <Controller
@@ -512,6 +450,173 @@ export const PossibleResults = PossibleResultHoc(
                     </Form.InputWrapper>
                   )}
                   name="defaulItem"
+                  rules={{required: false}}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label="Environment">
+                      <select
+                        value={
+                          possibleResultsStore.possibleResults?.environment
+                        }
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.environment
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        disabled={
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
+                            ? true
+                            : false
+                        }
+                        onChange={e => {
+                          const environment = e.target.value;
+                          onChange(environment);
+                          possibleResultsStore.updatePossibleResults({
+                            ...possibleResultsStore.possibleResults,
+                            environment,
+                          });
+                          possibleResultsStore.possibleResultsService
+                            .checkExistsEnvCode({
+                              input: {
+                                code: possibleResultsStore.possibleResults
+                                  .analyteCode,
+                                env: environment,
+                              },
+                            })
+                            .then(res => {
+                              if (res.checkPossibleResultExistsRecord.success) {
+                                possibleResultsStore.updateExistsRecords(true);
+                                Toast.error({
+                                  message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
+                                });
+                              } else
+                                possibleResultsStore.updateExistsRecords(false);
+                            });
+                        }}
+                      >
+                        <option selected>
+                          {loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
+                            ? `Select`
+                            : possibleResultsStore.possibleResults
+                                ?.environment || `Select`}
+                        </option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'ENVIRONMENT',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name="environment"
+                  rules={{required: true}}
+                  defaultValue=""
+                />
+              </List>
+
+              <List direction="col" space={4} justify="stretch" fill>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label="Entered By"
+                      placeholder={
+                        errors.userId ? 'Please Enter Entered By' : 'Entered By'
+                      }
+                      hasError={errors.userId}
+                      value={loginStore.login?.userId}
+                      disabled={true}
+                    />
+                  )}
+                  name="userId"
+                  rules={{required: false}}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputDateTime
+                      label="Date Creation"
+                      placeholder={
+                        errors.dateCreation
+                          ? 'Please Enter Date Creation'
+                          : 'Date Creation'
+                      }
+                      hasError={errors.dateCreation}
+                      value={possibleResultsStore.possibleResults?.dateCreation}
+                      disabled={true}
+                    />
+                  )}
+                  name="dateCreation"
+                  rules={{required: false}}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputDateTime
+                      label="Date Active"
+                      placeholder={
+                        errors.dateActive
+                          ? 'Please Enter Date Active'
+                          : 'Date Active'
+                      }
+                      hasError={errors.dateActive}
+                      value={possibleResultsStore.possibleResults?.dateActive}
+                      disabled={true}
+                    />
+                  )}
+                  name="dateActive"
+                  rules={{required: false}}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputDateTime
+                      label="Date Expire"
+                      placeholder={
+                        errors.schedule
+                          ? 'Please Enter schedule'
+                          : 'Date Expire'
+                      }
+                      hasError={errors.schedule}
+                      value={possibleResultsStore.possibleResults?.dateExpire}
+                      onChange={dateExpire => {
+                        onChange(dateExpire);
+                        possibleResultsStore.updatePossibleResults({
+                          ...possibleResultsStore.possibleResults,
+                          dateExpire,
+                        });
+                      }}
+                    />
+                  )}
+                  name="schedule"
+                  rules={{required: false}}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label="Version"
+                      placeholder={
+                        errors.version ? 'Please Enter Version' : 'Version'
+                      }
+                      hasError={errors.version}
+                      value={possibleResultsStore.possibleResults?.version}
+                      disabled={true}
+                    />
+                  )}
+                  name="version"
                   rules={{required: false}}
                   defaultValue=""
                 />
