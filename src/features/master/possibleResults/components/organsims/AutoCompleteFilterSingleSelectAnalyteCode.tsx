@@ -8,13 +8,18 @@ import {Icons} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectAnalyteCodeProps {
   hasError?: boolean;
+  displayValue?: string;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
-  ({hasError, onSelect}: AutoCompleteFilterSingleSelectAnalyteCodeProps) => {
+  ({
+    hasError,
+    displayValue,
+    onSelect,
+  }: AutoCompleteFilterSingleSelectAnalyteCodeProps) => {
     const {loading, masterAnalyteStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(displayValue || '');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
