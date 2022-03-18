@@ -1303,7 +1303,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row">
+                  <div className="flex flex-row gap-2">
                     <Tooltip tooltipText="Delete" position="top">
                       <Icons.IconContext
                         color="#fff"
@@ -1324,7 +1324,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     </Tooltip>
                     {row.status !== 'I' && (
                       <>
-                        <Tooltip className="ml-4" tooltipText="Version Upgrade">
+                        <Tooltip tooltipText="Version Upgrade">
                           <Icons.IconContext
                             color="#fff"
                             size="20"
@@ -1336,7 +1336,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip className="ml-4" tooltipText="Duplicate">
+                        <Tooltip tooltipText="Duplicate">
                           <Icons.IconContext
                             color="#fff"
                             size="20"

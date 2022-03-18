@@ -48,7 +48,10 @@ export const PossibleResults = PossibleResultHoc(
           .addPossibleResults({
             input: {
               ...possibleResultsStore.possibleResults,
-              enteredBy: loginStore.login.userId,
+              enteredBy:
+                possibleResultsStore.possibleResults.enteredBy ||
+                loginStore.login.userId,
+              __typename: undefined,
             },
           })
           .then(res => {
@@ -109,6 +112,24 @@ export const PossibleResults = PossibleResultHoc(
               body: `Update Lookup!`,
             });
           }}
+          onVersionUpgrade={item => {
+            setModalConfirm({
+              show: true,
+              type: 'versionUpgrade',
+              data: item,
+              title: 'Are you version upgrade?',
+              body: `Version upgrade this record`,
+            });
+          }}
+          onDuplicate={item => {
+            setModalConfirm({
+              show: true,
+              type: 'duplicate',
+              data: item,
+              title: 'Are you duplicate?',
+              body: `Duplicate this record`,
+            });
+          }}
           onPageSizeChange={(page, limit) => {
             possibleResultsStore.fetchListPossibleResults(page, limit);
           }}
@@ -137,7 +158,7 @@ export const PossibleResults = PossibleResultHoc(
         <div className="mx-auto">
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLookup ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddLookup ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
@@ -147,10 +168,13 @@ export const PossibleResults = PossibleResultHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label="Analyte Code"
-                      hasError={errors.analyte}
+                      hasError={errors.analyteCode}
                     >
                       <AutoCompleteFilterSingleSelectAnalyteCode
-                        hasError={errors.analyte}
+                        hasError={errors.analyteCode}
+                        displayValue={
+                          possibleResultsStore.possibleResults?.analyteCode
+                        }
                         onSelect={item => {
                           onChange(item.analyteCode);
                           possibleResultsStore.updatePossibleResults({
@@ -182,7 +206,7 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="analyte"
+                  name="analyteCode"
                   rules={{required: true}}
                   defaultValue=""
                 />
@@ -715,6 +739,34 @@ export const PossibleResults = PossibleResultHoc(
                       possibleResultsStore.fetchListPossibleResults();
                     }
                   });
+              } else if (type === 'versionUpgrade') {
+                possibleResultsStore.updatePossibleResults({
+                  ...modalConfirm.data,
+                  _id: undefined,
+                  existsVersionId: modalConfirm.data._id,
+                  existsRecordId: undefined,
+                  version: parseInt(modalConfirm.data.version + 1),
+                  dateActive: new Date(),
+                });
+                setValue('analyteCode', modalConfirm.data.analyteCode);
+                setValue('environment', modalConfirm.data.environment);
+                setValue('status', modalConfirm.data.status);
+                setHideAddLookup(!hideAddLookup);
+                setModalConfirm({show: false});
+              } else if (type === 'duplicate') {
+                possibleResultsStore.updatePossibleResults({
+                  ...modalConfirm.data,
+                  _id: undefined,
+                  existsVersionId: undefined,
+                  existsRecordId: modalConfirm.data._id,
+                  version: parseInt(modalConfirm.data.version),
+                  dateActive: new Date(),
+                });
+                setValue('analyteCode', modalConfirm.data.analyteCode);
+                setValue('environment', modalConfirm.data.environment);
+                setValue('status', modalConfirm.data.status);
+                setHideAddLookup(!hideAddLookup);
+                setModalConfirm({show: false});
               }
             }}
             onClose={() => setModalConfirm({show: false})}

@@ -1558,7 +1558,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   _id: undefined,
                   existsVersionId: undefined,
                   existsRecordId: modalConfirm.data._id,
-                  version: modalConfirm.data.version + 1,
+                  version: parseInt(modalConfirm.data.version),
                   dateActive: new Date(),
                 });
                 setHideAddLab(!hideAddLab);

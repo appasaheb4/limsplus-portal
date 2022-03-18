@@ -40,6 +40,8 @@ interface PossibleResultsListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   updatePossibleResults?: (values: any) => void;
+  onVersionUpgrade?: (item: any) => void;
+  onDuplicate?: (item: any) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -601,7 +603,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-                <div className="flex flex-row">
+                <div className="flex flex-row gap-2">
                   <Tooltip tooltipText="Delete" position="top">
                     <Icons.IconContext
                       color="#fff"
@@ -620,6 +622,33 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
+                  {row.status !== 'I' && (
+                    <>
+                      <Tooltip tooltipText="Version Upgrade">
+                        <Icons.IconContext
+                          color="#fff"
+                          size="20"
+                          onClick={() =>
+                            props.onVersionUpgrade &&
+                            props.onVersionUpgrade(row)
+                          }
+                        >
+                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                      <Tooltip tooltipText="Duplicate">
+                        <Icons.IconContext
+                          color="#fff"
+                          size="20"
+                          onClick={() =>
+                            props.onDuplicate && props.onDuplicate(row)
+                          }
+                        >
+                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    </>
+                  )}
                 </div>
               </>
             ),
@@ -651,6 +680,12 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           conclusionResult('');
           defaultConclusion('');
           environment('');
+          enteredBy('');
+          dateCreation('');
+          dateActive('');
+          dateExpire('');
+          status('');
+          version('');
         }}
       />
     </div>
