@@ -1,10 +1,10 @@
 /* eslint-disable */
-import React from "react"
-import { observer } from "mobx-react"
-import dayjs from "dayjs"
-import {lookupItems,lookupValue} from "@/library/utils"
-import { useForm, Controller } from "react-hook-form"
-import { FormHelper } from "@/helper"
+import React from 'react';
+import {observer} from 'mobx-react';
+import dayjs from 'dayjs';
+import {lookupItems, lookupValue} from '@/library/utils';
+import {useForm, Controller} from 'react-hook-form';
+import {FormHelper} from '@/helper';
 import {
   Svg,
   NumberFilter,
@@ -18,160 +18,171 @@ import {
   customFilter,
   Buttons,
   Toast,
-} from "@/library/components"
-import { Confirm } from "@/library/models"
+} from '@/library/components';
+import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterMutiSelectRoles,
   AutoCompleteFilterSingleSelectDefaultLabs,
   AutoCompleteFilterSingleSelectDegnisation,
   AutoCompleteFilterMutiSelectDepartment,
-} from "../index"
+} from '../index';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
-import { toJS } from "mobx"
+import {toJS} from 'mobx';
 
-let userId
-let empCode
-let defaultLab
-let lab
-let deginisation
-let fullName
-let mobileNo
-let contactNo
-let email
-let dateOfBirth
-let marriageAnniversary
-let userDegree
-let department
-let exipreDate
-let expireDays
-let dateOfEntry
-let role
-let validationLevel
-let createdBy
-let status
-let environment
+let userId;
+let empCode;
+let defaultLab;
+let lab;
+let deginisation;
+let fullName;
+let mobileNo;
+let contactNo;
+let email;
+let dateOfBirth;
+let marriageAnniversary;
+let userDegree;
+let department;
+let exipreDate;
+let expireDays;
+let dateOfEntry;
+let role;
+let validationLevel;
+let createdBy;
+let status;
+let environment;
 
 interface UserListProps {
-  data: any
-  totalSize: number
-  extraData: any
-  isDelete?: boolean
-  isEditModify?: boolean
-  onDelete?: (selectedUser: Confirm) => void
-  onSelectedRow?: (selectedItem: any) => void
-  onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onUpdateImage?: (value: any, dataField: string, id: string) => void
-  onChangePassword?: (id: string, userId: string, email: string) => void
-  onPageSizeChange?: (page: number, totalSize: number) => void
-  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  data: any;
+  totalSize: number;
+  extraData: any;
+  isDelete?: boolean;
+  isEditModify?: boolean;
+  onDelete?: (selectedUser: Confirm) => void;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateImage?: (value: any, dataField: string, id: string) => void;
+  onChangePassword?: (id: string, userId: string, email: string) => void;
+  onPageSizeChange?: (page: number, totalSize: number) => void;
+  onFilter?: (
+    type: string,
+    filter: any,
+    page: number,
+    totalSize: number,
+  ) => void;
 }
 
 export const UserList = observer((props: UserListProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     setValue,
-  } = useForm()
-  function priceFormatter(column, colIndex, { sortElement, filterElement }) {
+  } = useForm();
+  function priceFormatter(column, colIndex, {sortElement, filterElement}) {
     return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
         {filterElement}
         {column.text}
         {sortElement}
       </div>
-    )
+    );
   }
   const editorCell = (row: any) => {
-    return row.status !== "I" ? true : false
-  }
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div style={{position: 'relative'}}>
         <TableBootstrap
           id="_id"
           data={props.data}
           totalSize={props.totalSize}
           columns={[
             {
-              dataField: "_id",
-              text: "Id",
+              dataField: '_id',
+              text: 'Id',
               hidden: true,
               csvExport: false,
             },
             {
-              dataField: "userId",
-              text: "UserId",
+              dataField: 'userId',
+              text: 'UserId',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  userId = filter
+                getFilter: filter => {
+                  userId = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editable: false,
             },
             {
-              dataField: "empCode",
-              text: "Emp Code",
+              dataField: 'empCode',
+              text: 'Emp Code',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  empCode = filter
+                getFilter: filter => {
+                  empCode = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editable: false,
             },
             {
-              dataField: "defaultLab",
-              text: "Default Lab",
+              dataField: 'defaultLab',
+              text: 'Default Lab',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  defaultLab = filter
+                getFilter: filter => {
+                  defaultLab = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDefaultLabs
-                    onSelect={(item) => {
+                    onSelect={item => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(item.code, column.dataField, row._id)
+                        props.onUpdateItem(
+                          item.code,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
-            {  
-              dataField: "lab",
-              text: "Lab",
+            {
+              dataField: 'lab',
+              text: 'Lab',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
-                `${row.lab.map((item) => item.name)}`,
+                `${row.lab.map(item => item.name)}`,
               filter: textFilter({
-                getFilter: (filter) => {
-                  lab = filter
+                getFilter: filter => {
+                  lab = filter;
                 },
               }),
-              headerClasses: "textHeader2",
+              headerClasses: 'textHeader2',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{ listStyle: "inside" }}>
+                  <ul style={{listStyle: 'inside'}}>
                     {row.lab.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
@@ -184,7 +195,7 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutocompleteCheck
@@ -192,63 +203,69 @@ export const UserList = observer((props: UserListProps) => {
                     data={{
                       defulatValues: toJS(row.lab),
                       list: props.extraData.listLabs,
-                      displayKey: "name",
-                      findKey: "code",
+                      displayKey: 'name',
+                      findKey: 'code',
                     }}
-                    onUpdate={(items) => {
+                    onUpdate={items => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
+                        props.onUpdateItem(items, column.dataField, row._id);
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "deginisation",
-              text: "Deginisation",
+              dataField: 'deginisation',
+              text: 'Deginisation',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  deginisation = filter
+                getFilter: filter => {
+                  deginisation = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDegnisation
-                    onSelect={(item) => {
+                    onSelect={item => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(item.code, column.dataField, row._id)
+                        props.onUpdateItem(
+                          item.code,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "department",
-              text: "Department",
+              dataField: 'department',
+              text: 'Department',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
-                `${row.department.map((item) => item.name)}`,
+                `${row.department.map(item => item.name)}`,
               filter: textFilter({
-                getFilter: (filter) => {
-                  department = filter
+                getFilter: filter => {
+                  department = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{ listStyle: "inside" }}>
+                  <ul style={{listStyle: 'inside'}}>
                     {row.department.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
@@ -261,53 +278,58 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterMutiSelectDepartment
                     selected={row.department}
-                    onUpdate={(item) => {
+                    onUpdate={item => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(item.code, column.dataField, row._id)
+                        props.onUpdateItem(
+                          item.code,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "validationLevel",
-              text: "Validation Level",
+              dataField: 'validationLevel',
+              text: 'Validation Level',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: customFilter({
-                getFilter: (filter) => {
-                  validationLevel = filter
+                getFilter: filter => {
+                  validationLevel = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: "textHeader7",
+              headerClasses: 'textHeader7',
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
-                    onChange={(e) => {
-                      const validationLevel = e.target.value
+                    onChange={e => {
+                      const validationLevel = e.target.value;
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           parseInt(validationLevel),
                           column.dataField,
-                          row._id
-                        )
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
@@ -337,162 +359,178 @@ export const UserList = observer((props: UserListProps) => {
             //   headerClasses: "textHeader3",
             // },
             {
-              dataField: "fullName",
-              text: "Full Name",
+              dataField: 'fullName',
+              text: 'Full Name',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  fullName = filter
+                getFilter: filter => {
+                  fullName = filter;
                 },
               }),
-              headerClasses: "textHeader3",
-              style: { textTransform: "uppercase" },
-              editorStyle: { textTransform: "uppercase" },
+              headerClasses: 'textHeader3',
+              style: {textTransform: 'uppercase'},
+              editorStyle: {textTransform: 'uppercase'},
             },
             {
-              dataField: "mobileNo",
-              text: "Mobile No",
+              dataField: 'mobileNo',
+              text: 'Mobile No',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  mobileNo = filter
+                getFilter: filter => {
+                  mobileNo = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    
-                    placeholder={
-                      errors.mobileNo ? "Please enter mobile no" : "Mobile No"
-                    }
-                    pattern={FormHelper.patterns.mobileNo}
-                    type="number"
-                    hasError={errors.mobileNo}
-                    defaultValue={row?.mobileNo}
-                    onChange={(mobileNo) => {
-                      onChange(mobileNo)
-                      
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Input
+                        placeholder={
+                          errors.mobileNo
+                            ? 'Please enter mobile no'
+                            : 'Mobile No'
+                        }
+                        pattern={FormHelper.patterns.mobileNo}
+                        type="number"
+                        hasError={errors.mobileNo}
+                        defaultValue={row?.mobileNo}
+                        onChange={mobileNo => {
+                          onChange(mobileNo);
+                        }}
+                        onBlur={mobileNo => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(mobileNo, 'mobileNo', row._id);
+                        }}
+                      />
+                    )}
+                    name="mobileNo"
+                    rules={{
+                      required: true,
+                      pattern: FormHelper.patterns.mobileNo,
                     }}
-                    onBlur={(mobileNo)=>{
-                      props.onUpdateItem && props.onUpdateItem(mobileNo,"mobileNo",row._id)
-                    }}
+                    defaultValue=""
                   />
-                )}
-                name="mobileNo"
-                rules={{ required: true,pattern:FormHelper.patterns.mobileNo }}
-                defaultValue=""
-              />
                 </>
-              )
+              ),
             },
             {
-              dataField: "contactNo",
-              text: "Contact No",
+              dataField: 'contactNo',
+              text: 'Contact No',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  contactNo = filter
+                getFilter: filter => {
+                  contactNo = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
-                   <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    
-                    type="number"
-                    placeholder={
-                      errors.contactNo ? "Please enter contact no" : "Contact No"
-                    }
-                    pattern={FormHelper.patterns.mobileNo}
-                    hasError={errors.contactNo}
-                    defaultValue={row?.contactNo}
-                    onChange={(contactNo) => {
-                      onChange(contactNo)
-                      
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Input
+                        type="number"
+                        placeholder={
+                          errors.contactNo
+                            ? 'Please enter contact no'
+                            : 'Contact No'
+                        }
+                        pattern={FormHelper.patterns.mobileNo}
+                        hasError={errors.contactNo}
+                        defaultValue={row?.contactNo}
+                        onChange={contactNo => {
+                          onChange(contactNo);
+                        }}
+                        onBlur={contactNo => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(contactNo, 'contactNo', row._id);
+                        }}
+                      />
+                    )}
+                    name="contactNo"
+                    rules={{
+                      required: false,
+                      pattern: FormHelper.patterns.mobileNo,
                     }}
-                    onBlur={(contactNo)=>{
-                      props.onUpdateItem && props.onUpdateItem(contactNo,"contactNo",row._id)
-                    }}
+                    defaultValue=""
                   />
-                )}
-                name="contactNo"
-                rules={{ required: false,pattern:FormHelper.patterns.mobileNo }}
-                defaultValue=""
-              />
                 </>
-              )
+              ),
             },
             {
-              dataField: "email",
-              text: "Email",
+              dataField: 'email',
+              text: 'Email',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  email = filter
+                getFilter: filter => {
+                  email = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
             },
             {
-              dataField: "userDegree",
-              text: "User Degree",
+              dataField: 'userDegree',
+              text: 'User Degree',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  userDegree = filter
+                getFilter: filter => {
+                  userDegree = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
             },
             {
-              dataField: "dateOfBirth",
-              text: "Date Of Birth",
+              dataField: 'dateOfBirth',
+              text: 'Date Of Birth',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (col, row) =>
-                row.dateOfBirth ? dayjs(row.dateOfBirth).format("YYYY-MM-DD") : "",
+                row.dateOfBirth
+                  ? dayjs(row.dateOfBirth).format('YYYY-MM-DD')
+                  : '',
               filter: customFilter({
-                getFilter: (filter) => {
-                  dateOfBirth = filter
+                getFilter: filter => {
+                  dateOfBirth = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: "textHeader6",
+              headerClasses: 'textHeader6',
               formatter: (cell, row) => {
-                return dayjs(row.dateOfBirth).format("YYYY-MM-DD")
+                return dayjs(row.dateOfBirth).format('YYYY-MM-DD');
               },
               editorRenderer: (
                 editorProps,
@@ -500,39 +538,44 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.dateOfBirth)}
-                    onFocusRemove={(dateOfBirth) => {
+                    onFocusRemove={dateOfBirth => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(dateOfBirth, column.dataField, row._id)
+                        props.onUpdateItem(
+                          dateOfBirth,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "marriageAnniversary",
-              text: "Marriage Anniversery Date",
+              dataField: 'marriageAnniversary',
+              text: 'Marriage Anniversery Date',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (col, row) =>
                 row.marriageAnniversary
-                  ? dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
-                  : "",
+                  ? dayjs(row.marriageAnniversary).format('YYYY-MM-DD')
+                  : '',
               filter: customFilter({
-                getFilter: (filter) => {
-                  marriageAnniversary = filter
+                getFilter: filter => {
+                  marriageAnniversary = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: "textHeader10",
+              headerClasses: 'textHeader10',
               formatter: (cell, row) => {
-                return dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
+                return dayjs(row.marriageAnniversary).format('YYYY-MM-DD');
               },
               editorRenderer: (
                 editorProps,
@@ -540,41 +583,44 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.marriageAnniversary)}
-                    onFocusRemove={(marriageAnniversary) => {
+                    onFocusRemove={marriageAnniversary => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           marriageAnniversary,
                           column.dataField,
-                          row._id
-                        )
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              text: "Exipre Date",
-              dataField: "exipreDate",
+              text: 'Exipre Date',
+              dataField: 'exipreDate',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (col, row) =>
-                row.exipreDate ? dayjs(row.exipreDate).format("YYYY-MM-DD") : "",
+                row.exipreDate
+                  ? dayjs(row.exipreDate).format('YYYY-MM-DD')
+                  : '',
               filter: customFilter({
-                getFilter: (filter) => {
-                  exipreDate = filter
+                getFilter: filter => {
+                  exipreDate = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: "textHeader6",
+              headerClasses: 'textHeader6',
               formatter: (cell, row) => {
-                return dayjs(row.exipreDate).format("YYYY-MM-DD")
+                return dayjs(row.exipreDate).format('YYYY-MM-DD');
               },
               editorRenderer: (
                 editorProps,
@@ -582,35 +628,40 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.exipreDate)}
-                    onFocusRemove={(exipreDate) => {
+                    onFocusRemove={exipreDate => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(exipreDate, column.dataField, row._id)
+                        props.onUpdateItem(
+                          exipreDate,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "role",
-              text: "Role",
+              dataField: 'role',
+              text: 'Role',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
-                `${row.role.map((item) => item.code)}`,
+                `${row.role.map(item => item.code)}`,
               filter: textFilter({
-                getFilter: (filter) => {
-                  role = filter
+                getFilter: filter => {
+                  role = filter;
                 },
               }),
-              headerClasses: "textHeader2",
+              headerClasses: 'textHeader2',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{ listStyle: "inside" }}>
+                  <ul style={{listStyle: 'inside'}}>
                     {row.role.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
@@ -623,56 +674,65 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterMutiSelectRoles
                     selected={row.role}
-                    onUpdate={(items) => {
+                    onUpdate={items => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
+                        props.onUpdateItem(items, column.dataField, row._id);
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "confidential",
-              text: "Confidential",
+              dataField: 'confidential',
+              text: 'Confidential',
               sort: true,
               editable: false,
-              csvFormatter: (col,row) => `${row.confidential ? row.confidential ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${
+                  row.confidential ? (row.confidential ? 'Yes' : 'No') : 'No'
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <Form.Toggle
                     disabled={!editorCell(row)}
                     value={row.confidential}
-                    onChange={(confidential) => {
+                    onChange={confidential => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(confidential, "confidential", row._id)
+                        props.onUpdateItem(
+                          confidential,
+                          'confidential',
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "dateOfEntry",
-              text: "Date Creation",
+              dataField: 'dateOfEntry',
+              text: 'Date Creation',
               sort: true,
               csvFormatter: (col, row) =>
-                row.dateOfEntry ? dayjs(row.dateOfEntry).format("YYYY-MM-DD") : "",
+                row.dateOfEntry
+                  ? dayjs(row.dateOfEntry).format('YYYY-MM-DD')
+                  : '',
               filter: customFilter({
-                getFilter: (filter) => {
-                  dateOfEntry = filter
+                getFilter: filter => {
+                  dateOfEntry = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: "textHeader6",
+              headerClasses: 'textHeader6',
               editable: false,
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateOfEntry).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.dateOfEntry).format('YYYY-MM-DD')}</>;
               },
               editorRenderer: (
                 editorProps,
@@ -680,51 +740,52 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.dateOfEntry)}
-                    onFocusRemove={(dateOfEntry) => {
+                    onFocusRemove={dateOfEntry => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           new Date(dateOfEntry),
                           column.dataField,
-                          row._id
-                        )
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "createdBy",
-              text: "Created  By",
+              dataField: 'createdBy',
+              text: 'Created  By',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  createdBy = filter
+                getFilter: filter => {
+                  createdBy = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editable: false,
             },
             {
-              dataField: "signature",
-              text: "Signature",
+              dataField: 'signature',
+              text: 'Signature',
               csvExport: false,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
                     <img
                       src={row.signature}
                       alt="signature"
-                      className="object-fill h-35 w-40 rounded-md"
+                      className="object-cover h-20 w-20 rounded-md"
                     />
                   </>
-                )
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -732,25 +793,30 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputFile
                     placeholder="File"
-                    onChange={(e) => {
-                      const signature = e.target.files[0]
+                    onChange={e => {
+                      const signature = e.target.files[0];
                       props.onUpdateImage &&
-                        props.onUpdateImage(signature, column.dataField, row._id)
+                        props.onUpdateImage(
+                          signature,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "picture",
-              text: "Picture",
+              dataField: 'picture',
+              text: 'Picture',
               csvExport: false,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -759,7 +825,7 @@ export const UserList = observer((props: UserListProps) => {
                       className="object-cover h-20 w-20 rounded-md"
                     />
                   </>
-                )
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -767,138 +833,167 @@ export const UserList = observer((props: UserListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputFile
-                    onChange={(e) => {
-                      const picture = e.target.files[0]
+                    onChange={e => {
+                      const picture = e.target.files[0];
                       props.onUpdateImage &&
-                        props.onUpdateImage(picture, column.dataField, row._id)
+                        props.onUpdateImage(picture, column.dataField, row._id);
                     }}
                   />
                 </>
               ),
             },
             {
-              text: "Status",
-              dataField: "status",
+              text: 'Status',
+              dataField: 'status',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  status = filter
+                getFilter: filter => {
+                  status = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     value={row.status}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const status = e.target.value
+                    onChange={e => {
+                      const status = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(status, column.dataField, row._id)
+                        props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "environment",
-              text: "Environment",
+              dataField: 'environment',
+              text: 'Environment',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              csvFormatter: (col) => (col ? col : ""),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  environment = filter
+                getFilter: filter => {
+                  environment = filter;
                 },
               }),
-              headerClasses: "textHeader3",
+              headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     value={row.environment}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
+                    onChange={e => {
+                      const environment = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(environment, column.dataField, row._id)
+                        props.onUpdateItem(
+                          environment,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      )
-                    )}
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'ENVIRONMENT',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "confirguration",
-              text: "Confirguration",
+              dataField: 'confirguration',
+              text: 'Confirguration',
               sort: true,
               editable: false,
-              csvFormatter: (col,row) => `${row.confirguration ? row.confirguration ? "Yes" : "No" : "No"}`,
+              csvFormatter: (col, row) =>
+                `${
+                  row.confirguration
+                    ? row.confirguration
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <Form.Toggle
                     disabled={!editorCell(row)}
                     value={row.confirguration}
-                    onChange={(confirguration) => {
+                    onChange={confirguration => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(confirguration, "confirguration", row._id)
+                        props.onUpdateItem(
+                          confirguration,
+                          'confirguration',
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "systemInfo",
-              text: "System Info",
+              dataField: 'systemInfo',
+              text: 'System Info',
               sort: true,
               editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `Mobile:${
-                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile ? row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile ? "Yes" : "No" : "No"
+                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile
+                    ? row.systemInfo.accessInfo &&
+                      row.systemInfo.accessInfo?.mobile
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
                 },Desktop:${
-                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.desktop ?row.systemInfo.accessInfo && row.systemInfo.accessInfo?.desktop ? "Yes" : "No" : "No"
+                  row.systemInfo.accessInfo &&
+                  row.systemInfo.accessInfo?.desktop
+                    ? row.systemInfo.accessInfo &&
+                      row.systemInfo.accessInfo?.desktop
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
                 }`,
               formatter: (cellContent, row) => (
                 <>
                   <Form.InputWrapper
                     label="Access Permission"
-                    style={{ fontWeight: "bold" }}
+                    style={{fontWeight: 'bold'}}
                   >
                     <div className="flex flex-row gap-4">
                       <Form.Toggle
@@ -909,7 +1004,7 @@ export const UserList = observer((props: UserListProps) => {
                           row.systemInfo.accessInfo &&
                           row.systemInfo.accessInfo?.mobile
                         }
-                        onChange={(mobile) => {
+                        onChange={mobile => {
                           props.onUpdateItem &&
                             props.onUpdateItem(
                               {
@@ -919,9 +1014,9 @@ export const UserList = observer((props: UserListProps) => {
                                   mobile,
                                 },
                               },
-                              "systemInfo",
-                              row._id
-                            )
+                              'systemInfo',
+                              row._id,
+                            );
                         }}
                       />
 
@@ -933,7 +1028,7 @@ export const UserList = observer((props: UserListProps) => {
                           row.systemInfo.accessInfo &&
                           row.systemInfo.accessInfo?.desktop
                         }
-                        onChange={(desktop) => {
+                        onChange={desktop => {
                           props.onUpdateItem &&
                             props.onUpdateItem(
                               {
@@ -943,9 +1038,9 @@ export const UserList = observer((props: UserListProps) => {
                                   desktop,
                                 },
                               },
-                              "systemInfo",
-                              row._id
-                            )
+                              'systemInfo',
+                              row._id,
+                            );
                         }}
                       />
                     </div>
@@ -954,8 +1049,8 @@ export const UserList = observer((props: UserListProps) => {
               ),
             },
             {
-              dataField: "opration",
-              text: "Password Re-Send",
+              dataField: 'opration',
+              text: 'Password Re-Send',
               editable: false,
               csvExport: false,
               formatter: (cellContent, row) => (
@@ -972,18 +1067,17 @@ export const UserList = observer((props: UserListProps) => {
                           role: row.role[0].code,
                           email: row.email,
                         },
-                      }).then((res) => {
-                       
+                      }).then(res => {
                         if (res.reSendUserPassword.success) {
                           Toast.success({
                             message: `😊 ${res.reSendUserPassword.message}`,
-                          })
+                          });
                         } else {
                           Toast.error({
                             message: `😔 Password re-send not successfully please try again.`,
-                          })
+                          });
                         }
-                      })
+                      });
                     }}
                   >
                     Send
@@ -992,8 +1086,8 @@ export const UserList = observer((props: UserListProps) => {
               ),
             },
             {
-              dataField: "opration",
-              text: "Change Password",
+              dataField: 'opration',
+              text: 'Change Password',
               csvExport: false,
               editable: false,
               formatter: (cellContent, row) => (
@@ -1004,7 +1098,7 @@ export const UserList = observer((props: UserListProps) => {
                     icon={Svg.ReSendPassword}
                     onClick={() => {
                       props.onChangePassword &&
-                        props.onChangePassword(row._id, row.userId, row.email)
+                        props.onChangePassword(row._id, row.userId, row.email);
                     }}
                   >
                     Change Password
@@ -1013,8 +1107,8 @@ export const UserList = observer((props: UserListProps) => {
               ),
             },
             {
-              dataField: "opration",
-              text: "Action",
+              dataField: 'opration',
+              text: 'Action',
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
@@ -1028,12 +1122,12 @@ export const UserList = observer((props: UserListProps) => {
                         onClick={() => {
                           props.onDelete &&
                             props.onDelete({
-                              type: "Delete",
+                              type: 'Delete',
                               show: true,
                               id: [row._id],
-                              title: "Are you sure?",
+                              title: 'Are you sure?',
                               body: `Delete item`,
-                            })
+                            });
                         }}
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
@@ -1042,52 +1136,52 @@ export const UserList = observer((props: UserListProps) => {
                   </div>
                 </>
               ),
-              headerClasses: "sticky right-0  bg-gray-500 text-white",
+              headerClasses: 'sticky right-0  bg-gray-500 text-white',
               classes: (cell, row, rowIndex, colIndex) => {
-                return "sticky right-0 bg-gray-500"
+                return 'sticky right-0 bg-gray-500';
               },
             },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName="User"
-          onSelectedRow={(rows) => {
+          onSelectedRow={rows => {
             props.onSelectedRow &&
-              props.onSelectedRow(rows.map((item: any) => item._id))
+              props.onSelectedRow(rows.map((item: any) => item._id));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
           }}
           onPageSizeChange={(page, size) => {
-            props.onPageSizeChange && props.onPageSizeChange(page, size)
+            props.onPageSizeChange && props.onPageSizeChange(page, size);
           }}
           onFilter={(type, filter, page, size) => {
-            props.onFilter && props.onFilter(type, filter, page, size)
+            props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
-            userId("")
-            empCode("")
-            defaultLab("")
-            lab("")
-            deginisation("")
-            fullName("")
-            mobileNo("")
-            contactNo("")
-            email("")
-            dateOfBirth()
-            dateOfEntry()
-            marriageAnniversary()
-            userDegree("")
-            department("")
-            exipreDate()
-            role("")
-            validationLevel("")
-            createdBy("")
-            status("")
-            environment("")
+            userId('');
+            empCode('');
+            defaultLab('');
+            lab('');
+            deginisation('');
+            fullName('');
+            mobileNo('');
+            contactNo('');
+            email('');
+            dateOfBirth();
+            dateOfEntry();
+            marriageAnniversary();
+            userDegree('');
+            department('');
+            exipreDate();
+            role('');
+            validationLevel('');
+            createdBy('');
+            status('');
+            environment('');
           }}
         />
       </div>
     </>
-  )
-})
+  );
+});
