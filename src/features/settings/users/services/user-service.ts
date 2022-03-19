@@ -4,10 +4,10 @@
  * @author limsplus
  */
 
-import { Http, http } from "@/library/modules/http"
-import { stores } from "@/stores"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import * as Models from "../models"
+import {Http, http} from '@/library/modules/http';
+import {stores} from '@/stores';
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import * as Models from '../models';
 import {
   CHECK_EXISTS_USERID,
   USER_LIST,
@@ -23,13 +23,15 @@ import {
   FILTER_USERS_BY_KEY,
   FILTER,
   FILTER_BY_FIELDS,
-} from "./mutation"
+  FIND_BY_FIELDS,
+} from './mutation';
 
 export class UserService {
   userList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: USER_LIST,
@@ -43,28 +45,28 @@ export class UserService {
           },
         })
         .then((response: any) => {
-          stores.userStore.updateUserList(response.data)
-          resolve(response.data)
+          stores.userStore.updateUserList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsUserId = (userId: string) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: CHECK_EXISTS_USERID,
-          variables: { userId },
+          variables: {userId},
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addUser = async (variables: any) =>
     new Promise((resolve, reject) => {
@@ -74,13 +76,13 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.userStore.updateUser(new Models.Users({}))
+          resolve(response.data);
+          stores.userStore.updateUser(new Models.Users({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteUser = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -90,12 +92,12 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -105,28 +107,28 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.userStore.updateUser(new Models.Users({}))
+          resolve(response.data);
+          stores.userStore.updateUser(new Models.Users({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   findUserByEmpCode = (empCode: string) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: CHECK_EXISTS_EMPCODE,
-          variables: { empCode },
+          variables: {empCode},
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   uploadImage = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -136,14 +138,13 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
-          resolve(response.data)
-          stores.userStore.updateUser(new Models.Users({}))
+          resolve(response.data);
+          stores.userStore.updateUser(new Models.Users({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   reSendPassword = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -153,13 +154,12 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   changePassword = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -169,14 +169,14 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.userStore.updateChangePassword(new Models.ChangePassword({}))
+          resolve(response.data);
+          stores.userStore.updateChangePassword(new Models.ChangePassword({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-     
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
   changepasswordByAdmin = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -185,14 +185,14 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.userStore.updateChangePassword(new Models.ChangePassword({}))
+          resolve(response.data);
+          stores.userStore.updateChangePassword(new Models.ChangePassword({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-   
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
   switchAccess = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -201,75 +201,73 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   loginActivityList = (details: any) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/auth/loginActivityList`, details)
+        .post('/auth/loginActivityList', details)
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          const serviceResponse = Http.handleResponse<any>(response);
+          resolve(serviceResponse);
         })
-        .catch((error) => {
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
-    })
+        .catch(error => {
+          reject(new ServiceResponse<any>(0, error.message, undefined));
+        });
+    });
 
-  // endpoint /userFilterByKey
-  // input {filter:{fullName:'appa'}}
   userFilterByKey = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_USERS_BY_KEY,
           variables,
         })
         .then((response: any) => {
-          stores.userStore.updateUserFilterList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          stores.userStore.updateUserFilterList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterUsers.success) return this.userList()
-          stores.userStore.filterUserList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          if (!response.data.filterUsers.success) return this.userList();
+          stores.userStore.filterUserList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
           variables,
-        }) 
+        })
         .then((response: any) => {
-          if (!response.data.filterByFieldsUser.success) return this.userList()
+          if (!response.data.filterByFieldsUser.success) return this.userList();
           stores.userStore.filterUserList({
             filterUsers: {
               data: response.data.filterByFieldsUser.data,
@@ -277,12 +275,27 @@ export class UserService {
                 count: response.data.filterByFieldsUser.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
