@@ -9,12 +9,7 @@ export const SegmentMappingHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, segmentMappingStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          segmentMappingStore.updateSegmentMapping({
-            ...segmentMappingStore.segmentMapping,
-            environment: loginStore.login.environment,
-          })
-        }
+        
         segmentMappingStore.updateSegmentMapping({
           ...segmentMappingStore.segmentMapping,
           environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const SegmentMappingHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          segmentMappingStore.updateSegmentMapping({
+            ...segmentMappingStore.segmentMapping,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

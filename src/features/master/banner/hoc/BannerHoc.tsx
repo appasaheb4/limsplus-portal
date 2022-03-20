@@ -9,12 +9,7 @@ export const BannerHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, bannerStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          bannerStore.updateBanner({
-            ...bannerStore.banner,
-            environment: loginStore.login.environment,
-          })
-        }
+       
         bannerStore.updateBanner({
           ...bannerStore.banner,
           environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const BannerHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          bannerStore.updateBanner({
+            ...bannerStore.banner,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

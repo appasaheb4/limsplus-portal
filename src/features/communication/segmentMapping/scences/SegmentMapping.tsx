@@ -30,7 +30,6 @@ const SegmentMapping = SegmentMappingHoc(observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
   setValue("environment", segmentMappingStore.segmentMapping?.environment)
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddSegmentMapping, setHideAddSegmentMapping] = useState<boolean>(true)

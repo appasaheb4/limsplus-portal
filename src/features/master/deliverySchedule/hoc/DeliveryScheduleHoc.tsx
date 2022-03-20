@@ -9,12 +9,7 @@ export const DeliveryScheduleHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, deliveryScheduleStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          deliveryScheduleStore.updateDeliverySchedule({
-            ...deliveryScheduleStore.deliverySchedule,
-            environment: loginStore.login.environment,
-          })
-        }
+        
         deliveryScheduleStore.updateDeliverySchedule({
           ...deliveryScheduleStore.deliverySchedule,
           environment: getDefaultLookupItem(
@@ -30,6 +25,12 @@ export const DeliveryScheduleHoc = (Component: React.FC<any>) => {
             "DYNAMIC_TU"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          deliveryScheduleStore.updateDeliverySchedule({
+            ...deliveryScheduleStore.deliverySchedule,
+            environment: loginStore.login.environment,
+          })
+        }
         
       }, [loginStore.login, routerStore.lookupItems])
 

@@ -23,7 +23,7 @@ const DeliverySchedule = DeliveryScheduleHoc(observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
+ 
   setValue("environment", deliveryScheduleStore.deliverySchedule?.environment)
   
   const [modalConfirm, setModalConfirm] = useState<any>()
