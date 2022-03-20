@@ -22,15 +22,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         )
       }, [appStore.environmentValues?.LABID_AUTO_GENERATE])
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          patientVisitStore.updatePatientVisit({
-            ...patientVisitStore.patientVisit,
-            extraData: {
-              ...patientVisitStore.patientVisit.extraData,
-              environment: loginStore.login.environment,
-            },
-          })
-        }  
+         
         patientVisitStore.updatePatientVisit({
           ...patientVisitStore.patientVisit,
           rLab: loginStore.login.lab,
@@ -94,6 +86,15 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             ),
           },
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          patientVisitStore.updatePatientVisit({
+            ...patientVisitStore.patientVisit,
+            extraData: {
+              ...patientVisitStore.patientVisit.extraData,
+              environment: loginStore.login.environment,
+            },
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems, appStore.environmentValues])
 
       useEffect(() => {

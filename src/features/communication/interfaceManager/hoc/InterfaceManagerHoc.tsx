@@ -9,12 +9,7 @@ export const InterfaceManagerHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, interfaceManagerStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          interfaceManagerStore.updateInterfaceManager({
-            ...interfaceManagerStore.interfaceManager,
-            environment: loginStore.login.environment,
-          })
-        }
+        
         interfaceManagerStore.updateInterfaceManager({
           ...interfaceManagerStore.interfaceManager,
           environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const InterfaceManagerHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          interfaceManagerStore.updateInterfaceManager({
+            ...interfaceManagerStore.interfaceManager,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

@@ -9,12 +9,7 @@ export const TestSampleMappingHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, testSampleMappingStore, routerStore } = useStores()
       useEffect(()=>{
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          testSampleMappingStore.updateSampleType({
-            ...testSampleMappingStore.testSampleMapping,
-            environment: loginStore.login.environment,
-          })
-        }  
+          
         testSampleMappingStore.updateSampleType({
           ...testSampleMappingStore.testSampleMapping,
           repentionUnits:getDefaultLookupItem(
@@ -34,7 +29,12 @@ export const TestSampleMappingHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
-       
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          testSampleMappingStore.updateSampleType({
+            ...testSampleMappingStore.testSampleMapping,
+            environment: loginStore.login.environment,
+          })
+        }
 
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />

@@ -9,12 +9,7 @@ export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, administrativeDivisions, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          administrativeDivisions.updateAdministrativeDiv({
-            ...administrativeDivisions.administrativeDiv,
-            environment: loginStore.login.environment,
-          })
-        }
+       
         administrativeDivisions.updateAdministrativeDiv({
           ...administrativeDivisions.administrativeDiv,
           environment: getDefaultLookupItem(
@@ -30,6 +25,12 @@ export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
             "SBU"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          administrativeDivisions.updateAdministrativeDiv({
+            ...administrativeDivisions.administrativeDiv,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

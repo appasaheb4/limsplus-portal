@@ -9,12 +9,7 @@ export const EnvironmentSettingsHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, environmentStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          environmentStore.updateEnvironmentSettings({
-            ...environmentStore.environmentSettings,
-            environment: loginStore.login.environment,
-          })
-        }
+        
         environmentStore.updateEnvironmentSettings({
           ...environmentStore.environmentSettings,
           environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const EnvironmentSettingsHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT SETTING - ENVIRONMENT"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          environmentStore.updateEnvironmentSettings({
+            ...environmentStore.environmentSettings,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

@@ -9,12 +9,7 @@ export const SampleContainerHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, sampleContainerStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          sampleContainerStore.updateSampleContainer({
-            ...sampleContainerStore.sampleContainer,
-            environment: loginStore.login.environment,
-          })
-        }
+        
         sampleContainerStore.updateSampleContainer({
           ...sampleContainerStore.sampleContainer,
           environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const SampleContainerHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          sampleContainerStore.updateSampleContainer({
+            ...sampleContainerStore.sampleContainer,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

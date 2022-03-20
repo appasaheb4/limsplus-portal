@@ -9,12 +9,7 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, departmentStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          departmentStore.updateDepartment({
-            ...departmentStore.department,
-            environment: loginStore.login.environment,
-          })       
-        }
+        
           departmentStore &&
             departmentStore.updateDepartment({
               ...departmentStore.department,
@@ -28,6 +23,12 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
                 "ENVIRONMENT"
               ),
             })
+            if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+              departmentStore.updateDepartment({
+                ...departmentStore.department,
+                environment: loginStore.login.environment,
+              })       
+            }
       }, [loginStore.login,routerStore.lookupItems])
 
       return <Component {...props} />

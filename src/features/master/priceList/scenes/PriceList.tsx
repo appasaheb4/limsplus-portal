@@ -44,7 +44,7 @@ export const PriceList = PriceListHoc(
       // clearErrors,
     } = useForm()
 
-    setValue("environment", loginStore.login.environment)
+    
     setValue("status", priceListStore.priceList?.status)
     setValue("environment", priceListStore.priceList?.environment)
 
