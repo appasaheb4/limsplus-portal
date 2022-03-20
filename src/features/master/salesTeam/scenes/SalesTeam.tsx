@@ -14,7 +14,7 @@ import {
   ModalConfirm,
   Icons,
 } from '@/library/components';
-import {SalesTeamList} from '../components';
+import {SalesTeamList, SalesHierarchyTable, TargetsTable} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 
 import * as Utils from '../util';
@@ -24,7 +24,6 @@ import {useStores} from '@/stores';
 import {
   AutoCompleteFilterSingleSelectSalesTerrority,
   AutoCompleteFilterSingleSelectEmpolyeCode,
-  AutoCompleteFilterSingleSelectReportingTo,
 } from '../components';
 import {RouterFlow} from '@/flows';
 
@@ -36,7 +35,6 @@ export const SalesTeam = SalesTeamHoc(
       salesTeamStore,
       administrativeDivisions,
       routerStore,
-      loading,
     } = useStores();
     const {
       control,
@@ -237,7 +235,6 @@ export const SalesTeam = SalesTeamHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label="Employee Name"
-                      name="txtEmployeeName"
                       placeholder={
                         errors.empName
                           ? 'Please Enter EmployeeName'
@@ -251,7 +248,7 @@ export const SalesTeam = SalesTeamHoc(
                       value={salesTeamStore.salesTeam?.empName}
                     />
                   )}
-                  name="userDetials"
+                  name="employeeName"
                   rules={{required: false}}
                   defaultValue=""
                 />
@@ -262,16 +259,30 @@ export const SalesTeam = SalesTeamHoc(
                       label="Sales Hierarchy"
                       hasError={errors.salesHierarchy}
                     >
-                      <Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {}}
-                      >
-                        <Icons.EvaIcon
-                          icon="plus-circle-outline"
-                          color="#000"
-                        />
-                      </Buttons.Button>
+                      {!salesTeamStore.salesTeam?.salesHierarchy && (
+                        <Buttons.Button
+                          size="small"
+                          type="outline"
+                          onClick={() => {
+                            salesTeamStore.updateSalesTeam({
+                              ...salesTeamStore.salesTeam,
+                              salesHierarchy: [
+                                {
+                                  id: 1,
+                                },
+                              ],
+                            });
+                          }}
+                        >
+                          <Icons.EvaIcon
+                            icon="plus-circle-outline"
+                            color="#000"
+                          />
+                        </Buttons.Button>
+                      )}
+                      {salesTeamStore.salesTeam?.salesHierarchy?.length > 0 && (
+                        <SalesHierarchyTable />
+                      )}
                     </Form.InputWrapper>
                   )}
                   name="salesHierarchy"
@@ -285,16 +296,30 @@ export const SalesTeam = SalesTeamHoc(
                       label="Targets"
                       hasError={errors.targets}
                     >
-                      <Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {}}
-                      >
-                        <Icons.EvaIcon
-                          icon="plus-circle-outline"
-                          color="#000"
-                        />
-                      </Buttons.Button>
+                      {!salesTeamStore.salesTeam?.targets && (
+                        <Buttons.Button
+                          size="small"
+                          type="outline"
+                          onClick={() => {
+                            salesTeamStore.updateSalesTeam({
+                              ...salesTeamStore.salesTeam,
+                              targets: [
+                                {
+                                  id: 1,
+                                },
+                              ],
+                            });
+                          }}
+                        >
+                          <Icons.EvaIcon
+                            icon="plus-circle-outline"
+                            color="#000"
+                          />
+                        </Buttons.Button>
+                      )}
+                      {salesTeamStore.salesTeam?.targets?.length > 0 && (
+                        <TargetsTable />
+                      )}
                     </Form.InputWrapper>
                   )}
                   name="targets"

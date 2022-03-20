@@ -5,7 +5,7 @@ export class SalesTeam {
   empCode: string;
   empName: string;
   salesHierarchy: Array<any>;
-  target: Array<any>;
+  targets: Array<any>;
   enteredBy: string;
   dateCreation: Date;
   dateActive: Date;
@@ -13,6 +13,8 @@ export class SalesTeam {
   version: number;
   status: string;
   environment: string;
+  dateOfEntry: Date;
+  lastUpdated: Date;
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
     this.salesTerritory = rawData.salesTerritory;
@@ -20,7 +22,7 @@ export class SalesTeam {
     this.empCode = rawData.empCode;
     this.empName = rawData.empName;
     this.salesHierarchy = rawData.salesHierarchy;
-    this.target = rawData.target;
+    this.targets = rawData.targets;
     this.enteredBy = rawData.enteredBy;
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;
@@ -28,5 +30,7 @@ export class SalesTeam {
     this.version = rawData.version;
     this.status = rawData.status;
     this.environment = rawData.environment;
+    this.dateOfEntry = rawData.dateOfEntry;
+    this.lastUpdated = rawData.lastUpdated;
   }
 }

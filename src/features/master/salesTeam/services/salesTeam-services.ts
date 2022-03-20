@@ -4,36 +4,38 @@
  
  * @author limsplus
  */
-import * as Models from '../models'
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
-     
-import {  
+import * as Models from '../models';
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
+
+import {
   LIST,
   REMOVE_RECORD,
   CREATE_RECORD,
   UPDATE_RECORD,
   EXISTS_RECORD,
   FILTER,
-  FILTER_BY_FIELDS
-} from "./mutation"
+  FILTER_BY_FIELDS,
+} from './mutation';
 
 export class SalesTeamService {
   listSalesTeam = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.salesTeamStore.updateSalesTeamList(response.data)
-          resolve(response.data)
+          stores.salesTeamStore.updateSalesTeamList(response.data);
+          resolve(response.data);
         })
-        .catch((error) => reject(error))
-    })
+        .catch(error => reject(error));
+    });
+
   addSalesTeam = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -42,13 +44,13 @@ export class SalesTeamService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.salesTeamStore.updateSalesTeam(new Models.SalesTeam({}))
+          resolve(response.data);
+          stores.salesTeamStore.updateSalesTeam(new Models.SalesTeam({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteSalesTeam = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -58,12 +60,12 @@ export class SalesTeamService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -73,52 +75,51 @@ export class SalesTeamService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExistsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
-      .mutate({
-        mutation: EXISTS_RECORD,
-        variables,
-      })
-      .then((response: any) => {
-        resolve(response.data)
-      })
-      .catch((error) =>
-        reject(new ServiceResponse<any>(0, error.message, undefined))
-      )
-    })
+        .mutate({
+          mutation: EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    filter = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterSalesTeams.success) return this.listSalesTeam()
-          stores.salesTeamStore.filterSalesTeamList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          if (!response.data.filterSalesTeams.success)
+            return this.listSalesTeam();
+          stores.salesTeamStore.filterSalesTeamList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-
-
-    filterByFields = (variables: any) =>
+  filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -126,26 +127,21 @@ export class SalesTeamService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsSalesTeams.success)
-            return this.listSalesTeam()
+            return this.listSalesTeam();
           stores.salesTeamStore.filterSalesTeamList({
             filterSalesTeams: {
               data: response.data.filterByFieldsSalesTeams.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsSalesTeams.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsSalesTeams.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-
-
-
-
-
-
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
