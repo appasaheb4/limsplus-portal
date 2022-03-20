@@ -9,12 +9,7 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, deginisationStore, routerStore } = useStores()
       useEffect(()=>{
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          deginisationStore.updateDescription({
-            ...deginisationStore.deginisation,
-            environment: loginStore.login.environment,
-          })
-        }
+        
           deginisationStore && deginisationStore.updateDescription({
             ...deginisationStore.deginisation,
             environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
                 "ENVIRONMENT"
               ),
           })
+          if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+            deginisationStore.updateDescription({
+              ...deginisationStore.deginisation,
+              environment: loginStore.login.environment,
+            })
+          }
       },[loginStore.login,routerStore.lookupItems])
 
       return <Component {...props} />

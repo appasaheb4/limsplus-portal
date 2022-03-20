@@ -22,7 +22,7 @@ const DataConversation = DataConversationHoc(observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
+  
   setValue("environment",dataConversationStore.dataConversation?.environment)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDataConversation, setHideAddDataConversation] = useState<boolean>(

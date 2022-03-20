@@ -9,12 +9,7 @@ export const RolesHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, roleStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          roleStore.updateRole({
-            ...roleStore.role,
-            environment: loginStore.login.environment,
-          })
-        }
+        
         roleStore.updateRole({
           ...roleStore.role,
           environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const RolesHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          roleStore.updateRole({
+            ...roleStore.role,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

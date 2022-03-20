@@ -31,7 +31,6 @@ const Methods = MethodsHoc(
       formState: { errors },
       setValue,
     } = useForm()
-    setValue("environment", loginStore.login.environment)
     setValue("status", methodsStore.methods?.status)
     setValue("environment", methodsStore.methods?.environment)
     const [modalConfirm, setModalConfirm] = useState<any>()

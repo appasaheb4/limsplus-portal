@@ -19,7 +19,6 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(observer(() =>
     formState: { errors },
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
   setValue("environment", administrativeDivisions.administrativeDiv?.environment)
  
   const [modalConfirm, setModalConfirm] = useState<any>()

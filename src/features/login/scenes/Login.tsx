@@ -280,6 +280,7 @@ export const Login = observer(() => {
                           style={{ color: "white" }}
                         >
                           <select
+                          
                             value={loginStore.inputLogin?.lab}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.lab ? "border-red-500" : "border-gray-300"
@@ -293,8 +294,9 @@ export const Login = observer(() => {
                               })
                             }}
                           >
-                            <option selected>Select</option>
-                            {labRoleList.labList.map((item: any) => (
+                            
+                            <option >Select</option>
+                            {labRoleList?.labList?.map((item: any) => (
                               <option key={item.code} value={item.code}>
                                 {item.name}
                               </option>

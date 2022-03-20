@@ -39,7 +39,7 @@ export const Users = UsersHoc(observer(() => {
     setValue,
   } = useForm()
     
-  setValue("environment", loginStore.login.environment)
+  
   setValue("status", userStore.user?.status)
   setValue("environment", userStore.user?.environment)
   

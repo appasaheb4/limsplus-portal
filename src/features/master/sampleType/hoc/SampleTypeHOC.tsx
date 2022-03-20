@@ -9,12 +9,7 @@ export const SampleTypeHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, sampleTypeStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          sampleTypeStore.updateSampleType({
-            ...sampleTypeStore.sampleType,
-            environment: loginStore.login.environment,
-          })
-        }
+        
         sampleTypeStore.updateSampleType({
           ...sampleTypeStore.sampleType,
           environment: getDefaultLookupItem(
@@ -22,6 +17,12 @@ export const SampleTypeHoc = (Component: React.FC<any>) => {
             "ENVIRONMENT"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          sampleTypeStore.updateSampleType({
+            ...sampleTypeStore.sampleType,
+            environment: loginStore.login.environment,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

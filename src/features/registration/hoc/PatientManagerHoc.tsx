@@ -14,15 +14,7 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
         environmentStore,
       } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          patientManagerStore.updatePatientManager({
-            ...patientManagerStore.patientManger,
-            extraData: {
-              ...patientManagerStore.patientManger?.extraData,
-              environment: loginStore.login.environment,
-            },
-          })
-        }
+        
         patientManagerStore.updatePatientManager({
           ...patientManagerStore.patientManger,
           species: getDefaultLookupItem(
@@ -72,6 +64,15 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
                 country: res.filterByFieldsEnviroment.data[0]?.value,
               },
             })
+          })
+        }
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          patientManagerStore.updatePatientManager({
+            ...patientManagerStore.patientManger,
+            extraData: {
+              ...patientManagerStore.patientManger?.extraData,
+              environment: loginStore.login.environment,
+            },
           })
         }
       }, [loginStore.login, routerStore.lookupItems])

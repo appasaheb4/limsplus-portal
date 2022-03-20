@@ -21,7 +21,7 @@ const SampleContainer = SampleContainerHoc(observer(() => {
     handleSubmit,
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
+
   setValue("environment",sampleContainerStore.sampleContainer?.environment)
 
   const [modalConfirm, setModalConfirm] = useState<any>()

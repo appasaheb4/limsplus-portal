@@ -21,7 +21,7 @@ const SampleType = SampleTypeHoc(observer(() => {
     handleSubmit,
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
+  
   setValue("environment", sampleTypeStore.sampleType?.environment)
   
   const [modalConfirm, setModalConfirm] = useState<any>()

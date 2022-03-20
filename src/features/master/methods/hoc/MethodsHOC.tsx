@@ -9,12 +9,7 @@ export const MethodsHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, methodsStore, routerStore } = useStores()
       useEffect(()=>{
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          methodsStore.updateMethods({
-            ...methodsStore.methods,
-            environment: loginStore.login.environment,
-          })
-        }  
+       
         methodsStore.updateMethods({
             ...methodsStore.methods,
             status: getDefaultLookupItem(
@@ -26,6 +21,12 @@ export const MethodsHoc = (Component: React.FC<any>) => {
                 "ENVIRONMENT"
               ),
           })
+          if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+            methodsStore.updateMethods({
+              ...methodsStore.methods,
+              environment: loginStore.login.environment,
+            })
+          }  
          
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />
