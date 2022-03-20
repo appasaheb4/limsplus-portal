@@ -25,7 +25,6 @@ export const DocumentSettings = DocumentSettingHoc(observer((props: NewFieldProp
     formState: { errors },
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
   setValue("environment", lookupStore.lookup?.environment)
   const onSubmitNewField = (data: any) => {
     if (lookupStore.localInput.value === "" && lookupStore.localInput.value === "") {

@@ -9,12 +9,7 @@ export const MasterAnalyteHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, masterAnalyteStore, routerStore } = useStores()
       useEffect(()=>{
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          masterAnalyteStore.updateMasterAnalyte({
-            ...masterAnalyteStore.masterAnalyte,
-            environment: loginStore.login.environment,
-          })
-        }  
+        
         masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
             ...masterAnalyteStore.masterAnalyte,
             lab: loginStore.login.lab,
@@ -43,7 +38,12 @@ export const MasterAnalyteHoc = (Component: React.FC<any>) => {
                 "RESULT_TYPE"
               ),
           })
-       
+          if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+            masterAnalyteStore.updateMasterAnalyte({
+              ...masterAnalyteStore.masterAnalyte,
+              environment: loginStore.login.environment,
+            })
+          }  
 
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />

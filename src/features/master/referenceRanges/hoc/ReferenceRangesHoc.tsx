@@ -9,12 +9,7 @@ export const ReferenceRangesHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, refernceRangesStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          refernceRangesStore.updateReferenceRanges({
-            ...refernceRangesStore.referenceRanges,
-            lab: loginStore.login.lab,
-          })
-        }
+        
         refernceRangesStore.updateReferenceRanges({
           ...refernceRangesStore.referenceRanges,
           species: getDefaultLookupItem(
@@ -26,6 +21,12 @@ export const ReferenceRangesHoc = (Component: React.FC<any>) => {
             "RANGE_SET_ON"
           ),
         })
+        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+          refernceRangesStore.updateReferenceRanges({
+            ...refernceRangesStore.referenceRanges,
+            lab: loginStore.login.lab,
+          })
+        }
       }, [loginStore.login, routerStore.lookupItems])
 
       return <Component {...props} />

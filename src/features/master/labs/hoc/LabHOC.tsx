@@ -9,13 +9,7 @@ export const LabHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, labStore, routerStore } = useStores()
       useEffect(() => {
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          labStore.updateLabs({
-            ...labStore.labs,
-            environment: loginStore.login.environment,
-          })
-          
-        }
+        
         
           labStore &&
             labStore.updateLabs({
@@ -38,7 +32,13 @@ export const LabHoc = (Component: React.FC<any>) => {
               ),
             })
         
-       
+            if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+              labStore.updateLabs({
+                ...labStore.labs,
+                environment: loginStore.login.environment,
+              })
+              
+            }
           
         
       }, [loginStore.login, routerStore.lookupItems])

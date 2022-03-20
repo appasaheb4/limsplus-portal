@@ -9,12 +9,7 @@ export const DocumentSettingHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, lookupStore, routerStore } = useStores()
       useEffect(()=>{
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          lookupStore.updateLookup({
-            ...lookupStore.lookup,
-            environment: loginStore.login.environment,
-          })
-        }
+        
           lookupStore &&
           lookupStore.updateLookup({
             ...lookupStore.lookup,
@@ -23,6 +18,12 @@ export const DocumentSettingHoc = (Component: React.FC<any>) => {
               "ENVIRONMENT"
             ),
           })
+          if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+            lookupStore.updateLookup({
+              ...lookupStore.lookup,
+              environment: loginStore.login.environment,
+            })
+          }
       },[loginStore.login,routerStore.lookupItems])
 
       return <Component {...props} />

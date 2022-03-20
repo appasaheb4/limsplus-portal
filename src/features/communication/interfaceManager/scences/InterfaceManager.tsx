@@ -20,7 +20,7 @@ const InterfaceManager = InterfaceManagerHoc(observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
+  
   setValue("environment", interfaceManagerStore.interfaceManager?.environment)
  
   const [modalConfirm, setModalConfirm] = useState<any>()

@@ -9,12 +9,7 @@ export const RegistrationLocationHoc = (Component: React.FC<any>) => {
     (props: any): JSX.Element => {
       const { loginStore, registrationLocationsStore, routerStore } = useStores()
       useEffect(()=>{
-        if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
-          registrationLocationsStore.updateRegistrationLocations({
-            ...registrationLocationsStore.registrationLocations,
-            environment: loginStore.login.environment,
-          })
-        }  
+         
         registrationLocationsStore.updateRegistrationLocations({
             ...registrationLocationsStore.registrationLocations,
             status: getDefaultLookupItem(
@@ -58,6 +53,12 @@ export const RegistrationLocationHoc = (Component: React.FC<any>) => {
                 "CUSTOMER_GROUP"
               ),
           })
+          if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+            registrationLocationsStore.updateRegistrationLocations({
+              ...registrationLocationsStore.registrationLocations,
+              environment: loginStore.login.environment,
+            })
+          } 
          
       },[loginStore.login,routerStore.lookupItems])
       return <Component {...props} />

@@ -18,7 +18,6 @@ const Role = RolesHoc(observer(() => {
     handleSubmit,
     setValue,
   } = useForm()
-  setValue("environment", loginStore.login.environment)
   setValue("environment", roleStore.role?.environment)
  
   const [modalConfirm, setModalConfirm] = useState<any>()
