@@ -10,11 +10,18 @@ export const LIST = gql`
       message
       data {
         _id
-        salesHierarchy
         salesTerritory
+        description
         empCode
         empName
-        reportingTo
+        salesHierarchy
+        targets
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -69,11 +76,18 @@ export const FILTER = gql`
       message
       data {
         _id
-        salesHierarchy
         salesTerritory
+        description
         empCode
         empName
-        reportingTo
+        salesHierarchy
+        targets
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -92,11 +106,18 @@ export const FILTER_BY_FIELDS = gql`
       message
       data {
         _id
-        salesHierarchy
         salesTerritory
+        description
         empCode
         empName
-        reportingTo
+        salesHierarchy
+        targets
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        status
         environment
         dateOfEntry
         lastUpdated
