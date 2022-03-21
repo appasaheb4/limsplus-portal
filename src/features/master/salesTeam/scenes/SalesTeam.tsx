@@ -21,10 +21,7 @@ import * as Utils from '../util';
 import {SalesTeamHoc} from '../hoc';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
-import {
-  AutoCompleteFilterSingleSelectSalesTerrority,
-  AutoCompleteFilterSingleSelectEmpolyeCode,
-} from '../components';
+import {AutoCompleteFilterSingleSelectEmpolyeCode} from '../components';
 import {RouterFlow} from '@/flows';
 
 export const SalesTeam = SalesTeamHoc(
@@ -50,7 +47,7 @@ export const SalesTeam = SalesTeamHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
 
     const onSubmitSalesTeam = () => {
-      if (!salesTeamStore.checkExistsEnvCode) {
+      if (!salesTeamStore.checkExistsRecord) {
         salesTeamStore.salesTeamService
           .addSalesTeam({input: {...salesTeamStore.salesTeam}})
           .then(res => {
@@ -147,22 +144,23 @@ export const SalesTeam = SalesTeamHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper
+                    <Form.Input
                       label="Sales Territory"
-                      hasError={errors.salesTerritory}
-                    >
-                      <AutoCompleteFilterSingleSelectSalesTerrority
-                        onSelect={item => {
-                          salesTeamStore.updateSalesTeam({
-                            ...salesTeamStore.salesTeam,
-                            salesTerritory: item.country,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
+                      placeholder="Sales Territory"
+                      value={salesTeamStore.salesTeam?.salesTerritory}
+                      onChange={salesTerritory => {
+                        salesTeamStore.updateSalesTeam({
+                          ...salesTeamStore.salesTeam,
+                          salesTerritory: salesTerritory.toUpperCase(),
+                        });
+                      }}
+                      onBlur={salesTerritory => {
+                        console.log({salesTerritory});
+                      }}
+                    />
                   )}
                   name="salesTerritory"
-                  rules={{required: false}}
+                  rules={{required: true}}
                   defaultValue=""
                 />
                 <Controller
@@ -211,11 +209,11 @@ export const SalesTeam = SalesTeamHoc(
                             })
                             .then(res => {
                               if (res.checkSalesTeamsExistsRecord.success) {
-                                salesTeamStore.updateExistsEnvCode(true);
+                                salesTeamStore.updateExistsRecord(true);
                                 Toast.error({
                                   message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                                 });
-                              } else salesTeamStore.updateExistsEnvCode(false);
+                              } else salesTeamStore.updateExistsRecord(false);
                             });
                         }}
                       />
@@ -225,11 +223,6 @@ export const SalesTeam = SalesTeamHoc(
                   rules={{required: true}}
                   defaultValue={userStore.userList}
                 />
-                {salesTeamStore.checkExistsEnvCode && (
-                  <span className="text-red-600 font-medium relative">
-                    Code already exits. Please use other code.
-                  </span>
-                )}
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -474,11 +467,11 @@ export const SalesTeam = SalesTeamHoc(
                             })
                             .then(res => {
                               if (res.checkSalesTeamsExistsRecord.success) {
-                                salesTeamStore.updateExistsEnvCode(true);
+                                salesTeamStore.updateExistsRecord(true);
                                 Toast.error({
                                   message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                                 });
-                              } else salesTeamStore.updateExistsEnvCode(false);
+                              } else salesTeamStore.updateExistsRecord(false);
                             });
                         }}
                       >

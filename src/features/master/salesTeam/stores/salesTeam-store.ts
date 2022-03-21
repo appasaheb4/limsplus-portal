@@ -8,7 +8,7 @@ export class SalesTeamStore {
   listSalesTeamCopy!: SalesTeam[];
   salesTeam!: SalesTeam;
   listSalesTeamCount = 0;
-  checkExistsEnvCode?: boolean = false;
+  checkExistsRecord?: boolean = false;
 
   constructor() {
     this.listSalesTeam = [];
@@ -25,13 +25,13 @@ export class SalesTeamStore {
       listSalesTeam: observable,
       salesTeam: observable,
       listSalesTeamCount: observable,
-      checkExistsEnvCode: observable,
+      checkExistsRecord: observable,
 
       salesTeamService: computed,
       fetchSalesTeam: action,
       updateSalesTeamList: action,
       updateSalesTeam: action,
-      updateExistsEnvCode: action,
+      updateExistsRecord: action,
       filterSalesTeamList: action,
     });
   }
@@ -64,7 +64,7 @@ export class SalesTeamStore {
     this.salesTeam = team;
   }
 
-  updateExistsEnvCode(status: boolean) {
-    this.checkExistsEnvCode = status;
+  updateExistsRecord(status: boolean) {
+    this.checkExistsRecord = status;
   }
 }
