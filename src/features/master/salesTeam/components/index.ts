@@ -5,3 +5,5 @@ export * from './molecules/input/TargetsTable';
 export * from './organsims/AutoCompleteFilterSingleSelectEmpolyeeCode';
 export * from './organsims/AutoCompleteFilterSingleSelectReportingTo';
 export * from './organsims/AutoCompleteFilterSingleSelectSalesTerrotiy';
+export * from './molecules/input/TargetTableForSalesTeam';
+export * from './molecules/input/SalesHierarchyTableForSalesTeam';
