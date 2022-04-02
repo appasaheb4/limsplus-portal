@@ -1,22 +1,22 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
-import {Icons} from ".."
+import React, {useState, useEffect, useRef} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {Icons} from '..';
 
 interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
-  loader?: boolean
-  placeholder?: string
-  data: any
-  hasError?: boolean
-  disable?:boolean
-  onFilter: (value: string) => void
-  onUpdate: (item: any) => void
-  onSelect: (item: any) => any
+  loader?: boolean;
+  placeholder?: string;
+  data: any;
+  hasError?: boolean;
+  disable?: boolean;
+  onFilter: (value: string) => void;
+  onUpdate: (item: any) => void;
+  onSelect: (item: any) => any;
 }
 
 export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   loader = false,
-  placeholder = "Search...",
+  placeholder = 'Search...',
   data,
   hasError = false,
   disable = false,
@@ -24,78 +24,78 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   onUpdate,
   onSelect,
 }: AutoCompleteFilterMutiSelectMultiFieldsDisplayProps) => {
-  const [value, setValue] = useState<string>("")
-  const [options, setOptions] = useState<any[]>()
-  const [originalOptions, setOriginalOptions] = useState<any[]>()
-  const [isListOpen, setIsListOpen] = useState<boolean>(false)
+  const [value, setValue] = useState<string>('');
+  const [options, setOptions] = useState<any[]>();
+  const [originalOptions, setOriginalOptions] = useState<any[]>();
+  const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
-  const useOutsideAlerter = (ref) => {
+  const useOutsideAlerter = ref => {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
           if (originalOptions && options) {
             if (isListOpen) {
-              onUpdate && onUpdate(data.selected)
+              onUpdate && onUpdate(data.selected);
             }
           }
-          setIsListOpen(false)
-          setValue("")
+          setIsListOpen(false);
+          setValue('');
         }
       }
-      document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside)
-      }
-    }, [ref, isListOpen])
-  }
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref, isListOpen]);
+  };
 
-  const wrapperRef = useRef(null)
-  useOutsideAlerter(wrapperRef)
-  let count = 0
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+  let count = 0;
   const getSelectedItem = (selectedItem: any[], list: any[]) => {
     if (count === 0) {
       const finalList = list.filter((item, index) => {
-        item.selected = false
+        item.selected = false;
         selectedItem && selectedItem.length > 0
           ? selectedItem.find((sItem, index) => {
               if (sItem._id === item._id) {
-                item.selected = true
+                item.selected = true;
               }
             })
-          : (item.selected = false)
-        count++
-        return item
-      })
-      list = finalList
+          : (item.selected = false);
+        count++;
+        return item;
+      });
+      list = finalList;
     }
-    return list
-  }
-  
-  useEffect(() => {  
-    setOriginalOptions(getSelectedItem(data.selected, data.list))
-    setOptions(getSelectedItem(data.selected, data.list))
-  }, [data, data.selected])
-  
-  const onChange = (e) => {
-    const search = e.target.value
-    setValue(search)
-    onFilter(search)
-  }
+    return list;
+  };
 
-  const onKeyUp = (e) => {
-    const charCode = e.which ? e.which : e.keyCode
+  useEffect(() => {
+    setOriginalOptions(getSelectedItem(data.selected, data.list));
+    setOptions(getSelectedItem(data.selected, data.list));
+  }, [data, data.selected]);
+
+  const onChange = e => {
+    const search = e.target.value;
+    setValue(search);
+    onFilter(search);
+  };
+
+  const onKeyUp = e => {
+    const charCode = e.which ? e.which : e.keyCode;
     if (charCode === 8) {
-      const search = e.target.value
-      onFilter(search)
+      const search = e.target.value;
+      onFilter(search);
     }
-  }
+  };
 
   return (
     <>
-      <div ref={wrapperRef} className="w-full">
+      <div ref={wrapperRef} className="w-full relative">
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
-            hasError ? "border-red-500" : "border-gray-300"
+            hasError ? 'border-red-500' : 'border-gray-300'
           } rounded-md`}
         >
           <input
@@ -121,24 +121,27 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
 
         {options && isListOpen
           ? options?.length > 0 && (
-              <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
+              <div className="mt-1  absolute bg-gray-100 p-2 rounded-sm z-50">
                 <ul>
                   {options?.map((item, index) => (
                     <>
-                      <li key={index} className="text-gray-400 flex items-center">
+                      <li
+                        key={index}
+                        className="text-gray-400 flex items-center"
+                      >
                         <input
                           type="checkbox"
                           checked={item.selected}
                           onChange={() => onSelect(item)}
-                        />{" "}
+                        />{' '}
                         <label className="ml-2 mt-1 text-black">
                           {data.displayKey
                             .map(
-                              (key) =>
+                              key =>
                                 `${item[key]}
-                              `
+                              `,
                             )
-                            .join(" - ")}
+                            .join(' - ')}
                         </label>
                       </li>
                     </>
@@ -149,5 +152,5 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
           : null}
       </div>
     </>
-  )
-}
+  );
+};

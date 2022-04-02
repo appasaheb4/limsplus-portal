@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -22,6 +22,7 @@ export const SalesTeamHoc = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
 
     return <Component {...props} />;

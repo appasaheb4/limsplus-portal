@@ -17,8 +17,8 @@ import {
   AutoCompleteFilterSingleSelectSalesTerrority,
   SalesHierarchyTableForSalesTeam,
   TargetTableForSalesTeam,
-  AutoCompleteFilterSingleSelectReportingTo,
 } from '../../index';
+
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -31,6 +31,7 @@ let empCode;
 let empName;
 let status;
 let environment;
+
 interface SalesTeamListProps {
   data: any;
   totalSize: number;
@@ -47,6 +48,8 @@ interface SalesTeamListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onVersionUpgrade?: (item: any) => void;
+  onDuplicate?: (item: any) => void;
 }
 
 export const SalesTeamList = (props: SalesTeamListProps) => {
@@ -511,9 +514,9 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                         <Icons.IconContext
                           color="#fff"
                           size="20"
-                          onClick={
-                            () => console.log('Working on')
-                            // props.onVersionUpgrade && props.onVersionUpgrade(row)
+                          onClick={() =>
+                            props.onVersionUpgrade &&
+                            props.onVersionUpgrade(row)
                           }
                         >
                           {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
@@ -523,10 +526,9 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                         <Icons.IconContext
                           color="#fff"
                           size="20"
-                          onClick={() => {
-                            console.log('Version');
-                            // props.onDuplicate && props.onDuplicate(row)
-                          }}
+                          onClick={() =>
+                            props.onDuplicate && props.onDuplicate(row)
+                          }
                         >
                           {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                         </Icons.IconContext>

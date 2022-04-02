@@ -7,13 +7,18 @@ import {Icons} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectEmpolyeCodeProps {
   hasError?: boolean;
+  displayValue?: string;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
-  ({hasError, onSelect}: AutoCompleteFilterSingleSelectEmpolyeCodeProps) => {
+  ({
+    hasError,
+    displayValue,
+    onSelect,
+  }: AutoCompleteFilterSingleSelectEmpolyeCodeProps) => {
     const {loading, userStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(displayValue || '');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
