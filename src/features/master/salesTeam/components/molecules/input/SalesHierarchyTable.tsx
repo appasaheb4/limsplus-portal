@@ -98,8 +98,8 @@ export const SalesHierarchyTable = observer(({}) => {
                         list: employeeList,
                         displayKey: ['empCode', 'fullName'],
                       }}
-                      hasError={errors.priceGroup}
-                      displayValue={item?.priceGroup}
+                      hasError={errors.empCode}
+                      displayValue={item?.empCode}
                       onFilter={(value: string) => {
                         userStore.UsersService.filter({
                           input: {
@@ -148,7 +148,7 @@ export const SalesHierarchyTable = observer(({}) => {
                       }}
                     />
                   )}
-                  name="priceGroup"
+                  name="empCode"
                   rules={{required: false}}
                   defaultValue={employeeList}
                 />

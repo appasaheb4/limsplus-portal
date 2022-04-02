@@ -1,90 +1,100 @@
-import * as ModelsLab from "@/features/master/labs/models"
-import * as ModelsDepartment from "@/features/master/department/models"
-import * as ModelsRole from "@/features/settings/roles/models"
+import * as ModelsLab from '@/features/master/labs/models';
+import * as ModelsDepartment from '@/features/master/department/models';
+import * as ModelsRole from '@/features/settings/roles/models';
 export class Users {
-  _id: string
-  userId: string
-  empCode: string
-  defaultLab: string
-  lab: ModelsLab.Labs[]
-  password: string
-  passChanged: boolean
-  deginisation: string
-  fullName: string
-  mobileNo: string
-  contactNo: string
-  email: string
-  dateOfBirth: Date
-  marriageAnniversary: Date
-  userDegree: string
-  department: ModelsDepartment.Department[]
-  exipreDate: Date
-  expireDays: number
-  role: ModelsRole.Role[]
-  validationLevel: number
-  createdBy: string
-  confidential: boolean
-  signature: any
-  picture: any
-  status: string
-  environment: string
-  confirguration: boolean  
+  _id: string;
+  defaultLab: string;
+  defaultDepartment: string;
+  userGroup: string;
+  userId: string;
+  fullName: string;
+  empCode: string;
+  reportingTo: string;
+  deginisation: string;
+  userDegree: string;
+  role: ModelsRole.Role[];
+  password: string;
+  lab: ModelsLab.Labs[];
+  department: ModelsDepartment.Department[];
+  mobileNo: string;
+  contactNo: string;
+  email: string;
+  signature: any;
+  picture: any;
+  validationLevel: number;
+  dateOfBirth: Date;
+  marriageAnniversary: Date;
+  exipreDate: Date;
+  expireDays: number;
+  confidential: boolean;
+  allowLogin: boolean;
+  confirguration: boolean;
   systemInfo: {
-    ipAddress: any[]
-    workstation: any[]
+    ipAddress?: any[];
+    workstation?: any[];
     accessInfo: {
-      mobile: boolean
-      desktop: boolean
-    }
-  }     
-  dateOfEntry: Date
-  lastUpdated: Date
+      mobile: boolean;
+      desktop: boolean;
+    };
+  };
+  dateCreation: Date;
+  dateActive: Date;
+  createdBy: string;
+  status: string;
+  version: number;
+  environment: string;
+  passChanged: boolean;
+  dateOfEntry: Date;
+  lastUpdated: Date;
 
-  constructor(rawData: { [key in string]: any }) {
-    this._id = rawData._id
-    this.userId = rawData.userId
-    this.empCode = rawData.empCode
-    this.defaultLab = rawData.defaultLab
-    this.lab = rawData.lab
-    this.password = rawData.password
-    this.passChanged = rawData.passChanged
-    this.deginisation = rawData.deginisation
-    this.fullName = rawData.fullName
-    this.mobileNo = rawData.mobileNo
-    this.contactNo = rawData.contactNo
-    this.email = rawData.email
-    this.dateOfBirth = rawData.dateOfBirth
-    this.userDegree = rawData.userDegree
-    this.department = rawData.department
-    this.exipreDate = rawData.exipreDate
-    this.expireDays = rawData.expireDays
-    this.role = rawData.role
-    this.validationLevel = rawData.validationLevel
-    // this.workstation = rawData.workstation
-    // this.ipAddress = rawData.ipAddress
-    this.createdBy = rawData.createdBy
-    this.confidential = rawData.confidential
-    this.signature = rawData.signature
-    this.picture = rawData.picture
-    this.marriageAnniversary = rawData.marriageAnniversary
-    this.status = rawData.status
-    this.environment = rawData.environment
-    this.confirguration = rawData.confirguration
-    this.systemInfo = rawData.systemInfo
-    this.dateOfEntry = rawData.dateOfEntry
-    this.lastUpdated = rawData.lastUpdated
+  constructor(rawData: {[key in string]: any}) {
+    this._id = rawData._id;
+    this.defaultLab = rawData.defaultLab;
+    this.defaultDepartment = rawData.defaultDepartment;
+    this.userGroup = rawData.userGroup;
+    this.userId = rawData.userId;
+    this.fullName = rawData.fullName;
+    this.empCode = rawData.empCode;
+    this.reportingTo = rawData.reportingTo;
+    this.deginisation = rawData.deginisation;
+    this.userDegree = rawData.userDegree;
+    this.role = rawData.role;
+    this.password = rawData.password;
+    this.lab = rawData.lab;
+    this.department = rawData.department;
+    this.mobileNo = rawData.mobileNo;
+    this.contactNo = rawData.contactNo;
+    this.email = rawData.email;
+    this.signature = rawData.signature;
+    this.picture = rawData.picture;
+    this.validationLevel = rawData.validationLevel;
+    this.dateOfBirth = rawData.dateOfBirth;
+    this.marriageAnniversary = rawData.marriageAnniversary;
+    this.exipreDate = rawData.exipreDate;
+    this.expireDays = rawData.expireDays;
+    this.confidential = rawData.confidential;
+    this.allowLogin = rawData.allowLogin;
+    this.confirguration = rawData.confirguration;
+    this.systemInfo = rawData.systemInfo;
+    this.dateCreation = rawData.dateCreation;
+    this.dateActive = rawData.dateActive;
+    this.createdBy = rawData.createdBy;
+    this.status = rawData.status;
+    this.version = rawData.version;
+    this.environment = rawData.environment;
+    this.passChanged = rawData.passChanged;
+    this.dateOfEntry = rawData.dateOfEntry;
+    this.lastUpdated = rawData.lastUpdated;
   }
 }
-
 
 export class SelectedItems {
-  roles: any[]
-  labs: any[]
-  department: any[]
-  constructor(rawData: { [key in string]: any }) {
-    this.roles = rawData.roles
-    this.labs = rawData.labs
-    this.department = rawData.department
+  roles: any[];
+  labs: any[];
+  department: any[];
+  constructor(rawData: {[key in string]: any}) {
+    this.roles = rawData.roles;
+    this.labs = rawData.labs;
+    this.department = rawData.department;
   }
 }
-

@@ -1,81 +1,83 @@
-import React, { useState, useEffect } from "react"
-import { List, ModalClock } from ".."
-import dayjs from "dayjs"
-import "./css/toggle.css"
-import classNames from "classnames"
-import DateTimePicker from "react-datetime-picker"
-import "./css/DateTimePicker.css"
+import React, {useState, useEffect} from 'react';
+import {List, ModalClock} from '..';
+import dayjs from 'dayjs';
+import './css/toggle.css';
+import classNames from 'classnames';
+import DateTimePicker from 'react-datetime-picker';
+import './css/DateTimePicker.css';
 
 interface LabelProps {
-  htmlFor: string
-  hasError?: boolean
-  style?: any
+  htmlFor: string;
+  hasError?: boolean;
+  style?: any;
 }
 
-export const Label: React.FunctionComponent<LabelProps> = (props) => (
+export const Label: React.FunctionComponent<LabelProps> = props => (
   <>
     <label
       htmlFor={props.htmlFor}
       className={`${
-        props.hasError ? "text-red-400" : "text-gray-700"
-      } block text-xs font-medium  mb-1`}
-      style={{ ...props.style }}
+        props.hasError ? 'text-red-400' : 'text-gray-700'
+      } block text-3xs font-medium  mb-1`}
+      style={{...props.style}}
     >
       {props.children}
     </label>
   </>
-)
+);
 
 interface InputWrapperProps {
-  id?: string
-  label?: string
-  className?: string
-  hasError?: boolean
-  style?: any
-  ref?: any
+  id?: string;
+  label?: string;
+  className?: string;
+  hasError?: boolean;
+  style?: any;
+  ref?: any;
 }
 
-export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
+export const InputWrapper: React.FunctionComponent<
+  InputWrapperProps
+> = props => (
   <div className={props.className} ref={props.ref}>
     <Label
-      htmlFor={props.id || ""}
+      htmlFor={props.id || ''}
       hasError={props.hasError}
-      style={{ ...props.style }}
+      style={{...props.style}}
     >
       {props.label}
     </Label>
     {props.children}
   </div>
-)
+);
 
 interface InputProps extends InputWrapperProps {
-  value?: any
-  defaultValue?: any
-  name?: string
-  placeholder?: string
-  type?: string
-  required?: boolean
-  disabled?: boolean
-  className?: string
-  rows?: number
-  style?: any
-  wrapperStyle?: any
-  hasError?: boolean
-  pattern?: any
-  onChange?: (e: any) => void
-  onBlur?: (e: any) => void
-  onKeyDown?: (e: any) => void
-  inputRef?: any
+  value?: any;
+  defaultValue?: any;
+  name?: string;
+  placeholder?: string;
+  type?: string;
+  required?: boolean;
+  disabled?: boolean;
+  className?: string;
+  rows?: number;
+  style?: any;
+  wrapperStyle?: any;
+  hasError?: boolean;
+  pattern?: any;
+  onChange?: (e: any) => void;
+  onBlur?: (e: any) => void;
+  onKeyDown?: (e: any) => void;
+  inputRef?: any;
 }
 
 export const Input = React.forwardRef((props: InputProps) => {
-  const handleKeyPress = (e) => {
-    var key = e.key
-    var regex = props.pattern
+  const handleKeyPress = e => {
+    const key = e.key;
+    const regex = props.pattern;
     if (regex && !regex?.test(key)) {
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
 
   return (
     <InputWrapper
@@ -85,7 +87,7 @@ export const Input = React.forwardRef((props: InputProps) => {
       style={props.wrapperStyle}
     >
       <input
-        type={props.type || "text"}
+        type={props.type || 'text'}
         id={props.id}
         ref={props.inputRef}
         name={props.name}
@@ -96,17 +98,17 @@ export const Input = React.forwardRef((props: InputProps) => {
         disabled={props.disabled || false}
         autoComplete="given-name"
         value={props.value}
-        onChange={(e) => props.onChange && props.onChange(e.target.value)}
-        onKeyPress={(e) => handleKeyPress(e)}
+        onChange={e => props.onChange && props.onChange(e.target.value)}
+        onKeyPress={e => handleKeyPress(e)}
         className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
-          props.hasError ? "border-red-500 " : "border-gray-300"
+          props.hasError ? 'border-red-500 ' : 'border-gray-300'
         } rounded-md`}
-        onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
+        onBlur={e => props.onBlur && props.onBlur(e.target.value)}
         onKeyDown={props.onKeyDown}
       />
     </InputWrapper>
-  )
-})
+  );
+});
 
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id} className={props.className}>
@@ -118,20 +120,20 @@ export const MultilineInput = (props: InputProps) => (
       style={props.style}
       rows={props.rows}
       placeholder={props.placeholder}
-      onChange={(e) => props.onChange && props.onChange(e.target.value)}
-      onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
+      onChange={e => props.onChange && props.onChange(e.target.value)}
+      onBlur={e => props.onBlur && props.onBlur(e.target.value)}
       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>
-)
+);
 
 interface InputRadioProps extends InputWrapperProps {
-  values?: string[]
-  value?: string
-  name?: string
-  required?: boolean
-  disabled?: boolean
-  onChange?: (e: any) => void
+  values?: string[];
+  value?: string;
+  name?: string;
+  required?: boolean;
+  disabled?: boolean;
+  onChange?: (e: any) => void;
 }
 
 export const InputRadio = (props: InputRadioProps) => (
@@ -149,21 +151,21 @@ export const InputRadio = (props: InputRadioProps) => (
             onChange={() => props.onChange && props.onChange(item)}
             className="leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
           />
-          <Label htmlFor={props.id || ""}>{item}</Label>
+          <Label htmlFor={props.id || ''}>{item}</Label>
         </List>
       </div>
     ))}
   </InputWrapper>
-)
+);
 
 interface InputDateProps extends InputWrapperProps {
-  value?: any
-  name?: string
-  placeholder?: string
-  disabled?: boolean
-  hasError?: boolean
-  onChange?: (e: any) => void
-  onFocusRemove?: (date: any) => void
+  value?: any;
+  name?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  onChange?: (e: any) => void;
+  onFocusRemove?: (date: any) => void;
 }
 
 export const InputDate = (props: InputDateProps) => (
@@ -174,47 +176,47 @@ export const InputDate = (props: InputDateProps) => (
       name={props.name}
       disabled={props.disabled || false}
       value={props.value}
-      onChange={(e) => props.onChange && props.onChange(e)}
+      onChange={e => props.onChange && props.onChange(e)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-        props.hasError ? "border-red-500 " : "border-gray-300"
+        props.hasError ? 'border-red-500 ' : 'border-gray-300'
       } rounded-md`}
     />
   </InputWrapper>
-)
+);
 
 export const InputDateTime = (props: InputDateProps) => {
-  const [date, setDate] = useState(props.value)
+  const [date, setDate] = useState(props.value);
 
   return (
     <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
       <div style={props.style}>
         <DateTimePicker
           disabled={props.disabled}
-          onChange={(value) => {
-            setDate(value)
-            props.onChange && props.onChange(value)
+          onChange={value => {
+            setDate(value);
+            props.onChange && props.onChange(value);
           }}
           onCalendarClose={() => {
             if (props.value !== date)
-              props.onFocusRemove && props.onFocusRemove(date)
+              props.onFocusRemove && props.onFocusRemove(date);
           }}
           onClockClose={() => {
             if (props.value !== date)
-              props.onFocusRemove && props.onFocusRemove(date)
+              props.onFocusRemove && props.onFocusRemove(date);
           }}
           value={props.value}
           amPmAriaLabel="AM/PM"
           format="dd-MM-yyyy hh:mm:ss a"
           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-            props.hasError ? "border-red-500 " : "border-gray-300"
+            props.hasError ? 'border-red-500 ' : 'border-gray-300'
           } rounded-md relative z-2`}
         />
       </div>
     </InputWrapper>
-  )
-}
+  );
+};
 
-export const CheckBox = (props) => {
+export const CheckBox = props => {
   return (
     <li>
       <input
@@ -223,19 +225,19 @@ export const CheckBox = (props) => {
         type="checkbox"
         checked={props.isChecked}
         value={props.value}
-      />{" "}
+      />{' '}
       {props.value}
     </li>
-  )
-}
+  );
+};
 
 interface SelectOptionProps extends InputWrapperProps {
-  value?: any
-  values?: any[]
-  name?: string
-  key: string
-  disabled?: boolean
-  onChange?: (e: any) => void
+  value?: any;
+  values?: any[];
+  name?: string;
+  key: string;
+  disabled?: boolean;
+  onChange?: (e: any) => void;
 }
 
 export const SelectOption = (props: SelectOptionProps) => (
@@ -243,7 +245,7 @@ export const SelectOption = (props: SelectOptionProps) => (
     <select
       name={props.name}
       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-      onChange={(e) => props.onChange && props.onChange(e.target.value)}
+      onChange={e => props.onChange && props.onChange(e.target.value)}
     >
       <option selected>Select</option>
       {props.values?.map((item: any) => (
@@ -253,17 +255,17 @@ export const SelectOption = (props: SelectOptionProps) => (
       ))}
     </select>
   </InputWrapper>
-)
+);
 
 interface InputFileProps extends InputWrapperProps {
-  value?: any
-  name?: string
-  placeholder?: string
-  disabled?: boolean
-  accept?: string
-  multiple?: boolean
-  hasError?: boolean
-  onChange?: (e: any) => void
+  value?: any;
+  name?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  accept?: string;
+  multiple?: boolean;
+  hasError?: boolean;
+  onChange?: (e: any) => void;
 }
 
 export const InputFile = (props: InputFileProps) => (
@@ -275,62 +277,62 @@ export const InputFile = (props: InputFileProps) => (
       disabled={props.disabled || false}
       accept={props.accept}
       value={props.value}
-      onChange={(e) => props.onChange && props.onChange(e)}
+      onChange={e => props.onChange && props.onChange(e)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-        props.hasError ? "border-red-500 " : "border-gray-300"
+        props.hasError ? 'border-red-500 ' : 'border-gray-300'
       } rounded-md`}
       multiple={props.multiple}
     />
   </InputWrapper>
-)
+);
 
 interface ToggleProps extends InputWrapperProps {
-  disabled?: boolean
-  defaultChecked?: boolean
-  className?: string
-  icons?: any
-  value?: boolean
-  name?: string
-  onChange?: (e: boolean) => void
-  style?: any
+  disabled?: boolean;
+  defaultChecked?: boolean;
+  className?: string;
+  icons?: any;
+  value?: boolean;
+  name?: string;
+  onChange?: (e: boolean) => void;
+  style?: any;
 }
 
 // const CheckedIcon = () => <>On</>
 // const UncheckedIcon = () => <>Off</>
 
 export const Toggle = (props: ToggleProps) => {
-  const [toggle, setToggle] = useState(props.value)
-  const { onChange, disabled, className } = props
+  const [toggle, setToggle] = useState(props.value);
+  const {onChange, disabled, className} = props;
 
   useEffect(() => {
-    setToggle(props.value)
-  }, [props.value])
+    setToggle(props.value);
+  }, [props.value]);
 
   const triggerToggle = () => {
     if (disabled) {
-      return
+      return;
     }
-    setToggle(!toggle)
-    if (typeof onChange === "function") {
-      onChange(!toggle)
+    setToggle(!toggle);
+    if (typeof onChange === 'function') {
+      onChange(!toggle);
     }
-  }
+  };
 
   const toggleClasses = classNames(
-    "wrg-toggle ",
+    'wrg-toggle ',
     {
-      "wrg-toggle--checked": toggle,
-      "wrg-toggle--disabled": disabled,
+      'wrg-toggle--checked': toggle,
+      'wrg-toggle--disabled': disabled,
     },
-    className
-  )
+    className,
+  );
 
   return (
     <InputWrapper label={props.label} id={props.id} style={props.style}>
       <div onClick={triggerToggle} className={toggleClasses}>
         <div
           className={
-            "wrg-toggle-container " + (toggle ? "bg-green-700" : "bg-black")
+            'wrg-toggle-container ' + (toggle ? 'bg-green-700' : 'bg-black')
           }
         >
           <div className="wrg-toggle-check">
@@ -340,7 +342,9 @@ export const Toggle = (props: ToggleProps) => {
             <span className="text-white">No</span>
           </div>
         </div>
-        <div className={`wrg-toggle-circle ${toggle ? `ml-1` : `mr-1`}  `}></div>
+        <div
+          className={`wrg-toggle-circle ${toggle ? 'ml-1' : 'mr-1'}  `}
+        ></div>
         <input
           type="checkbox"
           aria-label="Toggle Button"
@@ -348,17 +352,17 @@ export const Toggle = (props: ToggleProps) => {
         />
       </div>
     </InputWrapper>
-  )
-}
+  );
+};
 
 interface ClockProps extends InputWrapperProps {
-  value?: any
-  onChange?: (e: any) => void
+  value?: any;
+  onChange?: (e: any) => void;
 }
 
 export const Clock = (props: ClockProps) => {
-  const [time, setTime] = useState(props.value || dayjs().format("hh:mm a"))
-  const [showTime, setShowTime] = useState(false)
+  const [time, setTime] = useState(props.value || dayjs().format('hh:mm a'));
+  const [showTime, setShowTime] = useState(false);
 
   return (
     <InputWrapper label={props.label} id={props.id}>
@@ -368,12 +372,12 @@ export const Clock = (props: ClockProps) => {
             <ModalClock
               show={true}
               time={time}
-              onClick={(time) => {
-                props.onChange && props.onChange(time)
-                setTime(time)
+              onClick={time => {
+                props.onChange && props.onChange(time);
+                setTime(time);
               }}
               onClose={() => {
-                setShowTime(false)
+                setShowTime(false);
               }}
             />
           </>
@@ -385,5 +389,5 @@ export const Clock = (props: ClockProps) => {
         />
       </div>
     </InputWrapper>
-  )
-}
+  );
+};

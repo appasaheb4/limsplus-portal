@@ -11,6 +11,7 @@ export const UsersHoc = (Component: React.FC<any>) => {
       userStore.updateUser({
         ...userStore.user,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
+        userGroup: getDefaultLookupItem(routerStore.lookupItems, 'USER_GROUP'),
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',

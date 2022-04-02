@@ -125,3 +125,30 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: SalemTeamsInput!) {
+    findByFieldsSalesTeams(input: $input) {
+      success
+      message
+      data {
+        _id
+        salesTerritory
+        description
+        empCode
+        empName
+        salesHierarchy
+        targets
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: TestMasterInput!) {
@@ -69,7 +69,7 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
   mutation ($input: TestMasterRemoveInput!) {
@@ -78,7 +78,7 @@ export const REMOVE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
   mutation ($input: CreateTestMasterInput!) {
@@ -87,7 +87,7 @@ export const CREATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
   mutation ($input: CreateTestMasterInput!) {
@@ -96,7 +96,7 @@ export const VERSION_UPGRADE = gql`
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
   mutation ($input: CreateTestMasterInput!) {
@@ -105,7 +105,7 @@ export const DUPLICATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
   mutation ($input: UpdateTestMasterInput!) {
@@ -114,7 +114,7 @@ export const UPDATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
   mutation ($input: TestMasterInput!) {
@@ -123,7 +123,7 @@ export const CHECK_EXISTS_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
   mutation ($input: TestMasterInput!) {
@@ -194,7 +194,7 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
   mutation ($input: TestMasterInput!) {
@@ -265,7 +265,7 @@ export const FILTER_BY_FIELDS = gql`
       }
     }
   }
-`
+`;
 
 export const FIND_BY_FIELDS = gql`
   mutation ($input: TestMasterInput!) {
@@ -336,4 +336,4 @@ export const FIND_BY_FIELDS = gql`
       }
     }
   }
-`
+`;
