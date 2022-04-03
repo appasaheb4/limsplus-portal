@@ -32,7 +32,6 @@ export class UserStore {
         dayjs(new Date()).add(-5, 'years').format('YYYY-MM-DD HH:mm:ss'),
       ),
       confidential: false,
-      allowLogin: true,
       confirguration: false,
       systemInfo: {
         accessInfo: {
@@ -78,6 +77,8 @@ export class UserStore {
   updateUserList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.users.success) alert(res.users.message);
+      console.log({res});
+
       this.userList = res.users.data;
       this.userListCopy = res.users.data;
       this.userListCount = res.users.paginatorInfo.count;

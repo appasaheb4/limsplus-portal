@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react"
-import { Container } from "reactstrap"
-import { Form } from ".."
+import React, {useEffect, useState} from 'react';
+import {Container} from 'reactstrap';
+import {Form} from '..';
 
 interface ModalProps {
-  show?: boolean
-  title?: string
-  type?: string
-  body?: string
-  click: (type?: string) => void
-  close: () => void
+  show?: boolean;
+  title?: string;
+  type?: string;
+  body?: string;
+  click: (type?: string) => void;
+  close: () => void;
 }
 
 export const ModalConfirm = (props: ModalProps) => {
-  const [showModal, setShowModal] = React.useState(props.show)
+  const [showModal, setShowModal] = React.useState(props.show);
   useEffect(() => {
-    setShowModal(props.show)
-  }, [props])
+    setShowModal(props.show);
+  }, [props]);
 
   return (
     <Container>
@@ -45,20 +45,20 @@ export const ModalConfirm = (props: ModalProps) => {
                   <button
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      setShowModal(false)
+                      setShowModal(false);
                     }}
-                  >  
+                  >
                     No
                   </button>
                   <button
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      setShowModal(false)
-                      props.click(props.type)
+                      setShowModal(false);
+                      props.click(props.type);
                     }}
                   >
                     Yes
@@ -71,24 +71,24 @@ export const ModalConfirm = (props: ModalProps) => {
         </>
       )}
     </Container>
-  )
-}
+  );
+};
 
 interface ModalImportFileProps {
-  show?: boolean
-  title?: string
-  body?: string
-  accept?: string
-  click: (file: any) => void
-  close: () => void
+  show?: boolean;
+  title?: string;
+  body?: string;
+  accept?: string;
+  click: (file: any) => void;
+  close: () => void;
 }
 
 export const ModalImportFile = (props: ModalImportFileProps) => {
-  const [showModal, setShowModal] = React.useState(props.show)
-  const [file, setFile] = useState<any>(null)
+  const [showModal, setShowModal] = React.useState(props.show);
+  const [file, setFile] = useState<any>(null);
   useEffect(() => {
-    setShowModal(props.show)
-  }, [props])
+    setShowModal(props.show);
+  }, [props]);
   return (
     <Container>
       {showModal && (
@@ -103,8 +103,8 @@ export const ModalImportFile = (props: ModalImportFileProps) => {
                   <button
                     className="p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => {
-                      props.close()
-                      setShowModal(false)
+                      props.close();
+                      setShowModal(false);
                     }}
                   >
                     <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
@@ -127,10 +127,10 @@ export const ModalImportFile = (props: ModalImportFileProps) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      props.close()
-                      setShowModal(false)
+                      props.close();
+                      setShowModal(false);
                     }}
                   >
                     Close
@@ -138,11 +138,11 @@ export const ModalImportFile = (props: ModalImportFileProps) => {
                   <button
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
                       if (file) {
-                        setShowModal(false)
-                        props.click(file)
+                        setShowModal(false);
+                        props.click(file);
                       }
                     }}
                   >
@@ -156,5 +156,5 @@ export const ModalImportFile = (props: ModalImportFileProps) => {
         </>
       )}
     </Container>
-  )
-}
+  );
+};

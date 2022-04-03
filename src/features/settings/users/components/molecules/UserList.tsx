@@ -71,6 +71,8 @@ interface UserListProps {
   onUpdateImage?: (value: any, dataField: string, id: string) => void;
   onChangePassword?: (id: string, userId: string, email: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
+  onVersionUpgrade?: (item: any) => void;
+  onDuplicate?: (item: any) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -160,15 +162,6 @@ export const UserList = observer((props: UserListProps) => {
                 },
               }),
               headerClasses: 'textHeader6',
-              formatter: (cellContent, row) => (
-                <>
-                  <ul style={{listStyle: 'inside'}}>
-                    {row?.defaultDepartment?.map((item, index) => (
-                      <li key={index}>{item.code}</li>
-                    ))}
-                  </ul>
-                </>
-              ),
               editorRenderer: (
                 editorProps,
                 value,
@@ -807,7 +800,7 @@ export const UserList = observer((props: UserListProps) => {
             },
             {
               dataField: 'marriageAnniversary',
-              text: 'Marriage Anniversery Date',
+              text: 'Marriage Anniversary',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -1334,9 +1327,9 @@ export const UserList = observer((props: UserListProps) => {
                           <Icons.IconContext
                             color="#fff"
                             size="20"
-                            onClick={
-                              () => console.log('Version Pending')
-                              // props.onVersionUpgrade && props.onVersionUpgrade(row)
+                            onClick={() =>
+                              props.onVersionUpgrade &&
+                              props.onVersionUpgrade(row)
                             }
                           >
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
@@ -1346,9 +1339,8 @@ export const UserList = observer((props: UserListProps) => {
                           <Icons.IconContext
                             color="#fff"
                             size="20"
-                            onClick={
-                              () => console.log('Duplicate Pending')
-                              // props.onDuplicate && props.onDuplicate(row)
+                            onClick={() =>
+                              props.onDuplicate && props.onDuplicate(row)
                             }
                           >
                             {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}

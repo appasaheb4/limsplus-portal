@@ -46,7 +46,7 @@ export const Users = UsersHoc(
     } = useStores();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddUser, setAddUser] = useState<boolean>(true);
+    const [hideAddUser, setHideAddUser] = useState<boolean>(true);
     const [modalChangePasswordByadmin, setModalChangePasswordByAdmin] =
       useState<any>();
 
@@ -67,7 +67,9 @@ export const Users = UsersHoc(
           userStore.UsersService.addUser({
             input: {
               ...userStore.user,
-              createdBy: loginStore.login.userId,
+              createdBy: userStore.user?.createdBy || loginStore.login.userId,
+              __typename: undefined,
+              __v: undefined,
             },
           }).then((res: any) => {
             if (res.createUser.success) {
@@ -115,7 +117,7 @@ export const Users = UsersHoc(
           onSelectedRow={rows => {
             setModalConfirm({
               show: true,
-              type: 'Delete',
+              type: 'delete',
               id: rows,
               title: 'Are you sure?',
               body: `Delete selected items!`,
@@ -124,7 +126,7 @@ export const Users = UsersHoc(
           onUpdateItem={(value: any, dataField: string, id: string) => {
             setModalConfirm({
               show: true,
-              type: 'Update',
+              type: 'update',
               data: {value, dataField, id},
               title: 'Are you sure?',
               body: `Update user!`,
@@ -137,6 +139,24 @@ export const Users = UsersHoc(
               data: {value, dataField, id},
               title: 'Are you sure?',
               body: `UpdateImage!`,
+            });
+          }}
+          onVersionUpgrade={item => {
+            setModalConfirm({
+              show: true,
+              type: 'versionUpgrade',
+              data: item,
+              title: 'Are you version upgrade?',
+              body: `Version upgrade this record`,
+            });
+          }}
+          onDuplicate={item => {
+            setModalConfirm({
+              show: true,
+              type: 'duplicate',
+              data: item,
+              title: 'Are you duplicate?',
+              body: `Duplicate this record`,
             });
           }}
           onChangePassword={(id: string, userId: string, email: string) => {
@@ -173,13 +193,13 @@ export const Users = UsersHoc(
         ) && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddUser}
-            onClick={status => setAddUser(!hideAddUser)}
+            onClick={status => setHideAddUser(!hideAddUser)}
           />
         )}
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -198,6 +218,7 @@ export const Users = UsersHoc(
                           list: labStore.listLabs,
                           displayKey: ['code', 'name'],
                         }}
+                        displayValue={userStore.user?.defaultLab}
                         hasError={errors.defaultLab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
@@ -236,7 +257,7 @@ export const Users = UsersHoc(
                   )}
                   name="defaultLab"
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue={userStore.user?.defaultLab || ''}
                 />
                 <Controller
                   control={control}
@@ -252,6 +273,7 @@ export const Users = UsersHoc(
                           list: departmentStore.listDepartment,
                           displayKey: ['code', 'name'],
                         }}
+                        displayValue={userStore.user?.defaultDepartment}
                         hasError={errors.defaultDepartment}
                         onFilter={(value: string) => {
                           departmentStore.DepartmentService.filter({
@@ -291,7 +313,7 @@ export const Users = UsersHoc(
                   )}
                   name="defaultDepartment"
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue={userStore.user?.defaultDepartment || ''}
                 />
 
                 <Controller
@@ -451,6 +473,7 @@ export const Users = UsersHoc(
                           list: userStore.userList,
                           displayKey: ['empCode', 'fullName'],
                         }}
+                        displayValue={userStore.user?.reportingTo}
                         hasError={errors.reportingTo}
                         onFilter={(value: string) => {
                           userStore.UsersService.filterByFields({
@@ -477,7 +500,7 @@ export const Users = UsersHoc(
                   )}
                   name="reportingTo"
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue={userStore.user?.reportingTo}
                 />
 
                 <Controller
@@ -494,6 +517,7 @@ export const Users = UsersHoc(
                           list: deginisationStore.listDeginisation,
                           displayKey: ['code', 'description'],
                         }}
+                        displayValue={userStore.user?.deginisation}
                         hasError={errors.deginisation}
                         onFilter={(value: string) => {
                           deginisationStore.DeginisationService.filterByFields({
@@ -1066,25 +1090,6 @@ export const Users = UsersHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Allow Login"
-                        value={userStore.user?.allowLogin}
-                        onChange={allowLogin => {
-                          onChange(allowLogin);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            allowLogin,
-                          });
-                        }}
-                      />
-                    )}
-                    name="allowLogin"
-                    rules={{required: false}}
-                    defaultValue=""
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
                         label="Confirguration"
                         value={userStore && userStore.user?.confirguration}
                         onChange={confirguration => {
@@ -1206,7 +1211,7 @@ export const Users = UsersHoc(
                       }
                       hasError={errors.createdBy}
                       value={
-                        (loginStore.login && loginStore.login.userId) || ''
+                        userStore.user?.createdBy || loginStore.login?.userId
                       }
                     />
                   )}
@@ -1347,7 +1352,8 @@ export const Users = UsersHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
+              setModalConfirm({show: false});
+              if (type === 'delete') {
                 userStore &&
                   userStore.UsersService.deleteUser({
                     input: {id: modalConfirm.id},
@@ -1356,11 +1362,12 @@ export const Users = UsersHoc(
                       Toast.success({
                         message: `😊 ${res.removeUser.message}`,
                       });
-                      setModalConfirm({show: false});
-                      userStore.loadUser();
+                      setTimeout(() => {
+                        userStore.UsersService.userList();
+                      }, 2000);
                     }
                   });
-              } else if (type === 'Update') {
+              } else if (type === 'update') {
                 userStore &&
                   userStore.UsersService.updateSingleFiled({
                     input: {
@@ -1372,10 +1379,77 @@ export const Users = UsersHoc(
                       Toast.success({
                         message: `😊 ${res.updateUser.message}`,
                       });
-                      setModalConfirm({show: false});
                       userStore.loadUser();
                     }
                   });
+              } else if (type === 'versionUpgrade') {
+                userStore.updateUser({
+                  ...modalConfirm.data,
+                  _id: undefined,
+                  existsVersionId: modalConfirm.data._id,
+                  existsRecordId: undefined,
+                  version: parseInt(modalConfirm.data.version + 1),
+                  dateActive: new Date(),
+                });
+                userStore.updateSelectedItems({
+                  ...userStore.selectedItems,
+                  roles: modalConfirm.data?.role,
+                  labs: modalConfirm.data?.lab,
+                  department: modalConfirm.data?.department,
+                });
+                setHideAddUser(!hideAddUser);
+                setValue('defaultLab', modalConfirm.data?.defaultLab);
+                setValue(
+                  'defaultDepartment',
+                  modalConfirm.data?.defaultDepartment,
+                );
+                setValue('role', modalConfirm.data?.role);
+                setValue('labs', modalConfirm.data?.lab);
+                setValue('department', modalConfirm.data?.department);
+                setValue('userId', modalConfirm.data?.userId);
+                setValue('fullName', modalConfirm.data?.fullName);
+                setValue('empCode', modalConfirm.data?.empCode);
+                setValue('reportingTo', modalConfirm.data?.reportingTo);
+                setValue('deginisation', modalConfirm.data?.deginisation);
+                setValue('mobileNo', modalConfirm.data?.mobileNo);
+                setValue('email', modalConfirm.data?.email);
+                setValue('status', modalConfirm.data?.status);
+                setValue('environment', modalConfirm.data?.environment);
+                setValue('userGroup', modalConfirm.data?.userGroup);
+              } else if (type === 'duplicate') {
+                userStore.updateUser({
+                  ...modalConfirm.data,
+                  _id: undefined,
+                  existsVersionId: undefined,
+                  existsRecordId: modalConfirm.data._id,
+                  version: parseInt(modalConfirm.data.version),
+                  dateActive: new Date(),
+                });
+                userStore.updateSelectedItems({
+                  ...userStore.selectedItems,
+                  roles: modalConfirm.data?.role,
+                  labs: modalConfirm.data?.lab,
+                  department: modalConfirm.data?.department,
+                });
+                setHideAddUser(!hideAddUser);
+                setValue('defaultLab', modalConfirm.data?.defaultLab);
+                setValue(
+                  'defaultDepartment',
+                  modalConfirm.data?.defaultDepartment,
+                );
+                setValue('role', modalConfirm.data?.role);
+                setValue('labs', modalConfirm.data?.lab);
+                setValue('department', modalConfirm.data?.department);
+                setValue('userId', modalConfirm.data?.userId);
+                setValue('fullName', modalConfirm.data?.fullName);
+                setValue('empCode', modalConfirm.data?.empCode);
+                setValue('reportingTo', modalConfirm.data?.reportingTo);
+                setValue('deginisation', modalConfirm.data?.deginisation);
+                setValue('mobileNo', modalConfirm.data?.mobileNo);
+                setValue('email', modalConfirm.data?.email);
+                setValue('status', modalConfirm.data?.status);
+                setValue('environment', modalConfirm.data?.environment);
+                setValue('userGroup', modalConfirm.data?.userGroup);
               } else {
                 userStore &&
                   userStore.UsersService.uploadImage({
@@ -1388,7 +1462,6 @@ export const Users = UsersHoc(
                       Toast.success({
                         message: `😊 ${res.updateUserImages.message}`,
                       });
-                      setModalConfirm({show: false});
                       setTimeout(() => {
                         window.location.reload();
                       }, 1000);

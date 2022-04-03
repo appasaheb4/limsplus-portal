@@ -1492,6 +1492,7 @@ const MasterAnalyte = MasterAnalyteHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
+              setModalConfirm({show: false});
               if (type === 'Delete') {
                 masterAnalyteStore.masterAnalyteService
                   .deleteAnalyteMaster({input: {id: modalConfirm.id}})
@@ -1500,7 +1501,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       Toast.success({
                         message: `😊 ${res.removeAnalyteMaster.message}`,
                       });
-                      setModalConfirm({show: false});
                       masterAnalyteStore.fetchAnalyteMaster();
                     }
                   });
@@ -1517,7 +1517,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       Toast.success({
                         message: `😊 ${res.updateAnalyteMaster.message}`,
                       });
-                      setModalConfirm({show: false});
                       masterAnalyteStore.fetchAnalyteMaster();
                     }
                   });
@@ -1534,7 +1533,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       Toast.success({
                         message: `😊 ${res.updateAnalyteMaster.message}`,
                       });
-                      setModalConfirm({show: false});
                       masterAnalyteStore.fetchAnalyteMaster();
                     }
                   });
