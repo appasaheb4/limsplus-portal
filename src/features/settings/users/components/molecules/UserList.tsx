@@ -25,8 +25,8 @@ import {
   AutoCompleteFilterSingleSelectDefaultLabs,
   AutoCompleteFilterSingleSelectDegnisation,
   AutoCompleteFilterMutiSelectDepartment,
-  AutoCompleteDefaultLab,
   AutoCompleteReportingTo,
+  AutoCompleteDefaultDepartment,
 } from '../index';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
@@ -178,7 +178,7 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <AutoCompleteDefaultLab
+                  <AutoCompleteDefaultDepartment
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
