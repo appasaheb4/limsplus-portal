@@ -3,6 +3,8 @@ import * as ModelsDepartment from '@/features/master/department/models';
 import * as ModelsRole from '@/features/settings/roles/models';
 export class Users {
   _id: string;
+  existsVersionId: string;
+  existsRecordId: string;
   defaultLab: string;
   defaultDepartment: string;
   userGroup: string;
@@ -27,7 +29,6 @@ export class Users {
   exipreDate: Date;
   expireDays: number;
   confidential: boolean;
-  allowLogin: boolean;
   confirguration: boolean;
   systemInfo: {
     ipAddress?: any[];
@@ -49,6 +50,8 @@ export class Users {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.existsVersionId = rawData.existsVersionId;
+    this.existsRecordId = rawData.existsRecordId;
     this.defaultLab = rawData.defaultLab;
     this.defaultDepartment = rawData.defaultDepartment;
     this.userGroup = rawData.userGroup;
@@ -73,7 +76,6 @@ export class Users {
     this.exipreDate = rawData.exipreDate;
     this.expireDays = rawData.expireDays;
     this.confidential = rawData.confidential;
-    this.allowLogin = rawData.allowLogin;
     this.confirguration = rawData.confirguration;
     this.systemInfo = rawData.systemInfo;
     this.dateCreation = rawData.dateCreation;
