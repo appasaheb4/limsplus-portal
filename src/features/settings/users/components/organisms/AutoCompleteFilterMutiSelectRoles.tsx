@@ -1,141 +1,149 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
-import { observer } from "mobx-react"
-import {Icons} from "@/library/components"
-import { useStores } from "@/stores"
+import React, {useState, useEffect, useRef} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {observer} from 'mobx-react';
+import {Icons} from '@/library/components';
+import {useStores} from '@/stores';
 
 interface AutoCompleteProps {
-  selected: any[]
-  onUpdate: (item: any) => void
+  selected: any[];
+  onUpdate: (item: any) => void;
 }
 
 export const AutoCompleteFilterMutiSelectRoles = observer(
-  ({ selected, onUpdate }: AutoCompleteProps) => {
-    const { loading, userStore, roleStore } = useStores()
-    const [value, setValue] = useState<string>("")
-    const [options, setOptions] = useState<any[]>()
-    const [originalOptions, setOriginalOptions] = useState<any[]>()
-    const [isListOpen, setIsListOpen] = useState<boolean>(false)
+  ({selected, onUpdate}: AutoCompleteProps) => {
+    const {loading, userStore, roleStore} = useStores();
+    const [value, setValue] = useState<string>('');
+    const [options, setOptions] = useState<any[]>();
+    const [originalOptions, setOriginalOptions] = useState<any[]>();
+    const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
-    const useOutsideAlerter = (ref) => {
+    const useOutsideAlerter = ref => {
       useEffect(() => {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target) && isListOpen) {
+          if (
+            ref.current &&
+            !ref.current.contains(event.target) &&
+            isListOpen
+          ) {
             if (originalOptions && options) {
               if (isListOpen) {
-                roleStore.updateRoleList(roleStore.listRoleCopy)
-                onUpdate && onUpdate(userStore.selectedItems?.roles)
+                roleStore.updateRoleList(roleStore.listRoleCopy);
+                onUpdate && onUpdate(userStore.selectedItems?.roles);
               }
             }
-            setIsListOpen(false)
-            setValue("")
+            setIsListOpen(false);
+            setValue('');
           }
         }
-        document.addEventListener("mousedown", handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside)
-        }
-      }, [ref, isListOpen])
-    }
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [ref, isListOpen]);
+    };
 
-    const wrapperRef = useRef(null)
-    useOutsideAlerter(wrapperRef)
-    let count = 0
-    const getSelectedItem = (selectedItem: any[], list: any[], findKey: string) => {
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
+    let count = 0;
+    const getSelectedItem = (
+      selectedItem: any[],
+      list: any[],
+      findKey: string,
+    ) => {
       if (count === 0) {
         const finalList = list.filter((item, index) => {
-          item.selected = false
+          item.selected = false;
           selectedItem && selectedItem.length > 0
             ? selectedItem.find((sItem, index) => {
                 if (sItem._id === item._id) {
-                  item.selected = true
+                  item.selected = true;
                 }
               })
-            : (item.selected = false)
-          count++
-          return item
-        })
-        console.log({ finalList })
+            : (item.selected = false);
+          count++;
+          return item;
+        });
+        console.log({finalList});
 
-        list = finalList
+        list = finalList;
       }
-      return list
-    }
+      return list;
+    };
 
     useEffect(() => {
       userStore.updateSelectedItems({
         ...userStore.selectedItems,
         roles: selected,
-      })
-    }, [selected])
+      });
+    }, [selected]);
 
     useEffect(() => {
       setOriginalOptions(
         getSelectedItem(
           userStore.selectedItems?.roles,
           roleStore.listRole,
-          "description"
-        )
-      )
+          'description',
+        ),
+      );
       setOptions(
         getSelectedItem(
           userStore.selectedItems?.roles,
           roleStore.listRole,
-          "description"
-        )
-      )
-    }, [roleStore.listRole, userStore.selectedItems])
+          'description',
+        ),
+      );
+    }, [roleStore.listRole, userStore.selectedItems]);
 
     const onFilter = (value: string) => {
       roleStore.RoleService.filter({
         input: {
           filter: {
-            type: "search",
-            ["description"]: value,
+            type: 'search',
+            ['description']: value,
           },
           page: 0,
           limit: 10,
         },
-      })
-    }
-    const onSelect = (item) => {
-      console.log({ item })
+      });
+    };
+    const onSelect = item => {
+      console.log({item});
 
-      let roles = userStore.selectedItems?.roles
+      let roles = userStore.selectedItems?.roles;
       if (!item.selected) {
         if (roles && roles.length > 0) {
-          roles.push(item)
+          roles.push(item);
         }
-        if (!roles) roles = [item]
+        if (!roles) roles = [item];
       } else {
-        roles = roles.filter((items) => {
-          return items._id !== item._id
-        })
+        roles = roles.filter(items => {
+          return items._id !== item._id;
+        });
       }
       userStore.updateSelectedItems({
         ...userStore.selectedItems,
         roles,
-      })
-    }
+      });
+    };
 
-    const onChange = (e) => {
-      const search = e.target.value
-      setValue(search)
-      onFilter(search)
-    }
+    const onChange = e => {
+      const search = e.target.value;
+      setValue(search);
+      onFilter(search);
+    };
 
-    const onKeyUp = (e) => {
-      const charCode = e.which ? e.which : e.keyCode
+    const onKeyUp = e => {
+      const charCode = e.which ? e.which : e.keyCode;
       if (charCode === 8) {
-        const search = e.target.value
-        onFilter(search)
+        const search = e.target.value;
+        onFilter(search);
       }
-    }
+    };
 
     return (
       <>
-        <div ref={wrapperRef}>
+        <div ref={wrapperRef} className="w-full relative">
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
@@ -168,14 +176,17 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
                   <ul>
                     {options?.map((item, index) => (
                       <>
-                        <li key={index} className="text-gray-400 flex items-center">
+                        <li
+                          key={index}
+                          className="text-gray-400 flex items-center"
+                        >
                           <input
                             type="checkbox"
                             checked={item.selected}
                             onChange={() => onSelect(item)}
-                          />{" "}
+                          />{' '}
                           <label className="ml-2 mt-1 text-black">
-                            {" "}
+                            {' '}
                             {item.description}
                           </label>
                         </li>
@@ -187,6 +198,6 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
             : null}
         </div>
       </>
-    )
-  }
-)
+    );
+  },
+);

@@ -1,81 +1,81 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
-import {Icons} from ".."
+import React, {useState, useEffect, useRef} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {Icons} from '..';
 
 interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
-  loader?: boolean
-  disable?: boolean
-  displayValue?: string
-  placeholder?: string
-  data: any
-  hasError?: boolean
-  posstion?: string
-  onFilter: (item: any) => void
-  onSelect: (item: any) => any
+  loader?: boolean;
+  disable?: boolean;
+  displayValue?: string;
+  placeholder?: string;
+  data: any;
+  hasError?: boolean;
+  posstion?: string;
+  onFilter: (item: any) => void;
+  onSelect: (item: any) => any;
 }
 
 export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   disable = false,
   loader = false,
-  displayValue = "",
-  placeholder = "Search...",
+  displayValue = '',
+  placeholder = 'Search...',
   data,
   hasError = false,
-  posstion ='absolute',
+  posstion = 'absolute',
   onFilter,
-  onSelect
+  onSelect,
 }: AutoCompleteFilterSingleSelectMultiFieldsDisplayProps) => {
-  const [value, setValue] = useState<string>(displayValue)
-  const [options, setOptions] = useState<any[]>(data.list)
-  const [isListOpen, setIsListOpen] = useState<boolean>(false)
+  const [value, setValue] = useState<string>(displayValue);
+  const [options, setOptions] = useState<any[]>(data.list);
+  const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
-  const useOutsideAlerter = (ref) => {
+  const useOutsideAlerter = ref => {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-          setIsListOpen(false)
-          setValue("")
+          setIsListOpen(false);
+          setValue('');
         }
       }
-      document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside)
-      }
-    }, [ref, isListOpen])
-  }
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref, isListOpen]);
+  };
 
-  const wrapperRef = useRef(null)
-  useOutsideAlerter(wrapperRef)
-
-  useEffect(() => {
-    setOptions(data.list)
-  }, [data])
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
 
   useEffect(() => {
-    setValue(displayValue)
-  }, [displayValue])
+    setOptions(data.list);
+  }, [data]);
 
-  const onChange = (e) => {
-    const search = e.target.value
-    setValue(search)
-    onFilter(search)
-  }
+  useEffect(() => {
+    setValue(displayValue);
+  }, [displayValue]);
 
-  const onKeyUp = (e) => {
-    const charCode = e.which ? e.which : e.keyCode
+  const onChange = e => {
+    const search = e.target.value;
+    setValue(search);
+    onFilter(search);
+  };
+
+  const onKeyUp = e => {
+    const charCode = e.which ? e.which : e.keyCode;
     if (charCode === 8) {
-      const search = e.target.value
-      onFilter(search)
+      const search = e.target.value;
+      onFilter(search);
     }
-  }
+  };
 
   return (
     <>
-      <div ref={wrapperRef}>
+      <div ref={wrapperRef} className="w-full relative">
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
-            hasError ? "border-red-500" : "border-gray-300"
+            hasError ? 'border-red-500' : 'border-gray-300'
           } rounded-md`}
         >
           <input
@@ -86,7 +86,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
             disabled={disable}
-            onMouseDown={() => setValue("")}
+            onMouseDown={() => setValue('')}
           />
           {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (
@@ -98,7 +98,9 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
 
         {options && isListOpen
           ? options.length > 0 && (
-              <div className={`mt-1 ${posstion} z-2 bg-gray-100 p-2 rounded-sm z-50`}>
+              <div
+                className={`mt-1 absolute z-2 bg-gray-100 p-2 rounded-sm z-50`}
+              >
                 <ul>
                   {options?.map((item, index) => (
                     <>
@@ -107,21 +109,23 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                         className="text-gray-400 flex items-center"
                         onClick={() => {
                           setValue(
-                            data.displayKey.map((key) => `${item[key]}`).join(" - ")
-                          )
-                          setIsListOpen(false)
-                          onSelect(item)
+                            data.displayKey
+                              .map(key => `${item[key]}`)
+                              .join(' - '),
+                          );
+                          setIsListOpen(false);
+                          onSelect(item);
                         }}
                       >
-                        {" "}
+                        {' '}
                         <label className="ml-2 mt-1 text-black">
                           {data.displayKey
                             .map(
-                              (key) =>
+                              key =>
                                 `${item[key]}
-                              `
+                              `,
                             )
-                            .join(" - ")}
+                            .join(' - ')}
                         </label>
                       </li>
                     </>
@@ -132,5 +136,5 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
           : null}
       </div>
     </>
-  )
-}
+  );
+};
