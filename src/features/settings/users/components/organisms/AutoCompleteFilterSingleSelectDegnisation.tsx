@@ -1,73 +1,77 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
-import { observer } from "mobx-react"
-import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import React, {useState, useEffect, useRef} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {observer} from 'mobx-react';
+import {useStores} from '@/stores';
+import {Icons} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDegnisationProps {
-  onSelect: (item: any) => void
+  onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectDegnisation = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectDegnisationProps) => {
-    const { loading, deginisationStore } = useStores()
-    const [value, setValue] = useState<string>("")
-    const [options, setOptions] = useState<any[]>()
-    const [isListOpen, setIsListOpen] = useState<boolean>(false)
+  ({onSelect}: AutoCompleteFilterSingleSelectDegnisationProps) => {
+    const {loading, deginisationStore} = useStores();
+    const [value, setValue] = useState<string>('');
+    const [options, setOptions] = useState<any[]>();
+    const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
-    const useOutsideAlerter = (ref) => {
+    const useOutsideAlerter = ref => {
       useEffect(() => {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-            setIsListOpen(false)
-            setValue("")
+          if (
+            ref.current &&
+            !ref.current.contains(event.target) &&
+            isListOpen
+          ) {
+            setIsListOpen(false);
+            setValue('');
           }
         }
-        document.addEventListener("mousedown", handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside)
-        }
-      }, [ref, isListOpen])
-    }
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [ref, isListOpen]);
+    };
 
-    const wrapperRef = useRef(null)
-    useOutsideAlerter(wrapperRef)
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      setOptions(deginisationStore.listDeginisation)
-    }, [deginisationStore.listDeginisation])
+      setOptions(deginisationStore.listDeginisation);
+    }, [deginisationStore.listDeginisation]);
 
     const onFilter = (value: string) => {
       deginisationStore.DeginisationService.filter({
         input: {
-          type: "filter",
+          type: 'filter',
           filter: {
             description: value,
           },
           page: 0,
           limit: 10,
         },
-      })
-    }
+      });
+    };
 
-    const onChange = (e) => {
-      const search = e.target.value
-      setValue(search)
-      onFilter(search)
-    }
+    const onChange = e => {
+      const search = e.target.value;
+      setValue(search);
+      onFilter(search);
+    };
 
-    const onKeyUp = (e) => {
-      const charCode = e.which ? e.which : e.keyCode
+    const onKeyUp = e => {
+      const charCode = e.which ? e.which : e.keyCode;
       if (charCode === 8) {
-        const search = e.target.value
-        onFilter(search)
+        const search = e.target.value;
+        onFilter(search);
       }
-    }
+    };
 
     return (
       <>
-        <div ref={wrapperRef}>
+        <div ref={wrapperRef} className="w-full relative">
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
@@ -97,18 +101,18 @@ export const AutoCompleteFilterSingleSelectDegnisation = observer(
                           key={index}
                           className="text-gray-400 flex items-center"
                           onClick={() => {
-                            setValue(item.code)
-                            setIsListOpen(false)
+                            setValue(item.code);
+                            setIsListOpen(false);
                             deginisationStore.updateListDeginisation(
-                              deginisationStore.listDeginisationCopy
-                            )
-                            onSelect(item)
+                              deginisationStore.listDeginisationCopy,
+                            );
+                            onSelect(item);
                           }}
                         >
-                          {" "}
+                          {' '}
                           <label className="ml-2 mt-1 text-black">
-                            {" "}
-                           {item.description}
+                            {' '}
+                            {item.description}
                           </label>
                         </li>
                       </>
@@ -119,6 +123,6 @@ export const AutoCompleteFilterSingleSelectDegnisation = observer(
             : null}
         </div>
       </>
-    )
-  }
-)
+    );
+  },
+);

@@ -1,73 +1,77 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
-import { observer } from "mobx-react"
-import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import React, {useState, useEffect, useRef} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {observer} from 'mobx-react';
+import {useStores} from '@/stores';
+import {Icons} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDefaultLabsProps {
-  onSelect: (item: any) => void
+  onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectDefaultLabs = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectDefaultLabsProps) => {
-    const { loading, labStore } = useStores()
-    const [value, setValue] = useState<string>("")
-    const [options, setOptions] = useState<any[]>()
-    const [isListOpen, setIsListOpen] = useState<boolean>(false)
+  ({onSelect}: AutoCompleteFilterSingleSelectDefaultLabsProps) => {
+    const {loading, labStore} = useStores();
+    const [value, setValue] = useState<string>('');
+    const [options, setOptions] = useState<any[]>();
+    const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
-    const useOutsideAlerter = (ref) => {
+    const useOutsideAlerter = ref => {
       useEffect(() => {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-            setIsListOpen(false)
-            setValue("")
+          if (
+            ref.current &&
+            !ref.current.contains(event.target) &&
+            isListOpen
+          ) {
+            setIsListOpen(false);
+            setValue('');
           }
         }
-        document.addEventListener("mousedown", handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside)
-        }
-      }, [ref, isListOpen])
-    }
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [ref, isListOpen]);
+    };
 
-    const wrapperRef = useRef(null)
-    useOutsideAlerter(wrapperRef)
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      setOptions(labStore.listLabs)
-    }, [labStore.listLabs])
+      setOptions(labStore.listLabs);
+    }, [labStore.listLabs]);
 
     const onFilter = (value: string) => {
       labStore.LabService.filter({
         input: {
-          type: "filter",
+          type: 'filter',
           filter: {
-            name: value
+            name: value,
           },
           page: 0,
           limit: 10,
         },
-      })
-    }
+      });
+    };
 
-    const onChange = (e) => {
-      const search = e.target.value
-      setValue(search)
-      onFilter(search)
-    }
+    const onChange = e => {
+      const search = e.target.value;
+      setValue(search);
+      onFilter(search);
+    };
 
-    const onKeyUp = (e) => {
-      const charCode = e.which ? e.which : e.keyCode
+    const onKeyUp = e => {
+      const charCode = e.which ? e.which : e.keyCode;
       if (charCode === 8) {
-        const search = e.target.value
-        onFilter(search)
+        const search = e.target.value;
+        onFilter(search);
       }
-    }
+    };
 
     return (
       <>
-        <div ref={wrapperRef}>
+        <div ref={wrapperRef} className="w-full relative">
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
@@ -97,17 +101,15 @@ export const AutoCompleteFilterSingleSelectDefaultLabs = observer(
                           key={index}
                           className="text-gray-400 flex items-center"
                           onClick={() => {
-                            setValue(item.name)
-                            setIsListOpen(false)
-                            labStore.updateLabList(
-                              labStore.listLabsCopy
-                            )
-                            onSelect(item)
+                            setValue(item.name);
+                            setIsListOpen(false);
+                            labStore.updateLabList(labStore.listLabsCopy);
+                            onSelect(item);
                           }}
                         >
-                          {" "}
+                          {' '}
                           <label className="ml-2 mt-1 text-black">
-                            {" "}
+                            {' '}
                             {item.name}
                           </label>
                         </li>
@@ -119,6 +121,6 @@ export const AutoCompleteFilterSingleSelectDefaultLabs = observer(
             : null}
         </div>
       </>
-    )
-  }
-)
+    );
+  },
+);

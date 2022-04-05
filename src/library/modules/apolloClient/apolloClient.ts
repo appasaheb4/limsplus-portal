@@ -33,7 +33,7 @@ const authLink = setContext(async (_, {headers}) => {
 
 const UploadLink = createUploadLink({
   //uri: 'http://localhost:8080/graphql',
-  //uri: "http://8867-2409-4042-4d95-77e-79b7-ba57-97f1-f8f3.ngrok.io/graphql",
+  //uri: 'http://575f-2409-4042-4c12-e974-bd3d-b4d4-2dbc-8988.ngrok.io/graphql',
   uri: 'https://limsplus-api.azurewebsites.net/graphql',
   fetch: customFetch,
 });

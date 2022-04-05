@@ -15,6 +15,7 @@ export const AutoCompleteDefaultDepartment = observer(
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+          posstion="relative"
           loader={loading}
           placeholder="Search by code or name"
           data={{
