@@ -7,15 +7,12 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   Buttons,
-  AutocompleteCheck,
   List,
   Grid,
   Svg,
   Toast,
   ModalConfirm,
   Form,
-  AutoCompleteFilterSingleSelect,
-  AutoCompleteCheckTwoTitleKeys,
   ModalChangePasswordByAdmin,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
@@ -181,6 +178,10 @@ export const Users = UsersHoc(
       [userStore.userList],
     );
 
+    function comparator(labs, departments) {
+      return labs.code === departments.lab;
+    }
+
     return (
       <>
         <Header>
@@ -199,7 +200,7 @@ export const Users = UsersHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'shown' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -270,7 +271,9 @@ export const Users = UsersHoc(
                         loader={loading}
                         placeholder="Search by code or name"
                         data={{
-                          list: departmentStore.listDepartment,
+                          list: departmentStore.listDepartment.filter(
+                            item => item.lab === userStore.user?.defaultLab,
+                          ),
                           displayKey: ['code', 'name'],
                         }}
                         displayValue={userStore.user?.defaultDepartment}
@@ -741,7 +744,17 @@ export const Users = UsersHoc(
                               code: '*',
                               name: '*',
                             },
-                          ].concat(departmentStore.listDepartment),
+                          ].concat(
+                            _.intersectionWith(
+                              _.unionWith(
+                                userStore.user?.lab,
+                                departmentStore.listDepartment,
+                                comparator,
+                              ),
+                              departmentStore.listDepartment,
+                              comparator,
+                            ),
+                          ),
                           selected: userStore.selectedItems?.department,
                           displayKey: ['code', 'name'],
                         }}
