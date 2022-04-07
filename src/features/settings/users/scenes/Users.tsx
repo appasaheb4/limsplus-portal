@@ -251,6 +251,18 @@ export const Users = UsersHoc(
                             ...userStore.selectedItems,
                             labs: lab,
                           });
+                          departmentStore.DepartmentService.findByFields({
+                            input: {filter: {lab: _.map(lab, 'code')}},
+                          }).then(res => {
+                            if (!res.findByFieldsDepartments.success)
+                              return Toast.error({
+                                message:
+                                  '😔 Technical issue, Please try again !',
+                              });
+                            departmentStore.updateDepartmentList(
+                              res.findByFieldsDepartments.data,
+                            );
+                          });
                           labStore.updateLabList(labStore.listLabsCopy);
                         }}
                       />
@@ -689,6 +701,18 @@ export const Users = UsersHoc(
                             ...userStore.user,
                             lab,
                           });
+                          departmentStore.DepartmentService.findByFields({
+                            input: {filter: {lab: _.map(lab, 'code')}},
+                          }).then(res => {
+                            if (!res.findByFieldsDepartments.success)
+                              return Toast.error({
+                                message:
+                                  '😔 Technical issue, Please try again !',
+                              });
+                            departmentStore.updateDepartmentList(
+                              res.findByFieldsDepartments.data,
+                            );
+                          });
                           labStore.updateLabList(labStore.listLabsCopy);
                         }}
                         onFilter={(value: string) => {
@@ -715,6 +739,7 @@ export const Users = UsersHoc(
                               return items._id !== item._id;
                             });
                           }
+
                           userStore.updateSelectedItems({
                             ...userStore.selectedItems,
                             labs,
@@ -745,14 +770,10 @@ export const Users = UsersHoc(
                               name: '*',
                             },
                           ].concat(
-                            _.intersectionWith(
-                              _.unionWith(
-                                userStore.user?.lab,
-                                departmentStore.listDepartment,
-                                comparator,
+                            departmentStore.listDepartment?.filter(o1 =>
+                              userStore.user?.lab?.some(
+                                o2 => o1.lab === o2.code,
                               ),
-                              departmentStore.listDepartment,
-                              comparator,
                             ),
                           ),
                           selected: userStore.selectedItems?.department,

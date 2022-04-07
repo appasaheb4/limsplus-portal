@@ -1,29 +1,29 @@
-import { version } from "mobx-sync"
-import { makeObservable, action, observable, computed } from "mobx"
-import {Department,SelectedItems} from "../models"
-import {DepartmentService} from "../services"
-import dayjs from "dayjs"
+import {version} from 'mobx-sync';
+import {makeObservable, action, observable, computed} from 'mobx';
+import {Department, SelectedItems} from '../models';
+import {DepartmentService} from '../services';
+import dayjs from 'dayjs';
 
 @version(0.1)
 export class DepartmentStore {
-  listDepartment!: Department[]
-  listDepartmentCopy!: Department[]
-  listDepartmentCount: number = 0
-  department!: Department
-  checkExitsCode: boolean = false
-  selectedItems!: SelectedItems
+  listDepartment!: Department[];
+  listDepartmentCopy!: Department[];
+  listDepartmentCount = 0;
+  department!: Department;
+  checkExitsCode = false;
+  selectedItems!: SelectedItems;
 
   constructor() {
-    this.listDepartment = []
+    this.listDepartment = [];
     this.department = {
       ...this.department,
       autoRelease: false,
       requireReceveInLab: false,
       requireScainIn: false,
       routingDept: false,
-      openingTime: dayjs().format("hh:mm a"),
-      closingTime: dayjs().format("hh:mm a"),
-    }
+      openingTime: dayjs().format('hh:mm a'),
+      closingTime: dayjs().format('hh:mm a'),
+    };
     makeObservable<DepartmentStore, any>(this, {
       listDepartment: observable,
       listDepartmentCount: observable,
@@ -37,41 +37,41 @@ export class DepartmentStore {
       updateDepartmentList: action,
       updateDepartment: action,
       filterDepartmentList: action,
-    })
+    });
   }
   get DepartmentService() {
-    return new DepartmentService()
+    return new DepartmentService();
   }
 
   setExitsCode(status: boolean) {
-    this.checkExitsCode = status
+    this.checkExitsCode = status;
   }
 
   fetchListDepartment(page?, limit?) {
-    this.DepartmentService.listDepartment(page, limit)
+    this.DepartmentService.listDepartment(page, limit);
   }
 
   updateDepartmentList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.departments.success) return alert(res.departments.message)
-      this.listDepartment = res.departments.data
-      this.listDepartmentCopy = res.departments.data
-      this.listDepartmentCount = res.departments.paginatorInfo.count
+      if (!res.departments.success) return alert(res.departments.message);
+      this.listDepartment = res.departments.data;
+      this.listDepartmentCopy = res.departments.data;
+      this.listDepartmentCount = res.departments.paginatorInfo.count;
     } else {
-      this.listDepartment = res
+      this.listDepartment = res;
     }
   }
 
   filterDepartmentList(res: any) {
-    this.listDepartment = res.filterDepartments.data
-    this.listDepartmentCount = res.filterDepartments.paginatorInfo.count
+    this.listDepartment = res.filterDepartments.data;
+    this.listDepartmentCount = res.filterDepartments.paginatorInfo.count;
   }
 
   updateDepartment = (department: Department) => {
-    this.department = department
-  }
+    this.department = department;
+  };
   updateSelectedItems(items: SelectedItems | undefined) {
-    if (items) this.selectedItems = items
-    else this.selectedItems = new SelectedItems({})
+    if (items) this.selectedItems = items;
+    else this.selectedItems = new SelectedItems({});
   }
 }
