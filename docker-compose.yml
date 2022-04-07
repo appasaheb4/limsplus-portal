@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: limsplus-portal
+    image: limsplus-portal
+    build:
+      context: .
+      target: development
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3001:3000
