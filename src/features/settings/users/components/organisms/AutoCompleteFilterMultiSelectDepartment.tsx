@@ -6,12 +6,13 @@ import {Icons} from '@/library/components';
 import {useStores} from '@/stores';
 
 interface AutoCompleteProps {
+  lab: any;
   selected: any[];
   onUpdate: (item: any) => void;
 }
 
 export const AutoCompleteFilterMutiSelectDepartment = observer(
-  ({selected, onUpdate}: AutoCompleteProps) => {
+  ({lab, selected, onUpdate}: AutoCompleteProps) => {
     const {loading, departmentStore, userStore} = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
@@ -79,15 +80,32 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
       setOriginalOptions(
         getSelectedItem(
           userStore.selectedItems?.department,
-          departmentStore.listDepartment,
+          [
+            {
+              code: '*',
+              name: '*',
+            },
+          ].concat(
+            departmentStore.listDepartment?.filter(o1 =>
+              lab?.some(o2 => o1.lab === o2.code),
+            ),
+          ),
           'name',
-          // "code"
         ),
       );
       setOptions(
         getSelectedItem(
           userStore.selectedItems?.department,
-          departmentStore.listDepartment,
+          [
+            {
+              code: '*',
+              name: '*',
+            },
+          ].concat(
+            departmentStore.listDepartment?.filter(o1 =>
+              lab?.some(o2 => o1.lab === o2.code),
+            ),
+          ),
           'name',
         ),
       );
