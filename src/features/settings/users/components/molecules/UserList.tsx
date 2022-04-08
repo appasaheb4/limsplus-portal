@@ -172,6 +172,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <AutoCompleteDefaultDepartment
+                    defaultLab={row.defaultLab}
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
@@ -478,6 +479,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <AutoCompleteFilterMutiSelectDepartment
+                    lab={row.lab}
                     selected={row.department}
                     onUpdate={item => {
                       props.onUpdateItem &&

@@ -514,7 +514,7 @@ export const Users = UsersHoc(
                     </Form.InputWrapper>
                   )}
                   name="reportingTo"
-                  rules={{required: true}}
+                  rules={{required: false}}
                   defaultValue={userStore.user?.reportingTo}
                 />
 
