@@ -1,8 +1,9 @@
-import * as types from "../constants";
+/* eslint-disable */
+import * as types from '../constants';
 
 const initialState = {
   isOpen: true,
-  isSticky: false
+  isSticky: false,
 };
 
 export default function reducer(state = initialState, actions) {
@@ -10,35 +11,35 @@ export default function reducer(state = initialState, actions) {
     case types.SIDEBAR_VISIBILITY_TOGGLE:
       return {
         ...state,
-        isOpen: !state.isOpen
+        isOpen: !state.isOpen,
       };
     case types.SIDEBAR_VISIBILITY_SHOW:
       return {
         ...state,
-        isOpen: true
+        isOpen: true,
       };
     case types.SIDEBAR_VISIBILITY_HIDE:
       return {
         ...state,
-        isOpen: false
+        isOpen: false,
       };
 
     case types.SIDEBAR_STICKY_TOGGLE:
       return {
         ...state,
-        isSticky: !state.isSticky
+        isSticky: !state.isSticky,
       };
     case types.SIDEBAR_STICKY_ENABLE:
       return {
         ...state,
-        isSticky: true
+        isSticky: true,
       };
     case types.LAYOUT_BOXED_ENABLE:
     case types.LAYOUT_BOXED_TOGGLE:
     case types.SIDEBAR_STICKY_DISABLE:
       return {
         ...state,
-        isSticky: false
+        isSticky: false,
       };
 
     default:

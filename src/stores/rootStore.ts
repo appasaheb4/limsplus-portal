@@ -1,15 +1,16 @@
-import { makeObservable, action, observable } from "mobx"
-import Session from "@/library/modules/session"
-import { stores } from "@/stores"
+/* eslint-disable */
+import {makeObservable, action, observable} from 'mobx';
+import Session from '@/library/modules/session';
+import {stores} from '@/stores';
 
 export class RootStore {
-  processLoading: boolean
-  session!: any
-   
+  processLoading: boolean;
+  session!: any;
+
   //modals
-  modalTokenExpire!: any
+  modalTokenExpire!: any;
   constructor() {
-    this.processLoading = false
+    this.processLoading = false;
     makeObservable<RootStore, any>(this, {
       processLoading: observable,
       session: observable,
@@ -19,36 +20,35 @@ export class RootStore {
       isLogin: action,
       updateSesssion: action,
       updateModalTokenExpire: action,
-    })
+    });
   }
-  
+
   setProcessLoading(processLoading: boolean) {
-    this.processLoading = processLoading
+    this.processLoading = processLoading;
   }
 
   isLogin(): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
-      await Session.getSession()
+      await Session.getSession();
       try {
         if (Session.initialized) {
           if (Session.hasSession && stores.loginStore.login) {
-            resolve(true)
+            resolve(true);
           }
-          resolve(false)
+          resolve(false);
         }
       } catch (error) {
-        reject(error)
+        reject(error);
       }
-    })
+    });
   }
 
   updateSesssion(value: any) {
-    this.session = value
+    this.session = value;
   }
 
   // modals actions
   updateModalTokenExpire(details: any) {
-    this.modalTokenExpire = details
+    this.modalTokenExpire = details;
   }
-
 }

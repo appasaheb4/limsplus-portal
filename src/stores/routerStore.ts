@@ -1,18 +1,19 @@
-import { makeObservable, action, observable } from "mobx"
-import * as LibraryModels from "../library/models"
+/* eslint-disable */
+import {makeObservable, action, observable} from 'mobx';
+import * as LibraryModels from '../library/models';
 
 export class RouterStore {
-  userRouter!: any[]
-  selectedUserCategory!: LibraryModels.SelectedCategory
-  userPermission: any[]
-  selectedCategory!: LibraryModels.SelectedCategory
-  router: any
-  selectedComponents!: LibraryModels.SelectedComponent
-  lookupItems: Array<any>
+  userRouter!: any[];
+  selectedUserCategory!: LibraryModels.SelectedCategory;
+  userPermission: any[];
+  selectedCategory!: LibraryModels.SelectedCategory;
+  router: any;
+  selectedComponents!: LibraryModels.SelectedComponent;
+  lookupItems: Array<any>;
 
   constructor() {
-    this.userPermission = []
-    this.lookupItems = []
+    this.userPermission = [];
+    this.lookupItems = [];
     makeObservable<RouterStore, any>(this, {
       userRouter: observable,
       selectedUserCategory: observable,
@@ -28,29 +29,29 @@ export class RouterStore {
       updateSelectedCategory: action,
       updateSelectedComponents: action,
       updateLookupItems: action,
-    })
+    });
   }
 
   updateUserRouter(router) {
-    this.userRouter = router
+    this.userRouter = router;
   }
 
   updateRouter(router: any) {
-    this.router = router
+    this.router = router;
   }
-  
+
   updateUserPermission(permission: any) {
-    this.userPermission = permission
+    this.userPermission = permission;
   }
 
   updateSelectedCategory(category: LibraryModels.SelectedCategory) {
-    this.selectedUserCategory = category
-    this.selectedCategory = category
+    this.selectedUserCategory = category;
+    this.selectedCategory = category;
   }
   updateSelectedComponents(comp: LibraryModels.SelectedComponent) {
-    this.selectedComponents = comp
+    this.selectedComponents = comp;
   }
   updateLookupItems(items: any) {
-    this.lookupItems = items
+    this.lookupItems = items;
   }
 }
