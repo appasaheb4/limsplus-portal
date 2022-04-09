@@ -1,37 +1,37 @@
-import React, { CSSProperties } from "react"
-import { IconProps } from "./svg"
-import { Buttons, Icons } from ".."
-import { Styles } from "@/config"
+import React, {CSSProperties} from 'react';
+import {IconProps} from '../svg';
+import {Buttons, Icons} from '../..';
+import {Styles} from '@/config';
 
 export interface ButtonProps {
-  type?: "solid" | "outline"
-  onClick?: () => void
-  style?: CSSProperties
-  size?: "small" | "medium" | "large"
-  icon?: React.FunctionComponent<IconProps>
-  pill?: boolean
-  disabled?: string
-  id?: string
-  innerRef?: any
-  children?: React.ReactNode
+  type?: 'solid' | 'outline';
+  onClick?: () => void;
+  style?: CSSProperties;
+  size?: 'small' | 'medium' | 'large';
+  icon?: React.FunctionComponent<IconProps>;
+  pill?: boolean;
+  disabled?: string;
+  id?: string;
+  innerRef?: any;
+  children?: React.ReactNode;
 }
 
 export const Button = React.forwardRef((props: ButtonProps) => {
   const buttonSizeClass =
-    props.size === "small"
-      ? `px-2 py-1 text-xs`
-      : props.size === "large"
-      ? `px-4 py-2 text-base`
-      : "px-3 py-2 text-sm"
+    props.size === 'small'
+      ? 'px-2 py-1 text-xs'
+      : props.size === 'large'
+      ? 'px-4 py-2 text-base'
+      : 'px-3 py-2 text-sm';
 
   const buttonColorClass =
-    props.type === "solid"
-      ? "text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg"
-      : "text-gray-600 border border-gray-400 hover:shadow-lg"
+    props.type === 'solid'
+      ? 'text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg'
+      : 'text-gray-600 border border-gray-400 hover:shadow-lg';
 
-  const roundedClass = props.pill ? "rounded-full" : "rounded-lg"
+  const roundedClass = props.pill ? 'rounded-full' : 'rounded-lg';
 
-  const Icon = props.icon
+  const Icon = props.icon;
 
   return (
     <button
@@ -46,39 +46,39 @@ export const Button = React.forwardRef((props: ButtonProps) => {
       {Icon && (
         <Icon
           size={props.size}
-          type={props.type === "solid" ? "inverse" : "solid"}
+          type={props.type === 'solid' ? 'inverse' : 'solid'}
           buttonOffset
         />
       )}
       {props.children}
     </button>
-  )
-})
+  );
+});
 
 interface ButtonCircleAddRemoveProps {
-  show?: boolean
-  type?: "solid" | "outline"
-  onClick: (status: boolean) => void
-  style?: CSSProperties
-  size?: "small" | "medium" | "large"
-  icon?: React.FunctionComponent<IconProps>
-  pill?: boolean
-  disabled?: string
+  show?: boolean;
+  type?: 'solid' | 'outline';
+  onClick: (status: boolean) => void;
+  style?: CSSProperties;
+  size?: 'small' | 'medium' | 'large';
+  icon?: React.FunctionComponent<IconProps>;
+  pill?: boolean;
+  disabled?: string;
 }
 
 export const ButtonCircleAddRemove: React.FunctionComponent<
   ButtonCircleAddRemoveProps
-> = (props) => {
+> = props => {
   return (
     <>
       {props.show && (
         <Buttons.CircleButton
           style={{
             backgroundColor: Styles.COLORS.PRIMARY,
-            alignItems: "center",
+            alignItems: 'center',
             width: 60,
             height: 60,
-            position: "fixed",
+            position: 'fixed',
             bottom: 60,
             right: 40,
             zIndex: 1,
@@ -97,10 +97,10 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
         <Buttons.CircleButton
           style={{
             backgroundColor: Styles.COLORS.PRIMARY,
-            alignItems: "center",
+            alignItems: 'center',
             width: 60,
             height: 60,
-            position: "fixed",
+            position: 'fixed',
             bottom: 60,
             right: 40,
             zIndex: 1,
@@ -115,22 +115,22 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
         </Buttons.CircleButton>
       )}
     </>
-  )
-}
+  );
+};
 
 export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
   ButtonCircleAddRemoveProps
-> = (props) => {
+> = props => {
   return (
     <>
       {props.show && (
         <Buttons.CircleButton
           style={{
             backgroundColor: Styles.COLORS.PRIMARY,
-            alignItems: "center",
+            alignItems: 'center',
             width: 60,
             height: 60,
-            position: "absolute",
+            position: 'absolute',
             bottom: props.style?.bottom || 60,
             right: 40,
             zIndex: 1,
@@ -149,10 +149,10 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
         <Buttons.CircleButton
           style={{
             backgroundColor: Styles.COLORS.PRIMARY,
-            alignItems: "center",
+            alignItems: 'center',
             width: 60,
             height: 60,
-            position: "absolute",
+            position: 'absolute',
             bottom: props.style?.bottom || 60,
             right: 40,
             zIndex: 1,
@@ -167,15 +167,17 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
         </Buttons.CircleButton>
       )}
     </>
-  )
-}
+  );
+};
 
 interface CircleButtonProps {
-  style?: CSSProperties
-  onClick: () => void
+  style?: CSSProperties;
+  onClick: () => void;
 }
 
-export const CircleButton: React.FunctionComponent<CircleButtonProps> = (props) => (
+export const CircleButton: React.FunctionComponent<
+  CircleButtonProps
+> = props => (
   <div
     style={props.style}
     className="rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center"
@@ -183,19 +185,19 @@ export const CircleButton: React.FunctionComponent<CircleButtonProps> = (props) 
   >
     {props.children}
   </div>
-)
+);
 
 interface ButtonIconProps {
-  title: string
-  icon: React.ReactNode
-  onClick: () => void
+  title: string;
+  icon: React.ReactNode;
+  onClick: () => void;
 }
 
-export const ButtonIcon = ({ title, icon, onClick }: ButtonIconProps) => (
+export const ButtonIcon = ({title, icon, onClick}: ButtonIconProps) => (
   <div
     className="rounded-full  border border-gray-300 text-gray-400 flex justify-center items-center"
     onClick={() => onClick()}
   >
     {icon}
   </div>
-)
+);

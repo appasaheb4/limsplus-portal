@@ -12,7 +12,7 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
-import "@/library/components/Organisms/style.css"
+import "@/library/components/organisms/style.css"
 
 
 const { SearchBar, ClearSearchButton } = Search
