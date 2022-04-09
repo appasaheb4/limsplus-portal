@@ -8,6 +8,7 @@ interface ListProps {
   align?: 'start' | 'between' | 'center' | 'end';
   justify?: 'start' | 'end' | 'center' | 'stretch';
   fill?: boolean;
+  children?: React.ReactNode;
 }
 
 export const List: React.FunctionComponent<ListProps> = props => {

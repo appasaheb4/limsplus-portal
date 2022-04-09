@@ -173,6 +173,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
 interface CircleButtonProps {
   style?: CSSProperties;
   onClick: () => void;
+  children?: React.ReactNode;
 }
 
 export const CircleButton: React.FunctionComponent<
