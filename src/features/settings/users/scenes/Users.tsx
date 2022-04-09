@@ -687,6 +687,7 @@ export const Users = UsersHoc(
                         data={{
                           list: [
                             {
+                              _id: 'allSelect',
                               code: '*',
                               name: '*',
                             },
@@ -730,16 +731,32 @@ export const Users = UsersHoc(
                         onSelect={item => {
                           onChange(new Date());
                           let labs = userStore.selectedItems?.labs;
-                          if (!item.selected) {
-                            if (labs && labs.length > 0) {
+                          if (
+                            item.code === '*' ||
+                            labs.some(e => e.code === '*')
+                          ) {
+                            if (
+                              !item.selected ||
+                              labs.some(e => e.code === '*')
+                            ) {
+                              labs = [];
                               labs.push(item);
-                            } else labs = [item];
+                            } else {
+                              labs = labs.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
                           } else {
-                            labs = labs.filter(items => {
-                              return items._id !== item._id;
-                            });
+                            if (!item.selected) {
+                              if (labs && labs.length > 0) {
+                                labs.push(item);
+                              } else labs = [item];
+                            } else {
+                              labs = labs.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
                           }
-
                           userStore.updateSelectedItems({
                             ...userStore.selectedItems,
                             labs,

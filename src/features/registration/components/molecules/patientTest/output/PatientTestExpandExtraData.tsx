@@ -1,43 +1,49 @@
 /* eslint-disable */
-import React, { useState } from "react"
-import BootstrapTable from "react-bootstrap-table-next"
-import _ from "lodash"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import cellEditFactory from "react-bootstrap-table2-editor"
+import React, {useState} from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import _ from 'lodash';
+import ToolkitProvider, {
+  Search,
+  CSVExport,
+} from 'react-bootstrap-table2-toolkit';
+import cellEditFactory from 'react-bootstrap-table2-editor';
 import paginationFactory, {
   PaginationProvider,
   PaginationListStandalone,
   SizePerPageDropdownStandalone,
   PaginationTotalStandalone,
-} from "react-bootstrap-table2-paginator"
-import filterFactory from "react-bootstrap-table2-filter"
-import dayjs from "dayjs"
-import "@/library/components/Organisms/style.css"
+} from 'react-bootstrap-table2-paginator';
+import filterFactory from 'react-bootstrap-table2-filter';
+import dayjs from 'dayjs';
+import '@/library/components/organisms/style.css';
 
-
-
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
+const {SearchBar, ClearSearchButton} = Search;
+const {ExportCSVButton} = CSVExport;
 
 interface PatientTestExpandExtraDataProps {
-  id: string
-  data: any
-  totalSize?: number
-  searchPlaceholder?: string
-  page?: number
-  sizePerPage?: number
-  columns: any
-  onSelectedRow?: (selectedItem: any) => void
-  onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page: number, limit: number) => void
-  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
-  clearAllFilter?: () => void
+  id: string;
+  data: any;
+  totalSize?: number;
+  searchPlaceholder?: string;
+  page?: number;
+  sizePerPage?: number;
+  columns: any;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onPageSizeChange?: (page: number, limit: number) => void;
+  onFilter?: (
+    type: string,
+    filter: any,
+    page: number,
+    totalSize: number,
+  ) => void;
+  clearAllFilter?: () => void;
 }
 export const PatientTestExpandExtraData = ({
   id,
   data,
   totalSize = 10,
-  searchPlaceholder = "Search...",
+  searchPlaceholder = 'Search...',
   page = 0,
   sizePerPage = 10,
   columns,
@@ -47,8 +53,8 @@ export const PatientTestExpandExtraData = ({
   onFilter,
   clearAllFilter,
 }: PatientTestExpandExtraDataProps) => {
-  const [selectedRow, setSelectedRow] = useState<any[]>()
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
+  const [selectedRow, setSelectedRow] = useState<any[]>();
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   const customTotal = (from, to, size) => {
     return (
@@ -58,8 +64,8 @@ export const PatientTestExpandExtraData = ({
           Showing {from} to {to} of {size} Results
         </span>
       </>
-    )
-  }
+    );
+  };
 
   const sizePerPageRenderer = ({
     options,
@@ -71,36 +77,38 @@ export const PatientTestExpandExtraData = ({
         type="number"
         min="0"
         placeholder="No"
-        onChange={(e) => {
+        onChange={e => {
           if (e.target.value) {
-            onSizePerPageChange(e.target.value)
+            onSizePerPageChange(e.target.value);
           }
         }}
         className="mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
       />
-      {options.map((option) => (
+      {options.map(option => (
         <button
           key={option.text}
           type="button"
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn ${
-            currSizePerPage === `${option.page}` ? "btn-primary" : "btn-secondary"
+            currSizePerPage === `${option.page}`
+              ? 'btn-primary'
+              : 'btn-secondary'
           }`}
         >
           {option.text}
         </button>
       ))}
     </div>
-  )
+  );
   const options = {
     cutome: true,
     totalSize: totalSize,
     paginationSize: 5,
     pageStartIndex: 0,
-    firstPageText: "<<",
-    prePageText: "<",
-    nextPageText: ">",
-    lastPageText: ">>",
+    firstPageText: '<<',
+    prePageText: '<',
+    nextPageText: '>',
+    lastPageText: '>>',
     disablePageTitle: true,
     paginationTotalRenderer: customTotal,
     hideSizePerPage: true,
@@ -108,117 +116,125 @@ export const PatientTestExpandExtraData = ({
     alwaysShowAllBtns: true,
     sizePerPageList: [
       {
-        text: "10",
+        text: '10',
         value: 10,
       },
       {
-        text: "20",
+        text: '20',
         value: 20,
       },
       {
-        text: "30",
+        text: '30',
         value: 30,
       },
       {
-        text: "40",
+        text: '40',
         value: 40,
       },
       {
-        text: "50",
+        text: '50',
         value: 50,
       },
     ],
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
-  }
+  };
   let searchProps: any = {
     placeholder: searchPlaceholder,
-  }
+  };
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
-        let itemSelected: any[] = selectedRow
-        itemSelected.push(rows)
-        setSelectedRow(itemSelected)
+        let itemSelected: any[] = selectedRow;
+        itemSelected.push(rows);
+        setSelectedRow(itemSelected);
       } else {
-        setSelectedRow([rows])
+        setSelectedRow([rows]);
       }
     }
-  }
+  };
 
   const handleOnSelectAll = (isSelect, rows) => {
     if (isSelect) {
-      setSelectedRow(rows)
+      setSelectedRow(rows);
     }
-  }
+  };
 
   const handleTableChange = (
     type,
-    { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
+    {
+      data,
+      cellEdit,
+      page,
+      sizePerPage,
+      filters,
+      sortField,
+      sortOrder,
+      searchText,
+    },
   ) => {
-   
-    if (type === "cellEdit") {
+    if (type === 'cellEdit') {
       onUpdateItem &&
-        onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
+        onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId);
     }
-    if (type === "pagination" && _.isEmpty(filters)) {
+    if (type === 'pagination' && _.isEmpty(filters)) {
       // if (sizePerPage > totalSize) return alert("You have not more records.")
       // if (page * sizePerPage > totalSize) return alert("You have not more records.")
-      onPageSizeChange && onPageSizeChange(page, sizePerPage)
+      onPageSizeChange && onPageSizeChange(page, sizePerPage);
     }
-    if (type === "filter" || (type === "pagination" && !_.isEmpty(filters))) {
-      if (type === "pagination") {
-        if (sizePerPage > totalSize) return alert("You have not more records.")
+    if (type === 'filter' || (type === 'pagination' && !_.isEmpty(filters))) {
+      if (type === 'pagination') {
+        if (sizePerPage > totalSize) return alert('You have not more records.');
         if (page * sizePerPage > totalSize)
-          return alert("You have not more records.")
+          return alert('You have not more records.');
       }
-      let filter: any = {}
+      let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
-        const values: any = value
-        const object = { [key]: values.filterVal }
-        filter = Object.assign(filter, object)
+        const values: any = value;
+        const object = {[key]: values.filterVal};
+        filter = Object.assign(filter, object);
       }
       onFilter &&
         onFilter(
           type,
           filter,
-          type === "filter" && page === 1 ? 0 : page,
-          sizePerPage
-        )
+          type === 'filter' && page === 1 ? 0 : page,
+          sizePerPage,
+        );
     }
-    if (type === "search") {
+    if (type === 'search') {
       setTimeout(() => {
-        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage)
-      }, 2000)
+        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+      }, 2000);
     }
-    if (type === "sort") {
-      let result
-      if (sortOrder === "asc") {
+    if (type === 'sort') {
+      let result;
+      if (sortOrder === 'asc') {
         result = data.sort((a, b) => {
           if (a[sortField] > b[sortField]) {
-            return 1
+            return 1;
           } else if (b[sortField] > a[sortField]) {
-            return -1
+            return -1;
           }
-          return 0
-        })
+          return 0;
+        });
       } else {
         result = data.sort((a, b) => {
           if (a[sortField] > b[sortField]) {
-            return -1
+            return -1;
           } else if (b[sortField] > a[sortField]) {
-            return 1
+            return 1;
           }
-          return 0
-        })
+          return 0;
+        });
       }
     }
-  }
+  };
 
-  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
+  const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
     <div className="btn-group btn-group-toggle" data-toggle="buttons">
       {columns
-        .map((column) => ({
+        .map(column => ({
           ...column,
           toggle: toggles[column.dataField],
         }))
@@ -229,45 +245,46 @@ export const PatientTestExpandExtraData = ({
                 type="button"
                 key={column.dataField}
                 className={` btn btn-primary btn-sm whitespace-nowrap ${
-                  column.toggle ? "active" : ""
+                  column.toggle ? 'active' : ''
                 }`}
                 data-toggle="button"
-                aria-pressed={column.toggle ? "true" : "false"}
+                aria-pressed={column.toggle ? 'true' : 'false'}
                 onClick={() => onColumnToggle(column.dataField)}
               >
                 {column.text}
               </button>
-            )
+            );
           }
         })}
     </div>
-  )
+  );
 
   const expandRow = {
     renderer: row => (
       <div>
-        <p>{ `This Expand row is belong to rowKey ${row._id}` }</p>
-        <p>You can render anything here, also you can add additional data on every row object</p>
-        <p>expandRow.renderer callback will pass the origin row object to you</p>
+        <p>{`This Expand row is belong to rowKey ${row._id}`}</p>
+        <p>
+          You can render anything here, also you can add additional data on
+          every row object
+        </p>
+        <p>
+          expandRow.renderer callback will pass the origin row object to you
+        </p>
       </div>
     ),
-    showExpandColumn: true
+    showExpandColumn: true,
   };
-
-
- 
-
 
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : { page, sizePerPage, totalSize }
+        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({ paginationProps, paginationTableProps }) => (
+      {({paginationProps, paginationTableProps}) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4
@@ -276,7 +293,7 @@ export const PatientTestExpandExtraData = ({
           search
           columnToggle
         >
-          {(props) => (
+          {props => (
             <div>
               {/* <div className="flex items-center">
                 <SearchBar
@@ -344,7 +361,7 @@ export const PatientTestExpandExtraData = ({
                   filter={filterFactory()}
                   headerClasses="bg-gray-500 text-white whitespace-nowrap"
                   onTableChange={handleTableChange}
-                 // expandRow={ expandRow }
+                  // expandRow={ expandRow }
                 />
               </div>
               {/* <div className="flex items-center gap-2 mt-2">
@@ -364,5 +381,5 @@ export const PatientTestExpandExtraData = ({
         </ToolkitProvider>
       )}
     </PaginationProvider>
-  )
-}
+  );
+};

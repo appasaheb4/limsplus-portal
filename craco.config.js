@@ -2,20 +2,20 @@
 module.exports = {
   plugins: [
     {
-      plugin: require("craco-alias"),
+      plugin: require('craco-alias'),
       options: {
-        source: "tsconfig",
+        source: 'tsconfig',
         // baseUrl SHOULD be specified
         // plugin does not take it from tsconfig
-        baseUrl: ".",
+        baseUrl: '.',
         // tsConfigPath should point to the file where "baseUrl" and "paths" are specified
-        tsConfigPath: "./tsconfig.paths.json",
+        tsConfigPath: './tsconfig.paths.json',
       },
     },
   ],
   style: {
-    postcss: {
-      plugins: [require("tailwindcss")],
+    postcssOptions: {
+      plugins: [require('tailwindcss'), require('autoprefixer')],
     },
   },
-}
+};
