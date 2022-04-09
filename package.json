@@ -28,7 +28,7 @@
     "@testing-library/user-event": "^7.2.1",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.55",
-    "@types/react": "^16.9.49",
+    "@types/react": "^18.0.0",
     "@types/react-dom": "^16.9.8",
     "@types/styled-components": "^5.1.7",
     "add": "^2.0.6",
@@ -50,8 +50,7 @@
     "mobx-session": "^1.0.0",
     "mobx-sync": "^3.0.0",
     "numeral": "^2.0.6",
-    "postcss": "^7.0.35",
-    "react": "^16.13.1",
+    "react": "^18.0.0",
     "react-accessible-accordion": "^4.0.0",
     "react-autocomplete": "^1.8.1",
     "react-beautiful-dnd": "^13.1.0",
@@ -146,6 +145,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.8",
+    "postcss": "^8.4.12",
     "prettier": "^2.2.1"
   }
 }

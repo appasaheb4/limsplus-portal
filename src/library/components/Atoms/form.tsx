@@ -10,6 +10,7 @@ interface LabelProps {
   htmlFor: string;
   hasError?: boolean;
   style?: any;
+  children?: React.ReactNode;
 }
 
 export const Label: React.FunctionComponent<LabelProps> = props => (
@@ -33,6 +34,7 @@ interface InputWrapperProps {
   hasError?: boolean;
   style?: any;
   ref?: any;
+  children?: React.ReactNode;
 }
 
 export const InputWrapper: React.FunctionComponent<
