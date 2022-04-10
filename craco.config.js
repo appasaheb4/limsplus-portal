@@ -1,4 +1,6 @@
-/* eslint-disable */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const webpack = require('webpack');
+
 module.exports = {
   plugins: [
     {
@@ -13,6 +15,16 @@ module.exports = {
       },
     },
   ],
+  webpack: {
+    configure: {
+      plugins: [
+        new webpack.ProvidePlugin({
+          Buffer: ['buffer', 'Buffer'],
+          process: 'process/browser',
+        }),
+      ],
+    },
+  },
   style: {
     postcssOptions: {
       plugins: [require('tailwindcss'), require('autoprefixer')],

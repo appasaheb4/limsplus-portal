@@ -178,10 +178,6 @@ export const Users = UsersHoc(
       [userStore.userList],
     );
 
-    function comparator(labs, departments) {
-      return labs.code === departments.lab;
-    }
-
     return (
       <>
         <Header>
@@ -701,19 +697,22 @@ export const Users = UsersHoc(
                           userStore.updateUser({
                             ...userStore.user,
                             lab,
+                            department: [],
                           });
-                          departmentStore.DepartmentService.findByFields({
-                            input: {filter: {lab: _.map(lab, 'code')}},
-                          }).then(res => {
-                            if (!res.findByFieldsDepartments.success)
-                              return Toast.error({
-                                message:
-                                  '😔 Technical issue, Please try again !',
-                              });
-                            departmentStore.updateDepartmentList(
-                              res.findByFieldsDepartments.data,
-                            );
-                          });
+                          if (lab.some(e => e.code !== '*')) {
+                            departmentStore.DepartmentService.findByFields({
+                              input: {filter: {lab: _.map(lab, 'code')}},
+                            }).then(res => {
+                              if (!res.findByFieldsDepartments.success)
+                                return Toast.error({
+                                  message:
+                                    '😔 Technical issue, Please try again !',
+                                });
+                              departmentStore.updateDepartmentList(
+                                res.findByFieldsDepartments.data,
+                              );
+                            });
+                          }
                           labStore.updateLabList(labStore.listLabsCopy);
                         }}
                         onFilter={(value: string) => {
@@ -733,11 +732,11 @@ export const Users = UsersHoc(
                           let labs = userStore.selectedItems?.labs;
                           if (
                             item.code === '*' ||
-                            labs.some(e => e.code === '*')
+                            labs?.some(e => e.code === '*')
                           ) {
                             if (
                               !item.selected ||
-                              labs.some(e => e.code === '*')
+                              labs?.some(e => e.code === '*')
                             ) {
                               labs = [];
                               labs.push(item);
@@ -787,11 +786,15 @@ export const Users = UsersHoc(
                               name: '*',
                             },
                           ].concat(
-                            departmentStore.listDepartment?.filter(o1 =>
-                              userStore.user?.lab?.some(
-                                o2 => o1.lab === o2.code,
-                              ),
-                            ),
+                            userStore.user.lab?.length > 0
+                              ? userStore.user.lab?.some(e => e.code !== '*')
+                                ? departmentStore.listDepartment?.filter(o1 =>
+                                    userStore.user?.lab?.some(
+                                      o2 => o1.lab === o2.code,
+                                    ),
+                                  )
+                                : departmentStore.listDepartment
+                              : [],
                           ),
                           selected: userStore.selectedItems?.department,
                           displayKey: ['code', 'name'],
@@ -823,14 +826,31 @@ export const Users = UsersHoc(
                         onSelect={item => {
                           onChange(new Date());
                           let department = userStore.selectedItems?.department;
-                          if (!item.selected) {
-                            if (department && department.length > 0) {
+                          if (
+                            item.code === '*' ||
+                            department?.some(e => e.code === '*')
+                          ) {
+                            if (
+                              !item.selected ||
+                              department?.some(e => e.code === '*')
+                            ) {
+                              department = [];
                               department.push(item);
-                            } else department = [item];
+                            } else {
+                              department = department.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
                           } else {
-                            department = department.filter(items => {
-                              return items._id !== item._id;
-                            });
+                            if (!item.selected) {
+                              if (department && department.length > 0) {
+                                department.push(item);
+                              } else department = [item];
+                            } else {
+                              department = department.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
                           }
                           userStore.updateSelectedItems({
                             ...userStore.selectedItems,
