@@ -2,7 +2,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@components": ["./src/library/components/index"],
+      "@features/*": ["./src/features/*"],
+      "@services": ["./src/library/services/index"],
+      "@stores": ["src/stores/index"],
+      "@utils": ["./src/library/index"],
+      "@routers": ["./src/routers"],
+      "@assets/*": ["./src/library/assets/*"]
     },
     "experimentalDecorators": true
   },
