@@ -1,42 +1,67 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-indent-props */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import _ from 'lodash';
 import {observer} from 'mobx-react';
 import {
   Toast,
   List,
   Form,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@components';
-import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
 
-interface ModalDefaultLabDeptUpdateProps {
+export interface ModalDefaultLabDeptUpdateProps {
+  type?: 'default' | 'assigned';
+  id?: string;
   show: boolean;
   title?: string;
-  onClick: () => void;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export const ModalDefaultLabDeptUpdate = observer(
   (props: ModalDefaultLabDeptUpdateProps) => {
-    const {loading, labStore, userStore} = useStores();
+    const {loading, labStore, userStore, departmentStore} = useStores();
     const {
       control,
       handleSubmit,
       formState: {errors},
-      // setValue,
+      setValue,
     } = useForm();
     const [showModal, setShowModal] = React.useState(props.show);
 
-    const onSubmitModalChangePassword = () => {
-      if (userStore.changePassword) {
-        props.onClick();
+    const [lab, setLab] = useState<any>();
+    const [department, setDepartment] = useState<any>();
+
+    const onSubmit = () => {
+      let input: any;
+      if (props.type === 'default') {
+        input = {
+          defaultLab: lab,
+          defaultDepartment: department,
+          _id: props.id,
+        };
       } else {
-        Toast.error({
-          message: '😔 Please enter all information!',
-        });
+        input = {
+          lab: lab,
+          department: department,
+          _id: props.id,
+        };
       }
+      userStore.UsersService.updateSingleFiled({
+        input,
+      }).then((res: any) => {
+        if (res.updateUser.success) {
+          Toast.success({
+            message: `😊 ${res.updateUser.message}`,
+          });
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          props.onClose && props.onClose();
+          userStore.UsersService.userList();
+        }
+      });
     };
 
     useEffect(() => {
@@ -70,123 +95,340 @@ export const ModalDefaultLabDeptUpdate = observer(
                   {/*body*/}
                   <div className="relative  flex-auto p-3">
                     <List direction="col" space={4} justify="stretch" fill>
-                      <Controller
-                        control={control}
-                        render={({field: {onChange}}) => (
-                          <Form.InputWrapper
-                            hasError={errors.defaultLab}
-                            label="Default Lab"
-                          >
-                            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                              loader={loading}
-                              placeholder="Search by code or name"
-                              data={{
-                                list: labStore.listLabs,
-                                displayKey: ['code', 'name'],
-                              }}
-                              displayValue={userStore.user?.defaultLab}
-                              hasError={errors.defaultLab}
-                              onFilter={(value: string) => {
-                                labStore.LabService.filter({
-                                  input: {
-                                    type: 'filter',
-                                    filter: {
-                                      name: value,
-                                    },
-                                    page: 0,
-                                    limit: 10,
-                                  },
-                                });
-                              }}
-                              onSelect={item => {
-                                onChange(item.code);
-                                const lab: any = labStore.listLabs.filter(
-                                  e => e.code == item.code,
-                                );
-                                userStore.updateSelectedItems({
-                                  ...userStore.selectedItems,
-                                  labs: lab,
-                                });
-                                departmentStore.DepartmentService.findByFields({
-                                  input: {filter: {lab: _.map(lab, 'code')}},
-                                }).then(res => {
-                                  if (!res.findByFieldsDepartments.success)
-                                    return Toast.error({
-                                      message:
-                                        '😔 Technical issue, Please try again !',
+                      {props.type === 'default' && (
+                        <>
+                          <Controller
+                            control={control}
+                            render={({field: {onChange}}) => (
+                              <Form.InputWrapper
+                                hasError={errors.defaultLab}
+                                label="Default Lab"
+                              >
+                                <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                                  loader={loading}
+                                  placeholder="Search by code or name"
+                                  data={{
+                                    list: labStore.listLabs,
+                                    displayKey: ['code', 'name'],
+                                  }}
+                                  displayValue={userStore.user?.defaultLab}
+                                  hasError={errors.defaultLab}
+                                  onFilter={(value: string) => {
+                                    labStore.LabService.filter({
+                                      input: {
+                                        type: 'filter',
+                                        filter: {
+                                          name: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
+                                      },
                                     });
-                                  departmentStore.updateDepartmentList(
-                                    res.findByFieldsDepartments.data,
-                                  );
-                                });
-                                labStore.updateLabList(labStore.listLabsCopy);
-                              }}
-                            />
-                          </Form.InputWrapper>
-                        )}
-                        name="defaultLab"
-                        rules={{required: true}}
-                        defaultValue={userStore.user?.defaultLab || ''}
-                      />
-                      <Controller
-                        control={control}
-                        render={({field: {onChange}}) => (
-                          <Form.InputWrapper
-                            hasError={errors.defaultDepartment}
-                            label="Default Department"
-                          >
-                            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                              loader={loading}
-                              placeholder="Search by code or name"
-                              data={{
-                                list: departmentStore.listDepartment.filter(
-                                  item =>
-                                    item.lab === userStore.user?.defaultLab,
-                                ),
-                                displayKey: ['code', 'name'],
-                              }}
-                              displayValue={userStore.user?.defaultDepartment}
-                              hasError={errors.defaultDepartment}
-                              onFilter={(value: string) => {
-                                departmentStore.DepartmentService.filter({
-                                  input: {
-                                    type: 'filter',
-                                    filter: {
-                                      name: value,
-                                    },
-                                    page: 0,
-                                    limit: 10,
-                                  },
-                                });
-                              }}
-                              onSelect={item => {
-                                onChange(item.name);
-                                userStore.updateUser({
-                                  ...userStore.user,
-                                  defaultDepartment: item.code,
-                                });
-                                const department: any =
-                                  departmentStore.listDepartment.filter(
-                                    e => e.code == item.code,
-                                  );
-                                setValue('department', department);
-                                userStore.updateUser({
-                                  ...userStore.user,
-                                  department,
-                                });
-                                userStore.updateSelectedItems({
-                                  ...userStore.selectedItems,
-                                  department,
-                                });
-                                labStore.updateLabList(labStore.listLabsCopy);
-                              }}
-                            />
-                          </Form.InputWrapper>
-                        )}
-                        name="defaultDepartment"
-                        rules={{required: true}}
-                        defaultValue={userStore.user?.defaultDepartment || ''}
-                      />
+                                  }}
+                                  onSelect={item => {
+                                    onChange(item.code);
+                                    const labs: any = labStore.listLabs.filter(
+                                      e => e.code === item.code,
+                                    );
+                                    setLab(item.code);
+                                    departmentStore.DepartmentService.findByFields(
+                                      {
+                                        input: {
+                                          filter: {lab: _.map(labs, 'code')},
+                                        },
+                                      },
+                                    ).then(res => {
+                                      if (!res.findByFieldsDepartments.success)
+                                        return Toast.error({
+                                          message:
+                                            '😔 Technical issue, Please try again !',
+                                        });
+                                      departmentStore.updateDepartmentList(
+                                        res.findByFieldsDepartments.data,
+                                      );
+                                    });
+                                    labStore.updateLabList(
+                                      labStore.listLabsCopy,
+                                    );
+                                  }}
+                                />
+                              </Form.InputWrapper>
+                            )}
+                            name="defaultLab"
+                            rules={{required: true}}
+                            defaultValue={userStore.user?.defaultLab || ''}
+                          />
+                          <Controller
+                            control={control}
+                            render={({field: {onChange}}) => (
+                              <Form.InputWrapper
+                                hasError={errors.defaultDepartment}
+                                label="Default Department"
+                              >
+                                <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                                  loader={loading}
+                                  placeholder="Search by code or name"
+                                  data={{
+                                    list: departmentStore.listDepartment.filter(
+                                      item => item.lab === lab,
+                                    ),
+                                    displayKey: ['code', 'name'],
+                                  }}
+                                  displayValue={
+                                    userStore.user?.defaultDepartment
+                                  }
+                                  hasError={errors.defaultDepartment}
+                                  onFilter={(value: string) => {
+                                    departmentStore.DepartmentService.filter({
+                                      input: {
+                                        type: 'filter',
+                                        filter: {
+                                          name: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
+                                      },
+                                    });
+                                  }}
+                                  onSelect={item => {
+                                    onChange(item.code);
+                                    setDepartment(item.code);
+                                    labStore.updateLabList(
+                                      labStore.listLabsCopy,
+                                    );
+                                    departmentStore.updateDepartmentList(
+                                      departmentStore.listDepartmentCopy,
+                                    );
+                                  }}
+                                />
+                              </Form.InputWrapper>
+                            )}
+                            name="defaultDepartment"
+                            rules={{required: true}}
+                            defaultValue={
+                              userStore.user?.defaultDepartment || ''
+                            }
+                          />
+                        </>
+                      )}
+                      {props.type !== 'default' && (
+                        <>
+                          <Controller
+                            control={control}
+                            render={({field: {onChange}}) => (
+                              <Form.InputWrapper
+                                label="Assigned Lab"
+                                hasError={errors.labs}
+                              >
+                                <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                                  loader={loading}
+                                  placeholder="Search by code or name"
+                                  data={{
+                                    list: [
+                                      {
+                                        _id: 'selectAll',
+                                        code: '*',
+                                        name: '*',
+                                      },
+                                    ].concat(labStore.listLabs),
+                                    selected: userStore.selectedItems?.labs,
+                                    displayKey: ['code', 'name'],
+                                  }}
+                                  hasError={errors.labs}
+                                  onUpdate={item => {
+                                    const labs = userStore.selectedItems?.labs;
+                                    setLab(labs);
+                                    setDepartment([]);
+                                    if (labs.some(e => e.code !== '*')) {
+                                      departmentStore.DepartmentService.findByFields(
+                                        {
+                                          input: {
+                                            filter: {lab: _.map(labs, 'code')},
+                                          },
+                                        },
+                                      ).then(res => {
+                                        if (
+                                          !res.findByFieldsDepartments.success
+                                        )
+                                          return Toast.error({
+                                            message:
+                                              '😔 Technical issue, Please try again !',
+                                          });
+                                        setValue(
+                                          'department',
+                                          res.findByFieldsDepartments.data,
+                                        );
+                                        departmentStore.updateDepartmentList(
+                                          res.findByFieldsDepartments.data,
+                                        );
+                                      });
+                                    }
+                                    labStore.updateLabList(
+                                      labStore.listLabsCopy,
+                                    );
+                                  }}
+                                  onFilter={(value: string) => {
+                                    labStore.LabService.filterByFields({
+                                      input: {
+                                        filter: {
+                                          fields: ['code', 'name'],
+                                          srText: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
+                                      },
+                                    });
+                                  }}
+                                  onSelect={item => {
+                                    onChange(new Date());
+                                    let labs = userStore.selectedItems?.labs;
+                                    if (
+                                      item.code === '*' ||
+                                      labs?.some(e => e.code === '*')
+                                    ) {
+                                      if (
+                                        !item.selected ||
+                                        labs?.some(e => e.code === '*')
+                                      ) {
+                                        labs = [];
+                                        labs.push(item);
+                                      } else {
+                                        labs = labs.filter(items => {
+                                          return items._id !== item._id;
+                                        });
+                                      }
+                                    } else {
+                                      if (!item.selected) {
+                                        if (labs && labs.length > 0) {
+                                          labs.push(item);
+                                        } else labs = [item];
+                                      } else {
+                                        labs = labs.filter(items => {
+                                          return items._id !== item._id;
+                                        });
+                                      }
+                                    }
+                                    userStore.updateSelectedItems({
+                                      ...userStore.selectedItems,
+                                      labs,
+                                    });
+                                  }}
+                                />
+                              </Form.InputWrapper>
+                            )}
+                            name="labs"
+                            rules={{required: true}}
+                            defaultValue={userStore.selectedItems?.labs}
+                          />
+
+                          <Controller
+                            control={control}
+                            render={({field: {onChange}}) => (
+                              <Form.InputWrapper
+                                label="Assigned Department"
+                                hasError={errors.department}
+                              >
+                                <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                                  loader={loading}
+                                  placeholder="Search by code or name"
+                                  data={{
+                                    list: [
+                                      {
+                                        _id: 'selectAll',
+                                        code: '*',
+                                        name: '*',
+                                      },
+                                    ].concat(
+                                      lab?.length > 0
+                                        ? lab?.some(e => e.code !== '*')
+                                          ? departmentStore.listDepartment?.filter(
+                                              o1 =>
+                                                lab?.some(
+                                                  o2 => o1.lab === o2.code,
+                                                ),
+                                            )
+                                          : departmentStore.listDepartment
+                                        : [],
+                                    ),
+                                    selected:
+                                      userStore.selectedItems?.department,
+                                    displayKey: ['code', 'name'],
+                                  }}
+                                  hasError={errors.department}
+                                  onUpdate={item => {
+                                    const departments =
+                                      userStore.selectedItems?.department;
+                                    setDepartment(departments);
+                                    departmentStore.updateDepartmentList(
+                                      departmentStore.listDepartmentCopy,
+                                    );
+                                  }}
+                                  onFilter={(value: string) => {
+                                    departmentStore.DepartmentService.filterByFields(
+                                      {
+                                        input: {
+                                          filter: {
+                                            fields: ['code', 'name'],
+                                            srText: value,
+                                          },
+                                          page: 0,
+                                          limit: 10,
+                                        },
+                                      },
+                                    );
+                                  }}
+                                  onSelect={item => {
+                                    onChange(new Date());
+                                    console.log({item});
+
+                                    let departments =
+                                      userStore.selectedItems?.department;
+                                    if (
+                                      item.code === '*' ||
+                                      departments?.some(e => e.code === '*')
+                                    ) {
+                                      if (
+                                        !item.selected ||
+                                        departments?.some(e => e.code === '*')
+                                      ) {
+                                        departments = [item];
+                                      } else {
+                                        departments = departments.filter(
+                                          items => {
+                                            return items._id !== item._id;
+                                          },
+                                        );
+                                      }
+                                    } else {
+                                      if (!item.selected) {
+                                        if (
+                                          departments &&
+                                          departments.length > 0
+                                        ) {
+                                          departments.push(item);
+                                        } else departments = [item];
+                                      } else {
+                                        departments = departments.filter(
+                                          items => {
+                                            return items._id !== item._id;
+                                          },
+                                        );
+                                      }
+                                    }
+                                    userStore.updateSelectedItems({
+                                      ...userStore.selectedItems,
+                                      department: departments,
+                                    });
+                                  }}
+                                />
+                              </Form.InputWrapper>
+                            )}
+                            name="department"
+                            rules={{required: true}}
+                            defaultValue={departmentStore.listDepartment}
+                          />
+                        </>
+                      )}
                     </List>
                   </div>
                   {/*footer*/}
@@ -203,9 +445,9 @@ export const ModalDefaultLabDeptUpdate = observer(
                       className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                       type="button"
                       style={{transition: 'all .15s ease'}}
-                      onClick={handleSubmit(onSubmitModalChangePassword)}
+                      onClick={handleSubmit(onSubmit)}
                     >
-                      Change
+                      Update
                     </button>
                   </div>
                 </div>

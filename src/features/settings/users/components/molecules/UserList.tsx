@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -18,17 +18,17 @@ import {
   customFilter,
   Buttons,
   Toast,
-} from '@/library/components';
+} from '@components';
 import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterMutiSelectRoles,
-  AutoCompleteFilterSingleSelectDefaultLabs,
   AutoCompleteFilterSingleSelectDegnisation,
   AutoCompleteFilterMutiSelectDepartment,
   AutoCompleteReportingTo,
   AutoCompleteDefaultDepartment,
-} from '../index';
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+  ModalDefaultLabDeptUpdate,
+  ModalDefaultLabDeptUpdateProps,
+} from '..';
 
 import {toJS} from 'mobx';
 
@@ -88,6 +88,10 @@ export const UserList = observer((props: UserListProps) => {
     formState: {errors},
     setValue,
   } = useForm();
+
+  const [modalDefaultLabDeptUpdate, setModalDefaultLabDeptUpdate] =
+    useState<ModalDefaultLabDeptUpdateProps>({show: false});
+
   function priceFormatter(column, colIndex, {sortElement, filterElement}) {
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -97,9 +101,11 @@ export const UserList = observer((props: UserListProps) => {
       </div>
     );
   }
+
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -118,8 +124,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: 'defaultLab',
               text: 'Default Lab',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -127,63 +132,45 @@ export const UserList = observer((props: UserListProps) => {
                 },
               }),
               headerClasses: 'textHeader3',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectDefaultLabs
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.code,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+              formatter: (cellContent, row) => (
+                <span
+                  onDoubleClick={() => {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: row._id,
+                      type: 'default',
+                    });
+                  }}
+                >
+                  {row.defaultLab}
+                </span>
               ),
             },
             {
               dataField: 'defaultDepartment',
               text: 'Default Department',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   defaultDepartment = filter;
                 },
               }),
-              headerClasses: 'textHeader6',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteDefaultDepartment
-                    defaultLab={row.defaultLab}
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.code,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+              formatter: (cellContent, row) => (
+                <span
+                  onDoubleClick={() => {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: row._id,
+                      type: 'default',
+                    });
+                  }}
+                >
+                  {row.defaultDepartment}
+                </span>
               ),
+              headerClasses: 'textHeader6',
             },
             {
               dataField: 'userGroup',
@@ -402,8 +389,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: 'lab',
               text: 'Assigned Lab',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.lab.map(item => item.name)}`,
               filter: textFilter({
@@ -414,35 +400,20 @@ export const UserList = observer((props: UserListProps) => {
               headerClasses: 'textHeader6',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul
+                    style={{listStyle: 'inside'}}
+                    onDoubleClick={() => {
+                      setModalDefaultLabDeptUpdate({
+                        show: true,
+                        id: row._id,
+                        type: 'assigned',
+                      });
+                    }}
+                  >
                     {row.lab.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
                   </ul>
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutocompleteCheck
-                    posstion="relative"
-                    data={{
-                      defulatValues: toJS(row.lab),
-                      list: props.extraData.listLabs,
-                      displayKey: 'name',
-                      findKey: 'code',
-                    }}
-                    onUpdate={items => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id);
-                    }}
-                  />
                 </>
               ),
             },
@@ -450,8 +421,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: 'department',
               text: 'Assigned Department',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.department.map(item => item.name)}`,
               filter: textFilter({
@@ -462,34 +432,20 @@ export const UserList = observer((props: UserListProps) => {
               headerClasses: 'textHeader6',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul
+                    style={{listStyle: 'inside'}}
+                    onDoubleClick={() => {
+                      setModalDefaultLabDeptUpdate({
+                        show: true,
+                        id: row._id,
+                        type: 'assigned',
+                      });
+                    }}
+                  >
                     {row.department.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
                   </ul>
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterMutiSelectDepartment
-                    lab={row.lab}
-                    selected={row.department}
-                    onUpdate={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.code,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
                 </>
               ),
             },
@@ -1401,6 +1357,12 @@ export const UserList = observer((props: UserListProps) => {
             createdBy('');
             status('');
             environment('');
+          }}
+        />
+        <ModalDefaultLabDeptUpdate
+          {...modalDefaultLabDeptUpdate}
+          onClose={() => {
+            setModalDefaultLabDeptUpdate({show: false});
           }}
         />
       </div>
