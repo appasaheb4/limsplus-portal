@@ -683,7 +683,7 @@ export const Users = UsersHoc(
                         data={{
                           list: [
                             {
-                              _id: 'allSelect',
+                              _id: 'selectAll',
                               code: '*',
                               name: '*',
                             },
@@ -782,6 +782,7 @@ export const Users = UsersHoc(
                         data={{
                           list: [
                             {
+                              _id: 'selectAll',
                               code: '*',
                               name: '*',
                             },
