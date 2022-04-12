@@ -1,16 +1,16 @@
-import React from "react"
+import React from 'react';
 
 interface CarouselProps {
-  images?: string[]
+  images?: string[];
 }
 
 export const Carousel = (props: CarouselProps) => {
-  const [currentSlide, setCurrentSlide] = React.useState(0)
+  const [currentSlide, setCurrentSlide] = React.useState(0);
   return (
     <div className="overflow-hidden relative">
       <div
         style={{
-          width: (props.images?.length || 1) * 100 + "%",
+          width: (props.images?.length || 1) * 100 + '%',
           transform: `translateX(${
             -(currentSlide / (props.images?.length || 1)) * 100
           }%)`,
@@ -21,14 +21,14 @@ export const Carousel = (props: CarouselProps) => {
           <img
             key={key}
             src={image}
-            style={{ width: 100 / (props.images?.length || 1) + "%" }}
+            style={{width: 100 / (props.images?.length || 1) + '%'}}
             alt={image}
           />
         ))}
       </div>
       {currentSlide > 0 && (
         <button
-          style={{ transform: "translateY(-50%)" }}
+          style={{transform: 'translateY(-50%)'}}
           onClick={() => setCurrentSlide(currentSlide - 1)}
           className="absolute w-6 h-6 bg-white rounded-full top-1/2 left-2 flex justify-center items-center shadow-sm hover:shadow-lg"
         >
@@ -50,7 +50,7 @@ export const Carousel = (props: CarouselProps) => {
       )}
       {currentSlide < (props.images?.length || 1) - 1 && (
         <button
-          style={{ transform: "translateY(-50%)" }}
+          style={{transform: 'translateY(-50%)'}}
           onClick={() => setCurrentSlide(currentSlide + 1)}
           className="absolute w-6 h-6 bg-white rounded-full top-1/2 right-2 flex justify-center items-center shadow-sm hover:shadow-lg"
         >
@@ -71,5 +71,5 @@ export const Carousel = (props: CarouselProps) => {
         </button>
       )}
     </div>
-  )
-}
+  );
+};

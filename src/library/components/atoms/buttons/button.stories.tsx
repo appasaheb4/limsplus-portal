@@ -1,6 +1,11 @@
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
-import {Button, ButtonCircleAddRemove} from './button.component';
+import {
+  Button,
+  ButtonCircleAddRemove,
+  ButtonCircleAddRemoveBottom,
+  ButtonIcon,
+} from './button.component';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -21,4 +26,17 @@ export const _ButtonCircleAddRemove: ComponentStory<typeof Button> = () => (
     show={true}
     onClick={status => console.log({status})}
   />
+);
+
+export const _ButtonCircleAddRemoveBottom: ComponentStory<
+  typeof Button
+> = () => (
+  <ButtonCircleAddRemoveBottom
+    show={true}
+    onClick={status => console.log({status})}
+  />
+);
+
+export const _ButtonIcon: ComponentStory<typeof Button> = () => (
+  <ButtonIcon title="" icon="" onClick={() => {}} />
 );
