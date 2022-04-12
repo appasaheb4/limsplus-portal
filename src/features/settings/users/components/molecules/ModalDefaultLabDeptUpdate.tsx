@@ -32,8 +32,12 @@ export const ModalDefaultLabDeptUpdate = observer(
     } = useForm();
     const [showModal, setShowModal] = React.useState(props.show);
 
-    const [lab, setLab] = useState<any>();
-    const [department, setDepartment] = useState<any>();
+    const [lab, setLab] = useState<string>();
+    const [department, setDepartment] = useState<string>();
+    const [assignedLab, setAssignedLab] = useState<Array<any>>([]);
+    const [assignedDepartment, setAssignedDepartment] = useState<Array<any>>(
+      [],
+    );
 
     const onSubmit = () => {
       let input: any;
@@ -45,8 +49,8 @@ export const ModalDefaultLabDeptUpdate = observer(
         };
       } else {
         input = {
-          lab: lab,
-          department: department,
+          lab: assignedLab,
+          department: assignedDepartment,
           _id: props.id,
         };
       }
@@ -127,7 +131,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                   }}
                                   onSelect={item => {
                                     onChange(item.code);
-                                    const labs: any = labStore.listLabs.filter(
+                                    const labs: any = labStore.listLabs?.filter(
                                       e => e.code === item.code,
                                     );
                                     setLab(item.code);
@@ -144,7 +148,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                             '😔 Technical issue, Please try again !',
                                         });
                                       departmentStore.updateDepartmentList(
-                                        res.findByFieldsDepartments.data,
+                                        res.findByFieldsDepartments?.data,
                                       );
                                     });
                                     labStore.updateLabList(
@@ -237,9 +241,9 @@ export const ModalDefaultLabDeptUpdate = observer(
                                   hasError={errors.labs}
                                   onUpdate={item => {
                                     const labs = userStore.selectedItems?.labs;
-                                    setLab(labs);
-                                    setDepartment([]);
-                                    if (labs.some(e => e.code !== '*')) {
+                                    setAssignedLab(labs);
+                                    setAssignedDepartment([]);
+                                    if (labs?.some(e => e.code !== '*')) {
                                       departmentStore.DepartmentService.findByFields(
                                         {
                                           input: {
@@ -248,7 +252,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                         },
                                       ).then(res => {
                                         if (
-                                          !res.findByFieldsDepartments.success
+                                          !res.findByFieldsDepartments?.success
                                         )
                                           return Toast.error({
                                             message:
@@ -259,7 +263,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                           res.findByFieldsDepartments.data,
                                         );
                                         departmentStore.updateDepartmentList(
-                                          res.findByFieldsDepartments.data,
+                                          res.findByFieldsDepartments?.data,
                                         );
                                       });
                                     }
@@ -291,19 +295,19 @@ export const ModalDefaultLabDeptUpdate = observer(
                                         labs?.some(e => e.code === '*')
                                       ) {
                                         labs = [];
-                                        labs.push(item);
+                                        labs?.push(item);
                                       } else {
-                                        labs = labs.filter(items => {
+                                        labs = labs?.filter(items => {
                                           return items._id !== item._id;
                                         });
                                       }
                                     } else {
                                       if (!item.selected) {
-                                        if (labs && labs.length > 0) {
-                                          labs.push(item);
+                                        if (labs && labs?.length > 0) {
+                                          labs?.push(item);
                                         } else labs = [item];
                                       } else {
-                                        labs = labs.filter(items => {
+                                        labs = labs?.filter(items => {
                                           return items._id !== item._id;
                                         });
                                       }
@@ -339,11 +343,11 @@ export const ModalDefaultLabDeptUpdate = observer(
                                         name: '*',
                                       },
                                     ].concat(
-                                      lab?.length > 0
-                                        ? lab?.some(e => e.code !== '*')
+                                      assignedLab?.length > 0
+                                        ? assignedLab?.some(e => e.code !== '*')
                                           ? departmentStore.listDepartment?.filter(
                                               o1 =>
-                                                lab?.some(
+                                                assignedLab?.some(
                                                   o2 => o1.lab === o2.code,
                                                 ),
                                             )
@@ -358,7 +362,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                   onUpdate={item => {
                                     const departments =
                                       userStore.selectedItems?.department;
-                                    setDepartment(departments);
+                                    setAssignedDepartment(departments);
                                     departmentStore.updateDepartmentList(
                                       departmentStore.listDepartmentCopy,
                                     );
@@ -379,12 +383,10 @@ export const ModalDefaultLabDeptUpdate = observer(
                                   }}
                                   onSelect={item => {
                                     onChange(new Date());
-                                    console.log({item});
-
                                     let departments =
                                       userStore.selectedItems?.department;
                                     if (
-                                      item.code === '*' ||
+                                      item?.code === '*' ||
                                       departments?.some(e => e.code === '*')
                                     ) {
                                       if (
@@ -393,22 +395,22 @@ export const ModalDefaultLabDeptUpdate = observer(
                                       ) {
                                         departments = [item];
                                       } else {
-                                        departments = departments.filter(
+                                        departments = departments?.filter(
                                           items => {
                                             return items._id !== item._id;
                                           },
                                         );
                                       }
                                     } else {
-                                      if (!item.selected) {
+                                      if (!item?.selected) {
                                         if (
                                           departments &&
-                                          departments.length > 0
+                                          departments?.length > 0
                                         ) {
-                                          departments.push(item);
+                                          departments?.push(item);
                                         } else departments = [item];
                                       } else {
-                                        departments = departments.filter(
+                                        departments = departments?.filter(
                                           items => {
                                             return items._id !== item._id;
                                           },

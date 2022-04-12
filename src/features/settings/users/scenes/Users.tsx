@@ -16,8 +16,8 @@ import {
   ModalChangePasswordByAdmin,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-} from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+} from '@components';
+import {lookupItems, lookupValue} from '@utils';
 import {UserList} from '../components';
 import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';
@@ -196,7 +196,7 @@ export const Users = UsersHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>

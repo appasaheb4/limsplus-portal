@@ -7,7 +7,7 @@
       "@features/*": ["./src/features/*"],
       "@services": ["./src/library/services/index"],
       "@stores": ["src/stores/index"],
-      "@utils": ["./src/library/index"],
+      "@utils": ["./src/library/utils/index"],
       "@routers": ["./src/routers"],
       "@assets/*": ["./src/library/assets/*"]
     },
