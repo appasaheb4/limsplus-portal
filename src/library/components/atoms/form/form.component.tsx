@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {List, ModalClock} from '..';
+import {List, ModalClock} from '../..';
 import dayjs from 'dayjs';
-import './css/toggle.css';
+import '../css/toggle.css';
 import classNames from 'classnames';
 import DateTimePicker from 'react-datetime-picker';
-import './css/DateTimePicker.css';
+import '../css/DateTimePicker.css';
 
 interface LabelProps {
   htmlFor: string;

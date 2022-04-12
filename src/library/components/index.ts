@@ -1,16 +1,16 @@
 import {ToastContainer} from 'react-toastify';
 import Toast from '@/library/modules/toast';
 import * as Buttons from './atoms/buttons/button.component';
-import * as Form from './atoms/form';
+import * as Form from './atoms/form/form.component';
 import * as Svg from './atoms/svg';
 import * as Icons from './atoms/icons';
 export {ToastContainer, Toast, Buttons, Form, Svg, Icons};
 
-export * from './atoms/carousel';
-export * from './atoms/grid';
-export * from './atoms/header';
-export * from './atoms/image';
-export * from './atoms/list';
+export * from './atoms/carousel/carousel.component';
+export * from './atoms/grid/grid.component';
+export * from './atoms/header/header.component';
+export * from './atoms/image/image.component';
+export * from './atoms/list/list.component';
 export * from './atoms/loader';
 export * from './atoms/modals';
 export * from './atoms/tooltip';

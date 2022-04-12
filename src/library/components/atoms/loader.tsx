@@ -1,10 +1,10 @@
-import React from "react";
-import * as Bootstrap from "react-bootstrap";
+import React from 'react';
+import * as Bootstrap from 'react-bootstrap';
 export const Loader = () => {
   return (
     <div className="bg-black">
       <Bootstrap.Modal show={true} centered>
-        <Bootstrap.Modal.Body style={{ textAlign: "center" }}>
+        <Bootstrap.Modal.Body style={{textAlign: 'center'}}>
           <Bootstrap.Spinner animation="border" variant="dark" />
           <br />
           <span>Loading...</span>
@@ -14,7 +14,7 @@ export const Loader = () => {
   );
 };
 
-export const ModalLoader =() => {
+export const ModalLoader = () => {
   return (
     <>
       <>
@@ -70,8 +70,8 @@ export const ModalLoader =() => {
                     className="line"
                     d="M 37.5,50 C 37.5,43.096441 43.096441,37.5 50,37.5 C 56.903559,37.5 62.5,43.096441 62.5,50 C 62.5,56.903559 56.903559,62.5 50,62.5 C 43.096441,62.5 37.5,56.903559 37.5,50"
                   ></path>
-                </svg>{" "}
-                <span style={{ marginTop: -15 }}>loading ...</span>
+                </svg>{' '}
+                <span style={{marginTop: -15}}>loading ...</span>
               </div>
             </div>
           </div>
@@ -79,5 +79,5 @@ export const ModalLoader =() => {
         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
       </>
     </>
-  )
-}
+  );
+};
