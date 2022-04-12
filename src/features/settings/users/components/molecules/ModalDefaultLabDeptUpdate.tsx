@@ -29,6 +29,7 @@ export const ModalDefaultLabDeptUpdate = observer(
       handleSubmit,
       formState: {errors},
       setValue,
+      resetField,
     } = useForm();
     const [showModal, setShowModal] = React.useState(props.show);
 
@@ -135,6 +136,8 @@ export const ModalDefaultLabDeptUpdate = observer(
                                       e => e.code === item.code,
                                     );
                                     setLab(item.code);
+                                    setDepartment('');
+                                    resetField('defaultDepartment');
                                     departmentStore.DepartmentService.findByFields(
                                       {
                                         input: {
@@ -178,9 +181,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                     ),
                                     displayKey: ['code', 'name'],
                                   }}
-                                  displayValue={
-                                    userStore.user?.defaultDepartment
-                                  }
+                                  displayValue={department}
                                   hasError={errors.defaultDepartment}
                                   onFilter={(value: string) => {
                                     departmentStore.DepartmentService.filter({
@@ -243,6 +244,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                     const labs = userStore.selectedItems?.labs;
                                     setAssignedLab(labs);
                                     setAssignedDepartment([]);
+                                    resetField('department');
                                     if (labs?.some(e => e.code !== '*')) {
                                       departmentStore.DepartmentService.findByFields(
                                         {
