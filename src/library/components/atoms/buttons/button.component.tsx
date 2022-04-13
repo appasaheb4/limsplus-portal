@@ -1,3 +1,6 @@
+/* eslint-disable react/display-name */
+/* eslint-disable @typescript-eslint/indent */
+/* eslint-disable react/jsx-indent-props */
 import React, {CSSProperties} from 'react';
 import {IconProps} from '../svg';
 import {Buttons, Icons} from '../..';
@@ -13,6 +16,7 @@ export interface ButtonProps {
   disabled?: string;
   id?: string;
   innerRef?: any;
+  className?: string;
   children?: React.ReactNode;
 }
 
@@ -34,24 +38,26 @@ export const Button = React.forwardRef((props: ButtonProps) => {
   const Icon = props.icon;
 
   return (
-    <button
-      onClick={props.onClick}
-      type="button"
-      disabled={!!props.disabled}
-      title={props.disabled}
-      id={props.id}
-      ref={props.innerRef}
-      className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-    >
-      {Icon && (
-        <Icon
-          size={props.size}
-          type={props.type === 'solid' ? 'inverse' : 'solid'}
-          buttonOffset
-        />
-      )}
-      {props.children}
-    </button>
+    <div className={`${props.className}`}>
+      <button
+        onClick={props.onClick}
+        type="button"
+        disabled={!!props.disabled}
+        title={props.disabled}
+        id={props.id}
+        ref={props.innerRef}
+        className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+      >
+        {Icon && (
+          <Icon
+            size={props.size}
+            type={props.type === 'solid' ? 'inverse' : 'solid'}
+            buttonOffset
+          />
+        )}
+        {props.children}
+      </button>
+    </div>
   );
 });
 
