@@ -197,7 +197,7 @@ export const Users = UsersHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
