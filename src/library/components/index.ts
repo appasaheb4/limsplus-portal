@@ -15,11 +15,11 @@ export * from './atoms/loader/loader.component';
 export * from './atoms/modals/modals.component';
 export * from './atoms/tooltip/tooltip.component';
 
-export * from './molecules/AutoComplete';
-export * from './molecules/AutocompleteCheck';
-export * from './molecules/AutoCompleteCheckMultiFilterKeys';
-export * from './molecules/AutoCompleteCheckTwoTitleKeys';
-export * from './molecules/AutoCompleteFilterMutiSelect';
+export * from './molecules/AutoComplete/AutoComplete.component';
+export * from './molecules/AutoCompleteCheck/AutocompleteCheck.component';
+export * from './molecules/AutoCompleteCheckMultiFilterKeys/AutoCompleteCheckMultiFilterKeys.component';
+export * from './molecules/AutoCompleteCheckTwoTitleKeys/AutoCompleteCheckTwoTitleKeys.component';
+export * from './molecules/AutoCompleteFilterMutiSelect/AutoCompleteFilterMutiSelect.component';
 export * from './molecules/AutoCompleteFilterMutiSelectMultiFieldsDisplay';
 export * from './molecules/AutoCompleteFilterSingleSelect';
 export * from './molecules/AutoCompleteFilterSingleSelectMultiFieldsDisplay';
