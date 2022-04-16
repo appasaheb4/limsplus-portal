@@ -1,19 +1,19 @@
-import React, { useEffect } from "react"
-import { Container } from "reactstrap"
+import React, {useEffect} from 'react';
+import {Container} from 'reactstrap';
 
 interface ModalProps {
-  show?: boolean
-  title?: string
-  subTitle?: string
-  onClick: () => void
+  show?: boolean;
+  title?: string;
+  subTitle?: string;
+  onClick: () => void;
 }
 
 export const ModalTokenExpire = (props: ModalProps) => {
-  const [showModal, setShowModal] = React.useState(props.show)
+  const [showModal, setShowModal] = React.useState(props.show);
 
   useEffect(() => {
-    setShowModal(props.show)
-  }, [props.show])
+    setShowModal(props.show);
+  }, [props.show]);
 
   return (
     <Container>
@@ -26,10 +26,10 @@ export const ModalTokenExpire = (props: ModalProps) => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <h3 className="text-3xl font-semibold">
-                    {props.title || "Opps! your token expire."}
-                  </h3>   
+                    {props.title || 'Opps! your token expire.'}
+                  </h3>
                   <h3 className="text-sm font-semibold">
-                    {props.subTitle || "Please login again"}
+                    {props.subTitle || 'Please login again'}
                   </h3>
                 </div>
                 {/*footer*/}
@@ -37,9 +37,9 @@ export const ModalTokenExpire = (props: ModalProps) => {
                   <button
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
-                    style={{ transition: "all .15s ease" }}
+                    style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      props.onClick && props.onClick()
+                      props.onClick && props.onClick();
                     }}
                   >
                     Logout
@@ -52,5 +52,5 @@ export const ModalTokenExpire = (props: ModalProps) => {
         </>
       )}
     </Container>
-  )
-}
+  );
+};

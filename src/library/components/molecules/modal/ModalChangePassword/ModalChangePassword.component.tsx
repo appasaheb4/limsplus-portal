@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
-import {Toast, List, Form} from '../..';
+import {Toast, List, Form} from '../../..';
 import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
