@@ -11,9 +11,9 @@ export * from './atoms/grid/grid.component';
 export * from './atoms/header/header.component';
 export * from './atoms/image/image.component';
 export * from './atoms/list/list.component';
-export * from './atoms/loader';
-export * from './atoms/modals';
-export * from './atoms/tooltip';
+export * from './atoms/loader/loader.component';
+export * from './atoms/modals/modals.component';
+export * from './atoms/tooltip/tooltip.component';
 
 export * from './molecules/AutoComplete';
 export * from './molecules/AutocompleteCheck';
