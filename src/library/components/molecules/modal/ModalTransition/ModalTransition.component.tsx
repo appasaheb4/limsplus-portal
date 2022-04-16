@@ -1,33 +1,35 @@
-import React from "react"
-import { Transition } from "@headlessui/react"
+import React from 'react';
+import {Transition} from '@headlessui/react';
 
 interface ModalProps {
-  show: boolean
-  onClose: () => void
-  children: React.ReactNode
+  show: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 }
-  
-export const ModalTransition: React.FunctionComponent<any> = (props: ModalProps) => (
+
+export const ModalTransition: React.FunctionComponent<any> = (
+  props: ModalProps,
+) => (
   <div
     className={`fixed inset-0 overflow-hidden z-50 ${
-      !props.show && "pointer-events-none"
+      !props.show && 'pointer-events-none'
     }`}
   >
     <div className="absolute inset-0 overflow-hidden">
       <Transition
         show={props.show}
-        enterFrom={"opacity-0"}
-        enterTo={"opacity-100"}
-        enter={"ease-in-out duration-500"}
-        leave={"ease-in-out duration-500"}
-        leaveFrom={"opacity-100"}
-        leaveTo={"opacity-0"}
+        enterFrom={'opacity-0'}
+        enterTo={'opacity-100'}
+        enter={'ease-in-out duration-500'}
+        leave={'ease-in-out duration-500'}
+        leaveFrom={'opacity-100'}
+        leaveTo={'opacity-0'}
       >
         <div
           className="absolute inset-0 bg-gray-600 bg-opacity-75 transition-opacity"
           aria-hidden="true"
           onClick={() => {
-            props.onClose && props.onClose()
+            props.onClose && props.onClose();
           }}
         ></div>
       </Transition>
@@ -48,7 +50,7 @@ export const ModalTransition: React.FunctionComponent<any> = (props: ModalProps)
             <div className="absolute top-0 left-0 -ml-8 pt-4 pr-2 flex sm:-ml-10 sm:pr-4">
               <button
                 onClick={() => {
-                  props.onClose && props.onClose()
+                  props.onClose && props.onClose();
                 }}
                 className="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
               >
@@ -62,9 +64,9 @@ export const ModalTransition: React.FunctionComponent<any> = (props: ModalProps)
                   aria-hidden="true"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
@@ -78,4 +80,4 @@ export const ModalTransition: React.FunctionComponent<any> = (props: ModalProps)
       </section>
     </div>
   </div>
-)
+);

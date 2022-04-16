@@ -1,24 +1,24 @@
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
-import {AutocompleteCheck} from './AutocompleteCheck.component';
+import {AutocompleteGroupBy} from './AutocompleteGroupBy.component';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Molecules/AutocompleteCheck',
-  component: AutocompleteCheck,
+  title: 'Molecules/AutocompleteGroupBy',
+  component: AutocompleteGroupBy,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: {control: 'color'},
   },
-} as ComponentMeta<typeof AutocompleteCheck>;
+} as ComponentMeta<typeof AutocompleteGroupBy>;
 
-export const _AutocompleteCheck: ComponentStory<
-  typeof AutocompleteCheck
+export const _AutocompleteGroupBy: ComponentStory<
+  typeof AutocompleteGroupBy
 > = () => (
-  <AutocompleteCheck
-    hasError={false}
+  <AutocompleteGroupBy
     data={[]}
-    onUpdate={() => {}}
-    placeholder="Im Auto CompleteCheck"
+    hasError={true}
+    onChange={() => {}}
+    onClose={() => {}}
   />
 );

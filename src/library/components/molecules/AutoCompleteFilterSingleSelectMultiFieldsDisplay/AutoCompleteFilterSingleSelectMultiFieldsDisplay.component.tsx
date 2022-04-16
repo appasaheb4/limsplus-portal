@@ -1,43 +1,39 @@
 /* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
-import {Icons} from '..';
+import {Icons} from '../..';
 
-interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
+interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   loader?: boolean;
+  disable?: boolean;
+  displayValue?: string;
   placeholder?: string;
   data: any;
   hasError?: boolean;
-  disable?: boolean;
-  onFilter: (value: string) => void;
-  onUpdate: (item: any) => void;
+  posstion?: string;
+  onFilter: (item: any) => void;
   onSelect: (item: any) => any;
 }
 
-export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
+export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
+  disable = false,
   loader = false,
+  displayValue = '',
   placeholder = 'Search...',
   data,
   hasError = false,
-  disable = false,
+  posstion = 'absolute',
   onFilter,
-  onUpdate,
   onSelect,
-}: AutoCompleteFilterMutiSelectMultiFieldsDisplayProps) => {
-  const [value, setValue] = useState<string>('');
-  const [options, setOptions] = useState<any[]>();
-  const [originalOptions, setOriginalOptions] = useState<any[]>();
+}: AutoCompleteFilterSingleSelectMultiFieldsDisplayProps) => {
+  const [value, setValue] = useState<string>(displayValue);
+  const [options, setOptions] = useState<any[]>(data.list);
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
   const useOutsideAlerter = ref => {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-          if (originalOptions && options) {
-            if (isListOpen) {
-              onUpdate && onUpdate(data.selected);
-            }
-          }
           setIsListOpen(false);
           setValue('');
         }
@@ -51,30 +47,14 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
-  let count = 0;
-  const getSelectedItem = (selectedItem: any[], list: any[]) => {
-    if (count === 0) {
-      const finalList = list.filter((item, index) => {
-        item.selected = false;
-        selectedItem && selectedItem.length > 0
-          ? selectedItem.find((sItem, index) => {
-              if (sItem._id === item._id) {
-                item.selected = true;
-              }
-            })
-          : (item.selected = false);
-        count++;
-        return item;
-      });
-      list = finalList;
-    }
-    return list;
-  };
 
   useEffect(() => {
-    setOriginalOptions(getSelectedItem(data.selected, data.list));
-    setOptions(getSelectedItem(data.selected, data.list));
-  }, [data, data.selected]);
+    setOptions(data.list);
+  }, [data]);
+
+  useEffect(() => {
+    setValue(displayValue);
+  }, [displayValue]);
 
   const onChange = e => {
     const search = e.target.value;
@@ -100,16 +80,13 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
         >
           <input
             placeholder={placeholder}
-            disabled={disable}
-            value={
-              !isListOpen
-                ? `${(data.selected && data.selected.length) || 0} Items`
-                : value
-            }
+            value={!isListOpen ? value : value}
             className={`w-full focus:outline-none bg-none`}
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
+            disabled={disable}
+            onMouseDown={() => setValue('')}
           />
           {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (
@@ -120,20 +97,27 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
         </div>
 
         {options && isListOpen
-          ? options?.length > 0 && (
-              <div className="mt-1  absolute bg-gray-100 p-2 rounded-sm z-50">
+          ? options.length > 0 && (
+              <div
+                className={`mt-1 absolute z-2 bg-gray-100 p-2 rounded-sm z-50`}
+              >
                 <ul>
                   {options?.map((item, index) => (
                     <>
                       <li
                         key={index}
                         className="text-gray-400 flex items-center"
+                        onClick={() => {
+                          setValue(
+                            data.displayKey
+                              .map(key => `${item[key]}`)
+                              .join(' - '),
+                          );
+                          setIsListOpen(false);
+                          onSelect(item);
+                        }}
                       >
-                        <input
-                          type="checkbox"
-                          checked={item.selected}
-                          onChange={() => onSelect(item)}
-                        />{' '}
+                        {' '}
                         <label className="ml-2 mt-1 text-black">
                           {data.displayKey
                             .map(
