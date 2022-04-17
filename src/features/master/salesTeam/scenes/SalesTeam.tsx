@@ -229,6 +229,8 @@ export const SalesTeam = SalesTeamHoc(
                         hasError={errors.empCode}
                         displayValue={salesTeamStore.salesTeam?.empCode}
                         onSelect={item => {
+                          console.log({item});
+
                           onChange(item.empCode);
                           setValue('empName', item.fullName);
                           salesTeamStore.updateSalesTeam({
@@ -249,7 +251,20 @@ export const SalesTeam = SalesTeamHoc(
                                 Toast.error({
                                   message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                                 });
-                              } else salesTeamStore.updateExistsRecord(false);
+                              } else {
+                                salesTeamStore.salesTeamService
+                                  .getSalesHierarchyList({
+                                    input: {
+                                      empCode: item.empCode,
+                                      reportingTo: item.reportingTo,
+                                      deginisation: item.deginisation,
+                                    },
+                                  })
+                                  .then((res: any) => {
+                                    console.log({res});
+                                  });
+                                salesTeamStore.updateExistsRecord(false);
+                              }
                             });
                         }}
                       />
@@ -261,7 +276,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={() => (
                     <Form.Input
                       label="Employee Name"
                       placeholder={
@@ -288,7 +303,7 @@ export const SalesTeam = SalesTeamHoc(
                       label="Sales Hierarchy"
                       hasError={errors.salesHierarchy}
                     >
-                      {!salesTeamStore.salesTeam?.salesHierarchy && (
+                      {/* {!salesTeamStore.salesTeam?.salesHierarchy && (
                         <Buttons.Button
                           size="small"
                           type="outline"
@@ -309,9 +324,9 @@ export const SalesTeam = SalesTeamHoc(
                           />
                         </Buttons.Button>
                       )}
-                      {salesTeamStore.salesTeam?.salesHierarchy?.length > 0 && (
-                        <SalesHierarchyTable />
-                      )}
+                      {salesTeamStore.salesTeam?.salesHierarchy?.length > 0 && ( */}
+                      <SalesHierarchyTable />
+                      {/* )} */}
                     </Form.InputWrapper>
                   )}
                   name="salesHierarchy"
