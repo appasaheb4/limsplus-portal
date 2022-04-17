@@ -38,8 +38,6 @@ export const SalesHierarchyTable = observer(({}) => {
     });
   };
 
-  console.log({employeeList});
-
   useEffect(() => {
     loadEmployee();
   }, []);
@@ -81,7 +79,7 @@ export const SalesHierarchyTable = observer(({}) => {
             <th className="text-white" style={{minWidth: 150}}>
               Level
             </th>
-            <th className="text-white sticky right-0 z-10">Action</th>
+            {/* <th className="text-white sticky right-0 z-10">Action</th> */}
           </tr>
         </thead>
         <tbody className="text-xs">
@@ -202,7 +200,7 @@ export const SalesHierarchyTable = observer(({}) => {
                   defaultValue=""
                 />
               </td>
-              <td className="sticky right-0 z-10 bg-gray-500">
+              {/* <td className="sticky right-0 z-10 bg-gray-500">
                 <div className="flex flex-col gap-1">
                   <Buttons.Button
                     size="small"
@@ -221,7 +219,7 @@ export const SalesHierarchyTable = observer(({}) => {
                     <Icons.EvaIcon icon="plus-circle-outline" color="#fff" />
                   </Buttons.Button>
                 </div>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

@@ -49,8 +49,6 @@ export const SalesHierarchyTableForSalesTeam = observer(
       });
     };
 
-    console.log({employeeList});
-
     useEffect(() => {
       loadEmployee();
     }, []);
