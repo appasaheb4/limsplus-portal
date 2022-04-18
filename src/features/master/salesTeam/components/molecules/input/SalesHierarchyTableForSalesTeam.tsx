@@ -86,16 +86,10 @@ export const SalesHierarchyTableForSalesTeam = observer(
         <Table striped bordered>
           <thead>
             <tr className="p-0 text-xs">
-              <th className="text-white" style={{minWidth: 150}}>
-                Employee
-              </th>
-              <th className="text-white" style={{minWidth: 150}}>
-                Designation
-              </th>
-              <th className="text-white" style={{minWidth: 150}}>
-                Level
-              </th>
-              <th className="text-white sticky right-0 flex flex-row gap-2">
+              <th className="text-white ">Employee</th>
+              <th className="text-white ">Designation</th>
+              <th className="text-white ">Level</th>
+              <th className="text-white right-0  flex flex-row gap-2">
                 Action
                 <Buttons.ButtonIcon
                   icon={
@@ -130,66 +124,9 @@ export const SalesHierarchyTableForSalesTeam = observer(
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          posstion="sticky"
-                          loader={loading}
-                          placeholder="Search by Employee Code"
-                          data={{
-                            list: employeeList,
-                            displayKey: ['empCode', 'fullName'],
-                          }}
-                          hasError={errors.empCode}
-                          displayValue={item?.empCode}
-                          onFilter={(value: string) => {
-                            userStore.UsersService.filter({
-                              input: {
-                                type: 'filter',
-                                filter: {
-                                  empCode: value,
-                                  role: 'SALES',
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            }).then(res => {
-                              if (!res.filterUsers.success)
-                                return loadEmployee();
-                              setEmployeeList(res.filterUsers.data);
-                            });
-                          }}
-                          onSelect={item => {
-                            onChange(item.priceGroup);
-                            // const salesHierarchy = toJS(
-                            //   salesTeamStore.salesTeam?.salesHierarchy,
-                            // );
-                            if (
-                              _.findIndex(salesHierarchy, o => {
-                                return _.isMatch(o, {empCode: item.empCode});
-                              }) >= 0
-                            ) {
-                              removeItem(index);
-                              Toast.warning({
-                                message: '😔 Already exists same record found!',
-                              });
-                            } else {
-                              salesHierarchy.current[index] = {
-                                ...salesHierarchy.current[index],
-                                empCode: item.empCode,
-                                fullName: item.fullName,
-                                designation: item.deginisation,
-                              };
-                              // salesTeamStore.updateSalesTeam({
-                              //   ...salesTeamStore.salesTeam,
-                              //   salesHierarchy,
-                              // });
-                            }
-                            salesTeamStore.updateSalesTeamList(
-                              salesTeamStore.listSalesTeamCopy,
-                            );
-                          }}
-                        />
+                        <Form.Input disabled={true} value={`${item.empCode}`} />
                       )}
-                      name="priceGroup"
+                      name="designation"
                       rules={{required: false}}
                       defaultValue={employeeList}
                     />
@@ -209,34 +146,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <select
-                          value={item.level}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                          onChange={e => {
-                            const level = e.target.value;
-                            onChange(level);
-                            // const salesHierarchy = toJS(
-                            //   salesTeamStore.salesTeam?.salesHierarchy,
-                            // );
-                            salesHierarchy.current[index] = {
-                              ...salesHierarchy.current[index],
-                              level,
-                            };
-                            // salesTeamStore.updateSalesTeam({
-                            //   ...salesTeamStore.salesTeam,
-                            //   salesHierarchy,
-                            // });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(routerStore.lookupItems, 'LEVEL').map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ),
-                          )}
-                        </select>
+                        <Form.Input disabled={true} value={item.level} />
                       )}
                       name="level"
                       rules={{required: false}}
@@ -283,7 +193,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
             </Buttons.Button>
           )}
         </Table>
-        {displaySalesHierarchy && (
+        {/* {displaySalesHierarchy && (
           <Buttons.Button
             size="small"
             type="solid"
@@ -291,7 +201,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
           >
             Update
           </Buttons.Button>
-        )}
+        )} */}
       </div>
     );
   },

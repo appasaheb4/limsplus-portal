@@ -161,7 +161,8 @@ export const SalesTeam = SalesTeamHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddSection ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' +
+              (hideAddSection ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
@@ -229,8 +230,6 @@ export const SalesTeam = SalesTeamHoc(
                         hasError={errors.empCode}
                         displayValue={salesTeamStore.salesTeam?.empCode}
                         onSelect={item => {
-                          console.log({item});
-
                           onChange(item.empCode);
                           setValue('empName', item.fullName);
                           salesTeamStore.updateSalesTeam({
@@ -256,12 +255,26 @@ export const SalesTeam = SalesTeamHoc(
                                   .getSalesHierarchyList({
                                     input: {
                                       empCode: item.empCode,
+                                      fullName: item.fullName,
                                       reportingTo: item.reportingTo,
                                       deginisation: item.deginisation,
                                     },
                                   })
-                                  .then((res: any) => {
-                                    console.log({res});
+                                  .then((salesHieRes: any) => {
+                                    if (
+                                      !salesHieRes.getSalesHierarchyList.success
+                                    )
+                                      return alert(
+                                        salesHieRes.getSalesHierarchyList
+                                          .message,
+                                      );
+                                    console.log({salesHieRes});
+
+                                    salesTeamStore.updateSalesTeam({
+                                      ...salesTeamStore.salesTeam,
+                                      salesHierarchy:
+                                        salesHieRes.getSalesHierarchyList.list,
+                                    });
                                   });
                                 salesTeamStore.updateExistsRecord(false);
                               }
@@ -325,7 +338,9 @@ export const SalesTeam = SalesTeamHoc(
                         </Buttons.Button>
                       )}
                       {salesTeamStore.salesTeam?.salesHierarchy?.length > 0 && ( */}
-                      <SalesHierarchyTable />
+                      <SalesHierarchyTable
+                        list={salesTeamStore.salesTeam.salesHierarchy}
+                      />
                       {/* )} */}
                     </Form.InputWrapper>
                   )}

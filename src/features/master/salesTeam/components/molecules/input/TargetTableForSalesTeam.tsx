@@ -94,40 +94,41 @@ export const TargetTableForSalesTeam = observer(
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <select
-                          value={item.fyYear}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                          onChange={e => {
-                            const fyYear = e.target.value;
-                            onChange(fyYear);
-                            salesTeamStore.updateSalesTeam({
-                              ...salesTeamStore.salesTeam,
-                              targets: [
-                                {fyYear, month: 'APR'},
-                                {fyYear, month: 'MAY'},
-                                {fyYear, month: 'JUN'},
-                                {fyYear, month: 'JUL'},
-                                {fyYear, month: 'AUG'},
-                                {fyYear, month: 'SEP'},
-                                {fyYear, month: 'OCT'},
-                                {fyYear, month: 'NOV'},
-                                {fyYear, month: 'DEC'},
-                                {fyYear, month: 'JAN'},
-                                {fyYear, month: 'FEB'},
-                                {fyYear, month: 'MAR'},
-                              ],
-                            });
-                          }}
-                        >
-                          <option selected>{'Select'} </option>
-                          {lookupItems(routerStore.lookupItems, 'FY_YEAR').map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ),
-                          )}
-                        </select>
+                        // <select
+                        //   value={item.fyYear}
+                        //   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                        //   onChange={e => {
+                        //     const fyYear = e.target.value;
+                        //     onChange(fyYear);
+                        //     salesTeamStore.updateSalesTeam({
+                        //       ...salesTeamStore.salesTeam,
+                        //       targets: [
+                        //         {fyYear, month: 'APR'},
+                        //         {fyYear, month: 'MAY'},
+                        //         {fyYear, month: 'JUN'},
+                        //         {fyYear, month: 'JUL'},
+                        //         {fyYear, month: 'AUG'},
+                        //         {fyYear, month: 'SEP'},
+                        //         {fyYear, month: 'OCT'},
+                        //         {fyYear, month: 'NOV'},
+                        //         {fyYear, month: 'DEC'},
+                        //         {fyYear, month: 'JAN'},
+                        //         {fyYear, month: 'FEB'},
+                        //         {fyYear, month: 'MAR'},
+                        //       ],
+                        //     });
+                        //   }}
+                        // >
+                        //   <option selected>{'Select'} </option>
+                        //   {lookupItems(routerStore.lookupItems, 'FY_YEAR').map(
+                        //     (item: any, index: number) => (
+                        //       <option key={index} value={item.code}>
+                        //         {lookupValue(item)}
+                        //       </option>
+                        //     ),
+                        //   )}
+                        // </select>
+                        <Form.Input disabled={true} value={`${item.fyYear}`} />
                       )}
                       name="priceGroup"
                       rules={{required: true}}
@@ -136,16 +137,8 @@ export const TargetTableForSalesTeam = observer(
                   </td>
                   <td>{index + 1}</td>
                   <td>{item.month}</td>
-                  <td
-                    onMouseEnter={() => {
-                      setDisplayTargetSale(true);
-                    }}
-                    onMouseLeave={() => {
-                      setDisplayTargetSale(false);
-                    }}
-                    style={{width: 150}}
-                  >
-                    {!displayTargetSale && (
+                  <td style={{width: 150}}>
+                    {/* {!displayTargetSale && (
                       <span
                         className={`leading-4 p-2 h-11 focus:outline-none focus:ring block w-30 shadow-sm sm:text-base border-2 rounded-md`}
                       >
@@ -180,14 +173,18 @@ export const TargetTableForSalesTeam = observer(
                         rules={{required: false}}
                         defaultValue={item.fyYear}
                       />
-                    )}
+                    )} */}
+                    <Form.Input
+                      disabled={true}
+                      value={`${item.targetSale || ''}`}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
           )}
         </Table>
-        {displayTargetTable && (
+        {/* {displayTargetTable && (
           <Buttons.Button
             size="small"
             type="solid"
@@ -195,7 +192,7 @@ export const TargetTableForSalesTeam = observer(
           >
             Update
           </Buttons.Button>
-        )}
+        )} */}
       </div>
     );
   },

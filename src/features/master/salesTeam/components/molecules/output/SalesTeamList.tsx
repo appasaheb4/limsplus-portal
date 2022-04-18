@@ -193,7 +193,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'salesHierarchy',
             text: 'Sales Hierarchy',
-            headerClasses: 'textHeader5 z-10',
+            headerClasses: 'textHeader6 z-10',
             sort: true,
             csvFormatter: (col, row) =>
               `Employee: ${row?.salesHierarchy
