@@ -23,6 +23,7 @@ import {FormHelper} from '@/helper';
 
 import {useHistory} from 'react-router-dom';
 import {useStores} from '@/stores';
+import {t} from '@localization';
 
 export const Login = observer(() => {
   const {userStore, loginStore, rootStore, labStore, roleStore, bannerStore} =
@@ -350,7 +351,7 @@ export const Login = observer(() => {
                       icon={Svg.Check}
                       onClick={handleSubmit(onLogin)}
                     >
-                      Login
+                      {t('common:login').toString()}
                     </Buttons.Button>
                     <Buttons.Button
                       size='medium'
