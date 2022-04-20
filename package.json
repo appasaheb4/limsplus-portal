@@ -8,12 +8,13 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --ext ts,tsx",
-    "prettier": "prettier --check .",
+    "lint": "eslint src",
+    "prettier:fix": "prettier --write",
     "lint:fix": "eslint --fix .",
-    "format": "prettier --write .",
     "storybook": "start-storybook -p 7007 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "dockerizeImage": "docker-compose -f docker-compose.yml up -d",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^3.4.11",
@@ -42,7 +43,7 @@
     "fs": "^0.0.1-security",
     "graphql": "^15.5.3",
     "html-react-parser": "^1.4.8",
-    "husky": "^4.3.8",
+    "husky": "^7.0.4",
     "lodash": "^4.17.21",
     "mobx": "^6.2.0",
     "mobx-react": "^7.1.0",
@@ -146,12 +147,26 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^16.1.2",
     "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-folders": "^1.0.3",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.8",
+    "eslint-plugin-unicorn": "^42.0.0",
+    "lint-staged": "^12.3.8",
     "postcss": "^8.4.12",
     "prettier": "^2.2.1"
+  },
+  "lint-staged": {
+    "src/*.{ts,tsx}": [
+      "yarn prettier:fix",
+      "yarn lint"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

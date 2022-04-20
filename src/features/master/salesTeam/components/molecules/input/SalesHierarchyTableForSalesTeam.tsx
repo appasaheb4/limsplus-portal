@@ -88,9 +88,8 @@ export const SalesHierarchyTableForSalesTeam = observer(
             <tr className="p-0 text-xs">
               <th className="text-white ">Employee</th>
               <th className="text-white ">Designation</th>
-              <th className="text-white ">Level</th>
-              <th className="text-white right-0  flex flex-row gap-2">
-                Action
+              <th className="text-white sticky right-0 flex flex-row gap-2">
+                Level
                 <Buttons.ButtonIcon
                   icon={
                     <IconContext.Provider value={{color: '#ffffff'}}>
@@ -152,32 +151,6 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       rules={{required: false}}
                       defaultValue=""
                     />
-                  </td>
-                  <td className="sticky right-0 z-10 bg-gray-500">
-                    <div className="flex flex-col gap-1">
-                      <Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {
-                          removeItem(index);
-                        }}
-                      >
-                        <Icons.EvaIcon
-                          icon="minus-circle-outline"
-                          color="#fff"
-                        />
-                      </Buttons.Button>
-                      <Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={handleSubmit(addItem)}
-                      >
-                        <Icons.EvaIcon
-                          icon="plus-circle-outline"
-                          color="#fff"
-                        />
-                      </Buttons.Button>
-                    </div>
                   </td>
                 </tr>
               ))}

@@ -137,8 +137,16 @@ export const TargetTableForSalesTeam = observer(
                   </td>
                   <td>{index + 1}</td>
                   <td>{item.month}</td>
-                  <td style={{width: 150}}>
-                    {/* {!displayTargetSale && (
+                  <td
+                    onMouseEnter={() => {
+                      setDisplayTargetSale(true);
+                    }}
+                    onMouseLeave={() => {
+                      setDisplayTargetSale(false);
+                    }}
+                    style={{width: 150}}
+                  >
+                    {!displayTargetSale && (
                       <span
                         className={`leading-4 p-2 h-11 focus:outline-none focus:ring block w-30 shadow-sm sm:text-base border-2 rounded-md`}
                       >
@@ -173,18 +181,14 @@ export const TargetTableForSalesTeam = observer(
                         rules={{required: false}}
                         defaultValue={item.fyYear}
                       />
-                    )} */}
-                    <Form.Input
-                      disabled={true}
-                      value={`${item.targetSale || ''}`}
-                    />
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           )}
         </Table>
-        {/* {displayTargetTable && (
+        {displayTargetTable && (
           <Buttons.Button
             size="small"
             type="solid"
@@ -192,7 +196,7 @@ export const TargetTableForSalesTeam = observer(
           >
             Update
           </Buttons.Button>
-        )} */}
+        )}
       </div>
     );
   },
