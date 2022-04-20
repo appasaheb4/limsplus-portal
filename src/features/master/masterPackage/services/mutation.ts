@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: PackageMasterInput!) {
@@ -34,7 +34,7 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
   mutation ($input: PackageMasterRemoveInput!) {
@@ -43,7 +43,7 @@ export const REMOVE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
   mutation ($input: CreatePackageMasterInput!) {
@@ -52,7 +52,7 @@ export const CREATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
   mutation ($input: CreatePackageMasterInput!) {
@@ -61,7 +61,7 @@ export const VERSION_UPGRADE = gql`
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
   mutation ($input: CreatePackageMasterInput!) {
@@ -70,7 +70,7 @@ export const DUPLICATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
   mutation ($input: UpdatePackageMasterInput!) {
@@ -79,7 +79,7 @@ export const UPDATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const UPDATE_REPO_RECORD = gql`
   mutation ($input: UpdatePackageMasterInput!) {
@@ -88,7 +88,7 @@ export const UPDATE_REPO_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
   mutation ($input: PackageMasterInput!) {
@@ -97,7 +97,7 @@ export const CHECK_EXISTS_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
   mutation ($input: PackageMasterInput!) {
@@ -133,7 +133,7 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
   mutation ($input: PackageMasterInput!) {
@@ -169,7 +169,7 @@ export const FILTER_BY_FIELDS = gql`
       }
     }
   }
-`
+`;
 
 export const FIND_BY_FIELDS = gql`
   mutation ($input: PackageMasterInput!) {
@@ -202,4 +202,4 @@ export const FIND_BY_FIELDS = gql`
       }
     }
   }
-`
+`;

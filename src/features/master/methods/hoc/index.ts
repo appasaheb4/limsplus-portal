@@ -1,1 +1,1 @@
-export * from "./MethodsHOC"
+export * from './MethodsHOC';

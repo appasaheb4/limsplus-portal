@@ -1,1 +1,1 @@
-export * from "./doctors-services"
+export * from './doctors-services';

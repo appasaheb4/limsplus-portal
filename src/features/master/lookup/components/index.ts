@@ -1,1 +1,1 @@
-export * from "./molecules/LookupList"
+export * from './molecules/LookupList';

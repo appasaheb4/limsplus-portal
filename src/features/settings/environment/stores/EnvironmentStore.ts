@@ -1,51 +1,56 @@
-import { makeObservable, action, observable, computed } from "mobx"
-import { EnvironmentService } from "../services"
-import {EnvironmentSettings,EnvironmentVariable,SelectedItems,Permission} from "../models"
+import {makeObservable, action, observable, computed} from 'mobx';
+import {EnvironmentService} from '../services';
+import {
+  EnvironmentSettings,
+  EnvironmentVariable,
+  SelectedItems,
+  Permission,
+} from '../models';
 
 export class EnvironmentStore {
-  environmentSettings!: EnvironmentSettings
-  environmentVariable!: EnvironmentVariable
+  environmentSettings!: EnvironmentSettings;
+  environmentVariable!: EnvironmentVariable;
 
-  environmentSettingsList: EnvironmentSettings[]
-  environmentSettingsListCount: number
-  checkExistsEnvSettingsRecord!: boolean
+  environmentSettingsList: EnvironmentSettings[];
+  environmentSettingsListCount: number;
+  checkExistsEnvSettingsRecord!: boolean;
 
-  environmentVariableList: EnvironmentVariable[]
-  environmentVariableListCopy: EnvironmentVariable[]
-  environmentVariableListCount: number
-  checkExistsEnvVariable: boolean
+  environmentVariableList: EnvironmentVariable[];
+  environmentVariableListCopy: EnvironmentVariable[];
+  environmentVariableListCount: number;
+  checkExistsEnvVariable: boolean;
 
-  selectedItems!: SelectedItems
+  selectedItems!: SelectedItems;
 
-  permission!: Permission
+  permission!: Permission;
 
   constructor() {
-    this.environmentSettingsList = []
-    this.environmentSettingsListCount = 0
-    this.checkExistsEnvSettingsRecord = false
+    this.environmentSettingsList = [];
+    this.environmentSettingsListCount = 0;
+    this.checkExistsEnvSettingsRecord = false;
 
-    this.environmentVariableList = []
-    this.environmentVariableListCopy = []
-    this.environmentVariableListCount = 0
-    this.checkExistsEnvVariable = false
+    this.environmentVariableList = [];
+    this.environmentVariableListCopy = [];
+    this.environmentVariableListCount = 0;
+    this.checkExistsEnvVariable = false;
 
     this.environmentSettings = {
       ...this.environmentSettings,
       allLabs: false,
       allDepartment: false,
       allUsers: false,
-      lab:[],
-      user:[],
-      department:[]
-    }
+      lab: [],
+      user: [],
+      department: [],
+    };
 
     this.environmentVariable = {
       ...this.environmentVariable,
       allLabs: false,
       allUsers: false,
       allDepartment: false,
-      isModify: true
-    }
+      isModify: true,
+    };
 
     makeObservable<EnvironmentStore, any>(this, {
       environmentSettings: observable,
@@ -72,82 +77,84 @@ export class EnvironmentStore {
       updateSelectedItems: action,
       filterEnvVariableList: action,
       filterEnvSettingsList: action,
-    })
+    });
   }
 
   get EnvironmentService() {
-    return new EnvironmentService()
+    return new EnvironmentService();
   }
 
   fetchEnvironment(filter, page?, limit?) {
-    this.EnvironmentService.listEnvironment(filter, page, limit)
+    this.EnvironmentService.listEnvironment(filter, page, limit);
   }
 
   updateEnvVariableList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.enviroments.success) return alert(res.enviroments.message)
-      this.environmentVariableList = res.enviroments.data
-      this.environmentVariableListCopy = res.enviroments.data
-      this.environmentVariableListCount = res.enviroments.paginatorInfo.count
+      if (!res.enviroments.success) return alert(res.enviroments.message);
+      this.environmentVariableList = res.enviroments.data;
+      this.environmentVariableListCopy = res.enviroments.data;
+      this.environmentVariableListCount = res.enviroments.paginatorInfo.count;
     } else {
-      this.environmentVariableList = res
+      this.environmentVariableList = res;
     }
   }
 
   filterEnvVariableList(res: any) {
-    this.environmentVariableList = res.filterEnviroment.data
-    this.environmentVariableListCount = res.filterEnviroment.paginatorInfo.count
+    this.environmentVariableList = res.filterEnviroment.data;
+    this.environmentVariableListCount =
+      res.filterEnviroment.paginatorInfo.count;
   }
 
   updateEnvSettingsList(res: any) {
-    if (!res.enviroments.success) return alert(res.enviroments.message)
-    this.environmentSettingsList = res.enviroments.data
-    this.environmentSettingsListCount = res.enviroments.paginatorInfo.count
+    if (!res.enviroments.success) return alert(res.enviroments.message);
+    this.environmentSettingsList = res.enviroments.data;
+    this.environmentSettingsListCount = res.enviroments.paginatorInfo.count;
   }
 
   filterEnvSettingsList(res: any) {
-    this.environmentSettingsList = res.filterEnviroment.data
-    this.environmentSettingsListCount = res.filterEnviroment.paginatorInfo.count
+    this.environmentSettingsList = res.filterEnviroment.data;
+    this.environmentSettingsListCount =
+      res.filterEnviroment.paginatorInfo.count;
   }
 
   updateEnvironmentSettings(env: EnvironmentSettings) {
-    this.environmentSettings = env
+    this.environmentSettings = env;
   }
 
   updateEnvironmentSettingsList(list: EnvironmentSettings[]) {
-    this.environmentSettingsList = list
+    this.environmentSettingsList = list;
   }
 
   updateEnvironmentSettingsCount(count: number) {
-    this.environmentSettingsListCount = count
+    this.environmentSettingsListCount = count;
   }
 
   updatEnvironmentVariable(environment: EnvironmentVariable) {
-    this.environmentVariable = environment
+    this.environmentVariable = environment;
   }
 
   updatEnvironmentVariableList(list: EnvironmentVariable[]) {
-    this.environmentVariableList = list
+    this.environmentVariableList = list;
   }
 
   updateEnvironmentVariableCount(count: number) {
-    this.environmentVariableListCount = count
+    this.environmentVariableListCount = count;
   }
 
   updateSelectedItems(items: SelectedItems | undefined) {
-    if (items) this.selectedItems = items
-    else this.selectedItems = new SelectedItems({})
+    if (items) this.selectedItems = items;
+    else this.selectedItems = new SelectedItems({});
   }
 
   updateExistsEnvVariable(flag: boolean) {
-    this.checkExistsEnvVariable = flag
+    this.checkExistsEnvVariable = flag;
   }
 
   updateExistsEnvSettingRecord(flag: boolean) {
-    this.checkExistsEnvSettingsRecord = flag
+    this.checkExistsEnvSettingsRecord = flag;
   }
 
   updatePermision(permission: Permission) {
-    this.permission = permission
+    this.permission = permission;
   }
 }

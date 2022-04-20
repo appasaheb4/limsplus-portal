@@ -1,2 +1,1 @@
-
-export * from './priceList-service'
+export * from './priceList-service';

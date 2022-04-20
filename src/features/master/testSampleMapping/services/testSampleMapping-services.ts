@@ -4,9 +4,9 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import * as Models from '../models';
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -14,26 +14,29 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
-} from "./mutation"
+} from './mutation';
 
 export class TestSampleMappingService {
   listTestSampleMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.testSampleMappingStore.updateTestSampleMappingList(response.data)
-          resolve(response.data)
+          stores.testSampleMappingStore.updateTestSampleMappingList(
+            response.data,
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addTestSampleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -43,15 +46,15 @@ export class TestSampleMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.testSampleMappingStore.updateSampleType(
-            new Models.TestSampleMapping({})
-          )
+            new Models.TestSampleMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   deleteTestSampleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -60,12 +63,12 @@ export class TestSampleMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -75,15 +78,15 @@ export class TestSampleMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.testSampleMappingStore.updateSampleType(
-            new Models.TestSampleMapping({})
-          )
+            new Models.TestSampleMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsTestSampleEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -93,31 +96,32 @@ export class TestSampleMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterTestSampleMappings.success) return this.listTestSampleMapping()
-          stores.testSampleMappingStore.filterTestSampleMappingList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          if (!response.data.filterTestSampleMappings.success)
+            return this.listTestSampleMapping();
+          stores.testSampleMappingStore.filterTestSampleMappingList(
+            response.data,
+          );
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
-
-

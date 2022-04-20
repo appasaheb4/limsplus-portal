@@ -1,3 +1,3 @@
-import MasterPackage from "./MasterPackage";
+import MasterPackage from './MasterPackage';
 
-export { MasterPackage };
+export {MasterPackage};

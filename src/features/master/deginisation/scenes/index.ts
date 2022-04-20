@@ -1,4 +1,3 @@
-import Deginisation from "./deginisation";
-   
-export { Deginisation };
-  
+import Deginisation from './deginisation';
+
+export {Deginisation};

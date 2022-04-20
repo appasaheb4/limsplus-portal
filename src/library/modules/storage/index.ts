@@ -1,2 +1,2 @@
-import Storage from './module'
+import Storage from './module';
 export default Storage;

@@ -212,7 +212,7 @@ const CorporateClients = CorporateClientsHoc(
             onClick={() => setHideAddSection(!hideAddSection)}
           />
         )}
-        <div className="mx-auto flex-wrap">
+        <div className='mx-auto flex-wrap'>
           <div
             className={
               'p-2 rounded-lg shadow-xl ' +
@@ -220,12 +220,12 @@ const CorporateClients = CorporateClientsHoc(
             }
           >
             <Grid cols={3}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Client Code"
+                      label='Client Code'
                       placeholder={
                         errors.corporateCode
                           ? 'Please Enter Coporate Code'
@@ -272,12 +272,12 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="corporateCode"
+                  name='corporateCode'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 {corporateClientsStore.checkExistsEnvCode && (
-                  <span className="text-red-600 font-medium relative">
+                  <span className='text-red-600 font-medium relative'>
                     Code already exits. Please use other code.
                   </span>
                 )}
@@ -285,7 +285,7 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Client Name"
+                      label='Client Name'
                       placeholder={
                         errors.corporateName
                           ? 'Please Enter Coporate Name'
@@ -304,16 +304,16 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="corporateName"
+                  name='corporateName'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Invoice Ac"
+                      label='Invoice Ac'
                       placeholder={
                         errors.invoiceAc
                           ? 'Please Enter Invoice AC'
@@ -331,14 +331,14 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="invoiceAc"
+                  name='invoiceAc'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Ac Type" hasError={errors.acType}>
+                    <Form.InputWrapper label='Ac Type' hasError={errors.acType}>
                       <select
                         value={corporateClientsStore.corporateClients?.acType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -364,15 +364,15 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="acType"
+                  name='acType'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Ac Class"
+                      label='Ac Class'
                       hasError={errors.acClass}
                     >
                       <select
@@ -402,16 +402,16 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="acClass"
+                  name='acClass'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Billing on"
+                      label='Billing on'
                       hasError={errors.billingOn}
                     >
                       <select
@@ -443,16 +443,16 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="billingOn"
+                  name='billingOn'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Billing Frequency"
+                      label='Billing Frequency'
                       hasError={errors.billingFrequency}
                     >
                       <select
@@ -486,15 +486,15 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="billingFrequency"
+                  name='billingFrequency'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Customer Group"
+                      label='Customer Group'
                       hasError={errors.customerGroup}
                     >
                       <select
@@ -527,16 +527,16 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="customerGroup"
+                  name='customerGroup'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Category"
+                      label='Category'
                       hasError={errors.category}
                     >
                       <select
@@ -566,17 +566,17 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="category"
+                  name='category'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Country"
-                      id="country"
+                      label='Country'
+                      id='country'
                       hasError={errors.country}
                     >
                       <AutoCompleteFilterSingleSelect
@@ -619,7 +619,7 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="country"
+                  name='country'
                   rules={{required: true}}
                   defaultValue={administrativeDivisions.listAdministrativeDiv}
                 />
@@ -628,8 +628,8 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="State"
-                      id="state"
+                      label='State'
+                      id='state'
                       hasError={errors.state}
                     >
                       <AutoCompleteFilterSingleSelect
@@ -684,7 +684,7 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="state"
+                  name='state'
                   rules={{required: false}}
                   defaultValue={corporateClientsStore.corporateClients.country}
                 />
@@ -693,8 +693,8 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="District"
-                      id="district"
+                      label='District'
+                      id='district'
                       hasError={errors.district}
                     >
                       <AutoCompleteFilterSingleSelect
@@ -752,7 +752,7 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="district"
+                  name='district'
                   rules={{required: false}}
                   defaultValue={corporateClientsStore.corporateClients?.state}
                 />
@@ -761,8 +761,8 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="City"
-                      id="city"
+                      label='City'
+                      id='city'
                       hasError={errors.city}
                     >
                       <AutoCompleteFilterSingleSelect
@@ -828,20 +828,20 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="city"
+                  name='city'
                   rules={{required: false}}
                   defaultValue={
                     corporateClientsStore.corporateClients?.district
                   }
                 />
               </List>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Area"
-                      id="area"
+                      label='Area'
+                      id='area'
                       hasError={errors.area}
                     >
                       <AutoCompleteFilterSingleSelect
@@ -909,7 +909,7 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="area "
+                  name='area '
                   rules={{required: false}}
                   defaultValue={corporateClientsStore.corporateClients?.city}
                 />
@@ -918,8 +918,8 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Postal Code"
-                      id="postalCode"
+                      label='Postal Code'
+                      id='postalCode'
                       hasError={errors.postalCode}
                     >
                       <AutoCompleteFilterSingleSelect
@@ -996,7 +996,7 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="postalCode"
+                  name='postalCode'
                   rules={{required: false}}
                   defaultValue={corporateClientsStore.corporateClients?.area}
                 />
@@ -1005,7 +1005,7 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="SBU"
+                      label='SBU'
                       placeholder={errors.sbu ? 'Please Enter sbu' : 'SBU'}
                       hasError={errors.sbu}
                       value={corporateClientsStore.corporateClients?.sbu}
@@ -1018,15 +1018,15 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="sbu"
+                  name='sbu'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Zone"
+                      label='Zone'
                       placeholder={errors.zone ? 'Please Enter Zone' : 'Zone'}
                       hasError={errors.zone}
                       value={corporateClientsStore.corporateClients?.zone}
@@ -1039,20 +1039,20 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="zone"
+                  name='zone'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Sales Territory"
+                      label='Sales Territory'
                       hasError={errors.salesTerritory}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by sales territory"
+                        placeholder='Search by sales territory'
                         data={{
                           list: _.uniqBy(
                             salesTeamStore.listSalesTeam,
@@ -1086,16 +1086,16 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="salesTerritory"
+                  name='salesTerritory'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Telephone"
+                      label='Telephone'
                       placeholder={
                         errors.telephone
                           ? 'Please Enter Telephone'
@@ -1112,19 +1112,19 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="telephone"
+                  name='telephone'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Mobile No"
+                      label='Mobile No'
                       placeholder={
                         errors.mobileNo ? 'Please Enter Mobile No' : 'Mobile No'
                       }
-                      type="number"
+                      type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       hasError={errors.mobileNo}
                       value={corporateClientsStore.corporateClients?.mobileNo}
@@ -1137,18 +1137,18 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="mobileNo"
+                  name='mobileNo'
                   rules={{
                     required: false,
                     pattern: FormHelper.patterns.mobileNo,
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Email"
+                      label='Email'
                       placeholder={
                         errors.email ? 'Please Enter Email' : 'Email'
                       }
@@ -1163,15 +1163,15 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="email"
+                  name='email'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Delivery Type"
+                      label='Delivery Type'
                       hasError={errors.deliveryType}
                     >
                       <select
@@ -1204,15 +1204,15 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="deliveryType"
+                  name='deliveryType'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Delivery Method"
+                      label='Delivery Method'
                       hasError={errors.deliveryMethod}
                     >
                       <select
@@ -1245,16 +1245,16 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="deliveryMethod"
+                  name='deliveryMethod'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Info"
+                      label='Info'
                       placeholder={errors.info ? 'Please Enter INFO' : 'INFO'}
                       hasError={errors.info}
                       value={corporateClientsStore.corporateClients?.info}
@@ -1267,9 +1267,9 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="info"
+                  name='info'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Grid cols={5}>
@@ -1277,7 +1277,7 @@ const CorporateClients = CorporateClientsHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Confidential"
+                        label='Confidential'
                         hasError={errors.confidential}
                         value={
                           corporateClientsStore.corporateClients?.confidential
@@ -1291,15 +1291,15 @@ const CorporateClients = CorporateClientsHoc(
                         }}
                       />
                     )}
-                    name="confidential"
+                    name='confidential'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Urgent"
+                        label='Urgent'
                         hasError={errors.urgent}
                         value={corporateClientsStore.corporateClients?.urgent}
                         onChange={urgent => {
@@ -1311,15 +1311,15 @@ const CorporateClients = CorporateClientsHoc(
                         }}
                       />
                     )}
-                    name="urgent"
+                    name='urgent'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Report Format"
+                        label='Report Format'
                         hasError={errors.reportFormat}
                         value={
                           corporateClientsStore.corporateClients?.reportFormat
@@ -1333,18 +1333,18 @@ const CorporateClients = CorporateClientsHoc(
                         }}
                       />
                     )}
-                    name="reportFormat"
+                    name='reportFormat'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </Grid>
               </List>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="FYI Line"
+                      label='FYI Line'
                       placeholder={
                         errors.fyiLine ? 'Please Enter FyiLine' : 'FyiLine'
                       }
@@ -1359,16 +1359,16 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="fyiLine"
+                  name='fyiLine'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Work Line"
+                      label='Work Line'
                       placeholder={
                         errors.workLine ? 'Plese Enter WorkLine' : 'WorkLine'
                       }
@@ -1383,15 +1383,15 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="workLine"
+                  name='workLine'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Creation"
+                      label='Date Creation'
                       placeholder={
                         errors.dateCreation
                           ? 'Please Enter Date Creation '
@@ -1404,16 +1404,16 @@ const CorporateClients = CorporateClientsHoc(
                       disabled={true}
                     />
                   )}
-                  name="dateCreation"
+                  name='dateCreation'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Active"
+                      label='Date Active'
                       hasError={errors.dateActive}
                       placeholder={
                         errors.dateActive
@@ -1424,16 +1424,16 @@ const CorporateClients = CorporateClientsHoc(
                       disabled={true}
                     />
                   )}
-                  name="dateActive"
+                  name='dateActive'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Expire"
+                      label='Date Expire'
                       hasError={errors.dateExpire}
                       placeholder={
                         errors.dateExpire
@@ -1449,15 +1449,15 @@ const CorporateClients = CorporateClientsHoc(
                       }}
                     />
                   )}
-                  name="dateExpire"
+                  name='dateExpire'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Version"
+                      label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
@@ -1466,16 +1466,16 @@ const CorporateClients = CorporateClientsHoc(
                       disabled={true}
                     />
                   )}
-                  name="version"
+                  name='version'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Entered By"
+                      label='Entered By'
                       hasError={errors.enteredBy}
                       placeholder={
                         errors.enteredBy
@@ -1486,14 +1486,14 @@ const CorporateClients = CorporateClientsHoc(
                       disabled={true}
                     />
                   )}
-                  name="enteredBy"
+                  name='enteredBy'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                    <Form.InputWrapper label='Status' hasError={errors.status}>
                       <select
                         value={
                           corporateClientsStore &&
@@ -1522,14 +1522,14 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="status"
+                  name='status'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label='Environment'>
                       <select
                         value={
                           corporateClientsStore.corporateClients?.environment
@@ -1600,42 +1600,42 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
+                  name='environment'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
                   <Form.InputWrapper
-                    label="Price List"
+                    label='Price List'
                     hasError={errors.priceList}
                   >
                     <PriceListTable />
                   </Form.InputWrapper>
                 )}
-                name="priceList"
+                name='priceList'
                 rules={{required: false}}
-                defaultValue=""
+                defaultValue=''
               />
             </List>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitCoporateClients)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload();
@@ -1645,7 +1645,7 @@ const CorporateClients = CorporateClientsHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-auto">
+          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             {tableView}
           </div>
           <ModalConfirm

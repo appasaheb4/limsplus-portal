@@ -53,9 +53,9 @@ const App = observer(() => {
           <ReduxToastr
             timeOut={5000}
             newestOnTop={true}
-            position="top-right"
-            transitionIn="fadeIn"
-            transitionOut="fadeOut"
+            position='top-right'
+            transitionIn='fadeIn'
+            transitionOut='fadeOut'
             progressBar
             closeOnToastrClick
           />

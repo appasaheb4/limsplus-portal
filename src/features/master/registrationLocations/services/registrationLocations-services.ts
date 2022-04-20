@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -16,31 +16,32 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
-} from "./mutation"
-import * as Model from "../models"
+} from './mutation';
+import * as Model from '../models';
 
 export class RegistrationLocationsService {
   listRegistrationLocations = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
-      const lab = stores.loginStore.login && stores.loginStore.login.lab
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role, lab } },
+          variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
           stores.registrationLocationsStore.updateRegistrationLocationsList(
-            response.data
-          )
-          resolve(response.data)
+            response.data,
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-    
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
   addRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -49,15 +50,15 @@ export class RegistrationLocationsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.registrationLocationsStore.updateRegistrationLocations(
-            new Model.RegistrationLocations({})
-          )
+            new Model.RegistrationLocations({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   versionUpgradeRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -67,15 +68,15 @@ export class RegistrationLocationsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.registrationLocationsStore.updateRegistrationLocations(
-            new Model.RegistrationLocations({})
-          )
+            new Model.RegistrationLocations({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   duplicateRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -84,15 +85,15 @@ export class RegistrationLocationsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.registrationLocationsStore.updateRegistrationLocations(
-            new Model.RegistrationLocations({})
-          )
+            new Model.RegistrationLocations({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   deleteRegistrationLocations = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -101,12 +102,12 @@ export class RegistrationLocationsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -116,15 +117,15 @@ export class RegistrationLocationsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.registrationLocationsStore.updateRegistrationLocations(
-            new Model.RegistrationLocations({})
-          )
+            new Model.RegistrationLocations({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -134,16 +135,16 @@ export class RegistrationLocationsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -151,21 +152,21 @@ export class RegistrationLocationsService {
         })
         .then((response: any) => {
           if (!response.data.filterRegistrationLocations.success)
-            return this.listRegistrationLocations()
+            return this.listRegistrationLocations();
           stores.registrationLocationsStore.filterRegistrationLocationList(
-            response.data
-          )
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+            response.data,
+          );
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -173,22 +174,22 @@ export class RegistrationLocationsService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsRegistrationLocations.success)
-            return this.listRegistrationLocations()
+            return this.listRegistrationLocations();
           stores.registrationLocationsStore.filterRegistrationLocationList({
             filterRegistrationLocations: {
               data: response.data.filterByFieldsRegistrationLocations.data,
               paginatorInfo: {
                 count:
-                  response.data.filterByFieldsRegistrationLocations.paginatorInfo
-                    .count,
+                  response.data.filterByFieldsRegistrationLocations
+                    .paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

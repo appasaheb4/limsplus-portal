@@ -1,28 +1,29 @@
-import React from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+/* eslint-disable */
+import React from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {
   loginRouter as loginRouters,
   privacyPolicyRoute as privacyPolicyRoutes,
   dashboardRouter as dashboardRoutes,
-} from "./index"
+} from './index';
 
-import DashboardLayout from "../layouts/Dashboard"
-import LandingLayout from "../layouts/Landing"
-import AuthLayout from "../layouts/Auth"
-import Page404 from "@/features/login/scenes/Page404"
+import DashboardLayout from '../layouts/Dashboard';
+import LandingLayout from '../layouts/Landing';
+import AuthLayout from '../layouts/Auth';
+import Page404 from '@/features/login/scenes/Page404';
 
-import ScrollToTop from "@/layouts/components/ScrollToTop"
+import ScrollToTop from '@/layouts/components/ScrollToTop';
 
 const childRoutes = (Layout, routes) =>
-  routes.map(({ children, path, component: Component }, index) =>
+  routes.map(({children, path, component: Component}, index) =>
     children ? (
       // Route item with children
-      children.map(({ path, component: Component }, index) => (
+      children.map(({path, component: Component}, index) => (
         <Route
           key={index}
           path={path}
           exact
-          render={(props) => (
+          render={props => (
             <Layout>
               <Component {...props} />
             </Layout>
@@ -35,15 +36,15 @@ const childRoutes = (Layout, routes) =>
         key={index}
         path={path}
         exact
-        render={(props) => (
+        render={props => (
           <Layout>
             <Component {...props} />
           </Layout>
         )}
       />
-    )
-  )
-  
+    ),
+  );
+
 const Routes = () => (
   <Router>
     <ScrollToTop>
@@ -61,6 +62,6 @@ const Routes = () => (
       </Switch>
     </ScrollToTop>
   </Router>
-)   
+);
 
-export default Routes
+export default Routes;

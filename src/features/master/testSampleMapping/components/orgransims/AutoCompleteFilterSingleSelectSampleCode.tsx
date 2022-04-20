@@ -1,70 +1,73 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
-import { observer } from "mobx-react"
-import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import React, {useState, useEffect, useRef} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {observer} from 'mobx-react';
+import {useStores} from '@/stores';
+import {Icons} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectSampleCodeProps {
-  onSelect: (item: any) => void
+  onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectSampleCode = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectSampleCodeProps) => {
-    const { loading, sampleTypeStore } = useStores()
-    const [value, setValue] = useState<string>("")
-    const [options, setOptions] = useState<any[]>()
-    const [isListOpen, setIsListOpen] = useState<boolean>(false)
+  ({onSelect}: AutoCompleteFilterSingleSelectSampleCodeProps) => {
+    const {loading, sampleTypeStore} = useStores();
+    const [value, setValue] = useState<string>('');
+    const [options, setOptions] = useState<any[]>();
+    const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
-    const useOutsideAlerter = (ref) => {
+    const useOutsideAlerter = ref => {
       useEffect(() => {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-            setIsListOpen(false)
-            setValue("")
+          if (
+            ref.current &&
+            !ref.current.contains(event.target) &&
+            isListOpen
+          ) {
+            setIsListOpen(false);
+            setValue('');
           }
         }
-        document.addEventListener("mousedown", handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside)
-        }
-      }, [ref, isListOpen])
-    }
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [ref, isListOpen]);
+    };
 
-    const wrapperRef = useRef(null)
-    useOutsideAlerter(wrapperRef)
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      setOptions(sampleTypeStore.listSampleType)
-    }, [sampleTypeStore.listSampleType])
+      setOptions(sampleTypeStore.listSampleType);
+    }, [sampleTypeStore.listSampleType]);
 
     const onFilter = (value: string) => {
-        sampleTypeStore.sampleTypeService.filter({
+      sampleTypeStore.sampleTypeService.filter({
         input: {
-          type: "filter",
+          type: 'filter',
           filter: {
-            
             sampleCode: value,
           },
           page: 0,
           limit: 10,
         },
-      })
-    }
+      });
+    };
 
-    const onChange = (e) => {
-      const search = e.target.value
-      setValue(search)
-      onFilter(search)
-    }
+    const onChange = e => {
+      const search = e.target.value;
+      setValue(search);
+      onFilter(search);
+    };
 
-    const onKeyUp = (e) => {
-      const charCode = e.which ? e.which : e.keyCode
+    const onKeyUp = e => {
+      const charCode = e.which ? e.which : e.keyCode;
       if (charCode === 8) {
-        const search = e.target.value
-        onFilter(search)
+        const search = e.target.value;
+        onFilter(search);
       }
-    }
+    };
 
     return (
       <>
@@ -73,14 +76,14 @@ export const AutoCompleteFilterSingleSelectSampleCode = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search by sample code"
+              placeholder='Search by sample code'
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />
-            {loading && <Spinner animation="border" className="mr-2 h-4 w-4" />}
+            {loading && <Spinner animation='border' className='mr-2 h-4 w-4' />}
             {isListOpen ? (
               <Icons.IconFa.FaChevronUp />
             ) : (
@@ -90,25 +93,25 @@ export const AutoCompleteFilterSingleSelectSampleCode = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
                     {options?.map((item, index) => (
                       <>
                         <li
                           key={index}
-                          className="text-gray-400 flex items-center"
+                          className='text-gray-400 flex items-center'
                           onClick={() => {
-                            setValue(item.sampleCode)
-                            setIsListOpen(false)
+                            setValue(item.sampleCode);
+                            setIsListOpen(false);
                             sampleTypeStore.updateSampleTypeList(
-                                sampleTypeStore.listSampleTypeCopy
-                              )
-                            onSelect(item)
+                              sampleTypeStore.listSampleTypeCopy,
+                            );
+                            onSelect(item);
                           }}
                         >
-                          {" "}
-                          <label className="ml-2 mt-1 text-black">
-                            {" "}
+                          {' '}
+                          <label className='ml-2 mt-1 text-black'>
+                            {' '}
                             {item.sampleCode}
                           </label>
                         </li>
@@ -120,6 +123,6 @@ export const AutoCompleteFilterSingleSelectSampleCode = observer(
             : null}
         </div>
       </>
-    )
-  }
-)
+    );
+  },
+);

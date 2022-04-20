@@ -5,8 +5,8 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { UPDATE_SHORTCUT_MENU } from "./mutation"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {UPDATE_SHORTCUT_MENU} from './mutation';
 
 export class ShortcutMenuService {
   updateShortcutMenu = (variables: any) =>
@@ -17,12 +17,10 @@ export class ShortcutMenuService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
-
-

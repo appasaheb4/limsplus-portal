@@ -1,3 +1,3 @@
-import TestAnalyteMapping from "./TestAnalyteMapping";
+import TestAnalyteMapping from './TestAnalyteMapping';
 
-export { TestAnalyteMapping };
+export {TestAnalyteMapping};

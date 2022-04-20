@@ -1,64 +1,60 @@
-import React from "react"
-import { Table } from "reactstrap"
-import { observer } from "mobx-react"
+import React from 'react';
+import {Table} from 'reactstrap';
+import {observer} from 'mobx-react';
 
 import {useStores} from '@/stores';
 
-interface SettingForRS232TableProps {
-  onClick?: () => void
-}
-
 const comPort = [
-  { title: "COM1" },
-  { title: "COM2" },
-  { title: "COM3" },
-  { title: "COM4" },
-  { title: "COM5" },
-]
+  {title: 'COM1'},
+  {title: 'COM2'},
+  {title: 'COM3'},
+  {title: 'COM4'},
+  {title: 'COM5'},
+];
 const baudRate = [
-  { title: "110" },
-  { title: "300" },
-  { title: "600" },
-  { title: "1200" },
-  { title: "2400" },
-  { title: "4800" },
-  { title: "9600" },
-  { title: "14400" },
-  { title: "19200" },
-  { title: "38400" },
-  { title: "57600" },
-  { title: "115200" },
-  { title: "128000" },
-  { title: "256000" },
-]
+  {title: '110'},
+  {title: '300'},
+  {title: '600'},
+  {title: '1200'},
+  {title: '2400'},
+  {title: '4800'},
+  {title: '9600'},
+  {title: '14400'},
+  {title: '19200'},
+  {title: '38400'},
+  {title: '57600'},
+  {title: '115200'},
+  {title: '128000'},
+  {title: '256000'},
+];
 
-const stopBits = [{ title: "1" }, { title: "1.5" }, { title: "2" }]
+const stopBits = [{title: '1'}, {title: '1.5'}, {title: '2'}];
 
-const dataBits = [{ title: "7" }, { title: "8" }]
+const dataBits = [{title: '7'}, {title: '8'}];
 const parity = [
-  { title: "None (N)" },
-  { title: "Odd (O)" },
-  { title: "Even €" },
-  { title: "Mark (M)" },
-  { title: "Space (S)" },
-]
+  {title: 'None (N)'},
+  {title: 'Odd (O)'},
+  {title: 'Even €'},
+  {title: 'Mark (M)'},
+  {title: 'Space (S)'},
+];
 const flowControl = [
-  { title: "On" },
-  { title: "Off" },
-  { title: "None" },
-  { title: "Hardware" },
-]
-const protocol = [{ title: "1381" }, { title: "1394" }]
+  {title: 'On'},
+  {title: 'Off'},
+  {title: 'None'},
+  {title: 'Hardware'},
+];
+const protocol = [{title: '1381'}, {title: '1394'}];
 
-export const SettingForRS232Table: React.FunctionComponent = observer(() => {
-  const {hostCommunicationStore} = useStores()
+export const SettingForRS232Table = observer(() => {
+  const {hostCommunicationStore} = useStores();
   return (
     <>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{ color: "green" }}>Communication Settings</th>
-            <th style={{ color: "green" }}>Value</th>
+            <th style={{color: 'green'}}>Communication Settings</th>
+            <th style={{color: 'green'}}>Value</th>
           </tr>
         </thead>
         <tbody>
@@ -66,14 +62,14 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
             <td>Com Port</td>
             <td>
               <select
-                name="defualtLab"
+                name='defualtLab'
                 value={
                   hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.comPort
                 }
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const comPort = e.target.value
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const comPort = e.target.value;
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
@@ -81,7 +77,7 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       comPort,
                     },
-                  })
+                  });
                 }}
               >
                 <option selected>Select</option>
@@ -97,16 +93,16 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
           <tr>
             <td>Baud rate</td>
             <td>
-              {" "}
+              {' '}
               <select
-                name="defualtLab"
+                name='defualtLab'
                 value={
                   hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.baudRate
                 }
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const baudRate = e.target.value
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const baudRate = e.target.value;
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
@@ -114,7 +110,7 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       baudRate,
                     },
-                  })
+                  });
                 }}
               >
                 <option selected>Select</option>
@@ -130,14 +126,14 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
             <td>Data bits</td>
             <td>
               <select
-                name="defualtLab"
+                name='defualtLab'
                 value={
                   hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.dataBits
                 }
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const dataBits = e.target.value
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const dataBits = e.target.value;
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
@@ -145,7 +141,7 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       dataBits,
                     },
-                  })
+                  });
                 }}
               >
                 <option selected>Select</option>
@@ -161,14 +157,14 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
             <td>Stop bits</td>
             <td>
               <select
-                name="defualtLab"
+                name='defualtLab'
                 value={
                   hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.stopBits
                 }
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const stopBits = e.target.value
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const stopBits = e.target.value;
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
@@ -176,8 +172,8 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       stopBits,
                     },
-                  })             
-                   }}
+                  });
+                }}
               >
                 <option selected>Select</option>
                 {stopBits.map((item: any) => (
@@ -191,16 +187,16 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
           <tr>
             <td>Parity</td>
             <td>
-              {" "}
+              {' '}
               <select
-                name="defualtLab"
+                name='defualtLab'
                 value={
                   hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.parity
                 }
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const parity = e.target.value
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const parity = e.target.value;
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
@@ -208,7 +204,7 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       parity,
                     },
-                  })
+                  });
                 }}
               >
                 <option selected>Select</option>
@@ -223,16 +219,16 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
           <tr>
             <td>Flow control (Handshaking)</td>
             <td>
-              {" "}
+              {' '}
               <select
-                name="defualtLab"
+                name='defualtLab'
                 value={
                   hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.flowControl
                 }
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const flowControl = e.target.value
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const flowControl = e.target.value;
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
@@ -240,7 +236,7 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       flowControl,
                     },
-                  })
+                  });
                 }}
               >
                 <option selected>Select</option>
@@ -255,16 +251,16 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
           <tr>
             <td>Protocol</td>
             <td>
-              {" "}
+              {' '}
               <select
-                name="defualtLab"
+                name='defualtLab'
                 value={
                   hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.protocol
                 }
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const protocol = e.target.value
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const protocol = e.target.value;
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
@@ -272,7 +268,7 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       protocol,
                     },
-                  })
+                  });
                 }}
               >
                 <option selected>Select</option>
@@ -287,6 +283,5 @@ export const SettingForRS232Table: React.FunctionComponent = observer(() => {
         </tbody>
       </Table>
     </>
-  )
-})
-
+  );
+});

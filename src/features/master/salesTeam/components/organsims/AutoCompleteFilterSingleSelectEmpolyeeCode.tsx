@@ -46,7 +46,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
 
     const loadUsers = () => {
       userStore.UsersService.findByFields({
-        input: {filter: {role: 'SALES'}},
+        input: {filter: {userGroup: 'S'}},
       }).then(res => {
         if (!res.findByFieldsUser.success)
           return alert(res.findByFieldsUser.message);
@@ -64,7 +64,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
           type: 'filter',
           filter: {
             empCode: value,
-            role: 'SALES',
+            userGroup: 'S',
           },
           page: 0,
           limit: 10,
@@ -98,30 +98,29 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
             } rounded-md`}
           >
             <input
-              placeholder="Search  by emp code"
+              placeholder='Search  by emp code'
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />
-            {loading && <Spinner animation="border" className="mr-2 h-4 w-4" />}
+            {loading && <Spinner animation='border' className='mr-2 h-4 w-4' />}
             {isListOpen ? (
               <Icons.IconFa.FaChevronUp />
             ) : (
               <Icons.IconFa.FaChevronDown />
             )}
           </div>
-
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
                     {options?.map((item, index) => (
                       <>
                         <li
                           key={index}
-                          className="text-gray-400 flex items-center"
+                          className='text-gray-400 flex items-center'
                           onClick={() => {
                             setValue(item.empCode);
                             setIsListOpen(false);
@@ -130,7 +129,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
                           }}
                         >
                           {' '}
-                          <label className="ml-2 mt-1 text-black">
+                          <label className='ml-2 mt-1 text-black'>
                             {' '}
                             {item.empCode} - {item.fullName}
                           </label>

@@ -4,9 +4,9 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
-import * as Model from "../models"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
+import * as Model from '../models';
 import {
   LIST,
   REMOVE_RECORD,
@@ -18,27 +18,28 @@ import {
   FILTER,
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
-} from "./mutation"
+} from './mutation';
 
 export class MasterAnalyteService {
   listAnalyteMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
-      const lab = stores.loginStore.login && stores.loginStore.login.lab
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role, lab } },
+          variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
-          stores.masterAnalyteStore.updateMasterAnalyteList(response.data)
-          resolve(response.data)
+          stores.masterAnalyteStore.updateMasterAnalyteList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -48,13 +49,15 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
-          resolve(response.data)
+          stores.masterAnalyteStore.updateMasterAnalyte(
+            new Model.MasterAnalyte({}),
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   versionUpgradeAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -64,13 +67,15 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
+          resolve(response.data);
+          stores.masterAnalyteStore.updateMasterAnalyte(
+            new Model.MasterAnalyte({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   duplicateAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -80,13 +85,15 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
+          resolve(response.data);
+          stores.masterAnalyteStore.updateMasterAnalyte(
+            new Model.MasterAnalyte({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -96,12 +103,12 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -111,13 +118,15 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
+          resolve(response.data);
+          stores.masterAnalyteStore.updateMasterAnalyte(
+            new Model.MasterAnalyte({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -127,15 +136,15 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -143,19 +152,19 @@ export class MasterAnalyteService {
         })
         .then((response: any) => {
           if (!response.data.filterAnalyteMaster.success)
-            return this.listAnalyteMaster()
-          stores.masterAnalyteStore.filterMasterAnalyteList(response.data)
-          stores.uploadLoadingFlag(false)
-          resolve(response.data)
+            return this.listAnalyteMaster();
+          stores.masterAnalyteStore.filterMasterAnalyteList(response.data);
+          stores.uploadLoadingFlag(false);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -163,37 +172,38 @@ export class MasterAnalyteService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsAnalyteMaster.success)
-            return this.listAnalyteMaster()
+            return this.listAnalyteMaster();
           stores.masterAnalyteStore.filterMasterAnalyteList({
             filterAnalyteMaster: {
               data: response.data.filterByFieldsAnalyteMaster.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsAnalyteMaster.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsAnalyteMaster.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
           variables,
         })
         .then((response: any) => {
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

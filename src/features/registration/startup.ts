@@ -1,26 +1,26 @@
-import { stores } from "@/stores"
+import {stores} from '@/stores';
 const startup = async () => {
   // patient manager
-  stores.patientManagerStore.patientManagerService.sequencingPid()
+  stores.patientManagerStore.patientManagerService.sequencingPid();
   stores.patientManagerStore.patientManagerService.listPatientManager({
-    documentType: "patientManager",
-  })
+    documentType: 'patientManager',
+  });
   // patient visit
   stores.patientVisitStore.patientVisitService.listPatientVisit({
-    documentType: "patientVisit",
-  })
-  stores.patientVisitStore.patientVisitService.sequencingVisitId()
+    documentType: 'patientVisit',
+  });
+  stores.patientVisitStore.patientVisitService.sequencingVisitId();
   // patient order
   stores.patientOrderStore.patientOrderService.listPatientOrder({
-    documentType: "patientOrder",
-  })
-  stores.patientOrderStore.patientOrderService.sequencingOrderId()
+    documentType: 'patientOrder',
+  });
+  stores.patientOrderStore.patientOrderService.sequencingOrderId();
 
   // patient test
-  stores.patientTestStore.patientTestService.listPatientTest()
+  stores.patientTestStore.patientTestService.listPatientTest();
 
   // patient result
-  stores.patientResultStore.patientResultService.listPatientResult()
-}
+  stores.patientResultStore.patientResultService.listPatientResult();
+};
 
-export default startup
+export default startup;

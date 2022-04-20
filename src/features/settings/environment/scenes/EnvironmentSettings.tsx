@@ -1,21 +1,29 @@
 /* eslint-disable */
-import React, {  useMemo, useState } from "react"
-import { observer } from "mobx-react"
-import {Toast,Buttons,Grid,List,AutoCompleteFilterSingleSelect,Form,AutoCompleteFilterMutiSelectMultiFieldsDisplay,Svg} 
-  from "@/library/components"
-import {lookupItems,lookupValue} from "@/library/utils"
+import React, {useMemo, useState} from 'react';
+import {observer} from 'mobx-react';
+import {
+  Toast,
+  Buttons,
+  Grid,
+  List,
+  AutoCompleteFilterSingleSelect,
+  Form,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  Svg,
+} from '@/library/components';
+import {lookupItems, lookupValue} from '@/library/utils';
 
-import {EnvironmentSettingsList} from "../components"
-import "@/library/assets/css/accordion.css"
-import { useForm, Controller } from "react-hook-form"
-import { EnvironmentSettingsHoc } from "../hoc"
-import { useStores } from "@/stores"
+import {EnvironmentSettingsList} from '../components';
+import '@/library/assets/css/accordion.css';
+import {useForm, Controller} from 'react-hook-form';
+import {EnvironmentSettingsHoc} from '../hoc';
+import {useStores} from '@/stores';
 
-import { RouterFlow } from "@/flows"
-import { toJS } from "mobx"
+import {RouterFlow} from '@/flows';
+import {toJS} from 'mobx';
 
 interface EnvironmentSettingsProps {
-  onModalConfirm?: (item: any) => void
+  onModalConfirm?: (item: any) => void;
 }
 
 export const EnvironmentSettings = EnvironmentSettingsHoc(
@@ -28,16 +36,16 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       loginStore,
       departmentStore,
       routerStore,
-    } = useStores()
+    } = useStores();
     const {
       control,
       handleSubmit,
-      formState: { errors },
+      formState: {errors},
       setValue,
-    } = useForm()
-    setValue("environment", loginStore.login.environment)
+    } = useForm();
+    setValue('environment', loginStore.login.environment);
 
-    const [hideInputView, setHideInputView] = useState<boolean>(true)
+    const [hideInputView, setHideInputView] = useState<boolean>(true);
 
     const onSubmitSessionManagement = () => {
       if (!environmentStore.checkExistsEnvSettingsRecord) {
@@ -45,20 +53,20 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
           input: {
             ...environmentStore.environmentSettings,
             enteredBy: loginStore.login.userId,
-            documentType: "environmentSettings",
+            documentType: 'environmentSettings',
           },
-        }).then((res) => {
+        }).then(res => {
           if (res.createEnviroment.success) {
             Toast.success({
               message: `😊 ${res.createEnviroment.message}`,
-            })
+            });
             setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+              window.location.reload();
+            }, 2000);
           }
-        })
+        });
       }
-    }
+    };
 
     const table = useMemo(
       () => (
@@ -75,154 +83,151 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Delete"
+            'Delete',
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Edit/Modify"
+            'Edit/Modify',
           )}
-          onDelete={(selectedUser) =>
+          onDelete={selectedUser =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
           }
-          onSelectedRow={(rows) => {
+          onSelectedRow={rows => {
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "delete",
+                type: 'delete',
                 id: rows,
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 body: `Delete selected items!`,
-              })
+              });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
+                type: 'update',
+                data: {value, dataField, id},
+                title: 'Are you sure?',
                 body: `Update recoard!`,
-              })
+              });
           }}
           onPageSizeChange={(page, limit) => {
             environmentStore.fetchEnvironment(
-              { documentType: "environmentSettings" },
+              {documentType: 'environmentSettings'},
               page,
-              limit
-            )
+              limit,
+            );
           }}
           onFilter={(type, filter, page, limit) => {
             environmentStore.EnvironmentService.filter(
               {
-                input: { type, filter, page, limit },
+                input: {type, filter, page, limit},
               },
-              "environmentSettings"
-            )
+              'environmentSettings',
+            );
           }}
         />
       ),
-      [environmentStore.environmentSettingsList]
-    )
+      [environmentStore.environmentSettingsList],
+    );
 
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemoveBottom
-            style={{ bottom: 40 }}
+            style={{bottom: 40}}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
           />
         )}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputView ? "shown" : "shown")
+            'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'shown' : 'shown')
           }
         >
-          <div className="p-2 rounded-lg shadow-xl">
+          <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={2}>
-              <List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <AutoCompleteFilterSingleSelect
                       loader={loading}
-                      placeholder="Search by variable"
+                      placeholder='Search by variable'
                       data={{
                         list: environmentStore.environmentVariableList.filter(
-                          (item) => item.documentType === "environmentVariable"
+                          item => item.documentType === 'environmentVariable',
                         ),
-                        displayKey: "environmentVariable",
+                        displayKey: 'environmentVariable',
                       }}
                       hasError={errors.name}
                       onFilter={(value: string) => {
                         environmentStore.EnvironmentService.filter(
                           {
                             input: {
-                              type: "filter",
+                              type: 'filter',
                               filter: {
                                 environmentVariable: value,
-                                documentType: "environmentVariable",
+                                documentType: 'environmentVariable',
                               },
                               page: 0,
                               limit: 10,
                             },
                           },
-                          "environmentVariable"
-                        ).then((res) => {
-                          
-                        })
+                          'environmentVariable',
+                        ).then(res => {});
                       }}
-                      onSelect={(item) => {
-                        
-                        onChange(item.environmentVariable)
+                      onSelect={item => {
+                        onChange(item.environmentVariable);
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
                           variable: item.environmentVariable,
                           allLabs: item.allLabs,
                           allUsers: item.allUsers,
                           allDepartment: item.allDepartment,
-                        })
+                        });
                         environmentStore.updatePermision({
                           ...environmentStore.permission,
                           allLabs: item.allLabs || false,
                           allUsers: item.allUsers || false,
                           allDepartment: item.allDepartment || false,
-                        })
+                        });
                         environmentStore.updateEnvVariableList(
-                          environmentStore.environmentVariableListCopy
-                        )
+                          environmentStore.environmentVariableListCopy,
+                        );
                         environmentStore.EnvironmentService.checkExistsRecord({
                           input: {
                             filter: {
                               variable: item.environmentVariable,
-                              documentType: "environmentSettings",
+                              documentType: 'environmentSettings',
                               environment:
-                                environmentStore.environmentSettings?.environment,
+                                environmentStore.environmentSettings
+                                  ?.environment,
                             },
                           },
-                        }).then((res) => {
+                        }).then(res => {
                           if (res.checkExistsEnviromentRecord.success) {
-                            environmentStore.updateExistsEnvSettingRecord(true)
+                            environmentStore.updateExistsEnvSettingRecord(true);
                             Toast.error({
                               message: `😔 ${res.checkExistsEnviromentRecord.message}`,
-                            })
-                          } else environmentStore.updateExistsEnvSettingRecord(false)
-                        })
+                            });
+                          } else
+                            environmentStore.updateExistsEnvSettingRecord(
+                              false,
+                            );
+                        });
                       }}
                     />
                   )}
-                  name="variable"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='variable'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 {environmentStore.checkExistsEnvSettingsRecord && (
-                  <span className="text-red-600 font-medium relative">
-                    Environment variable already exits. Please select other variable.
+                  <span className='text-red-600 font-medium relative'>
+                    Environment variable already exits. Please select other
+                    variable.
                   </span>
                 )}
                 {(environmentStore.environmentSettings ||
@@ -232,84 +237,90 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   labStore.listLabs) && (
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        label="Labs"
-                        id="labs"
+                        label='Labs'
+                        id='labs'
                         hasError={errors.lab}
                       >
-                        <div className="flex flex-row gap-2 w-full">
+                        <div className='flex flex-row gap-2 w-full'>
                           <Form.Toggle
-                            label="All"
+                            label='All'
                             disabled={!environmentStore.permission?.allLabs}
-                            value={environmentStore.environmentSettings?.allLabs}
-                            onChange={(allLabs) => {
+                            value={
+                              environmentStore.environmentSettings?.allLabs
+                            }
+                            onChange={allLabs => {
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
                                 allLabs,
                                 lab: [],
-                              })
+                              });
                               environmentStore.updateSelectedItems({
                                 ...environmentStore.selectedItems,
                                 labs: [],
-                              })
+                              });
                             }}
                           />
 
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
-                            disable={!environmentStore.environmentSettings.allLabs && !environmentStore.permission?.allLabs}
-                            placeholder="Search by code or name"
+                            disable={
+                              !environmentStore.environmentSettings.allLabs &&
+                              !environmentStore.permission?.allLabs
+                            }
+                            placeholder='Search by code or name'
                             data={{
                               list: labStore.listLabs,
                               selected: environmentStore.selectedItems?.labs,
-                              displayKey: ["code", "name"],
+                              displayKey: ['code', 'name'],
                             }}
                             hasError={errors.labs}
-                            onUpdate={(item) => {
-                              const items = environmentStore.selectedItems?.labs
-                              onChange(items)
+                            onUpdate={item => {
+                              const items =
+                                environmentStore.selectedItems?.labs;
+                              onChange(items);
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
                                 lab: items,
-                              })
-                              labStore.updateLabList(labStore.listLabsCopy)
+                              });
+                              labStore.updateLabList(labStore.listLabsCopy);
                             }}
                             onFilter={(value: string) => {
                               labStore.LabService.filterByFields({
                                 input: {
                                   filter: {
-                                    fields: ["code", "name"],
+                                    fields: ['code', 'name'],
                                     srText: value,
                                   },
                                   page: 0,
                                   limit: 10,
                                 },
-                              })
+                              });
                             }}
-                            onSelect={(item) => {
-                              let labs = environmentStore.selectedItems?.labs
+                            onSelect={item => {
+                              let labs = environmentStore.selectedItems?.labs;
                               if (!item.selected) {
                                 if (labs && labs.length > 0) {
-                                  labs.push(item)
-                                } else labs = [item]
+                                  labs.push(item);
+                                } else labs = [item];
                               } else {
-                                labs = labs.filter((items) => {
-                                  return items._id !== item._id
-                                })
+                                labs = labs.filter(items => {
+                                  return items._id !== item._id;
+                                });
                               }
                               environmentStore.updateSelectedItems({
                                 ...environmentStore.selectedItems,
                                 labs,
-                              })
+                              });
                             }}
                           />
                         </div>
                       </Form.InputWrapper>
                     )}
-                    name="lab"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='lab'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 )}
                 {(environmentStore.environmentSettings ||
@@ -319,84 +330,90 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   userStore.userList) && (
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        label="Users"
-                        id="user"
+                        label='Users'
+                        id='user'
                         hasError={errors.user}
                       >
-                        <div className="flex flex-row gap-2 w-full">
+                        <div className='flex flex-row gap-2 w-full'>
                           <Form.Toggle
-                            label="All"
+                            label='All'
                             disabled={!environmentStore.permission?.allUsers}
-                            value={environmentStore.environmentSettings?.allUsers}
-                            onChange={(allUsers) => {
+                            value={
+                              environmentStore.environmentSettings?.allUsers
+                            }
+                            onChange={allUsers => {
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
                                 allUsers,
                                 user: [],
-                              })
+                              });
                               environmentStore.updateSelectedItems({
                                 ...environmentStore.selectedItems,
                                 users: [],
-                              })
+                              });
                             }}
                           />
 
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
-                            disable={!environmentStore.environmentSettings.allUsers && !environmentStore.permission?.allUsers}
-                            placeholder="Search by userId or name..."
+                            disable={
+                              !environmentStore.environmentSettings.allUsers &&
+                              !environmentStore.permission?.allUsers
+                            }
+                            placeholder='Search by userId or name...'
                             data={{
                               list: userStore.userList,
                               selected: environmentStore.selectedItems?.users,
-                              displayKey: ["userId", "fullName"],
+                              displayKey: ['userId', 'fullName'],
                             }}
                             hasError={errors.user}
-                            onUpdate={(item) => {
-                              const items = environmentStore.selectedItems?.users
-                              onChange(items)
+                            onUpdate={item => {
+                              const items =
+                                environmentStore.selectedItems?.users;
+                              onChange(items);
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
                                 user: items,
-                              })
-                              userStore.updateUserList(userStore.userListCopy)
+                              });
+                              userStore.updateUserList(userStore.userListCopy);
                             }}
                             onFilter={(value: string) => {
                               userStore.UsersService.filterByFields({
                                 input: {
                                   filter: {
-                                    fields: ["userId", "fullName"],
+                                    fields: ['userId', 'fullName'],
                                     srText: value,
                                   },
                                   page: 0,
                                   limit: 10,
                                 },
-                              })
+                              });
                             }}
-                            onSelect={(item) => {
-                              let users = environmentStore.selectedItems?.users
+                            onSelect={item => {
+                              let users = environmentStore.selectedItems?.users;
                               if (!item.selected) {
                                 if (users && users.length > 0) {
-                                  users.push(item)
-                                } else users = [item]
+                                  users.push(item);
+                                } else users = [item];
                               } else {
-                                users = users.filter((items) => {
-                                  return items._id !== item._id
-                                })
+                                users = users.filter(items => {
+                                  return items._id !== item._id;
+                                });
                               }
                               environmentStore.updateSelectedItems({
                                 ...environmentStore.selectedItems,
                                 users,
-                              })
+                              });
                             }}
                           />
                         </div>
                       </Form.InputWrapper>
                     )}
-                    name="user"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='user'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 )}
                 {((environmentStore.selectedItems &&
@@ -405,198 +422,214 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   departmentStore.listDepartment) && (
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        label="Department"
-                        id="department"
+                        label='Department'
+                        id='department'
                         hasError={errors.department}
                       >
-                        <div className="flex flex-row gap-2 w-full">
+                        <div className='flex flex-row gap-2 w-full'>
                           <Form.Toggle
-                            label="All"
-                            disabled={!environmentStore.permission?.allDepartment}
-                            value={
-                              environmentStore.environmentSettings?.allDepartment
+                            label='All'
+                            disabled={
+                              !environmentStore.permission?.allDepartment
                             }
-                            onChange={(allDepartment) => {
+                            value={
+                              environmentStore.environmentSettings
+                                ?.allDepartment
+                            }
+                            onChange={allDepartment => {
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
                                 allDepartment,
                                 department: [],
-                              })
+                              });
                               environmentStore.updateSelectedItems({
                                 ...environmentStore.selectedItems,
                                 department: [],
-                              })
+                              });
                             }}
                           />
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             disable={
-                              !environmentStore.environmentSettings?.allDepartment && !environmentStore.permission?.allDepartment
+                              !environmentStore.environmentSettings
+                                ?.allDepartment &&
+                              !environmentStore.permission?.allDepartment
                             }
-                            placeholder="Search by code or name"
+                            placeholder='Search by code or name'
                             data={{
                               list: departmentStore.listDepartment,
-                              selected: environmentStore.selectedItems?.department,
-                              displayKey: ["code", "name"],
+                              selected:
+                                environmentStore.selectedItems?.department,
+                              displayKey: ['code', 'name'],
                             }}
                             hasError={errors.department}
-                            onUpdate={(item) => {
+                            onUpdate={item => {
                               const items =
-                                environmentStore.selectedItems?.department
-                              onChange(items)
+                                environmentStore.selectedItems?.department;
+                              onChange(items);
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
                                 department: items,
-                              })
+                              });
                               departmentStore.updateDepartmentList(
-                                departmentStore.listDepartmentCopy
-                              )
+                                departmentStore.listDepartmentCopy,
+                              );
                             }}
                             onFilter={(value: string) => {
                               departmentStore.DepartmentService.filterByFields({
                                 input: {
                                   filter: {
-                                    fields: ["code", "name"],
+                                    fields: ['code', 'name'],
                                     srText: value,
                                   },
                                   page: 0,
                                   limit: 10,
                                 },
-                              })
+                              });
                             }}
-                            onSelect={(item) => {
+                            onSelect={item => {
                               let department =
-                                environmentStore.selectedItems?.department
+                                environmentStore.selectedItems?.department;
                               if (!item.selected) {
                                 if (department && department.length > 0) {
-                                  department.push(item)
-                                } else department = [item]
+                                  department.push(item);
+                                } else department = [item];
                               } else {
-                                department = department.filter((items) => {
-                                  return items._id !== item._id
-                                })
+                                department = department.filter(items => {
+                                  return items._id !== item._id;
+                                });
                               }
                               environmentStore.updateSelectedItems({
                                 ...environmentStore.selectedItems,
                                 department,
-                              })
+                              });
                             }}
                           />
                         </div>
                       </Form.InputWrapper>
                     )}
-                    name="department"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='department'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 )}
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Value"
+                      label='Value'
                       hasError={errors.value}
                       value={environmentStore.environmentSettings?.value}
-                      placeholder={errors.value ? "Please Enter Value" : "Value"}
-                      onChange={(value) => {
-                        onChange(value)
+                      placeholder={
+                        errors.value ? 'Please Enter Value' : 'Value'
+                      }
+                      onChange={value => {
+                        onChange(value);
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
                           value: value.toUpperCase(),
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="value"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='value'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
               </List>
-              <List
-                direction="col"
-                justify="stretch"
-                fill
-                space={4}
-              >
+              <List direction='col' justify='stretch' fill space={4}>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.MultilineInput
                       rows={3}
-                      label="Description"
-                      name="lblDescription"
+                      label='Description'
+                      name='lblDescription'
                       placeholder={
                         errors.descriptions
-                          ? "Please Enter descriptions"
-                          : "Description"
+                          ? 'Please Enter descriptions'
+                          : 'Description'
                       }
                       hasError={errors.descriptions}
                       value={environmentStore.environmentSettings?.descriptions}
-                      onChange={(descriptions) => {
-                        onChange(descriptions)
+                      onChange={descriptions => {
+                        onChange(descriptions);
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
                           descriptions,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="descriptions"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='descriptions'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Environment">
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Environment'>
                       <select
-                        value={environmentStore.environmentSettings?.environment}
+                        value={
+                          environmentStore.environmentSettings?.environment
+                        }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment ? "border-red-500  " : "border-gray-300"
+                          errors.environment
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
                         disabled={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
-                        onChange={(e) => {
-                          const environment = e.target.value
-                          onChange(environment)
+                        onChange={e => {
+                          const environment = e.target.value;
+                          onChange(environment);
                           environmentStore.updateEnvironmentSettings({
                             ...environmentStore.environmentSettings,
                             environment,
-                          })
-                          environmentStore.EnvironmentService.checkExistsRecord({
-                            input: {
-                              filter: {
-                                variable:
-                                  environmentStore.environmentSettings.variable,
-                                documentType: "environmentSettings",
-                                environment,
+                          });
+                          environmentStore.EnvironmentService.checkExistsRecord(
+                            {
+                              input: {
+                                filter: {
+                                  variable:
+                                    environmentStore.environmentSettings
+                                      .variable,
+                                  documentType: 'environmentSettings',
+                                  environment,
+                                },
                               },
                             },
-                          }).then((res) => {
+                          ).then(res => {
                             if (res.checkExistsEnviromentRecord.success) {
-                              environmentStore.updateExistsEnvSettingRecord(true)
+                              environmentStore.updateExistsEnvSettingRecord(
+                                true,
+                              );
                               Toast.error({
                                 message: `😔 ${res.checkExistsEnviromentRecord.message}`,
-                              })
+                              });
                             } else
-                              environmentStore.updateExistsEnvSettingRecord(false)
-                          })
+                              environmentStore.updateExistsEnvSettingRecord(
+                                false,
+                              );
+                          });
                         }}
                       >
                         <option selected>
-                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          {loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? `Select`
-                            : environmentStore.environmentSettings?.environment ||
-                              `Select`}
+                            : environmentStore.environmentSettings
+                                ?.environment || `Select`}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          "ENVIRONMENT SETTING - ENVIRONMENT"
+                          'ENVIRONMENT SETTING - ENVIRONMENT',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -605,28 +638,28 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='environment'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitSessionManagement)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
-                  window.location.reload()
+                  window.location.reload();
                 }}
               >
                 Clear
@@ -636,12 +669,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
         </div>
 
         <div
-          className="p-2 rounded-lg shadow-xl overflow-scroll"
-          style={{ overflowX: "scroll" }}
+          className='p-2 rounded-lg shadow-xl overflow-scroll'
+          style={{overflowX: 'scroll'}}
         >
           {table}
         </div>
       </>
-    )
-  })
-)
+    );
+  }),
+);

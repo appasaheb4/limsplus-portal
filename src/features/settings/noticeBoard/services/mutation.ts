@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: NoticeBoardInput!) {
+  mutation ($input: NoticeBoardInput!) {
     noticeBoards(input: $input) {
       paginatorInfo {
         count
@@ -19,37 +19,37 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: NoticeBoardRemoveInput!) {
+  mutation ($input: NoticeBoardRemoveInput!) {
     removeNoticeBoard(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateNoticeBoardInput!) {
+  mutation ($input: CreateNoticeBoardInput!) {
     createNoticeBoard(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateNoticeBoardInput!) {
+  mutation ($input: UpdateNoticeBoardInput!) {
     updateNoticeBoard(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: NoticeBoardInput!) {
+  mutation ($input: NoticeBoardInput!) {
     filterNoticeBoard(input: $input) {
       paginatorInfo {
         count
@@ -67,4 +67,4 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;

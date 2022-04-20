@@ -1,7 +1,8 @@
-import * as types from "../constants";
+/* eslint-disable */
+import * as types from '../constants';
 
 const initialState = {
-  isBoxed: false
+  isBoxed: false,
 };
 
 export default function reducer(state = initialState, actions) {
@@ -9,19 +10,19 @@ export default function reducer(state = initialState, actions) {
     case types.LAYOUT_BOXED_TOGGLE:
       return {
         ...state,
-        isBoxed: !state.isBoxed
+        isBoxed: !state.isBoxed,
       };
     case types.LAYOUT_BOXED_ENABLE:
       return {
         ...state,
-        isBoxed: true
+        isBoxed: true,
       };
     case types.SIDEBAR_STICKY_ENABLE:
     case types.SIDEBAR_STICKY_TOGGLE:
     case types.LAYOUT_BOXED_DISABLE:
       return {
         ...state,
-        isBoxed: false
+        isBoxed: false,
       };
 
     default:

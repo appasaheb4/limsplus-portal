@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
 //import * as Models from "../models"
 import {
   LIST,
@@ -15,8 +15,8 @@ import {
   FILTER_BY_FIELDS,
   FIND_VALUE,
   CHECK_EXISTS_RECORD,
-} from "./mutation"
-import { stores } from "@/stores"
+} from './mutation';
+import {stores} from '@/stores';
 
 export class EnvironmentService {
   listEnvironment = (filter: any, page = 0, limit = 10) =>
@@ -24,21 +24,21 @@ export class EnvironmentService {
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { filter, page, limit } },
+          variables: {input: {filter, page, limit}},
         })
         .then((response: any) => {
-          if (filter.documentType === "environmentVariable") {
-            stores.environmentStore.updateEnvVariableList(response.data)
+          if (filter.documentType === 'environmentVariable') {
+            stores.environmentStore.updateEnvVariableList(response.data);
           }
-          if (filter.documentType === "environmentSettings") {
-            stores.environmentStore.updateEnvSettingsList(response.data)
+          if (filter.documentType === 'environmentSettings') {
+            stores.environmentStore.updateEnvSettingsList(response.data);
           }
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addEnvironment = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -48,12 +48,12 @@ export class EnvironmentService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteRecord = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -63,12 +63,12 @@ export class EnvironmentService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -78,16 +78,16 @@ export class EnvironmentService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any, documentType) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -95,40 +95,40 @@ export class EnvironmentService {
         })
         .then((response: any) => {
           if (!response.data.filterEnviroment.success)
-            return this.listEnvironment({ documentType })
-          if (documentType === "environmentVariable") {
+            return this.listEnvironment({documentType});
+          if (documentType === 'environmentVariable') {
             const data = response.data.filterEnviroment.data.filter(
-              (data) => data.documentType === "environmentVariable"
-            )
+              data => data.documentType === 'environmentVariable',
+            );
             stores.environmentStore.filterEnvVariableList({
               filterEnviroment: {
                 ...response.data.filterEnviroment,
                 data,
               },
-            })
+            });
           }
-          if (documentType === "environmentSettings") {
+          if (documentType === 'environmentSettings') {
             const data = response.data.filterEnviroment.data.filter(
-              (data) => data.documentType === "environmentSettings"
-            )
+              data => data.documentType === 'environmentSettings',
+            );
             stores.environmentStore.filterEnvSettingsList({
               filterEnviroment: {
                 ...response.data.filterEnviroment,
                 data,
               },
-            })
+            });
           }
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFieldsVariableList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -136,26 +136,27 @@ export class EnvironmentService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsEnviroment.success)
-            return this.listEnvironment({ documentType: "environmentVariable" })
+            return this.listEnvironment({documentType: 'environmentVariable'});
           stores.environmentStore.filterEnvVariableList({
             filterEnviroment: {
               data: response.data.filterByFieldsEnviroment.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsEnviroment.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsEnviroment.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -163,22 +164,23 @@ export class EnvironmentService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsEnviroment.success)
-            return this.listEnvironment({ documentType: "environmentSettings" })
+            return this.listEnvironment({documentType: 'environmentSettings'});
           stores.environmentStore.filterEnvSettingsList({
             filterEnviroment: {
               data: response.data.filterByFieldsEnviroment.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsEnviroment.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsEnviroment.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   findValue = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -188,12 +190,12 @@ export class EnvironmentService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   checkExistsRecord = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -202,10 +204,10 @@ export class EnvironmentService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

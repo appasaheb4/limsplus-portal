@@ -1,16 +1,24 @@
-const colors = require('tailwindcss/colors');
-const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
 module.exports = {
-  mode: 'jit',
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  content: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   darkMode: 'media',
   theme: {
     extend: {
       colors: {
-        transparent: 'transparent',
-        current: 'currentColor',
         'text-base': '#ffffff',
+        primary: '#454cbf',
+        secondary: '#c57c85',
+        accent: '#422a68',
+        black: '#000000',
+        grey_0: '#4a4a4a',
+        grey_1: '#707070',
+        light_1: '#ebebeb',
+        white: '#ffffff',
+        background: '#ffffff',
+        red: '#ff0000',
+        light_white: '#f4f6f6',
+        orange: '#ffae1a',
+        mono: '#754c00',
       },
       fontFamily: {
         nunitoSansRegular: ['Nunito Sans Regular'],

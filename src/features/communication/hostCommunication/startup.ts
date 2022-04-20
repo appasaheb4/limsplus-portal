@@ -1,6 +1,6 @@
 //import { stores } from "@/stores"
 const startup = async () => {
- //stores.hostCommunicationStore.ser
-}    
+  //stores.hostCommunicationStore.ser
+};
 
-export default startup
+export default startup;

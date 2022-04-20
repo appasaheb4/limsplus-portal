@@ -1,1 +1,1 @@
-export * from "./molecules/SampleTypeList"
+export * from './molecules/SampleTypeList';

@@ -1,1 +1,1 @@
-export * from "./masterAnalyte-services"
+export * from './masterAnalyte-services';

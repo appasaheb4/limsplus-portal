@@ -1,4 +1,6 @@
 export * from './molecules/UserList';
+export * from './molecules/ModalDefaultLabDeptUpdate';
+
 export * from './organisms/AutoCompleteFilterMultiSelectDepartment';
 export * from './organisms/AutoCompleteFilterMutiSelectRoles';
 export * from './organisms/AutoCompleteFilterSingleSelectDefaultLabs';

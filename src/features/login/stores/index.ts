@@ -9,4 +9,4 @@ export const Stores = {
 export const Contexts = {
   loginContext: React.createContext(Stores.loginStore),
 };
-export * from './LoginStore'
+export * from './LoginStore';

@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -13,27 +13,30 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
-  FILTER_BY_FIELDS
-} from "./mutation"
+  FILTER_BY_FIELDS,
+} from './mutation';
 
 export class InterfaceManagerService {
   listInterfaceManager = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.interfaceManagerStore.updateInterfaceManagerList(response.data)
-          resolve(response.data)
+          stores.interfaceManagerStore.updateInterfaceManagerList(
+            response.data,
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addInterfaceManager = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -43,12 +46,12 @@ export class InterfaceManagerService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -58,12 +61,12 @@ export class InterfaceManagerService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteInterfaceManager = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -73,12 +76,12 @@ export class InterfaceManagerService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   interfaceManagerUpdateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -88,16 +91,16 @@ export class InterfaceManagerService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -105,19 +108,19 @@ export class InterfaceManagerService {
         })
         .then((response: any) => {
           if (!response.data.filterInterfaceManagers.success)
-            return this.listInterfaceManager()
-          stores.interfaceManagerStore.filterInterfaceManager(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+            return this.listInterfaceManager();
+          stores.interfaceManagerStore.filterInterfaceManager(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    filterByFields = (variables: any) =>
+  filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -125,20 +128,22 @@ export class InterfaceManagerService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsInterfaceManagers.success)
-            return this.listInterfaceManager()
+            return this.listInterfaceManager();
           stores.interfaceManagerStore.filterInterfaceManager({
             filterInterfaceManagers: {
               data: response.data.filterByFieldsInterfaceManagers.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsInterfaceManagers.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsInterfaceManagers.paginatorInfo
+                    .count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

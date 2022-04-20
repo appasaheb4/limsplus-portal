@@ -1,1 +1,1 @@
-export * from "./UsersHOC"
+export * from './UsersHOC';

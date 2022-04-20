@@ -1,1 +1,1 @@
-export * from './lookup-store'
+export * from './lookup-store';

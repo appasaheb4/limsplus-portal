@@ -43,21 +43,21 @@ export const TargetTableForSalesTeam = observer(
     const [displayTargetSale, setDisplayTargetSale] = useState(false);
     const [displayTargetTable, setDisplayTargetTable] = useState('');
     return (
-      <div className="flex flex-col gap-2 items-center overflow-auto">
+      <div className='flex flex-col gap-2 items-center overflow-auto'>
         <Table striped bordered>
           <thead>
-            <tr className="p-0 text-xs">
-              <th className="text-white" style={{minWidth: 150}}>
+            <tr className='p-0 text-xs'>
+              <th className='text-white' style={{minWidth: 150}}>
                 FY-Year
               </th>
-              <th className="text-white" style={{minWidth: 150}}>
+              <th className='text-white' style={{minWidth: 150}}>
                 Sr No
               </th>
-              <th className="text-white" style={{minWidth: 150}}>
+              <th className='text-white' style={{minWidth: 150}}>
                 Month
               </th>
               <th
-                className="text-white sticky right-0 flex flex-row gap-2"
+                className='text-white sticky right-0 flex flex-row gap-2'
                 style={{minWidth: 170}}
               >
                 Targeted Sale
@@ -67,7 +67,7 @@ export const TargetTableForSalesTeam = observer(
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplayTargetTable('');
                   }}
@@ -78,7 +78,7 @@ export const TargetTableForSalesTeam = observer(
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplayTargetTable('display');
                   }}
@@ -87,51 +87,52 @@ export const TargetTableForSalesTeam = observer(
             </tr>
           </thead>
           {displayTargetTable && (
-            <tbody className="text-xs">
+            <tbody className='text-xs'>
               {targetSaleTable.current?.map((item, index) => (
                 <tr>
                   <td>
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <select
-                          value={item.fyYear}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                          onChange={e => {
-                            const fyYear = e.target.value;
-                            onChange(fyYear);
-                            salesTeamStore.updateSalesTeam({
-                              ...salesTeamStore.salesTeam,
-                              targets: [
-                                {fyYear, month: 'APR'},
-                                {fyYear, month: 'MAY'},
-                                {fyYear, month: 'JUN'},
-                                {fyYear, month: 'JUL'},
-                                {fyYear, month: 'AUG'},
-                                {fyYear, month: 'SEP'},
-                                {fyYear, month: 'OCT'},
-                                {fyYear, month: 'NOV'},
-                                {fyYear, month: 'DEC'},
-                                {fyYear, month: 'JAN'},
-                                {fyYear, month: 'FEB'},
-                                {fyYear, month: 'MAR'},
-                              ],
-                            });
-                          }}
-                        >
-                          <option selected>{'Select'} </option>
-                          {lookupItems(routerStore.lookupItems, 'FY_YEAR').map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ),
-                          )}
-                        </select>
+                        // <select
+                        //   value={item.fyYear}
+                        //   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                        //   onChange={e => {
+                        //     const fyYear = e.target.value;
+                        //     onChange(fyYear);
+                        //     salesTeamStore.updateSalesTeam({
+                        //       ...salesTeamStore.salesTeam,
+                        //       targets: [
+                        //         {fyYear, month: 'APR'},
+                        //         {fyYear, month: 'MAY'},
+                        //         {fyYear, month: 'JUN'},
+                        //         {fyYear, month: 'JUL'},
+                        //         {fyYear, month: 'AUG'},
+                        //         {fyYear, month: 'SEP'},
+                        //         {fyYear, month: 'OCT'},
+                        //         {fyYear, month: 'NOV'},
+                        //         {fyYear, month: 'DEC'},
+                        //         {fyYear, month: 'JAN'},
+                        //         {fyYear, month: 'FEB'},
+                        //         {fyYear, month: 'MAR'},
+                        //       ],
+                        //     });
+                        //   }}
+                        // >
+                        //   <option selected>{'Select'} </option>
+                        //   {lookupItems(routerStore.lookupItems, 'FY_YEAR').map(
+                        //     (item: any, index: number) => (
+                        //       <option key={index} value={item.code}>
+                        //         {lookupValue(item)}
+                        //       </option>
+                        //     ),
+                        //   )}
+                        // </select>
+                        <Form.Input disabled={true} value={`${item.fyYear}`} />
                       )}
-                      name="priceGroup"
+                      name='priceGroup'
                       rules={{required: true}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </td>
                   <td>{index + 1}</td>
@@ -157,8 +158,8 @@ export const TargetTableForSalesTeam = observer(
                         control={control}
                         render={({field: {onChange}}) => (
                           <Form.Input
-                            label=""
-                            type="number"
+                            label=''
+                            type='number'
                             placeholder={item.targetSale}
                             className={`leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md`}
                             hasError={errors.targetSale}
@@ -176,7 +177,7 @@ export const TargetTableForSalesTeam = observer(
                             }}
                           />
                         )}
-                        name="targetSale"
+                        name='targetSale'
                         rules={{required: false}}
                         defaultValue={item.fyYear}
                       />
@@ -189,8 +190,8 @@ export const TargetTableForSalesTeam = observer(
         </Table>
         {displayTargetTable && (
           <Buttons.Button
-            size="small"
-            type="solid"
+            size='small'
+            type='solid'
             onClick={() => onUpdate && onUpdate(targetSaleTable.current)}
           >
             Update

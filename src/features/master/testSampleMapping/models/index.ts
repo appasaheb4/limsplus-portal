@@ -1,1 +1,1 @@
-export * from './TestSampleMapping'
+export * from './TestSampleMapping';

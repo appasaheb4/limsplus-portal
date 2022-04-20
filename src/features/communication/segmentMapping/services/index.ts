@@ -1,1 +1,1 @@
-export * from './segmentMapping-service'
+export * from './segmentMapping-service';

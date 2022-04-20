@@ -1,73 +1,86 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
-import {TableBootstrap,textFilter,Form,Tooltip,Icons,ModalConfirm,Toast} from "@/library/components"
-import {Confirm} from "@/library/models"
-import * as Models from "../../models"
-import { SegmentMapping } from "../models"
-import { useStores } from "@/stores"
+import React, {useState, useEffect} from 'react';
+import {observer} from 'mobx-react';
+import {
+  TableBootstrap,
+  textFilter,
+  Form,
+  Tooltip,
+  Icons,
+  ModalConfirm,
+  Toast,
+} from '@/library/components';
+import {Confirm} from '@/library/models';
+import * as Models from '../../models';
+import {SegmentMapping} from '../models';
+import {useStores} from '@/stores';
 
-let dataFlowFrom
-let data_type
-let equipmentType
-let segments
-let field_no
-let item_no
-let element_name
-let transmitted_data
-let field_array
-let field_length
-let field_type
-let lims_descriptions
-let lims_tables
-let lims_fields
-let notes
-let environment
+let dataFlowFrom;
+let data_type;
+let equipmentType;
+let segments;
+let field_no;
+let item_no;
+let element_name;
+let transmitted_data;
+let field_array;
+let field_length;
+let field_type;
+let lims_descriptions;
+let lims_tables;
+let lims_fields;
+let notes;
+let environment;
 
 interface SegmentMappingListProps {
-  data: any
-  extraData: any
-  totalSize: number
-  isDelete?: boolean
-  isEditModify?: boolean
-  onDelete?: (selectedItem: Confirm) => void
-  onSelectedRow?: (selectedItem: any) => void
-  onUpdateItem?: (value: any, dataField: string, id: string) => void
-  duplicate: (item: SegmentMapping) => void
-  onPageSizeChange?: (page: number, totalSize: number) => void
-  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  data: any;
+  extraData: any;
+  totalSize: number;
+  isDelete?: boolean;
+  isEditModify?: boolean;
+  onDelete?: (selectedItem: Confirm) => void;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  duplicate: (item: SegmentMapping) => void;
+  onPageSizeChange?: (page: number, totalSize: number) => void;
+  onFilter?: (
+    type: string,
+    filter: any,
+    page: number,
+    totalSize: number,
+  ) => void;
 }
 
 export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
-  const [modalConfirm, setModalConfirm] = useState<any>()
-  const { segmentMappingStore } = useStores()
+  const [modalConfirm, setModalConfirm] = useState<any>();
+  const {segmentMappingStore} = useStores();
 
   useEffect(() => {
-    segmentMappingStore.fetchListSegmentMapping()
-  }, [])
+    segmentMappingStore.fetchListSegmentMapping();
+  }, []);
   return (
     <>
       <TableBootstrap
-        id="_id"
+        id='_id'
         data={props.data}
         totalSize={props.totalSize}
         columns={[
           {
-            dataField: "_id",
-            text: "Id",
+            dataField: '_id',
+            text: 'Id',
             hidden: true,
             csvExport: false,
           },
           {
-            dataField: "equipmentType",
-            text: "EQUIPMENT TYPE",
-            headerClasses: "textHeader4",
+            dataField: 'equipmentType',
+            text: 'EQUIPMENT TYPE',
+            headerClasses: 'textHeader4',
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) =>{
-                equipmentType = filter
-              }
+              getFilter: filter => {
+                equipmentType = filter;
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -75,61 +88,63 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  name="equipmentType"
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const equipmentType = e.target.value
+                  name='equipmentType'
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const equipmentType = e.target.value;
                     if (row.equipmentType !== equipmentType) {
                       segmentMappingStore.changeUpdateItem({
                         value: equipmentType,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${equipmentType}`,
-                      })
+                      });
                     }
                   }}
                 >
                   <option selected>{row.equipmentType}</option>
-                  {Models.options.equipmentType.map((item: any, index: number) => (
-                    <option key={item.title} value={item.title}>
-                      {item.title}
-                    </option>
-                  ))}
+                  {Models.options.equipmentType.map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ),
+                  )}
                 </select>
               </>
             ),
           },
-          {  
-            dataField: "dataFlowFrom",
-            text: "DATA FLOW FROM",
-            headerClasses: "textHeader5",
+          {
+            dataField: 'dataFlowFrom',
+            text: 'DATA FLOW FROM',
+            headerClasses: 'textHeader5',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                dataFlowFrom = filter
-              }
+              getFilter: filter => {
+                dataFlowFrom = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
               `${
                 row.dataFlowFrom !== undefined
-                  ? row.dataFlowFrom.split("&gt;").join(">")
-                  : ""
+                  ? row.dataFlowFrom.split('&gt;').join('>')
+                  : ''
               }`,
             formatter: (cellContent, row) => (
               <>
                 <label>
                   {row.dataFlowFrom !== undefined
-                    ? row.dataFlowFrom.split("&gt;").join(">")
-                    : ""}
+                    ? row.dataFlowFrom.split('&gt;').join('>')
+                    : ''}
                 </label>
               </>
             ),
@@ -139,53 +154,55 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  name="dataFlowFrom"
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const dataFlowFrom = e.target.value
+                  name='dataFlowFrom'
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const dataFlowFrom = e.target.value;
                     if (row.dataFlowFrom !== dataFlowFrom) {
                       segmentMappingStore.changeUpdateItem({
                         value: dataFlowFrom,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${dataFlowFrom}`,
-                      })
+                      });
                     }
                   }}
                 >
                   <option selected>
                     {row.dataFlowFrom !== undefined
-                      ? row.dataFlowFrom.split("&gt;").join(">")
-                      : ""}
+                      ? row.dataFlowFrom.split('&gt;').join('>')
+                      : ''}
                   </option>
-                  {Models.options.dataFlowFrom.map((item: any, index: number) => (
-                    <option key={item.title} value={item.title}>
-                      {item.title}
-                    </option>
-                  ))}
+                  {Models.options.dataFlowFrom.map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ),
+                  )}
                 </select>
               </>
             ),
           },
           {
-            dataField: "data_type",
-            text: "DATA TYPE",
-            headerClasses: "textHeader2",
+            dataField: 'data_type',
+            text: 'DATA TYPE',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) =>{
-                data_type = filter
-              }
+              getFilter: filter => {
+                data_type = filter;
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -193,26 +210,26 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  name="data_type"
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const data_type = e.target.value
+                  name='data_type'
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const data_type = e.target.value;
                     if (row.dataFlowFrom !== data_type) {
                       segmentMappingStore.changeUpdateItem({
                         value: data_type,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${data_type}`,
-                      })
+                      });
                     }
                   }}
                 >
@@ -228,15 +245,15 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           },
 
           {
-            dataField: "segments",
-            text: "SEGMENTS",
-            headerClasses: "textHeader2",
+            dataField: 'segments',
+            text: 'SEGMENTS',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) =>{
-                segments = filter
-              }
+              getFilter: filter => {
+                segments = filter;
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -244,26 +261,26 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  name="segments"
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const segments = e.target.value
+                  name='segments'
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const segments = e.target.value;
                     if (row.segments !== segments) {
                       segmentMappingStore.changeUpdateItem({
                         value: segments,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${segments}`,
-                      })
+                      });
                     }
                   }}
                 >
@@ -278,58 +295,60 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "segment_usage",
-            text: "SEGMENT USAGE",
-            headerClasses: "textHeader3",
+            dataField: 'segment_usage',
+            text: 'SEGMENT USAGE',
+            headerClasses: 'textHeader3',
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  name="segments"
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const segment_usage = e.target.value
+                  name='segments'
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const segment_usage = e.target.value;
                     if (row.segment_usage !== segment_usage) {
                       segmentMappingStore.changeUpdateItem({
                         value: segment_usage,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${segment_usage}`,
-                      })
+                      });
                     }
                   }}
                 >
                   <option selected>{row.segment_usage}</option>
-                  {Models.options.segment_usage.map((item: any, index: number) => (
-                    <option key={item.title} value={item.title}>
-                      {item.title}
-                    </option>
-                  ))}
+                  {Models.options.segment_usage.map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ),
+                  )}
                 </select>
               </>
             ),
           },
           {
-            dataField: "field_no",
-            text: "FIELD NO",
-            headerClasses: "textHeader2",
+            dataField: 'field_no',
+            text: 'FIELD NO',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) =>{
-                field_no = filter
-              }
+              getFilter: filter => {
+                field_no = filter;
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -337,26 +356,26 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  type="number"
-                  name="field_no"
-                  placeholder="Field No"
-                  onBlur={(field_no) => {
+                  type='number'
+                  name='field_no'
+                  placeholder='Field No'
+                  onBlur={field_no => {
                     if (row.field_no !== field_no && field_no) {
                       segmentMappingStore.changeUpdateItem({
                         value: field_no,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${field_no}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -364,15 +383,15 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "item_no",
-            text: "ITEM NO",
-            headerClasses: "textHeader2",
+            dataField: 'item_no',
+            text: 'ITEM NO',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) =>{
-                item_no = filter
-              }
+              getFilter: filter => {
+                item_no = filter;
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -380,26 +399,26 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  type="number"
-                  name="item_no"
-                  placeholder="Item No"
-                  onBlur={(item_no) => {
+                  type='number'
+                  name='item_no'
+                  placeholder='Item No'
+                  onBlur={item_no => {
                     if (row.item_no !== item_no && item_no) {
                       segmentMappingStore.changeUpdateItem({
                         value: item_no,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${item_no}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -407,38 +426,38 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "field_required",
-            text: "FIELD REQUIRED",
-            headerClasses: "textHeader3",
+            dataField: 'field_required',
+            text: 'FIELD REQUIRED',
+            headerClasses: 'textHeader3',
             editable: false,
             csvFormatter: (cell, row, rowIndex) =>
               `${
                 row.field_required !== undefined
                   ? row.field_required
-                    ? "Yes"
-                    : "No"
-                  : "No"
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
               }`,
             formatter: (cellContent, row) => (
               <>
                 <Form.Toggle
-                  id="field_required"
+                  id='field_required'
                   value={row.field_required}
-                  onChange={(field_required) => {
+                  onChange={field_required => {
                     if (row.field_required !== field_required) {
                       segmentMappingStore.changeUpdateItem({
                         value: field_required,
-                        dataField: "field_required",
+                        dataField: 'field_required',
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${
-                          field_required === true ? "Yes" : "No"
+                          field_required === true ? 'Yes' : 'No'
                         }`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -446,42 +465,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "element_name",
-            text: "ELEMENT NAME",
-            headerClasses: "textHeader4",
+            dataField: 'element_name',
+            text: 'ELEMENT NAME',
+            headerClasses: 'textHeader4',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                element_name = filter
-              }
+              getFilter: filter => {
+                element_name = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.element_name !== undefined ? row.element_name : ""}`,
+              `${row.element_name !== undefined ? row.element_name : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="element_name"
-                  placeholder="Element name"
-                  onBlur={(element_name) => {
+                  name='element_name'
+                  placeholder='Element name'
+                  onBlur={element_name => {
                     if (row.field_no !== element_name && element_name) {
                       segmentMappingStore.changeUpdateItem({
                         value: element_name,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${element_name}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -489,42 +508,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "transmitted_data",
-            text: "TRANSMITTED DATA",
-            headerClasses: "textHeader5",
+            dataField: 'transmitted_data',
+            text: 'TRANSMITTED DATA',
+            headerClasses: 'textHeader5',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                transmitted_data = filter
-              }
+              getFilter: filter => {
+                transmitted_data = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.transmitted_data ? row.transmitted_data : ""}`,
+              `${row.transmitted_data ? row.transmitted_data : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="transmitted_data"
-                  placeholder="Transmitted data"
-                  onBlur={(transmitted_data) => {
+                  name='transmitted_data'
+                  placeholder='Transmitted data'
+                  onBlur={transmitted_data => {
                     if (row.field_no !== transmitted_data && transmitted_data) {
                       segmentMappingStore.changeUpdateItem({
                         value: transmitted_data,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${transmitted_data}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -533,42 +552,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           },
 
           {
-            dataField: "field_array",
-            text: "FIELD ARRAY",
-            headerClasses: "textHeader3",
+            dataField: 'field_array',
+            text: 'FIELD ARRAY',
+            headerClasses: 'textHeader3',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                field_array = filter
-              }
+              getFilter: filter => {
+                field_array = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.field_array  ? row.field_array : ""}`,
+              `${row.field_array ? row.field_array : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="field_array"
-                  placeholder="Field array"
-                  onBlur={(field_array) => {
+                  name='field_array'
+                  placeholder='Field array'
+                  onBlur={field_array => {
                     if (row.field_no !== field_array && field_array) {
                       segmentMappingStore.changeUpdateItem({
                         value: field_array,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${field_array}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -576,43 +595,43 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "field_length",
-            text: "FIELD LENGTH",
-            headerClasses: "textHeader3",
+            dataField: 'field_length',
+            text: 'FIELD LENGTH',
+            headerClasses: 'textHeader3',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                field_length = filter
-              }
+              getFilter: filter => {
+                field_length = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.field_length  ? row.field_length : ""}`,
+              `${row.field_length ? row.field_length : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  type="number"
-                  name="field_length"
-                  placeholder="Field length"
-                  onBlur={(field_length) => {
+                  type='number'
+                  name='field_length'
+                  placeholder='Field length'
+                  onBlur={field_length => {
                     if (row.field_no !== field_length && field_length) {
                       segmentMappingStore.changeUpdateItem({
                         value: field_length,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${field_length}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -620,42 +639,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "field_type",
-            text: "FIELD TYPE",
-            headerClasses: "textHeader3",
+            dataField: 'field_type',
+            text: 'FIELD TYPE',
+            headerClasses: 'textHeader3',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                field_type = filter
-              }
+              getFilter: filter => {
+                field_type = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.field_type ? row.field_type : ""}`,
+              `${row.field_type ? row.field_type : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="field_type"
-                  placeholder="Field type"
-                  onBlur={(field_type) => {
+                  name='field_type'
+                  placeholder='Field type'
+                  onBlur={field_type => {
                     if (row.field_no !== field_type && field_type) {
                       segmentMappingStore.changeUpdateItem({
                         value: field_type,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${field_type}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -663,38 +682,38 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "repeat_delimiter",
-            text: "REPEAT DELIMITER",
-            headerClasses: "textHeader5",
+            dataField: 'repeat_delimiter',
+            text: 'REPEAT DELIMITER',
+            headerClasses: 'textHeader5',
             editable: false,
             csvFormatter: (cell, row, rowIndex) =>
               `${
                 row.repeat_delimiter !== undefined
                   ? row.repeat_delimiter
-                    ? "Yes"
-                    : "No"
-                  : "No"
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
               }`,
             formatter: (cellContent, row) => (
               <>
                 <Form.Toggle
-                  id="field_required"
+                  id='field_required'
                   value={row.repeat_delimiter}
-                  onChange={(repeat_delimiter) => {
+                  onChange={repeat_delimiter => {
                     if (row.repeat_delimiter !== repeat_delimiter) {
                       segmentMappingStore.changeUpdateItem({
                         value: repeat_delimiter,
-                        dataField: "repeat_delimiter",
+                        dataField: 'repeat_delimiter',
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${
-                          repeat_delimiter === true ? "Yes" : "No"
+                          repeat_delimiter === true ? 'Yes' : 'No'
                         }`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -702,32 +721,38 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "mandatory",
-            text: "MANDATORY",
-             headerClasses: "textHeader3",
+            dataField: 'mandatory',
+            text: 'MANDATORY',
+            headerClasses: 'textHeader3',
             editable: false,
             csvFormatter: (cell, row, rowIndex) =>
               `${
-                row.mandatory !== undefined ? (row.mandatory ? "Yes" : "No") : "No"
+                row.mandatory !== undefined
+                  ? row.mandatory
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
               }`,
             formatter: (cellContent, row) => (
               <>
                 <Form.Toggle
-                  id="mandatory"
+                  id='mandatory'
                   value={row.mandatory}
-                  onChange={(mandatory) => {
+                  onChange={mandatory => {
                     if (row.mandatory !== mandatory) {
                       segmentMappingStore.changeUpdateItem({
                         value: mandatory,
-                        dataField: "mandatory",
+                        dataField: 'mandatory',
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
-                        body: `New value = ${mandatory === true ? "Yes" : "No"}`,
-                      })
+                        title: 'Are you sure update recoard?',
+                        body: `New value = ${
+                          mandatory === true ? 'Yes' : 'No'
+                        }`,
+                      });
                     }
                   }}
                 />
@@ -735,42 +760,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "lims_descriptions",
-            text: "LIMS DESCRIPTIONS",
-            headerClasses: "textHeader5",
+            dataField: 'lims_descriptions',
+            text: 'LIMS DESCRIPTIONS',
+            headerClasses: 'textHeader5',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                lims_descriptions = filter
-              }
+              getFilter: filter => {
+                lims_descriptions = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.lims_descriptions  ? row.lims_descriptions : ""}`,
+              `${row.lims_descriptions ? row.lims_descriptions : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="lims_descriptions"
-                  placeholder="Lims descriptions"
-                  onBlur={(lims_descriptions) => {
+                  name='lims_descriptions'
+                  placeholder='Lims descriptions'
+                  onBlur={lims_descriptions => {
                     if (row.lims_descriptions !== lims_descriptions) {
                       segmentMappingStore.changeUpdateItem({
                         value: lims_descriptions,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${lims_descriptions}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -778,42 +803,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "lims_tables",
-            text: "LIMS TABLES",
-            headerClasses: "textHeader3",
+            dataField: 'lims_tables',
+            text: 'LIMS TABLES',
+            headerClasses: 'textHeader3',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                lims_tables = filter
-              }
+              getFilter: filter => {
+                lims_tables = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.lims_tables  ? row.lims_tables : ""}`,
+              `${row.lims_tables ? row.lims_tables : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="lims_tables"
-                  placeholder="Lims tables"
-                  onBlur={(lims_tables) => {
+                  name='lims_tables'
+                  placeholder='Lims tables'
+                  onBlur={lims_tables => {
                     if (row.lims_tables !== lims_tables) {
                       segmentMappingStore.changeUpdateItem({
                         value: lims_tables,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${lims_tables}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -822,42 +847,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           },
 
           {
-            dataField: "lims_fields",
-            text: "LIMS FIELDS",
-            headerClasses: "textHeader3",
+            dataField: 'lims_fields',
+            text: 'LIMS FIELDS',
+            headerClasses: 'textHeader3',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                lims_fields = filter
-              }
+              getFilter: filter => {
+                lims_fields = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.lims_fields  ? row.lims_fields : ""}`,
+              `${row.lims_fields ? row.lims_fields : ''}`,
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="lims_fields"
-                  placeholder="Lims fields"
-                  onBlur={(lims_fields) => {
+                  name='lims_fields'
+                  placeholder='Lims fields'
+                  onBlur={lims_fields => {
                     if (row.lims_fields !== lims_fields) {
                       segmentMappingStore.changeUpdateItem({
                         value: lims_fields,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${lims_fields}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -866,38 +891,38 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           },
 
           {
-            dataField: "required_for_lims",
-            text: "REQUIRED FOR LIMS",
-            headerClasses: "textHeader5",
+            dataField: 'required_for_lims',
+            text: 'REQUIRED FOR LIMS',
+            headerClasses: 'textHeader5',
             editable: false,
             csvFormatter: (cell, row, rowIndex) =>
               `${
-                row.required_for_lims 
+                row.required_for_lims
                   ? row.required_for_lims
-                    ? "Yes"
-                    : "No"
-                  : "No"
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
               }`,
             formatter: (cellContent, row) => (
               <>
                 <Form.Toggle
-                  id="required_for_lims"
+                  id='required_for_lims'
                   value={row.required_for_lims}
-                  onChange={(required_for_lims) => {
+                  onChange={required_for_lims => {
                     if (row.required_for_lims !== required_for_lims) {
                       segmentMappingStore.changeUpdateItem({
                         value: required_for_lims,
-                        dataField: "required_for_lims",
+                        dataField: 'required_for_lims',
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${
-                          required_for_lims === true ? "Yes" : "No"
+                          required_for_lims === true ? 'Yes' : 'No'
                         }`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -905,17 +930,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "notes",
-            text: "NOTES",
-            headerClasses: "textHeader1",
+            dataField: 'notes',
+            text: 'NOTES',
+            headerClasses: 'textHeader1',
             sort: true,
             filter: textFilter({
-              getFilter: (filter) =>{
-                notes = filter
-              }
+              getFilter: filter => {
+                notes = filter;
+              },
             }),
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.notes  ? row.notes : ""}`,
+              `${row.notes ? row.notes : ''}`,
             formatter: (cellContent, row) => (
               <>
                 {row.notes !== undefined ? (
@@ -923,7 +948,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     <label>{row.notes}</label>
                   </>
                 ) : (
-                  ""
+                  ''
                 )}
               </>
             ),
@@ -933,25 +958,25 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.Input
-                  name="notes"
-                  placeholder="Notes"
-                  onBlur={(notes) => {
+                  name='notes'
+                  placeholder='Notes'
+                  onBlur={notes => {
                     if (row.notes !== notes) {
                       segmentMappingStore.changeUpdateItem({
                         value: notes,
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
+                        title: 'Are you sure update recoard?',
                         body: `New value = ${notes}`,
-                      })
+                      });
                     }
                   }}
                 />
@@ -959,17 +984,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "attachments",
-            text: "ATTACHMENTS",
-            headerClasses: "textHeader3",
+            dataField: 'attachments',
+            text: 'ATTACHMENTS',
+            headerClasses: 'textHeader3',
             csvExport: false,
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.attachments !== undefined ? row.attachments : ""}`,
+              `${row.attachments !== undefined ? row.attachments : ''}`,
             formatter: (cellContent, row) => (
               <>
                 {row.attachments ? (
                   <>
-                    {"1 file available"}
+                    {'1 file available'}
                     {/* <ul>
                     {JSON.parse(row.attachments).map((item) => (
                       <>
@@ -981,7 +1006,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   </ul> */}
                   </>
                 ) : (
-                  ""
+                  ''
                 )}
               </>
             ),
@@ -991,17 +1016,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.InputFile
                   multiple={true}
-                  name="attachments"
-                  placeholder="ATTACHMENTS"
-                  onChange={async (e) => {
+                  name='attachments'
+                  placeholder='ATTACHMENTS'
+                  onChange={async e => {
                     if (e) {
-                      const files = e.target.files
-                      const path: string[] = []
+                      const files = e.target.files;
+                      const path: string[] = [];
                       if (files) {
                         for (let i = 0; i < files.length; i++) {
                           // TODO: pending image upload
@@ -1019,12 +1044,12 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                         value: JSON.stringify(path),
                         dataField: column.dataField,
                         id: row._id,
-                      })
+                      });
                       setModalConfirm({
-                        type: "Update",
+                        type: 'Update',
                         show: true,
-                        title: "Are you sure update recoard?",
-                      })
+                        title: 'Are you sure update recoard?',
+                      });
                     }
                   }}
                 />
@@ -1032,15 +1057,15 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "environment",
-            text: "Environment",
-            headerClasses: "textHeader3",
+            dataField: 'environment',
+            text: 'Environment',
+            headerClasses: 'textHeader3',
             sort: true,
-            csvFormatter: col => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) =>{
-                environment = filter
-              }
+              getFilter: filter => {
+                environment = filter;
+              },
             }),
             editorRenderer: (
               editorProps,
@@ -1048,7 +1073,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 {/* <Form.InputWrapper label="Environment">
@@ -1074,142 +1099,133 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: "opration",
-            text: "Action",
+            dataField: 'opration',
+            text: 'Action',
             editable: false,
             csvExport: false,
             formatter: (cellContent, row) => (
               <>
-                <div className="flex flex-row">
-                  <Tooltip
-                    tooltipText="Delete"
-                    position="top"
-                  >
+                <div className='flex flex-row'>
+                  <Tooltip tooltipText='Delete' position='top'>
                     <Icons.IconContext
-                      color="#fff"
-                      size="20"
+                      color='#fff'
+                      size='20'
                       onClick={() => {
-                        segmentMappingStore.updateSelectedItem([])
-                        segmentMappingStore.updateSelectedItem([row])
+                        segmentMappingStore.updateSelectedItem([]);
+                        segmentMappingStore.updateSelectedItem([row]);
                         if (segmentMappingStore.selectedItems) {
                           if (segmentMappingStore.selectedItems.length > 0) {
                             setModalConfirm({
-                              type: "delete",
+                              type: 'delete',
                               show: true,
-                              title: "Are you sure delete recoard? ",
+                              title: 'Are you sure delete recoard? ',
                               body: `Delete selected items!`,
-                            })
+                            });
                           }
                         } else {
-                          alert("Please select any item.")
+                          alert('Please select any item.');
                         }
                       }}
                     >
-                      {Icons.getIconTag(
-                        Icons.IconBs.BsFillTrashFill
-                      )}
+                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
 
                   <Tooltip
-                    className="ml-2"
-                    tooltipText="Duplicate"
-                    position="top"
+                    className='ml-2'
+                    tooltipText='Duplicate'
+                    position='top'
                   >
                     <Icons.IconContext
-                      color="#fff"
-                      size="20"
+                      color='#fff'
+                      size='20'
                       onClick={() => {
-                        segmentMappingStore.updateSelectedItem([])
-                        segmentMappingStore.updateSelectedItem([row])
+                        segmentMappingStore.updateSelectedItem([]);
+                        segmentMappingStore.updateSelectedItem([row]);
                         if (segmentMappingStore.selectedItems) {
                           if (segmentMappingStore.selectedItems.length > 0) {
                             setModalConfirm({
-                              type: "Duplicate",
+                              type: 'Duplicate',
                               show: true,
-                              title: "Are you sure duplicate recoard? ",
-                            })
+                              title: 'Are you sure duplicate recoard? ',
+                            });
                           }
                         } else {
-                          alert("Please select any item.")
+                          alert('Please select any item.');
                         }
                       }}
                     >
-                      {Icons.getIconTag(
-                        Icons.Iconio5.IoDuplicateOutline
-                      )}
+                      {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                     </Icons.IconContext>
                   </Tooltip>
                 </div>
               </>
             ),
-            headerClasses: "sticky right-0  bg-gray-500 text-white",
+            headerClasses: 'sticky right-0  bg-gray-500 text-white',
             classes: (cell, row, rowIndex, colIndex) => {
-              return "sticky right-0 bg-gray-500"
+              return 'sticky right-0 bg-gray-500';
             },
           },
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Data Mapping"
-        onSelectedRow={(rows) => {
+        fileName='Data Mapping'
+        onSelectedRow={rows => {
           props.onSelectedRow &&
-            props.onSelectedRow(rows.map((item: any) => item._id))
+            props.onSelectedRow(rows.map((item: any) => item._id));
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
-          props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          props.onUpdateItem && props.onUpdateItem(value, dataField, id);
         }}
         onPageSizeChange={(page, size) => {
-          props.onPageSizeChange && props.onPageSizeChange(page, size)
+          props.onPageSizeChange && props.onPageSizeChange(page, size);
         }}
         onFilter={(type, filter, page, size) => {
-          props.onFilter && props.onFilter(type, filter, page, size)
+          props.onFilter && props.onFilter(type, filter, page, size);
         }}
-        clearAllFilter={()=>{
-          equipmentType("")
-          dataFlowFrom("")
-          data_type("")
-          segments("")
-          field_no("")
-          item_no("")
-          element_name("")
-          transmitted_data("")
-          field_array("")
-          field_length("")
-          field_type("")
-          lims_descriptions("")
-          lims_tables("")
-          lims_fields("")
-          notes("")
-          environment("")
+        clearAllFilter={() => {
+          equipmentType('');
+          dataFlowFrom('');
+          data_type('');
+          segments('');
+          field_no('');
+          item_no('');
+          element_name('');
+          transmitted_data('');
+          field_array('');
+          field_length('');
+          field_type('');
+          lims_descriptions('');
+          lims_tables('');
+          lims_fields('');
+          notes('');
+          environment('');
         }}
       />
       <ModalConfirm
         {...modalConfirm}
-        click={(type) => {
-          setModalConfirm({ show: false })
+        click={type => {
+          setModalConfirm({show: false});
           if (segmentMappingStore.selectedItems) {
-            
-
-            if (type === "delete") {
+            if (type === 'delete') {
               segmentMappingStore.segmentMappingService
                 .deleteSegmentMapping({
                   input: {
                     id: segmentMappingStore.selectedItems.map(
-                      (item: any) => item._id
+                      (item: any) => item._id,
                     ),
                   },
                 })
-                .then((res) => {
+                .then(res => {
                   if (res.removeSegmentMapping.success) {
-                    segmentMappingStore.fetchListSegmentMapping()
-                    segmentMappingStore.updateSelectedItem([])
+                    segmentMappingStore.fetchListSegmentMapping();
+                    segmentMappingStore.updateSelectedItem([]);
                     Toast.success({
                       message: `😊 ${res.removeSegmentMapping.message}`,
-                    })
+                    });
                   }
-                })
-            } else if (type == "Update") {
+                });
+            } else if (type == 'Update') {
               segmentMappingStore.segmentMappingService
                 .updateSingleFiled({
                   input: {
@@ -1218,21 +1234,21 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                       segmentMappingStore.updateItem.value,
                   },
                 })
-                .then((res) => {
+                .then(res => {
                   if (res.updateSegmentMapping.success) {
-                    segmentMappingStore.fetchListSegmentMapping()
+                    segmentMappingStore.fetchListSegmentMapping();
                     Toast.success({
                       message: ` ${res.updateSegmentMapping.message}`,
-                    })
+                    });
                   }
-                })
-            } else if (type == "Duplicate") {
-              props.duplicate(segmentMappingStore.selectedItems[0])
+                });
+            } else if (type == 'Duplicate') {
+              props.duplicate(segmentMappingStore.selectedItems[0]);
             }
           }
         }}
-        onClose={() => setModalConfirm({ show: false })}
+        onClose={() => setModalConfirm({show: false})}
       />
     </>
-  )
-})
+  );
+});

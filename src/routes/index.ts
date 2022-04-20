@@ -1,3 +1,4 @@
+/* eslint-disable */
 import async from '../layouts/components/Async';
 
 // Landing

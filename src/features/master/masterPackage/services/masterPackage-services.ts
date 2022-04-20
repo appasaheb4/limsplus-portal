@@ -4,9 +4,9 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import * as Models from '../models';
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -19,27 +19,28 @@ import {
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
   UPDATE_REPO_RECORD,
-} from "./mutation"
+} from './mutation';
 
 export class MasterPackageService {
   listPackageMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
-      const lab = stores.loginStore.login && stores.loginStore.login.lab
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role, lab } },
+          variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
-          stores.masterPackageStore.updatePackageMasterList(response.data)
-          resolve(response.data)
+          stores.masterPackageStore.updatePackageMasterList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   addPackageMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -48,13 +49,15 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
+          resolve(response.data);
+          stores.masterPackageStore.updateMasterPackage(
+            new Models.MasterPackage({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   versionUpgradePackageMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -63,13 +66,15 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
+          resolve(response.data);
+          stores.masterPackageStore.updateMasterPackage(
+            new Models.MasterPackage({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   duplicatePackageMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -79,13 +84,15 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
+          resolve(response.data);
+          stores.masterPackageStore.updateMasterPackage(
+            new Models.MasterPackage({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   deletePackageMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -94,12 +101,12 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -109,13 +116,15 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
+          resolve(response.data);
+          stores.masterPackageStore.updateMasterPackage(
+            new Models.MasterPackage({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateOrderSeq = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -125,12 +134,12 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -140,16 +149,16 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -157,19 +166,19 @@ export class MasterPackageService {
         })
         .then((response: any) => {
           if (!response.data.filterPackageMaster.success)
-            return this.listPackageMaster()
-          stores.masterPackageStore.filterPackageMasterList(response.data)
-          stores.uploadLoadingFlag(false)
-          resolve(response.data)
+            return this.listPackageMaster();
+          stores.masterPackageStore.filterPackageMasterList(response.data);
+          stores.uploadLoadingFlag(false);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -177,38 +186,39 @@ export class MasterPackageService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPackageMaster.success)
-            return this.listPackageMaster()
+            return this.listPackageMaster();
           stores.masterPackageStore.filterPackageMasterList({
             filterPackageMaster: {
               data: response.data.filterByFieldsPackageMaster.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsPackageMaster.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsPackageMaster.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.findByFieldsPackageMaster.success) return []
-          stores.uploadLoadingFlag(false)
-          resolve(response.data)
+          if (!response.data.findByFieldsPackageMaster.success) return [];
+          stores.uploadLoadingFlag(false);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

@@ -1,1 +1,1 @@
-export * from "./molecules/BannerList"    
+export * from './molecules/BannerList';
