@@ -1,1 +1,1 @@
-export * from "./masterPanel-services"
+export * from './masterPanel-services';

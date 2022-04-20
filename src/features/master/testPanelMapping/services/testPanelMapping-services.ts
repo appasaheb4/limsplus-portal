@@ -4,9 +4,9 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import * as Models from '../models';
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -18,27 +18,30 @@ import {
   FILTER,
   FIND_BY_FIELDS,
   UPDATE_REPOSEQ_RECORD,
-} from "./mutation"
+} from './mutation';
 
 export class TestPanelMappingService {
   listTestPanelMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
-      const lab = stores.loginStore.login && stores.loginStore.login.lab
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role, lab } },
+          variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
-          stores.testPanelMappingStore.updateTestPanelMappingList(response.data)
-          resolve(response.data)
+          stores.testPanelMappingStore.updateTestPanelMappingList(
+            response.data,
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addTestPanelMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -48,15 +51,15 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.testPanelMappingStore.updateTestPanelMapping(
-            new Models.TestPanelMapping({})
-          )
+            new Models.TestPanelMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   versionUpgradeTestPanelMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -66,15 +69,15 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.testPanelMappingStore.updateTestPanelMapping(
-            new Models.TestPanelMapping({})
-          )
+            new Models.TestPanelMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   duplicateTestPanelMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -84,15 +87,15 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.testPanelMappingStore.updateTestPanelMapping(
-            new Models.TestPanelMapping({})
-          )
+            new Models.TestPanelMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteTestPanelMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -102,12 +105,12 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -117,15 +120,15 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
           stores.testPanelMappingStore.updateTestPanelMapping(
-            new Models.TestPanelMapping({})
-          )
+            new Models.TestPanelMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateOrderSeq = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -135,12 +138,12 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -150,16 +153,16 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -167,31 +170,33 @@ export class TestPanelMappingService {
         })
         .then((response: any) => {
           if (!response.data.filterTestPanelMappings.success)
-            return this.listTestPanelMapping()
-          stores.testPanelMappingStore.filterTestPanelMappingList(response.data)
-          stores.uploadLoadingFlag(false)
-          resolve(response.data)
+            return this.listTestPanelMapping();
+          stores.testPanelMappingStore.filterTestPanelMappingList(
+            response.data,
+          );
+          stores.uploadLoadingFlag(false);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.findByFieldsTestPanelMappings.success) return []
-          stores.uploadLoadingFlag(false)
-          resolve(response.data)
+          if (!response.data.findByFieldsTestPanelMappings.success) return [];
+          stores.uploadLoadingFlag(false);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

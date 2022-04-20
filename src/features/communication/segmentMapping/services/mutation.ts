@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
-     
+import {gql} from '@apollo/client';
+
 export const LIST = gql`
-  mutation($input: SegmentMappingInput!) {
+  mutation ($input: SegmentMappingInput!) {
     segmentMappings(input: $input) {
       paginatorInfo {
         count
@@ -37,62 +37,62 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: SegmentMappingRemoveInput!) {
+  mutation ($input: SegmentMappingRemoveInput!) {
     removeSegmentMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateSegmentMappingInput!) {
+  mutation ($input: CreateSegmentMappingInput!) {
     createSegmentMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const IMPORT_RECORDS = gql`
-  mutation($input: CreateSegmentMappingInput!) {
+  mutation ($input: CreateSegmentMappingInput!) {
     importSegmentMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateSegmentMappingInput!) {
+  mutation ($input: UpdateSegmentMappingInput!) {
     updateSegmentMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: RoleInput!) {
+  mutation ($input: RoleInput!) {
     checkRoleExistsEnvCode(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: SegmentMappingInput!) {
+  mutation ($input: SegmentMappingInput!) {
     filterSegmentMappings(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
-      data{
+      data {
         _id
         dataFlowFrom
         data_type
@@ -121,4 +121,4 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;

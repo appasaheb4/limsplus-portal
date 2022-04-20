@@ -4,36 +4,37 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import * as Models from '../models';
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   REMOVE_RECORDS,
   CREATE_RECORD,
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
-  FILTER
-} from "./mutation"
+  FILTER,
+} from './mutation';
 
 export class PossibleResultsService {
   listPossibleResults = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.possibleResultsStore.updatePossibleResultList(response.data)
-          resolve(response.data)
+          stores.possibleResultsStore.updatePossibleResultList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   addPossibleResults = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -42,13 +43,15 @@ export class PossibleResultsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.possibleResultsStore.updatePossibleResults(new Models.PossibleResults({}))
+          resolve(response.data);
+          stores.possibleResultsStore.updatePossibleResults(
+            new Models.PossibleResults({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   deletePossibleResults = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -57,12 +60,12 @@ export class PossibleResultsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -71,13 +74,15 @@ export class PossibleResultsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.possibleResultsStore.updatePossibleResults(new Models.PossibleResults({}))
+          resolve(response.data);
+          stores.possibleResultsStore.updatePossibleResults(
+            new Models.PossibleResults({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExistsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -87,29 +92,30 @@ export class PossibleResultsService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    filter = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterPossibleResult.success) return this.listPossibleResults()
-          stores.possibleResultsStore.filterPossibleResult(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          if (!response.data.filterPossibleResult.success)
+            return this.listPossibleResults();
+          stores.possibleResultsStore.filterPossibleResult(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

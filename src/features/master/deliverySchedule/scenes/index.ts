@@ -1,3 +1,3 @@
-import DeliverySchedule from "./DeliverySchedule";
+import DeliverySchedule from './DeliverySchedule';
 
-export { DeliverySchedule };
+export {DeliverySchedule};

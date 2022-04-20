@@ -1,6 +1,6 @@
-import {stores} from '@/stores'
+import {stores} from '@/stores';
 const startup = async () => {
-  stores.interfaceManagerStore.interfaceManagerService.listInterfaceManager()
-}  
+  stores.interfaceManagerStore.interfaceManagerService.listInterfaceManager();
+};
 
-export default startup
+export default startup;

@@ -59,7 +59,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
   return (
     <div style={{position: 'relative'}}>
       <TableBootstrap
-        id="_id"
+        id='_id'
         data={props.data}
         totalSize={props.totalSize}
         columns={[
@@ -416,7 +416,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
                     const status = e.target.value;
                     props.onUpdateItem &&
@@ -489,11 +489,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-                <div className="flex flex-row">
-                  <Tooltip tooltipText="Delete" position="top">
+                <div className='flex flex-row'>
+                  <Tooltip tooltipText='Delete' position='top'>
                     <Icons.IconContext
-                      color="#fff"
-                      size="20"
+                      color='#fff'
+                      size='20'
                       onClick={() =>
                         props.onDelete &&
                         props.onDelete({
@@ -510,10 +510,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                   </Tooltip>
                   {row.status !== 'I' && (
                     <>
-                      <Tooltip className="ml-2" tooltipText="Version Upgrade">
+                      <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                         <Icons.IconContext
-                          color="#fff"
-                          size="20"
+                          color='#fff'
+                          size='20'
                           onClick={() =>
                             props.onVersionUpgrade &&
                             props.onVersionUpgrade(row)
@@ -522,10 +522,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                           {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                         </Icons.IconContext>
                       </Tooltip>
-                      <Tooltip className="ml-2" tooltipText="Duplicate">
+                      <Tooltip className='ml-2' tooltipText='Duplicate'>
                         <Icons.IconContext
-                          color="#fff"
-                          size="20"
+                          color='#fff'
+                          size='20'
                           onClick={() =>
                             props.onDuplicate && props.onDuplicate(row)
                           }
@@ -546,7 +546,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="SalesTeam"
+        fileName='SalesTeam'
         onSelectedRow={rows => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id));

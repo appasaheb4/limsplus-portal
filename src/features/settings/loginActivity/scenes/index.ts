@@ -1,1 +1,1 @@
-export { default as LoginActivity } from "./LoginActivity"
+export {default as LoginActivity} from './LoginActivity';

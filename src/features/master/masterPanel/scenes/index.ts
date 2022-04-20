@@ -1,3 +1,3 @@
-import MasterPanel from "./MasterPanel";
+import MasterPanel from './MasterPanel';
 
-export { MasterPanel };
+export {MasterPanel};

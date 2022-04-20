@@ -1,15 +1,15 @@
-import Hl7 from "./Hl7"
+import Hl7 from './Hl7';
 
 export default class Decoder {
-  _message: any
-  _interfaceManager: any
-  _config: any
-  _decoder: any
+  _message: any;
+  _interfaceManager: any;
+  _config: any;
+  _decoder: any;
   constructor(message, interfaceManager, config) {
-    this._message = message
-    this._interfaceManager = interfaceManager
-    this._config = config
-    this._decoder = this._setDynamicDecoder()
+    this._message = message;
+    this._interfaceManager = interfaceManager;
+    this._config = config;
+    this._decoder = this._setDynamicDecoder();
   }
 
   /**
@@ -18,8 +18,8 @@ export default class Decoder {
    */
 
   decode() {
-    if (!this._message) return null
-    return this._decoder.process()
+    if (!this._message) return null;
+    return this._decoder.process();
   }
 
   /**
@@ -28,9 +28,9 @@ export default class Decoder {
    * @return {*}
    * @private
    */
-  
+
   _setDynamicDecoder() {
-    const obj = new Hl7(this._message, this._interfaceManager, this._config)
-    return obj
+    const obj = new Hl7(this._message, this._interfaceManager, this._config);
+    return obj;
   }
 }

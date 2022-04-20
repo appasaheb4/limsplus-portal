@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -13,26 +13,29 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
-} from "./mutation"
+} from './mutation';
 
 export class DataConversationService {
   listDataConversation = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.dataConversationStore.updateDataConversationList(response.data)
-          resolve(response.data)
+          stores.dataConversationStore.updateDataConversationList(
+            response.data,
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addDataConversation = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -42,12 +45,12 @@ export class DataConversationService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -57,12 +60,12 @@ export class DataConversationService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteDataConversation = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -72,12 +75,12 @@ export class DataConversationService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateDataConversationUpdateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -87,16 +90,16 @@ export class DataConversationService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-   
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -104,13 +107,15 @@ export class DataConversationService {
         })
         .then((response: any) => {
           if (!response.data.filterDataConversation.success)
-            return this.listDataConversation()
-          stores.dataConversationStore.filterDataConversationList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+            return this.listDataConversation();
+          stores.dataConversationStore.filterDataConversationList(
+            response.data,
+          );
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

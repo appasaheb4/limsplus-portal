@@ -81,7 +81,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
     <>
       <div style={{position: 'relative'}}>
         <TableBootstrap
-          id="_id"
+          id='_id'
           data={props.data}
           totalSize={props.totalSize}
           columns={[
@@ -324,9 +324,9 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <Form.Input
-                    name="txtPrice"
-                    placeholder="Price"
-                    type="number"
+                    name='txtPrice'
+                    placeholder='Price'
+                    type='number'
                     value={row.price}
                     onChange={price => {
                       props.onUpdateItem &&
@@ -385,7 +385,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const rangeSetOn = e.target.value;
                       props.onUpdateItem &&
@@ -529,7 +529,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const resultType = e.target.value;
                       props.onUpdateItem &&
@@ -620,7 +620,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const analyteType = e.target.value;
                       props.onUpdateItem &&
@@ -667,7 +667,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const units = e.target.value as string;
                       props.onUpdateItem &&
@@ -709,7 +709,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const usage = e.target.value as string;
                       props.onUpdateItem &&
@@ -754,7 +754,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const picture = e.target.value;
                       props.onUpdateItem &&
@@ -958,7 +958,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const status = e.target.value;
                       props.onUpdateItem &&
@@ -1174,7 +1174,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <Form.Input
-                    label="Min Reportable"
+                    label='Min Reportable'
                     placeholder={row.minReportable}
                     onBlur={minReportable => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
@@ -1222,7 +1222,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <Form.Input
-                    label="Max Reportable"
+                    label='Max Reportable'
                     placeholder={row.maxReportable}
                     onBlur={maxReportable => {
                       const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
@@ -1270,7 +1270,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <select
                     value={row.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const environment = e.target.value;
                       props.onUpdateItem &&
@@ -1303,11 +1303,11 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row gap-2">
-                    <Tooltip tooltipText="Delete" position="top">
+                  <div className='flex flex-row gap-2'>
+                    <Tooltip tooltipText='Delete' position='top'>
                       <Icons.IconContext
-                        color="#fff"
-                        size="20"
+                        color='#fff'
+                        size='20'
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
@@ -1324,10 +1324,10 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     </Tooltip>
                     {row.status !== 'I' && (
                       <>
-                        <Tooltip tooltipText="Version Upgrade">
+                        <Tooltip tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
                               props.onVersionUpgrade &&
                               props.onVersionUpgrade(row)
@@ -1336,10 +1336,10 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip tooltipText="Duplicate">
+                        <Tooltip tooltipText='Duplicate'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
@@ -1360,7 +1360,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="AnalyteMaster"
+          fileName='AnalyteMaster'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

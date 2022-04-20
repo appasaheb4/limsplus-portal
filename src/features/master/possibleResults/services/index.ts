@@ -1,2 +1,1 @@
-export * from './possibleResults-services'   
-  
+export * from './possibleResults-services';

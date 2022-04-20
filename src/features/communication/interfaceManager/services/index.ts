@@ -1,1 +1,1 @@
-export * from './interfaceManager-service'
+export * from './interfaceManager-service';

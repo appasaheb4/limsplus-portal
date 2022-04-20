@@ -1,6 +1,6 @@
-import { Stores } from "./stores"
+import {Stores} from './stores';
 const startup = async () => {
-  Stores.doctorsStore.fetchDoctors()
-}
-   
-export default startup
+  Stores.doctorsStore.fetchDoctors();
+};
+
+export default startup;

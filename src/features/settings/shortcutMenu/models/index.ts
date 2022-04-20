@@ -1,1 +1,1 @@
-export * from './ShortCutMenu'
+export * from './ShortCutMenu';

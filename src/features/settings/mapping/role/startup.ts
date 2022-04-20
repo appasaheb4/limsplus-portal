@@ -1,6 +1,6 @@
 import {stores} from '@/stores';
 const startup = async () => {
-    stores.roleMappingStore.fetchRoleMappingList();
-}   
+  stores.roleMappingStore.fetchRoleMappingList();
+};
 
-export default startup;  
+export default startup;

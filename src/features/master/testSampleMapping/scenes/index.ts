@@ -1,3 +1,3 @@
-import TestSampleMapping from "./TestSampleMapping";
-  
-export { TestSampleMapping };
+import TestSampleMapping from './TestSampleMapping';
+
+export {TestSampleMapping};

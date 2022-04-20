@@ -1,1 +1,1 @@
-export * from "./molecules/DataConversationList"
+export * from './molecules/DataConversationList';

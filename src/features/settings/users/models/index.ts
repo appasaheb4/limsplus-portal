@@ -1,2 +1,2 @@
-export * from './User'
-export * from './ChangePassword'
+export * from './User';
+export * from './ChangePassword';

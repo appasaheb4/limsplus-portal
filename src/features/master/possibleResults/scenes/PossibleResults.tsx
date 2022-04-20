@@ -155,19 +155,19 @@ export const PossibleResults = PossibleResultHoc(
             onClick={() => setHideAddLookup(!hideAddLookup)}
           />
         )}
-        <div className="mx-auto">
+        <div className='mx-auto'>
           <div
             className={
               'p-2 rounded-lg shadow-xl ' + (hideAddLookup ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Analyte Code"
+                      label='Analyte Code'
                       hasError={errors.analyteCode}
                     >
                       <AutoCompleteFilterSingleSelectAnalyteCode
@@ -206,12 +206,12 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="analyteCode"
+                  name='analyteCode'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 {possibleResultsStore.checkExistsRecords && (
-                  <span className="text-red-600 font-medium relative">
+                  <span className='text-red-600 font-medium relative'>
                     Code already exits. Please use other code.
                   </span>
                 )}
@@ -220,7 +220,7 @@ export const PossibleResults = PossibleResultHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       disabled={true}
-                      label="Analyte Name"
+                      label='Analyte Name'
                       placeholder={
                         errors.analyteName
                           ? 'Please Enter Analyte Name'
@@ -230,12 +230,12 @@ export const PossibleResults = PossibleResultHoc(
                       value={possibleResultsStore.possibleResults?.analyteName}
                     />
                   )}
-                  name="analyteName"
+                  name='analyteName'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
-                <Form.InputWrapper label="Conclusion Value">
+                <Form.InputWrapper label='Conclusion Value'>
                   <Grid cols={5}>
                     <Controller
                       control={control}
@@ -255,9 +255,9 @@ export const PossibleResults = PossibleResultHoc(
                           }}
                         />
                       )}
-                      name="result"
+                      name='result'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                     <Controller
                       control={control}
@@ -281,15 +281,15 @@ export const PossibleResults = PossibleResultHoc(
                           }}
                         />
                       )}
-                      name="possibleValue"
+                      name='possibleValue'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Toggle
-                          label="AbNormal"
+                          label='AbNormal'
                           hasError={errors.abNormal}
                           value={possibleResultsStore.possibleResults?.abNormal}
                           onChange={abNormal => {
@@ -301,16 +301,16 @@ export const PossibleResults = PossibleResultHoc(
                           }}
                         />
                       )}
-                      name="abNormal"
+                      name='abNormal'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           hasError={errors.critical}
-                          label="Critical"
+                          label='Critical'
                           value={possibleResultsStore.possibleResults?.critical}
                           onChange={critical => {
                             onChange(critical);
@@ -321,14 +321,14 @@ export const PossibleResults = PossibleResultHoc(
                           }}
                         />
                       )}
-                      name="critical"
+                      name='critical'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
-                    <div className="mt-2">
+                    <div className='mt-2'>
                       <Buttons.Button
-                        size="medium"
-                        type="solid"
+                        size='medium'
+                        type='solid'
                         onClick={() => {
                           const result =
                             possibleResultsStore.possibleResults?.result;
@@ -381,20 +381,20 @@ export const PossibleResults = PossibleResultHoc(
                           }
                         }}
                       >
-                        <Icons.EvaIcon icon="plus-circle-outline" />
+                        <Icons.EvaIcon icon='plus-circle-outline' />
                         {`Add`}
                       </Buttons.Button>
                     </div>
-                    <div className="clearfix"></div>
+                    <div className='clearfix'></div>
                   </Grid>
-                  <List space={2} direction="row" justify="center">
+                  <List space={2} direction='row' justify='center'>
                     <div>
                       {possibleResultsStore.possibleResults?.conclusionResult?.map(
                         (item, index) => (
-                          <div className="mb-2" key={index}>
+                          <div className='mb-2' key={index}>
                             <Buttons.Button
-                              size="medium"
-                              type="solid"
+                              size='medium'
+                              type='solid'
                               icon={Svg.Remove}
                               onClick={() => {
                                 const firstArr =
@@ -432,7 +432,7 @@ export const PossibleResults = PossibleResultHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       hasError={errors.defaulItem}
-                      label="Default Conclusion"
+                      label='Default Conclusion'
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -475,14 +475,14 @@ export const PossibleResults = PossibleResultHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="defaulItem"
+                  name='defaulItem'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label='Environment'>
                       <select
                         value={
                           possibleResultsStore.possibleResults?.environment
@@ -542,15 +542,15 @@ export const PossibleResults = PossibleResultHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
+                  name='environment'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Entered By"
+                      label='Entered By'
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
@@ -559,18 +559,18 @@ export const PossibleResults = PossibleResultHoc(
                       disabled={true}
                     />
                   )}
-                  name="userId"
+                  name='userId'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
 
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Creation"
+                      label='Date Creation'
                       placeholder={
                         errors.dateCreation
                           ? 'Please Enter Date Creation'
@@ -581,15 +581,15 @@ export const PossibleResults = PossibleResultHoc(
                       disabled={true}
                     />
                   )}
-                  name="dateCreation"
+                  name='dateCreation'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Active"
+                      label='Date Active'
                       placeholder={
                         errors.dateActive
                           ? 'Please Enter Date Active'
@@ -600,15 +600,15 @@ export const PossibleResults = PossibleResultHoc(
                       disabled={true}
                     />
                   )}
-                  name="dateActive"
+                  name='dateActive'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Expire"
+                      label='Date Expire'
                       placeholder={
                         errors.schedule
                           ? 'Please Enter schedule'
@@ -625,15 +625,15 @@ export const PossibleResults = PossibleResultHoc(
                       }}
                     />
                   )}
-                  name="schedule"
+                  name='schedule'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Version"
+                      label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
@@ -642,14 +642,14 @@ export const PossibleResults = PossibleResultHoc(
                       disabled={true}
                     />
                   )}
-                  name="version"
+                  name='version'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                    <Form.InputWrapper label='Status' hasError={errors.status}>
                       <select
                         value={possibleResultsStore.possibleResults?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -675,25 +675,25 @@ export const PossibleResults = PossibleResultHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="status"
+                  name='status'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitPossibleResult)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
                   //rootStore.LookupStore.clear();
@@ -704,7 +704,7 @@ export const PossibleResults = PossibleResultHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-scroll">
+          <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
             {tableView}
           </div>
           <ModalConfirm

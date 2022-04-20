@@ -5,46 +5,47 @@
  * @author limsplus
  */
 
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
-import { LIST_PATIENT_RESULT,FILTER_PATIENT_RESULT } from "./mutation-PR"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
+import {LIST_PATIENT_RESULT, FILTER_PATIENT_RESULT} from './mutation-PR';
 
 export class PatientResultService {
   listPatientResult = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST_PATIENT_RESULT,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.patientResultStore.updatePatientResultList(response.data)
-          resolve(response.data)
+          stores.patientResultStore.updatePatientResultList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    filter = (variables: any) =>
-     new Promise<any>((resolve, reject) => {
-       stores.uploadLoadingFlag(false)
-       client
-         .mutate({
-           mutation: FILTER_PATIENT_RESULT,
-           variables,   
-         })
-         .then((response: any) => {
-           if (!response.data.filterPatientResult.success)
-             return this.listPatientResult()
-          stores.patientResultStore.filterPatientResultList(response.data)
-           stores.uploadLoadingFlag(true)
-           resolve(response.data)
-         })  
-         .catch((error) =>
-           reject(new ServiceResponse<any>(0, error.message, undefined))
-         )
-     })
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_PATIENT_RESULT,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterPatientResult.success)
+            return this.listPatientResult();
+          stores.patientResultStore.filterPatientResultList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

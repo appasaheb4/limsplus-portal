@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: SectionInput!) {
+  mutation ($input: SectionInput!) {
     sections(input: $input) {
       paginatorInfo {
         count
@@ -26,50 +26,50 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: SectionRemoveInput!) {
+  mutation ($input: SectionRemoveInput!) {
     removeSection(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateSectionInput!) {
+  mutation ($input: CreateSectionInput!) {
     createSection(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateSectionInput!) {
+  mutation ($input: UpdateSectionInput!) {
     updateSection(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: SectionInput!) {
+  mutation ($input: SectionInput!) {
     checkSectionExistsRecord(input: $input) {
       success
       message
     }
-  }  
-`
-   
+  }
+`;
+
 export const FIND_SECTIONLISTBY_DEPTCODE = gql`
-  mutation($input: SectionInput!) {
+  mutation ($input: SectionInput!) {
     findSectionListByDeptCode(input: $input) {
       success
       message
-      data{
+      data {
         _id
         departmentCode
         code
@@ -87,18 +87,17 @@ export const FIND_SECTIONLISTBY_DEPTCODE = gql`
       }
     }
   }
-`
-
+`;
 
 export const FILTER = gql`
-  mutation($input: SectionInput!) {
+  mutation ($input: SectionInput!) {
     filterSections(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
-      data{
+      data {
         _id
         departmentCode
         code
@@ -116,4 +115,4 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;

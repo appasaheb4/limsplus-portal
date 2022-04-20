@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: TestSampleMappingInput!) {
+  mutation ($input: TestSampleMappingInput!) {
     testSampleMappings(input: $input) {
       paginatorInfo {
         count
@@ -43,53 +43,53 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateTestSampleMappingInput!) {
+  mutation ($input: CreateTestSampleMappingInput!) {
     createTestSampleMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const REMOVE_RECORDS = gql`
-  mutation($input: TestSampleMappingRemoveInput!) {
+  mutation ($input: TestSampleMappingRemoveInput!) {
     removeTestSampleMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateTestSampleMappingInput!) {
+  mutation ($input: UpdateTestSampleMappingInput!) {
     updateTestSampleMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: TestSampleMappingInput!) {
+  mutation ($input: TestSampleMappingInput!) {
     checkTestSampleMappingsExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: TestSampleMappingInput!) {
+  mutation ($input: TestSampleMappingInput!) {
     filterTestSampleMappings(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
-      data{
+      data {
         _id
         testCode
         testName
@@ -124,4 +124,4 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;

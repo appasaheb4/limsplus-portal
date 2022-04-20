@@ -41,7 +41,7 @@ export const Button = React.forwardRef((props: ButtonProps) => {
     <div className={`${props.className}`}>
       <button
         onClick={props.onClick}
-        type="button"
+        type='button'
         disabled={!!props.disabled}
         title={props.disabled}
         id={props.id}
@@ -92,8 +92,8 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           onClick={() => props.onClick(true)}
         >
           <Icons.EvaIcon
-            icon="plus-outline"
-            size="large"
+            icon='plus-outline'
+            size='large'
             color={Styles.COLORS.WHITE}
           />
         </Buttons.CircleButton>
@@ -114,8 +114,8 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           onClick={() => props.onClick(false)}
         >
           <Icons.EvaIcon
-            icon="minus-outline"
-            size="large"
+            icon='minus-outline'
+            size='large'
             color={Styles.COLORS.WHITE}
           />
         </Buttons.CircleButton>
@@ -144,8 +144,8 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           onClick={() => props.onClick(true)}
         >
           <Icons.EvaIcon
-            icon="plus-outline"
-            size="large"
+            icon='plus-outline'
+            size='large'
             color={Styles.COLORS.WHITE}
           />
         </Buttons.CircleButton>
@@ -166,8 +166,8 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           onClick={() => props.onClick(false)}
         >
           <Icons.EvaIcon
-            icon="minus-outline"
-            size="large"
+            icon='minus-outline'
+            size='large'
             color={Styles.COLORS.WHITE}
           />
         </Buttons.CircleButton>
@@ -187,7 +187,7 @@ export const CircleButton: React.FunctionComponent<
 > = props => (
   <div
     style={props.style}
-    className="rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center"
+    className='rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center'
     onClick={props.onClick}
   >
     {props.children}
@@ -202,7 +202,7 @@ interface ButtonIconProps {
 
 export const ButtonIcon = ({title, icon, onClick}: ButtonIconProps) => (
   <div
-    className="rounded-full  border border-gray-300 text-gray-400 flex justify-center items-center"
+    className='rounded-full  border border-gray-300 text-gray-400 flex justify-center items-center'
     onClick={() => onClick()}
   >
     {icon}

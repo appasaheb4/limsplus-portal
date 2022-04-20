@@ -1,23 +1,23 @@
 /* eslint-disable */
-import React from "react"
-import { observer } from "mobx-react"
-import { useForm } from "react-hook-form"
-import {PatientResultList} from "../../components"
-import { useStores } from "@/stores"
-import { toJS } from "mobx"
-import { RouterFlow } from "@/flows"
+import React from 'react';
+import {observer} from 'mobx-react';
+import {useForm} from 'react-hook-form';
+import {PatientResultList} from '../../components';
+import {useStores} from '@/stores';
+import {toJS} from 'mobx';
+import {RouterFlow} from '@/flows';
 
 interface PatientResultProps {
-  onModalConfirm?: (item: any) => void
+  onModalConfirm?: (item: any) => void;
 }
 export const PatientResult = observer((props: PatientResultProps) => {
-  const {patientResultStore,routerStore} = useStores()
+  const {patientResultStore, routerStore} = useStores();
 
   return (
     <>
       <div
-        className="p-2 rounded-lg shadow-xl overflow-scroll"
-        style={{ overflowX: "scroll" }}
+        className='p-2 rounded-lg shadow-xl overflow-scroll'
+        style={{overflowX: 'scroll'}}
       >
         <PatientResultList
           data={patientResultStore.patientResultList}
@@ -25,50 +25,49 @@ export const PatientResult = observer((props: PatientResultProps) => {
           extraData={{}}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Delete"
+            'Delete',
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Edit/Modify"
+            'Edit/Modify',
           )}
-          onDelete={(selectedUser) =>
+          onDelete={selectedUser =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
           }
-          onSelectedRow={(rows) => {
+          onSelectedRow={rows => {
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Delete",
+                type: 'Delete',
                 id: rows,
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 body: `Delete selected items!`,
-              })
+              });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
+                type: 'Update',
+                data: {value, dataField, id},
+                title: 'Are you sure?',
                 body: `Update recoard!`,
-              })
+              });
           }}
           onPageSizeChange={(page, limit) => {
             patientResultStore.patientResultService.listPatientResult(
               page,
-              limit
-            )
+              limit,
+            );
           }}
           onFilter={(type, filter, page, limit) => {
             patientResultStore.patientResultService.filter({
-              input: { type, filter, page, limit },
-            })
+              input: {type, filter, page, limit},
+            });
           }}
         />
       </div>
       <br />
     </>
-  )
-})
-
+  );
+});

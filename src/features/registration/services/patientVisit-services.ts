@@ -5,8 +5,8 @@
  * @author limsplus
  */
 
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST_PATIENT_VISIT,
   REMOVE_PATIENT_VISIT,
@@ -17,47 +17,45 @@ import {
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
   CHECK_EXISTS_RECORD,
-} from "./mutation-PV"
-import dayjs from "dayjs"
-import utc from "dayjs/plugin/utc"
-dayjs.extend(utc)
+} from './mutation-PV';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export class PatientVisitService {
   listPatientVisit = (filter: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST_PATIENT_VISIT,
-          variables: { input: { filter, page, limit, env, role } },
+          variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
-          
-          stores.patientVisitStore.updatePatientVisitList(response.data)
-          resolve(response.data)
+          stores.patientVisitStore.updatePatientVisitList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addPatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-     
-
       client
         .mutate({
           mutation: CREATE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deletePatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -67,32 +65,31 @@ export class PatientVisitService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-     
       client
         .mutate({
           mutation: UPDATE_PATIENT_VISIT,
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_PATIENT_VISIT,
@@ -100,25 +97,25 @@ export class PatientVisitService {
         })
         .then((response: any) => {
           if (!response.data.filterPatientVisit.success)
-            return this.listPatientVisit({ documentType: "patientVisit" })
-          stores.patientVisitStore.filterPatientVisitList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+            return this.listPatientVisit({documentType: 'patientVisit'});
+          stores.patientVisitStore.filterPatientVisitList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   sequencingVisitId = () =>
     new Promise<any>((resolve, reject) => {
       const variables = {
         input: {
           filter: {
-            id: "patientVisit_visitId",
+            id: 'patientVisit_visitId',
           },
         },
-      }
+      };
       client
         .mutate({
           mutation: COUNTER_PATIENT_VISIT_VISITID,
@@ -128,13 +125,13 @@ export class PatientVisitService {
           stores.patientVisitStore.updatePatientVisit({
             ...stores.patientVisitStore.patientVisit,
             visitId: response.data.counter.data[0]?.seq + 1 || 1,
-          })
-          resolve(response.data)
+          });
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExistsPatient = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -144,16 +141,16 @@ export class PatientVisitService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS_PATIENT_VISIT,
@@ -161,22 +158,23 @@ export class PatientVisitService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPatientVisit.success)
-            return this.listPatientVisit({ documentType: "patientVisit" })
+            return this.listPatientVisit({documentType: 'patientVisit'});
           stores.patientVisitStore.filterPatientVisitList({
             filterPatientVisit: {
               data: response.data.filterByFieldsPatientVisit.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsPatientVisit.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsPatientVisit.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExistsRecord = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -186,10 +184,10 @@ export class PatientVisitService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

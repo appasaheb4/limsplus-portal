@@ -104,14 +104,14 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
             } rounded-md`}
           >
             <input
-              placeholder="Search by analyate code"
+              placeholder='Search by analyate code'
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />
-            {loading && <Spinner animation="border" className="mr-2 h-4 w-4" />}
+            {loading && <Spinner animation='border' className='mr-2 h-4 w-4' />}
             {isListOpen ? (
               <Icons.IconFa.FaChevronUp />
             ) : (
@@ -121,13 +121,13 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
                     {options?.map((item, index) => (
                       <>
                         <li
                           key={index}
-                          className="text-gray-400 flex items-center"
+                          className='text-gray-400 flex items-center'
                           onClick={() => {
                             setValue(item.analyteCode);
                             setIsListOpen(false);
@@ -138,7 +138,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
                           }}
                         >
                           {' '}
-                          <label className="ml-2 mt-1 text-black">
+                          <label className='ml-2 mt-1 text-black'>
                             {' '}
                             {item.analyteCode} - {item.analyteName}
                           </label>

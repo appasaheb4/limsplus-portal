@@ -1,3 +1,3 @@
-import SampleType from "./SampleType";
+import SampleType from './SampleType';
 
-export { SampleType };
+export {SampleType};

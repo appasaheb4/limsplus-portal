@@ -30,7 +30,7 @@ interface ConversationMappingListProps {
 export const DataConversationList = (props: ConversationMappingListProps) => {
   return (
     <TableBootstrap
-      id="_id"
+      id='_id'
       data={props.data}
       totalSize={props.totalSize}
       columns={[
@@ -143,7 +143,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
             <>
               <select
                 value={row.environment}
-                className="leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md"
+                className='leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md'
                 onChange={e => {
                   const environment = e.target.value;
                   props.onUpdateItem &&
@@ -170,11 +170,11 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
-              <div className="flex flex-row">
-                <Tooltip tooltipText="Delete" position="top">
+              <div className='flex flex-row'>
+                <Tooltip tooltipText='Delete' position='top'>
                   <Icons.IconContext
-                    color="#fff"
-                    size="20"
+                    color='#fff'
+                    size='20'
                     onClick={() =>
                       props.onDelete &&
                       props.onDelete({
@@ -200,7 +200,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
       ]}
       isEditModify={props.isEditModify}
       isSelectRow={true}
-      fileName="Data Conversion"
+      fileName='Data Conversion'
       onSelectedRow={rows => {
         props.onSelectedRow &&
           props.onSelectedRow(rows.map((item: any) => item._id));

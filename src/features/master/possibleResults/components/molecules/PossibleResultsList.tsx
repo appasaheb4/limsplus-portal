@@ -57,7 +57,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
   return (
     <div style={{position: 'relative'}}>
       <TableBootstrap
-        id="_id"
+        id='_id'
         data={props.data}
         totalSize={props.totalSize}
         columns={[
@@ -135,12 +135,12 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             }),
             formatter: (cellContent, row) => (
               <>
-                <List space={2} direction="row" justify="center">
+                <List space={2} direction='row' justify='center'>
                   {row.conclusionResult.map(item => (
-                    <div className="mb-2">
+                    <div className='mb-2'>
                       <Buttons.Button
-                        size="medium"
-                        type="solid"
+                        size='medium'
+                        type='solid'
                         onClick={() => {}}
                       >
                         {`Result: ${item.result}
@@ -164,7 +164,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <>
                 <Grid cols={5}>
                   <Form.Input
-                    placeholder="Result"
+                    placeholder='Result'
                     value={
                       props.extraData.possibleResultsStore?.possibleResults
                         .result
@@ -179,7 +179,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     }}
                   />
                   <Form.Input
-                    placeholder="Possible Value"
+                    placeholder='Possible Value'
                     value={
                       props.extraData.possibleResultsStore?.possibleResults
                         .possibleValue
@@ -194,7 +194,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     }}
                   />
                   <Form.Toggle
-                    label="AbNormal"
+                    label='AbNormal'
                     value={
                       props.extraData.possibleResultsStore?.possibleResults
                         .abNormal
@@ -209,7 +209,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     }}
                   />
                   <Form.Toggle
-                    label="Critical"
+                    label='Critical'
                     value={
                       props.extraData.possibleResultsStore?.possibleResults
                         .critical
@@ -224,10 +224,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     }}
                   />
 
-                  <div className="mt-2">
+                  <div className='mt-2'>
                     <Buttons.Button
-                      size="medium"
-                      type="solid"
+                      size='medium'
+                      type='solid'
                       onClick={() => {
                         let result =
                           props.extraData.possibleResultsStore?.possibleResults
@@ -263,19 +263,19 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         }
                       }}
                     >
-                      <Icons.EvaIcon icon="plus-circle-outline" />
+                      <Icons.EvaIcon icon='plus-circle-outline' />
                       {`Add`}
                     </Buttons.Button>
                   </div>
-                  <div className="clearfix"></div>
+                  <div className='clearfix'></div>
                 </Grid>
-                <List space={2} direction="row" justify="center">
+                <List space={2} direction='row' justify='center'>
                   <div>
                     {row.conclusionResult?.map((item, index) => (
-                      <div className="mb-2" key={index}>
+                      <div className='mb-2' key={index}>
                         <Buttons.Button
-                          size="medium"
-                          type="solid"
+                          size='medium'
+                          type='solid'
                           icon={Svg.Remove}
                           onClick={() => {
                             const firstArr =
@@ -575,7 +575,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
                     const status = e.target.value;
                     props.onUpdateItem &&
@@ -603,11 +603,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-                <div className="flex flex-row gap-2">
-                  <Tooltip tooltipText="Delete" position="top">
+                <div className='flex flex-row gap-2'>
+                  <Tooltip tooltipText='Delete' position='top'>
                     <Icons.IconContext
-                      color="#fff"
-                      size="20"
+                      color='#fff'
+                      size='20'
                       onClick={() =>
                         props.onDelete &&
                         props.onDelete({
@@ -624,10 +624,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                   </Tooltip>
                   {row.status !== 'I' && (
                     <>
-                      <Tooltip tooltipText="Version Upgrade">
+                      <Tooltip tooltipText='Version Upgrade'>
                         <Icons.IconContext
-                          color="#fff"
-                          size="20"
+                          color='#fff'
+                          size='20'
                           onClick={() =>
                             props.onVersionUpgrade &&
                             props.onVersionUpgrade(row)
@@ -636,10 +636,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                           {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                         </Icons.IconContext>
                       </Tooltip>
-                      <Tooltip tooltipText="Duplicate">
+                      <Tooltip tooltipText='Duplicate'>
                         <Icons.IconContext
-                          color="#fff"
-                          size="20"
+                          color='#fff'
+                          size='20'
                           onClick={() =>
                             props.onDuplicate && props.onDuplicate(row)
                           }
@@ -660,7 +660,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="PossibleResult"
+        fileName='PossibleResult'
         onSelectedRow={rows => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id));

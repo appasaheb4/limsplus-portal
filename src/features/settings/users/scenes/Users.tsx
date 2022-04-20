@@ -194,24 +194,24 @@ export const Users = UsersHoc(
             onClick={status => setHideAddUser(!hideAddUser)}
           />
         )}
-        <div className=" mx-auto flex-wrap">
+        <div className=' mx-auto flex-wrap'>
           <div
             className={
               'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       hasError={errors.defaultLab}
-                      label="Default Lab"
+                      label='Default Lab'
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list: labStore.listLabs,
                           displayKey: ['code', 'name'],
@@ -267,7 +267,7 @@ export const Users = UsersHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="defaultLab"
+                  name='defaultLab'
                   rules={{required: true}}
                   defaultValue={userStore.user?.defaultLab || ''}
                 />
@@ -276,11 +276,11 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       hasError={errors.defaultDepartment}
-                      label="Default Department"
+                      label='Default Department'
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list: departmentStore.listDepartment.filter(
                             item => item.lab === userStore.user?.defaultLab,
@@ -325,7 +325,7 @@ export const Users = UsersHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="defaultDepartment"
+                  name='defaultDepartment'
                   rules={{required: true}}
                   defaultValue={userStore.user?.defaultDepartment || ''}
                 />
@@ -334,7 +334,7 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="User Group"
+                      label='User Group'
                       hasError={errors.userGroup}
                     >
                       <select
@@ -364,16 +364,16 @@ export const Users = UsersHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="userGroup"
+                  name='userGroup'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="User Id"
+                      label='User Id'
                       placeholder={
                         errors.userId ? 'Please enter userId' : 'UserId'
                       }
@@ -399,12 +399,12 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="userId"
+                  name='userId'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 {userStore && userStore.checkExitsUserId && (
-                  <span className="text-red-600 font-medium relative">
+                  <span className='text-red-600 font-medium relative'>
                     UserId already exits. Please use other userid.
                   </span>
                 )}
@@ -412,7 +412,7 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Full Name"
+                      label='Full Name'
                       placeholder={
                         errors.fullName ? 'Please enter full name' : 'Full Name'
                       }
@@ -427,15 +427,15 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="fullName"
+                  name='fullName'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Emp Code"
+                      label='Emp Code'
                       placeholder={
                         errors.empCode ? 'Please enter emp code' : 'Emp Code'
                       }
@@ -463,12 +463,12 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="empCode"
+                  name='empCode'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 {userStore && userStore.checkExistsEmpCode && (
-                  <span className="text-red-600 font-medium relative">
+                  <span className='text-red-600 font-medium relative'>
                     Emp code already exits. Please use other emp code.
                   </span>
                 )}
@@ -478,11 +478,11 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       hasError={errors.reportingTo}
-                      label="Reporting To"
+                      label='Reporting To'
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by emp code or full name"
+                        placeholder='Search by emp code or full name'
                         data={{
                           list: userStore.userList,
                           displayKey: ['empCode', 'fullName'],
@@ -512,7 +512,7 @@ export const Users = UsersHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="reportingTo"
+                  name='reportingTo'
                   rules={{required: false}}
                   defaultValue={userStore.user?.reportingTo}
                 />
@@ -521,12 +521,12 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Designation"
+                      label='Designation'
                       hasError={errors.deginisation}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or description"
+                        placeholder='Search by code or description'
                         data={{
                           list: deginisationStore.listDeginisation,
                           displayKey: ['code', 'description'],
@@ -558,15 +558,15 @@ export const Users = UsersHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="deginisation"
+                  name='deginisation'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="User Degree"
+                      label='User Degree'
                       placeholder={
                         errors.userDegree
                           ? 'Please enter user degree'
@@ -583,18 +583,18 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="userDegree"
+                  name='userDegree'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Role" hasError={errors.role}>
+                    <Form.InputWrapper label='Role' hasError={errors.role}>
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list: roleStore.listRole,
                           selected: userStore.selectedItems?.roles,
@@ -641,16 +641,16 @@ export const Users = UsersHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="role"
+                  name='role'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Password"
-                      type="password"
+                      label='Password'
+                      type='password'
                       placeholder={
                         errors.password ? 'Please enter password' : 'Password'
                       }
@@ -665,24 +665,24 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="password"
+                  name='password'
                   rules={{
                     required: true,
                     pattern: FormHelper.patterns.password,
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Assigned Lab"
+                      label='Assigned Lab'
                       hasError={errors.labs}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list: [
                             {
@@ -768,7 +768,7 @@ export const Users = UsersHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="labs"
+                  name='labs'
                   rules={{required: true}}
                   defaultValue={userStore.selectedItems?.labs}
                 />
@@ -777,12 +777,12 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Assigned Department"
+                      label='Assigned Department'
                       hasError={errors.department}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list: [
                             {
@@ -865,22 +865,22 @@ export const Users = UsersHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="department"
+                  name='department'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Mobile No"
+                      label='Mobile No'
                       placeholder={
                         errors.mobileNo ? 'Please enter mobile no' : 'Mobile No'
                       }
                       pattern={FormHelper.patterns.mobileNo}
-                      type="number"
+                      type='number'
                       hasError={errors.mobileNo}
                       value={userStore && userStore.user.mobileNo}
                       onChange={mobileNo => {
@@ -892,19 +892,19 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="mobileNo"
+                  name='mobileNo'
                   rules={{
                     required: true,
                     pattern: FormHelper.patterns.mobileNo,
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Contact No"
-                      type="number"
+                      label='Contact No'
+                      type='number'
                       placeholder={
                         errors.contactNo
                           ? 'Please enter contact no'
@@ -922,19 +922,19 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="contactNo"
+                  name='contactNo'
                   rules={{
                     required: false,
                     pattern: FormHelper.patterns.mobileNo,
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      type="mail"
-                      label="Email"
+                      type='mail'
+                      label='Email'
                       placeholder={
                         errors.email ? 'Please enter email' : 'Email'
                       }
@@ -949,16 +949,16 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="email"
+                  name='email'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputFile
-                      label="Signature"
-                      placeholder="File"
+                      label='Signature'
+                      placeholder='File'
                       onChange={e => {
                         const signature = e.target.files[0];
                         onChange(signature);
@@ -969,16 +969,16 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="signature"
+                  name='signature'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputFile
-                      label="Picture"
-                      placeholder="File"
+                      label='Picture'
+                      placeholder='File'
                       onChange={e => {
                         const picture = e.target.files[0];
                         onChange(picture);
@@ -989,16 +989,16 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="picture"
+                  name='picture'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Validation Level"
+                      label='Validation Level'
                       hasError={errors.validationLevel}
                     >
                       <select
@@ -1026,15 +1026,15 @@ export const Users = UsersHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="validationLevel"
+                  name='validationLevel'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Birth date"
+                      label='Birth date'
                       hasError={errors.dateOfBirth}
                       value={userStore && userStore.user.dateOfBirth}
                       onChange={dateOfBirth => {
@@ -1046,7 +1046,7 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="dateOfBirth"
+                  name='dateOfBirth'
                   rules={{required: true}}
                   defaultValue={userStore && userStore.user.dateOfBirth}
                 />
@@ -1054,7 +1054,7 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Marriage Anniversary"
+                      label='Marriage Anniversary'
                       hasError={errors.marriageAnniversary}
                       value={userStore && userStore.user.marriageAnniversary}
                       onChange={marriageAnniversary => {
@@ -1066,7 +1066,7 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="marriageAnniversary"
+                  name='marriageAnniversary'
                   rules={{required: true}}
                   defaultValue={dayjs(
                     userStore && userStore.user.marriageAnniversary,
@@ -1077,7 +1077,7 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Exipre Date"
+                      label='Exipre Date'
                       hasError={errors.exipreDate}
                       value={userStore && userStore.user.exipreDate}
                       onChange={exipreDate => {
@@ -1089,19 +1089,19 @@ export const Users = UsersHoc(
                       }}
                     />
                   )}
-                  name="exipreDate"
+                  name='exipreDate'
                   rules={{required: true}}
                   defaultValue={dayjs(
                     userStore && userStore.user.exipreDate,
                   ).format('YYYY-MM-DD')}
                 />
-                <List space={4} direction="row">
+                <List space={4} direction='row'>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        type="number"
-                        label="Exipre Days"
+                        type='number'
+                        label='Exipre Days'
                         placeholder={
                           errors.expireDays
                             ? 'Please enter exipre days'
@@ -1118,14 +1118,14 @@ export const Users = UsersHoc(
                         }}
                       />
                     )}
-                    name="expireDays"
+                    name='expireDays'
                     rules={{required: false}}
                     defaultValue={userStore && userStore.user.expireDays}
                   />
-                  <div className="mt-3">
+                  <div className='mt-3'>
                     <Buttons.Button
-                      size="medium"
-                      type="solid"
+                      size='medium'
+                      type='solid'
                       onClick={() => {
                         const date = new Date(
                           dayjs(userStore && userStore.user.exipreDate)
@@ -1142,12 +1142,12 @@ export const Users = UsersHoc(
                     </Buttons.Button>
                   </div>
                 </List>
-                <div className="flex flex-row gap-4">
+                <div className='flex flex-row gap-4'>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Confidential"
+                        label='Confidential'
                         value={userStore && userStore.user?.confidential}
                         onChange={confidential => {
                           onChange(confidential);
@@ -1158,15 +1158,15 @@ export const Users = UsersHoc(
                         }}
                       />
                     )}
-                    name="confidential"
+                    name='confidential'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Confirguration"
+                        label='Confirguration'
                         value={userStore && userStore.user?.confirguration}
                         onChange={confirguration => {
                           onChange(confirguration);
@@ -1177,22 +1177,22 @@ export const Users = UsersHoc(
                         }}
                       />
                     )}
-                    name="confirguration"
+                    name='confirguration'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </div>
                 <Form.InputWrapper
-                  label="Access Permission"
+                  label='Access Permission'
                   hasError={errors.environment}
                   style={{fontWeight: 'bold'}}
                 >
-                  <div className="flex flex-row gap-4">
+                  <div className='flex flex-row gap-4'>
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Toggle
-                          label="Mobile"
+                          label='Mobile'
                           value={
                             userStore &&
                             userStore.user?.systemInfo?.accessInfo?.mobile
@@ -1212,15 +1212,15 @@ export const Users = UsersHoc(
                           }}
                         />
                       )}
-                      name="confirguration"
+                      name='confirguration'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Toggle
-                          label="Desktop"
+                          label='Desktop'
                           value={
                             userStore &&
                             userStore.user?.systemInfo?.accessInfo?.desktop
@@ -1240,45 +1240,45 @@ export const Users = UsersHoc(
                           }}
                         />
                       )}
-                      name="confirguration"
+                      name='confirguration'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </div>
                 </Form.InputWrapper>
               </List>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Creation"
+                      label='Date Creation'
                       disabled={true}
                       value={userStore.user?.dateCreation}
                     />
                   )}
-                  name="dateCreation"
+                  name='dateCreation'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Active"
+                      label='Date Active'
                       disabled={true}
                       value={userStore.user?.dateActive}
                     />
                   )}
-                  name="dateActive"
+                  name='dateActive'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Created By"
+                      label='Created By'
                       disabled={true}
                       placeholder={
                         errors.createdBy
@@ -1291,15 +1291,15 @@ export const Users = UsersHoc(
                       }
                     />
                   )}
-                  name="createdBy"
+                  name='createdBy'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                    <Form.InputWrapper label='Status' hasError={errors.status}>
                       <select
                         value={userStore && userStore.user?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1325,15 +1325,15 @@ export const Users = UsersHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="status"
+                  name='status'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Version"
+                      label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
@@ -1342,15 +1342,15 @@ export const Users = UsersHoc(
                       disabled={true}
                     />
                   )}
-                  name="version"
+                  name='version'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Environment"
+                      label='Environment'
                       hasError={errors.environment}
                     >
                       <select
@@ -1393,26 +1393,26 @@ export const Users = UsersHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
+                  name='environment'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
 
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitUser)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload();
@@ -1422,7 +1422,7 @@ export const Users = UsersHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-scroll">
+          <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
             {tableView}
           </div>
           <ModalConfirm

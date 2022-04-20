@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
-  
+import {gql} from '@apollo/client';
+
 export const LIST = gql`
-  mutation($input: ReferenceRangeInput!) {
+  mutation ($input: ReferenceRangeInput!) {
     referenceRanges(input: $input) {
       paginatorInfo {
         count
@@ -46,48 +46,46 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: ReferenceRangeRemoveInput!) {
+  mutation ($input: ReferenceRangeRemoveInput!) {
     removeReferenceRange(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: ReferenceRangeInput!) {
+  mutation ($input: ReferenceRangeInput!) {
     createReferenceRange(input: $input) {
       success
       message
     }
   }
-`
-
-
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateReferenceRangeInput!) {
+  mutation ($input: UpdateReferenceRangeInput!) {
     updateReferenceRange(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: ReferenceRangeInput!) {
+  mutation ($input: ReferenceRangeInput!) {
     checkReferenceRangeExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: ReferenceRangeInput!) {
+  mutation ($input: ReferenceRangeInput!) {
     filterReferenceRange(input: $input) {
       paginatorInfo {
         count
@@ -132,10 +130,10 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
-  mutation($input: ReferenceRangeInput!) {
+  mutation ($input: ReferenceRangeInput!) {
     filterByFieldsReferenceRanges(input: $input) {
       paginatorInfo {
         count
@@ -180,4 +178,4 @@ export const FILTER_BY_FIELDS = gql`
       }
     }
   }
-`
+`;

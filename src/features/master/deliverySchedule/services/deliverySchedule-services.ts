@@ -6,8 +6,8 @@
  */
 
 //import * as Models from "../models"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -15,26 +15,29 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
-} from "./mutation"
+} from './mutation';
 
 export class DeliveryScheduleService {
   listDeliverySchdule = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.deliveryScheduleStore.updateDeliveryScheduleList(response.data)
-          resolve(response.data)
+          stores.deliveryScheduleStore.updateDeliveryScheduleList(
+            response.data,
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addDeliverySchdule = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -44,12 +47,12 @@ export class DeliveryScheduleService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteDeliverySchdule = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -59,12 +62,12 @@ export class DeliveryScheduleService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -73,12 +76,12 @@ export class DeliveryScheduleService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   checkExistsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -87,15 +90,15 @@ export class DeliveryScheduleService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -103,15 +106,15 @@ export class DeliveryScheduleService {
         })
         .then((response: any) => {
           if (!response.data.filterDeliverySchdule.success)
-            return this.listDeliverySchdule()
-          stores.deliveryScheduleStore.filterDeliveryScheduleList(response.data)
-          stores.uploadLoadingFlag(true)  
-          resolve(response.data)
+            return this.listDeliverySchdule();
+          stores.deliveryScheduleStore.filterDeliveryScheduleList(
+            response.data,
+          );
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
-
-

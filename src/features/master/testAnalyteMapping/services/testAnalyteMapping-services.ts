@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   REMOVE_RECORD,
@@ -16,29 +16,32 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FIND_BY_FILEDS,
-  UPDATE_ORDER_SEQ_RECORD
-} from "./mutation"
-import * as Model from '../models'
+  UPDATE_ORDER_SEQ_RECORD,
+} from './mutation';
+import * as Model from '../models';
 
 export class TestAnalyteMappingService {
   listTestAnalyteMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
-      const lab = stores.loginStore.login && stores.loginStore.login.lab
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role, lab } },
+          variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
-          stores.testAnalyteMappingStore.updateTestAnalyteMappingList(response.data)
-          resolve(response.data)
+          stores.testAnalyteMappingStore.updateTestAnalyteMappingList(
+            response.data,
+          );
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   addTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -47,13 +50,15 @@ export class TestAnalyteMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
+          resolve(response.data);
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(
+            new Model.TestAnalyteMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   versionUpgradeTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -62,13 +67,15 @@ export class TestAnalyteMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
+          resolve(response.data);
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(
+            new Model.TestAnalyteMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   duplicateTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -77,13 +84,15 @@ export class TestAnalyteMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
+          resolve(response.data);
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(
+            new Model.TestAnalyteMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -93,12 +102,12 @@ export class TestAnalyteMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -108,15 +117,17 @@ export class TestAnalyteMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
+          resolve(response.data);
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(
+            new Model.TestAnalyteMapping({}),
+          );
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    updateOrderSeq = (variables: any) =>
+  updateOrderSeq = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -124,12 +135,12 @@ export class TestAnalyteMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -137,18 +148,18 @@ export class TestAnalyteMappingService {
         .mutate({
           mutation: CHECK_EXISTS_RECORD,
           variables,
-        })  
-        .then((response: any) => {
-          resolve(response.data)
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    filter = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
@@ -156,33 +167,33 @@ export class TestAnalyteMappingService {
         })
         .then((response: any) => {
           if (!response.data.filterTestAnalyteMappings.success)
-            return this.listTestAnalyteMapping()
-          stores.testAnalyteMappingStore.filterTestAnalyteMappingList(response.data)
-          stores.uploadLoadingFlag(false)
-          resolve(response.data)
-        })  
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+            return this.listTestAnalyteMapping();
+          stores.testAnalyteMappingStore.filterTestAnalyteMappingList(
+            response.data,
+          );
+          stores.uploadLoadingFlag(false);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    findByFileds = (variables: any) =>
+  findByFileds = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FIND_BY_FILEDS,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.findByFiledsTestAnalyteMappings.success)
-            return []
-          stores.uploadLoadingFlag(false)
-          resolve(response.data)
-        })  
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+          if (!response.data.findByFiledsTestAnalyteMappings.success) return [];
+          stores.uploadLoadingFlag(false);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
-

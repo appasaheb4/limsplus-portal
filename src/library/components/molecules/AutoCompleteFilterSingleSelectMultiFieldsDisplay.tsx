@@ -72,7 +72,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
 
   return (
     <>
-      <div ref={wrapperRef} className="w-full relative">
+      <div ref={wrapperRef} className='w-full relative'>
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
             hasError ? 'border-red-500' : 'border-gray-300'
@@ -88,7 +88,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
             disabled={disable}
             onMouseDown={() => setValue('')}
           />
-          {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
+          {loader && <Spinner animation='border' className='mr-2 h-4 w-4' />}
           {isListOpen ? (
             <Icons.IconFa.FaChevronUp />
           ) : (
@@ -106,7 +106,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                     <>
                       <li
                         key={index}
-                        className="text-gray-400 flex items-center"
+                        className='text-gray-400 flex items-center'
                         onClick={() => {
                           setValue(
                             data.displayKey
@@ -118,7 +118,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                         }}
                       >
                         {' '}
-                        <label className="ml-2 mt-1 text-black">
+                        <label className='ml-2 mt-1 text-black'>
                           {data.displayKey
                             .map(
                               key =>

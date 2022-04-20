@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: TestAnalyteMappingInput!) {
+  mutation ($input: TestAnalyteMappingInput!) {
     testAnalyteMappings(input: $input) {
       paginatorInfo {
         count
@@ -34,74 +34,73 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: TestAnalyteMappingRemoveInput!) {
+  mutation ($input: TestAnalyteMappingRemoveInput!) {
     removeTestAnalyteMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateTestAnalyteMappingInput!) {
+  mutation ($input: CreateTestAnalyteMappingInput!) {
     createTestAnalyteMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
-  mutation($input: CreateTestAnalyteMappingInput!) {
+  mutation ($input: CreateTestAnalyteMappingInput!) {
     versionUpgradeTestAnalyteMappings(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
-  mutation($input: CreateTestAnalyteMappingInput!) {
+  mutation ($input: CreateTestAnalyteMappingInput!) {
     duplicateTestAnalyteMappings(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateTestAnalyteMappingInput!) {
+  mutation ($input: UpdateTestAnalyteMappingInput!) {
     updateTestAnalyteMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_ORDER_SEQ_RECORD = gql`
-  mutation($input: UpdateTestAnalyteMappingInput!) {
+  mutation ($input: UpdateTestAnalyteMappingInput!) {
     updateRROTestAnalyteMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: TestAnalyteMappingInput!) {
+  mutation ($input: TestAnalyteMappingInput!) {
     checkTestAnalyteMappingsExistsRecord(input: $input) {
       success
       message
     }
   }
-`
-
+`;
 
 export const FILTER = gql`
-  mutation($input: TestAnalyteMappingInput!) {
+  mutation ($input: TestAnalyteMappingInput!) {
     filterTestAnalyteMappings(input: $input) {
       paginatorInfo {
         count
@@ -134,10 +133,10 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FIND_BY_FILEDS = gql`
-  mutation($input: TestAnalyteMappingInput!) {
+  mutation ($input: TestAnalyteMappingInput!) {
     findByFiledsTestAnalyteMappings(input: $input) {
       success
       message
@@ -167,4 +166,4 @@ export const FIND_BY_FILEDS = gql`
       }
     }
   }
-`
+`;
