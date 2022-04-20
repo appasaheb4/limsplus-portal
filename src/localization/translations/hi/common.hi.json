@@ -1,0 +1,17 @@
+{
+        "common": {
+                "ok": "Ok",
+                "cancel": "Cancel",
+                "yes": "Yes",
+                "no": "No"
+        },
+        "error": {
+                "genericMessage": "Error fetching {{moduleName}}",
+                "invalidOperationError": "InvalidOperation: A result cannot be successful and contain an error",
+                "invalidOperationNoError": "InvalidOperation: A failing result needs to contain an error message",
+                "valueNotFound": "Cant retrieve the value from a failed result.",
+                "timeOutMessage" : "The request has timed-out. Please refresh.",
+                "errorMessage": "Uh-oh! Something went wrong.",
+                "emptyMessage": "No data"
+        }
+}
