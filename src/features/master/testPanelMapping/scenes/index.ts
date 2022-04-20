@@ -1,3 +1,3 @@
-import TestPanelMapping from "./TestPanelMapping";
+import TestPanelMapping from './TestPanelMapping';
 
-export { TestPanelMapping };
+export {TestPanelMapping};

@@ -1,8 +1,8 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: SampleTypeInput!) {
-    sampleTypes(input: $input) {  
+  mutation ($input: SampleTypeInput!) {
+    sampleTypes(input: $input) {
       paginatorInfo {
         count
       }
@@ -20,62 +20,62 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateSampleTypeInput!) {
+  mutation ($input: CreateSampleTypeInput!) {
     createSampleType(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const REMOVE_RECORDS = gql`
-  mutation($input: SampleContainerRemoveInput!) {
+  mutation ($input: SampleContainerRemoveInput!) {
     removeSampleType(input: $input) {
       success
       message
     }
   }
-`
-  
+`;
+
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateSampleTypeInput!) {
+  mutation ($input: UpdateSampleTypeInput!) {
     updateSampleType(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_IMAGE = gql`
-  mutation($input: UpdateSampleContainerInput!) {
+  mutation ($input: UpdateSampleContainerInput!) {
     updateSampleContainersImage(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: SampleTypeInput!) {
+  mutation ($input: SampleTypeInput!) {
     checkSampleTypeExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: SampleTypeInput!) {
+  mutation ($input: SampleTypeInput!) {
     filterSampleTypes(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
-      data{
+      data {
         _id
         sampleCode
         sampleType
@@ -87,16 +87,14 @@ export const FILTER = gql`
       }
     }
   }
-`
-
-
+`;
 
 export const FILTER_BY_FIELDS = gql`
-  mutation($input: SampleTypeInput!) {
+  mutation ($input: SampleTypeInput!) {
     filterByFieldsSampleTypes(input: $input) {
       paginatorInfo {
         count
-      }  
+      }
       success
       message
       data {
@@ -108,7 +106,7 @@ export const FILTER_BY_FIELDS = gql`
         environment
         dateOfEntry
         lastUpdated
-      }   
+      }
     }
   }
-`
+`;

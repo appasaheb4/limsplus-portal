@@ -1,144 +1,156 @@
 /* eslint-disable */
-import React, { useState } from "react"
-import { observer } from "mobx-react"
+import React, {useState} from 'react';
+import {observer} from 'mobx-react';
 
-import {Toast,Header,PageHeading,PageHeadingLabDetails, Buttons, Grid, List, Form, Svg, ModalConfirm} from "@/library/components"
-import {BannerList} from "../components"
-import {lookupItems,lookupValue} from "@/library/utils"
-import { useForm, Controller } from "react-hook-form"
-import { RouterFlow } from "@/flows"
+import {
+  Toast,
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  Grid,
+  List,
+  Form,
+  Svg,
+  ModalConfirm,
+} from '@/library/components';
+import {BannerList} from '../components';
+import {lookupItems, lookupValue} from '@/library/utils';
+import {useForm, Controller} from 'react-hook-form';
+import {RouterFlow} from '@/flows';
 
-import { BannerHoc } from "../hoc"
-import { useStores } from "@/stores"
+import {BannerHoc} from '../hoc';
+import {useStores} from '@/stores';
 
 const Banner = BannerHoc(
   observer(() => {
-    const { loginStore, routerStore, bannerStore } = useStores()
+    const {loginStore, routerStore, bannerStore} = useStores();
     const {
       control,
       handleSubmit,
-      formState: { errors },
+      formState: {errors},
       setValue,
-    } = useForm()
-    setValue("environment", bannerStore.banner?.environment)
+    } = useForm();
+    setValue('environment', bannerStore.banner?.environment);
 
-    const [modalConfirm, setModalConfirm] = useState<any>()
-    const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
+    const [modalConfirm, setModalConfirm] = useState<any>();
+    const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);
 
     const onSubmitBanner = () => {
-      bannerStore.BannerService.addBanner(bannerStore.banner).then((res) => {
+      bannerStore.BannerService.addBanner(bannerStore.banner).then(res => {
         if (res.createBanner.success) {
           Toast.success({
             message: `😊 ${res.createBanner.message}`,
-          })
+          });
         }
         setTimeout(() => {
           // bannerStore.fetchListBanner()
-          window.location.reload()
-        }, 1000)
-      })
-    }
+          window.location.reload();
+        }, 1000);
+      });
+    };
 
     return (
       <>
         <Header>
-          <PageHeading
-            title={routerStore.selectedComponents?.title || ""}
-          />
+          <PageHeading title={routerStore.selectedComponents?.title || ''} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
-        {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddBanner}
             onClick={() => setHideAddBanner(!hideAddBanner)}
           />
         )}
-        <div className="mx-auto flex-wrap">
+        <div className='mx-auto flex-wrap'>
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "hidden" : "shown")
+              'p-2 rounded-lg shadow-xl ' + (hideAddBanner ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
-              <List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Title"
-                      placeholder={errors.title ? "Please Enter Title" : "Title"}
+                      label='Title'
+                      placeholder={
+                        errors.title ? 'Please Enter Title' : 'Title'
+                      }
                       hasError={errors.title}
                       value={bannerStore.banner?.title}
-                      onChange={(title) => {
-                        onChange(title)
+                      onChange={title => {
+                        onChange(title);
                         bannerStore.updateBanner({
                           ...bannerStore.banner,
                           title,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="title"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='title'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputFile
-                      label="File"
-                      placeholder={errors.image ? "Please insert image" : "File"}
+                      label='File'
+                      placeholder={
+                        errors.image ? 'Please insert image' : 'File'
+                      }
                       hasError={errors.image}
-                      onChange={(e) => {
-                        const image = e.target.files[0]
-                        onChange(image)
+                      onChange={e => {
+                        const image = e.target.files[0];
+                        onChange(image);
                         bannerStore.updateBanner({
                           ...bannerStore.banner,
                           image,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="image"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='image'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Environment">
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Environment'>
                       <select
                         value={bannerStore.banner?.environment}
                         disabled={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment ? "border-red-500  " : "border-gray-300"
+                          errors.environment
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const environment = e.target.value
-                          onChange(environment)
+                        onChange={e => {
+                          const environment = e.target.value;
+                          onChange(environment);
                           bannerStore.updateBanner({
                             ...bannerStore.banner,
                             environment,
-                          })
+                          });
                         }}
                       >
                         <option selected>
-                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          {loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? `Select`
                             : bannerStore.banner?.environment || `Select`}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          "ENVIRONMENT"
+                          'ENVIRONMENT',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -147,35 +159,35 @@ const Banner = BannerHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='environment'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitBanner)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
-                  window.location.reload()
+                  window.location.reload();
                 }}
               >
                 Clear
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-auto">
+          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             <BannerList
               data={bannerStore.listBanner || []}
               totlaSize={bannerStore.listBannerCount}
@@ -184,66 +196,66 @@ const Banner = BannerHoc(
               }}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
-                "Delete"
+                'Delete',
               )}
               isEditModify={RouterFlow.checkPermission(
                 routerStore.userPermission,
-                "Edit/Modify"
+                'Edit/Modify',
               )}
-              onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-              onSelectedRow={(rows) => {
+              onDelete={selectedItem => setModalConfirm(selectedItem)}
+              onSelectedRow={rows => {
                 setModalConfirm({
                   show: true,
-                  type: "Delete",
+                  type: 'Delete',
                   id: rows,
-                  title: "Are you sure?",
+                  title: 'Are you sure?',
                   body: `Delete selected items!`,
-                })
+                });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
                 setModalConfirm({
                   show: true,
-                  type: "Update",
-                  data: { value, dataField, id },
-                  title: "Are you sure?",
+                  type: 'Update',
+                  data: {value, dataField, id},
+                  title: 'Are you sure?',
                   body: `Update banner!`,
-                })
+                });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
                 setModalConfirm({
                   show: true,
-                  type: "UpdateImage",
-                  data: { value, dataField, id },
-                  title: "Are you sure?",
+                  type: 'UpdateImage',
+                  data: {value, dataField, id},
+                  title: 'Are you sure?',
                   body: `Update banner!`,
-                })
+                });
               }}
               onPageSizeChange={(page, limit) => {
-                bannerStore.fetchListBanner(page, limit)
+                bannerStore.fetchListBanner(page, limit);
               }}
               onFilter={(type, filter, page, limit) => {
                 bannerStore.BannerService.filter({
-                  input: { type, filter, page, limit },
-                })
+                  input: {type, filter, page, limit},
+                });
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
             click={(type: string) => {
-              if (type === "Delete") {
+              if (type === 'Delete') {
                 bannerStore.BannerService.deleteBanner({
-                  input: { id: modalConfirm.id },
+                  input: {id: modalConfirm.id},
                 }).then((res: any) => {
                   if (res.removeBanner.success) {
                     Toast.success({
                       message: `😊 ${res.removeBanner.message}`,
-                    })
-                    setModalConfirm({ show: false })
-                    bannerStore.fetchListBanner()
+                    });
+                    setModalConfirm({show: false});
+                    bannerStore.fetchListBanner();
                   }
-                })
-              } else if (type === "Update") {
+                });
+              } else if (type === 'Update') {
                 bannerStore.BannerService.updateSingleFiled({
                   input: {
                     _id: modalConfirm.data.id,
@@ -253,36 +265,36 @@ const Banner = BannerHoc(
                   if (res.updateBanner.success) {
                     Toast.success({
                       message: `😊 ${res.updateBanner.message}`,
-                    })
-                    setModalConfirm({ show: false })
-                    bannerStore.fetchListBanner()
+                    });
+                    setModalConfirm({show: false});
+                    bannerStore.fetchListBanner();
                   }
-                })
+                });
               } else {
                 bannerStore.BannerService.updateBannerImage({
                   input: {
                     _id: modalConfirm.data.id,
                     file: modalConfirm.data.value,
-                    containerName: "banner",
+                    containerName: 'banner',
                   },
                 }).then((res: any) => {
                   if (res.updateBannerImage.success) {
                     Toast.success({
                       message: `😊 ${res.updateBannerImage.message}`,
-                    })
+                    });
                     setTimeout(() => {
-                      bannerStore.fetchListBanner()
-                    }, 2000)
+                      bannerStore.fetchListBanner();
+                    }, 2000);
                   }
-                })
+                });
               }
             }}
-            onClose={() => setModalConfirm({ show: false })}
+            onClose={() => setModalConfirm({show: false})}
           />
         </div>
       </>
-    )
-  })
-)
+    );
+  }),
+);
 
-export default Banner
+export default Banner;

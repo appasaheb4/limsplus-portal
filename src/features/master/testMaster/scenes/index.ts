@@ -1,3 +1,3 @@
-import TestMater from "./TestMaster";
+import TestMater from './TestMaster';
 
-export { TestMater };
+export {TestMater};

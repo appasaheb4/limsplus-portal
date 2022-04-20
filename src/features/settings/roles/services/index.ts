@@ -1,3 +1,1 @@
-export * from "./role-services"
-
-   
+export * from './role-services';

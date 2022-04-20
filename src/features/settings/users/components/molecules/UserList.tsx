@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -18,17 +18,17 @@ import {
   customFilter,
   Buttons,
   Toast,
-} from '@/library/components';
+} from '@components';
 import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterMutiSelectRoles,
-  AutoCompleteFilterSingleSelectDefaultLabs,
   AutoCompleteFilterSingleSelectDegnisation,
   AutoCompleteFilterMutiSelectDepartment,
   AutoCompleteReportingTo,
   AutoCompleteDefaultDepartment,
-} from '../index';
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+  ModalDefaultLabDeptUpdate,
+  ModalDefaultLabDeptUpdateProps,
+} from '..';
 
 import {toJS} from 'mobx';
 
@@ -88,6 +88,10 @@ export const UserList = observer((props: UserListProps) => {
     formState: {errors},
     setValue,
   } = useForm();
+
+  const [modalDefaultLabDeptUpdate, setModalDefaultLabDeptUpdate] =
+    useState<ModalDefaultLabDeptUpdateProps>({show: false});
+
   function priceFormatter(column, colIndex, {sortElement, filterElement}) {
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -97,14 +101,16 @@ export const UserList = observer((props: UserListProps) => {
       </div>
     );
   }
+
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+
   return (
     <>
       <div style={{position: 'relative'}}>
         <TableBootstrap
-          id="_id"
+          id='_id'
           data={props.data}
           totalSize={props.totalSize}
           columns={[
@@ -118,8 +124,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: 'defaultLab',
               text: 'Default Lab',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -127,62 +132,45 @@ export const UserList = observer((props: UserListProps) => {
                 },
               }),
               headerClasses: 'textHeader3',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectDefaultLabs
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.code,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+              formatter: (cellContent, row) => (
+                <span
+                  onDoubleClick={() => {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: row._id,
+                      type: 'default',
+                    });
+                  }}
+                >
+                  {row.defaultLab}
+                </span>
               ),
             },
             {
               dataField: 'defaultDepartment',
               text: 'Default Department',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   defaultDepartment = filter;
                 },
               }),
-              headerClasses: 'textHeader6',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteDefaultDepartment
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.code,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+              formatter: (cellContent, row) => (
+                <span
+                  onDoubleClick={() => {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: row._id,
+                      type: 'default',
+                    });
+                  }}
+                >
+                  {row.defaultDepartment}
+                </span>
               ),
+              headerClasses: 'textHeader6',
             },
             {
               dataField: 'userGroup',
@@ -401,8 +389,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: 'lab',
               text: 'Assigned Lab',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.lab.map(item => item.name)}`,
               filter: textFilter({
@@ -413,35 +400,20 @@ export const UserList = observer((props: UserListProps) => {
               headerClasses: 'textHeader6',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul
+                    style={{listStyle: 'inside'}}
+                    onDoubleClick={() => {
+                      setModalDefaultLabDeptUpdate({
+                        show: true,
+                        id: row._id,
+                        type: 'assigned',
+                      });
+                    }}
+                  >
                     {row.lab.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
                   </ul>
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutocompleteCheck
-                    posstion="relative"
-                    data={{
-                      defulatValues: toJS(row.lab),
-                      list: props.extraData.listLabs,
-                      displayKey: 'name',
-                      findKey: 'code',
-                    }}
-                    onUpdate={items => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id);
-                    }}
-                  />
                 </>
               ),
             },
@@ -449,8 +421,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: 'department',
               text: 'Assigned Department',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.department.map(item => item.name)}`,
               filter: textFilter({
@@ -461,33 +432,20 @@ export const UserList = observer((props: UserListProps) => {
               headerClasses: 'textHeader6',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul
+                    style={{listStyle: 'inside'}}
+                    onDoubleClick={() => {
+                      setModalDefaultLabDeptUpdate({
+                        show: true,
+                        id: row._id,
+                        type: 'assigned',
+                      });
+                    }}
+                  >
                     {row.department.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
                   </ul>
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterMutiSelectDepartment
-                    selected={row.department}
-                    onUpdate={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.code,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
                 </>
               ),
             },
@@ -523,7 +481,7 @@ export const UserList = observer((props: UserListProps) => {
                             : 'Mobile No'
                         }
                         pattern={FormHelper.patterns.mobileNo}
-                        type="number"
+                        type='number'
                         hasError={errors.mobileNo}
                         defaultValue={row?.mobileNo}
                         onChange={mobileNo => {
@@ -535,12 +493,12 @@ export const UserList = observer((props: UserListProps) => {
                         }}
                       />
                     )}
-                    name="mobileNo"
+                    name='mobileNo'
                     rules={{
                       required: true,
                       pattern: FormHelper.patterns.mobileNo,
                     }}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </>
               ),
@@ -571,7 +529,7 @@ export const UserList = observer((props: UserListProps) => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        type="number"
+                        type='number'
                         placeholder={
                           errors.contactNo
                             ? 'Please enter contact no'
@@ -589,12 +547,12 @@ export const UserList = observer((props: UserListProps) => {
                         }}
                       />
                     )}
-                    name="contactNo"
+                    name='contactNo'
                     rules={{
                       required: false,
                       pattern: FormHelper.patterns.mobileNo,
                     }}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </>
               ),
@@ -624,8 +582,8 @@ export const UserList = observer((props: UserListProps) => {
                   <>
                     <img
                       src={row.signature}
-                      alt="signature"
-                      className="object-cover h-20 w-20 rounded-md"
+                      alt='signature'
+                      className='object-cover h-20 w-20 rounded-md'
                     />
                   </>
                 );
@@ -640,7 +598,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <Form.InputFile
-                    placeholder="File"
+                    placeholder='File'
                     onChange={e => {
                       const signature = e.target.files[0];
                       props.onUpdateImage &&
@@ -665,7 +623,7 @@ export const UserList = observer((props: UserListProps) => {
                   <>
                     <img
                       src={row.picture}
-                      className="object-cover h-20 w-20 rounded-md"
+                      className='object-cover h-20 w-20 rounded-md'
                     />
                   </>
                 );
@@ -970,13 +928,13 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <Form.InputWrapper
-                    label="Access Permission"
+                    label='Access Permission'
                     style={{fontWeight: 'bold'}}
                   >
-                    <div className="flex flex-row gap-4">
+                    <div className='flex flex-row gap-4'>
                       <Form.Toggle
                         disabled={!editorCell(row)}
-                        label="Mobile"
+                        label='Mobile'
                         value={
                           row.systemInfo &&
                           row.systemInfo.accessInfo &&
@@ -1000,7 +958,7 @@ export const UserList = observer((props: UserListProps) => {
 
                       <Form.Toggle
                         disabled={!editorCell(row)}
-                        label="Desktop"
+                        label='Desktop'
                         value={
                           row.systemInfo &&
                           row.systemInfo.accessInfo &&
@@ -1152,7 +1110,7 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <select
                     value={row.status}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const status = e.target.value;
                       props.onUpdateItem &&
@@ -1211,7 +1169,7 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <select
                     value={row.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const environment = e.target.value;
                       props.onUpdateItem &&
@@ -1244,8 +1202,8 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <Buttons.Button
-                    size="small"
-                    type="outline"
+                    size='small'
+                    type='outline'
                     icon={Svg.ReSendPassword}
                     onClick={async () => {
                       props.extraData.userStore.UsersService.reSendPassword({
@@ -1281,8 +1239,8 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <Buttons.Button
-                    size="small"
-                    type="outline"
+                    size='small'
+                    type='outline'
                     icon={Svg.ReSendPassword}
                     onClick={() => {
                       props.onChangePassword &&
@@ -1302,11 +1260,11 @@ export const UserList = observer((props: UserListProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row">
-                    <Tooltip tooltipText="Delete" position="top">
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Delete' position='top'>
                       <Icons.IconContext
-                        color="#fff"
-                        size="20"
+                        color='#fff'
+                        size='20'
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
@@ -1323,10 +1281,10 @@ export const UserList = observer((props: UserListProps) => {
                     </Tooltip>
                     {row.status !== 'I' && (
                       <>
-                        <Tooltip className="ml-2" tooltipText="Version Upgrade">
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
                               props.onVersionUpgrade &&
                               props.onVersionUpgrade(row)
@@ -1335,10 +1293,10 @@ export const UserList = observer((props: UserListProps) => {
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip className="ml-2" tooltipText="Duplicate">
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
@@ -1359,7 +1317,7 @@ export const UserList = observer((props: UserListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="User"
+          fileName='User'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
@@ -1399,6 +1357,12 @@ export const UserList = observer((props: UserListProps) => {
             createdBy('');
             status('');
             environment('');
+          }}
+        />
+        <ModalDefaultLabDeptUpdate
+          {...modalDefaultLabDeptUpdate}
+          onClose={() => {
+            setModalDefaultLabDeptUpdate({show: false});
           }}
         />
       </div>

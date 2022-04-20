@@ -1,1 +1,1 @@
-export * from './RoleMapping'
+export * from './RoleMapping';

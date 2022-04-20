@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: PanelMasterInput!) {
@@ -67,7 +67,7 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
   mutation ($input: PanelMasterRemoveInput!) {
@@ -76,7 +76,7 @@ export const REMOVE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
   mutation ($input: CreatePanelMasterInput!) {
@@ -85,7 +85,7 @@ export const CREATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
   mutation ($input: CreatePanelMasterInput!) {
@@ -94,7 +94,7 @@ export const VERSION_UPGRADE = gql`
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
   mutation ($input: CreatePanelMasterInput!) {
@@ -103,7 +103,7 @@ export const DUPLICATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
   mutation ($input: UpdatePanelMasterInput!) {
@@ -112,7 +112,7 @@ export const UPDATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
   mutation ($input: PanelMasterInput!) {
@@ -121,7 +121,7 @@ export const CHECK_EXISTS_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
   mutation ($input: PanelMasterInput!) {
@@ -190,7 +190,7 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
   mutation ($input: PanelMasterInput!) {
@@ -259,7 +259,7 @@ export const FILTER_BY_FIELDS = gql`
       }
     }
   }
-`
+`;
 
 export const FIND_BY_FIELDS = gql`
   mutation ($input: PanelMasterInput!) {
@@ -325,4 +325,4 @@ export const FIND_BY_FIELDS = gql`
       }
     }
   }
-`
+`;

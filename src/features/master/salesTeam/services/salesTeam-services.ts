@@ -17,6 +17,7 @@ import {
   FILTER,
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
+  GET_SALES_HIERARCHYLIST,
 } from './mutation';
 
 export class SalesTeamService {
@@ -151,6 +152,20 @@ export class SalesTeamService {
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+  getSalesHierarchyList = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: GET_SALES_HIERARCHYLIST,
           variables,
         })
         .then((response: any) => {

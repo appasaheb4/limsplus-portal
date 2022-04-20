@@ -1,6 +1,6 @@
 import {Stores} from './stores';
 const startup = async () => {
-    Stores.administrativeDivStore.fetchAdministrativeDiv();
-}
+  Stores.administrativeDivStore.fetchAdministrativeDiv();
+};
 
 export default startup;

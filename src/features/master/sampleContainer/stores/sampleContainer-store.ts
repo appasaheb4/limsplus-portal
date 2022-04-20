@@ -1,17 +1,17 @@
-import { makeObservable, action, observable, computed } from "mobx"
-import {SampleContainer} from "../models"
-import {SampleContainerService} from "../services"
+import {makeObservable, action, observable, computed} from 'mobx';
+import {SampleContainer} from '../models';
+import {SampleContainerService} from '../services';
 
 export class SampleContainerStore {
-  sampleContainer!: SampleContainer
-  listSampleContainer!: SampleContainer[]
-  listSampleContainerCopy!: SampleContainer[]
-  listSampleContainerCount!: number
-  checkExitsEnvCode!: boolean
+  sampleContainer!: SampleContainer;
+  listSampleContainer!: SampleContainer[];
+  listSampleContainerCopy!: SampleContainer[];
+  listSampleContainerCount!: number;
+  checkExitsEnvCode!: boolean;
 
   constructor() {
-    this.listSampleContainer = []
-    this.checkExitsEnvCode = false
+    this.listSampleContainer = [];
+    this.checkExitsEnvCode = false;
 
     makeObservable<SampleContainerStore, any>(this, {
       sampleContainer: observable,
@@ -24,38 +24,40 @@ export class SampleContainerStore {
       updateSampleContainerList: action,
       updateSampleContainer: action,
       updateExitsEnvCode: action,
-    })
+    });
   }
 
   get sampleContainerService() {
-    return new SampleContainerService()
+    return new SampleContainerService();
   }
 
   fetchListSampleContainer(page?, limit?) {
-    this.sampleContainerService.listSampleContainer(page, limit)
+    this.sampleContainerService.listSampleContainer(page, limit);
   }
 
   updateSampleContainerList(res: any) {
-    if(!Array.isArray(res)){
-      if (!res.sampleContainers.success) return alert(res.sampleContainers.message)
-      this.listSampleContainer = res.sampleContainers.data
-      this.listSampleContainerCopy = res.sampleContainers.data
-      this.listSampleContainerCount = res.sampleContainers.paginatorInfo.count
-    }else{
-      this.listSampleContainer = res
+    if (!Array.isArray(res)) {
+      if (!res.sampleContainers.success)
+        return alert(res.sampleContainers.message);
+      this.listSampleContainer = res.sampleContainers.data;
+      this.listSampleContainerCopy = res.sampleContainers.data;
+      this.listSampleContainerCount = res.sampleContainers.paginatorInfo.count;
+    } else {
+      this.listSampleContainer = res;
     }
   }
-  
+
   filterSampleContainerList(res: any) {
-    this.listSampleContainer = res.filterSampleContainers.data
-    this.listSampleContainerCount = res.filterSampleContainers.paginatorInfo.count
+    this.listSampleContainer = res.filterSampleContainers.data;
+    this.listSampleContainerCount =
+      res.filterSampleContainers.paginatorInfo.count;
   }
 
   updateSampleContainer = (sampleContainer: SampleContainer) => {
-    this.sampleContainer = sampleContainer
-  }
+    this.sampleContainer = sampleContainer;
+  };
 
   updateExitsEnvCode(status: boolean) {
-    this.checkExitsEnvCode = status
+    this.checkExitsEnvCode = status;
   }
 }

@@ -1,1 +1,1 @@
-export * from "./registrationLocations-services"
+export * from './registrationLocations-services';

@@ -1,53 +1,53 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
-import { Table } from "reactstrap"
-import {Form} from "@/library/components"
-import {getDefaultLookupItem} from "@/library/utils"
-import { observer } from "mobx-react"
-import { useStores } from "@/stores"
-import _ from "lodash"
+import React, {useEffect, useState} from 'react';
+import {Table} from 'reactstrap';
+import {Form} from '@/library/components';
+import {getDefaultLookupItem} from '@/library/utils';
+import {observer} from 'mobx-react';
+import {useStores} from '@/stores';
+import _ from 'lodash';
 
 interface TableExtraDataPackagesProps {
-  data: any
+  data: any;
 }
 
 export const TableExtraDataPackages = observer(
-  ({ data }: TableExtraDataPackagesProps) => {
-    const { patientOrderStore, routerStore } = useStores()
-    const [packages, setPackages] = useState(data)
+  ({data}: TableExtraDataPackagesProps) => {
+    const {patientOrderStore, routerStore} = useStores();
+    const [packages, setPackages] = useState(data);
 
     useEffect(() => {
       const panelStatus = getDefaultLookupItem(
         routerStore.lookupItems,
-        "PATIENT ORDER - PANEL_STATUS"
-      )
+        'PATIENT ORDER - PANEL_STATUS',
+      );
       const orderStatus = getDefaultLookupItem(
         routerStore.lookupItems,
-        "PATIENT ORDER - ORDER_STATUS"
-      )
-      let pacakgeListS = data?.pacakgeListS
+        'PATIENT ORDER - ORDER_STATUS',
+      );
+      let pacakgeListS = data?.pacakgeListS;
       if (data.pacakgeListS) {
-        pacakgeListS = _.map(data.pacakgeListS, (o) =>
-          _.extend({ panelStatus, orderStatus }, o)
-        )
+        pacakgeListS = _.map(data.pacakgeListS, o =>
+          _.extend({panelStatus, orderStatus}, o),
+        );
       }
-      let pacakgeListM = data.pacakgeListM
+      let pacakgeListM = data.pacakgeListM;
       if (data.pacakgeListM) {
-        pacakgeListM = _.map(data.pacakgeListM, (o) =>
-          _.extend({ panelStatus, orderStatus }, o)
-        )
+        pacakgeListM = _.map(data.pacakgeListM, o =>
+          _.extend({panelStatus, orderStatus}, o),
+        );
       }
-      let pacakgeListN = data.pacakgeListN
+      let pacakgeListN = data.pacakgeListN;
       if (data.pacakgeListN) {
-        pacakgeListN = _.map(data.pacakgeListN, (o) =>
-          _.extend({ panelStatus, orderStatus }, o)
-        )
+        pacakgeListN = _.map(data.pacakgeListN, o =>
+          _.extend({panelStatus, orderStatus}, o),
+        );
       }
-      let pacakgeListK = data.pacakgeListK
+      let pacakgeListK = data.pacakgeListK;
       if (data.pacakgeListK) {
-        pacakgeListK = _.map(data.pacakgeListK, (o) =>
-          _.extend({ panelStatus, orderStatus }, o)
-        )
+        pacakgeListK = _.map(data.pacakgeListK, o =>
+          _.extend({panelStatus, orderStatus}, o),
+        );
       }
       data = {
         ...data,
@@ -55,681 +55,708 @@ export const TableExtraDataPackages = observer(
         pacakgeListM,
         pacakgeListN,
         pacakgeListK,
-      }
-      setPackages(data)
-    }, [data])
+      };
+      setPackages(data);
+    }, [data]);
 
-    const onDeletePackage = (id) => {
-      let panels = patientOrderStore.selectedItems?.panels
-      panels = panels.filter((items) => {
-        return items._id !== id
-      })
+    const onDeletePackage = id => {
+      let panels = patientOrderStore.selectedItems?.panels;
+      panels = panels.filter(items => {
+        return items._id !== id;
+      });
       patientOrderStore.updateSelectedItems({
         ...patientOrderStore.selectedItems,
         panels,
-        serviceTypes: _.union(_.map(panels, "serviceType")),
-      })
+        serviceTypes: _.union(_.map(panels, 'serviceType')),
+      });
       //get packages list
       patientOrderStore.patientOrderService.getPackageList({
         input: {
           filter: {
-            panel: _.map(panels, (o) =>
-              _.pick(o, ["_id", "panelCode", "panelName", "serviceType"])
+            panel: _.map(panels, o =>
+              _.pick(o, ['_id', 'panelCode', 'panelName', 'serviceType']),
             ),
           },
         },
-      })
-    }
+      });
+    };
     const onRemoveItem = (serviceType, packageCode, index) => {
-      const packageList = patientOrderStore.packageList
-      let pacakgeListS: any[] = []
-      let pacakgeListM: any[] = []
-      if (serviceType === "M") {
-        pacakgeListM = packageList.pacakgeListM.filter((item) => {
-          if (item.packageCode !== packageCode) return item
+      const packageList = patientOrderStore.packageList;
+      let pacakgeListS: any[] = [];
+      let pacakgeListM: any[] = [];
+      if (serviceType === 'M') {
+        pacakgeListM = packageList.pacakgeListM.filter(item => {
+          if (item.packageCode !== packageCode) return item;
           else {
-            if (item.index === index && item.packageCode === packageCode) return
-            else return item
+            if (item.index === index && item.packageCode === packageCode)
+              return;
+            else return item;
           }
-        })
+        });
       } else {
         pacakgeListS = packageList.pacakgeListS.filter(
-          (item) => item.packageCode === packageCode
-        )
-        let panels = patientOrderStore.selectedItems?.panels
-        _.compact(_.map(pacakgeListS, "_id")).filter((id) => {
-          panels = panels.filter((items) => {
-            return items._id !== id
-          })
-        })
+          item => item.packageCode === packageCode,
+        );
+        let panels = patientOrderStore.selectedItems?.panels;
+        _.compact(_.map(pacakgeListS, '_id')).filter(id => {
+          panels = panels.filter(items => {
+            return items._id !== id;
+          });
+        });
         patientOrderStore.updateSelectedItems({
           ...patientOrderStore.selectedItems,
           panels,
-          serviceTypes: _.union(_.map(panels, "serviceType")),
-        })
+          serviceTypes: _.union(_.map(panels, 'serviceType')),
+        });
         //get packages list
         patientOrderStore.patientOrderService.getPackageList({
           input: {
             filter: {
-              panel: _.map(panels, (o) =>
-                _.pick(o, ["_id", "panelCode", "panelName", "serviceType"])
+              panel: _.map(panels, o =>
+                _.pick(o, ['_id', 'panelCode', 'panelName', 'serviceType']),
               ),
             },
           },
-        })
+        });
       }
       patientOrderStore.updatePackageList({
         ...patientOrderStore.packageList,
         pacakgeListM,
-      })
-    }
+      });
+    };
     return (
       <>
         <Table striped bordered>
           <thead>
-            <tr className="p-0 text-xs">
-              <th className="text-white sticky left-0 z-10">Panel Code</th>
-              <th className="text-white sticky left-16 z-10">Panel Name</th>
-              <th className="text-white">Priority</th>
-              <th className="text-white">Outsource Lab</th>
-              <th className="text-white">Force Out Source</th>
-              <th className="text-white">OS Received Date</th>
-              <th className="text-white">OS ReceivedBy</th>
-              <th className="text-white">Out source Status</th>
-              <th className="text-white">Recevied ByDept</th>
-              <th className="text-white">Analysis Done Date</th>
-              <th className="text-white">Auto Release</th>
-              <th className="text-white">ABNormal</th>
-              <th className="text-white">Critical</th>
-              <th className="text-white">Rep</th>
-              <th className="text-white">Eqid</th>
-              <th className="text-white">Eq type</th>
-              <th className="text-white">MethodOn</th>
-              <th className="text-white">Method Name</th>
-              <th className="text-white">Porder</th>
-              <th className="text-white">Confidential</th>
-              <th className="text-white">Workflow</th>
-              <th className="text-white">Login Servgrp</th>
-              <th className="text-white">Current Servgrp</th>
-              <th className="text-white">Routing Status</th>
-              <th className="text-white">Recv Time</th>
-              <th className="text-white">Out Source Ordno</th>
-              <th className="text-white">Dept Out Source</th>
-              <th className="text-white">Comment</th>
+            <tr className='p-0 text-xs'>
+              <th className='text-white sticky left-0 z-10'>Panel Code</th>
+              <th className='text-white sticky left-16 z-10'>Panel Name</th>
+              <th className='text-white'>Priority</th>
+              <th className='text-white'>Outsource Lab</th>
+              <th className='text-white'>Force Out Source</th>
+              <th className='text-white'>OS Received Date</th>
+              <th className='text-white'>OS ReceivedBy</th>
+              <th className='text-white'>Out source Status</th>
+              <th className='text-white'>Recevied ByDept</th>
+              <th className='text-white'>Analysis Done Date</th>
+              <th className='text-white'>Auto Release</th>
+              <th className='text-white'>ABNormal</th>
+              <th className='text-white'>Critical</th>
+              <th className='text-white'>Rep</th>
+              <th className='text-white'>Eqid</th>
+              <th className='text-white'>Eq type</th>
+              <th className='text-white'>MethodOn</th>
+              <th className='text-white'>Method Name</th>
+              <th className='text-white'>Porder</th>
+              <th className='text-white'>Confidential</th>
+              <th className='text-white'>Workflow</th>
+              <th className='text-white'>Login Servgrp</th>
+              <th className='text-white'>Current Servgrp</th>
+              <th className='text-white'>Routing Status</th>
+              <th className='text-white'>Recv Time</th>
+              <th className='text-white'>Out Source Ordno</th>
+              <th className='text-white'>Dept Out Source</th>
+              <th className='text-white'>Comment</th>
             </tr>
           </thead>
-          <tbody className="text-xs">
+          <tbody className='text-xs'>
             {packages?.pacakgeListS?.map((item, index) => (
               <tr key={item.panelCode}>
-                <td className="sticky left-0 bg-gray-500 text-white">
+                <td className='sticky left-0 bg-gray-500 text-white'>
                   {item?.panelCode}
                 </td>
-                <td className="sticky left-16 bg-gray-500 text-white">
+                <td className='sticky left-16 bg-gray-500 text-white'>
                   {item?.panelName}
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Priority"
+                    label=''
+                    placeholder='Priority'
                     value={item?.extraData?.priority}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(priority) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={priority => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
-                        extraData: { ...pacakgeListS[index].extraData, priority },
-                      })
+                        extraData: {...pacakgeListS[index].extraData, priority},
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Lab"
+                    label=''
+                    placeholder='Out Source Lab'
                     value={item?.extraData?.outsourceLab}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceLab) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={outsourceLab => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           outsourceLab,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Force Out Source"
+                    label=''
+                    placeholder='Force Out Source'
                     value={item?.extraData?.forceOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(forceOutSource) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={forceOutSource => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           forceOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS Received Date"
+                    label=''
+                    placeholder='OS Received Date'
                     value={item?.extraData?.osReceivedDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedDate) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={osReceivedDate => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           osReceivedDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS ReceivedBy"
+                    label=''
+                    placeholder='OS ReceivedBy'
                     value={item?.extraData?.osReceivedBy}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedBy) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={osReceivedBy => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           osReceivedBy,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Status"
+                    label=''
+                    placeholder='Out Source Status'
                     value={item?.extraData?.outsourceStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceStatus) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={outsourceStatus => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           outsourceStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recevied By Dept"
+                    label=''
+                    placeholder='Recevied By Dept'
                     value={item?.extraData?.receviedByDept}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(receviedByDept) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={receviedByDept => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           receviedByDept,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Analysis Done Date"
+                    label=''
+                    placeholder='Analysis Done Date'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={analysisDoneDate => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Auto Release"
+                    label=''
+                    placeholder='Auto Release'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={analysisDoneDate => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="ABNormal"
+                    label=''
+                    placeholder='ABNormal'
                     value={item?.extraData?.abNormal}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(abNormal) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={abNormal => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           abNormal,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Critical"
+                    label=''
+                    placeholder='Critical'
                     value={item?.extraData?.critical}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(critical) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={critical => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           critical,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rep"
+                    label=''
+                    placeholder='Rep'
                     value={item?.extraData?.rep}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(rep) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={rep => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           rep,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rqid"
+                    label=''
+                    placeholder='Rqid'
                     value={item?.extraData?.eqid}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqid) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={eqid => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           eqid,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Eqtype"
+                    label=''
+                    placeholder='Eqtype'
                     value={item?.extraData?.eqtype}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqtype) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={eqtype => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           eqtype,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method On"
+                    label=''
+                    placeholder='Method On'
                     value={item?.extraData?.methodOn}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodOn) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={methodOn => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           methodOn,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method Name"
+                    label=''
+                    placeholder='Method Name'
                     value={item?.extraData?.methodName}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodName) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={methodName => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           methodName,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Porder"
+                    label=''
+                    placeholder='Porder'
                     value={item?.extraData?.porder}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(porder) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={porder => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           porder,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Toggle
-                      value={item?.extraData?.confidential}
-                      disabled={true}
-                      onChange={(confidential) => {
-                        const pacakgeListS = patientOrderStore.packageList.pacakgeListS
-                        pacakgeListS[index] = Object.assign(item, {
-                          extraData: {
-                            ...pacakgeListS[index].extraData,
-                            confidential,
-                          },
-                        })
-                        patientOrderStore.updatePackageList({
-                          ...patientOrderStore.packageList,
-                          pacakgeListS,
-                        })
-                      }}
-                    />
+                    value={item?.extraData?.confidential}
+                    disabled={true}
+                    onChange={confidential => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
+                      pacakgeListS[index] = Object.assign(item, {
+                        extraData: {
+                          ...pacakgeListS[index].extraData,
+                          confidential,
+                        },
+                      });
+                      patientOrderStore.updatePackageList({
+                        ...patientOrderStore.packageList,
+                        pacakgeListS,
+                      });
+                    }}
+                  />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Workflow"
+                    label=''
+                    placeholder='Workflow'
                     value={item?.extraData?.workflow}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(workflow) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={workflow => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           workflow,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Login Servgrp"
+                    label=''
+                    placeholder='Login Servgrp'
                     value={item?.extraData?.loginServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(loginServgrp) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={loginServgrp => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           loginServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Current Servgrp"
+                    label=''
+                    placeholder='Current Servgrp'
                     value={item?.extraData?.currentServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(currentServgrp) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={currentServgrp => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           currentServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Routing Status"
+                    label=''
+                    placeholder='Routing Status'
                     value={item?.extraData?.routingStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(routingStatus) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={routingStatus => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           routingStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recv Time"
+                    label=''
+                    placeholder='Recv Time'
                     value={item?.extraData?.recvTime}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(recvTime) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={recvTime => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           recvTime,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Ordno"
+                    label=''
+                    placeholder='Out Source Ordno'
                     value={item?.extraData?.outSourceOrdno}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outSourceOrdno) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={outSourceOrdno => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           outSourceOrdno,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Dept Out Source"
+                    label=''
+                    placeholder='Dept Out Source'
                     value={item?.extraData?.deptOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(deptOutSource) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={deptOutSource => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           deptOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.MultilineInput
                     rows={4}
-                    label=""
-                    placeholder="Comment"
-                    style={{ width: 200 }}
+                    label=''
+                    placeholder='Comment'
+                    style={{width: 200}}
                     value={item?.extraData?.comment}
-                    onChange={(comment) => {
-                      const pacakgeListS = patientOrderStore.packageList.pacakgeListS
+                    onChange={comment => {
+                      const pacakgeListS =
+                        patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListS[index].extraData,
                           comment,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
-                      })
+                      });
                     }}
                   />
                 </td>
@@ -737,576 +764,601 @@ export const TableExtraDataPackages = observer(
             ))}
             {packages?.pacakgeListM?.map((item, index) => (
               <tr key={item.panelCode}>
-                <td className="sticky left-0 bg-gray-500 text-white">
+                <td className='sticky left-0 bg-gray-500 text-white'>
                   {item?.panelCode}
                 </td>
-                <td className="sticky left-16 bg-gray-500 text-white">
+                <td className='sticky left-16 bg-gray-500 text-white'>
                   {item?.panelName}
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Priority"
+                    label=''
+                    placeholder='Priority'
                     value={item?.extraData?.priority}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(priority) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={priority => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
-                        extraData: { ...pacakgeListM[index].extraData, priority },
-                      })
+                        extraData: {...pacakgeListM[index].extraData, priority},
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Lab"
+                    label=''
+                    placeholder='Out Source Lab'
                     value={item?.extraData?.outsourceLab}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceLab) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={outsourceLab => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           outsourceLab,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Force Out Source"
+                    label=''
+                    placeholder='Force Out Source'
                     value={item?.extraData?.forceOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(forceOutSource) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={forceOutSource => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           forceOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS Received Date"
+                    label=''
+                    placeholder='OS Received Date'
                     value={item?.extraData?.osReceivedDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedDate) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={osReceivedDate => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           osReceivedDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS ReceivedBy"
+                    label=''
+                    placeholder='OS ReceivedBy'
                     value={item?.extraData?.osReceivedBy}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedBy) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={osReceivedBy => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           osReceivedBy,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Status"
+                    label=''
+                    placeholder='Out Source Status'
                     value={item?.extraData?.outsourceStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceStatus) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={outsourceStatus => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           outsourceStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recevied By Dept"
+                    label=''
+                    placeholder='Recevied By Dept'
                     value={item?.extraData?.receviedByDept}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(receviedByDept) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={receviedByDept => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           receviedByDept,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Analysis Done Date"
+                    label=''
+                    placeholder='Analysis Done Date'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={analysisDoneDate => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Auto Release"
+                    label=''
+                    placeholder='Auto Release'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={analysisDoneDate => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="ABNormal"
+                    label=''
+                    placeholder='ABNormal'
                     value={item?.extraData?.abNormal}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(abNormal) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={abNormal => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           abNormal,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Critical"
+                    label=''
+                    placeholder='Critical'
                     value={item?.extraData?.critical}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(critical) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={critical => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           critical,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rep"
+                    label=''
+                    placeholder='Rep'
                     value={item?.extraData?.rep}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(rep) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={rep => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           rep,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rqid"
+                    label=''
+                    placeholder='Rqid'
                     value={item?.extraData?.eqid}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqid) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={eqid => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           eqid,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Eqtype"
+                    label=''
+                    placeholder='Eqtype'
                     value={item?.extraData?.eqtype}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqtype) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={eqtype => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           eqtype,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method On"
+                    label=''
+                    placeholder='Method On'
                     value={item?.extraData?.methodOn}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodOn) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={methodOn => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           methodOn,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method Name"
+                    label=''
+                    placeholder='Method Name'
                     value={item?.extraData?.methodName}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodName) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={methodName => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           methodName,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Porder"
+                    label=''
+                    placeholder='Porder'
                     value={item?.extraData?.porder}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(porder) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={porder => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           porder,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
-
-                <Form.Toggle
-                      value={item?.extraData?.confidential}
-                      disabled={true}
-                      onChange={(confidential) => {
-                        const pacakgeListM = patientOrderStore.packageList.pacakgeListM
-                        pacakgeListM[index] = Object.assign(item, {
-                          extraData: {
-                            ...pacakgeListM[index].extraData,
-                            confidential,
-                          },
-                        })
-                        patientOrderStore.updatePackageList({
-                          ...patientOrderStore.packageList,
-                          pacakgeListM,
-                        })
-                      }}
-                    />
+                  <Form.Toggle
+                    value={item?.extraData?.confidential}
+                    disabled={true}
+                    onChange={confidential => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
+                      pacakgeListM[index] = Object.assign(item, {
+                        extraData: {
+                          ...pacakgeListM[index].extraData,
+                          confidential,
+                        },
+                      });
+                      patientOrderStore.updatePackageList({
+                        ...patientOrderStore.packageList,
+                        pacakgeListM,
+                      });
+                    }}
+                  />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Workflow"
+                    label=''
+                    placeholder='Workflow'
                     value={item?.extraData?.workflow}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(workflow) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={workflow => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           workflow,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Login Servgrp"
+                    label=''
+                    placeholder='Login Servgrp'
                     value={item?.extraData?.loginServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(loginServgrp) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={loginServgrp => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           loginServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Current Servgrp"
+                    label=''
+                    placeholder='Current Servgrp'
                     value={item?.extraData?.currentServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(currentServgrp) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={currentServgrp => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           currentServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Routing Status"
+                    label=''
+                    placeholder='Routing Status'
                     value={item?.extraData?.routingStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(routingStatus) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={routingStatus => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           routingStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recv Time"
+                    label=''
+                    placeholder='Recv Time'
                     value={item?.extraData?.recvTime}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(recvTime) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={recvTime => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           recvTime,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Ordno"
+                    label=''
+                    placeholder='Out Source Ordno'
                     value={item?.extraData?.outSourceOrdno}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outSourceOrdno) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={outSourceOrdno => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           outSourceOrdno,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Dept Out Source"
+                    label=''
+                    placeholder='Dept Out Source'
                     value={item?.extraData?.deptOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(deptOutSource) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={deptOutSource => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           deptOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.MultilineInput
                     rows={4}
-                    label=""
-                    placeholder="Comment"
-                    style={{ width: 200 }}
+                    label=''
+                    placeholder='Comment'
+                    style={{width: 200}}
                     value={item?.extraData?.comment}
-                    onChange={(comment) => {
-                      const pacakgeListM = patientOrderStore.packageList.pacakgeListM
+                    onChange={comment => {
+                      const pacakgeListM =
+                        patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListM[index].extraData,
                           comment,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
-                      })
+                      });
                     }}
                   />
                 </td>
@@ -1314,575 +1366,601 @@ export const TableExtraDataPackages = observer(
             ))}
             {packages?.pacakgeListN?.map((item, index) => (
               <tr key={item.panelCode}>
-                <td className="sticky left-0 bg-gray-500 text-white">
+                <td className='sticky left-0 bg-gray-500 text-white'>
                   {item?.panelCode}
                 </td>
-                <td className="sticky left-16 bg-gray-500 text-white">
+                <td className='sticky left-16 bg-gray-500 text-white'>
                   {item?.panelName}
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Priority"
+                    label=''
+                    placeholder='Priority'
                     value={item?.extraData?.priority}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(priority) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={priority => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
-                        extraData: { ...pacakgeListN[index].extraData, priority },
-                      })
+                        extraData: {...pacakgeListN[index].extraData, priority},
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Lab"
+                    label=''
+                    placeholder='Out Source Lab'
                     value={item?.extraData?.outsourceLab}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceLab) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={outsourceLab => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           outsourceLab,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Force Out Source"
+                    label=''
+                    placeholder='Force Out Source'
                     value={item?.extraData?.forceOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(forceOutSource) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={forceOutSource => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           forceOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS Received Date"
+                    label=''
+                    placeholder='OS Received Date'
                     value={item?.extraData?.osReceivedDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedDate) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={osReceivedDate => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           osReceivedDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS ReceivedBy"
+                    label=''
+                    placeholder='OS ReceivedBy'
                     value={item?.extraData?.osReceivedBy}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedBy) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={osReceivedBy => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           osReceivedBy,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Status"
+                    label=''
+                    placeholder='Out Source Status'
                     value={item?.extraData?.outsourceStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceStatus) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={outsourceStatus => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           outsourceStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recevied By Dept"
+                    label=''
+                    placeholder='Recevied By Dept'
                     value={item?.extraData?.receviedByDept}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(receviedByDept) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={receviedByDept => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           receviedByDept,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Analysis Done Date"
+                    label=''
+                    placeholder='Analysis Done Date'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={analysisDoneDate => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Auto Release"
+                    label=''
+                    placeholder='Auto Release'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={analysisDoneDate => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="ABNormal"
+                    label=''
+                    placeholder='ABNormal'
                     value={item?.extraData?.abNormal}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(abNormal) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={abNormal => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           abNormal,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Critical"
+                    label=''
+                    placeholder='Critical'
                     value={item?.extraData?.critical}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(critical) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={critical => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           critical,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rep"
+                    label=''
+                    placeholder='Rep'
                     value={item?.extraData?.rep}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(rep) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={rep => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           rep,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rqid"
+                    label=''
+                    placeholder='Rqid'
                     value={item?.extraData?.eqid}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqid) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={eqid => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           eqid,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Eqtype"
+                    label=''
+                    placeholder='Eqtype'
                     value={item?.extraData?.eqtype}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqtype) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={eqtype => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           eqtype,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method On"
+                    label=''
+                    placeholder='Method On'
                     value={item?.extraData?.methodOn}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodOn) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={methodOn => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           methodOn,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method Name"
+                    label=''
+                    placeholder='Method Name'
                     value={item?.extraData?.methodName}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodName) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={methodName => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           methodName,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Porder"
+                    label=''
+                    placeholder='Porder'
                     value={item?.extraData?.porder}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(porder) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={porder => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           porder,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
-                <Form.Toggle
-                      value={item?.extraData?.confidential}
-                      disabled={true}
-                      onChange={(confidential) => {
-                        const pacakgeListN = patientOrderStore.packageList.pacakgeListN
-                        pacakgeListN[index] = Object.assign(item, {
-                          extraData: {
-                            ...pacakgeListN[index].extraData,
-                            confidential,
-                          },
-                        })
-                        patientOrderStore.updatePackageList({
-                          ...patientOrderStore.packageList,
-                          pacakgeListN,
-                        })
-                      }}
-                    />
+                  <Form.Toggle
+                    value={item?.extraData?.confidential}
+                    disabled={true}
+                    onChange={confidential => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
+                      pacakgeListN[index] = Object.assign(item, {
+                        extraData: {
+                          ...pacakgeListN[index].extraData,
+                          confidential,
+                        },
+                      });
+                      patientOrderStore.updatePackageList({
+                        ...patientOrderStore.packageList,
+                        pacakgeListN,
+                      });
+                    }}
+                  />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Workflow"
+                    label=''
+                    placeholder='Workflow'
                     value={item?.extraData?.workflow}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(workflow) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={workflow => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           workflow,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Login Servgrp"
+                    label=''
+                    placeholder='Login Servgrp'
                     value={item?.extraData?.loginServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(loginServgrp) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={loginServgrp => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           loginServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Current Servgrp"
+                    label=''
+                    placeholder='Current Servgrp'
                     value={item?.extraData?.currentServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(currentServgrp) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={currentServgrp => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           currentServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Routing Status"
+                    label=''
+                    placeholder='Routing Status'
                     value={item?.extraData?.routingStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(routingStatus) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={routingStatus => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           routingStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recv Time"
+                    label=''
+                    placeholder='Recv Time'
                     value={item?.extraData?.recvTime}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(recvTime) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={recvTime => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           recvTime,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Ordno"
+                    label=''
+                    placeholder='Out Source Ordno'
                     value={item?.extraData?.outSourceOrdno}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outSourceOrdno) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={outSourceOrdno => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           outSourceOrdno,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Dept Out Source"
+                    label=''
+                    placeholder='Dept Out Source'
                     value={item?.extraData?.deptOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(deptOutSource) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={deptOutSource => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           deptOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.MultilineInput
                     rows={4}
-                    label=""
-                    placeholder="Comment"
-                    style={{ width: 200 }}
+                    label=''
+                    placeholder='Comment'
+                    style={{width: 200}}
                     value={item?.extraData?.comment}
-                    onChange={(comment) => {
-                      const pacakgeListN = patientOrderStore.packageList.pacakgeListN
+                    onChange={comment => {
+                      const pacakgeListN =
+                        patientOrderStore.packageList.pacakgeListN;
                       pacakgeListN[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListN[index].extraData,
                           comment,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
-                      })
+                      });
                     }}
                   />
                 </td>
@@ -1890,577 +1968,601 @@ export const TableExtraDataPackages = observer(
             ))}
             {packages?.pacakgeListK?.map((item, index) => (
               <tr key={item.panelCode}>
-                <td className="sticky left-0 bg-gray-500 text-white">
+                <td className='sticky left-0 bg-gray-500 text-white'>
                   {item?.panelCode}
                 </td>
-                <td className="sticky left-16 bg-gray-500 text-white">
+                <td className='sticky left-16 bg-gray-500 text-white'>
                   {item?.panelName}
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Priority"
+                    label=''
+                    placeholder='Priority'
                     value={item?.extraData?.priority}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(priority) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={priority => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
-                        extraData: { ...pacakgeListK[index].extraData, priority },
-                      })
+                        extraData: {...pacakgeListK[index].extraData, priority},
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Lab"
+                    label=''
+                    placeholder='Out Source Lab'
                     value={item?.extraData?.outsourceLab}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceLab) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={outsourceLab => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           outsourceLab,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Force Out Source"
+                    label=''
+                    placeholder='Force Out Source'
                     value={item?.extraData?.forceOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(forceOutSource) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={forceOutSource => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           forceOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS Received Date"
+                    label=''
+                    placeholder='OS Received Date'
                     value={item?.extraData?.osReceivedDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedDate) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={osReceivedDate => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           osReceivedDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="OS ReceivedBy"
+                    label=''
+                    placeholder='OS ReceivedBy'
                     value={item?.extraData?.osReceivedBy}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(osReceivedBy) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={osReceivedBy => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           osReceivedBy,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Status"
+                    label=''
+                    placeholder='Out Source Status'
                     value={item?.extraData?.outsourceStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outsourceStatus) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={outsourceStatus => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           outsourceStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recevied By Dept"
+                    label=''
+                    placeholder='Recevied By Dept'
                     value={item?.extraData?.receviedByDept}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(receviedByDept) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={receviedByDept => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           receviedByDept,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Analysis Done Date"
+                    label=''
+                    placeholder='Analysis Done Date'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={analysisDoneDate => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Auto Release"
+                    label=''
+                    placeholder='Auto Release'
                     value={item?.extraData?.analysisDoneDate}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(analysisDoneDate) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={analysisDoneDate => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           analysisDoneDate,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="ABNormal"
+                    label=''
+                    placeholder='ABNormal'
                     value={item?.extraData?.abNormal}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(abNormal) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={abNormal => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           abNormal,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Critical"
+                    label=''
+                    placeholder='Critical'
                     value={item?.extraData?.critical}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(critical) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={critical => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           critical,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rep"
+                    label=''
+                    placeholder='Rep'
                     value={item?.extraData?.rep}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(rep) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={rep => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           rep,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Rqid"
+                    label=''
+                    placeholder='Rqid'
                     value={item?.extraData?.eqid}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqid) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={eqid => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           eqid,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Eqtype"
+                    label=''
+                    placeholder='Eqtype'
                     value={item?.extraData?.eqtype}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(eqtype) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={eqtype => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           eqtype,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method On"
+                    label=''
+                    placeholder='Method On'
                     value={item?.extraData?.methodOn}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodOn) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={methodOn => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           methodOn,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Method Name"
+                    label=''
+                    placeholder='Method Name'
                     value={item?.extraData?.methodName}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(methodName) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={methodName => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           methodName,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Porder"
+                    label=''
+                    placeholder='Porder'
                     value={item?.extraData?.porder}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(porder) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={porder => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           porder,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
-
-
-                <Form.Toggle
-                      value={item?.extraData?.confidential}
-                      disabled={true}
-                      onChange={(confidential) => {
-                        const pacakgeListK = patientOrderStore.packageList.pacakgeListK
-                        pacakgeListK[index] = Object.assign(item, {
-                          extraData: {
-                            ...pacakgeListK[index].extraData,
-                            confidential,
-                          },
-                        })
-                        patientOrderStore.updatePackageList({
-                          ...patientOrderStore.packageList,
-                          pacakgeListK,
-                        })
-                      }}
-                      />
+                  <Form.Toggle
+                    value={item?.extraData?.confidential}
+                    disabled={true}
+                    onChange={confidential => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
+                      pacakgeListK[index] = Object.assign(item, {
+                        extraData: {
+                          ...pacakgeListK[index].extraData,
+                          confidential,
+                        },
+                      });
+                      patientOrderStore.updatePackageList({
+                        ...patientOrderStore.packageList,
+                        pacakgeListK,
+                      });
+                    }}
+                  />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Workflow"
+                    label=''
+                    placeholder='Workflow'
                     value={item?.extraData?.workflow}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(workflow) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={workflow => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           workflow,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Login Servgrp"
+                    label=''
+                    placeholder='Login Servgrp'
                     value={item?.extraData?.loginServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(loginServgrp) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={loginServgrp => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           loginServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Current Servgrp"
+                    label=''
+                    placeholder='Current Servgrp'
                     value={item?.extraData?.currentServgrp}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(currentServgrp) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={currentServgrp => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           currentServgrp,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Routing Status"
+                    label=''
+                    placeholder='Routing Status'
                     value={item?.extraData?.routingStatus}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(routingStatus) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={routingStatus => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           routingStatus,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Recv Time"
+                    label=''
+                    placeholder='Recv Time'
                     value={item?.extraData?.recvTime}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(recvTime) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={recvTime => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           recvTime,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Out Source Ordno"
+                    label=''
+                    placeholder='Out Source Ordno'
                     value={item?.extraData?.outSourceOrdno}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(outSourceOrdno) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={outSourceOrdno => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           outSourceOrdno,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.Input
-                    label=""
-                    placeholder="Dept Out Source"
+                    label=''
+                    placeholder='Dept Out Source'
                     value={item?.extraData?.deptOutSource}
-                    style={{ width: 100 }}
+                    style={{width: 100}}
                     disabled={true}
-                    onChange={(deptOutSource) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={deptOutSource => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           deptOutSource,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
                 <td>
                   <Form.MultilineInput
                     rows={4}
-                    label=""
-                    placeholder="Comment"
-                    style={{ width: 200 }}
+                    label=''
+                    placeholder='Comment'
+                    style={{width: 200}}
                     value={item?.extraData?.comment}
-                    onChange={(comment) => {
-                      const pacakgeListK = patientOrderStore.packageList.pacakgeListK
+                    onChange={comment => {
+                      const pacakgeListK =
+                        patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
                         extraData: {
                           ...pacakgeListK[index].extraData,
                           comment,
                         },
-                      })
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
-                      })
+                      });
                     }}
                   />
                 </td>
@@ -2469,6 +2571,6 @@ export const TableExtraDataPackages = observer(
           </tbody>
         </Table>
       </>
-    )
-  }
-)
+    );
+  },
+);

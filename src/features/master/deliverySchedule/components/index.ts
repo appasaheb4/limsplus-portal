@@ -1,2 +1,2 @@
-export * from "./molecules/DeliveryScheduleList"
-export * from "./molecules/ScheduleFrequncy"
+export * from './molecules/DeliveryScheduleList';
+export * from './molecules/ScheduleFrequncy';

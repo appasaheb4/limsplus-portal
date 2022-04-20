@@ -1,3 +1,3 @@
-import SampleContainer from "./SampleContainer";
+import SampleContainer from './SampleContainer';
 
-export { SampleContainer };
+export {SampleContainer};

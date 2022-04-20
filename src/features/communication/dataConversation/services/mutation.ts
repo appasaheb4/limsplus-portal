@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: DataConversationInput!) {
+  mutation ($input: DataConversationInput!) {
     dataConversations(input: $input) {
       paginatorInfo {
         count
@@ -19,53 +19,53 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: DataConversationRemoveInput!) {
+  mutation ($input: DataConversationRemoveInput!) {
     removeDataConversation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateDataConversationInput!) {
+  mutation ($input: CreateDataConversationInput!) {
     createDataConversation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateDataConversationInput!) {
+  mutation ($input: UpdateDataConversationInput!) {
     updateDataConversation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: RoleInput!) {
+  mutation ($input: RoleInput!) {
     checkRoleExistsEnvCode(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: DataConversationInput!) {
+  mutation ($input: DataConversationInput!) {
     filterDataConversation(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
-      data{
+      data {
         _id
         hexadecimal
         binary
@@ -76,4 +76,4 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;

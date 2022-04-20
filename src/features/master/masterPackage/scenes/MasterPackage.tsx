@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React, { useState, useMemo } from "react"
-import { observer } from "mobx-react"
-import { Table } from "reactstrap"
+import React, {useState, useMemo} from 'react';
+import {observer} from 'mobx-react';
+import {Table} from 'reactstrap';
 import {
   Toast,
   Header,
@@ -15,29 +15,32 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-} from "@/library/components"
-import _ from "lodash"
-import { lookupItems, lookupValue } from "@/library/utils"
-import { PackageMasterList } from "../components"
-import { IconContext } from "react-icons"
-import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
+} from '@/library/components';
+import _ from 'lodash';
+import {lookupItems, lookupValue} from '@/library/utils';
+import {PackageMasterList} from '../components';
+import {IconContext} from 'react-icons';
+import {
+  BsFillArrowDownCircleFill,
+  BsFillArrowUpCircleFill,
+} from 'react-icons/bs';
 
-import dayjs from "dayjs"
-import { useForm, Controller } from "react-hook-form"
-import { MasterPackageHOC } from "../hoc"
-import { useStores } from "@/stores"
+import dayjs from 'dayjs';
+import {useForm, Controller} from 'react-hook-form';
+import {MasterPackageHOC} from '../hoc';
+import {useStores} from '@/stores';
 
-import { RouterFlow } from "@/flows"
-import { toJS } from "mobx"
+import {RouterFlow} from '@/flows';
+import {toJS} from 'mobx';
 
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
+const grid = 8;
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? 'lightblue' : 'none',
+  display: 'flex',
   //flexWrap:'none',
   padding: grid,
-  overflow: "auto",
-})
+  overflow: 'auto',
+});
 
 const MasterPackage = MasterPackageHOC(
   observer(() => {
@@ -48,31 +51,31 @@ const MasterPackage = MasterPackageHOC(
       masterPanelStore,
       routerStore,
       loading,
-    } = useStores()
+    } = useStores();
     const {
       control,
       handleSubmit,
-      formState: { errors },
+      formState: {errors},
       setValue,
-    } = useForm()
+    } = useForm();
 
-    setValue("lab", loginStore.login.lab)
-    setValue("status", masterPackageStore.masterPackage?.status)
-    setValue("environment", masterPackageStore.masterPackage?.environment)
+    setValue('lab', loginStore.login.lab);
+    setValue('status', masterPackageStore.masterPackage?.status);
+    setValue('environment', masterPackageStore.masterPackage?.environment);
 
-    const [modalConfirm, setModalConfirm] = useState<any>()
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-    const [txtDisable, setTxtDisable] = useState(true)
+    const [modalConfirm, setModalConfirm] = useState<any>();
+    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [txtDisable, setTxtDisable] = useState(true);
 
     const getServiceTypes = (fileds: any) => {
       if (fileds) {
-        const finalArray = fileds.arrValue.filter((fileds) => {
-          if (fileds.code === "K" || fileds.code === "M") return fileds
-        })
-        return finalArray
+        const finalArray = fileds.arrValue.filter(fileds => {
+          if (fileds.code === 'K' || fileds.code === 'M') return fileds;
+        });
+        return finalArray;
       }
-      return []
-    }
+      return [];
+    };
     const onSubmitMasterPackage = () => {
       if (!masterPackageStore.checkExitsLabEnvCode) {
         if (
@@ -86,13 +89,13 @@ const MasterPackage = MasterPackageHOC(
                 enteredBy: loginStore.login.userId,
               },
             })
-            .then((res) => {
+            .then(res => {
               if (res.createPackageMaster.success) {
                 Toast.success({
                   message: `😊 ${res.createPackageMaster.message}`,
-                })
+                });
               }
-            })
+            });
         } else if (
           masterPackageStore.masterPackage?.existsVersionId &&
           !masterPackageStore.masterPackage?.existsRecordId
@@ -105,13 +108,13 @@ const MasterPackage = MasterPackageHOC(
                 __typename: undefined,
               },
             })
-            .then((res) => {
+            .then(res => {
               if (res.versionUpgradePackageMaster.success) {
                 Toast.success({
                   message: `😊 ${res.versionUpgradePackageMaster.message}`,
-                })
+                });
               }
-            })
+            });
         } else if (
           !masterPackageStore.masterPackage?.existsVersionId &&
           masterPackageStore.masterPackage?.existsRecordId
@@ -124,23 +127,23 @@ const MasterPackage = MasterPackageHOC(
                 __typename: undefined,
               },
             })
-            .then((res) => {
+            .then(res => {
               if (res.duplicatePackageMaster.success) {
                 Toast.success({
                   message: `😊 ${res.duplicatePackageMaster.message}`,
-                })
+                });
               }
-            })
+            });
         }
         setTimeout(() => {
-          window.location.reload()
-        }, 2000)
+          window.location.reload();
+        }, 2000);
       } else {
         Toast.warning({
           message: `😔 Please enter diff code`,
-        })
+        });
       }
-    }
+    };
 
     const tableView = useMemo(
       () => (
@@ -153,236 +156,253 @@ const MasterPackage = MasterPackageHOC(
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Delete"
+            'Delete',
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Edit/Modify"
+            'Edit/Modify',
           )}
           // isEditModify={false}
-          onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-          onSelectedRow={(rows) => {
+          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onSelectedRow={rows => {
             setModalConfirm({
               show: true,
-              type: "Delete",
+              type: 'Delete',
               id: rows,
-              title: "Are you sure?",
+              title: 'Are you sure?',
               body: `Delete selected items!`,
-            })
+            });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             setModalConfirm({
               show: true,
-              type: "Update",
-              data: { value, dataField, id },
-              title: "Are you sure?",
+              type: 'Update',
+              data: {value, dataField, id},
+              title: 'Are you sure?',
               body: `Update items!`,
-            })
+            });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
             setModalConfirm({
               show: true,
-              type: "updateFileds",
-              data: { fileds, id },
-              title: "Are you sure?",
-              body: "Update records",
-            })
+              type: 'updateFileds',
+              data: {fileds, id},
+              title: 'Are you sure?',
+              body: 'Update records',
+            });
           }}
-          onVersionUpgrade={(item) => {
+          onVersionUpgrade={item => {
             setModalConfirm({
               show: true,
-              type: "versionUpgrade",
+              type: 'versionUpgrade',
               data: item,
-              title: "Are you version upgrade?",
+              title: 'Are you version upgrade?',
               body: `Version upgrade this record`,
-            })
+            });
           }}
-          onDuplicate={(item) => {
+          onDuplicate={item => {
             setModalConfirm({
               show: true,
-              type: "duplicate",
+              type: 'duplicate',
               data: item,
-              title: "Are you duplicate?",
+              title: 'Are you duplicate?',
               body: `Duplicate this record`,
-            })
+            });
           }}
-          onUpdateOrderSeq={(orderSeq) => {
+          onUpdateOrderSeq={orderSeq => {
             masterPackageStore.masterPackageService
-              .updateOrderSeq({ input: { filter: { orderSeq } } })
-              .then((res) => {
+              .updateOrderSeq({input: {filter: {orderSeq}}})
+              .then(res => {
                 Toast.success({
                   message: `😊 ${res.updateRepOPackageMaster.message}`,
-                })
-                masterPackageStore.fetchPackageMaster()
-              })
+                });
+                masterPackageStore.fetchPackageMaster();
+              });
           }}
           onPageSizeChange={(page, limit) => {
-            masterPackageStore.fetchPackageMaster(page, limit)
+            masterPackageStore.fetchPackageMaster(page, limit);
           }}
           onFilter={(type, filter, page, limit) => {
             masterPackageStore.masterPackageService.filter({
-              input: { type, filter, page, limit },
-            })
+              input: {type, filter, page, limit},
+            });
           }}
         />
       ),
-      [masterPackageStore.listMasterPackage]
-    )
+      [masterPackageStore.listMasterPackage],
+    );
 
     const handleOnDragEndResultOrder = (result: any) => {
-      const items = Array.from(masterPackageStore.masterPackage?.reportOrder)
-      const [reorderedItem] = items.splice(result.source.index, 1)
-      items.splice(result.destination.index, 0, reorderedItem)
+      const items = Array.from(masterPackageStore.masterPackage?.reportOrder);
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, reorderedItem);
       masterPackageStore.updateMasterPackage({
         ...masterPackageStore.masterPackage,
         reportOrder: items,
-      })
-    }
+      });
+    };
 
     return (
       <>
         <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ""} />
+          <PageHeading title={routerStore.selectedComponents?.title || ''} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
-        {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
+        {RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          'Add',
+        ) && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
         )}
-        <div className="mx-auto flex-wrap">
+        <div className='mx-auto flex-wrap'>
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Lab" hasError={errors.lab}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
                       <AutoCompleteFilterSingleSelect
-                        placeholder="Search by name"
+                        placeholder='Search by name'
                         loader={loading}
                         disable={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
                         data={{
                           list: labStore.listLabs,
-                          displayKey: "name",
-                          findKey: "name",
+                          displayKey: 'name',
+                          findKey: 'name',
                         }}
                         displayValue={masterPackageStore.masterPackage?.lab}
                         hasError={errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
-                              type: "filter",
+                              type: 'filter',
                               filter: {
                                 name: value,
                               },
                               page: 0,
                               limit: 10,
                             },
-                          })
+                          });
                         }}
-                        onSelect={(item) => {
-                          onChange(item.name)
+                        onSelect={item => {
+                          onChange(item.name);
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             lab: item.code,
-                          })
-                          labStore.updateLabList(labStore.listLabsCopy)
-                          if (!masterPackageStore.masterPackage?.existsVersionId) {
+                          });
+                          labStore.updateLabList(labStore.listLabsCopy);
+                          if (
+                            !masterPackageStore.masterPackage?.existsVersionId
+                          ) {
                             masterPackageStore.masterPackageService
                               .checkExistsRecords({
                                 input: {
                                   lab: item.code,
                                   packageCode:
-                                    masterPackageStore.masterPackage?.packageCode,
+                                    masterPackageStore.masterPackage
+                                      ?.packageCode,
                                   panelCode:
                                     masterPackageStore.masterPackage?.panelCode,
-                                  env: masterPackageStore.masterPackage?.environment,
+                                  env: masterPackageStore.masterPackage
+                                    ?.environment,
                                 },
                               })
-                              .then((res) => {
-                                if (res.checkPackageMasterExistsRecord.success) {
-                                  masterPackageStore.updateExistsLabEnvCode(true)
+                              .then(res => {
+                                if (
+                                  res.checkPackageMasterExistsRecord.success
+                                ) {
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    true,
+                                  );
                                   Toast.error({
                                     message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                  })
+                                  });
                                 } else
-                                  masterPackageStore.updateExistsLabEnvCode(false)
-                              })
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    false,
+                                  );
+                              });
                           }
                         }}
                       />
                     </Form.InputWrapper>
                   )}
-                  name="lab"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='lab'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Service Type"
+                      label='Service Type'
                       hasError={errors.serviceType}
                     >
                       <select
                         value={masterPackageStore.masterPackage?.serviceType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.serviceType ? "border-red-500" : "border-gray-300"
+                          errors.serviceType
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const serviceItem = JSON.parse(e.target.value)
-                          onChange(serviceItem)
+                        onChange={e => {
+                          const serviceItem = JSON.parse(e.target.value);
+                          onChange(serviceItem);
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             serviceType: serviceItem.code,
                             packageName: undefined,
                             panelName: [],
-                          })
+                          });
                         }}
                       >
                         <option selected>
                           {(routerStore.lookupItems.length > 0 &&
                             _.first(
                               getServiceTypes(
-                                routerStore?.lookupItems?.find((item) => {
-                                  return item.fieldName === "SERVICE_TYPE"
-                                })
+                                routerStore?.lookupItems?.find(item => {
+                                  return item.fieldName === 'SERVICE_TYPE';
+                                }),
                               ).filter(
-                                (item) =>
+                                item =>
                                   item?.code ===
-                                  masterPackageStore.masterPackage?.serviceType
-                              )
+                                  masterPackageStore.masterPackage?.serviceType,
+                              ),
                             )?.value +
-                              " - " +
+                              ' - ' +
                               _.first(
                                 getServiceTypes(
-                                  routerStore?.lookupItems?.find((item) => {
-                                    return item.fieldName === "SERVICE_TYPE"
-                                  })
+                                  routerStore?.lookupItems?.find(item => {
+                                    return item.fieldName === 'SERVICE_TYPE';
+                                  }),
                                 ).filter(
-                                  (item) =>
+                                  item =>
                                     item?.code ===
-                                    masterPackageStore.masterPackage?.serviceType
-                                )
+                                    masterPackageStore.masterPackage
+                                      ?.serviceType,
+                                ),
                               )?.code) ||
-                            "Select"}
+                            'Select'}
                         </option>
                         {routerStore.lookupItems.length > 0 &&
                           getServiceTypes(
-                            routerStore.lookupItems.find((item) => {
-                              return item.fieldName === "SERVICE_TYPE"
-                            })
+                            routerStore.lookupItems.find(item => {
+                              return item.fieldName === 'SERVICE_TYPE';
+                            }),
                           ).map((item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
                               {lookupValue(item)}
@@ -391,31 +411,35 @@ const MasterPackage = MasterPackageHOC(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="serviceType"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='serviceType'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Package Code"
+                      label='Package Code'
                       hasError={errors.packageCode}
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.packageCode ? "border-red-500" : "border-gray-300"
+                          errors.packageCode
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const packageItem = JSON.parse(e.target.value)
+                        onChange={e => {
+                          const packageItem = JSON.parse(e.target.value);
 
-                          onChange(packageItem.panelCode)
+                          onChange(packageItem.panelCode);
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             packageCode: packageItem.panelCode,
                             packageName: packageItem.panelName,
-                          })
-                          if (!masterPackageStore.masterPackage?.existsVersionId) {
+                          });
+                          if (
+                            !masterPackageStore.masterPackage?.existsVersionId
+                          ) {
                             masterPackageStore.masterPackageService
                               .checkExistsRecords({
                                 input: {
@@ -423,29 +447,37 @@ const MasterPackage = MasterPackageHOC(
                                   packageCode: packageItem.panelCode,
                                   panelCode:
                                     masterPackageStore.masterPackage?.panelCode,
-                                  env: masterPackageStore.masterPackage?.environment,
+                                  env: masterPackageStore.masterPackage
+                                    ?.environment,
                                 },
                               })
-                              .then((res) => {
-                                if (res.checkPackageMasterExistsRecord.success) {
-                                  masterPackageStore.updateExistsLabEnvCode(true)
+                              .then(res => {
+                                if (
+                                  res.checkPackageMasterExistsRecord.success
+                                ) {
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    true,
+                                  );
                                   Toast.error({
                                     message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                  })
+                                  });
                                 } else
-                                  masterPackageStore.updateExistsLabEnvCode(false)
-                              })
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    false,
+                                  );
+                              });
                           }
                         }}
                       >
                         <option selected>Select</option>
                         {masterPanelStore.listMasterPanel
-                          .filter((item) => {
+                          .filter(item => {
                             return (
                               item.serviceType ===
                                 masterPackageStore.masterPackage?.serviceType &&
-                              item.pLab === masterPackageStore.masterPackage?.lab
-                            )
+                              item.pLab ===
+                                masterPackageStore.masterPackage?.lab
+                            );
                           })
                           .map((item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
@@ -455,366 +487,394 @@ const MasterPackage = MasterPackageHOC(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="packageCode"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='packageCode'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 {masterPackageStore.checkExitsLabEnvCode && (
-                  <span className="text-red-600 font-medium relative">
+                  <span className='text-red-600 font-medium relative'>
                     Code already exits. Please use other code.
                   </span>
                 )}
-                <label className="hidden">
-                  {" "}
+                <label className='hidden'>
+                  {' '}
                   {`${masterPackageStore.masterPackage?.packageName}`}
                 </label>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
                       value={masterPackageStore.masterPackage?.packageName}
-                      label="Package Name"
-                      placeholder="Package Name"
+                      label='Package Name'
+                      placeholder='Package Name'
                       disabled={true}
                     />
                   )}
-                  name="packageName"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='packageName'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Panel Code"
+                      label='Panel Code'
                       hasError={errors.panelCode}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list:
-                            masterPanelStore.listMasterPanel.filter((item) => {
+                            masterPanelStore.listMasterPanel.filter(item => {
                               return (
                                 item.serviceType ===
-                                  (masterPackageStore.masterPackage?.serviceType ===
-                                  "K"
-                                    ? "N"
-                                    : "S") &&
-                                item.pLab === masterPackageStore.masterPackage?.lab
-                              )
+                                  (masterPackageStore.masterPackage
+                                    ?.serviceType === 'K'
+                                    ? 'N'
+                                    : 'S') &&
+                                item.pLab ===
+                                  masterPackageStore.masterPackage?.lab
+                              );
                             }) || [],
                           selected: masterPackageStore.selectedItems?.panelCode,
-                          displayKey: ["panelCode", "panelName"],
+                          displayKey: ['panelCode', 'panelName'],
                         }}
                         hasError={errors.testName}
-                        onUpdate={(item) => {
-                          const items = masterPackageStore.selectedItems?.panelCode
-                          const panelCode: string[] = []
-                          const panelName: string[] = []
-                          const reportOrder: any[] = []
+                        onUpdate={item => {
+                          const items =
+                            masterPackageStore.selectedItems?.panelCode;
+                          const panelCode: string[] = [];
+                          const panelName: string[] = [];
+                          const reportOrder: any[] = [];
                           items?.filter((item: any) => {
-                            panelCode.push(item.panelCode)
-                            panelName.push(item.panelName)
+                            panelCode.push(item.panelCode);
+                            panelName.push(item.panelName);
                             reportOrder.push({
                               panelCode: item.panelCode,
                               panelName: item.panelName,
                               order: 1,
-                            })
-                          })
+                            });
+                          });
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             panelCode,
                             panelName,
                             reportOrder,
-                          })
+                          });
                           masterPanelStore.updatePanelMasterList(
-                            masterPanelStore.listMasterPanelCopy
-                          )
-                          if (!masterPackageStore.masterPackage?.existsVersionId) {
+                            masterPanelStore.listMasterPanelCopy,
+                          );
+                          if (
+                            !masterPackageStore.masterPackage?.existsVersionId
+                          ) {
                             masterPackageStore.masterPackageService
                               .checkExistsRecords({
                                 input: {
                                   lab: masterPackageStore.masterPackage.lab,
                                   packageCode:
-                                    masterPackageStore.masterPackage?.packageCode,
+                                    masterPackageStore.masterPackage
+                                      ?.packageCode,
                                   panelCode,
-                                  env: masterPackageStore.masterPackage?.environment,
+                                  env: masterPackageStore.masterPackage
+                                    ?.environment,
                                 },
                               })
-                              .then((res) => {
-                                if (res.checkPackageMasterExistsRecord.success) {
-                                  masterPackageStore.updateExistsLabEnvCode(true)
+                              .then(res => {
+                                if (
+                                  res.checkPackageMasterExistsRecord.success
+                                ) {
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    true,
+                                  );
                                   Toast.error({
                                     message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                  })
+                                  });
                                 } else
-                                  masterPackageStore.updateExistsLabEnvCode(false)
-                              })
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    false,
+                                  );
+                              });
                           }
                         }}
                         onFilter={(value: string) => {
                           masterPanelStore.masterPanelService.filterByFields({
                             input: {
                               filter: {
-                                fields: ["panelCode", "panelName"],
+                                fields: ['panelCode', 'panelName'],
                                 srText: value,
                               },
                               page: 0,
                               limit: 10,
                             },
-                          })
+                          });
                         }}
-                        onSelect={(item) => {
-                          onChange(new Date())
-                          let panelCode = masterPackageStore.selectedItems?.panelCode
+                        onSelect={item => {
+                          onChange(new Date());
+                          let panelCode =
+                            masterPackageStore.selectedItems?.panelCode;
                           if (!item.selected) {
                             if (panelCode && panelCode.length > 0) {
-                              panelCode.push(item)
-                            } else panelCode = [item]
+                              panelCode.push(item);
+                            } else panelCode = [item];
                           } else {
-                            panelCode = panelCode.filter((items) => {
-                              return items._id !== item._id
-                            })
+                            panelCode = panelCode.filter(items => {
+                              return items._id !== item._id;
+                            });
                           }
                           masterPackageStore.updateSelectedItems({
                             ...masterPackageStore.selectedItems,
                             panelCode,
-                          })
+                          });
                         }}
                       />
                     </Form.InputWrapper>
                   )}
-                  name="panelCode"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='panelCode'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Panel Name"
+                      label='Panel Name'
                       hasError={errors.panelName}
                     >
                       <select
                         disabled={true}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.panelName ? "border-red-500  " : "border-gray-300"
+                          errors.panelName
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
                       >
                         <option selected>
-                          {masterPackageStore.masterPackage?.panelName?.join(",") ||
-                            `Select`}
+                          {masterPackageStore.masterPackage?.panelName?.join(
+                            ',',
+                          ) || `Select`}
                         </option>
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="panelName"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='panelName'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Status' hasError={errors.status}>
                       <select
                         value={masterPackageStore.masterPackage?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? "border-red-500  " : "border-gray-300"
+                          errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const status = e.target.value
-                          onChange(status)
+                        onChange={e => {
+                          const status = e.target.value;
+                          onChange(status);
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             status,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "STATUS").map(
+                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="status"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='status'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Entered By"
+                      label='Entered By'
                       placeholder={
-                        errors.userId ? "Please Enter Entered By " : "Entered By"
+                        errors.userId
+                          ? 'Please Enter Entered By '
+                          : 'Entered By'
                       }
                       hasError={errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
                   )}
-                  name="userId"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='userId'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Creation"
+                      label='Date Creation'
                       placeholder={
                         errors.dateCreation
-                          ? "Please Enter DateCreation"
-                          : "Date Creation"
+                          ? 'Please Enter DateCreation'
+                          : 'Date Creation'
                       }
                       hasError={errors.dateCreation}
                       value={masterPackageStore.masterPackage?.dateCreation}
                       disabled={true}
                     />
                   )}
-                  name="dateCreation"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='dateCreation'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Grid cols={3}>
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Bill"
-                        id="modeBill"
+                        label='Bill'
+                        id='modeBill'
                         hasError={errors.bill}
                         value={masterPackageStore.masterPackage?.bill}
-                        onChange={(bill) => {
+                        onChange={bill => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             bill,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="bill"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='bill'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Print Package Name"
-                        id="printPackageName"
+                        label='Print Package Name'
+                        id='printPackageName'
                         hasError={errors.printPackageName}
-                        value={masterPackageStore.masterPackage?.printPackageName}
-                        onChange={(printPackageName) => {
+                        value={
+                          masterPackageStore.masterPackage?.printPackageName
+                        }
+                        onChange={printPackageName => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             printPackageName,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="printPackageName"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='printPackageName'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Print Panel Name"
-                        id="printPanelName"
+                        label='Print Panel Name'
+                        id='printPanelName'
                         hasError={errors.printPanelName}
                         value={masterPackageStore.masterPackage?.printPanelName}
-                        onChange={(printPanelName) => {
+                        onChange={printPanelName => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             printPanelName,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="printPanelName"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='printPanelName'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 </Grid>
               </List>
 
-              <List direction="col" space={4} justify="stretch" fill>
-                <Form.InputWrapper label="Report Order">
-                  <Table striped bordered className="max-h-5" size="sm">
+              <List direction='col' space={4} justify='stretch' fill>
+                <Form.InputWrapper label='Report Order'>
+                  <Table striped bordered className='max-h-5' size='sm'>
                     <thead>
-                      <tr className="text-xs">
-                        <th className="text-white" style={{ minWidth: 150 }}>
+                      <tr className='text-xs'>
+                        <th className='text-white' style={{minWidth: 150}}>
                           Panel
                         </th>
                         <th
-                          className="text-white flex flex-row gap-2 items-center"
-                          style={{ minWidth: 150 }}
+                          className='text-white flex flex-row gap-2 items-center'
+                          style={{minWidth: 150}}
                         >
                           Order
                           <Buttons.ButtonIcon
                             icon={
-                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                              <IconContext.Provider value={{color: '#ffffff'}}>
                                 <BsFillArrowUpCircleFill />
                               </IconContext.Provider>
                             }
-                            title=""
+                            title=''
                             onClick={() => {
                               let reportOrder =
-                                masterPackageStore.masterPackage.reportOrder
-                              reportOrder = _.orderBy(reportOrder, "order", "asc")
+                                masterPackageStore.masterPackage.reportOrder;
+                              reportOrder = _.orderBy(
+                                reportOrder,
+                                'order',
+                                'asc',
+                              );
                               masterPackageStore.updateMasterPackage({
                                 ...masterPackageStore.masterPackage,
                                 reportOrder,
-                              })
+                              });
                             }}
                           />
                           <Buttons.ButtonIcon
                             icon={
-                              <IconContext.Provider value={{ color: "#ffffff" }}>
+                              <IconContext.Provider value={{color: '#ffffff'}}>
                                 <BsFillArrowDownCircleFill />
                               </IconContext.Provider>
                             }
-                            title=""
+                            title=''
                             onClick={() => {
                               let reportOrder =
-                                masterPackageStore.masterPackage.reportOrder
-                              reportOrder = _.orderBy(reportOrder, "order", "desc")
+                                masterPackageStore.masterPackage.reportOrder;
+                              reportOrder = _.orderBy(
+                                reportOrder,
+                                'order',
+                                'desc',
+                              );
                               masterPackageStore.updateMasterPackage({
                                 ...masterPackageStore.masterPackage,
                                 reportOrder,
-                              })
+                              });
                             }}
                           />
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="text-xs">
+                    <tbody className='text-xs'>
                       {masterPackageStore.masterPackage?.reportOrder &&
                         masterPackageStore.masterPackage?.reportOrder.map(
                           (item, index) => (
                             <tr
                               onMouseEnter={() => {
-                                setTxtDisable(false)
+                                setTxtDisable(false);
                               }}
                               onMouseLeave={() => {
-                                setTxtDisable(true)
+                                setTxtDisable(true);
                               }}
                             >
                               <td>{`${index + 1}. ${
-                                item.panelName + " - " + item.panelCode
+                                item.panelName + ' - ' + item.panelCode
                               }`}</td>
-                              <td style={{ width: 150 }}>
+                              <td style={{width: 150}}>
                                 {txtDisable ? (
                                   <span
                                     className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
@@ -823,22 +883,24 @@ const MasterPackage = MasterPackageHOC(
                                   </span>
                                 ) : (
                                   <Form.Input
-                                    type="number"
+                                    type='number'
                                     placeholder={item.order}
-                                    onChange={(order) => {
+                                    onChange={order => {
                                       const reportOrder =
-                                        masterPackageStore.masterPackage?.reportOrder
-                                      reportOrder[index].order = parseInt(order)
+                                        masterPackageStore.masterPackage
+                                          ?.reportOrder;
+                                      reportOrder[index].order =
+                                        parseInt(order);
                                       masterPackageStore.updateMasterPackage({
                                         ...masterPackageStore.masterPackage,
                                         reportOrder,
-                                      })
+                                      });
                                     }}
                                   />
                                 )}
                               </td>
                             </tr>
-                          )
+                          ),
                         )}
                     </tbody>
                   </Table>
@@ -846,175 +908,191 @@ const MasterPackage = MasterPackageHOC(
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Active"
+                      label='Date Active'
                       placeholder={
                         errors.dateActive
-                          ? "Please Enter DateActiveFrom"
-                          : "Date Active"
+                          ? 'Please Enter DateActiveFrom'
+                          : 'Date Active'
                       }
                       hasError={errors.dateActive}
                       value={masterPackageStore.masterPackage?.dateActive}
                       disabled={true}
                     />
                   )}
-                  name="dateActive"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='dateActive'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Expire"
+                      label='Date Expire'
                       placeholder={
                         errors.dateExpire
-                          ? "Please Enter Date Expire"
-                          : "Date Expire"
+                          ? 'Please Enter Date Expire'
+                          : 'Date Expire'
                       }
                       hasError={errors.dateExpire}
                       value={masterPackageStore.masterPackage?.dateExpire}
-                      onChange={(dateExpire) => {
-                        onChange(dateExpire)
+                      onChange={dateExpire => {
+                        onChange(dateExpire);
                         masterPackageStore.updateMasterPackage({
                           ...masterPackageStore.masterPackage,
                           dateExpire,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="dateExpire"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='dateExpire'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Version"
+                      label='Version'
                       placeholder={
-                        errors.version ? "Please Enter Version " : "Version"
+                        errors.version ? 'Please Enter Version ' : 'Version'
                       }
                       hasError={errors.version}
                       value={masterPackageStore.masterPackage?.version}
                       disabled={true}
                     />
                   )}
-                  name="version"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='version'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Environment"
+                      label='Environment'
                       hasError={errors.environment}
                     >
                       <select
                         value={masterPackageStore.masterPackage?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment ? "border-red-500  " : "border-gray-300"
+                          errors.environment
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
                         disabled={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
-                        onChange={(e) => {
-                          const environment = e.target.value
-                          onChange(environment)
+                        onChange={e => {
+                          const environment = e.target.value;
+                          onChange(environment);
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
                             environment,
-                          })
-                          if (!masterPackageStore.masterPackage?.existsVersionId) {
+                          });
+                          if (
+                            !masterPackageStore.masterPackage?.existsVersionId
+                          ) {
                             masterPackageStore.masterPackageService
                               .checkExistsRecords({
                                 input: {
                                   lab: masterPackageStore.masterPackage.lab,
                                   packageCode:
-                                    masterPackageStore.masterPackage?.packageCode,
+                                    masterPackageStore.masterPackage
+                                      ?.packageCode,
                                   panelCode:
                                     masterPackageStore.masterPackage?.panelCode,
                                   env: environment,
                                 },
                               })
-                              .then((res) => {
-                                if (res.checkPackageMasterExistsRecord.success) {
-                                  masterPackageStore.updateExistsLabEnvCode(true)
+                              .then(res => {
+                                if (
+                                  res.checkPackageMasterExistsRecord.success
+                                ) {
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    true,
+                                  );
                                   Toast.error({
                                     message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                  })
+                                  });
                                 } else
-                                  masterPackageStore.updateExistsLabEnvCode(false)
-                              })
+                                  masterPackageStore.updateExistsLabEnvCode(
+                                    false,
+                                  );
+                              });
                           }
                         }}
                       >
                         <option selected>
-                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          {loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? `Select`
                             : masterPackageStore.masterPackage?.environment ||
                               `Select`}
                         </option>
-                        {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'ENVIRONMENT',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='environment'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitMasterPackage)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
-                  window.location.reload()
+                  window.location.reload();
                 }}
               >
                 Clear
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
+          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+            {tableView}
+          </div>
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === "Delete") {
+              if (type === 'Delete') {
                 masterPackageStore.masterPackageService
-                  .deletePackageMaster({ input: { id: modalConfirm.id } })
+                  .deletePackageMaster({input: {id: modalConfirm.id}})
                   .then((res: any) => {
                     if (res.removePackageMaster.success) {
                       Toast.success({
                         message: `😊 ${res.removePackageMaster.message}`,
-                      })
-                      setModalConfirm({ show: false })
-                      masterPackageStore.fetchPackageMaster()
+                      });
+                      setModalConfirm({show: false});
+                      masterPackageStore.fetchPackageMaster();
                     }
-                  })
-              } else if (type === "Update") {
+                  });
+              } else if (type === 'Update') {
                 masterPackageStore.masterPackageService
                   .updateSingleFiled({
                     input: {
@@ -1026,12 +1104,12 @@ const MasterPackage = MasterPackageHOC(
                     if (res.updatePackageMaster.success) {
                       Toast.success({
                         message: `😊 ${res.updatePackageMaster.message}`,
-                      })
-                      setModalConfirm({ show: false })
-                      masterPackageStore.fetchPackageMaster()
+                      });
+                      setModalConfirm({show: false});
+                      masterPackageStore.fetchPackageMaster();
                     }
-                  })
-              } else if (type === "updateFileds") {
+                  });
+              } else if (type === 'updateFileds') {
                 masterPackageStore.masterPackageService
                   .updateSingleFiled({
                     input: {
@@ -1043,12 +1121,12 @@ const MasterPackage = MasterPackageHOC(
                     if (res.updatePackageMaster.success) {
                       Toast.success({
                         message: `😊 ${res.updatePackageMaster.message}`,
-                      })
-                      setModalConfirm({ show: false })
-                      masterPackageStore.fetchPackageMaster()
+                      });
+                      setModalConfirm({show: false});
+                      masterPackageStore.fetchPackageMaster();
                     }
-                  })
-              } else if (type === "versionUpgrade") {
+                  });
+              } else if (type === 'versionUpgrade') {
                 masterPackageStore.updateMasterPackage({
                   ...modalConfirm.data,
                   _id: undefined,
@@ -1056,11 +1134,11 @@ const MasterPackage = MasterPackageHOC(
                   existsRecordId: undefined,
                   version: parseInt(modalConfirm.data.version + 1),
                   dateActive: dayjs().unix(),
-                })
-                setValue("lab", modalConfirm.data.lab)
-                setValue("environment", modalConfirm.data.environment)
-                setValue("status", modalConfirm.data.status)
-              } else if (type === "duplicate") {
+                });
+                setValue('lab', modalConfirm.data.lab);
+                setValue('environment', modalConfirm.data.environment);
+                setValue('status', modalConfirm.data.status);
+              } else if (type === 'duplicate') {
                 masterPackageStore.updateMasterPackage({
                   ...modalConfirm.data,
                   _id: undefined,
@@ -1068,21 +1146,21 @@ const MasterPackage = MasterPackageHOC(
                   existsRecordId: modalConfirm.data._id,
                   version: parseInt(modalConfirm.data.version + 1),
                   dateActive: dayjs().unix(),
-                })
-                setHideAddLab(!hideAddLab)
-                setValue("lab", modalConfirm.data.lab)
-                setValue("environment", modalConfirm.data.environment)
-                setValue("status", modalConfirm.data.status)
+                });
+                setHideAddLab(!hideAddLab);
+                setValue('lab', modalConfirm.data.lab);
+                setValue('environment', modalConfirm.data.environment);
+                setValue('status', modalConfirm.data.status);
               }
             }}
             onClose={() => {
-              setModalConfirm({ show: false })
+              setModalConfirm({show: false});
             }}
           />
         </div>
       </>
-    )
-  })
-)
+    );
+  }),
+);
 
-export default MasterPackage
+export default MasterPackage;

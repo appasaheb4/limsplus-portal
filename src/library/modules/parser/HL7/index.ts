@@ -1,4 +1,4 @@
-import Decoder from "./Decoder"
+import Decoder from './Decoder';
 
 /**
  * @description Decode message from configuration
@@ -7,7 +7,6 @@ import Decoder from "./Decoder"
  * @returns {*}
  */
 export function decode(message, interfaceManager, config) {
-  const decoder = new Decoder(message, interfaceManager, config)
-  return decoder.decode()
+  const decoder = new Decoder(message, interfaceManager, config);
+  return decoder.decode();
 }
-  

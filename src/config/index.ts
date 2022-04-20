@@ -1,3 +1,2 @@
-import * as Styles from "./styles"
-export { Styles }
-  
+import * as Styles from './styles';
+export {Styles};

@@ -1,22 +1,22 @@
-import { makeObservable, action, observable, computed } from "mobx"
-import { PatientManagerService } from "../services"
-import {PatientManger} from "../models"
+import {makeObservable, action, observable, computed} from 'mobx';
+import {PatientManagerService} from '../services';
+import {PatientManger} from '../models';
 
 export class PatientManagerStore {
-  patientManger!: PatientManger
-  listPatientManger: PatientManger[]
-  listPatientMangerCopy: PatientManger[]
-  listPatientMangerCount!: number
-  checkExistsPatient!: boolean
+  patientManger!: PatientManger;
+  listPatientManger: PatientManger[];
+  listPatientMangerCopy: PatientManger[];
+  listPatientMangerCount!: number;
+  checkExistsPatient!: boolean;
 
   constructor() {
-    this.listPatientManger = []
-    this.listPatientMangerCopy = []
-    this.listPatientMangerCount = 0
-    this.checkExistsPatient = false
+    this.listPatientManger = [];
+    this.listPatientMangerCopy = [];
+    this.listPatientMangerCount = 0;
+    this.checkExistsPatient = false;
     this.patientManger = {
       ...this.patientManger,
-    }
+    };
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,
       listPatientManger: observable,
@@ -28,33 +28,34 @@ export class PatientManagerStore {
       updatePatientManager: action,
       filterPatientManagerList: action,
       updateExistsPatient: action,
-    })
+    });
   }
 
   get patientManagerService() {
-    return new PatientManagerService()
+    return new PatientManagerService();
   }
-       
+
   updatePatientManagerList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.patientManagers.success) return alert(res.patientManagers.message)
-      this.listPatientManger = res.patientManagers.data
-      this.listPatientMangerCopy = res.patientManagers.data
-      this.listPatientMangerCount = res.patientManagers.paginatorInfo.count
+      if (!res.patientManagers.success)
+        return alert(res.patientManagers.message);
+      this.listPatientManger = res.patientManagers.data;
+      this.listPatientMangerCopy = res.patientManagers.data;
+      this.listPatientMangerCount = res.patientManagers.paginatorInfo.count;
     } else {
-      this.listPatientManger = res
-    }  
+      this.listPatientManger = res;
+    }
   }
 
   filterPatientManagerList(res: any) {
-    this.listPatientManger = res.filterPatientManager.data
-    this.listPatientMangerCount = res.filterPatientManager.paginatorInfo.count
+    this.listPatientManger = res.filterPatientManager.data;
+    this.listPatientMangerCount = res.filterPatientManager.paginatorInfo.count;
   }
 
   updatePatientManager(manager: PatientManger) {
-    this.patientManger = manager
+    this.patientManger = manager;
   }
   updateExistsPatient(flag: boolean) {
-    this.checkExistsPatient = flag
+    this.checkExistsPatient = flag;
   }
 }

@@ -1,4 +1,4 @@
-import * as Services from "./services"
-import * as Stores from "./stores"
+import * as Services from './services';
+import * as Stores from './stores';
 
-export { Services, Stores }
+export {Services, Stores};

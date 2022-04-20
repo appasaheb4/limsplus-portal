@@ -89,7 +89,7 @@ export const LabList = (props: LabListProps) => {
     <>
       <div style={{position: 'relative'}}>
         <TableBootstrap
-          id="_id"
+          id='_id'
           data={props.data}
           totalSize={props.totalSize}
           columns={[
@@ -418,7 +418,7 @@ export const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const deliveryType = e.target.value;
                       props.onUpdateItem &&
@@ -465,7 +465,7 @@ export const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const salesTerritory = e.target.value;
                       props.onUpdateItem &&
@@ -574,7 +574,7 @@ export const LabList = (props: LabListProps) => {
                         hasError={errors.mobileNo}
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.mobileNo}
-                        type="number"
+                        type='number'
                         onChange={mobileNo => {
                           onChange(mobileNo);
                         }}
@@ -588,12 +588,12 @@ export const LabList = (props: LabListProps) => {
                         }}
                       />
                     )}
-                    name="mobileNo"
+                    name='mobileNo'
                     rules={{
                       required: true,
                       pattern: FormHelper.patterns.mobileNo,
                     }}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </>
               ),
@@ -632,7 +632,7 @@ export const LabList = (props: LabListProps) => {
                         hasError={errors.contactNo}
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.contactNo}
-                        type="number"
+                        type='number'
                         onChange={contactNo => {
                           onChange(contactNo);
                         }}
@@ -646,12 +646,12 @@ export const LabList = (props: LabListProps) => {
                         }}
                       />
                     )}
-                    name="contactNo"
+                    name='contactNo'
                     rules={{
                       required: true,
                       pattern: FormHelper.patterns.mobileNo,
                     }}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </>
               ),
@@ -695,7 +695,7 @@ export const LabList = (props: LabListProps) => {
                 <>
                   <select
                     value={Stores.labStore.labs?.labType}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const labType = e.target.value;
                       props.onUpdateItem &&
@@ -803,8 +803,8 @@ export const LabList = (props: LabListProps) => {
                     {row.image && (
                       <img
                         src={row.image}
-                        alt="lab logo"
-                        className="object-fill h-35 w-40 rounded-md"
+                        alt='lab logo'
+                        className='object-fill h-35 w-40 rounded-md'
                       />
                     )}
                   </>
@@ -820,8 +820,8 @@ export const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   <Form.InputFile
-                    label="File"
-                    placeholder="File"
+                    label='File'
+                    placeholder='File'
                     onChange={e => {
                       const image = e.target.files[0];
                       props.onUpdateImage &&
@@ -1118,11 +1118,11 @@ export const LabList = (props: LabListProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row">
-                    <Tooltip tooltipText="Delete" position="top">
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Delete' position='top'>
                       <Icons.IconContext
-                        color="#fff"
-                        size="20"
+                        color='#fff'
+                        size='20'
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
@@ -1148,7 +1148,7 @@ export const LabList = (props: LabListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="Lab"
+          fileName='Lab'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

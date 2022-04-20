@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST_PATIENT_VISIT = gql`
-  mutation($input: PatientVisitInput!) {
+  mutation ($input: PatientVisitInput!) {
     patientVisits(input: $input) {
       paginatorInfo {
         count
@@ -69,37 +69,37 @@ export const LIST_PATIENT_VISIT = gql`
       }
     }
   }
-`
+`;
 
 export const CREATE_PATIENT_VISIT = gql`
-  mutation($input: CreatePatientVisitInput!) {
+  mutation ($input: CreatePatientVisitInput!) {
     createPatientVisit(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const REMOVE_PATIENT_VISIT = gql`
-  mutation($input: PatientVisitRemoveInput!) {
+  mutation ($input: PatientVisitRemoveInput!) {
     removePatientVisit(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_PATIENT_VISIT = gql`
-  mutation($input: UpdatePatientVisitInput!) {
+  mutation ($input: UpdatePatientVisitInput!) {
     updatePatientVisit(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER_PATIENT_VISIT = gql`
-  mutation($input: PatientVisitInput!) {
+  mutation ($input: PatientVisitInput!) {
     filterPatientVisit(input: $input) {
       paginatorInfo {
         count
@@ -167,29 +167,29 @@ export const FILTER_PATIENT_VISIT = gql`
       }
     }
   }
-`
+`;
 
 export const COUNTER_PATIENT_VISIT_VISITID = gql`
-  mutation($input: CounterInput!) {
+  mutation ($input: CounterInput!) {
     counter(input: $input) {
       message
       success
       data
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_PATIENT = gql`
-  mutation($input: PatientManagerInput!) {
+  mutation ($input: PatientManagerInput!) {
     checkExistsPatientManager(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
-  mutation($input: PatientVisitInput!) {
+  mutation ($input: PatientVisitInput!) {
     filterByFieldsPatientVisit(input: $input) {
       paginatorInfo {
         count
@@ -257,13 +257,13 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
       }
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: PatientVisitInput!) {
+  mutation ($input: PatientVisitInput!) {
     checkExistsPatientVisitRecord(input: $input) {
       success
       message
     }
   }
-`
+`;

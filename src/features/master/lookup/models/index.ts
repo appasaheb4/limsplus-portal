@@ -1,3 +1,2 @@
-export * from './Lookup'
-export * from './GlobalSettings'
-  
+export * from './Lookup';
+export * from './GlobalSettings';

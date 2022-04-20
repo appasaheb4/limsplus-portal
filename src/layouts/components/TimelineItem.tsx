@@ -1,12 +1,12 @@
-import React from "react";
-import classNames from "classnames";
+import React from 'react';
+import classNames from 'classnames';
 
 const defaultProps = {
-  tag: "li"
+  tag: 'li',
 };
 
-const TimelineItem = ({ children, className, tag: Tag, ...rest }) => (
-  <Tag className={classNames("timeline-item", className)} {...rest}>
+const TimelineItem = ({children, className, tag: Tag, ...rest}) => (
+  <Tag className={classNames('timeline-item', className)} {...rest}>
     {children}
   </Tag>
 );

@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React from "react"
-import daysjs from "dayjs"
-import { lookupItems, lookupValue } from "@/library/utils"
+import React from 'react';
+import daysjs from 'dayjs';
+import {lookupItems, lookupValue} from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -12,155 +12,168 @@ import {
   Icons,
   customFilter,
   Toast,
-} from "@/library/components"
-import { Confirm } from "@/library/models"
+} from '@/library/components';
+import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectPlabs,
   AutoCompleteFilterSingleSelectDepartment,
   AutoCompleteFilterSingleSelectPanelMethod,
-} from "../index"
-import { FormHelper } from "@/helper"
+} from '../index';
+import {FormHelper} from '@/helper';
 
-let rLab
-let pLab
-let department
-let panelCode
-let panelName
-let panelMethodCode
-let panelMethodName
-let description
-let shortName
-let price
-let tat
-let validationLevel
-let reportGroup
-let reportOrder
-let sex
-let sexAction
-let ageAction
-let actionMessage
-let hiAge
-let loAge
-let processing
-let category
-let suffix
-let serviceType
-let panelType
-let tubeGroup
-let labelInstruction
-let panelMethod
-let workflow
-let reportTemplate
-let sampleType
-let specalInstructions
-let status
-let environment
-let dateCreation
-let dateActive
-let dateExpire
-let version
-let enteredBy
+let rLab;
+let pLab;
+let department;
+let panelCode;
+let panelName;
+let panelMethodCode;
+let panelMethodName;
+let description;
+let shortName;
+let price;
+let tat;
+let validationLevel;
+let reportGroup;
+let reportOrder;
+let sex;
+let sexAction;
+let ageAction;
+let actionMessage;
+let hiAge;
+let loAge;
+let processing;
+let category;
+let suffix;
+let serviceType;
+let panelType;
+let tubeGroup;
+let labelInstruction;
+let panelMethod;
+let workflow;
+let reportTemplate;
+let sampleType;
+let specalInstructions;
+let status;
+let environment;
+let dateCreation;
+let dateActive;
+let dateExpire;
+let version;
+let enteredBy;
 
 interface PanelMasterListProps {
-  data: any
-  totalSize: number
-  extraData: any
-  isDelete?: boolean
-  isEditModify?: boolean
-  onDelete?: (selectedItem: Confirm) => void
-  onSelectedRow?: (selectedItem: any) => void
-  onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onUpdateFileds?: (fileds: any, id: string) => void
-  onVersionUpgrade?: (item: any) => void
-  onDuplicate?: (item: any) => void
-  onPageSizeChange?: (page: number, totalSize: number) => void
-  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  data: any;
+  totalSize: number;
+  extraData: any;
+  isDelete?: boolean;
+  isEditModify?: boolean;
+  onDelete?: (selectedItem: Confirm) => void;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateFileds?: (fileds: any, id: string) => void;
+  onVersionUpgrade?: (item: any) => void;
+  onDuplicate?: (item: any) => void;
+  onPageSizeChange?: (page: number, totalSize: number) => void;
+  onFilter?: (
+    type: string,
+    filter: any,
+    page: number,
+    totalSize: number,
+  ) => void;
 }
 
 export const PanelMasterList = (props: PanelMasterListProps) => {
   const editorCell = (row: any) => {
-    return row.status !== "I" ? true : false
-  }
+    return row.status !== 'I' ? true : false;
+  };
 
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div style={{position: 'relative'}}>
         <TableBootstrap
-          id="_id"
+          id='_id'
           data={props.data}
           totalSize={props.totalSize}
           columns={[
             {
-              dataField: "_id",
-              text: "Id",
+              dataField: '_id',
+              text: 'Id',
               hidden: true,
               csvExport: false,
             },
             {
-              dataField: "rLab",
-              text: "RLab",
-              headerClasses: "textHeader1",
+              dataField: 'rLab',
+              text: 'RLab',
+              headerClasses: 'textHeader1',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  rLab = filter
+                getFilter: filter => {
+                  rLab = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const rLab = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const rLab = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(rLab, column.dataField, row._id)
+                        props.onUpdateItem(rLab, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
                     {props.extraData.labList &&
-                      props.extraData.labList.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
+                      props.extraData.labList.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {item.name}
+                          </option>
+                        ),
+                      )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "pLab",
-              text: "PLab",
-              headerClasses: "textHeader1",
+              dataField: 'pLab',
+              text: 'PLab',
+              headerClasses: 'textHeader1',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  pLab = filter
+                getFilter: filter => {
+                  pLab = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPlabs
-                    onSelect={(item) => {
+                    onSelect={item => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(item.code, column.dataField, row._id)
+                        props.onUpdateItem(
+                          item.code,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
@@ -168,31 +181,36 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
 
             {
-              dataField: "department",
-              text: "Department",
-              headerClasses: "textHeader3",
+              dataField: 'department',
+              text: 'Department',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  department = filter
+                getFilter: filter => {
+                  department = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectDepartment
                     lab={row.pLab}
-                    onSelect={(item) => {
+                    onSelect={item => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(item.code, column.dataField, row._id)
+                        props.onUpdateItem(
+                          item.code,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
@@ -237,95 +255,103 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             //   ),
             // },
             {
-              dataField: "serviceType",
-              text: "Service Type",
-              headerClasses: "textHeader3",
+              dataField: 'serviceType',
+              text: 'Service Type',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  serviceType = filter
+                getFilter: filter => {
+                  serviceType = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const serviceType = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const serviceType = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(serviceType, column.dataField, row._id)
+                        props.onUpdateItem(
+                          serviceType,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "SERVICE_TYPE").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      )
-                    )}
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'SERVICE_TYPE',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "panelCode",
-              text: "Panel Code",
-              headerClasses: "textHeader5",
+              dataField: 'panelCode',
+              text: 'Panel Code',
+              headerClasses: 'textHeader5',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  panelCode = filter
+                getFilter: filter => {
+                  panelCode = filter;
                 },
               }),
               editable: false,
             },
             {
-              dataField: "panelName",
-              text: "Panel Name",
-              headerClasses: "textHeader5",
+              dataField: 'panelName',
+              text: 'Panel Name',
+              headerClasses: 'textHeader5',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  panelName = filter
+                getFilter: filter => {
+                  panelName = filter;
                 },
               }),
               editable: false,
             },
             {
-              dataField: "description",
-              text: "Description",
-              headerClasses: "textHeader3",
+              dataField: 'description',
+              text: 'Description',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  description = filter
+                getFilter: filter => {
+                  description = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
-              dataField: "panelMethodCode",
-              text: "Panel Method Code",
-              headerClasses: "textHeader5",
+              dataField: 'panelMethodCode',
+              text: 'Panel Method Code',
+              headerClasses: 'textHeader5',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               filter: textFilter({
-                getFilter: (filter) => {
-                  panelMethodCode = filter
+                getFilter: filter => {
+                  panelMethodCode = filter;
                 },
               }),
               editorRenderer: (
@@ -334,34 +360,35 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelMethod
-                    onSelect={(item) => {
+                    onSelect={item => {
                       props.onUpdateFileds &&
                         props.onUpdateFileds(
                           {
                             panelMethodCode: item.methodsCode,
                             panelMethodName: item.methodsName,
                           },
-                          row._id
-                        )
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "panelMethodName",
-              text: "Panel Method Name",
-              headerClasses: "textHeader5",
+              dataField: 'panelMethodName',
+              text: 'Panel Method Name',
+              headerClasses: 'textHeader5',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               filter: textFilter({
-                getFilter: (filter) => {
-                  panelMethodName = filter
+                getFilter: filter => {
+                  panelMethodName = filter;
                 },
               }),
               editorRenderer: (
@@ -370,30 +397,30 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <AutoCompleteFilterSingleSelectPanelMethod
-                    onSelect={(item) => {
+                    onSelect={item => {
                       props.onUpdateFileds &&
                         props.onUpdateFileds(
                           {
                             panelMethodCode: item.methodsCode,
                             panelMethodName: item.methodsName,
                           },
-                          row._id
-                        )
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "method",
-              text: "Method",
+              dataField: 'method',
+              text: 'Method',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.method ? (row.method ? "Yes" : "No") : "No"}`,
+                `${row.method ? (row.method ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -401,78 +428,80 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.method}
-                      onChange={(method) => {
+                      onChange={method => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(method, "method", row._id)
+                          props.onUpdateItem(method, 'method', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "shortName",
-              text: "Short Name",
-              headerClasses: "textHeader3",
+              dataField: 'shortName',
+              text: 'Short Name',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  shortName = filter
+                getFilter: filter => {
+                  shortName = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               //style : {textTransform : "uppercase"},
               // editorStyle: {
               //   textTransform: 'uppercase'
               // }
             },
             {
-              dataField: "price",
-              text: "Price",
-              headerClasses: "textHeader5",
+              dataField: 'price',
+              text: 'Price',
+              headerClasses: 'textHeader5',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: customFilter({
-                getFilter: (filter) => {
-                  price = filter
+                getFilter: filter => {
+                  price = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.Input
-                    placeholder="Price"
-                    type="number"
+                    placeholder='Price'
+                    type='number'
                     value={row.price}
-                    onChange={(price) => {
+                    onChange={price => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           parseFloat(price),
                           column.dataField,
-                          row._id
-                        )
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "bill",
-              text: "Bill",
+              dataField: 'bill',
+              text: 'Bill',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.bill ? (row.bill ? "Yes" : "No") : "No"}`,
+                `${row.bill ? (row.bill ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -480,43 +509,44 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.bill}
-                      onChange={(bill) => {
+                      onChange={bill => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(bill, "bill", row._id)
+                          props.onUpdateItem(bill, 'bill', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
 
             {
-              dataField: "schedule",
-              text: "Schedule",
-              headerClasses: "textHeader2",
+              dataField: 'schedule',
+              text: 'Schedule',
+              headerClasses: 'textHeader2',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  rLab = filter
+                getFilter: filter => {
+                  rLab = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                    onChange={(e) => {
-                      const schedule = e.target.value
+                    onChange={e => {
+                      const schedule = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(schedule, column.dataField, row._id)
+                        props.onUpdateItem(schedule, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -525,44 +555,45 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         <option key={index} value={item.schCode}>
                           {`${item.schCode}`}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "validationLevel",
-              text: "Validation Level",
-              headerClasses: "textHeader4",
+              dataField: 'validationLevel',
+              text: 'Validation Level',
+              headerClasses: 'textHeader4',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  validationLevel = filter
+                getFilter: filter => {
+                  validationLevel = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     value={row.validationLevel}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                    onChange={(e) => {
-                      const validationLevel: any = e.target.value
+                    onChange={e => {
+                      const validationLevel: any = e.target.value;
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           validationLevel,
                           column.dataField,
-                          row._id
-                        )
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
@@ -571,156 +602,169 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         <option key={index} value={item}>
                           {item}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "reportOrder",
-              text: "Report Order",
-              headerClasses: "textHeader3",
+              dataField: 'reportOrder',
+              text: 'Report Order',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  reportOrder = filter
+                getFilter: filter => {
+                  reportOrder = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
-              dataField: "processing",
-              text: "Processing",
-              headerClasses: "textHeader3",
+              dataField: 'processing',
+              text: 'Processing',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  processing = filter
+                getFilter: filter => {
+                  processing = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const processing = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const processing = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(processing, column.dataField, row._id)
+                        props.onUpdateItem(
+                          processing,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "PROCESSING").map(
+                    {lookupItems(props.extraData.lookupItems, 'PROCESSING').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "workflow",
-              text: "Workflow",
-              headerClasses: "textHeader3",
+              dataField: 'workflow',
+              text: 'Workflow',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  workflow = filter
+                getFilter: filter => {
+                  workflow = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
-              dataField: "category",
-              text: "Category",
-              headerClasses: "textHeader2",
+              dataField: 'category',
+              text: 'Category',
+              headerClasses: 'textHeader2',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  category = filter
+                getFilter: filter => {
+                  category = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const category = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const category = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(category, column.dataField, row._id)
+                        props.onUpdateItem(category, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "CATEGORY").map(
+                    {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "panelType",
-              text: "Panel Type",
-              headerClasses: "textHeader2",
+              dataField: 'panelType',
+              text: 'Panel Type',
+              headerClasses: 'textHeader2',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  panelType = filter
+                getFilter: filter => {
+                  panelType = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const panelType = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const panelType = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(panelType, column.dataField, row._id)
+                        props.onUpdateItem(
+                          panelType,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "PANEL_TYPE").map(
+                    {lookupItems(props.extraData.lookupItems, 'PANEL_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
@@ -728,11 +772,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
 
             {
-              dataField: "autoRelease",
-              text: "Auto Release",
+              dataField: 'autoRelease',
+              text: 'Auto Release',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.autoRelease ? (row.autoRelease ? "Yes" : "No") : "No"}`,
+                `${row.autoRelease ? (row.autoRelease ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -740,21 +784,25 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.autoRelease}
-                      onChange={(autoRelease) => {
+                      onChange={autoRelease => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(autoRelease, "autoRelease", row._id)
+                          props.onUpdateItem(
+                            autoRelease,
+                            'autoRelease',
+                            row._id,
+                          );
                       }}
                     />
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "holdOOS",
-              text: "Hold OOS",
+              dataField: 'holdOOS',
+              text: 'Hold OOS',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.holdOOS ? (row.holdOOS ? "Yes" : "No") : "No"}`,
+                `${row.holdOOS ? (row.holdOOS ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -762,22 +810,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.holdOOS}
-                      onChange={(holdOOS) => {
+                      onChange={holdOOS => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(holdOOS, "holdOOS", row._id)
+                          props.onUpdateItem(holdOOS, 'holdOOS', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
 
             {
-              dataField: "confidential",
-              text: "Confidential",
+              dataField: 'confidential',
+              text: 'Confidential',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.confidential ? (row.confidential ? "Yes" : "No") : "No"}`,
+                `${
+                  row.confidential ? (row.confidential ? 'Yes' : 'No') : 'No'
+                }`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -785,22 +835,26 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.confidential}
-                      onChange={(confidential) => {
+                      onChange={confidential => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(confidential, "confidential", row._id)
+                          props.onUpdateItem(
+                            confidential,
+                            'confidential',
+                            row._id,
+                          );
                       }}
                     />
                   </>
-                )
+                );
               },
             },
 
             {
-              dataField: "urgent",
-              text: "Urgent",
+              dataField: 'urgent',
+              text: 'Urgent',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.urgent ? (row.urgent ? "Yes" : "No") : "No"}`,
+                `${row.urgent ? (row.urgent ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -808,21 +862,21 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.urgent}
-                      onChange={(urgent) => {
+                      onChange={urgent => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(urgent, "urgent", row._id)
+                          props.onUpdateItem(urgent, 'urgent', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
 
             {
-              dataField: "repitation",
-              text: "Repitation",
+              dataField: 'repitation',
+              text: 'Repitation',
               sort: true,
-              csvFormatter: (col) => (col ? col : false),
+              csvFormatter: col => (col ? col : false),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -830,21 +884,21 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.repitation}
-                      onChange={(repitation) => {
+                      onChange={repitation => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(repitation, "repitation", row._id)
+                          props.onUpdateItem(repitation, 'repitation', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "printLabel",
-              text: "Print Label",
+              dataField: 'printLabel',
+              text: 'Print Label',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.printLabel ? (row.printLabel ? "Yes" : "No") : "No"}`,
+                `${row.printLabel ? (row.printLabel ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -852,21 +906,21 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.printLabel}
-                      onChange={(printLabel) => {
+                      onChange={printLabel => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(printLabel, "printLabel", row._id)
+                          props.onUpdateItem(printLabel, 'printLabel', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "cumulative",
-              text: "Cumulative",
+              dataField: 'cumulative',
+              text: 'Cumulative',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.cumulative ? (row.cumulative ? "Yes" : "No") : "No"}`,
+                `${row.cumulative ? (row.cumulative ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -874,70 +928,76 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.cumulative}
-                      onChange={(cumulative) => {
+                      onChange={cumulative => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(cumulative, "cumulative", row._id)
+                          props.onUpdateItem(cumulative, 'cumulative', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "reportGroup",
-              text: "Report Group",
-              headerClasses: "textHeader3",
+              dataField: 'reportGroup',
+              text: 'Report Group',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  reportGroup = filter
+                getFilter: filter => {
+                  reportGroup = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              style: { textTransform: "uppercase" },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              style: {textTransform: 'uppercase'},
               editorStyle: {
-                textTransform: "uppercase",
+                textTransform: 'uppercase',
               },
             },
             {
-              dataField: "sexAction",
-              text: "Sex Action",
-              headerClasses: "textHeader4",
+              dataField: 'sexAction',
+              text: 'Sex Action',
+              headerClasses: 'textHeader4',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  sexAction = filter
+                getFilter: filter => {
+                  sexAction = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     value={row.sexAction}
                     disabled={!row.ageSexAction}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const sexAction = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const sexAction = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(sexAction, column.dataField, row._id)
+                        props.onUpdateItem(
+                          sexAction,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "SEX_ACTION").map(
+                    {lookupItems(props.extraData.lookupItems, 'SEX_ACTION').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
@@ -945,100 +1005,106 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
 
             {
-              dataField: "sex",
-              text: "sex",
-              headerClasses: "textHeader1",
+              dataField: 'sex',
+              text: 'sex',
+              headerClasses: 'textHeader1',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  sex = filter
+                getFilter: filter => {
+                  sex = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     value={row.sex}
                     disabled={!row.ageSexAction}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const sex = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const sex = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(sex, column.dataField, row._id)
+                        props.onUpdateItem(sex, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "SEX").map(
+                    {lookupItems(props.extraData.lookupItems, 'SEX').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "ageAction",
-              text: "Age Action",
-              headerClasses: "textHeader4",
+              dataField: 'ageAction',
+              text: 'Age Action',
+              headerClasses: 'textHeader4',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  ageAction = filter
+                getFilter: filter => {
+                  ageAction = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     value={row.ageAction}
                     disabled={!row.ageSexAction}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const ageAction = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const ageAction = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(ageAction, column.dataField, row._id)
+                        props.onUpdateItem(
+                          ageAction,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "AGE_ACTION").map(
+                    {lookupItems(props.extraData.lookupItems, 'AGE_ACTION').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "loAge",
-              text: "Lo Age",
-              headerClasses: "textHeader2",
+              dataField: 'loAge',
+              text: 'Lo Age',
+              headerClasses: 'textHeader2',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  loAge = filter
+                getFilter: filter => {
+                  loAge = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -1049,21 +1115,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.Input
                     disabled={!row?.ageSexAction}
                     placeholder={row.loAge}
-                    onBlur={(loAge) => {
-                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(loAge) && FormHelper.isNumberAvailable(loAge)) {
+                    onBlur={loAge => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                      if (
+                        regex.test(loAge) &&
+                        FormHelper.isNumberAvailable(loAge)
+                      ) {
                         props.onUpdateItem &&
-                          props.onUpdateItem(loAge, column.dataField, row._id)
+                          props.onUpdateItem(loAge, column.dataField, row._id);
                       } else {
                         Toast.warning({
                           message: `😔 Only > and < sign and numbers should be allowed`,
-                        })
+                        });
                       }
                     }}
                   />
@@ -1071,14 +1140,14 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ),
             },
             {
-              dataField: "hiAge",
-              text: "Hi Age",
-              headerClasses: "textHeader2",
+              dataField: 'hiAge',
+              text: 'Hi Age',
+              headerClasses: 'textHeader2',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  hiAge = filter
+                getFilter: filter => {
+                  hiAge = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -1089,21 +1158,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.Input
                     disabled={!row?.ageSexAction}
                     placeholder={row.hiAge}
-                    onBlur={(hiAge) => {
-                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
-                      if (regex.test(hiAge) && FormHelper.isNumberAvailable(hiAge)) {
+                    onBlur={hiAge => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                      if (
+                        regex.test(hiAge) &&
+                        FormHelper.isNumberAvailable(hiAge)
+                      ) {
                         props.onUpdateItem &&
-                          props.onUpdateItem(hiAge, column.dataField, row._id)
+                          props.onUpdateItem(hiAge, column.dataField, row._id);
                       } else {
                         Toast.warning({
                           message: `😔 Only > and < sign and numbers should be allowed`,
-                        })
+                        });
                       }
                     }}
                   />
@@ -1111,33 +1183,38 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ),
             },
             {
-              dataField: "actionMessage",
-              text: "Action Message",
-              headerClasses: "textHeader4",
+              dataField: 'actionMessage',
+              text: 'Action Message',
+              headerClasses: 'textHeader4',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  actionMessage = filter
+                getFilter: filter => {
+                  actionMessage = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.Input
                     disabled={!row?.ageSexAction}
-                    placeholder={"Action Message"}
+                    placeholder={'Action Message'}
                     value={row?.actionMessage}
-                    onChange={(actionMessage) => {
+                    onChange={actionMessage => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(actionMessage, "actionMessage", row._id)
+                        props.onUpdateItem(
+                          actionMessage,
+                          'actionMessage',
+                          row._id,
+                        );
                     }}
                   />
                 </>
@@ -1145,11 +1222,13 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
 
             {
-              dataField: "ageSexAction",
-              text: "Age/Sex Action",
+              dataField: 'ageSexAction',
+              text: 'Age/Sex Action',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.ageSexAction ? (row.ageSexAction ? "Yes" : "No") : "No"}`,
+                `${
+                  row.ageSexAction ? (row.ageSexAction ? 'Yes' : 'No') : 'No'
+                }`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1157,22 +1236,26 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.ageSexAction}
-                      onChange={(ageSexAction) => {
+                      onChange={ageSexAction => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(ageSexAction, "ageSexAction", row._id)
+                          props.onUpdateItem(
+                            ageSexAction,
+                            'ageSexAction',
+                            row._id,
+                          );
                       }}
                     />
                   </>
-                )
+                );
               },
             },
 
             {
-              dataField: "pageBreak",
-              text: "Page Break",
+              dataField: 'pageBreak',
+              text: 'Page Break',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.pageBreak ? (row.pageBreak ? "Yes" : "No") : "No"}`,
+                `${row.pageBreak ? (row.pageBreak ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1180,134 +1263,138 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.pageBreak}
-                      onChange={(pageBreak) => {
+                      onChange={pageBreak => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(pageBreak, "pageBreak", row._id)
+                          props.onUpdateItem(pageBreak, 'pageBreak', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "reportTemplate",
-              text: "Report Template",
-              headerClasses: "textHeader4",
+              dataField: 'reportTemplate',
+              text: 'Report Template',
+              headerClasses: 'textHeader4',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  reportTemplate = filter
+                getFilter: filter => {
+                  reportTemplate = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
 
             {
-              dataField: "labelInstruction",
-              text: "Label Instruction",
-              headerClasses: "textHeader4",
+              dataField: 'labelInstruction',
+              text: 'Label Instruction',
+              headerClasses: 'textHeader4',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  labelInstruction = filter
+                getFilter: filter => {
+                  labelInstruction = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
-              dataField: "specalInstructions",
-              text: "Specal Instructions",
-              headerClasses: "textHeader5",
+              dataField: 'specalInstructions',
+              text: 'Specal Instructions',
+              headerClasses: 'textHeader5',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  specalInstructions = filter
+                getFilter: filter => {
+                  specalInstructions = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              style: { textTransform: "uppercase" },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              style: {textTransform: 'uppercase'},
               editorStyle: {
-                textTransform: "uppercase",
+                textTransform: 'uppercase',
               },
             },
 
             {
-              dataField: "status",
-              text: "Status",
-              headerClasses: "textHeader1",
+              dataField: 'status',
+              text: 'Status',
+              headerClasses: 'textHeader1',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  status = filter
+                getFilter: filter => {
+                  status = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const status = e.target.value as string
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const status = e.target.value as string;
                       props.onUpdateItem &&
-                        props.onUpdateItem(status, column.dataField, row._id)
+                        props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </>
               ),
             },
             {
-              dataField: "enteredBy",
-              text: "Entered By",
-              headerClasses: "textHeader2",
+              dataField: 'enteredBy',
+              text: 'Entered By',
+              headerClasses: 'textHeader2',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  enteredBy = filter
+                getFilter: filter => {
+                  enteredBy = filter;
                 },
               }),
               editable: false,
             },
             {
-              dataField: "dateCreation",
-              text: "Date Creation",
-              headerClasses: "textHeader6",
+              dataField: 'dateCreation',
+              text: 'Date Creation',
+              headerClasses: 'textHeader6',
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateCreation
-                  ? daysjs(row.dateCreation).format("YYYY-MM-DD")
-                  : "",
+                  ? daysjs(row.dateCreation).format('YYYY-MM-DD')
+                  : '',
               editable: false,
               filter: customFilter({
-                getFilter: (filter) => {
-                  dateCreation = filter
+                getFilter: filter => {
+                  dateCreation = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateCreation).format("YYYY-MM-DD")}</>
+                return <>{daysjs(row.dateCreation).format('YYYY-MM-DD')}</>;
               },
               editorRenderer: (
                 editorProps,
@@ -1315,39 +1402,43 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.dateCreation)}
-                    onFocusRemove={(dateCreation) => {
+                    onFocusRemove={dateCreation => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(dateCreation, column.dataField, row._id)
+                        props.onUpdateItem(
+                          dateCreation,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "dateActive",
-              text: "Date Active",
-              headerClasses: "textHeader6",
+              dataField: 'dateActive',
+              text: 'Date Active',
+              headerClasses: 'textHeader6',
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateActive
-                  ? daysjs(row.dateActive || 0).format("YYYY-MM-DD")
-                  : "",
+                  ? daysjs(row.dateActive || 0).format('YYYY-MM-DD')
+                  : '',
               editable: false,
               filter: customFilter({
-                getFilter: (filter) => {
-                  dateActive = filter
+                getFilter: filter => {
+                  dateActive = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
+                return <>{daysjs(row.dateActive || 0).format('YYYY-MM-DD')}</>;
               },
               editorRenderer: (
                 editorProps,
@@ -1355,39 +1446,43 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.dateActive)}
-                    onFocusRemove={(dateActive) => {
+                    onFocusRemove={dateActive => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(dateActive, column.dataField, row._id)
+                        props.onUpdateItem(
+                          dateActive,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "dateExpire",
-              text: "Date Expire",
-              headerClasses: "textHeader6",
+              dataField: 'dateExpire',
+              text: 'Date Expire',
+              headerClasses: 'textHeader6',
               sort: true,
               csvFormatter: (col, row) =>
                 row.dateExpire
-                  ? daysjs(row.dateExpire || 0).format("YYYY-MM-DD")
-                  : "",
+                  ? daysjs(row.dateExpire || 0).format('YYYY-MM-DD')
+                  : '',
               editable: false,
               filter: customFilter({
-                getFilter: (filter) => {
-                  dateExpire = filter
+                getFilter: filter => {
+                  dateExpire = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateExpire || 0).format("YYYY-MM-DD")}</>
+                return <>{daysjs(row.dateExpire || 0).format('YYYY-MM-DD')}</>;
               },
               editorRenderer: (
                 editorProps,
@@ -1395,29 +1490,33 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.dateExpire)}
-                    onFocusRemove={(dateExpire) => {
+                    onFocusRemove={dateExpire => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(dateExpire, column.dataField, row._id)
+                        props.onUpdateItem(
+                          dateExpire,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "version",
-              text: "Version",
-              headerClasses: "textHeader5",
+              dataField: 'version',
+              text: 'Version',
+              headerClasses: 'textHeader5',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               editable: false,
               filter: customFilter({
-                getFilter: (filter) => {
-                  version = filter
+                getFilter: filter => {
+                  version = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
@@ -1425,15 +1524,16 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ),
             },
             {
-              dataField: "environment",
-              text: "Environment",
-              headerClasses: "textHeader3",
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               filter: textFilter({
-                getFilter: (filter) => {
-                  environment = filter
+                getFilter: filter => {
+                  environment = filter;
                 },
               }),
               editorRenderer: (
@@ -1442,51 +1542,56 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     value={row.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const environment = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(environment, column.dataField, row._id)
+                        props.onUpdateItem(
+                          environment,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      )
-                    )}
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'ENVIRONMENT',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
             },
 
             {
-              dataField: "opration",
-              text: "Action",
+              dataField: 'opration',
+              text: 'Action',
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row">
-                    <Tooltip tooltipText="Delete" position="top">
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Delete' position='top'>
                       <Icons.IconContext
-                        color="#fff"
-                        size="20"
+                        color='#fff'
+                        size='20'
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
-                            type: "Delete",
+                            type: 'Delete',
                             show: true,
                             id: [row._id],
-                            title: "Are you sure?",
+                            title: 'Are you sure?',
                             body: `Delete item`,
                           })
                         }
@@ -1494,23 +1599,24 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== "I" && (
+                    {row.status !== 'I' && (
                       <>
-                        <Tooltip className="ml-2" tooltipText="Version Upgrade">
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
-                              props.onVersionUpgrade && props.onVersionUpgrade(row)
+                              props.onVersionUpgrade &&
+                              props.onVersionUpgrade(row)
                             }
                           >
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip className="ml-2" tooltipText="Duplicate">
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
@@ -1523,68 +1629,68 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   </div>
                 </>
               ),
-              headerClasses: "sticky right-0  bg-gray-500 text-white",
+              headerClasses: 'sticky right-0  bg-gray-500 text-white',
               classes: (cell, row, rowIndex, colIndex) => {
-                return "sticky right-0 bg-gray-500"
+                return 'sticky right-0 bg-gray-500';
               },
             },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="Panel Master"
-          onSelectedRow={(rows) => {
+          fileName='Panel Master'
+          onSelectedRow={rows => {
             props.onSelectedRow &&
-              props.onSelectedRow(rows.map((item: any) => item._id))
+              props.onSelectedRow(rows.map((item: any) => item._id));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
           }}
           onPageSizeChange={(page, size) => {
-            props.onPageSizeChange && props.onPageSizeChange(page, size)
+            props.onPageSizeChange && props.onPageSizeChange(page, size);
           }}
           onFilter={(type, filter, page, size) => {
-            props.onFilter && props.onFilter(type, filter, page, size)
+            props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
-            dateCreation()
-            dateActive()
-            dateExpire()
-            version("")
-            enteredBy("")
-            rLab("")
-            pLab("")
-            department("")
-            panelCode("")
-            panelName("")
-            panelMethodCode("")
-            panelMethodName("")
-            description("")
-            shortName("")
-            price("")
-            validationLevel("")
-            reportGroup("")
-            reportOrder("")
-            sex("")
-            ageAction("")
-            hiAge("")
-            sexAction("")
-            actionMessage("")
-            loAge("")
-            processing("")
-            category("")
-            serviceType("")
-            panelType("")
-            labelInstruction("")
+            dateCreation();
+            dateActive();
+            dateExpire();
+            version('');
+            enteredBy('');
+            rLab('');
+            pLab('');
+            department('');
+            panelCode('');
+            panelName('');
+            panelMethodCode('');
+            panelMethodName('');
+            description('');
+            shortName('');
+            price('');
+            validationLevel('');
+            reportGroup('');
+            reportOrder('');
+            sex('');
+            ageAction('');
+            hiAge('');
+            sexAction('');
+            actionMessage('');
+            loAge('');
+            processing('');
+            category('');
+            serviceType('');
+            panelType('');
+            labelInstruction('');
 
-            workflow("")
-            reportTemplate("")
+            workflow('');
+            reportTemplate('');
 
-            specalInstructions("")
-            status("")
-            environment("")
+            specalInstructions('');
+            status('');
+            environment('');
           }}
         />
       </div>
     </>
-  )
-}
+  );
+};

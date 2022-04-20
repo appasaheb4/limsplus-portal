@@ -1,30 +1,39 @@
 /* eslint-disable */
-import React, { useState } from "react"
-import { observer } from "mobx-react"
-import _ from "lodash"
-import {Toast,Grid,List,Form,AutoCompleteFilterSingleSelectMultiFieldsDisplay,Buttons,Svg,ModalConfirm} from "@/library/components"
+import React, {useState} from 'react';
+import {observer} from 'mobx-react';
+import _ from 'lodash';
+import {
+  Toast,
+  Grid,
+  List,
+  Form,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  Buttons,
+  Svg,
+  ModalConfirm,
+} from '@/library/components';
 // import * as LibraryUtils from "@/library/utils"
-import "@/library/assets/css/accordion.css"
-import { useForm, Controller } from "react-hook-form"
-import {PatientTestList} from "../../components"
-import { PatientOrderHoc } from "../../hoc"
+import '@/library/assets/css/accordion.css';
+import {useForm, Controller} from 'react-hook-form';
+import {PatientTestList} from '../../components';
+import {PatientOrderHoc} from '../../hoc';
 
-import { useStores } from "@/stores"
+import {useStores} from '@/stores';
 
-import { toJS } from "mobx"
-import { RouterFlow } from "@/flows"
+import {toJS} from 'mobx';
+import {RouterFlow} from '@/flows';
 import {
   Accordion,
   AccordionItem,
   AccordionItemHeading,
   AccordionItemButton,
   AccordionItemPanel,
-} from "react-accessible-accordion"
-import "react-accessible-accordion/dist/fancy-example.css"
-import { PanelListTable, ExtraDataPanelListTable } from "../../components"
+} from 'react-accessible-accordion';
+import 'react-accessible-accordion/dist/fancy-example.css';
+import {PanelListTable, ExtraDataPanelListTable} from '../../components';
 
 interface PatientTestProps {
-  onModalConfirm?: (item: any) => void
+  onModalConfirm?: (item: any) => void;
 }
 
 export const PatientTest = PatientOrderHoc(
@@ -37,40 +46,39 @@ export const PatientTest = PatientOrderHoc(
       loginStore,
       routerStore,
       masterPanelStore,
-    } = useStores()
+    } = useStores();
 
     const {
       control,
       handleSubmit,
-      formState: { errors },
+      formState: {errors},
       setValue,
-    } = useForm()
+    } = useForm();
 
+    setValue('environment', patientOrderStore.patientOrder?.environment);
 
-    setValue("environment", patientOrderStore.patientOrder?.environment)
-
-    const [modalConfirm, setModalConfirm] = useState<any>()
-    const [hideInputView, setHideInputView] = useState<boolean>(true)
+    const [modalConfirm, setModalConfirm] = useState<any>();
+    const [hideInputView, setHideInputView] = useState<boolean>(true);
     const onSubmitPatientOrder = () => {
       patientTestStore.patientTestService
         .addPatientTest({
           input: {
             ...patientTestStore.patientTest,
-            documentType: "patientTest",
+            documentType: 'patientTest',
             __typename: undefined,
           },
         })
-        .then((res) => {
+        .then(res => {
           if (res.createPatientTest.success) {
             Toast.success({
               message: `😊 ${res.createPatientTest.message}`,
-            })
+            });
           }
           setTimeout(() => {
-            window.location.reload()
-          }, 1000)
-        })
-    }
+            window.location.reload();
+          }, 1000);
+        });
+    };
     return (
       <>
         {/* {patientOrderStore.patientOrder?.labId && (
@@ -87,193 +95,176 @@ export const PatientTest = PatientOrderHoc(
         )} */}
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideInputView ? "hidden" : "hidden")
+            'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'hidden')
           }
         >
-          <div className="p-2 rounded-lg shadow-xl">
+          <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={2}>
-              <List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
-                {patientOrderStore.listPatientOrder &&
+              <List direction='col' space={4} justify='stretch' fill>
+                {patientOrderStore.listPatientOrder && (
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        label="Order Id"
+                        label='Order Id'
                         hasError={errors.orderId}
                       >
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
-                          placeholder="Search by orderId or patient name"
+                          placeholder='Search by orderId or patient name'
                           data={{
                             list: patientOrderStore.listPatientOrder,
-                            displayKey: ["orderId", "patientName"],
+                            displayKey: ['orderId', 'patientName'],
                           }}
                           hasError={errors.orderId}
                           onFilter={(value: string) => {
-                            patientOrderStore.patientOrderService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ["orderId", "patientName"],
-                                  srText: value,
+                            patientOrderStore.patientOrderService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ['orderId', 'patientName'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
                                 },
-                                page: 0,
-                                limit: 10,
                               },
-                            })
+                            );
                           }}
-                          onSelect={(item) => {
-                            
-                            onChange(item.orderId)
+                          onSelect={item => {
+                            onChange(item.orderId);
                             patientTestStore.updateTest({
                               ...patientTestStore.patientTest,
                               orderId: item.orderId,
                               labId: item.labId,
                               patientName: item.patientName,
-                              panelCode: item.panelCode
-                            })
-                            setValue("labId",item.labId)
+                              panelCode: item.panelCode,
+                            });
+                            setValue('labId', item.labId);
                             patientOrderStore.updatePatientOrderList(
-                              patientOrderStore.listPatientOrderCopy
-                            )
+                              patientOrderStore.listPatientOrderCopy,
+                            );
                             // get panelcode list
                             patientTestStore.patientTestService.getPanelList({
                               input: {
-                                filter:
-                                {  
-                                  panels: _.map(item.panelCode, (o) =>
-                                    _.pick(o, [
-                                      "panelCode",
-                                      "confidential"
-                                    ])
+                                filter: {
+                                  panels: _.map(item.panelCode, o =>
+                                    _.pick(o, ['panelCode', 'confidential']),
                                   ),
                                 },
-                              }
-                            })
+                              },
+                            });
                           }}
                         />
                       </Form.InputWrapper>
                     )}
-                    name="orderId"
-                    rules={{ required: true }}
-                    defaultValue=""
+                    name='orderId'
+                    rules={{required: true}}
+                    defaultValue=''
                   />
-                }
-                <Form.InputWrapper label="Panels">
-                  <List space={2} direction="row" justify="center">
-                    <div className="flex flex-row gap-2 flex-wrap">
-                      {patientTestStore.patientTest?.panelCode?.map((item, index) => (
-                        <div className="mb-2" key={index}>
-                          <Buttons.Button
-                            size="medium"
-                            type="solid"
-                          >
-                            {`${item.panelCode}`}
-                          </Buttons.Button>
-                        </div>
-                      ))}
+                )}
+                <Form.InputWrapper label='Panels'>
+                  <List space={2} direction='row' justify='center'>
+                    <div className='flex flex-row gap-2 flex-wrap'>
+                      {patientTestStore.patientTest?.panelCode?.map(
+                        (item, index) => (
+                          <div className='mb-2' key={index}>
+                            <Buttons.Button size='medium' type='solid'>
+                              {`${item.panelCode}`}
+                            </Buttons.Button>
+                          </div>
+                        ),
+                      )}
                     </div>
                   </List>
                 </Form.InputWrapper>
-
-
-
-
               </List>
-              <List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper
-                      label="Lab Id"
-                      hasError={errors.labId}
-                    >
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Lab Id' hasError={errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by lab id, visit id or name"
-                        displayValue={`${patientTestStore.patientTest?.labId || ''} - ${patientTestStore.patientTest?.patientName || ''}`}
+                        placeholder='Search by lab id, visit id or name'
+                        displayValue={`${
+                          patientTestStore.patientTest?.labId || ''
+                        } - ${patientTestStore.patientTest?.patientName || ''}`}
                         data={{
                           list: patientVisitStore.listPatientVisit,
-                          displayKey: ["labId", "patientName"],
+                          displayKey: ['labId', 'patientName'],
                         }}
                         hasError={errors.labId}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
                               filter: {
-                                fields: ["labId", "visitId", "patientName"],
+                                fields: ['labId', 'visitId', 'patientName'],
                                 srText: value,
                               },
                               page: 0,
                               limit: 10,
                             },
-                          })
-                        }}   
-                        onSelect={(item) => {
-                          onChange(item.visitId)
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.visitId);
                           patientTestStore.updateTest({
                             ...patientTestStore.patientTest,
                             labId: item.labId,
                             patientName: item.patientName,
-                          })
+                          });
                           patientVisitStore.updatePatientVisitList(
-                            patientVisitStore.listPatientVisitCopy
-                          )
+                            patientVisitStore.listPatientVisitCopy,
+                          );
                         }}
                       />
                     </Form.InputWrapper>
                   )}
-                  name="labId"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='labId'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Test Id"
+                      label='Test Id'
                       placeholder={
-                        errors.testId ? "Please enter test id" : "Test Id"
+                        errors.testId ? 'Please enter test id' : 'Test Id'
                       }
                       hasError={errors.testId}
                       disabled={true}
                       value={patientTestStore.patientTest?.testId}
-                      onChange={(testId) => {
-                        onChange(testId)
+                      onChange={testId => {
+                        onChange(testId);
                         patientTestStore.updateTest({
                           ...patientTestStore.patientTest,
                           testId,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="testId"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='testId'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
-
               </List>
             </Grid>
             <div
-              className="rounded-lg shadow-xl overflow-scroll mt-2"
-              style={{ overflowX: "scroll" }}
+              className='rounded-lg shadow-xl overflow-scroll mt-2'
+              style={{overflowX: 'scroll'}}
             >
               {patientOrderStore.packageList && (
-                <PanelListTable data={patientTestStore.patientTest?.panelList ||[]} totalSize={patientTestStore.patientTest?.panelList?.length} />
+                <PanelListTable
+                  data={patientTestStore.patientTest?.panelList || []}
+                  totalSize={patientTestStore.patientTest?.panelList?.length}
+                />
               )}
             </div>
           </div>
           <br />
-          <div className="extra" style={{ border: "1px solid yellow" }}>
+          <div className='extra' style={{border: '1px solid yellow'}}>
             <Accordion allowZeroExpanded>
               <AccordionItem>
                 <AccordionItemHeading>
@@ -282,13 +273,15 @@ export const PatientTest = PatientOrderHoc(
                 <AccordionItemPanel>
                   <>
                     <div
-                      className="rounded-lg shadow-xl overflow-scroll mt-2"
-                      style={{ overflowX: "scroll" }}
+                      className='rounded-lg shadow-xl overflow-scroll mt-2'
+                      style={{overflowX: 'scroll'}}
                     >
                       {patientOrderStore.packageList && (
                         <ExtraDataPanelListTable
-                          data={patientTestStore.patientTest?.panelList ||[]}
-                          totalSize={patientTestStore.patientTest?.panelList?.length}
+                          data={patientTestStore.patientTest?.panelList || []}
+                          totalSize={
+                            patientTestStore.patientTest?.panelList?.length
+                          }
                         />
                       )}
                     </div>
@@ -298,21 +291,21 @@ export const PatientTest = PatientOrderHoc(
             </Accordion>
           </div>
           <br />
-          <List direction="row" space={3} align="center">
+          <List direction='row' space={3} align='center'>
             <Buttons.Button
-              size="medium"
-              type="solid"
+              size='medium'
+              type='solid'
               icon={Svg.Save}
               onClick={handleSubmit(onSubmitPatientOrder)}
             >
               Save
             </Buttons.Button>
             <Buttons.Button
-              size="medium"
-              type="outline"
+              size='medium'
+              type='outline'
               icon={Svg.Remove}
               onClick={() => {
-                window.location.reload()
+                window.location.reload();
               }}
             >
               Clear
@@ -321,8 +314,8 @@ export const PatientTest = PatientOrderHoc(
         </div>
 
         <div
-          className="p-2 rounded-lg shadow-xl overflow-scroll"
-          style={{ overflowX: "scroll" }}
+          className='p-2 rounded-lg shadow-xl overflow-scroll'
+          style={{overflowX: 'scroll'}}
         >
           <PatientTestList
             data={patientTestStore.patientListTest}
@@ -332,56 +325,52 @@ export const PatientTest = PatientOrderHoc(
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
-              "Delete"
+              'Delete',
             )}
             isEditModify={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
-              "Edit/Modify"
+              'Edit/Modify',
             )}
-            onDelete={(selectedUser) => setModalConfirm(selectedUser)}
-            onSelectedRow={(rows) => {
+            onDelete={selectedUser => setModalConfirm(selectedUser)}
+            onSelectedRow={rows => {
               setModalConfirm({
                 show: true,
-                type: "delete",
+                type: 'delete',
                 id: rows,
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 body: `Delete selected items!`,
-              })
+              });
             }}
             onPageSizeChange={(page, limit) => {
-              patientTestStore.patientTestService.listPatientTest(
-                page,
-                limit
-              )
+              patientTestStore.patientTestService.listPatientTest(page, limit);
             }}
             onFilter={(type, filter, page, limit) => {
               patientTestStore.patientTestService.filter({
-                input: { type, filter, page, limit },
-              })
+                input: {type, filter, page, limit},
+              });
             }}
           />
         </div>
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            if (type === "delete") {
+            if (type === 'delete') {
               patientTestStore.patientTestService
-                .deletePatientTest({ input: { id: modalConfirm.id } })
+                .deletePatientTest({input: {id: modalConfirm.id}})
                 .then((res: any) => {
                   if (res.removePatientTest.success) {
                     Toast.success({
                       message: `😊 ${res.removePatientTest.message}`,
-                    }) 
-                    setModalConfirm({ show: false })
-                    patientTestStore.patientTestService.listPatientTest()
-                  }  
-                })
+                    });
+                    setModalConfirm({show: false});
+                    patientTestStore.patientTestService.listPatientTest();
+                  }
+                });
             }
           }}
-          onClose={() => setModalConfirm({ show: false })}
+          onClose={() => setModalConfirm({show: false})}
         />
       </>
-    )
-  })
-)
-
+    );
+  }),
+);

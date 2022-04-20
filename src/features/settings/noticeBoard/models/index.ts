@@ -1,1 +1,1 @@
-export * from './NoticeBoard'
+export * from './NoticeBoard';

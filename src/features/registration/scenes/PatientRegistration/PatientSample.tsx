@@ -1,139 +1,137 @@
 /* eslint-disable */
-import React, { useEffect } from "react"
-import { observer } from "mobx-react"
-import {Grid,List,Form,Buttons,Svg} from "@/library/components"
-import { lookupItems,lookupValue,dayjs } from "@/library/utils"
-import { useForm, Controller } from "react-hook-form"
-import { PatientSampleList } from "../../components"
-import { Stores as SampleTypeStore } from "@/features/master/sampleType/stores"
-import { Stores as SampleContainerStore } from "@/features/master/sampleContainer/stores"
-import { Stores as LoginStores } from "@/features/login/stores"
-import { Stores as AdministrativeDivisionStore } from "@/features/master/administrativeDivisions/stores"
-import { Stores as DepartmentStore } from "@/features/master/department/stores"
-import { Stores as LabStores } from "@/features/master/labs/stores"
-import { Stores as SectionStore } from "@/features/master/section/stores"
-import "@/library/assets/css/accordion.css"
-import { stores } from "@/stores"
-import { toJS } from "mobx"
-import { Stores } from "../../stores"
-import { RouterFlow } from "@/flows"
+import React, {useEffect} from 'react';
+import {observer} from 'mobx-react';
+import {Grid, List, Form, Buttons, Svg} from '@/library/components';
+import {lookupItems, lookupValue, dayjs} from '@/library/utils';
+import {useForm, Controller} from 'react-hook-form';
+import {PatientSampleList} from '../../components';
+import {Stores as SampleTypeStore} from '@/features/master/sampleType/stores';
+import {Stores as SampleContainerStore} from '@/features/master/sampleContainer/stores';
+import {Stores as LoginStores} from '@/features/login/stores';
+import {Stores as AdministrativeDivisionStore} from '@/features/master/administrativeDivisions/stores';
+import {Stores as DepartmentStore} from '@/features/master/department/stores';
+import {Stores as LabStores} from '@/features/master/labs/stores';
+import {Stores as SectionStore} from '@/features/master/section/stores';
+import '@/library/assets/css/accordion.css';
+import {stores} from '@/stores';
+import {toJS} from 'mobx';
+import {Stores} from '../../stores';
+import {RouterFlow} from '@/flows';
 
 interface PatientSampleProps {
-  onModalConfirm?: (item: any) => void
+  onModalConfirm?: (item: any) => void;
 }
 
 export const PatientSample = observer((props: PatientSampleProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     setValue,
-  } = useForm()
+  } = useForm();
   const onSubmitPatientSample = () => {
     //api calling
-  }
+  };
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+    if (
+      stores.loginStore.login &&
+      stores.loginStore.login.role !== 'SYSADMIN'
+    ) {
       Stores.patientRegistationStore.updatePatientSample({
         ...Stores.patientRegistationStore.patientSample,
         environment: stores.loginStore.login.environment,
-      })
-      setValue("environment", stores.loginStore.login.environment)
+      });
+      setValue('environment', stores.loginStore.login.environment);
     }
-  }, [stores.loginStore.login])
+  }, [stores.loginStore.login]);
   return (
     <>
-      <div className="p-2 rounded-lg shadow-xl">
+      <div className='p-2 rounded-lg shadow-xl'>
         <Grid cols={2}>
-          <List
-            direction="col"
-            space={4}
-            fill
-            justify="stretch"
-          >
+          <List direction='col' space={4} fill justify='stretch'>
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.Input
-                  label="Specimen ID"
-                  name="txtSpecimenId"
+                  label='Specimen ID'
+                  name='txtSpecimenId'
                   placeholder={
-                    errors.specimenId ? "Please Enter Specimen Id" : "Specimen Id"
+                    errors.specimenId
+                      ? 'Please Enter Specimen Id'
+                      : 'Specimen Id'
                   }
                   hasError={errors.specimenId}
-                  value={Stores.patientRegistationStore.patientSample?.specimenId}
-                  onChange={(specimenId) => {
-                    onChange(specimenId)
+                  value={
+                    Stores.patientRegistationStore.patientSample?.specimenId
+                  }
+                  onChange={specimenId => {
+                    onChange(specimenId);
                     Stores.patientRegistationStore.updatePatientSample({
                       ...Stores.patientRegistationStore.patientSample,
                       specimenId,
-                    })
+                    });
                   }}
                 />
               )}
-              name="specimenId"
-              rules={{ required: false }}
-              defaultValue=""
+              name='specimenId'
+              rules={{required: false}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
-                <Form.InputWrapper
-                  label="PLab"
-                  hasError={errors.pLab}
-                >
+              render={({field: {onChange}}) => (
+                <Form.InputWrapper label='PLab' hasError={errors.pLab}>
                   <select
                     value={Stores.patientRegistationStore.patientSample?.pLab}
                     disabled={
                       stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
+                      stores.loginStore.login.role !== 'SYSADMIN'
                         ? true
                         : false
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.pLab ? "border-red-500" : "border-gray-300"
+                      errors.pLab ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const pLab = e.target.value as string
-                      onChange(pLab)
+                    onChange={e => {
+                      const pLab = e.target.value as string;
+                      onChange(pLab);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         pLab,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStores.labStore.listLabs.map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
+                    {LabStores.labStore.listLabs.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ),
+                    )}
                   </select>
                 </Form.InputWrapper>
               )}
-              name="pLab"
-              rules={{ required: true }}
-              defaultValue=""
+              name='pLab'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
-                <Form.InputWrapper
-                  label="Rlab"
-                  hasError={errors.rLab}
-                >
+              render={({field: {onChange}}) => (
+                <Form.InputWrapper label='Rlab' hasError={errors.rLab}>
                   <select
                     value={Stores.patientRegistationStore.patientSample?.rLab}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.rLab ? "border-red-500  " : "border-gray-300"
+                      errors.rLab ? 'border-red-500  ' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const rLab = JSON.parse(e.target.value) as any
-                      onChange(rLab)
+                    onChange={e => {
+                      const rLab = JSON.parse(e.target.value) as any;
+                      onChange(rLab);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         rLab,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
@@ -143,89 +141,89 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                           <option key={index} value={item.code}>
                             {item.name}
                           </option>
-                        )
+                        ),
                       )}
                   </select>
                 </Form.InputWrapper>
               )}
-              name="rLab"
-              rules={{ required: true }}
-              defaultValue=""
+              name='rLab'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  label="Out Source Lab"
+                  label='Out Source Lab'
                   hasError={errors.outSourceLab}
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.outSourceLab ? "border-red-500" : "border-gray-300"
+                      errors.outSourceLab ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const outSourceLab = e.target.value as string
-                      onChange(outSourceLab)
+                    onChange={e => {
+                      const outSourceLab = e.target.value as string;
+                      onChange(outSourceLab);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         outSourceLab,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
                   </select>
                 </Form.InputWrapper>
               )}
-              name="outSourceLab"
-              rules={{ required: true }}
-              defaultValue=""
+              name='outSourceLab'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  label="Out Source Lab"
+                  label='Out Source Lab'
                   hasError={errors.outSourceLab}
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.outSourceLab ? "border-red-500" : "border-gray-300"
+                      errors.outSourceLab ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const outSourceStatus = e.target.value as string
-                      onChange(outSourceStatus)
+                    onChange={e => {
+                      const outSourceStatus = e.target.value as string;
+                      onChange(outSourceStatus);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         outSourceStatus,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
                   </select>
                 </Form.InputWrapper>
               )}
-              name="outSourceStatus"
-              rules={{ required: true }}
-              defaultValue=""
+              name='outSourceStatus'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  label="Department"
+                  label='Department'
                   hasError={errors.department}
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.department ? "border-red-500" : "border-gray-300"
+                      errors.department ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const department = e.target.value as string
-                      onChange(department)
+                    onChange={e => {
+                      const department = e.target.value as string;
+                      onChange(department);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         department,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
@@ -234,33 +232,30 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                         <option key={index} value={item.code}>
                           {`${item.code} - ${item.name}`}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </Form.InputWrapper>
               )}
-              name="department"
-              rules={{ required: true }}
-              defaultValue=""
+              name='department'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
-                <Form.InputWrapper
-                  label="Section"
-                  hasError={errors.section}
-                >
+              render={({field: {onChange}}) => (
+                <Form.InputWrapper label='Section' hasError={errors.section}>
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.section ? "border-red-500" : "border-gray-300"
+                      errors.section ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const section = e.target.value as string
-                      onChange(section)
+                    onChange={e => {
+                      const section = e.target.value as string;
+                      onChange(section);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         section,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
@@ -269,69 +264,70 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                         <option key={index} value={item.code}>
                           {`${item.code} - ${item.name}`}
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </Form.InputWrapper>
               )}
-              name="section"
-              rules={{ required: true }}
-              defaultValue=""
+              name='section'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  label="Container ID"
+                  label='Container ID'
                   hasError={errors.containerId}
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.containerId ? "border-red-500" : "border-gray-300"
+                      errors.containerId ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const containerId = e.target.value as string
-                      onChange(containerId)
+                    onChange={e => {
+                      const containerId = e.target.value as string;
+                      onChange(containerId);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         containerId,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
-                    {SampleContainerStore.sampleContainerStore.listSampleContainer &&
+                    {SampleContainerStore.sampleContainerStore
+                      .listSampleContainer &&
                       SampleContainerStore.sampleContainerStore.listSampleContainer.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.sampleType}>
                             {`${item.containerCode} - ${item.containerName}`}
                           </option>
-                        )
+                        ),
                       )}
                   </select>
                 </Form.InputWrapper>
               )}
-              name="containerId"
-              rules={{ required: true }}
-              defaultValue=""
+              name='containerId'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  label="Sample Type"
+                  label='Sample Type'
                   hasError={errors.sampleType}
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.sampleType ? "border-red-500" : "border-gray-300"
+                      errors.sampleType ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const sampleType = e.target.value as string
-                      onChange(sampleType)
+                    onChange={e => {
+                      const sampleType = e.target.value as string;
+                      onChange(sampleType);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         sampleType,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
@@ -341,113 +337,109 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                           <option key={index} value={item.sampleType}>
                             {`${item.sampleCode} - ${item.sampleType}`}
                           </option>
-                        )
+                        ),
                       )}
                   </select>
                 </Form.InputWrapper>
               )}
-              name="sampleType"
-              rules={{ required: true }}
-              defaultValue=""
+              name='sampleType'
+              rules={{required: true}}
+              defaultValue=''
             />
           </List>
 
-          <List
-            direction="col"
-            justify="stretch"
-            fill
-            space={4}
-          >
+          <List direction='col' justify='stretch' fill space={4}>
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputDate
-                  label="Received Date"
-                  name="txtReceivedDate"
+                  label='Received Date'
+                  name='txtReceivedDate'
                   placeholder={
                     errors.receivedDate
-                      ? "Please Enter ReceivedDate"
-                      : "Received Date"
+                      ? 'Please Enter ReceivedDate'
+                      : 'Received Date'
                   }
                   hasError={errors.receivedDate}
                   value={dayjs(
-                    Stores.patientRegistationStore.patientSample?.receivedDate
-                  ).format("YYYY-MM-DD")}
-                  onChange={(e) => {
-                    let receivedDate = new Date(e.target.value)
-                    onChange(receivedDate)
+                    Stores.patientRegistationStore.patientSample?.receivedDate,
+                  ).format('YYYY-MM-DD')}
+                  onChange={e => {
+                    let receivedDate = new Date(e.target.value);
+                    onChange(receivedDate);
                     const formatDate =
-                      dayjs(receivedDate).format("YYYY-MM-DD HH:mm")
+                      dayjs(receivedDate).format('YYYY-MM-DD HH:mm');
 
                     Stores.patientRegistationStore.updatePatientSample({
                       ...Stores.patientRegistationStore.patientSample,
                       receivedDate: new Date(formatDate),
-                    })
+                    });
                   }}
                 />
               )}
-              name="receivedDate"
-              rules={{ required: true }}
-              defaultValue=""
+              name='receivedDate'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputDate
-                  label="Collection Date"
-                  name="txtCollectionDate"
+                  label='Collection Date'
+                  name='txtCollectionDate'
                   placeholder={
                     errors.collectionDate
-                      ? "Please Enter Collection Date"
-                      : "Collection Date"
+                      ? 'Please Enter Collection Date'
+                      : 'Collection Date'
                   }
                   hasError={errors.collectionDate}
                   value={dayjs(
-                    Stores.patientRegistationStore.patientSample?.collectionDate
-                  ).format("YYYY-MM-DD")}
-                  onChange={(e) => {
-                    let collectionDate = new Date(e.target.value)
-                    onChange(collectionDate)
+                    Stores.patientRegistationStore.patientSample
+                      ?.collectionDate,
+                  ).format('YYYY-MM-DD')}
+                  onChange={e => {
+                    let collectionDate = new Date(e.target.value);
+                    onChange(collectionDate);
                     const formatDate =
-                      dayjs(collectionDate).format("YYYY-MM-DD HH:mm")
+                      dayjs(collectionDate).format('YYYY-MM-DD HH:mm');
 
                     Stores.patientRegistationStore.updatePatientSample({
                       ...Stores.patientRegistationStore.patientSample,
                       collectionDate: new Date(formatDate),
-                    })
+                    });
                   }}
                 />
               )}
-              name="collectionDate"
-              rules={{ required: true }}
-              defaultValue=""
+              name='collectionDate'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  label="Method Collection"
+                  label='Method Collection'
                   hasError={errors.methodCollection}
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.methodCollection
-                        ? "border-red-500  "
-                        : "border-gray-300"
+                        ? 'border-red-500  '
+                        : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const methodCollection = e.target.value
-                      onChange(methodCollection)
+                    onChange={e => {
+                      const methodCollection = e.target.value;
+                      onChange(methodCollection);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         methodCollection,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
                     {lookupItems(
                       stores.routerStore.lookupItems,
-                      "PATIENT SAMPLE - METHOD_COLLECTION"
+                      'PATIENT SAMPLE - METHOD_COLLECTION',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
@@ -456,64 +448,65 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                   </select>
                 </Form.InputWrapper>
               )}
-              name="methodCollection"
-              rules={{ required: true }}
-              defaultValue=""
+              name='methodCollection'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Form.InputDate
-                  label="Date Collection"
-                  name="txtDateCollection"
+                  label='Date Collection'
+                  name='txtDateCollection'
                   placeholder={
                     errors.dateCollection
-                      ? "Please Enter Date Collection"
-                      : "Date Collection"
+                      ? 'Please Enter Date Collection'
+                      : 'Date Collection'
                   }
                   hasError={errors.dateCollection}
                   value={dayjs(
-                    Stores.patientRegistationStore.patientSample?.dateCollection
-                  ).format("YYYY-MM-DD")}
-                  onChange={(e) => {
-                    let dateCollection = new Date(e.target.value)
-                    onChange(dateCollection)
+                    Stores.patientRegistationStore.patientSample
+                      ?.dateCollection,
+                  ).format('YYYY-MM-DD')}
+                  onChange={e => {
+                    let dateCollection = new Date(e.target.value);
+                    onChange(dateCollection);
                     const formatDate =
-                      dayjs(dateCollection).format("YYYY-MM-DD HH:mm")
+                      dayjs(dateCollection).format('YYYY-MM-DD HH:mm');
 
                     Stores.patientRegistationStore.updatePatientSample({
                       ...Stores.patientRegistationStore.patientSample,
                       dateCollection: new Date(formatDate),
-                    })
+                    });
                   }}
                 />
               )}
-              name="dateCollection"
-              rules={{ required: true }}
-              defaultValue=""
+              name='dateCollection'
+              rules={{required: true}}
+              defaultValue=''
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
-                <Form.InputWrapper label="Status">
+              render={({field: {onChange}}) => (
+                <Form.InputWrapper label='Status'>
                   <select
                     value={Stores.patientRegistationStore.patientSample?.status}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.status ? "border-red-500  " : "border-gray-300"
+                      errors.status ? 'border-red-500  ' : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const status = e.target.value
-                      onChange(status)
+                    onChange={e => {
+                      const status = e.target.value;
+                      onChange(status);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         status,
-                      })
+                      });
                     }}
                   >
                     <option selected>Select</option>
                     {lookupItems(
                       stores.routerStore.lookupItems,
-                      "PATIENT SAMPLE - STATUS"
+                      'PATIENT SAMPLE - STATUS',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
@@ -522,45 +515,49 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                   </select>
                 </Form.InputWrapper>
               )}
-              name="status"
-              rules={{ required: false }}
-              defaultValue=""
+              name='status'
+              rules={{required: false}}
+              defaultValue=''
             />
 
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
-                <Form.InputWrapper label="Environment">
+              render={({field: {onChange}}) => (
+                <Form.InputWrapper label='Environment'>
                   <select
-                    value={Stores.patientRegistationStore.patientSample?.environment}
+                    value={
+                      Stores.patientRegistationStore.patientSample?.environment
+                    }
                     disabled={
                       stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
+                      stores.loginStore.login.role !== 'SYSADMIN'
                         ? true
                         : false
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.environment ? "border-red-500  " : "border-gray-300"
+                      errors.environment
+                        ? 'border-red-500  '
+                        : 'border-gray-300'
                     } rounded-md`}
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      onChange(environment)
+                    onChange={e => {
+                      const environment = e.target.value;
+                      onChange(environment);
                       Stores.patientRegistationStore.updatePatientSample({
                         ...Stores.patientRegistationStore.patientSample,
                         environment,
-                      })
+                      });
                     }}
                   >
                     <option selected>
                       {stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
+                      stores.loginStore.login.role !== 'SYSADMIN'
                         ? `Select`
                         : Stores.patientRegistationStore.patientSample
                             ?.environment || `Select`}
                     </option>
                     {lookupItems(
                       stores.routerStore.lookupItems,
-                      "PATIENT SAMPLE - ENVIRONMENT"
+                      'PATIENT SAMPLE - ENVIRONMENT',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
@@ -569,37 +566,37 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                   </select>
                 </Form.InputWrapper>
               )}
-              name="environment"
-              rules={{ required: true }}
-              defaultValue=""
+              name='environment'
+              rules={{required: true}}
+              defaultValue=''
             />
           </List>
         </Grid>
       </div>
       <br />
-      <List direction="row" space={3} align="center">
+      <List direction='row' space={3} align='center'>
         <Buttons.Button
-          size="medium"
-          type="solid"
+          size='medium'
+          type='solid'
           icon={Svg.Save}
           onClick={handleSubmit(onSubmitPatientSample)}
         >
           Save
         </Buttons.Button>
         <Buttons.Button
-          size="medium"
-          type="outline"
+          size='medium'
+          type='outline'
           icon={Svg.Remove}
           onClick={() => {
-            window.location.reload()
+            window.location.reload();
           }}
         >
           Clear
         </Buttons.Button>
       </List>
       <div
-        className="p-2 rounded-lg shadow-xl overflow-scroll"
-        style={{ overflowX: "scroll" }}
+        className='p-2 rounded-lg shadow-xl overflow-scroll'
+        style={{overflowX: 'scroll'}}
       >
         <PatientSampleList
           data={Stores.patientRegistationStore.listPatientSample}
@@ -612,34 +609,34 @@ export const PatientSample = observer((props: PatientSampleProps) => {
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(stores.routerStore.userPermission),
-            "Delete"
+            'Delete',
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(stores.routerStore.userPermission),
-            "Edit/Modify"
+            'Edit/Modify',
           )}
-          onDelete={(selectedUser) =>
+          onDelete={selectedUser =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
           }
-          onSelectedRow={(rows) => {
+          onSelectedRow={rows => {
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Delete",
+                type: 'Delete',
                 id: rows,
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 body: `Delete selected items!`,
-              })
+              });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
+                type: 'Update',
+                data: {value, dataField, id},
+                title: 'Are you sure?',
                 body: `Update recoard!`,
-              })
+              });
           }}
           // onPageSizeChange={(page, limit) => {
           //   // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
@@ -647,6 +644,5 @@ export const PatientSample = observer((props: PatientSampleProps) => {
         />
       </div>
     </>
-  )
-})
-
+  );
+});

@@ -4,15 +4,15 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
 import {
   LIST,
   REMOVE_RECORD,
   CREATE_RECORD,
   UPDATE_RECORD,
   FILTER,
-} from "./mutation"
-import { stores } from "@/stores"
+} from './mutation';
+import {stores} from '@/stores';
 
 export class RoleMappingService {
   addRoleMapping = (variables: any) =>
@@ -23,27 +23,27 @@ export class RoleMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   roleMappingList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit } },
+          variables: {input: {page, limit}},
         })
         .then((response: any) => {
-          stores.roleMappingStore.updateRoleMappingList(response.data)
-          resolve(response.data)
+          stores.roleMappingStore.updateRoleMappingList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   deleteRoleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -52,12 +52,12 @@ export class RoleMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateRoleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -67,30 +67,30 @@ export class RoleMappingService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterRoleMapping.success) return this.roleMappingList()
-          stores.roleMappingStore.filterRoleMappingList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          if (!response.data.filterRoleMapping.success)
+            return this.roleMappingList();
+          stores.roleMappingStore.filterRoleMappingList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })  
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
-

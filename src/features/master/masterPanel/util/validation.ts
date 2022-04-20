@@ -1,5 +1,5 @@
-import validate from "validate.js"
-export { validate }
+import validate from 'validate.js';
+export {validate};
 
 export const masterPanel = {
   rLab: {
@@ -20,4 +20,4 @@ export const masterPanel = {
   serviceType: {
     presence: true,
   },
-}
+};

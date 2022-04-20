@@ -49,8 +49,6 @@ export const SalesHierarchyTableForSalesTeam = observer(
       });
     };
 
-    console.log({employeeList});
-
     useEffect(() => {
       loadEmployee();
     }, []);
@@ -84,28 +82,21 @@ export const SalesHierarchyTableForSalesTeam = observer(
     };
 
     return (
-      <div className="flex flex-col gap-2 items-center overflow-auto">
+      <div className='flex flex-col gap-2 items-center overflow-auto'>
         <Table striped bordered>
           <thead>
-            <tr className="p-0 text-xs">
-              <th className="text-white" style={{minWidth: 150}}>
-                Employee
-              </th>
-              <th className="text-white" style={{minWidth: 150}}>
-                Designation
-              </th>
-              <th className="text-white" style={{minWidth: 150}}>
+            <tr className='p-0 text-xs'>
+              <th className='text-white '>Employee</th>
+              <th className='text-white '>Designation</th>
+              <th className='text-white sticky right-0 flex flex-row gap-2'>
                 Level
-              </th>
-              <th className="text-white sticky right-0 flex flex-row gap-2">
-                Action
                 <Buttons.ButtonIcon
                   icon={
                     <IconContext.Provider value={{color: '#ffffff'}}>
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplaySalesHierarchy('');
                   }}
@@ -116,7 +107,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplaySalesHierarchy('display');
                   }}
@@ -125,73 +116,16 @@ export const SalesHierarchyTableForSalesTeam = observer(
             </tr>
           </thead>
           {displaySalesHierarchy && (
-            <tbody className="text-xs">
+            <tbody className='text-xs'>
               {salesHierarchy?.current?.map((item, index) => (
                 <tr>
                   <td>
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          posstion="sticky"
-                          loader={loading}
-                          placeholder="Search by Employee Code"
-                          data={{
-                            list: employeeList,
-                            displayKey: ['empCode', 'fullName'],
-                          }}
-                          hasError={errors.empCode}
-                          displayValue={item?.empCode}
-                          onFilter={(value: string) => {
-                            userStore.UsersService.filter({
-                              input: {
-                                type: 'filter',
-                                filter: {
-                                  empCode: value,
-                                  role: 'SALES',
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            }).then(res => {
-                              if (!res.filterUsers.success)
-                                return loadEmployee();
-                              setEmployeeList(res.filterUsers.data);
-                            });
-                          }}
-                          onSelect={item => {
-                            onChange(item.priceGroup);
-                            // const salesHierarchy = toJS(
-                            //   salesTeamStore.salesTeam?.salesHierarchy,
-                            // );
-                            if (
-                              _.findIndex(salesHierarchy, o => {
-                                return _.isMatch(o, {empCode: item.empCode});
-                              }) >= 0
-                            ) {
-                              removeItem(index);
-                              Toast.warning({
-                                message: '😔 Already exists same record found!',
-                              });
-                            } else {
-                              salesHierarchy.current[index] = {
-                                ...salesHierarchy.current[index],
-                                empCode: item.empCode,
-                                fullName: item.fullName,
-                                designation: item.deginisation,
-                              };
-                              // salesTeamStore.updateSalesTeam({
-                              //   ...salesTeamStore.salesTeam,
-                              //   salesHierarchy,
-                              // });
-                            }
-                            salesTeamStore.updateSalesTeamList(
-                              salesTeamStore.listSalesTeamCopy,
-                            );
-                          }}
-                        />
+                        <Form.Input disabled={true} value={`${item.empCode}`} />
                       )}
-                      name="priceGroup"
+                      name='designation'
                       rules={{required: false}}
                       defaultValue={employeeList}
                     />
@@ -202,74 +136,21 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       render={({field: {onChange}}) => (
                         <Form.Input disabled={true} value={item.designation} />
                       )}
-                      name="designation"
+                      name='designation'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <select
-                          value={item.level}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                          onChange={e => {
-                            const level = e.target.value;
-                            onChange(level);
-                            // const salesHierarchy = toJS(
-                            //   salesTeamStore.salesTeam?.salesHierarchy,
-                            // );
-                            salesHierarchy.current[index] = {
-                              ...salesHierarchy.current[index],
-                              level,
-                            };
-                            // salesTeamStore.updateSalesTeam({
-                            //   ...salesTeamStore.salesTeam,
-                            //   salesHierarchy,
-                            // });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(routerStore.lookupItems, 'LEVEL').map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ),
-                          )}
-                        </select>
+                        <Form.Input disabled={true} value={item.level} />
                       )}
-                      name="level"
+                      name='level'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
-                  </td>
-                  <td className="sticky right-0 z-10 bg-gray-500">
-                    <div className="flex flex-col gap-1">
-                      <Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {
-                          removeItem(index);
-                        }}
-                      >
-                        <Icons.EvaIcon
-                          icon="minus-circle-outline"
-                          color="#fff"
-                        />
-                      </Buttons.Button>
-                      <Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={handleSubmit(addItem)}
-                      >
-                        <Icons.EvaIcon
-                          icon="plus-circle-outline"
-                          color="#fff"
-                        />
-                      </Buttons.Button>
-                    </div>
                   </td>
                 </tr>
               ))}
@@ -277,15 +158,15 @@ export const SalesHierarchyTableForSalesTeam = observer(
           )}
           {salesHierarchy.current?.length === 0 && (
             <Buttons.Button
-              size="small"
-              type="outline"
+              size='small'
+              type='outline'
               onClick={handleSubmit(addItem)}
             >
-              <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
             </Buttons.Button>
           )}
         </Table>
-        {displaySalesHierarchy && (
+        {/* {displaySalesHierarchy && (
           <Buttons.Button
             size="small"
             type="solid"
@@ -293,7 +174,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
           >
             Update
           </Buttons.Button>
-        )}
+        )} */}
       </div>
     );
   },

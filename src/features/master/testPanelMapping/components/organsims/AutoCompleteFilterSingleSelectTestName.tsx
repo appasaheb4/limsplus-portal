@@ -1,52 +1,51 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import _ from "lodash"
-import { observer } from "mobx-react"
-import { useStores } from "@/stores"
-import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from "@/library/components"
+import React, {useState, useEffect, useRef} from 'react';
+import _ from 'lodash';
+import {observer} from 'mobx-react';
+import {useStores} from '@/stores';
+import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectTestNameProps {
-  lab?: string
-  onSelect: (item: any) => void
+  lab?: string;
+  onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectTestName = observer(
-  ({ onSelect, lab }: AutoCompleteFilterSingleSelectTestNameProps) => {
-    const { loading, testMasterStore } = useStores()
+  ({onSelect, lab}: AutoCompleteFilterSingleSelectTestNameProps) => {
+    const {loading, testMasterStore} = useStores();
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-          posstion="relative"
+          posstion='relative'
           loader={loading}
-          placeholder="Search by code or name"
+          placeholder='Search by code or name'
           data={{
-            list:testMasterStore.listTestMaster.filter(
-              (item) =>
-                item.pLab ===
-                lab
-            ) || [],
-            displayKey: ["testCode", "testName"],
+            list:
+              testMasterStore.listTestMaster.filter(
+                item => item.pLab === lab,
+              ) || [],
+            displayKey: ['testCode', 'testName'],
           }}
           onFilter={(value: string) => {
             testMasterStore.testMasterService.filterByFields({
               input: {
                 filter: {
-                  fields: ["testCode", "testName"],
+                  fields: ['testCode', 'testName'],
                   srText: value,
                 },
                 page: 0,
                 limit: 10,
               },
-            })
+            });
           }}
-          onSelect={(item) => {
-            onSelect && onSelect(item)
+          onSelect={item => {
+            onSelect && onSelect(item);
             testMasterStore.updateTestMasterList(
-              testMasterStore.listTestMasterCopy
-            )
+              testMasterStore.listTestMasterCopy,
+            );
           }}
         />
       </>
-    )
-  }
-)
+    );
+  },
+);

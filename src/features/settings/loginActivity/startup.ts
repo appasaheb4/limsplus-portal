@@ -1,6 +1,6 @@
 import {stores} from '@/stores';
 const startup = async () => {
-    stores.loginActivityStore.fetchLoginActivity();
-}
+  stores.loginActivityStore.fetchLoginActivity();
+};
 
 export default startup;

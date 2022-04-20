@@ -1,1 +1,1 @@
-export * from "./DeginisationHOC"
+export * from './DeginisationHOC';

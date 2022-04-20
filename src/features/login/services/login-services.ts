@@ -4,14 +4,14 @@
  * @author limsplus
  */
 
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
 import {
   LOGIN,
   STATUS_UPDATE,
   LOGOUT,
   FORGOT_PASSWORD,
   SESSION_ALLOWED_LOGOUT,
-} from "./mutation"
+} from './mutation';
 export class LoginService {
   onLogin = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -21,12 +21,12 @@ export class LoginService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   accountStatusUpdate = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -36,12 +36,12 @@ export class LoginService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   forgotPassword = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -50,12 +50,12 @@ export class LoginService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   logout = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -65,26 +65,25 @@ export class LoginService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   sessionAllowedLogout = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      
       client
-        .mutate({  
+        .mutate({
           mutation: SESSION_ALLOWED_LOGOUT,
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

@@ -1,12 +1,12 @@
-import { makeObservable, action, observable } from "mobx"
-import {HostCommunication} from "../models"
-import { ConvertTo } from "../../models"
-import { InterfaceManager } from "../../interfaceManager/models"
+import {makeObservable, action, observable} from 'mobx';
+import {HostCommunication} from '../models';
+import {ConvertTo} from '../../models';
+import {InterfaceManager} from '../../interfaceManager/models';
 
 export class HostCommunicationStore {
-  hostCommuication!: HostCommunication
-  convertTo!: ConvertTo
-  selectedInterfaceManager?: InterfaceManager
+  hostCommuication!: HostCommunication;
+  convertTo!: ConvertTo;
+  selectedInterfaceManager?: InterfaceManager;
   constructor() {
     makeObservable<HostCommunicationStore, any>(this, {
       hostCommuication: observable,
@@ -16,17 +16,16 @@ export class HostCommunicationStore {
       updateHostCommuication: action,
       updateConvertTo: action,
       updateSelectedInterfaceManager: action,
-    })
+    });
   }
 
   updateHostCommuication = (hostCommunication: HostCommunication) => {
-    this.hostCommuication = hostCommunication
-  }
+    this.hostCommuication = hostCommunication;
+  };
   updateConvertTo(convertTo: ConvertTo) {
-    this.convertTo = convertTo
+    this.convertTo = convertTo;
   }
   updateSelectedInterfaceManager(interfaceManager: InterfaceManager) {
-    
-    this.selectedInterfaceManager = interfaceManager
+    this.selectedInterfaceManager = interfaceManager;
   }
 }

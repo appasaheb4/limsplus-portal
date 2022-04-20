@@ -1,30 +1,33 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
-import { Container } from "reactstrap"
-import _ from "lodash"
-import { Table } from "reactstrap"
-import { observer } from "mobx-react"
-import { Form, Toast, Buttons } from "@/library/components"
-import { useStores } from "@/stores"
+import React, {useEffect, useState} from 'react';
+import {Container} from 'reactstrap';
+import _ from 'lodash';
+import {Table} from 'reactstrap';
+import {observer} from 'mobx-react';
+import {Form, Toast, Buttons} from '@/library/components';
+import {useStores} from '@/stores';
 
-import { IconContext } from "react-icons"
-import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
+import {IconContext} from 'react-icons';
+import {
+  BsFillArrowDownCircleFill,
+  BsFillArrowUpCircleFill,
+} from 'react-icons/bs';
 
-const grid = 8
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "none",
-  display: "flex",
+const grid = 8;
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? 'lightblue' : 'none',
+  display: 'flex',
   padding: grid,
-  overflow: "auto",
-})
+  overflow: 'auto',
+});
 
 export interface ModalResultReportOrderProps {
-  field?: string
-  isVisible?: boolean
-  title?: string
-  testCode?: any
-  onClick?: (item: any) => void
-  onClose?: () => void
+  field?: string;
+  isVisible?: boolean;
+  title?: string;
+  testCode?: any;
+  onClick?: (item: any) => void;
+  onClose?: () => void;
 }
 
 export const ModalResultReportOrder = observer(
@@ -36,139 +39,155 @@ export const ModalResultReportOrder = observer(
     onClick,
     onClose,
   }: ModalResultReportOrderProps) => {
-    const { testAnalyteMappingStore } = useStores()
-    const [order, setOrder] = useState<any>([])
-    const [txtDisable, setTxtDisable] = useState(true)
+    const {testAnalyteMappingStore} = useStores();
+    const [order, setOrder] = useState<any>([]);
+    const [txtDisable, setTxtDisable] = useState(true);
     useEffect(() => {
       testAnalyteMappingStore.testAnalyteMappingService
         .findByFileds({
-          input: { filter: { testCode } },
+          input: {filter: {testCode}},
         })
-        .then((res) => {
+        .then(res => {
           if (!res.findByFiledsTestAnalyteMappings.success)
             return Toast.warning({
               message: `😔 ${res.findByFiledsTestAnalyteMappings.message}`,
-            })
+            });
           setOrder(
-            _.map(res.findByFiledsTestAnalyteMappings.data, (o) =>
+            _.map(res.findByFiledsTestAnalyteMappings.data, o =>
               _.pick(o, [
-                "_id",
-                "analyteName",
-                "analyteCode",
-                "resultOrder",
-                "reportOrder",
-              ])
-            )
-          )
-        })
-    }, [testCode])
+                '_id',
+                'analyteName',
+                'analyteCode',
+                'resultOrder',
+                'reportOrder',
+              ]),
+            ),
+          );
+        });
+    }, [testCode]);
 
     return (
       <Container>
         {isVisible && (
           <>
             <div
-              className="justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+              className='justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'
               onClick={() => {
                 //onClose && onClose()
                 // setShowModal(false)
               }}
             >
-              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className='relative w-auto my-6 mx-auto max-w-3xl'>
                 {/*content*/}
-                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   {/*header*/}
-                  <div className="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
-                    <h3 className="text-3xl font-semibold">{title}</h3>
+                  <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
+                    <h3 className='text-3xl font-semibold'>{title}</h3>
                     <button
-                      className="p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                      className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                       onClick={() => {
-                        onClose && onClose()
+                        onClose && onClose();
                         //setShowModal(false)
                       }}
                     >
-                      <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
                         ×
                       </span>
                     </button>
                   </div>
                   {/*body*/}
 
-                  <div className="relative p-2 flex-auto">
-                    <Table striped bordered className="max-h-5" size="sm">
+                  <div className='relative p-2 flex-auto'>
+                    <Table striped bordered className='max-h-5' size='sm'>
                       <thead>
-                        <tr className="text-xs">
-                          <th className="text-white">Analyte</th>
+                        <tr className='text-xs'>
+                          <th className='text-white'>Analyte</th>
                           <th>
-                            <div className="text-white flex flex-row gap-2 items-center">
+                            <div className='text-white flex flex-row gap-2 items-center'>
                               Result Order
                               <Buttons.ButtonIcon
                                 icon={
-                                  <IconContext.Provider value={{ color: "#ffffff" }}>
+                                  <IconContext.Provider
+                                    value={{color: '#ffffff'}}
+                                  >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
                                 }
-                                title=""
+                                title=''
                                 onClick={() => {
-                                  setOrder(_.orderBy(order, "resultOrder", "asc"))
+                                  setOrder(
+                                    _.orderBy(order, 'resultOrder', 'asc'),
+                                  );
                                 }}
                               />
                               <Buttons.ButtonIcon
                                 icon={
-                                  <IconContext.Provider value={{ color: "#ffffff" }}>
+                                  <IconContext.Provider
+                                    value={{color: '#ffffff'}}
+                                  >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
                                 }
-                                title=""
+                                title=''
                                 onClick={() => {
-                                  setOrder(_.orderBy(order, "resultOrder", "desc"))
+                                  setOrder(
+                                    _.orderBy(order, 'resultOrder', 'desc'),
+                                  );
                                 }}
                               />
                             </div>
                           </th>
                           <th>
-                            <div className="text-white flex flex-row gap-2 items-center">
+                            <div className='text-white flex flex-row gap-2 items-center'>
                               Report Order
                               <Buttons.ButtonIcon
                                 icon={
-                                  <IconContext.Provider value={{ color: "#ffffff" }}>
+                                  <IconContext.Provider
+                                    value={{color: '#ffffff'}}
+                                  >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
                                 }
-                                title=""
+                                title=''
                                 onClick={() => {
-                                  setOrder(_.orderBy(order, "reportOrder", "asc"))
+                                  setOrder(
+                                    _.orderBy(order, 'reportOrder', 'asc'),
+                                  );
                                 }}
                               />
                               <Buttons.ButtonIcon
                                 icon={
-                                  <IconContext.Provider value={{ color: "#ffffff" }}>
+                                  <IconContext.Provider
+                                    value={{color: '#ffffff'}}
+                                  >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
                                 }
-                                title=""
+                                title=''
                                 onClick={() => {
-                                  setOrder(_.orderBy(order, "reportOrder", "desc"))
+                                  setOrder(
+                                    _.orderBy(order, 'reportOrder', 'desc'),
+                                  );
                                 }}
                               />
                             </div>
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="text-xs">
+                      <tbody className='text-xs'>
                         {order.map((item, index) => (
                           <tr
                             onMouseEnter={() => {
-                              setTxtDisable(false)
+                              setTxtDisable(false);
                             }}
                             onMouseLeave={() => {
-                              setTxtDisable(true)
+                              setTxtDisable(true);
                             }}
                           >
                             <td>{`${index + 1}. ${
-                              item.analyteName + " - " + item.analyteCode
+                              item.analyteName + ' - ' + item.analyteCode
                             }`}</td>
-                            <td style={{ width: 150 }}>
+                            <td style={{width: 150}}>
                               {txtDisable ? (
                                 <span
                                   className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
@@ -177,16 +196,16 @@ export const ModalResultReportOrder = observer(
                                 </span>
                               ) : (
                                 <Form.Input
-                                  type="number"
+                                  type='number'
                                   disabled={txtDisable}
                                   placeholder={item.resultOrder}
-                                  onChange={(seq) => {
-                                    order[index].resultOrder = parseInt(seq)
+                                  onChange={seq => {
+                                    order[index].resultOrder = parseInt(seq);
                                   }}
                                 />
                               )}
                             </td>
-                            <td style={{ width: 150 }}>
+                            <td style={{width: 150}}>
                               {txtDisable ? (
                                 <span
                                   className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
@@ -195,11 +214,11 @@ export const ModalResultReportOrder = observer(
                                 </span>
                               ) : (
                                 <Form.Input
-                                  type="number"
+                                  type='number'
                                   disabled={txtDisable}
                                   placeholder={item.reportOrder}
-                                  onChange={(seq) => {
-                                    order[index].reportOrder = parseInt(seq)
+                                  onChange={seq => {
+                                    order[index].reportOrder = parseInt(seq);
                                   }}
                                 />
                               )}
@@ -211,25 +230,25 @@ export const ModalResultReportOrder = observer(
                   </div>
 
                   {/*footer*/}
-                  <div className="flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b">
+                  <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
                     <button
-                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                      style={{ transition: "all .15s ease" }}
+                      className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
+                      type='button'
+                      style={{transition: 'all .15s ease'}}
                       onClick={() => {
-                        onClose && onClose()
+                        onClose && onClose();
                         // setShowModal(false)
                       }}
                     >
                       Close
                     </button>
                     <button
-                      className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                      style={{ transition: "all .15s ease" }}
+                      className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
+                      type='button'
+                      style={{transition: 'all .15s ease'}}
                       onClick={() => {
                         //setShowModal(false)
-                        onClick && onClick(order)
+                        onClick && onClick(order);
                       }}
                     >
                       Update
@@ -238,10 +257,10 @@ export const ModalResultReportOrder = observer(
                 </div>
               </div>
             </div>
-            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            <div className='opacity-25 fixed inset-0 z-40 bg-black'></div>
           </>
         )}
       </Container>
-    )
-  }
-)
+    );
+  },
+);

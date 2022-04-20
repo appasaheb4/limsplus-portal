@@ -6,20 +6,23 @@ import {useStores} from '@/stores';
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
 
 interface AutoCompleteDefaultDepartmentProps {
+  defaultLab: string;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteDefaultDepartment = observer(
-  ({onSelect}: AutoCompleteDefaultDepartmentProps) => {
+  ({defaultLab, onSelect}: AutoCompleteDefaultDepartmentProps) => {
     const {loading, departmentStore, labStore, userStore} = useStores();
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-          posstion="relative"
+          posstion='relative'
           loader={loading}
-          placeholder="Search by code or name"
+          placeholder='Search by code or name'
           data={{
-            list: departmentStore.listDepartment,
+            list: departmentStore.listDepartment.filter(
+              item => item.lab === defaultLab,
+            ),
             displayKey: ['code', 'name'],
           }}
           // hasError={errors.defaultDepartment}

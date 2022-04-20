@@ -1,5 +1,5 @@
-import React from "react";
-import { Bar } from "react-chartjs-2";
+import React from 'react';
+import {Bar} from 'react-chartjs-2';
 
 import {
   Card,
@@ -10,38 +10,38 @@ import {
   DropdownMenu,
   DropdownToggle,
   UncontrolledDropdown,
-} from "reactstrap";
+} from 'reactstrap';
 
-import { MoreHorizontal } from "react-feather";
+import {MoreHorizontal} from 'react-feather';
 
 const BarChart = () => {
   const theme = {
-    primary: "#3B82EC",
-    secondary: "#495057",
-    tertiary: "#0069fc",
-    success: "#4BBF73",
-    info: "#1F9BCF",
-    warning: "#f0ad4e",
-    danger: "#d9534f",
+    primary: '#3B82EC',
+    secondary: '#495057',
+    tertiary: '#0069fc',
+    success: '#4BBF73',
+    info: '#1F9BCF',
+    warning: '#f0ad4e',
+    danger: '#d9534f',
   };
   const data = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ],
     datasets: [
       {
-        label: "Last year",
+        label: 'Last year',
         backgroundColor: theme.primary,
         borderColor: theme.primary,
         hoverBackgroundColor: theme.primary,
@@ -51,11 +51,11 @@ const BarChart = () => {
         categoryPercentage: 0.5,
       },
       {
-        label: "This year",
-        backgroundColor: "#E8EAED",
-        borderColor: "#E8EAED",
-        hoverBackgroundColor: "#E8EAED",
-        hoverBorderColor: "#E8EAED",
+        label: 'This year',
+        backgroundColor: '#E8EAED',
+        borderColor: '#E8EAED',
+        hoverBackgroundColor: '#E8EAED',
+        hoverBorderColor: '#E8EAED',
         data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
         barPercentage: 0.75,
         categoryPercentage: 0.5,
@@ -84,7 +84,7 @@ const BarChart = () => {
         {
           stacked: false,
           gridLines: {
-            color: "transparent",
+            color: 'transparent',
           },
         },
       ],
@@ -92,11 +92,11 @@ const BarChart = () => {
   };
 
   return (
-    <Card className="flex-fill w-100">
+    <Card className='flex-fill w-100'>
       <CardHeader>
-        <div className="card-actions float-right">
+        <div className='card-actions float-right'>
           <UncontrolledDropdown>
-            <DropdownToggle tag="a">
+            <DropdownToggle tag='a'>
               <MoreHorizontal />
             </DropdownToggle>
             <DropdownMenu right>
@@ -106,13 +106,13 @@ const BarChart = () => {
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
-        <CardTitle tag="h5" className="mb-0">
+        <CardTitle tag='h5' className='mb-0'>
           Sales / Revenue
         </CardTitle>
       </CardHeader>
-      <CardBody className="d-flex">
-        <div className="align-self-center w-100">
-          <div className="chart chart-lg">
+      <CardBody className='d-flex'>
+        <div className='align-self-center w-100'>
+          <div className='chart chart-lg'>
             <Bar data={data} options={options} />
           </div>
         </div>
