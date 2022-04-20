@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderInput!) {
+  mutation ($input: PatientOrderInput!) {
     patientOrders(input: $input) {
       paginatorInfo {
         count
@@ -10,7 +10,7 @@ export const LIST_PATIENT_ORDER = gql`
       message
       data {
         _id
-        labId,
+        labId
         orderId
         visitId
         patientName
@@ -69,37 +69,37 @@ export const LIST_PATIENT_ORDER = gql`
       }
     }
   }
-`
+`;
 
 export const CREATE_PATIENT_ORDER = gql`
-  mutation($input: CreatePatientOrderInput!) {
+  mutation ($input: CreatePatientOrderInput!) {
     createPatientOrder(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const REMOVE_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderRemoveInput!) {
+  mutation ($input: PatientOrderRemoveInput!) {
     removePatientOrder(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_PATIENT_VISIT = gql`
-  mutation($input: UpdatePatientVisitInput!) {
+  mutation ($input: UpdatePatientVisitInput!) {
     updatePatientVisit(input: $input) {
       success
       message
     }
   }
-`
-     
+`;
+
 export const FILTER_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderInput!) {
+  mutation ($input: PatientOrderInput!) {
     filterPatientOrder(input: $input) {
       paginatorInfo {
         count
@@ -167,29 +167,29 @@ export const FILTER_PATIENT_ORDER = gql`
       }
     }
   }
-`
+`;
 
 export const COUNTER_PATIENT_ORDER_ORDERID = gql`
-  mutation($input: CounterInput!) {
+  mutation ($input: CounterInput!) {
     counter(input: $input) {
       message
       success
       data
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderInput!) {
+  mutation ($input: PatientOrderInput!) {
     checkExistsRecordsPatientOrder(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
-  mutation($input: PatientOrderInput!) {
+  mutation ($input: PatientOrderInput!) {
     filterByFieldsPatientOrder(input: $input) {
       paginatorInfo {
         count
@@ -198,7 +198,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
       message
       data {
         _id
-        labId,
+        labId
         orderId
         visitId
         patientName
@@ -249,7 +249,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
             deptOutSource
             comment
           }
-        }  
+        }
         environment
         documentType
         dateOfEntry
@@ -257,14 +257,14 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
       }
     }
   }
-`
+`;
 
 export const GET_PACKAGES_LIST = gql`
-  mutation($input: PatientOrderInput!) {
+  mutation ($input: PatientOrderInput!) {
     getPatientOrderPackagesList(input: $input) {
       success
       message
       packageList
     }
   }
-`
+`;

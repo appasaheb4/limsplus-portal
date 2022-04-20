@@ -1,20 +1,20 @@
-import { makeObservable, action, observable, computed } from "mobx"
-import {TestSampleMapping,LocalInput} from "../models"
-import {TestSampleMappingService} from "../services"
+import {makeObservable, action, observable, computed} from 'mobx';
+import {TestSampleMapping, LocalInput} from '../models';
+import {TestSampleMappingService} from '../services';
 
 export class TestSampleMappingStore {
-  listTestSampleMapping: TestSampleMapping[]
-  listTestSampleMappingCount: number
-  localInput!: LocalInput
-  testSampleMapping!: TestSampleMapping
-  checkExitsTestSampleEnvCode: boolean
-  departments: any
+  listTestSampleMapping: TestSampleMapping[];
+  listTestSampleMappingCount: number;
+  localInput!: LocalInput;
+  testSampleMapping!: TestSampleMapping;
+  checkExitsTestSampleEnvCode: boolean;
+  departments: any;
 
   constructor() {
-    this.listTestSampleMapping = []
-    this.listTestSampleMappingCount = 0
-    this.checkExitsTestSampleEnvCode = false
-    this.localInput = new LocalInput({})
+    this.listTestSampleMapping = [];
+    this.listTestSampleMappingCount = 0;
+    this.checkExitsTestSampleEnvCode = false;
+    this.localInput = new LocalInput({});
     this.testSampleMapping = {
       ...this.testSampleMapping,
       primaryContainer: false,
@@ -25,7 +25,7 @@ export class TestSampleMappingStore {
       departmentSpecfic: false,
       sharedSample: false,
       printLabels: false,
-    }
+    };
 
     makeObservable<TestSampleMappingStore, any>(this, {
       listTestSampleMapping: observable,
@@ -43,41 +43,43 @@ export class TestSampleMappingStore {
       updateExitsTestSampleEnvCode: action,
       filterTestSampleMappingList: action,
       updateDepartments: action,
-    })
+    });
   }
 
   get testSampleMappingService() {
-    return new TestSampleMappingService()
+    return new TestSampleMappingService();
   }
 
   fetchSampleTypeList(page?, limit?) {
-    this.testSampleMappingService.listTestSampleMapping(page, limit)
+    this.testSampleMappingService.listTestSampleMapping(page, limit);
   }
 
   updateTestSampleMappingList(res: any) {
-    if (!res.testSampleMappings.success) return alert(res.testSampleMappings.message)
-    this.listTestSampleMapping = res.testSampleMappings.data
-    this.listTestSampleMappingCount = res.testSampleMappings.paginatorInfo.count
+    if (!res.testSampleMappings.success)
+      return alert(res.testSampleMappings.message);
+    this.listTestSampleMapping = res.testSampleMappings.data;
+    this.listTestSampleMappingCount =
+      res.testSampleMappings.paginatorInfo.count;
   }
 
   filterTestSampleMappingList(res: any) {
-    this.listTestSampleMapping = res.filterTestSampleMappings.data
+    this.listTestSampleMapping = res.filterTestSampleMappings.data;
     this.listTestSampleMappingCount =
-      res.filterTestSampleMappings.paginatorInfo.count
+      res.filterTestSampleMappings.paginatorInfo.count;
   }
 
   updateSampleType = (sampleMapping: TestSampleMapping) => {
-    this.testSampleMapping = sampleMapping
-  }
+    this.testSampleMapping = sampleMapping;
+  };
 
   updateExitsTestSampleEnvCode = (status: boolean) => {
-    this.checkExitsTestSampleEnvCode = status
-  }
+    this.checkExitsTestSampleEnvCode = status;
+  };
 
   updateDepartments = (department: any) => {
-    this.departments = department
-  }
+    this.departments = department;
+  };
   updateLocalInput(input: LocalInput) {
-    this.localInput = input
+    this.localInput = input;
   }
 }

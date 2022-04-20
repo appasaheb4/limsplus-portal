@@ -1,13 +1,13 @@
-import { makeObservable, action, observable, computed } from "mobx"
-import {ShortcutMenuService} from "../services"
+import {makeObservable, action, observable, computed} from 'mobx';
+import {ShortcutMenuService} from '../services';
 
 export class ShortcutMenuStore {
-  shortcutMenuList: any[]
-  isDragDropList: boolean
+  shortcutMenuList: any[];
+  isDragDropList: boolean;
 
   constructor() {
-    this.shortcutMenuList = []
-    this.isDragDropList = false
+    this.shortcutMenuList = [];
+    this.isDragDropList = false;
     makeObservable<ShortcutMenuStore, any>(this, {
       shortcutMenuList: observable,
       isDragDropList: observable,
@@ -15,17 +15,17 @@ export class ShortcutMenuStore {
       ShortcutMenuService: computed,
       updateShortcutMenu: action,
       updateDragDrop: action,
-    })
+    });
   }
 
   get ShortcutMenuService() {
-    return new ShortcutMenuService()
+    return new ShortcutMenuService();
   }
 
   updateShortcutMenu = (shortcut: any) => {
-    this.shortcutMenuList = shortcut
-  }
+    this.shortcutMenuList = shortcut;
+  };
   updateDragDrop(status: boolean) {
-    this.isDragDropList = status
+    this.isDragDropList = status;
   }
 }

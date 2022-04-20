@@ -1,1 +1,1 @@
-export * from './TestPanelMapping'
+export * from './TestPanelMapping';

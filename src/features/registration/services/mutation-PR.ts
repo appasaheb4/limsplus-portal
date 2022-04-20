@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
-  
+import {gql} from '@apollo/client';
+
 export const LIST_PATIENT_RESULT = gql`
-  mutation($input: PatientResultInput!) {
+  mutation ($input: PatientResultInput!) {
     patientResults(input: $input) {
       paginatorInfo {
         count
@@ -11,10 +11,10 @@ export const LIST_PATIENT_RESULT = gql`
       patientResultList
     }
   }
-`
+`;
 
 export const FILTER_PATIENT_RESULT = gql`
-  mutation($input: PatientResultInput!) {
+  mutation ($input: PatientResultInput!) {
     filterPatientResult(input: $input) {
       paginatorInfo {
         count
@@ -24,5 +24,4 @@ export const FILTER_PATIENT_RESULT = gql`
       patientResultList
     }
   }
-`
-  
+`;

@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React, { useState, useMemo } from "react"
-import { observer } from "mobx-react"
-import _ from "lodash"
+import React, {useState, useMemo} from 'react';
+import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   Toast,
   Header,
@@ -15,17 +15,17 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-} from "@/library/components"
-import { lookupItems, lookupValue } from "@/library/utils"
-import { PanelMasterList } from "../components"
-import { useForm, Controller } from "react-hook-form"
-import { AutoCompleteFilterSingleSelectDepartment } from "../components"
-import { MasterPanelHoc } from "../hoc"
-import { useStores } from "@/stores"
-import { FormHelper } from "@/helper"
+} from '@/library/components';
+import {lookupItems, lookupValue} from '@/library/utils';
+import {PanelMasterList} from '../components';
+import {useForm, Controller} from 'react-hook-form';
+import {AutoCompleteFilterSingleSelectDepartment} from '../components';
+import {MasterPanelHoc} from '../hoc';
+import {useStores} from '@/stores';
+import {FormHelper} from '@/helper';
 
-import { RouterFlow } from "@/flows"
-import { toJS } from "mobx"
+import {RouterFlow} from '@/flows';
+import {toJS} from 'mobx';
 
 const MasterPanel = MasterPanelHoc(
   observer(() => {
@@ -38,22 +38,22 @@ const MasterPanel = MasterPanelHoc(
       deliveryScheduleStore,
       routerStore,
       loading,
-    } = useStores()
+    } = useStores();
     const {
       control,
       handleSubmit,
-      formState: { errors },
+      formState: {errors},
       setValue,
-    } = useForm()
+    } = useForm();
 
-    setValue("status", masterPanelStore.masterPanel?.status)
-    setValue("rLab", loginStore.login.lab)
-    setValue("pLab", loginStore.login.lab)
-    setValue("environment", masterPanelStore.masterPanel?.environment)
-    setValue("serviceType", masterPanelStore.masterPanel?.serviceType)
+    setValue('status', masterPanelStore.masterPanel?.status);
+    setValue('rLab', loginStore.login.lab);
+    setValue('pLab', loginStore.login.lab);
+    setValue('environment', masterPanelStore.masterPanel?.environment);
+    setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
 
-    const [modalConfirm, setModalConfirm] = useState<any>()
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+    const [modalConfirm, setModalConfirm] = useState<any>();
+    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const onSubmitMasterPanel = () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (
@@ -67,13 +67,13 @@ const MasterPanel = MasterPanelHoc(
                 enteredBy: loginStore.login.userId,
               },
             })
-            .then((res) => {
+            .then(res => {
               if (res.createPanelMaster.success) {
                 Toast.success({
                   message: `😊 ${res.createPanelMaster.message}`,
-                })
+                });
               }
-            })
+            });
         } else if (
           masterPanelStore.masterPanel?.existsVersionId &&
           !masterPanelStore.masterPanel?.existsRecordId
@@ -86,13 +86,13 @@ const MasterPanel = MasterPanelHoc(
                 __typename: undefined,
               },
             })
-            .then((res) => {
+            .then(res => {
               if (res.versionUpgradePanelMaster.success) {
                 Toast.success({
                   message: `😊 ${res.versionUpgradePanelMaster.message}`,
-                })
+                });
               }
-            })
+            });
         } else if (
           !masterPanelStore.masterPanel?.existsVersionId &&
           masterPanelStore.masterPanel?.existsRecordId
@@ -105,23 +105,23 @@ const MasterPanel = MasterPanelHoc(
                 __typename: undefined,
               },
             })
-            .then((res) => {
+            .then(res => {
               if (res.duplicatePanelMaster.success) {
                 Toast.success({
                   message: `😊 ${res.duplicatePanelMaster.message}`,
-                })
+                });
               }
-            })
+            });
         }
         setTimeout(() => {
-          window.location.reload()
-        }, 2000)
+          window.location.reload();
+        }, 2000);
       } else {
         Toast.warning({
           message: `😔 Please enter diff code`,
-        })
+        });
       }
-    }
+    };
 
     const tableView = useMemo(
       () => (
@@ -138,131 +138,139 @@ const MasterPanel = MasterPanelHoc(
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Delete"
+            'Delete',
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            "Edit/Modify"
+            'Edit/Modify',
           )}
           // isEditModify={false}
-          onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-          onSelectedRow={(rows) => {
+          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onSelectedRow={rows => {
             setModalConfirm({
               show: true,
-              type: "Delete",
+              type: 'Delete',
               id: rows,
-              title: "Are you sure?",
+              title: 'Are you sure?',
               body: `Delete selected items!`,
-            })
+            });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             setModalConfirm({
               show: true,
-              type: "Update",
-              data: { value, dataField, id },
-              title: "Are you sure?",
+              type: 'Update',
+              data: {value, dataField, id},
+              title: 'Are you sure?',
               body: `Update record!`,
-            })
+            });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
             setModalConfirm({
               show: true,
-              type: "UpdateFileds",
-              data: { fileds, id },
-              title: "Are you sure?",
+              type: 'UpdateFileds',
+              data: {fileds, id},
+              title: 'Are you sure?',
               body: `Update records!`,
-            })
+            });
           }}
-          onVersionUpgrade={(item) => {
+          onVersionUpgrade={item => {
             setModalConfirm({
               show: true,
-              type: "versionUpgrade",
+              type: 'versionUpgrade',
               data: item,
-              title: "Are you version upgrade?",
+              title: 'Are you version upgrade?',
               body: `Version upgrade this record`,
-            })
+            });
           }}
-          onDuplicate={(item) => {
+          onDuplicate={item => {
             setModalConfirm({
               show: true,
-              type: "duplicate",
+              type: 'duplicate',
               data: item,
-              title: "Are you duplicate?",
+              title: 'Are you duplicate?',
               body: `Duplicate this record`,
-            })
+            });
           }}
           onPageSizeChange={(page, limit) => {
-            masterPanelStore.fetchPanelMaster(page, limit)
+            masterPanelStore.fetchPanelMaster(page, limit);
           }}
           onFilter={(type, filter, page, limit) => {
             masterPanelStore.masterPanelService.filter({
-              input: { type, filter, page, limit },
-            })
+              input: {type, filter, page, limit},
+            });
           }}
         />
       ),
-      [masterPanelStore.listMasterPanel]
-    )
+      [masterPanelStore.listMasterPanel],
+    );
 
     return (
       <>
         <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ""} />
+          <PageHeading title={routerStore.selectedComponents?.title || ''} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
-        {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
+        {RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          'Add',
+        ) && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
         )}
-        <div className="mx-auto flex-wrap">
+        <div className='mx-auto flex-wrap'>
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="RLab" hasError={errors.rLab}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='RLab' hasError={errors.rLab}>
                       <select
                         value={masterPanelStore.masterPanel?.rLab}
                         disabled={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.rLab ? "border-red-500" : "border-gray-300"
+                          errors.rLab ? 'border-red-500' : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const rLab = e.target.value as string
-                          onChange(rLab)
+                        onChange={e => {
+                          const rLab = e.target.value as string;
+                          onChange(rLab);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             rLab,
-                          })
+                          });
                           if (!masterPanelStore.masterPanel?.existsVersionId) {
                             masterPanelStore.masterPanelService
                               .checkExitsLabEnvCode({
                                 input: {
                                   code: masterPanelStore.masterPanel
                                     ?.panelMethodCode,
-                                  env: masterPanelStore.masterPanel?.environment,
+                                  env: masterPanelStore.masterPanel
+                                    ?.environment,
                                   lab: rLab,
                                 },
                               })
-                              .then((res) => {
+                              .then(res => {
                                 if (res.checkPanelMasterExistsRecord.success) {
-                                  masterPanelStore.updateExistsLabEnvCode(true)
+                                  masterPanelStore.updateExistsLabEnvCode(true);
                                   Toast.error({
                                     message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
-                                  })
-                                } else masterPanelStore.updateExistsLabEnvCode(false)
-                              })
+                                  });
+                                } else
+                                  masterPanelStore.updateExistsLabEnvCode(
+                                    false,
+                                  );
+                              });
                           }
                         }}
                       >
@@ -273,291 +281,303 @@ const MasterPanel = MasterPanelHoc(
                               <option key={index} value={item.code}>
                                 {item.name}
                               </option>
-                            )
+                            ),
                           )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="rLab"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='rLab'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="PLab" hasError={errors.pLab}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='PLab' hasError={errors.pLab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
-                        placeholder="Search by name"
+                        placeholder='Search by name'
                         disable={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
                         data={{
                           list: labStore.listLabs,
-                          displayKey: "name",
-                          findKey: "name",
+                          displayKey: 'name',
+                          findKey: 'name',
                         }}
                         hasError={errors.name}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
-                              type: "filter",
+                              type: 'filter',
                               filter: {
                                 name: value,
                               },
                               page: 0,
                               limit: 10,
                             },
-                          })
+                          });
                         }}
-                        onSelect={(item) => {
-                          onChange(item.name)
+                        onSelect={item => {
+                          onChange(item.name);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             pLab: item.code,
-                          })
-                          labStore.updateLabList(labStore.listLabsCopy)
+                          });
+                          labStore.updateLabList(labStore.listLabsCopy);
                         }}
                       />
                     </Form.InputWrapper>
                   )}
-                  name="pLab"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='pLab'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Department"
+                      label='Department'
                       hasError={errors.department}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
                         lab={masterPanelStore.masterPanel?.pLab}
                         hasError={errors.department}
-                        onSelect={(item) => {
-                          onChange(item.name)
+                        onSelect={item => {
+                          onChange(item.name);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             department: item.code,
-                          })
+                          });
                           departmentStore.updateDepartmentList(
-                            departmentStore.listDepartmentCopy
-                          )
-                          masterPanelStore.findSectionListByDeptCode(item.code)
+                            departmentStore.listDepartmentCopy,
+                          );
+                          masterPanelStore.findSectionListByDeptCode(item.code);
                         }}
                       />
                     </Form.InputWrapper>
                   )}
-                  name="department"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='department'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
 
                 {masterPanelStore.sectionListByDeptCode && (
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.InputWrapper label="Section" hasError={errors.section}>
+                    render={({field: {onChange}}) => (
+                      <Form.InputWrapper
+                        label='Section'
+                        hasError={errors.section}
+                      >
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
                           data={{
                             list: masterPanelStore.sectionListByDeptCode,
-                            displayKey: "name",
-                            findKey: "name",
+                            displayKey: 'name',
+                            findKey: 'name',
                           }}
                           hasError={errors.name}
                           onFilter={(value: string) => {
                             masterPanelStore.masterPanelService.filter({
                               input: {
-                                type: "filter",
+                                type: 'filter',
                                 filter: {
                                   name: value,
                                 },
                                 page: 0,
                                 limit: 10,
                               },
-                            })
+                            });
                           }}
-                          onSelect={(item) => {
-                            onChange(item.name)
+                          onSelect={item => {
+                            onChange(item.name);
                             masterPanelStore.updateMasterPanel({
                               ...masterPanelStore.masterPanel,
                               section: item.name,
-                            })
+                            });
                           }}
                         />
                       </Form.InputWrapper>
                     )}
-                    name="section"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='section'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 )}
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Service Type"
+                      label='Service Type'
                       hasError={errors.serviceType}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.serviceType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.serviceType ? "border-red-500" : "border-gray-300"
+                          errors.serviceType
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const serviceType = e.target.value as string
-                          onChange(serviceType)
+                        onChange={e => {
+                          const serviceType = e.target.value as string;
+                          onChange(serviceType);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             serviceType,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SERVICE_TYPE").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'SERVICE_TYPE',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="serviceType"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='serviceType'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Panel Code"
+                      label='Panel Code'
                       placeholder={
-                        errors.panelCode ? "Please Enter Panel  Code" : "Panel  Code"
+                        errors.panelCode
+                          ? 'Please Enter Panel  Code'
+                          : 'Panel  Code'
                       }
                       hasError={errors.panelCode}
                       value={masterPanelStore.masterPanel?.panelCode}
-                      onChange={(panelCode) => {
-                        onChange(panelCode)
+                      onChange={panelCode => {
+                        onChange(panelCode);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           panelCode: panelCode.toUpperCase(),
-                        })
+                        });
                       }}
-                      onBlur={(panelCode) => {
+                      onBlur={panelCode => {
                         masterPanelStore.masterPanelService
-                          .findByFields({ input: { filter: { panelCode } } })
-                          .then((res) => {
+                          .findByFields({input: {filter: {panelCode}}})
+                          .then(res => {
                             if (res.findByFieldsPanelMaster.success) {
                               masterPanelStore.updateMasterPanel({
                                 ...masterPanelStore.masterPanel,
-                                panelName: _.first(res.findByFieldsPanelMaster.data)
-                                  .panelName,
-                              })
+                                panelName: _.first(
+                                  res.findByFieldsPanelMaster.data,
+                                ).panelName,
+                              });
                               masterPanelStore.updateMasterPanelActivity({
                                 ...masterPanelStore.masterPanelActivity,
                                 disablePanelName: true,
-                              })
+                              });
                             } else {
                               masterPanelStore.updateMasterPanel({
                                 ...masterPanelStore.masterPanel,
-                                panelName: "",
-                              })
+                                panelName: '',
+                              });
                               masterPanelStore.updateMasterPanelActivity({
                                 ...masterPanelStore.masterPanelActivity,
                                 disablePanelName: false,
-                              })
+                              });
                             }
-                          })
+                          });
                       }}
                     />
                   )}
-                  name="panelCode"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='panelCode'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 {masterPanelStore.checkExitsLabEnvCode && (
-                  <span className="text-red-600 font-medium relative">
+                  <span className='text-red-600 font-medium relative'>
                     Code already exits. Please use other code.
                   </span>
                 )}
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Panel Name"
+                      label='Panel Name'
                       placeholder={
-                        errors.panelName ? "Please Enter Panel  Name" : "Panel  Name"
+                        errors.panelName
+                          ? 'Please Enter Panel  Name'
+                          : 'Panel  Name'
                       }
                       hasError={errors.panelName}
                       disabled={
                         masterPanelStore.masterPanelActivity?.disablePanelName
                       }
                       value={masterPanelStore.masterPanel?.panelName}
-                      onChange={(panelName) => {
-                        onChange(panelName)
+                      onChange={panelName => {
+                        onChange(panelName);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           panelName: panelName.toUpperCase(),
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="panelName"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='panelName'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.MultilineInput
                       rows={3}
-                      label="Description"
+                      label='Description'
                       placeholder={
                         errors.description
-                          ? "Please Enter Description"
-                          : "Description"
+                          ? 'Please Enter Description'
+                          : 'Description'
                       }
                       hasError={errors.description}
                       value={masterPanelStore.masterPanel?.description}
-                      onChange={(description) => {
-                        onChange(description)
+                      onChange={description => {
+                        onChange(description);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           description,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="description"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='description'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Panel Method"
+                      label='Panel Method'
                       hasError={errors.panelMethod}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list: methodsStore.listMethods,
-                          displayKey: ["methodsCode", "methodsName"],
+                          displayKey: ['methodsCode', 'methodsName'],
                         }}
                         disable={!masterPanelStore.masterPanel?.method}
                         hasError={errors.panelMethod}
@@ -565,144 +585,153 @@ const MasterPanel = MasterPanelHoc(
                           methodsStore.methodsService.filterByFields({
                             input: {
                               filter: {
-                                fields: ["methodsCode", "methodsName"],
+                                fields: ['methodsCode', 'methodsName'],
                                 srText: value,
                               },
                               page: 0,
                               limit: 10,
                             },
-                          })
+                          });
                         }}
-                        onSelect={(item) => {
-                          onChange(item.methodsCode)
+                        onSelect={item => {
+                          onChange(item.methodsCode);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             panelMethodCode: item.methodsCode,
                             panelMethodName: item.methodsName,
-                          })
+                          });
                           methodsStore.updateMethodsList(
-                            methodsStore.listMethodsCopy
-                          )
+                            methodsStore.listMethodsCopy,
+                          );
                         }}
                       />
                     </Form.InputWrapper>
                   )}
-                  name="panelMethod"
+                  name='panelMethod'
                   rules={{
-                    required: masterPanelStore.masterPanel?.method ? true : false,
+                    required: masterPanelStore.masterPanel?.method
+                      ? true
+                      : false,
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Short Name"
+                      label='Short Name'
                       placeholder={
-                        errors.shortName ? "Please Enter ShortName" : "Short Name"
+                        errors.shortName
+                          ? 'Please Enter ShortName'
+                          : 'Short Name'
                       }
                       hasError={errors.shortName}
                       value={masterPanelStore.masterPanel?.shortName}
-                      onChange={(shortName) => {
-                        onChange(shortName)
+                      onChange={shortName => {
+                        onChange(shortName);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           shortName,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="shortName"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='shortName'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Price"
-                      placeholder={errors.price ? "Please Enter Price" : "Price"}
-                      type="number"
+                      label='Price'
+                      placeholder={
+                        errors.price ? 'Please Enter Price' : 'Price'
+                      }
+                      type='number'
                       hasError={errors.price}
                       value={masterPanelStore.masterPanel?.price}
-                      onChange={(price) => {
-                        onChange(price)
+                      onChange={price => {
+                        onChange(price);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           price: parseFloat(price),
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="price"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='price'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Schedule" hasError={errors.schedule}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Schedule'
+                      hasError={errors.schedule}
+                    >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
-                        placeholder="Search by code"
+                        placeholder='Search by code'
                         data={{
                           list: deliveryScheduleStore.listDeliverySchedule,
-                          displayKey: "schCode",
-                          findKey: "schCode",
+                          displayKey: 'schCode',
+                          findKey: 'schCode',
                         }}
                         hasError={errors.schedule}
                         onFilter={(value: string) => {
                           deliveryScheduleStore.deliveryScheduleService.filter({
                             input: {
-                              type: "filter",
+                              type: 'filter',
                               filter: {
                                 schCode: value,
                               },
                               page: 0,
                               limit: 10,
                             },
-                          })
+                          });
                         }}
-                        onSelect={(item) => {
-                          onChange(item.schCode)
+                        onSelect={item => {
+                          onChange(item.schCode);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             schedule: item.schCode,
-                          })
+                          });
                           deliveryScheduleStore.updateDeliveryScheduleList(
-                            deliveryScheduleStore.listDeliveryScheduleCopy
-                          )
+                            deliveryScheduleStore.listDeliveryScheduleCopy,
+                          );
                         }}
                       />
                     </Form.InputWrapper>
                   )}
-                  name="schedule"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='schedule'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Validation Level"
+                      label='Validation Level'
                       hasError={errors.validationLevel}
                     >
                       <select
                         value={masterPanelStore.masterPanel.validationLevel}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.validationLevel
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const validationLevel: any = e.target.value
-                          onChange(validationLevel)
+                        onChange={e => {
+                          const validationLevel: any = e.target.value;
+                          onChange(validationLevel);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             validationLevel: parseInt(validationLevel),
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
@@ -711,635 +740,652 @@ const MasterPanel = MasterPanelHoc(
                             <option key={index} value={item}>
                               {item}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="validationLevel"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='validationLevel'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Report Groups"
+                      label='Report Groups'
                       placeholder={
                         errors.reportGroup
-                          ? "Please Enter ReportGroup"
-                          : "Report Groups"
+                          ? 'Please Enter ReportGroup'
+                          : 'Report Groups'
                       }
                       hasError={errors.reportGroup}
                       value={masterPanelStore.masterPanel?.reportGroup}
-                      onChange={(reportGroup) => {
-                        onChange(reportGroup)
+                      onChange={reportGroup => {
+                        onChange(reportGroup);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           reportGroup: reportGroup.toUpperCase(),
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="reportGroup"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='reportGroup'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Grid cols={5}>
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Bill"
-                        id="modeBill"
+                        label='Bill'
+                        id='modeBill'
                         hasError={errors.bill}
                         value={masterPanelStore.masterPanel?.bill}
-                        onChange={(bill) => {
-                          onChange(bill)
+                        onChange={bill => {
+                          onChange(bill);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             bill,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="bill"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='bill'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="AutoRelease"
-                        id="modeAutoRelease"
+                        label='AutoRelease'
+                        id='modeAutoRelease'
                         hasError={errors.autoRelease}
                         value={masterPanelStore.masterPanel?.autoRelease}
-                        onChange={(autoRelease) => {
-                          onChange(autoRelease)
+                        onChange={autoRelease => {
+                          onChange(autoRelease);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             autoRelease,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="autoRelease"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='autoRelease'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Hold OOS"
-                        id="modeHoldOOS"
+                        label='Hold OOS'
+                        id='modeHoldOOS'
                         hasError={errors.holdOOS}
                         value={masterPanelStore.masterPanel?.holdOOS}
-                        onChange={(holdOOS) => {
-                          onChange(holdOOS)
+                        onChange={holdOOS => {
+                          onChange(holdOOS);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             holdOOS,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="holdOOS"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='holdOOS'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Confidential"
+                        label='Confidential'
                         hasError={errors.confidential}
                         value={masterPanelStore.masterPanel?.confidential}
-                        onChange={(confidential) => {
-                          onChange(confidential)
+                        onChange={confidential => {
+                          onChange(confidential);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             confidential,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="confidential"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='confidential'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Urgent"
+                        label='Urgent'
                         hasError={errors.urgent}
                         value={masterPanelStore.masterPanel?.urgent}
-                        onChange={(urgent) => {
-                          onChange(urgent)
+                        onChange={urgent => {
+                          onChange(urgent);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             urgent,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="urgent"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='urgent'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 </Grid>
               </List>
 
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Report Order"
-                      type="number"
+                      label='Report Order'
+                      type='number'
                       placeholder={
                         errors.reportOrder
-                          ? "Please Enter ReportOrder"
-                          : "Report Order"
+                          ? 'Please Enter ReportOrder'
+                          : 'Report Order'
                       }
                       hasError={errors.reportOrder}
                       value={masterPanelStore.masterPanel?.reportOrder}
-                      onChange={(reportOrder) => {
-                        onChange(reportOrder)
+                      onChange={reportOrder => {
+                        onChange(reportOrder);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           reportOrder: parseInt(reportOrder),
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="reportOrder"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='reportOrder'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Processing"
+                      label='Processing'
                       hasError={errors.processing}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.processing}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.processing ? "border-red-500  " : "border-gray-300"
+                          errors.processing
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const processing = e.target.value as string
-                          onChange(processing)
+                        onChange={e => {
+                          const processing = e.target.value as string;
+                          onChange(processing);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             processing,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "PROCESSING").map(
+                        {lookupItems(routerStore.lookupItems, 'PROCESSING').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="processing"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='processing'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Workflow"
+                      label='Workflow'
                       placeholder={
-                        errors.workflow ? "Please Enter Workflow" : "Workflow"
+                        errors.workflow ? 'Please Enter Workflow' : 'Workflow'
                       }
                       hasError={errors.workflow}
                       value={masterPanelStore.masterPanel?.workflow}
-                      onChange={(workflow) => {
-                        onChange(workflow)
+                      onChange={workflow => {
+                        onChange(workflow);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           workflow,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="workflow"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='workflow'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Category" hasError={errors.category}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Category'
+                      hasError={errors.category}
+                    >
                       <select
                         value={masterPanelStore.masterPanel?.category}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.category ? "border-red-500  " : "border-gray-300"
+                          errors.category
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const category = e.target.value as string
-                          onChange(category)
+                        onChange={e => {
+                          const category = e.target.value as string;
+                          onChange(category);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             category,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "CATEGORY").map(
+                        {lookupItems(routerStore.lookupItems, 'CATEGORY').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="category"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='category'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Panel Type"
+                      label='Panel Type'
                       hasError={errors.panelType}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.panelType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.panelType ? "border-red-500  " : "border-gray-300"
+                          errors.panelType
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const panelType = e.target.value as string
-                          onChange(panelType)
+                        onChange={e => {
+                          const panelType = e.target.value as string;
+                          onChange(panelType);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             panelType,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "PANEL_TYPE").map(
+                        {lookupItems(routerStore.lookupItems, 'PANEL_TYPE').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="panelType"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='panelType'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Sex Action"
+                      label='Sex Action'
                       hasError={errors.sexAction}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.sexAction}
                         disabled={!masterPanelStore.masterPanel?.ageSexAction}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sexAction ? "border-red-500  " : "border-gray-300"
+                          errors.sexAction
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const sexAction = e.target.value as string
-                          onChange(sexAction)
+                        onChange={e => {
+                          const sexAction = e.target.value as string;
+                          onChange(sexAction);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             sexAction,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SEX_ACTION").map(
+                        {lookupItems(routerStore.lookupItems, 'SEX_ACTION').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="sexAction"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='sexAction'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Sex" hasError={errors.sex}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Sex' hasError={errors.sex}>
                       <select
                         value={masterPanelStore.masterPanel?.sex}
                         disabled={!masterPanelStore.masterPanel?.ageSexAction}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? "border-red-500  " : "border-gray-300"
+                          errors.sex ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const sex = e.target.value as string
-                          onChange(sex)
+                        onChange={e => {
+                          const sex = e.target.value as string;
+                          onChange(sex);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             sex,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "SEX").map(
+                        {lookupItems(routerStore.lookupItems, 'SEX').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="sex"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='sex'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Age Action"
+                      label='Age Action'
                       hasError={errors.ageAction}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.ageAction}
                         disabled={!masterPanelStore.masterPanel?.ageSexAction}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.ageAction ? "border-red-500  " : "border-gray-300"
+                          errors.ageAction
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const ageAction = e.target.value as string
-                          onChange(ageAction)
+                        onChange={e => {
+                          const ageAction = e.target.value as string;
+                          onChange(ageAction);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             ageAction,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "AGE_ACTION").map(
+                        {lookupItems(routerStore.lookupItems, 'AGE_ACTION').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="ageAction"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='ageAction'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Lo Age"
+                      label='Lo Age'
                       disabled={!masterPanelStore.masterPanel?.ageSexAction}
-                      placeholder={errors.loAge ? "Please Enter LoAge" : "Lo Age"}
+                      placeholder={
+                        errors.loAge ? 'Please Enter LoAge' : 'Lo Age'
+                      }
                       hasError={errors.loAge}
                       value={masterPanelStore.masterPanel?.loAge}
-                      onChange={(loAge) => {
-                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      onChange={loAge => {
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
                         if (regex.test(loAge)) {
-                          onChange(loAge)
+                          onChange(loAge);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             loAge: loAge.toUpperCase(),
-                          })
+                          });
                         } else {
                           Toast.warning({
                             message: `😔 Only > and < sign and numbers should be allowed`,
-                          })
+                          });
                         }
                       }}
                     />
                   )}
-                  name="loAge"
+                  name='loAge'
                   rules={{
                     required:
                       masterPanelStore.masterPanel?.ageSexAction &&
-                      masterPanelStore.masterPanel?.ageAction !== "N" &&
+                      masterPanelStore.masterPanel?.ageAction !== 'N' &&
                       !masterPanelStore.masterPanel?.hiAge
                         ? true
                         : false,
                     pattern: /^[0-9<>=\\-`.+,/\"]*$/,
-                    validate: (value) => FormHelper.isNumberAvailable(value),
+                    validate: value => FormHelper.isNumberAvailable(value),
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Hi Age"
+                      label='Hi Age'
                       disabled={!masterPanelStore.masterPanel?.ageSexAction}
-                      placeholder={errors.hiAge ? "Please Enter HiAge" : "Hi Age"}
+                      placeholder={
+                        errors.hiAge ? 'Please Enter HiAge' : 'Hi Age'
+                      }
                       hasError={errors.hiAge}
                       value={masterPanelStore.masterPanel?.hiAge}
-                      onChange={(hiAge) => {
-                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/)
+                      onChange={hiAge => {
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
                         if (regex.test(hiAge)) {
-                          onChange(hiAge)
+                          onChange(hiAge);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             hiAge: hiAge.toUpperCase(),
-                          })
+                          });
                         } else {
                           Toast.warning({
                             message: `😔 Only > and < sign and numbers should be allowed`,
-                          })
+                          });
                         }
                       }}
                     />
                   )}
-                  name="hiAge"
+                  name='hiAge'
                   rules={{
                     required: false,
                     pattern: /^[0-9<>=\\-`.+,/\"]*$/,
-                    validate: (value) => FormHelper.isNumberAvailable(value),
+                    validate: value => FormHelper.isNumberAvailable(value),
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Action Message"
+                      label='Action Message'
                       disabled={!masterPanelStore.masterPanel?.ageSexAction}
                       placeholder={
                         errors.actionMessage
-                          ? "Please Enter action message"
-                          : "Action Message"
+                          ? 'Please Enter action message'
+                          : 'Action Message'
                       }
                       hasError={errors.actionMessage}
                       value={masterPanelStore.masterPanel?.actionMessage}
-                      onChange={(actionMessage) => {
-                        onChange(actionMessage)
+                      onChange={actionMessage => {
+                        onChange(actionMessage);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           actionMessage,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="actionMessage"
+                  name='actionMessage'
                   rules={{
                     required:
-                      masterPanelStore.masterPanel?.sexAction !== "N" ||
-                      masterPanelStore.masterPanel?.ageAction !== "N"
+                      masterPanelStore.masterPanel?.sexAction !== 'N' ||
+                      masterPanelStore.masterPanel?.ageAction !== 'N'
                         ? true
                         : false,
                   }}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Report Template"
+                      label='Report Template'
                       placeholder={
                         errors.reportTemplate
-                          ? "Please Enter ReportTemplate"
-                          : "Report Template"
+                          ? 'Please Enter ReportTemplate'
+                          : 'Report Template'
                       }
                       hasError={errors.reportTemplate}
                       value={masterPanelStore.masterPanel?.reportTemplate}
-                      onChange={(reportTemplate) => {
-                        onChange(reportTemplate)
+                      onChange={reportTemplate => {
+                        onChange(reportTemplate);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           reportTemplate,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="reportTemplate"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='reportTemplate'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
 
                 <Grid cols={5}>
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Page Break"
+                        label='Page Break'
                         hasError={errors.pageBreak}
                         value={masterPanelStore.masterPanel?.pageBreak}
-                        onChange={(pageBreak) => {
-                          onChange(pageBreak)
+                        onChange={pageBreak => {
+                          onChange(pageBreak);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             pageBreak,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="pageBreak"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='pageBreak'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Age/Sex Action"
+                        label='Age/Sex Action'
                         hasError={errors.ageSexAction}
                         value={masterPanelStore.masterPanel?.ageSexAction}
-                        onChange={(ageSexAction) => {
-                          onChange(ageSexAction)
+                        onChange={ageSexAction => {
+                          onChange(ageSexAction);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             ageSexAction,
                             hiAge: !ageSexAction
-                              ? ""
+                              ? ''
                               : masterPanelStore.masterPanel?.hiAge,
                             loAge: !ageSexAction
-                              ? ""
+                              ? ''
                               : masterPanelStore.masterPanel?.loAge,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="ageSexAction"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='ageSexAction'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Repetition"
+                        label='Repetition'
                         hasError={errors.repitation}
                         value={masterPanelStore.masterPanel?.repitation}
-                        onChange={(repitation) => {
-                          onChange(repitation)
+                        onChange={repitation => {
+                          onChange(repitation);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             repitation,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="repitation"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='repitation'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Print Label"
+                        label='Print Label'
                         hasError={errors.printLabel}
                         value={masterPanelStore.masterPanel?.printLabel}
-                        onChange={(printLabel) => {
-                          onChange(printLabel)
+                        onChange={printLabel => {
+                          onChange(printLabel);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             printLabel,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name=" printLabel"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name=' printLabel'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 </Grid>
               </List>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 {/* <Form.Input
                 label="Tube Groups"
                 placeholder="Tube Groups"
@@ -1373,93 +1419,93 @@ const MasterPanel = MasterPanelHoc(
               </Form.InputWrapper> */}
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Label Instruction"
+                      label='Label Instruction'
                       placeholder={
                         errors.labelInstruction
-                          ? "Please Enter LabelInstruction"
-                          : "Label Instruction"
+                          ? 'Please Enter LabelInstruction'
+                          : 'Label Instruction'
                       }
                       hasError={errors.labelInstruction}
                       value={masterPanelStore.masterPanel?.labelInstruction}
-                      onChange={(labelInstruction) => {
+                      onChange={labelInstruction => {
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           labelInstruction: labelInstruction.toUpperCase(),
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="labelInstruction"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='labelInstruction'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Special Instructions"
+                      label='Special Instructions'
                       placeholder={
                         errors.specalInstructions
-                          ? "Please Enter SpecalInstructions"
-                          : "Special Instruction"
+                          ? 'Please Enter SpecalInstructions'
+                          : 'Special Instruction'
                       }
                       hasError={errors.specalInstructions}
                       value={masterPanelStore.masterPanel?.specalInstructions}
-                      onChange={(specalInstructions) => {
-                        onChange(specalInstructions)
+                      onChange={specalInstructions => {
+                        onChange(specalInstructions);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           specalInstructions: specalInstructions.toUpperCase(),
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="specalInstructions"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='specalInstructions'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Status' hasError={errors.status}>
                       <select
                         value={masterPanelStore.masterPanel?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? "border-red-500  " : "border-gray-300"
+                          errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
-                        onChange={(e) => {
-                          const status = e.target.value as string
-                          onChange(status)
+                        onChange={e => {
+                          const status = e.target.value as string;
+                          onChange(status);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             status,
-                          })
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, "STATUS").map(
+                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="status"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='status'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Entered By"
+                      label='Entered By'
                       placeholder={
-                        errors.userId ? "Please Enter UserID" : "Entered By"
+                        errors.userId ? 'Please Enter UserID' : 'Entered By'
                       }
                       hasError={errors.userId}
                       value={loginStore.login?.userId}
@@ -1472,110 +1518,115 @@ const MasterPanel = MasterPanelHoc(
                       // }}
                     />
                   )}
-                  name="userId"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='userId'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Creation"
+                      label='Date Creation'
                       placeholder={
                         errors.dateCreation
-                          ? "Please Enter DateCreation"
-                          : "Date Creation"
+                          ? 'Please Enter DateCreation'
+                          : 'Date Creation'
                       }
                       value={masterPanelStore.masterPanel?.dateCreation}
                       disabled={true}
                     />
                   )}
-                  name="dateCreation"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='dateCreation'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Active"
+                      label='Date Active'
                       hasError={errors.dateActive}
                       placeholder={
-                        errors.dateActive ? "Please Enter dateActive" : "Date Active"
+                        errors.dateActive
+                          ? 'Please Enter dateActive'
+                          : 'Date Active'
                       }
                       value={masterPanelStore.masterPanel?.dateActive}
                       disabled={true}
                     />
                   )}
-                  name="dateActive"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='dateActive'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Expire"
+                      label='Date Expire'
                       placeholder={
                         errors.dateExpire
-                          ? "Please Enter dateActiveTo"
-                          : "Date Expire"
+                          ? 'Please Enter dateActiveTo'
+                          : 'Date Expire'
                       }
                       value={masterPanelStore.masterPanel?.dateExpire}
-                      onChange={(dateExpire) => {
-                        onChange(dateExpire)
+                      onChange={dateExpire => {
+                        onChange(dateExpire);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
                           dateExpire,
-                        })
+                        });
                       }}
                     />
                   )}
-                  name="dateExpire"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='dateExpire'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Version"
+                      label='Version'
                       hasError={errors.version}
                       placeholder={
-                        errors.version ? "Please Enter Version" : "Version"
+                        errors.version ? 'Please Enter Version' : 'Version'
                       }
                       value={masterPanelStore.masterPanel?.version}
                       disabled={true}
                     />
                   )}
-                  name="version"
-                  rules={{ required: false }}
-                  defaultValue=""
+                  name='version'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Environment"
+                      label='Environment'
                       hasError={errors.environment}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment ? "border-red-500  " : "border-gray-300"
+                          errors.environment
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
                         } rounded-md`}
                         disabled={
-                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
-                        onChange={(e) => {
-                          const environment = e.target.value as string
-                          onChange(environment)
+                        onChange={e => {
+                          const environment = e.target.value as string;
+                          onChange(environment);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             environment,
-                          })
+                          });
                           if (!masterPanelStore.masterPanel?.existsVersionId) {
                             masterPanelStore.masterPanelService
                               .checkExitsLabEnvCode({
@@ -1586,119 +1637,127 @@ const MasterPanel = MasterPanelHoc(
                                   lab: masterPanelStore.masterPanel?.rLab,
                                 },
                               })
-                              .then((res) => {
+                              .then(res => {
                                 if (res.checkPanelMasterExistsRecord.success) {
-                                  masterPanelStore.updateExistsLabEnvCode(true)
+                                  masterPanelStore.updateExistsLabEnvCode(true);
                                   Toast.error({
                                     message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
-                                  })
-                                } else masterPanelStore.updateExistsLabEnvCode(false)
-                              })
+                                  });
+                                } else
+                                  masterPanelStore.updateExistsLabEnvCode(
+                                    false,
+                                  );
+                              });
                           }
                         }}
                       >
                         <option selected>
-                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          {loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
                             ? `Select`
-                            : masterPanelStore.masterPanel?.environment || `Select`}
+                            : masterPanelStore.masterPanel?.environment ||
+                              `Select`}
                         </option>
-                        {lookupItems(routerStore.lookupItems, "ENVIRONMENT").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          )
-                        )}
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'ENVIRONMENT',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
-                  rules={{ required: true }}
-                  defaultValue=""
+                  name='environment'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
                 <Grid cols={3}>
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Cumulative"
+                        label='Cumulative'
                         hasError={errors.cumulative}
                         value={masterPanelStore.masterPanel?.cumulative}
-                        onChange={(cumulative) => {
-                          onChange(cumulative)
+                        onChange={cumulative => {
+                          onChange(cumulative);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             cumulative,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="cumulative"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='cumulative'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Method"
+                        label='Method'
                         hasError={errors.method}
                         value={masterPanelStore.masterPanel?.method}
-                        onChange={(method) => {
-                          onChange(method)
+                        onChange={method => {
+                          onChange(method);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             method,
-                          })
+                          });
                         }}
                       />
                     )}
-                    name="method"
-                    rules={{ required: false }}
-                    defaultValue=""
+                    name='method'
+                    rules={{required: false}}
+                    defaultValue=''
                   />
                 </Grid>
               </List>
             </Grid>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitMasterPanel)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
-                  window.location.reload()
+                  window.location.reload();
                 }}
               >
                 Clear
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
+          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+            {tableView}
+          </div>
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === "Delete") {
+              if (type === 'Delete') {
                 masterPanelStore.masterPanelService
-                  .deletePanelMaster({ input: { id: modalConfirm.id } })
+                  .deletePanelMaster({input: {id: modalConfirm.id}})
                   .then((res: any) => {
                     if (res.removePanelMaster.success) {
                       Toast.success({
                         message: `😊 ${res.removePanelMaster.message}`,
-                      })
-                      setModalConfirm({ show: false })
-                      masterPanelStore.fetchPanelMaster()
+                      });
+                      setModalConfirm({show: false});
+                      masterPanelStore.fetchPanelMaster();
                     }
-                  })
-              } else if (type === "Update") {
+                  });
+              } else if (type === 'Update') {
                 masterPanelStore.masterPanelService
                   .updateFileds({
                     input: {
@@ -1710,12 +1769,12 @@ const MasterPanel = MasterPanelHoc(
                     if (res.updatePanelMaster.success) {
                       Toast.success({
                         message: `😊 ${res.updatePanelMaster.message}`,
-                      })
-                      setModalConfirm({ show: false })
-                      masterPanelStore.fetchPanelMaster()
+                      });
+                      setModalConfirm({show: false});
+                      masterPanelStore.fetchPanelMaster();
                     }
-                  })
-              } else if (type === "UpdateFileds") {
+                  });
+              } else if (type === 'UpdateFileds') {
                 masterPanelStore.masterPanelService
                   .updateFileds({
                     input: {
@@ -1727,12 +1786,12 @@ const MasterPanel = MasterPanelHoc(
                     if (res.updatePanelMaster.success) {
                       Toast.success({
                         message: `😊 ${res.updatePanelMaster.message}`,
-                      })
-                      setModalConfirm({ show: false })
-                      masterPanelStore.fetchPanelMaster()
+                      });
+                      setModalConfirm({show: false});
+                      masterPanelStore.fetchPanelMaster();
                     }
-                  })
-              } else if (type === "versionUpgrade") {
+                  });
+              } else if (type === 'versionUpgrade') {
                 masterPanelStore.updateMasterPanel({
                   ...modalConfirm.data,
                   _id: undefined,
@@ -1740,16 +1799,16 @@ const MasterPanel = MasterPanelHoc(
                   existsRecordId: undefined,
                   version: parseInt(modalConfirm.data.version + 1),
                   dateActiveFrom: new Date(),
-                })
-                setValue("rLab", modalConfirm.data.rLab)
-                setValue("pLab", modalConfirm.data.pLab)
-                setValue("panelCode", modalConfirm.data.panelCode)
-                setValue("panelName", modalConfirm.data.panelName)
-                setValue("department", modalConfirm.data.department)
-                setValue("serviceType", modalConfirm.data.serviceType)
-                setValue("status", modalConfirm.data.status)
-                setValue("environment", modalConfirm.data.environment)
-              } else if (type === "duplicate") {
+                });
+                setValue('rLab', modalConfirm.data.rLab);
+                setValue('pLab', modalConfirm.data.pLab);
+                setValue('panelCode', modalConfirm.data.panelCode);
+                setValue('panelName', modalConfirm.data.panelName);
+                setValue('department', modalConfirm.data.department);
+                setValue('serviceType', modalConfirm.data.serviceType);
+                setValue('status', modalConfirm.data.status);
+                setValue('environment', modalConfirm.data.environment);
+              } else if (type === 'duplicate') {
                 masterPanelStore.updateMasterPanel({
                   ...modalConfirm.data,
                   _id: undefined,
@@ -1757,26 +1816,26 @@ const MasterPanel = MasterPanelHoc(
                   existsRecordId: modalConfirm.data._id,
                   version: parseInt(modalConfirm.data.version + 1),
                   dateActiveFrom: new Date(),
-                })
-                setHideAddLab(!hideAddLab)
-                setValue("rLab", modalConfirm.data.rLab)
-                setValue("pLab", modalConfirm.data.pLab)
-                setValue("panelCode", modalConfirm.data.panelCode)
-                setValue("panelName", modalConfirm.data.panelName)
-                setValue("department", modalConfirm.data.department)
-                setValue("serviceType", modalConfirm.data.serviceType)
-                setValue("status", modalConfirm.data.status)
-                setValue("environment", modalConfirm.data.environment)
+                });
+                setHideAddLab(!hideAddLab);
+                setValue('rLab', modalConfirm.data.rLab);
+                setValue('pLab', modalConfirm.data.pLab);
+                setValue('panelCode', modalConfirm.data.panelCode);
+                setValue('panelName', modalConfirm.data.panelName);
+                setValue('department', modalConfirm.data.department);
+                setValue('serviceType', modalConfirm.data.serviceType);
+                setValue('status', modalConfirm.data.status);
+                setValue('environment', modalConfirm.data.environment);
               }
             }}
             onClose={() => {
-              setModalConfirm({ show: false })
+              setModalConfirm({show: false});
             }}
           />
         </div>
       </>
-    )
-  })
-)
+    );
+  }),
+);
 
-export default MasterPanel
+export default MasterPanel;

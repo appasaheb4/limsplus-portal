@@ -1,1 +1,1 @@
-export * from './ReferenceRanges'
+export * from './ReferenceRanges';

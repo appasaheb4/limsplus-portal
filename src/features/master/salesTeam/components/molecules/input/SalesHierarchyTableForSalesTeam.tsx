@@ -82,13 +82,13 @@ export const SalesHierarchyTableForSalesTeam = observer(
     };
 
     return (
-      <div className="flex flex-col gap-2 items-center overflow-auto">
+      <div className='flex flex-col gap-2 items-center overflow-auto'>
         <Table striped bordered>
           <thead>
-            <tr className="p-0 text-xs">
-              <th className="text-white ">Employee</th>
-              <th className="text-white ">Designation</th>
-              <th className="text-white sticky right-0 flex flex-row gap-2">
+            <tr className='p-0 text-xs'>
+              <th className='text-white '>Employee</th>
+              <th className='text-white '>Designation</th>
+              <th className='text-white sticky right-0 flex flex-row gap-2'>
                 Level
                 <Buttons.ButtonIcon
                   icon={
@@ -96,7 +96,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplaySalesHierarchy('');
                   }}
@@ -107,7 +107,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplaySalesHierarchy('display');
                   }}
@@ -116,7 +116,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
             </tr>
           </thead>
           {displaySalesHierarchy && (
-            <tbody className="text-xs">
+            <tbody className='text-xs'>
               {salesHierarchy?.current?.map((item, index) => (
                 <tr>
                   <td>
@@ -125,7 +125,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       render={({field: {onChange}}) => (
                         <Form.Input disabled={true} value={`${item.empCode}`} />
                       )}
-                      name="designation"
+                      name='designation'
                       rules={{required: false}}
                       defaultValue={employeeList}
                     />
@@ -136,9 +136,9 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       render={({field: {onChange}}) => (
                         <Form.Input disabled={true} value={item.designation} />
                       )}
-                      name="designation"
+                      name='designation'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </td>
                   <td>
@@ -147,9 +147,9 @@ export const SalesHierarchyTableForSalesTeam = observer(
                       render={({field: {onChange}}) => (
                         <Form.Input disabled={true} value={item.level} />
                       )}
-                      name="level"
+                      name='level'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </td>
                 </tr>
@@ -158,11 +158,11 @@ export const SalesHierarchyTableForSalesTeam = observer(
           )}
           {salesHierarchy.current?.length === 0 && (
             <Buttons.Button
-              size="small"
-              type="outline"
+              size='small'
+              type='outline'
               onClick={handleSubmit(addItem)}
             >
-              <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
             </Buttons.Button>
           )}
         </Table>

@@ -1,3 +1,3 @@
-export * from './PatientManagerHoc'
-export * from './PatientVisitHoc'
-export * from './PatientOrderHoc'
+export * from './PatientManagerHoc';
+export * from './PatientVisitHoc';
+export * from './PatientOrderHoc';

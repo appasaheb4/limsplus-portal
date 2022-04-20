@@ -71,17 +71,17 @@ export const SalesHierarchyTable = observer(
     };
 
     return (
-      <div className="flex flex-row gap-2 items-center max-w-fit">
+      <div className='flex flex-row gap-2 items-center max-w-fit'>
         <Table striped bordered>
           <thead>
-            <tr className="p-0 text-xs">
-              <th className="text-white w-2/3">Employee</th>
-              <th className="text-white w-1/3">Designation</th>
-              <th className="text-white w-1/3">Level</th>
+            <tr className='p-0 text-xs'>
+              <th className='text-white w-2/3'>Employee</th>
+              <th className='text-white w-1/3'>Designation</th>
+              <th className='text-white w-1/3'>Level</th>
               {/* <th className="text-white sticky right-0 z-10">Action</th> */}
             </tr>
           </thead>
-          <tbody className="text-xs max-w-fit">
+          <tbody className='text-xs max-w-fit'>
             {list?.map((item, index) => (
               <tr>
                 <td>
@@ -150,7 +150,7 @@ export const SalesHierarchyTable = observer(
                         value={`${item.empCode} - ${item.fullName}`}
                       />
                     )}
-                    name="empCode"
+                    name='empCode'
                     rules={{required: false}}
                     defaultValue={employeeList}
                   />
@@ -161,9 +161,9 @@ export const SalesHierarchyTable = observer(
                     render={({field: {onChange}}) => (
                       <Form.Input disabled={true} value={item.designation} />
                     )}
-                    name="designation"
+                    name='designation'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </td>
                 <td>
@@ -200,9 +200,9 @@ export const SalesHierarchyTable = observer(
                       // </select>
                       <Form.Input disabled={true} value={item.level} />
                     )}
-                    name="level"
+                    name='level'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </td>
                 {/* <td className="sticky right-0 z-10 bg-gray-500">

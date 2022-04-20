@@ -1,1 +1,1 @@
-export * from "./shortcutMenu-Services"
+export * from './shortcutMenu-Services';

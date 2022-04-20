@@ -1,1 +1,1 @@
-export * from './InterfaceManager'
+export * from './InterfaceManager';

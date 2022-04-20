@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React from "react"
-import dayjs from "dayjs"
-import { lookupItems, lookupValue } from "@/library/utils"
+import React from 'react';
+import dayjs from 'dayjs';
+import {lookupItems, lookupValue} from '@/library/utils';
 import {
   NumberFilter,
   DateFilter,
@@ -11,10 +11,10 @@ import {
   customFilter,
   TableBootstrap,
   Form,
-} from "@/library/components"
-import { Confirm } from "@/library/models"
-import { FormHelper } from "@/helper"
-import { useForm, Controller } from "react-hook-form"
+} from '@/library/components';
+import {Confirm} from '@/library/models';
+import {FormHelper} from '@/helper';
+import {useForm, Controller} from 'react-hook-form';
 import {
   AutoCompleteRegistrationLocation,
   AutoCompleteSalesTerritory,
@@ -24,95 +24,100 @@ import {
   AutoCompleteFilterSingleSelectPostalCode,
   AutoCompleteFilterSingleSelectState,
   AutoCompleteFilterSingleSelectCity,
-} from "../index"
+} from '../index';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
-let dateCreation
-let dateActive
-let dateExpire
-let version
-let enteredBy
-let doctorCode
-let doctorName
-let sex
-let title
-let sbu
-let reportName
-let category
-let city
-let state
-let country
-let doctorType
-let speciality
-let salesTerritoRy
-let district
-let postalCode
-let openingTime
-let closingTime
-let area
-let zone
-let telephone
-let mobileNo
-let email
-let deliveryType
-let deliveryMethod
-let registrationLocation
-let lab
-let info
-let fyiLine
-let workLine
-let status
-let environment
+let dateCreation;
+let dateActive;
+let dateExpire;
+let version;
+let enteredBy;
+let doctorCode;
+let doctorName;
+let sex;
+let title;
+let sbu;
+let reportName;
+let category;
+let city;
+let state;
+let country;
+let doctorType;
+let speciality;
+let salesTerritoRy;
+let district;
+let postalCode;
+let openingTime;
+let closingTime;
+let area;
+let zone;
+let telephone;
+let mobileNo;
+let email;
+let deliveryType;
+let deliveryMethod;
+let registrationLocation;
+let lab;
+let info;
+let fyiLine;
+let workLine;
+let status;
+let environment;
 interface DoctorsListProps {
-  data: any
-  totalSize: number
-  extraData: any
-  isDelete?: boolean
-  isEditModify?: boolean
-  onDelete?: (selectedItem: Confirm) => void
-  onSelectedRow?: (selectedItem: any) => void
-  onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onUpdateFileds?: (fileds: any, id: string) => void
-  onVersionUpgrade?: (item: any) => void
-  onDuplicate?: (item: any) => void
-  onPageSizeChange?: (page: number, totalSize: number) => void
-  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  data: any;
+  totalSize: number;
+  extraData: any;
+  isDelete?: boolean;
+  isEditModify?: boolean;
+  onDelete?: (selectedItem: Confirm) => void;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateFileds?: (fileds: any, id: string) => void;
+  onVersionUpgrade?: (item: any) => void;
+  onDuplicate?: (item: any) => void;
+  onPageSizeChange?: (page: number, totalSize: number) => void;
+  onFilter?: (
+    type: string,
+    filter: any,
+    page: number,
+    totalSize: number,
+  ) => void;
 }
 
 export const DoctorsList = (props: DoctorsListProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     setValue,
     setError,
     clearErrors,
-  } = useForm()
+  } = useForm();
   const editorCell = (row: any) => {
-    return row.status !== "I" ? true : false
-  }
+    return row.status !== 'I' ? true : false;
+  };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{position: 'relative'}}>
       <TableBootstrap
-        id="_id"
+        id='_id'
         data={props.data}
         totalSize={props.totalSize}
         columns={[
           {
-            dataField: "_id",
-            text: "Id",
+            dataField: '_id',
+            text: 'Id',
             hidden: true,
             csvExport: false,
           },
           {
-            dataField: "title",
-            text: "Title",
-            headerClasses: "textHeader2",
+            dataField: 'title',
+            text: 'Title',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                title = filter
+              getFilter: filter => {
+                title = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -122,77 +127,77 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const title = e.target.value
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const title = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(title, column.dataField, row._id)
+                      props.onUpdateItem(title, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "TITLE").map(
+                  {lookupItems(props.extraData.lookupItems, 'TITLE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    )
+                    ),
                   )}
                 </select>
               </>
             ),
           },
           {
-            dataField: "doctorCode",
-            text: "Doctor Code",
-            headerClasses: "textHeader3",
+            dataField: 'doctorCode',
+            text: 'Doctor Code',
+            headerClasses: 'textHeader3',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                doctorCode = filter
+              getFilter: filter => {
+                doctorCode = filter;
               },
             }),
             editable: false,
           },
           {
-            dataField: "doctorName",
-            text: "Doctor Name",
-            headerClasses: "textHeader4",
+            dataField: 'doctorName',
+            text: 'Doctor Name',
+            headerClasses: 'textHeader4',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                doctorName = filter
+              getFilter: filter => {
+                doctorName = filter;
               },
             }),
             editable: false,
           },
           {
-            dataField: "reportName",
-            text: "Report Name",
-            headerClasses: "textHeader4",
+            dataField: 'reportName',
+            text: 'Report Name',
+            headerClasses: 'textHeader4',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                reportName = filter
+              getFilter: filter => {
+                reportName = filter;
               },
             }),
             editable: false,
           },
           {
-            dataField: "sex",
-            text: "Sex",
-            headerClasses: "textHeader4",
+            dataField: 'sex',
+            text: 'Sex',
+            headerClasses: 'textHeader4',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                sex = filter
+              getFilter: filter => {
+                sex = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -202,19 +207,19 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sex = e.target.value
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const sex = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(sex, column.dataField, row._id)
+                      props.onUpdateItem(sex, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
-                  {["Male", "Female"].map((item: any, index: number) => (
+                  {['Male', 'Female'].map((item: any, index: number) => (
                     <option key={index} value={item}>
                       {`${item}`}
                     </option>
@@ -225,14 +230,14 @@ export const DoctorsList = (props: DoctorsListProps) => {
           },
 
           {
-            dataField: "doctorType",
-            text: "Doctor Type",
-            headerClasses: "textHeader3",
+            dataField: 'doctorType',
+            text: 'Doctor Type',
+            headerClasses: 'textHeader3',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                doctorType = filter
+              getFilter: filter => {
+                doctorType = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -242,25 +247,25 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
                   value={row.doctorType}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                  onChange={(e) => {
-                    const doctorType = e.target.value
+                  onChange={e => {
+                    const doctorType = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(doctorType, column.dataField, row._id)
+                      props.onUpdateItem(doctorType, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "DOCTOR_TYPE").map(
+                  {lookupItems(props.extraData.lookupItems, 'DOCTOR_TYPE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    )
+                    ),
                   )}
                 </select>
               </>
@@ -268,14 +273,14 @@ export const DoctorsList = (props: DoctorsListProps) => {
           },
 
           {
-            dataField: "speciality",
-            text: "Speciality",
-            headerClasses: "textHeader3",
+            dataField: 'speciality',
+            text: 'Speciality',
+            headerClasses: 'textHeader3',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                speciality = filter
+              getFilter: filter => {
+                speciality = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -285,38 +290,38 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const speciality = e.target.value
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const speciality = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(speciality, column.dataField, row._id)
+                      props.onUpdateItem(speciality, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "SPECIALITY").map(
+                  {lookupItems(props.extraData.lookupItems, 'SPECIALITY').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    )
+                    ),
                   )}
                 </select>
               </>
             ),
           },
           {
-            dataField: "category",
-            text: "Category",
-            headerClasses: "textHeader2",
+            dataField: 'category',
+            text: 'Category',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                category = filter
+              getFilter: filter => {
+                category = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -326,139 +331,160 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
                   value={row.category}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                  onChange={(e) => {
-                    const category = e.target.value
+                  onChange={e => {
+                    const category = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(category, column.dataField, row._id)
+                      props.onUpdateItem(category, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "CATEGORY").map(
+                  {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    )
+                    ),
                   )}
                 </select>
               </>
             ),
           },
           {
-            dataField: "country",
-            text: "Country",
+            dataField: 'country',
+            text: 'Country',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: textFilter({
-              getFilter: (filter) => {
-                country = filter
+              getFilter: filter => {
+                country = filter;
               },
             }),
-            headerClasses: "textHeader4",
-            style: { textTransform: "uppercase" },
+            headerClasses: 'textHeader4',
+            style: {textTransform: 'uppercase'},
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectCountry
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds({country:item.country,state:"",district:"",city:"",area:"",postalCode:parseInt("")}, row._id)
-                    }}
-                  />
-                
-              </>
-            ),
-          },
-          {
-            dataField: "state",
-            text: "State",
-            headerClasses: "textHeader4",
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: (col) => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) => {
-                state = filter
-              },
-            }),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                
-                  <AutoCompleteFilterSingleSelectState
-                    country={row.country}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({state:item.state,district:"",city:"",area:"",postalCode:parseInt("")}, row._id)
+                <AutoCompleteFilterSingleSelectCountry
+                  onSelect={item => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          country: item.country,
+                          state: '',
+                          district: '',
+                          city: '',
+                          area: '',
+                          postalCode: parseInt(''),
+                        },
+                        row._id,
+                      );
                   }}
-                  />
-                
+                />
               </>
             ),
           },
           {
-            dataField: "district",
-            text: "District",
+            dataField: 'state',
+            text: 'State',
+            headerClasses: 'textHeader4',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                district = filter
+              getFilter: filter => {
+                state = filter;
               },
             }),
-            headerClasses: "textHeader4",
             editorRenderer: (
               editorProps,
               value,
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectDistrict
-                    country={row.country}
-                    state={row.state}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({district:item.district,city:"",area:"",postalCode:parseInt("")}, row._id)
+                <AutoCompleteFilterSingleSelectState
+                  country={row.country}
+                  onSelect={item => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          state: item.state,
+                          district: '',
+                          city: '',
+                          area: '',
+                          postalCode: parseInt(''),
+                        },
+                        row._id,
+                      );
                   }}
-                  />
-                
+                />
               </>
             ),
           },
           {
-            dataField: "city",
-            text: "City",
-            headerClasses: "textHeader3",
+            dataField: 'district',
+            text: 'District',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                city = filter
+              getFilter: filter => {
+                district = filter;
+              },
+            }),
+            headerClasses: 'textHeader4',
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteFilterSingleSelectDistrict
+                  country={row.country}
+                  state={row.state}
+                  onSelect={item => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          district: item.district,
+                          city: '',
+                          area: '',
+                          postalCode: parseInt(''),
+                        },
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
+          },
+          {
+            dataField: 'city',
+            text: 'City',
+            headerClasses: 'textHeader3',
+            sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                city = filter;
               },
             }),
             editorRenderer: (
@@ -467,33 +493,34 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectCity
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({city:item.city,area:"",postalCode:parseInt("")}, row._id)
-                    }}
-                  />
-                
+                <AutoCompleteFilterSingleSelectCity
+                  country={row.country}
+                  state={row.state}
+                  district={row.district}
+                  onSelect={item => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {city: item.city, area: '', postalCode: parseInt('')},
+                        row._id,
+                      );
+                  }}
+                />
               </>
             ),
           },
           {
-            dataField: "area",
-            text: "Area",
-            headerClasses: "textHeader4",
+            dataField: 'area',
+            text: 'Area',
+            headerClasses: 'textHeader4',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                area = filter
+              getFilter: filter => {
+                area = filter;
               },
             }),
             editorRenderer: (
@@ -502,34 +529,35 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectArea
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    city={row.city}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                      props.onUpdateFileds({area:item.area,postalCode:parseInt("")}, row._id)
-                    }}
-                  />
-                
+                <AutoCompleteFilterSingleSelectArea
+                  country={row.country}
+                  state={row.state}
+                  district={row.district}
+                  city={row.city}
+                  onSelect={item => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {area: item.area, postalCode: parseInt('')},
+                        row._id,
+                      );
+                  }}
+                />
               </>
             ),
           },
           {
-            dataField: "postalCode",
-            text: "Postal Code",
-            headerClasses: "textHeader5",
+            dataField: 'postalCode',
+            text: 'Postal Code',
+            headerClasses: 'textHeader5',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                postalCode = filter
+              getFilter: filter => {
+                postalCode = filter;
               },
             }),
             editorRenderer: (
@@ -538,67 +566,65 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
-                
-                  <AutoCompleteFilterSingleSelectPostalCode
-                    country={row.country}
-                    state={row.state}
-                    district={row.district}
-                    city={row.city}
-                    area={row.area}
-                    onSelect={(item) => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds(
-                          {
-                            postalCode: parseInt(item.postalCode),
-                            zone: item.zone,
-                            sbu: item.sbu,
-                          },
-                          row._id
-                        )
-                    }}
-                  />
-                
+                <AutoCompleteFilterSingleSelectPostalCode
+                  country={row.country}
+                  state={row.state}
+                  district={row.district}
+                  city={row.city}
+                  area={row.area}
+                  onSelect={item => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          postalCode: parseInt(item.postalCode),
+                          zone: item.zone,
+                          sbu: item.sbu,
+                        },
+                        row._id,
+                      );
+                  }}
+                />
               </>
             ),
           },
           {
-            dataField: "sbu",
-            text: "SBU",
-            headerClasses: "textHeader1",
+            dataField: 'sbu',
+            text: 'SBU',
+            headerClasses: 'textHeader1',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                sbu = filter
+              getFilter: filter => {
+                sbu = filter;
               },
             }),
             editable: false,
           },
           {
-            dataField: "zone",
-            text: "Zone",
-            headerClasses: "textHeader1",
+            dataField: 'zone',
+            text: 'Zone',
+            headerClasses: 'textHeader1',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                zone = filter
+              getFilter: filter => {
+                zone = filter;
               },
             }),
             editable: false,
           },
           {
-            dataField: "salesTerritoRy",
-            text: "Sales Territory",
-            headerClasses: "textHeader4",
+            dataField: 'salesTerritoRy',
+            text: 'Sales Territory',
+            headerClasses: 'textHeader4',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                salesTerritoRy = filter
+              getFilter: filter => {
+                salesTerritoRy = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -608,13 +634,13 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <AutoCompleteSalesTerritory
-                  onSelect={(item) => {
+                  onSelect={item => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(item, column.dataField, row._id)
+                      props.onUpdateItem(item, column.dataField, row._id);
                   }}
                 />
               </>
@@ -622,14 +648,14 @@ export const DoctorsList = (props: DoctorsListProps) => {
           },
 
           {
-            dataField: "telephone",
-            text: "Telephone",
-            headerClasses: "textHeader5",
+            dataField: 'telephone',
+            text: 'Telephone',
+            headerClasses: 'textHeader5',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                telephone = filter
+              getFilter: filter => {
+                telephone = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -639,44 +665,53 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
                       placeholder={
-                        errors.telephone ? "Please Enter Telephone" : "Telephone"
+                        errors.telephone
+                          ? 'Please Enter Telephone'
+                          : 'Telephone'
                       }
                       hasError={errors.telephone}
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row.telephone}
-                      onChange={(telephone) => {
-                        onChange(telephone)
+                      onChange={telephone => {
+                        onChange(telephone);
                       }}
-                      onBlur={(telephone) => {
+                      onBlur={telephone => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(telephone, column.dataField, row._id)
+                          props.onUpdateItem(
+                            telephone,
+                            column.dataField,
+                            row._id,
+                          );
                       }}
                     />
                   )}
-                  name="telephone"
-                  rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
-                  defaultValue=""
+                  name='telephone'
+                  rules={{
+                    required: true,
+                    pattern: FormHelper.patterns.mobileNo,
+                  }}
+                  defaultValue=''
                 />
               </>
             ),
           },
           {
-            dataField: "mobileNo",
-            text: "Mobile No",
-            headerClasses: "textHeader2",
+            dataField: 'mobileNo',
+            text: 'Mobile No',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                mobileNo = filter
+              getFilter: filter => {
+                mobileNo = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -686,58 +721,65 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => (
+                  render={({field: {onChange}}) => (
                     <Form.Input
                       placeholder={
-                        errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
+                        errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
                       }
                       hasError={errors.mobileNo}
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row.mobileNo}
-                      onChange={(mobileNo) => {
-                        onChange(mobileNo)
+                      onChange={mobileNo => {
+                        onChange(mobileNo);
                       }}
-                      onBlur={(mobileNo) => {
+                      onBlur={mobileNo => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(mobileNo, column.dataField, row._id)
+                          props.onUpdateItem(
+                            mobileNo,
+                            column.dataField,
+                            row._id,
+                          );
                       }}
                     />
                   )}
-                  name="mobileNo"
-                  rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
-                  defaultValue=""
+                  name='mobileNo'
+                  rules={{
+                    required: true,
+                    pattern: FormHelper.patterns.mobileNo,
+                  }}
+                  defaultValue=''
                 />
               </>
             ),
           },
           {
-            dataField: "email",
-            text: "Email",
-            headerClasses: "textHeader1",
+            dataField: 'email',
+            text: 'Email',
+            headerClasses: 'textHeader1',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                email = filter
+              getFilter: filter => {
+                email = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
-            dataField: "deliveryType",
-            text: "Delivery Type",
-            headerClasses: "textHeader5",
+            dataField: 'deliveryType',
+            text: 'Delivery Type',
+            headerClasses: 'textHeader5',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                deliveryType = filter
+              getFilter: filter => {
+                deliveryType = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -747,38 +789,43 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const deliveryType = e.target.value
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const deliveryType = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(deliveryType, column.dataField, row._id)
+                      props.onUpdateItem(
+                        deliveryType,
+                        column.dataField,
+                        row._id,
+                      );
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "DELIVERY_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    )
-                  )}
+                  {lookupItems(
+                    props.extraData.lookupItems,
+                    'DELIVERY_TYPE',
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {lookupValue(item)}
+                    </option>
+                  ))}
                 </select>
               </>
             ),
           },
           {
-            dataField: "deliveryMethod",
-            text: "Delivery Method",
-            headerClasses: "textHeader5",
+            dataField: 'deliveryMethod',
+            text: 'Delivery Method',
+            headerClasses: 'textHeader5',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                deliveryMethod = filter
+              getFilter: filter => {
+                deliveryMethod = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -788,39 +835,44 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const deliveryMethod = e.target.value
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const deliveryMethod = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(deliveryMethod, column.dataField, row._id)
+                      props.onUpdateItem(
+                        deliveryMethod,
+                        column.dataField,
+                        row._id,
+                      );
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "DELIVERY_METHOD").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    )
-                  )}
+                  {lookupItems(
+                    props.extraData.lookupItems,
+                    'DELIVERY_METHOD',
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {lookupValue(item)}
+                    </option>
+                  ))}
                 </select>
               </>
             ),
           },
 
           {
-            dataField: "registrationLocation",
-            text: "Registration Location",
-            headerClasses: "textHeader6",
+            dataField: 'registrationLocation',
+            text: 'Registration Location',
+            headerClasses: 'textHeader6',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                registrationLocation = filter
+              getFilter: filter => {
+                registrationLocation = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -830,18 +882,18 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <AutoCompleteRegistrationLocation
-                  onSelect={(item) => {
-                    console.log({ item })
-                    if (item !== "RemoveItem") {
+                  onSelect={item => {
+                    console.log({item});
+                    if (item !== 'RemoveItem') {
                       props.onUpdateItem &&
-                        props.onUpdateItem(item, column.dataField, row._id)
+                        props.onUpdateItem(item, column.dataField, row._id);
                     } else {
                       props.onUpdateItem &&
-                        props.onUpdateItem("", column.dataField, row._id)
+                        props.onUpdateItem('', column.dataField, row._id);
                     }
                   }}
                 />
@@ -849,14 +901,14 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ),
           },
           {
-            dataField: "lab",
-            text: "Lab",
-            headerClasses: "textHeader",
+            dataField: 'lab',
+            text: 'Lab',
+            headerClasses: 'textHeader',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                lab = filter
+              getFilter: filter => {
+                lab = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -866,16 +918,16 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
                   value={row?.lab}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                  onChange={(e) => {
-                    const lab = e.target.value
+                  onChange={e => {
+                    const lab = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(lab, column.dataField, row._id)
+                      props.onUpdateItem(lab, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
@@ -889,100 +941,104 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ),
           },
           {
-            dataField: "openingTime",
-            text: "Opening Time",
-            headerClasses: "textHeader5",
+            dataField: 'openingTime',
+            text: 'Opening Time',
+            headerClasses: 'textHeader5',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                openingTime = filter
+              getFilter: filter => {
+                openingTime = filter;
               },
             }),
           },
 
           {
-            dataField: "closingTime",
-            text: "Closing Time",
-            headerClasses: "textHeader5",
+            dataField: 'closingTime',
+            text: 'Closing Time',
+            headerClasses: 'textHeader5',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                closingTime = filter
+              getFilter: filter => {
+                closingTime = filter;
               },
             }),
           },
           {
-            dataField: "info",
-            text: "Info",
-            headerClasses: "textHeader3",
+            dataField: 'info',
+            text: 'Info',
+            headerClasses: 'textHeader3',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                info = filter
-              },
-            }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "fyiLine",
-            text: "FYI Line",
-            headerClasses: "textHeader3",
-            sort: true,
-            csvFormatter: (col) => (col ? col : ""),
-            filter: textFilter({
-              getFilter: (filter) => {
-                fyiLine = filter
+              getFilter: filter => {
+                info = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
-            dataField: "workLine",
-            text: "Work Line",
-            headerClasses: "textHeader2",
+            dataField: 'fyiLine',
+            text: 'FYI Line',
+            headerClasses: 'textHeader3',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                workLine = filter
+              getFilter: filter => {
+                fyiLine = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
-            dataField: "confidential",
-            text: "Confidential",
+            dataField: 'workLine',
+            text: 'Work Line',
+            headerClasses: 'textHeader2',
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                workLine = filter;
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: 'confidential',
+            text: 'Confidential',
             sort: true,
             csvFormatter: (col, row) =>
-              `${row.confidential ? (row.confidential ? "Yes" : "No") : "No"}`,
+              `${row.confidential ? (row.confidential ? 'Yes' : 'No') : 'No'}`,
             editable: false,
             formatter: (cell, row) => {
               return (
                 <>
-                  {" "}
+                  {' '}
                   <Form.Toggle
                     disabled={!editorCell(row)}
                     value={row.confidential}
-                    onChange={(confidential) => {
+                    onChange={confidential => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(confidential, "confidential", row._id)
+                        props.onUpdateItem(
+                          confidential,
+                          'confidential',
+                          row._id,
+                        );
                     }}
-                  />{" "}
+                  />{' '}
                 </>
-              )
+              );
             },
           },
           {
-            dataField: "urgent",
-            text: "Urgent",
+            dataField: 'urgent',
+            text: 'Urgent',
             sort: true,
             csvFormatter: (col, row) =>
-              `${row.urgent ? (row.urgent ? "Yes" : "No") : "No"}`,
+              `${row.urgent ? (row.urgent ? 'Yes' : 'No') : 'No'}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -990,21 +1046,21 @@ export const DoctorsList = (props: DoctorsListProps) => {
                   <Form.Toggle
                     disabled={!editorCell(row)}
                     value={row.urgent}
-                    onChange={(urgent) => {
+                    onChange={urgent => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(urgent, "urgent", row._id)
+                        props.onUpdateItem(urgent, 'urgent', row._id);
                     }}
-                  />{" "}
+                  />{' '}
                 </>
-              )
+              );
             },
           },
           {
-            dataField: "reportFormat",
-            text: "Report Format",
+            dataField: 'reportFormat',
+            text: 'Report Format',
             sort: true,
             csvFormatter: (col, row) =>
-              `${row.urgent ? (row.urgent ? "Yes" : "No") : "No"}`,
+              `${row.urgent ? (row.urgent ? 'Yes' : 'No') : 'No'}`,
             editable: false,
             formatter: (cell, row) => {
               return (
@@ -1012,33 +1068,39 @@ export const DoctorsList = (props: DoctorsListProps) => {
                   <Form.Toggle
                     disabled={!editorCell(row)}
                     value={row.reportFormat}
-                    onChange={(reportFormat) => {
+                    onChange={reportFormat => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(reportFormat, "reportFormat", row._id)
+                        props.onUpdateItem(
+                          reportFormat,
+                          'reportFormat',
+                          row._id,
+                        );
                     }}
-                  />{" "}
+                  />{' '}
                 </>
-              )
+              );
             },
           },
           {
-            dataField: "dateCreation",
-            text: "Date Creation",
-            headerClasses: "textHeader6",
+            dataField: 'dateCreation',
+            text: 'Date Creation',
+            headerClasses: 'textHeader6',
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateCreation ? dayjs(row.dateCreation).format("YYYY-MM-DD") : "",
+              row.dateCreation
+                ? dayjs(row.dateCreation).format('YYYY-MM-DD')
+                : '',
             editable: false,
             filter: customFilter({
-              getFilter: (filter) => {
-                dateCreation = filter
+              getFilter: filter => {
+                dateCreation = filter;
               },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
+              return <>{dayjs(row.dateCreation).format('YYYY-MM-DD')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -1046,37 +1108,41 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.InputDateTime
                   value={new Date(row.dateCreation)}
-                  onFocusRemove={(dateCreation) => {
+                  onFocusRemove={dateCreation => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(dateCreation, column.dataField, row._id)
+                      props.onUpdateItem(
+                        dateCreation,
+                        column.dataField,
+                        row._id,
+                      );
                   }}
                 />
               </>
             ),
           },
           {
-            dataField: "dateActive",
-            text: "Date Active",
-            headerClasses: "textHeader6",
+            dataField: 'dateActive',
+            text: 'Date Active',
+            headerClasses: 'textHeader6',
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateActive ? dayjs(row.dateActive).format("YYYY-MM-DD") : "",
+              row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
             editable: false,
             filter: customFilter({
-              getFilter: (filter) => {
-                dateActive = filter
+              getFilter: filter => {
+                dateActive = filter;
               },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+              return <>{dayjs(row.dateActive).format('YYYY-MM-DD')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -1084,37 +1150,37 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.InputDateTime
                   value={new Date(row.dateActive)}
-                  onFocusRemove={(dateActive) => {
+                  onFocusRemove={dateActive => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(dateActive, column.dataField, row._id)
+                      props.onUpdateItem(dateActive, column.dataField, row._id);
                   }}
                 />
               </>
             ),
           },
           {
-            dataField: "dateExpire",
-            text: "Date Expire",
-            headerClasses: "textHeader6",
+            dataField: 'dateExpire',
+            text: 'Date Expire',
+            headerClasses: 'textHeader6',
             sort: true,
             csvFormatter: (col, row) =>
-              row.dateExpire ? dayjs(row.dateExpire).format("YYYY-MM-DD") : "",
+              row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
             editable: false,
             filter: customFilter({
-              getFilter: (filter) => {
-                dateExpire = filter
+              getFilter: filter => {
+                dateExpire = filter;
               },
             }),
             filterRenderer: (onFilter, column) => (
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
+              return <>{dayjs(row.dateExpire).format('YYYY-MM-DD')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -1122,29 +1188,29 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <Form.InputDateTime
                   value={new Date(row.dateExpire)}
-                  onFocusRemove={(dateExpire) => {
+                  onFocusRemove={dateExpire => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(dateExpire, column.dataField, row._id)
+                      props.onUpdateItem(dateExpire, column.dataField, row._id);
                   }}
                 />
               </>
             ),
           },
           {
-            dataField: "version",
-            text: "Version",
-            headerClasses: "textHeader4",
+            dataField: 'version',
+            text: 'Version',
+            headerClasses: 'textHeader4',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: customFilter({
-              getFilter: (filter) => {
-                version = filter
+              getFilter: filter => {
+                version = filter;
               },
             }),
             filterRenderer: (onFilter, column) => (
@@ -1152,27 +1218,27 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ),
           },
           {
-            dataField: "enteredBy",
-            text: "Entered By",
-            headerClasses: "textHeader2",
+            dataField: 'enteredBy',
+            text: 'Entered By',
+            headerClasses: 'textHeader2',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                enteredBy = filter
+              getFilter: filter => {
+                enteredBy = filter;
               },
             }),
             editable: false,
           },
           {
-            dataField: "status",
-            text: "Status",
-            headerClasses: "textHeader1",
+            dataField: 'status',
+            text: 'Status',
+            headerClasses: 'textHeader1',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             filter: textFilter({
-              getFilter: (filter) => {
-                status = filter
+              getFilter: filter => {
+                status = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -1182,39 +1248,39 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const status = e.target.value
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const status = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(status, column.dataField, row._id)
+                      props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "STATUS").map(
+                  {lookupItems(props.extraData.lookupItems, 'STATUS').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    )
+                    ),
                   )}
                 </select>
               </>
             ),
           },
           {
-            dataField: "environment",
-            text: "Environment",
-            headerClasses: "textHeader3",
+            dataField: 'environment',
+            text: 'Environment',
+            headerClasses: 'textHeader3',
             sort: true,
-            csvFormatter: (col) => (col ? col : ""),
+            csvFormatter: col => (col ? col : ''),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: textFilter({
-              getFilter: (filter) => {
-                environment = filter
+              getFilter: filter => {
+                environment = filter;
               },
             }),
             editorRenderer: (
@@ -1223,25 +1289,29 @@ export const DoctorsList = (props: DoctorsListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex
+              columnIndex,
             ) => (
               <>
                 <select
                   value={row.environment}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
+                  onChange={e => {
+                    const environment = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(environment, column.dataField, row._id)
+                      props.onUpdateItem(
+                        environment,
+                        column.dataField,
+                        row._id,
+                      );
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                  {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    )
+                    ),
                   )}
                 </select>
               </>
@@ -1249,25 +1319,25 @@ export const DoctorsList = (props: DoctorsListProps) => {
           },
 
           {
-            dataField: "opration",
-            text: "Action",
+            dataField: 'opration',
+            text: 'Action',
             editable: false,
             csvExport: false,
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-                <div className="flex flex-row">
-                  <Tooltip tooltipText="Delete" position="top">
+                <div className='flex flex-row'>
+                  <Tooltip tooltipText='Delete' position='top'>
                     <Icons.IconContext
-                      color="#fff"
-                      size="20"
+                      color='#fff'
+                      size='20'
                       onClick={() =>
                         props.onDelete &&
                         props.onDelete({
-                          type: "Delete",
+                          type: 'Delete',
                           show: true,
                           id: [row._id],
-                          title: "Are you sure?",
+                          title: 'Are you sure?',
                           body: `Delete item`,
                         })
                       }
@@ -1275,24 +1345,27 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {row.status !== "I" && (
+                  {row.status !== 'I' && (
                     <>
-                      <Tooltip className="ml-2" tooltipText="Version Upgrade">
+                      <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                         <Icons.IconContext
-                          color="#fff"
-                          size="20"
+                          color='#fff'
+                          size='20'
                           onClick={() =>
-                            props.onVersionUpgrade && props.onVersionUpgrade(row)
+                            props.onVersionUpgrade &&
+                            props.onVersionUpgrade(row)
                           }
                         >
                           {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                         </Icons.IconContext>
                       </Tooltip>
-                      <Tooltip className="ml-2" tooltipText="Duplicate">
+                      <Tooltip className='ml-2' tooltipText='Duplicate'>
                         <Icons.IconContext
-                          color="#fff"
-                          size="20"
-                          onClick={() => props.onDuplicate && props.onDuplicate(row)}
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDuplicate && props.onDuplicate(row)
+                          }
                         >
                           {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                         </Icons.IconContext>
@@ -1302,67 +1375,67 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 </div>
               </>
             ),
-            headerClasses: "sticky right-0  bg-gray-500 text-white",
+            headerClasses: 'sticky right-0  bg-gray-500 text-white',
             classes: (cell, row, rowIndex, colIndex) => {
-              return "sticky right-0 bg-gray-500"
+              return 'sticky right-0 bg-gray-500';
             },
           },
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Doctors"
-        onSelectedRow={(rows) => {
+        fileName='Doctors'
+        onSelectedRow={rows => {
           props.onSelectedRow &&
-            props.onSelectedRow(rows.map((item: any) => item._id))
+            props.onSelectedRow(rows.map((item: any) => item._id));
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
-          props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          props.onUpdateItem && props.onUpdateItem(value, dataField, id);
         }}
         onPageSizeChange={(page, size) => {
-          props.onPageSizeChange && props.onPageSizeChange(page, size)
+          props.onPageSizeChange && props.onPageSizeChange(page, size);
         }}
         onFilter={(type, filter, page, size) => {
-          props.onFilter && props.onFilter(type, filter, page, size)
+          props.onFilter && props.onFilter(type, filter, page, size);
         }}
         clearAllFilter={() => {
-          dateCreation()
-          dateActive()
-          dateExpire()
-          version("")
-          enteredBy("")
-          doctorCode("")
-          doctorName("")
-          sex("")
-          sbu("")
-          title("")
-          reportName("")
-          postalCode("")
-          district("")
-          city("")
-          state("")
-          country("")
-          doctorType("")
-          speciality("")
-          salesTerritoRy("")
-          area("")
-          zone("")
-          telephone("")
-          mobileNo("")
-          email("")
-          category("")
-          deliveryType("")
-          deliveryMethod("")
-          openingTime("")
-          registrationLocation("")
-          lab("")
-          closingTime("")
-          info("")
-          fyiLine("")
-          workLine("")
-          status("")
-          environment("")
+          dateCreation();
+          dateActive();
+          dateExpire();
+          version('');
+          enteredBy('');
+          doctorCode('');
+          doctorName('');
+          sex('');
+          sbu('');
+          title('');
+          reportName('');
+          postalCode('');
+          district('');
+          city('');
+          state('');
+          country('');
+          doctorType('');
+          speciality('');
+          salesTerritoRy('');
+          area('');
+          zone('');
+          telephone('');
+          mobileNo('');
+          email('');
+          category('');
+          deliveryType('');
+          deliveryMethod('');
+          openingTime('');
+          registrationLocation('');
+          lab('');
+          closingTime('');
+          info('');
+          fyiLine('');
+          workLine('');
+          status('');
+          environment('');
         }}
       />
     </div>
-  )
-}
+  );
+};

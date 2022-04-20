@@ -1,8 +1,8 @@
-import { stores } from "@/stores"
+import {stores} from '@/stores';
 const startup = async () => {
-  stores.corporateClientsStore.fetchCorporateClients()
+  stores.corporateClientsStore.fetchCorporateClients();
 
-  stores.corporateClientsStore.corporateClientsService.counterInvoiceAc()
-}
-   
-export default startup
+  stores.corporateClientsStore.corporateClientsService.counterInvoiceAc();
+};
+
+export default startup;

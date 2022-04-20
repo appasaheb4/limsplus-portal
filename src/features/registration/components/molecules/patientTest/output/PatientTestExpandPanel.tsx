@@ -73,7 +73,7 @@ export const PatientTestExpandPanel = ({
   const customTotal = (from, to, size) => {
     return (
       <>
-        <div className="clearfix" />
+        <div className='clearfix' />
         <span>
           Showing {from} to {to} of {size} Results
         </span>
@@ -86,22 +86,22 @@ export const PatientTestExpandPanel = ({
     currSizePerPage,
     onSizePerPageChange,
   }) => (
-    <div className="btn-group items-center" role="group">
+    <div className='btn-group items-center' role='group'>
       <input
-        type="number"
-        min="0"
-        placeholder="No"
+        type='number'
+        min='0'
+        placeholder='No'
         onChange={e => {
           if (e.target.value) {
             onSizePerPageChange(e.target.value);
           }
         }}
-        className="mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
+        className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
       />
       {options.map(option => (
         <button
           key={option.text}
-          type="button"
+          type='button'
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn ${
             currSizePerPage === `${option.page}`
@@ -246,7 +246,7 @@ export const PatientTestExpandPanel = ({
   };
 
   const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
-    <div className="btn-group btn-group-toggle" data-toggle="buttons">
+    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
           ...column,
@@ -256,12 +256,12 @@ export const PatientTestExpandPanel = ({
           if (index > 0) {
             return (
               <button
-                type="button"
+                type='button'
                 key={column.dataField}
                 className={` btn btn-primary btn-sm whitespace-nowrap ${
                   column.toggle ? 'active' : ''
                 }`}
-                data-toggle="button"
+                data-toggle='button'
                 aria-pressed={column.toggle ? 'true' : 'false'}
                 onClick={() => onColumnToggle(column.dataField)}
               >
@@ -275,9 +275,9 @@ export const PatientTestExpandPanel = ({
 
   const expandRow = {
     renderer: row => (
-      <div className="z-0">
+      <div className='z-0'>
         <PatientTestExpandByTestId
-          id="_id"
+          id='_id'
           data={row.panelMasterList || []}
           totalSize={row.panelMasterList?.length}
           columns={[
@@ -327,7 +327,7 @@ export const PatientTestExpandPanel = ({
         >
           {props => (
             <div>
-              <div className="flex items-center">
+              <div className='flex items-center'>
                 <SearchBar
                   {...searchProps}
                   {...props.searchProps}
@@ -351,8 +351,8 @@ export const PatientTestExpandPanel = ({
                 </ExportCSVButton>
                 {isFilterOpen ? (
                   <Buttons.Button
-                    size="medium"
-                    type="outline"
+                    size='medium'
+                    type='outline'
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen);
                     }}
@@ -361,8 +361,8 @@ export const PatientTestExpandPanel = ({
                   </Buttons.Button>
                 ) : (
                   <Buttons.Button
-                    size="medium"
-                    type="outline"
+                    size='medium'
+                    type='outline'
                     onClick={() => {
                       setIsFilterOpen(!isFilterOpen);
                     }}
@@ -374,18 +374,18 @@ export const PatientTestExpandPanel = ({
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>
                   <CustomToggleList
-                    contextual="primary"
-                    className="list-custom-class"
-                    btnClassName="list-btn-custom-class"
+                    contextual='primary'
+                    className='list-custom-class'
+                    btnClassName='list-btn-custom-class'
                     {...props.columnToggleProps}
                   />
                 </div>
               )}
-              <div className="scrollTable">
+              <div className='scrollTable'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
-                  noDataIndication="Table is Empty"
+                  noDataIndication='Table is Empty'
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
@@ -406,12 +406,12 @@ export const PatientTestExpandPanel = ({
                         })
                       : undefined
                   }
-                  headerClasses="bg-gray-500 text-white whitespace-nowrap z-0"
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
                   //expandRow={expandRow}
                 />
               </div>
-              <div className="flex items-center gap-2 mt-2">
+              <div className='flex items-center gap-2 mt-2'>
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
@@ -420,7 +420,7 @@ export const PatientTestExpandPanel = ({
                 />
                 <PaginationListStandalone {...paginationProps} />
               </div>
-              <div className="flex items-center gap-2 mt-2">
+              <div className='flex items-center gap-2 mt-2'>
                 <PaginationTotalStandalone {...paginationProps} />
               </div>
             </div>

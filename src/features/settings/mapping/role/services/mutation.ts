@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: RoleMappingInput!) {
+  mutation ($input: RoleMappingInput!) {
     roleMappings(input: $input) {
       paginatorInfo {
         count
@@ -18,45 +18,44 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: RoleMappingRemoveInput!) {
+  mutation ($input: RoleMappingRemoveInput!) {
     removeRoleMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateRoleMappingInput!) {
+  mutation ($input: CreateRoleMappingInput!) {
     createRoleMapping(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateRoleMappingInput!) {
+  mutation ($input: UpdateRoleMappingInput!) {
     updateRoleMapping(input: $input) {
       success
       message
     }
   }
-`
-
+`;
 
 export const FILTER = gql`
-  mutation($input: RoleMappingInput!) {
+  mutation ($input: RoleMappingInput!) {
     filterRoleMapping(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
-      data{
+      data {
         _id
         role
         router
@@ -66,4 +65,4 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;

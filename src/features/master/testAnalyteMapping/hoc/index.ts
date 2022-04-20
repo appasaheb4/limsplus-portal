@@ -1,1 +1,1 @@
-export * from "./TestAnalyteMappingHOC"
+export * from './TestAnalyteMappingHOC';

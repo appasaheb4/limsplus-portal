@@ -110,7 +110,7 @@ export const UserList = observer((props: UserListProps) => {
     <>
       <div style={{position: 'relative'}}>
         <TableBootstrap
-          id="_id"
+          id='_id'
           data={props.data}
           totalSize={props.totalSize}
           columns={[
@@ -481,7 +481,7 @@ export const UserList = observer((props: UserListProps) => {
                             : 'Mobile No'
                         }
                         pattern={FormHelper.patterns.mobileNo}
-                        type="number"
+                        type='number'
                         hasError={errors.mobileNo}
                         defaultValue={row?.mobileNo}
                         onChange={mobileNo => {
@@ -493,12 +493,12 @@ export const UserList = observer((props: UserListProps) => {
                         }}
                       />
                     )}
-                    name="mobileNo"
+                    name='mobileNo'
                     rules={{
                       required: true,
                       pattern: FormHelper.patterns.mobileNo,
                     }}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </>
               ),
@@ -529,7 +529,7 @@ export const UserList = observer((props: UserListProps) => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        type="number"
+                        type='number'
                         placeholder={
                           errors.contactNo
                             ? 'Please enter contact no'
@@ -547,12 +547,12 @@ export const UserList = observer((props: UserListProps) => {
                         }}
                       />
                     )}
-                    name="contactNo"
+                    name='contactNo'
                     rules={{
                       required: false,
                       pattern: FormHelper.patterns.mobileNo,
                     }}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </>
               ),
@@ -582,8 +582,8 @@ export const UserList = observer((props: UserListProps) => {
                   <>
                     <img
                       src={row.signature}
-                      alt="signature"
-                      className="object-cover h-20 w-20 rounded-md"
+                      alt='signature'
+                      className='object-cover h-20 w-20 rounded-md'
                     />
                   </>
                 );
@@ -598,7 +598,7 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <Form.InputFile
-                    placeholder="File"
+                    placeholder='File'
                     onChange={e => {
                       const signature = e.target.files[0];
                       props.onUpdateImage &&
@@ -623,7 +623,7 @@ export const UserList = observer((props: UserListProps) => {
                   <>
                     <img
                       src={row.picture}
-                      className="object-cover h-20 w-20 rounded-md"
+                      className='object-cover h-20 w-20 rounded-md'
                     />
                   </>
                 );
@@ -928,13 +928,13 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <Form.InputWrapper
-                    label="Access Permission"
+                    label='Access Permission'
                     style={{fontWeight: 'bold'}}
                   >
-                    <div className="flex flex-row gap-4">
+                    <div className='flex flex-row gap-4'>
                       <Form.Toggle
                         disabled={!editorCell(row)}
-                        label="Mobile"
+                        label='Mobile'
                         value={
                           row.systemInfo &&
                           row.systemInfo.accessInfo &&
@@ -958,7 +958,7 @@ export const UserList = observer((props: UserListProps) => {
 
                       <Form.Toggle
                         disabled={!editorCell(row)}
-                        label="Desktop"
+                        label='Desktop'
                         value={
                           row.systemInfo &&
                           row.systemInfo.accessInfo &&
@@ -1110,7 +1110,7 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <select
                     value={row.status}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const status = e.target.value;
                       props.onUpdateItem &&
@@ -1169,7 +1169,7 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <select
                     value={row.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const environment = e.target.value;
                       props.onUpdateItem &&
@@ -1202,8 +1202,8 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <Buttons.Button
-                    size="small"
-                    type="outline"
+                    size='small'
+                    type='outline'
                     icon={Svg.ReSendPassword}
                     onClick={async () => {
                       props.extraData.userStore.UsersService.reSendPassword({
@@ -1239,8 +1239,8 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <Buttons.Button
-                    size="small"
-                    type="outline"
+                    size='small'
+                    type='outline'
                     icon={Svg.ReSendPassword}
                     onClick={() => {
                       props.onChangePassword &&
@@ -1260,11 +1260,11 @@ export const UserList = observer((props: UserListProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row">
-                    <Tooltip tooltipText="Delete" position="top">
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Delete' position='top'>
                       <Icons.IconContext
-                        color="#fff"
-                        size="20"
+                        color='#fff'
+                        size='20'
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
@@ -1281,10 +1281,10 @@ export const UserList = observer((props: UserListProps) => {
                     </Tooltip>
                     {row.status !== 'I' && (
                       <>
-                        <Tooltip className="ml-2" tooltipText="Version Upgrade">
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
                               props.onVersionUpgrade &&
                               props.onVersionUpgrade(row)
@@ -1293,10 +1293,10 @@ export const UserList = observer((props: UserListProps) => {
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip className="ml-2" tooltipText="Duplicate">
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
                           <Icons.IconContext
-                            color="#fff"
-                            size="20"
+                            color='#fff'
+                            size='20'
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
@@ -1317,7 +1317,7 @@ export const UserList = observer((props: UserListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="User"
+          fileName='User'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

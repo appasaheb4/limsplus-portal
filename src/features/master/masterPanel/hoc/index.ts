@@ -1,1 +1,1 @@
-export * from "./MasterPanelHOC"
+export * from './MasterPanelHOC';

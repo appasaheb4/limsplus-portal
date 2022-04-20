@@ -16,9 +16,9 @@ export const AutoCompleteDefaultDepartment = observer(
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-          posstion="relative"
+          posstion='relative'
           loader={loading}
-          placeholder="Search by code or name"
+          placeholder='Search by code or name'
           data={{
             list: departmentStore.listDepartment.filter(
               item => item.lab === defaultLab,

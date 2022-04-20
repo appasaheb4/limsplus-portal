@@ -1,18 +1,18 @@
-import React from "react"
-import { Table } from "reactstrap"
-import {Form} from "@/library/components"
-import { observer } from "mobx-react"
+import React from 'react';
+import {Table} from 'reactstrap';
+import {Form} from '@/library/components';
+import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 
 export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
-  const {hostCommunicationStore} =useStores()
+  const {hostCommunicationStore} = useStores();
   return (
     <>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{ color: "green" }}>Communication Settins</th>
-            <th style={{ color: "green" }}>Value</th>
+            <th style={{color: 'green'}}>Communication Settins</th>
+            <th style={{color: 'green'}}>Value</th>
           </tr>
         </thead>
         <tbody>
@@ -20,13 +20,13 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
             <td>Host IP address</td>
             <td>
               <Form.Input
-                id="hostIpAddress"
-                placeholder="Host Ip Address"
+                id='hostIpAddress'
+                placeholder='Host Ip Address'
                 value={
                   hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.hostIpAddress
                 }
-                onChange={(hostIpAddress) => {
+                onChange={hostIpAddress => {
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
@@ -34,7 +34,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                         ?.tcpipCommunication,
                       hostIpAddress,
                     },
-                  })
+                  });
                 }}
               />
             </td>
@@ -43,15 +43,15 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
           <tr>
             <td>Port number</td>
             <td>
-              {" "}
+              {' '}
               <Form.Input
-                id="portNumber"
-                placeholder="Port Number"
+                id='portNumber'
+                placeholder='Port Number'
                 value={
                   hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.portNumber
                 }
-                onChange={(portNumber) => {
+                onChange={portNumber => {
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
@@ -59,7 +59,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                         ?.tcpipCommunication,
                       portNumber,
                     },
-                  })
+                  });
                 }}
               />
             </td>
@@ -67,15 +67,15 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
           <tr>
             <td>Timeout</td>
             <td>
-              {" "}
+              {' '}
               <Form.Input
-                id="timeout"
-                placeholder="Timeout"
+                id='timeout'
+                placeholder='Timeout'
                 value={
                   hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.timeout
                 }
-                onChange={(timeout) => {
+                onChange={timeout => {
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
@@ -83,7 +83,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                         ?.tcpipCommunication,
                       timeout,
                     },
-                  })
+                  });
                 }}
               />
             </td>
@@ -91,15 +91,15 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
           <tr>
             <td>Response Time</td>
             <td>
-              {" "}
+              {' '}
               <Form.Input
-                id="responseTime"
-                placeholder="Response Time"
+                id='responseTime'
+                placeholder='Response Time'
                 value={
                   hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.responseTime
                 }
-                onChange={(responseTime) => {
+                onChange={responseTime => {
                   hostCommunicationStore.updateHostCommuication({
                     ...hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
@@ -107,7 +107,7 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                         ?.tcpipCommunication,
                       responseTime,
                     },
-                  })
+                  });
                 }}
               />
             </td>
@@ -115,7 +115,5 @@ export const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
         </tbody>
       </Table>
     </>
-  )
-})
-
-
+  );
+});

@@ -4,9 +4,9 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import * as Models from '../models';
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -15,26 +15,27 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
-} from "./mutation"
+} from './mutation';
 
 export class SampleTypeService {
   listSampleType = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.sampleTypeStore.updateSampleTypeList(response.data)
-          resolve(response.data)
+          stores.sampleTypeStore.updateSampleTypeList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   addSampleType = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -43,13 +44,13 @@ export class SampleTypeService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.sampleTypeStore.updateSampleType(new Models.SampleType({}))
+          resolve(response.data);
+          stores.sampleTypeStore.updateSampleType(new Models.SampleType({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   deleteSampleType = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -58,12 +59,12 @@ export class SampleTypeService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -72,13 +73,13 @@ export class SampleTypeService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.sampleTypeStore.updateSampleType(new Models.SampleType({}))
+          resolve(response.data);
+          stores.sampleTypeStore.updateSampleType(new Models.SampleType({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -88,35 +89,36 @@ export class SampleTypeService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterSampleTypes.success) return this.listSampleType()
-          stores.sampleTypeStore.filterSampleTypeList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          if (!response.data.filterSampleTypes.success)
+            return this.listSampleType();
+          stores.sampleTypeStore.filterSampleTypeList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -124,22 +126,21 @@ export class SampleTypeService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsSampleTypes.success)
-            return this.listSampleType()
+            return this.listSampleType();
           stores.sampleTypeStore.filterSampleTypeList({
             filterSampleTypes: {
               data: response.data.filterByFieldsSampleTypes.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsSampleTypes.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsSampleTypes.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
-
-

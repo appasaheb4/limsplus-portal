@@ -55,26 +55,26 @@ export const PriceListTableForLabList = observer(
     };
 
     return (
-      <div className="flex flex-col gap-2 items-center overflow-auto">
+      <div className='flex flex-col gap-2 items-center overflow-auto'>
         <Table striped bordered>
           <thead>
-            <tr className="p-0 text-xs z-0">
-              <th className="text-white" style={{minWidth: 150}}>
+            <tr className='p-0 text-xs z-0'>
+              <th className='text-white' style={{minWidth: 150}}>
                 Price Group
               </th>
-              <th className="text-white" style={{minWidth: 150}}>
+              <th className='text-white' style={{minWidth: 150}}>
                 Price List
               </th>
-              <th className="text-white" style={{minWidth: 150}}>
+              <th className='text-white' style={{minWidth: 150}}>
                 Description
               </th>
-              <th className="text-white" style={{minWidth: 100}}>
+              <th className='text-white' style={{minWidth: 100}}>
                 Priority
               </th>
-              <th className="text-white" style={{minWidth: 100}}>
+              <th className='text-white' style={{minWidth: 100}}>
                 Max Dis%
               </th>
-              <th className="text-white sticky right-0 flex flex-row gap-2">
+              <th className='text-white sticky right-0 flex flex-row gap-2'>
                 Action
                 <Buttons.ButtonIcon
                   icon={
@@ -82,7 +82,7 @@ export const PriceListTableForLabList = observer(
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplayPriceList('');
                   }}
@@ -93,7 +93,7 @@ export const PriceListTableForLabList = observer(
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
-                  title=""
+                  title=''
                   onClick={() => {
                     setDisplayPriceList('display');
                   }}
@@ -102,7 +102,7 @@ export const PriceListTableForLabList = observer(
             </tr>
           </thead>
           {displayPriceList && (
-            <tbody className="text-xs">
+            <tbody className='text-xs'>
               {priceList.current?.map((item, index) => (
                 <tr>
                   <td>
@@ -110,9 +110,9 @@ export const PriceListTableForLabList = observer(
                       control={control}
                       render={({field: {onChange}}) => (
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          posstion="sticky"
+                          posstion='sticky'
                           loader={loading}
-                          placeholder="Search by priceGroup or description"
+                          placeholder='Search by priceGroup or description'
                           displayValue={item?.priceGroup}
                           data={{
                             list: _.unionBy(
@@ -168,9 +168,9 @@ export const PriceListTableForLabList = observer(
                           }}
                         />
                       )}
-                      name="priceGroup"
+                      name='priceGroup'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </td>
                   <td>
@@ -179,8 +179,8 @@ export const PriceListTableForLabList = observer(
                       render={({field: {onChange}}) => (
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
-                          posstion="relative"
-                          placeholder="Search by invoiceAc or name"
+                          posstion='relative'
+                          placeholder='Search by invoiceAc or name'
                           data={{
                             list: corporateClientsStore?.listCorporateClients,
                             displayKey: ['invoiceAc', 'corporateName'],
@@ -215,9 +215,9 @@ export const PriceListTableForLabList = observer(
                           }}
                         />
                       )}
-                      name="priceList"
+                      name='priceList'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </td>
                   <td>
@@ -226,7 +226,7 @@ export const PriceListTableForLabList = observer(
                       render={({field: {onChange}}) => (
                         <Form.MultilineInput
                           rows={2}
-                          label=""
+                          label=''
                           disabled={true}
                           placeholder={
                             errors.description
@@ -240,9 +240,9 @@ export const PriceListTableForLabList = observer(
                           }}
                         />
                       )}
-                      name="description"
+                      name='description'
                       rules={{required: false}}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </td>
                   <td>
@@ -250,10 +250,10 @@ export const PriceListTableForLabList = observer(
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Input
-                          label=""
+                          label=''
                           value={item?.priority}
-                          type="number"
-                          placeholder="Priority"
+                          type='number'
+                          placeholder='Priority'
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                           hasError={errors.priority}
                           onChange={priority => {
@@ -265,7 +265,7 @@ export const PriceListTableForLabList = observer(
                           }}
                         />
                       )}
-                      name="priority"
+                      name='priority'
                       rules={{required: false}}
                       defaultValue={item?.priority}
                     />
@@ -275,8 +275,8 @@ export const PriceListTableForLabList = observer(
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Input
-                          label=""
-                          type="number"
+                          label=''
+                          type='number'
                           placeholder={item?.maxDis?.toString()}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
                           hasError={errors.maxDis}
@@ -289,33 +289,33 @@ export const PriceListTableForLabList = observer(
                           }}
                         />
                       )}
-                      name="maxDis"
+                      name='maxDis'
                       rules={{required: false}}
                       defaultValue={item?.maxDis}
                     />
                   </td>
-                  <td className="sticky right-0 z-10 bg-gray-500">
-                    <div className="flex flex-col gap-1">
+                  <td className='sticky right-0 z-10 bg-gray-500'>
+                    <div className='flex flex-col gap-1'>
                       <Buttons.Button
-                        size="small"
-                        type="outline"
+                        size='small'
+                        type='outline'
                         onClick={() => {
                           removeItem(index);
                         }}
                       >
                         <Icons.EvaIcon
-                          icon="minus-circle-outline"
-                          color="#fff"
+                          icon='minus-circle-outline'
+                          color='#fff'
                         />
                       </Buttons.Button>
                       <Buttons.Button
-                        size="small"
-                        type="outline"
+                        size='small'
+                        type='outline'
                         onClick={handleSubmit(addItem)}
                       >
                         <Icons.EvaIcon
-                          icon="plus-circle-outline"
-                          color="#fff"
+                          icon='plus-circle-outline'
+                          color='#fff'
                         />
                       </Buttons.Button>
                     </div>
@@ -326,18 +326,18 @@ export const PriceListTableForLabList = observer(
           )}
           {priceList.current?.length === 0 && (
             <Buttons.Button
-              size="small"
-              type="outline"
+              size='small'
+              type='outline'
               onClick={handleSubmit(addItem)}
             >
-              <Icons.EvaIcon icon="plus-circle-outline" color="#000" />
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
             </Buttons.Button>
           )}
         </Table>
         {displayPriceList && (
           <Buttons.Button
-            size="small"
-            type="solid"
+            size='small'
+            type='solid'
             onClick={() => onUpdate && onUpdate(priceList.current)}
           >
             Update

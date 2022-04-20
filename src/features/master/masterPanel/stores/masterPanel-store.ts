@@ -1,30 +1,32 @@
-import { version } from "mobx-sync"
-import { makeObservable, action, observable, computed } from "mobx"
-import { Toast } from "@/library/components"
-import { MasterPanel, MasterPanelActivity } from "../models"
-import { MasterPanelService } from "../services"
-import * as ModelsSection from "@/features/master/section/models"
-import dayjs from "dayjs"
+import {version} from 'mobx-sync';
+import {makeObservable, action, observable, computed} from 'mobx';
+import {Toast} from '@/library/components';
+import {MasterPanel, MasterPanelActivity} from '../models';
+import {MasterPanelService} from '../services';
+import * as ModelsSection from '@/features/master/section/models';
+import dayjs from 'dayjs';
 
 @version(0.1)
 export class MasterPanelStore {
-  masterPanel!: MasterPanel
-  listMasterPanel: MasterPanel[]
-  listMasterPanelCopy!: MasterPanel[]
-  listMasterPanelCount!: number
-  checkExitsLabEnvCode!: boolean
-  sectionListByDeptCode!: ModelsSection.Section[]
-  masterPanelActivity!: MasterPanelActivity
+  masterPanel!: MasterPanel;
+  listMasterPanel: MasterPanel[];
+  listMasterPanelCopy!: MasterPanel[];
+  listMasterPanelCount!: number;
+  checkExitsLabEnvCode!: boolean;
+  sectionListByDeptCode!: ModelsSection.Section[];
+  masterPanelActivity!: MasterPanelActivity;
 
   constructor() {
-    this.listMasterPanel = []
-    this.listMasterPanelCount = 0
-    this.checkExitsLabEnvCode = false
+    this.listMasterPanel = [];
+    this.listMasterPanelCount = 0;
+    this.checkExitsLabEnvCode = false;
     this.masterPanel = {
       ...this.masterPanel,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
       version: 1,
       bill: false,
       autoRelease: false,
@@ -38,7 +40,7 @@ export class MasterPanelStore {
       cumulative: false,
       pageBreak: false,
       validationLevel: 0,
-    }
+    };
     makeObservable<MasterPanelStore, any>(this, {
       masterPanel: observable,
       listMasterPanel: observable,
@@ -56,54 +58,54 @@ export class MasterPanelStore {
       updateExistsLabEnvCode: action,
       filterPanelMasterList: action,
       updateMasterPanelActivity: action,
-    })
+    });
   }
 
   get masterPanelService() {
-    return new MasterPanelService()
+    return new MasterPanelService();
   }
 
   fetchPanelMaster(page?, limit?) {
-    this.masterPanelService.listPanelMaster(page, limit)
+    this.masterPanelService.listPanelMaster(page, limit);
   }
 
   updatePanelMasterList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.panelMasters.success) return alert(res.panelMasters.message)
-      this.listMasterPanel = res.panelMasters.data
-      this.listMasterPanelCopy = res.panelMasters.data
-      this.listMasterPanelCount = res.panelMasters.paginatorInfo.count
+      if (!res.panelMasters.success) return alert(res.panelMasters.message);
+      this.listMasterPanel = res.panelMasters.data;
+      this.listMasterPanelCopy = res.panelMasters.data;
+      this.listMasterPanelCount = res.panelMasters.paginatorInfo.count;
     } else {
-      this.listMasterPanel = res
+      this.listMasterPanel = res;
     }
   }
 
   filterPanelMasterList(res: any) {
-    this.listMasterPanel = res.filterPanelMaster.data
-    this.listMasterPanelCount = res.filterPanelMaster.paginatorInfo.count
+    this.listMasterPanel = res.filterPanelMaster.data;
+    this.listMasterPanelCount = res.filterPanelMaster.paginatorInfo.count;
   }
 
   findSectionListByDeptCode = (code: string) => {
-    this.masterPanelService.findSectionListByDeptCode(code)
-  }
+    this.masterPanelService.findSectionListByDeptCode(code);
+  };
 
   updateSectionListByDeptCode(res: any) {
     if (!res.findSectionListByDeptCode.success)
       return Toast.warning({
         message: `😔 ${res.findSectionListByDeptCode.message}`,
-      })
-    this.sectionListByDeptCode = res.findSectionListByDeptCode.data
+      });
+    this.sectionListByDeptCode = res.findSectionListByDeptCode.data;
   }
 
   updateMasterPanel(analyte: MasterPanel) {
-    this.masterPanel = analyte
+    this.masterPanel = analyte;
   }
 
   updateExistsLabEnvCode = (status: boolean) => {
-    this.checkExitsLabEnvCode = status
-  }
+    this.checkExitsLabEnvCode = status;
+  };
 
   updateMasterPanelActivity = (items: MasterPanelActivity) => {
-    this.masterPanelActivity = items
-  }
+    this.masterPanelActivity = items;
+  };
 }

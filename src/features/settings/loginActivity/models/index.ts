@@ -1,1 +1,1 @@
-export * from './LoginActvity'
+export * from './LoginActvity';

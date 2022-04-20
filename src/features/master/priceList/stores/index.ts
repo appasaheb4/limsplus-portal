@@ -1,10 +1,10 @@
-import React from "react"
-import {PriceListStore} from "./priceList-store"
+import React from 'react';
+import {PriceListStore} from './priceList-store';
 
 export const Stores = {
-    priceListStore: new PriceListStore()
-}
-    
+  priceListStore: new PriceListStore(),
+};
+
 export const Contexts = {
-    priceListContext: React.createContext(Stores.priceListStore)
-}
+  priceListContext: React.createContext(Stores.priceListStore),
+};

@@ -1,34 +1,34 @@
-import { makeObservable, action, observable, computed } from "mobx"
-import { RegistrationLocations } from "../models"
-import { RegistrationLocationsService } from "../services"
-import dayjs from "dayjs"
+import {makeObservable, action, observable, computed} from 'mobx';
+import {RegistrationLocations} from '../models';
+import {RegistrationLocationsService} from '../services';
+import dayjs from 'dayjs';
 
 export class RegistrationLocationsStore {
-  registrationLocations!: RegistrationLocations
-  listRegistrationLocations: RegistrationLocations[]
-  listRegistrationLocationsCopy: RegistrationLocations[]
-  listRegistrationLocationsCount: number
-  checkExitsLabEnvCode: boolean
+  registrationLocations!: RegistrationLocations;
+  listRegistrationLocations: RegistrationLocations[];
+  listRegistrationLocationsCopy: RegistrationLocations[];
+  listRegistrationLocationsCount: number;
+  checkExitsLabEnvCode: boolean;
 
   constructor() {
-    this.listRegistrationLocations = []
-    this.listRegistrationLocationsCopy = []
-    this.listRegistrationLocationsCount = 0
-    this.checkExitsLabEnvCode = false
+    this.listRegistrationLocations = [];
+    this.listRegistrationLocationsCopy = [];
+    this.listRegistrationLocationsCount = 0;
+    this.checkExitsLabEnvCode = false;
     this.registrationLocations = {
       ...this.registrationLocations,
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
-        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD hh:mm:ss")
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
       ),
       version: 1,
       confidential: false,
       printLabel: false,
       neverBill: false,
       urgent: false,
-      priceList: [{ id: 0,maxDis:0 }],
-    }
+      priceList: [{id: 0, maxDis: 0}],
+    };
 
     makeObservable<RegistrationLocationsStore, any>(this, {
       registrationLocations: observable,
@@ -43,41 +43,41 @@ export class RegistrationLocationsStore {
       updateRegistrationLocations: action,
       updateExistsLabEnvCode: action,
       filterRegistrationLocationList: action,
-    })
+    });
   }
 
   get registrationLocationsService() {
-    return new RegistrationLocationsService()
+    return new RegistrationLocationsService();
   }
 
   fetchRegistrationLocations(page?, limit?) {
-    this.registrationLocationsService.listRegistrationLocations(page, limit)
+    this.registrationLocationsService.listRegistrationLocations(page, limit);
   }
 
   updateRegistrationLocationsList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.registrationLocations.success)
-        return alert(res.registrationLocations.message)
+        return alert(res.registrationLocations.message);
       this.listRegistrationLocationsCount =
-        res.registrationLocations.paginatorInfo.count
-      this.listRegistrationLocations = res.registrationLocations.data
-      this.listRegistrationLocationsCopy = res.registrationLocations.data
+        res.registrationLocations.paginatorInfo.count;
+      this.listRegistrationLocations = res.registrationLocations.data;
+      this.listRegistrationLocationsCopy = res.registrationLocations.data;
     } else {
-      this.listRegistrationLocations = res
+      this.listRegistrationLocations = res;
     }
   }
 
   filterRegistrationLocationList(res: any) {
     this.listRegistrationLocationsCount =
-      res.filterRegistrationLocations.paginatorInfo.count
-    this.listRegistrationLocations = res.filterRegistrationLocations.data
+      res.filterRegistrationLocations.paginatorInfo.count;
+    this.listRegistrationLocations = res.filterRegistrationLocations.data;
   }
 
   updateRegistrationLocations(locations: RegistrationLocations) {
-    this.registrationLocations = locations
+    this.registrationLocations = locations;
   }
 
   updateExistsLabEnvCode = (status: boolean) => {
-    this.checkExitsLabEnvCode = status
-  }
+    this.checkExitsLabEnvCode = status;
+  };
 }

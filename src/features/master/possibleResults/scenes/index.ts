@@ -1,1 +1,1 @@
-export * from "./PossibleResults";
+export * from './PossibleResults';

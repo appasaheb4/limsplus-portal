@@ -1,1 +1,1 @@
-export * from './molecules/InterfaceManagerList'
+export * from './molecules/InterfaceManagerList';

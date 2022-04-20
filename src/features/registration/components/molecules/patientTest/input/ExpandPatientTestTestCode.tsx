@@ -56,7 +56,7 @@ export const ExpandPatientTestTestCode = ({
   const customTotal = (from, to, size) => {
     return (
       <>
-        <div className="clearfix" />
+        <div className='clearfix' />
         <span>
           Showing {from} to {to} of {size} Results
         </span>
@@ -69,22 +69,22 @@ export const ExpandPatientTestTestCode = ({
     currSizePerPage,
     onSizePerPageChange,
   }) => (
-    <div className="btn-group items-center" role="group">
+    <div className='btn-group items-center' role='group'>
       <input
-        type="number"
-        min="0"
-        placeholder="No"
+        type='number'
+        min='0'
+        placeholder='No'
         onChange={e => {
           if (e.target.value) {
             onSizePerPageChange(e.target.value);
           }
         }}
-        className="mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
+        className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
       />
       {options.map(option => (
         <button
           key={option.text}
-          type="button"
+          type='button'
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn ${
             currSizePerPage === `${option.page}`
@@ -232,11 +232,11 @@ export const ExpandPatientTestTestCode = ({
                 <BootstrapTable
                   remote
                   {...props.baseProps}
-                  noDataIndication="Table is Empty"
+                  noDataIndication='Table is Empty'
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
-                  headerClasses="bg-gray-500 text-white whitespace-nowrap"
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
                   //expandRow={ expandRow }
                 />

@@ -158,7 +158,7 @@ export const SalesTeam = SalesTeamHoc(
             onClick={() => setHideAddSection(!hideAddSection)}
           />
         )}
-        <div className=" mx-auto flex-wrap">
+        <div className=' mx-auto flex-wrap'>
           <div
             className={
               'p-2 rounded-lg shadow-xl ' +
@@ -166,13 +166,13 @@ export const SalesTeam = SalesTeamHoc(
             }
           >
             <Grid cols={2}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Sales Territory"
-                      placeholder="Sales Territory"
+                      label='Sales Territory'
+                      placeholder='Sales Territory'
                       value={salesTeamStore.salesTeam?.salesTerritory}
                       onChange={salesTerritory => {
                         onChange(salesTerritory);
@@ -195,16 +195,16 @@ export const SalesTeam = SalesTeamHoc(
                       }}
                     />
                   )}
-                  name="salesTerritory"
+                  name='salesTerritory'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.MultilineInput
-                      label="Description"
-                      placeholder="Description"
+                      label='Description'
+                      placeholder='Description'
                       value={salesTeamStore.salesTeam?.description}
                       onChange={description => {
                         onChange(description);
@@ -215,15 +215,15 @@ export const SalesTeam = SalesTeamHoc(
                       }}
                     />
                   )}
-                  name="description"
+                  name='description'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Employee code"
+                      label='Employee code'
                       hasError={errors.empCode}
                     >
                       <AutoCompleteFilterSingleSelectEmpolyeCode
@@ -283,7 +283,7 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="empCode"
+                  name='empCode'
                   rules={{required: true}}
                   defaultValue={userStore.userList}
                 />
@@ -291,7 +291,7 @@ export const SalesTeam = SalesTeamHoc(
                   control={control}
                   render={() => (
                     <Form.Input
-                      label="Employee Name"
+                      label='Employee Name'
                       placeholder={
                         errors.empName
                           ? 'Please Enter EmployeeName'
@@ -305,15 +305,15 @@ export const SalesTeam = SalesTeamHoc(
                       value={salesTeamStore.salesTeam?.empName}
                     />
                   )}
-                  name="employeeName"
+                  name='employeeName'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={() => (
                     <Form.InputWrapper
-                      label="Sales Hierarchy"
+                      label='Sales Hierarchy'
                       hasError={errors.salesHierarchy}
                     >
                       {/* {!salesTeamStore.salesTeam?.salesHierarchy && (
@@ -344,21 +344,21 @@ export const SalesTeam = SalesTeamHoc(
                       {/* )} */}
                     </Form.InputWrapper>
                   )}
-                  name="salesHierarchy"
+                  name='salesHierarchy'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Targets"
+                      label='Targets'
                       hasError={errors.targets}
                     >
                       {!salesTeamStore.salesTeam?.targets && (
                         <Buttons.Button
-                          size="small"
-                          type="outline"
+                          size='small'
+                          type='outline'
                           onClick={() => {
                             salesTeamStore.updateSalesTeam({
                               ...salesTeamStore.salesTeam,
@@ -371,8 +371,8 @@ export const SalesTeam = SalesTeamHoc(
                           }}
                         >
                           <Icons.EvaIcon
-                            icon="plus-circle-outline"
-                            color="#000"
+                            icon='plus-circle-outline'
+                            color='#000'
                           />
                         </Buttons.Button>
                       )}
@@ -381,17 +381,17 @@ export const SalesTeam = SalesTeamHoc(
                       )}
                     </Form.InputWrapper>
                   )}
-                  name="targets"
+                  name='targets'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={() => (
                     <Form.Input
-                      label="Entered By"
+                      label='Entered By'
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
@@ -400,15 +400,15 @@ export const SalesTeam = SalesTeamHoc(
                       disabled={true}
                     />
                   )}
-                  name="userId"
+                  name='userId'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Creation"
+                      label='Date Creation'
                       placeholder={
                         errors.dateCreation
                           ? 'Please Enter Date Creation'
@@ -419,15 +419,15 @@ export const SalesTeam = SalesTeamHoc(
                       disabled={true}
                     />
                   )}
-                  name="dateCreation"
+                  name='dateCreation'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Active"
+                      label='Date Active'
                       placeholder={
                         errors.dateActive
                           ? 'Please Enter Date Active'
@@ -438,15 +438,15 @@ export const SalesTeam = SalesTeamHoc(
                       disabled={true}
                     />
                   )}
-                  name="dateActive"
+                  name='dateActive'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Expire"
+                      label='Date Expire'
                       placeholder={
                         errors.schedule
                           ? 'Please Enter schedule'
@@ -463,15 +463,15 @@ export const SalesTeam = SalesTeamHoc(
                       }}
                     />
                   )}
-                  name="schedule"
+                  name='schedule'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Version"
+                      label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
@@ -480,14 +480,14 @@ export const SalesTeam = SalesTeamHoc(
                       disabled={true}
                     />
                   )}
-                  name="version"
+                  name='version'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                    <Form.InputWrapper label='Status' hasError={errors.status}>
                       <select
                         value={salesTeamStore.salesTeam?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -513,14 +513,14 @@ export const SalesTeam = SalesTeamHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="status"
+                  name='status'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label='Environment'>
                       <select
                         value={salesTeamStore.salesTeam?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -575,30 +575,30 @@ export const SalesTeam = SalesTeamHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
+                  name='environment'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
             {salesTeamStore.checkExistsRecord && (
-              <span className="text-red-600 font-medium">
+              <span className='text-red-600 font-medium'>
                 Already exists records. Please enter correct info.
               </span>
             )}
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitSalesTeam)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload();
@@ -608,7 +608,7 @@ export const SalesTeam = SalesTeamHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-scroll">
+          <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
             {tableView}
           </div>
           <ModalConfirm

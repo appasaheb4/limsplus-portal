@@ -1,43 +1,39 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react"
-import { NavLink, withRouter } from "react-router-dom"
-import { connect } from "react-redux"
-import { observer } from "mobx-react"
-import { useHistory } from "react-router-dom"
+import React, {useEffect, useState} from 'react';
+import {NavLink, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {observer} from 'mobx-react';
+import {useHistory} from 'react-router-dom';
 
+import {Badge, Collapse} from 'reactstrap';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { Badge, Collapse } from "reactstrap"
-import PerfectScrollbar from "react-perfect-scrollbar"
+import {Icons, AutocompleteGroupBy} from '@/library/components';
 
-import {Icons,AutocompleteGroupBy} from "@/library/components"
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCircle} from '@fortawesome/free-solid-svg-icons';
+import * as Assets from '@/library/assets';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircle } from "@fortawesome/free-solid-svg-icons"
-import * as Assets from "@/library/assets"
+import {stores} from '@/stores';
 
+import {RouterFlow} from '@/flows';
 
-import { stores } from "@/stores"
-
-import { RouterFlow } from "@/flows"
-
-
-
-const initOpenRoutes = (location) => {
+const initOpenRoutes = location => {
   /* Open collapse element that matches current url */
-  const pathName = location.pathname
-  let _routes = {}
+  const pathName = location.pathname;
+  let _routes = {};
   if (stores.routerStore.userRouter)
     stores.routerStore.userRouter.forEach((route: any, index) => {
-      const isActive = pathName.indexOf(route.path) === 0
-      const isOpen = route.open
-      const isHome = route.containsHome && pathName === "/" ? true : false
+      const isActive = pathName.indexOf(route.path) === 0;
+      const isOpen = route.open;
+      const isHome = route.containsHome && pathName === '/' ? true : false;
 
       _routes = Object.assign({}, _routes, {
         [index]: isActive || isOpen || isHome,
-      })
-    })
-  return _routes
-}
+      });
+    });
+  return _routes;
+};
 
 const SidebarCategory = withRouter(
   ({
@@ -51,71 +47,76 @@ const SidebarCategory = withRouter(
     location,
     to,
   }) => {
-    const getSidebarItemClass = (path) => {
+    const getSidebarItemClass = path => {
       return location.pathname.indexOf(path) !== -1 ||
-        (location.pathname === "/" && path === "/dashboard")
-        ? "active"
-        : ""
-    }
-    const Icon = icon
+        (location.pathname === '/' && path === '/dashboard')
+        ? 'active'
+        : '';
+    };
+    const Icon = icon;
     return (
-      <li className={"sidebar-item " + getSidebarItemClass(to)}>
+      <li className={'sidebar-item ' + getSidebarItemClass(to)}>
         <span
-          data-toggle="collapse"
+          data-toggle='collapse'
           className={
-            "flex items-center sidebar-link " + (!isOpen ? "collapsed" : "")
+            'flex items-center sidebar-link ' + (!isOpen ? 'collapsed' : '')
           }
           onClick={onClick}
-          aria-expanded={isOpen ? "true" : "false"}
+          aria-expanded={isOpen ? 'true' : 'false'}
         >
           {icon !== undefined ? (
             <Icons.IconContext>
               <Icon />
             </Icons.IconContext>
           ) : null}
-          <span className="align-middle">{title}</span>
+          <span className='align-middle'>{title}</span>
           {badgeColor && badgeText ? (
-            <Badge color={badgeColor} size={18} className="sidebar-badge">
+            <Badge color={badgeColor} size={18} className='sidebar-badge'>
               {badgeText}
             </Badge>
           ) : null}
         </span>
         <Collapse isOpen={isOpen}>
-          <ul id="item" className={`sidebar-dropdown list-unstyled ${title === 'MASTER SETUP' ? "overflow-y-scroll h-80" : ""}`}>
+          <ul
+            id='item'
+            className={`sidebar-dropdown list-unstyled ${
+              title === 'MASTER SETUP' ? 'overflow-y-scroll h-80' : ''
+            }`}
+          >
             {children}
           </ul>
         </Collapse>
       </li>
-    )
-  }
-)
+    );
+  },
+);
 
 interface SidebarItemProps {
-  name: string
-  category: string
-  title: string
-  badgeColor: string
-  badgeText: string
-  icon: any
-  location: any
-  to: string
-  onChangeItem: (category: string, item: string) => void
+  name: string;
+  category: string;
+  title: string;
+  badgeColor: string;
+  badgeText: string;
+  icon: any;
+  location: any;
+  to: string;
+  onChangeItem: (category: string, item: string) => void;
 }
 
 const SidebarItem = withRouter((props: SidebarItemProps) => {
-  const getSidebarItemClass = (path) => {
-    return props.location.pathname === path ? "active" : ""
-  }
+  const getSidebarItemClass = path => {
+    return props.location.pathname === path ? 'active' : '';
+  };
 
   return (
     <li
-      className={"sidebar-item " +  getSidebarItemClass(props.to)}
+      className={'sidebar-item ' + getSidebarItemClass(props.to)}
       onClick={() => {
-        props.onChangeItem && props.onChangeItem(props.category, props.name)
+        props.onChangeItem && props.onChangeItem(props.category, props.name);
       }}
     >
-      <NavLink to={props.to} className="sidebar-link" activeClassName="active">
-        <span className="flex items-center">
+      <NavLink to={props.to} className='sidebar-link' activeClassName='active'>
+        <span className='flex items-center'>
           {props.icon ? (
             <Icons.IconContext>
               <props.icon />
@@ -124,72 +125,76 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
           {props.title}
         </span>
         {props.badgeColor && props.badgeText ? (
-          <Badge color={props.badgeColor} size={18} className="sidebar-badge">
+          <Badge color={props.badgeColor} size={18} className='sidebar-badge'>
             {props.badgeText}
           </Badge>
         ) : null}
       </NavLink>
     </li>
-  )
-})
+  );
+});
 
-const Sidebar = observer(({ location, sidebar, layout }) => {
-  const history = useHistory()
-  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
+const Sidebar = observer(({location, sidebar, layout}) => {
+  const history = useHistory();
+  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location));
 
   useEffect(() => {
-    setOpenRoutes(initOpenRoutes(location))
-  }, [stores.routerStore.userRouter])
+    setOpenRoutes(initOpenRoutes(location));
+  }, [stores.routerStore.userRouter]);
 
-  const toggle = (index) => {
+  const toggle = index => {
     Object.keys(openRoutes).forEach(
-      (item) =>
+      item =>
         openRoutes[index] ||
-        setOpenRoutes((openRoutes) =>
-          Object.assign({}, openRoutes, { [item]: false })
-        )
-    )
+        setOpenRoutes(openRoutes =>
+          Object.assign({}, openRoutes, {[item]: false}),
+        ),
+    );
     // Toggle selected element
-    setOpenRoutes((openRoutes) =>
-      Object.assign({}, openRoutes, { [index]: !openRoutes[index] })
-    )
-  }
+    setOpenRoutes(openRoutes =>
+      Object.assign({}, openRoutes, {[index]: !openRoutes[index]}),
+    );
+  };
 
   return (
     <>
       <nav
         className={
-          "sidebar" +
-          (!sidebar.isOpen ? " toggled" : "") +
-          (sidebar.isSticky ? " sidebar-sticky" : "")
+          'sidebar' +
+          (!sidebar.isOpen ? ' toggled' : '') +
+          (sidebar.isSticky ? ' sidebar-sticky' : '')
         }
-        style={{backgroundColor:`${stores.appStore.applicationSetting?.sideBarColor}`,backgroundImage:`url(${stores.appStore.applicationSetting?.imageSideBarBgImage})`,backgroundSize:'100% 100%'}}
+        style={{
+          backgroundColor: `${stores.appStore.applicationSetting?.sideBarColor}`,
+          backgroundImage: `url(${stores.appStore.applicationSetting?.imageSideBarBgImage})`,
+          backgroundSize: '100% 100%',
+        }}
       >
-        <div className="sidebar-content">
+        <div className='sidebar-content'>
           <PerfectScrollbar>
-            <a className="flex sidebar-brand items-center" href="/">
+            <a className='flex sidebar-brand items-center' href='/'>
               <img
                 src={Assets.appIcon}
-                alt="appIcon"
-                style={{ width: 40, height: 40 }}
+                alt='appIcon'
+                style={{width: 40, height: 40}}
               />
-              <span className="align-middle ml-2">{`Lims Plus`}</span>
+              <span className='align-middle ml-2'>{`Lims Plus`}</span>
             </a>
-            <div className="p-2">
+            <div className='p-2'>
               <AutocompleteGroupBy
                 data={stores.routerStore.userRouter}
-                onChange={async(item: any, children: any) => {
+                onChange={async (item: any, children: any) => {
                   await RouterFlow.updateSelectedCategory(
                     stores,
                     item.name,
-                    children.name
-                  )
-                  history.push(children.path)
+                    children.name,
+                  );
+                  history.push(children.path);
                 }}
               />
             </div>
             {stores.routerStore.userRouter && (
-              <ul className="sidebar-nav">
+              <ul className='sidebar-nav'>
                 {stores.routerStore.userRouter.map((category: any, index) => {
                   return (
                     <React.Fragment key={index}>
@@ -200,8 +205,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           icon={
-                            Icons.getIcons(category.icon) ||
-                            Icons.IconBs.BsList
+                            Icons.getIcons(category.icon) || Icons.IconBs.BsList
                           }
                           to={category.path}
                           isOpen={openRoutes[index]}
@@ -224,8 +228,8 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                                 await RouterFlow.updateSelectedCategory(
                                   stores,
                                   category,
-                                  item
-                                )
+                                  item,
+                                );
                               }}
                             />
                           ))}
@@ -235,41 +239,44 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           name={category.name}
                           title={category.title}
                           to={category.path}
-                          icon={Icons.getIcons(
-                            category.icon
-                          )}
+                          icon={Icons.getIcons(category.icon)}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           onChangeItem={async (category, item) => {
                             await RouterFlow.updateSelectedCategory(
                               stores,
                               category,
-                              item
-                            )
+                              item,
+                            );
                           }}
                         />
                       )}
                     </React.Fragment>
-                  )
+                  );
                 })}
               </ul>
             )}
             {!layout.isBoxed && !sidebar.isSticky ? (
-              <div className="sidebar-bottom d-none d-lg-block">
-                <div className="media">
+              <div className='sidebar-bottom d-none d-lg-block'>
+                <div className='media'>
                   <img
-                    className="rounded-circle mr-3"
-                    src={stores.loginStore.login?.picture || Assets.defaultAvatar}
+                    className='rounded-circle mr-3'
+                    src={
+                      stores.loginStore.login?.picture || Assets.defaultAvatar
+                    }
                     alt={stores.loginStore.login?.fullName}
-                    width="40"
-                    height="40"
+                    width='40'
+                    height='40'
                   />
-                  <div className="media-body">
-                    <h5 className="mb-1">
+                  <div className='media-body'>
+                    <h5 className='mb-1'>
                       {stores.loginStore.login?.fullName}
                     </h5>
                     <div>
-                      <FontAwesomeIcon icon={faCircle as any} className="text-success" />{" "}
+                      <FontAwesomeIcon
+                        icon={faCircle as any}
+                        className='text-success'
+                      />{' '}
                       Online
                     </div>
                   </div>
@@ -280,12 +287,12 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
         </div>
       </nav>
     </>
-  )
-})
+  );
+});
 
 export default withRouter(
   connect((store: any) => ({
     sidebar: store.sidebar,
     layout: store.layout,
-  }))(Sidebar)
-)
+  }))(Sidebar),
+);

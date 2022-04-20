@@ -98,7 +98,7 @@ export const Input = React.forwardRef((props: InputProps) => {
         placeholder={props.placeholder}
         required={props.required || false}
         disabled={props.disabled || false}
-        autoComplete="given-name"
+        autoComplete='given-name'
         value={props.value}
         onChange={e => props.onChange && props.onChange(e.target.value)}
         onKeyPress={e => handleKeyPress(e)}
@@ -116,7 +116,7 @@ export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id} className={props.className}>
     <textarea
       id={props.id}
-      autoComplete="given-name"
+      autoComplete='given-name'
       value={props.value}
       disabled={props.disabled}
       style={props.style}
@@ -124,7 +124,7 @@ export const MultilineInput = (props: InputProps) => (
       placeholder={props.placeholder}
       onChange={e => props.onChange && props.onChange(e.target.value)}
       onBlur={e => props.onBlur && props.onBlur(e.target.value)}
-      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
     />
   </InputWrapper>
 );
@@ -141,17 +141,17 @@ interface InputRadioProps extends InputWrapperProps {
 export const InputRadio = (props: InputRadioProps) => (
   <InputWrapper label={props.label} id={props.id}>
     {props.values?.map((item, key) => (
-      <div className="ml-4" key={key}>
-        <List space={3} direction="row">
+      <div className='ml-4' key={key}>
+        <List space={3} direction='row'>
           <input
             key={key}
-            type="radio"
+            type='radio'
             id={props.id}
             name={props.name}
             value={props.value}
             checked={item === props.value ? true : false}
             onChange={() => props.onChange && props.onChange(item)}
-            className="leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
+            className='leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
           />
           <Label htmlFor={props.id || ''}>{item}</Label>
         </List>
@@ -173,7 +173,7 @@ interface InputDateProps extends InputWrapperProps {
 export const InputDate = (props: InputDateProps) => (
   <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
     <input
-      type="date"
+      type='date'
       id={props.id}
       name={props.name}
       disabled={props.disabled || false}
@@ -207,8 +207,8 @@ export const InputDateTime = (props: InputDateProps) => {
               props.onFocusRemove && props.onFocusRemove(date);
           }}
           value={props.value}
-          amPmAriaLabel="AM/PM"
-          format="dd-MM-yyyy hh:mm:ss a"
+          amPmAriaLabel='AM/PM'
+          format='dd-MM-yyyy hh:mm:ss a'
           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
             props.hasError ? 'border-red-500 ' : 'border-gray-300'
           } rounded-md relative z-2`}
@@ -224,7 +224,7 @@ export const CheckBox = props => {
       <input
         key={props.id}
         onClick={props.handleCheckChieldElement}
-        type="checkbox"
+        type='checkbox'
         checked={props.isChecked}
         value={props.value}
       />{' '}
@@ -246,7 +246,7 @@ export const SelectOption = (props: SelectOptionProps) => (
   <InputWrapper label={props.label} id={props.id}>
     <select
       name={props.name}
-      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
       onChange={e => props.onChange && props.onChange(e.target.value)}
     >
       <option selected>Select</option>
@@ -273,7 +273,7 @@ interface InputFileProps extends InputWrapperProps {
 export const InputFile = (props: InputFileProps) => (
   <InputWrapper label={props.label} id={props.id}>
     <input
-      type="file"
+      type='file'
       id={props.id}
       name={props.name}
       disabled={props.disabled || false}
@@ -337,20 +337,20 @@ export const Toggle = (props: ToggleProps) => {
             'wrg-toggle-container ' + (toggle ? 'bg-green-700' : 'bg-black')
           }
         >
-          <div className="wrg-toggle-check">
-            <span className="text-white ml-1">Yes</span>
+          <div className='wrg-toggle-check'>
+            <span className='text-white ml-1'>Yes</span>
           </div>
-          <div className="wrg-toggle-uncheck">
-            <span className="text-white">No</span>
+          <div className='wrg-toggle-uncheck'>
+            <span className='text-white'>No</span>
           </div>
         </div>
         <div
           className={`wrg-toggle-circle ${toggle ? 'ml-1' : 'mr-1'}  `}
         ></div>
         <input
-          type="checkbox"
-          aria-label="Toggle Button"
-          className="wrg-toggle-input"
+          type='checkbox'
+          aria-label='Toggle Button'
+          className='wrg-toggle-input'
         />
       </div>
     </InputWrapper>
@@ -386,7 +386,7 @@ export const Clock = (props: ClockProps) => {
         )}
         <input
           value={time}
-          className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+          className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
           onClick={() => setShowTime(true)}
         />
       </div>

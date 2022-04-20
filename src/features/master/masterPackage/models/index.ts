@@ -1,1 +1,1 @@
-export * from './MasterPackage'
+export * from './MasterPackage';

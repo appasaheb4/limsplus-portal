@@ -1,5 +1,1 @@
-export * from "./sampleType-services"
-
-
-
-
+export * from './sampleType-services';

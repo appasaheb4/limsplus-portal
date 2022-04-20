@@ -70,7 +70,7 @@ export const ExpandExtraDataPatientTestTable = ({
   const customTotal = (from, to, size) => {
     return (
       <>
-        <div className="clearfix" />
+        <div className='clearfix' />
         <span>
           Showing {from} to {to} of {size} Results
         </span>
@@ -83,12 +83,12 @@ export const ExpandExtraDataPatientTestTable = ({
     currSizePerPage,
     onSizePerPageChange,
   }) => (
-    <div className="btn-group items-center" role="group">
+    <div className='btn-group items-center' role='group'>
       {isSelectRow && (
         <Buttons.Button
           style={{height: 10, width: 200}}
-          size="small"
-          type="solid"
+          size='small'
+          type='solid'
           onClick={() => {
             if (selectedRow) {
               onSelectedRow && onSelectedRow(selectedRow);
@@ -98,28 +98,28 @@ export const ExpandExtraDataPatientTestTable = ({
           }}
         >
           <Icons.EvaIcon
-            icon="trash-outline"
-            size="large"
+            icon='trash-outline'
+            size='large'
             color={Config.Styles.COLORS.BLACK}
           />
           Remove Selected
         </Buttons.Button>
       )}
       <input
-        type="number"
-        min="0"
-        placeholder="No"
+        type='number'
+        min='0'
+        placeholder='No'
         onChange={e => {
           if (e.target.value) {
             onSizePerPageChange(e.target.value);
           }
         }}
-        className="mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
+        className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
       />
       {options.map(option => (
         <button
           key={option.text}
-          type="button"
+          type='button'
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn ${
             currSizePerPage === `${option.page}`
@@ -245,9 +245,9 @@ export const ExpandExtraDataPatientTestTable = ({
 
   const expandRow = {
     renderer: row => (
-      <div className="z-0">
+      <div className='z-0'>
         <ExpandPatientTestTestCode
-          id="_id"
+          id='_id'
           data={row.testMasterList}
           totalSize={row.testMasterList.length}
           columns={[
@@ -451,11 +451,11 @@ export const ExpandExtraDataPatientTestTable = ({
                 <BootstrapTable
                   remote
                   {...props.baseProps}
-                  noDataIndication="Table is Empty"
+                  noDataIndication='Table is Empty'
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
-                  headerClasses="bg-gray-500 text-white whitespace-nowrap z-0"
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
                   expandRow={expandRow}
                 />

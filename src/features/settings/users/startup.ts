@@ -1,6 +1,6 @@
 import {Stores} from './stores';
 const startup = async () => {
-    Stores.userStore.loadUser();
-}
+  Stores.userStore.loadUser();
+};
 
 export default startup;

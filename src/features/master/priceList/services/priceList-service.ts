@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
 import {
   LIST,
   REMOVE_RECORD,
@@ -15,10 +15,10 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
-  FILTER_BY_FIELDS
-} from "./mutation"
-import { stores } from "@/stores"
-import * as Models from "../models"
+  FILTER_BY_FIELDS,
+} from './mutation';
+import {stores} from '@/stores';
+import * as Models from '../models';
 
 export class PriceListService {
   addPriceList = (variables: any) =>
@@ -29,32 +29,33 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.priceListStore.updatePriceList(new Models.PriceList({}))
+          resolve(response.data);
+          stores.priceListStore.updatePriceList(new Models.PriceList({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   listPiceList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
-      const lab = stores.loginStore.login && stores.loginStore.login.lab
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role, lab } },
+          variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
-          stores.priceListStore.updatePriceListRecords(response.data)
-          resolve(response.data)
+          stores.priceListStore.updatePriceListRecords(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deletePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -64,12 +65,12 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   versionUpgradePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -79,13 +80,13 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.priceListStore.updatePriceList(new Models.PriceList({}))
+          resolve(response.data);
+          stores.priceListStore.updatePriceList(new Models.PriceList({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   duplicatePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -95,13 +96,13 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.priceListStore.updatePriceList(new Models.PriceList({}))
+          resolve(response.data);
+          stores.priceListStore.updatePriceList(new Models.PriceList({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -111,15 +112,15 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.priceListStore.updatePriceList(new Models.PriceList({}))
+          resolve(response.data);
+          stores.priceListStore.updatePriceList(new Models.PriceList({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-  checkExitsRecords = (variables) =>
+  checkExitsRecords = variables =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -127,36 +128,36 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterPriceList.success) return this.listPiceList()
-          stores.priceListStore.filterPriceList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          if (!response.data.filterPriceList.success)
+            return this.listPiceList();
+          stores.priceListStore.filterPriceList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-
-    filterByFields = (variables: any) =>
+  filterByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER_BY_FIELDS,
@@ -164,22 +165,21 @@ export class PriceListService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPriceList.success)
-            return this.listPiceList()
+            return this.listPiceList();
           stores.priceListStore.filterPriceList({
             filterPriceList: {
               data: response.data.filterByFieldsPriceList.data,
               paginatorInfo: {
-                count: response.data.filterByFieldsPriceList.paginatorInfo.count,
+                count:
+                  response.data.filterByFieldsPriceList.paginatorInfo.count,
               },
             },
-          })
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
-
-
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

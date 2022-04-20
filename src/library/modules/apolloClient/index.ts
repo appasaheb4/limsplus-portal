@@ -1,2 +1,2 @@
-export * from './apolloClient'
-export * from './ServiceResponse'
+export * from './apolloClient';
+export * from './ServiceResponse';

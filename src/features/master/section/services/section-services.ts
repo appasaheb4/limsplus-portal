@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import { client, ServiceResponse } from "@/library/modules/apolloClient"
-import { stores } from "@/stores"
+import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {stores} from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -13,27 +13,28 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FIND_SECTIONLISTBY_DEPTCODE,
-  FILTER
-} from "./mutation"
-import * as Model from '../models'
+  FILTER,
+} from './mutation';
+import * as Model from '../models';
 export class SectionService {
   listSection = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.sectionStore.updateSectionList(response.data)
-          resolve(response.data)
+          stores.sectionStore.updateSectionList(response.data);
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   addSection = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -43,13 +44,13 @@ export class SectionService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.sectionStore.updateSection(new Model.Section({}))
+          resolve(response.data);
+          stores.sectionStore.updateSection(new Model.Section({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   deleteSection = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -59,12 +60,12 @@ export class SectionService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -74,13 +75,13 @@ export class SectionService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
-          stores.sectionStore.updateSection(new Model.Section({}))
+          resolve(response.data);
+          stores.sectionStore.updateSection(new Model.Section({}));
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   checkExitsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -90,12 +91,12 @@ export class SectionService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   findSectionListByDeptCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -105,29 +106,29 @@ export class SectionService {
           variables,
         })
         .then((response: any) => {
-          resolve(response.data)
+          resolve(response.data);
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })   
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
-    filter = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false)
+      stores.uploadLoadingFlag(false);
       client
         .mutate({
           mutation: FILTER,
           variables,
-        })  
-        .then((response: any) => {    
-          if (!response.data.filterSections.success) return this.listSection()
-          stores.sectionStore.filterSectionList(response.data)
-          stores.uploadLoadingFlag(true)
-          resolve(response.data)
-        })  
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        })
+        .then((response: any) => {
+          if (!response.data.filterSections.success) return this.listSection();
+          stores.sectionStore.filterSectionList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: EnviromentInput!) {
+  mutation ($input: EnviromentInput!) {
     enviroments(input: $input) {
       paginatorInfo {
         count
@@ -30,37 +30,37 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: EnviromentRemoveInput!) {
+  mutation ($input: EnviromentRemoveInput!) {
     removeEnviroment(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateEnviromentInput!) {
+  mutation ($input: CreateEnviromentInput!) {
     createEnviroment(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateEnviromentInput!) {
+  mutation ($input: UpdateEnviromentInput!) {
     updateEnviroment(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: EnviromentInput!) {
+  mutation ($input: EnviromentInput!) {
     filterEnviroment(input: $input) {
       paginatorInfo {
         count
@@ -88,10 +88,10 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
-  mutation($input: EnviromentInput!) {
+  mutation ($input: EnviromentInput!) {
     filterByFieldsEnviroment(input: $input) {
       paginatorInfo {
         count
@@ -120,23 +120,23 @@ export const FILTER_BY_FIELDS = gql`
       }
     }
   }
-`
+`;
 
 export const FIND_VALUE = gql`
-  mutation($input: EnviromentInput!) {
+  mutation ($input: EnviromentInput!) {
     getEnviromentValue(input: $input) {
       success
       message
       enviromentValues
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: EnviromentInput!) {
+  mutation ($input: EnviromentInput!) {
     checkExistsEnviromentRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
