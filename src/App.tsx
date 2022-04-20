@@ -8,7 +8,7 @@ import {configure} from 'mobx';
 import store from './redux/store/index';
 import Routes from './routes/Routes';
 
-// toast ui
+// toast
 import 'react-toastify/dist/ReactToastify.css';
 
 import {stores} from '@/stores';
