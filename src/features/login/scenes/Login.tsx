@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React, { useState, useEffect, useRef } from "react"
-import { observer } from "mobx-react"
-import _ from "lodash"
+import React, {useState, useEffect, useRef} from 'react';
+import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   Toast,
   List,
@@ -11,138 +11,132 @@ import {
   Icons,
   ModalChangePassword,
   ModalSessionAllowed,
-} from "@/library/components"
+} from '@/library/components';
 
-import { ModalForgotPassword, ModalNoticeBoard } from "../components"
-import { Col, Container, Row } from "reactstrap"
-import { logo, images } from "@/library/assets"
-import { Carousel } from "react-bootstrap"
-import dayjs from "dayjs"
-import { useForm, Controller } from "react-hook-form"
-import { FormHelper } from "@/helper"
+import {ModalForgotPassword, ModalNoticeBoard} from '../components';
+import {Col, Container, Row} from 'reactstrap';
+import {logo, images} from '@/library/assets';
+import {Carousel} from 'react-bootstrap';
+import dayjs from 'dayjs';
+import {useForm, Controller} from 'react-hook-form';
+import {FormHelper} from '@/helper';
 
-import { useHistory } from "react-router-dom"
-import { useStores } from "@/stores"
+import {useHistory} from 'react-router-dom';
+import {useStores} from '@/stores';
 
 export const Login = observer(() => {
-  const {
-    userStore,
-    loginStore,
-    rootStore,
-    labStore,
-    roleStore,
-    bannerStore,
-  } = useStores()
-  const history = useHistory()
-  const [noticeBoard, setNoticeBoard] = useState<any>({})
-  const [width, setWidth] = useState<number>(window.innerWidth)
-  const [labRoleList, setlabRoleList] = useState({ labList: [], roleList: [] })
+  const {userStore, loginStore, rootStore, labStore, roleStore, bannerStore} =
+    useStores();
+  const history = useHistory();
+  const [noticeBoard, setNoticeBoard] = useState<any>({});
+  const [width, setWidth] = useState<number>(window.innerWidth);
+  const [labRoleList, setlabRoleList] = useState({labList: [], roleList: []});
 
-  const refUserId = useRef<any>()
+  const refUserId = useRef<any>();
 
-  const [modalForgotPassword, setModalForgotPassword] = useState<any>()
-  const [modalChangePassword, setModalChangePassword] = useState<any>()
-  const [modalSessionAllowed, setModalSessionAllowed] = useState<any>()
+  const [modalForgotPassword, setModalForgotPassword] = useState<any>();
+  const [modalChangePassword, setModalChangePassword] = useState<any>();
+  const [modalSessionAllowed, setModalSessionAllowed] = useState<any>();
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     setValue,
     clearErrors,
-  } = useForm()
+  } = useForm();
 
   const handleWindowSizeChange = () => {
-    setWidth(window.innerWidth)
-  }
+    setWidth(window.innerWidth);
+  };
 
   useEffect(() => {
-    bannerStore.fetchListAllBanner()
-  }, [])
+    bannerStore.fetchListAllBanner();
+  }, []);
 
   useEffect(() => {
-    rootStore.isLogin().then((isLogin) => {
+    rootStore.isLogin().then(isLogin => {
       if (isLogin) {
-        history.push("/dashboard/default")
+        history.push('/dashboard/default');
       } else {
-        history.push("/")
+        history.push('/');
       }
-    })
-    refUserId.current && refUserId.current?.focus()
-    window.addEventListener("resize", handleWindowSizeChange)
+    });
+    refUserId.current && refUserId.current?.focus();
+    window.addEventListener('resize', handleWindowSizeChange);
     return () => {
-      window.removeEventListener("resize", handleWindowSizeChange)
-    }
-  }, [loginStore.login])
+      window.removeEventListener('resize', handleWindowSizeChange);
+    };
+  }, [loginStore.login]);
 
   const onLogin = async (data: any) => {
-    const loginFailedCount = loginStore.loginFailedCount || 0
+    const loginFailedCount = loginStore.loginFailedCount || 0;
     if (loginFailedCount > 4) {
       loginStore.LoginService.accountStatusUpdate({
         input: {
           userId: loginStore.inputLogin?.userId,
-          status: "I",
+          status: 'D',
         },
-      }).then((res) => {
+      }).then(res => {
         if (res.userAccountStatusUpdate.success) {
           Toast.error({
             message: `😔 ${res.userAccountStatusUpdate.message}`,
-          })
-          loginStore.updateLoginFailedCount(0)
+          });
+          loginStore.updateLoginFailedCount(0);
         }
-      })
+      });
     } else {
       loginStore.LoginService.onLogin({
         input: {
           user: loginStore.inputLogin,
           loginActivity: {
-            device: width <= 768 ? "Mobile" : "Desktop",
+            device: width <= 768 ? 'Mobile' : 'Desktop',
           },
         },
       })
-        .then((res) => {
+        .then(res => {
           if (res.login.success == 1) {
-            loginStore.updateLoginFailedCount(0)
+            loginStore.updateLoginFailedCount(0);
             if (!res.login.data.user.passChanged) {
-              setModalChangePassword({ show: true })
+              setModalChangePassword({show: true});
             } else {
               if (res.login.data.user.noticeBoard !== undefined) {
                 setNoticeBoard({
                   show: true,
                   userInfo: res.login.data.user,
                   data: res.login.data.user.noticeBoard,
-                })
+                });
               } else {
                 Toast.success({
                   message: `😊 ${res.login.message}`,
-                })
-                loginStore.saveLogin(res.login.data.user)
-                loginStore.clearInputUser()
+                });
+                loginStore.saveLogin(res.login.data.user);
+                loginStore.clearInputUser();
                 setTimeout(() => {
-                  history.push("/dashboard/default")
-                }, 1000)
+                  history.push('/dashboard/default');
+                }, 1000);
               }
             }
           } else if (res.login.success == 2) {
             setModalSessionAllowed({
               show: true,
               data: res.login.data.loginActivityListByUserId,
-            })
+            });
           } else {
-            loginStore.updateLoginFailedCount(loginFailedCount + 1)
+            loginStore.updateLoginFailedCount(loginFailedCount + 1);
             Toast.error({
               message: `😔 ${res.login.message}`,
-            })
+            });
           }
         })
-        .catch((error) => {
-          loginStore.updateLoginFailedCount(loginFailedCount + 1)
+        .catch(error => {
+          loginStore.updateLoginFailedCount(loginFailedCount + 1);
           Toast.error({
             message: `😔 ${error.message}`,
-          })
-        })
+          });
+        });
     }
-  }
+  };
 
   return (
     <>
@@ -182,84 +176,88 @@ export const Login = observer(() => {
                   <List direction="col" space={4} justify="stretch" fill>
                     <Controller
                       control={control}
-                      render={({ field: { onChange } }) => (
+                      render={({field: {onChange}}) => (
                         <Form.Input
                           label="User Id"
                           id="userId"
                           name="userId"
                           inputRef={refUserId}
-                          wrapperStyle={{ color: "white" }}
+                          wrapperStyle={{color: 'white'}}
                           placeholder={
-                            errors.userId ? "Please enter userId" : "UserId"
+                            errors.userId ? 'Please enter userId' : 'UserId'
                           }
                           hasError={errors.userId}
                           value={loginStore.inputLogin?.userId}
-                          onChange={(userId) => {
-                            onChange(userId)
+                          onChange={userId => {
+                            onChange(userId);
                             loginStore.updateInputUser({
                               ...loginStore.inputLogin,
                               userId: userId.toUpperCase(),
-                            })
+                            });
                           }}
-                          onBlur={(userId) => {
+                          onBlur={userId => {
                             if (userId) {
                               userStore.UsersService.checkExitsUserId(
-                                userId.trim()
-                              ).then((res) => {
+                                userId.trim(),
+                              ).then(res => {
                                 if (res.checkUserExitsUserId.success) {
                                   const {
-                                    data: { user },
-                                  } = res.checkUserExitsUserId
-                                  setValue("lab", user.defaultLab)
-                                  clearErrors("lab")
+                                    data: {user},
+                                  } = res.checkUserExitsUserId;
+                                  setValue('lab', user.defaultLab);
+                                  clearErrors('lab');
                                   if (user.role.length == 1)
-                                    setValue("role", user.role[0].code)
-                                  clearErrors("role")
+                                    setValue('role', user.role[0].code);
+                                  clearErrors('role');
                                   loginStore.updateInputUser({
                                     ...loginStore.inputLogin,
                                     lab: user.defaultLab,
                                     role:
-                                      user.role.length == 1 ? user.role[0].code : "",
-                                  })
-                                  labStore.fetchListLab()
-                                  roleStore.fetchListRole()
+                                      user.role.length == 1
+                                        ? user.role[0].code
+                                        : '',
+                                  });
+                                  labStore.fetchListLab();
+                                  roleStore.fetchListRole();
                                   setlabRoleList({
                                     labList: user.lab,
                                     roleList: user.role,
-                                  })
+                                  });
                                 } else {
                                   Toast.error({
                                     message: `😔 ${res.checkUserExitsUserId.message}`,
-                                  })
+                                  });
                                 }
-                              })
+                              });
                             }
                           }}
                         />
                       )}
                       name="userId"
-                      rules={{ required: true }}
+                      rules={{required: true}}
                       defaultValue={loginStore.inputLogin?.userId}
                     />
 
                     <Controller
                       control={control}
-                      render={({ field: { onChange } }) => (
+                      render={({field: {onChange}}) => (
                         <Form.Input
                           type="password"
                           label="Password"
-                          wrapperStyle={{ color: "white" }}
+                          wrapperStyle={{color: 'white'}}
                           placeholder={
-                            errors.password ? "Please enter password" : "Password"
+                            errors.password
+                              ? 'Please enter password'
+                              : 'Password'
                           }
                           hasError={errors.password}
                           value={loginStore.inputLogin?.password}
-                          onChange={(password) => {
-                            onChange(password)
+                          onChange={password => {
+                            onChange(password);
                             loginStore.updateInputUser({
                               ...loginStore.inputLogin,
                               password,
-                            })
+                            });
                           }}
                         />
                       )}
@@ -273,29 +271,27 @@ export const Login = observer(() => {
 
                     <Controller
                       control={control}
-                      render={({ field: { onChange } }) => (
+                      render={({field: {onChange}}) => (
                         <Form.InputWrapper
                           label="Lab"
                           hasError={errors.lab}
-                          style={{ color: "white" }}
+                          style={{color: 'white'}}
                         >
                           <select
-                          
                             value={loginStore.inputLogin?.lab}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.lab ? "border-red-500" : "border-gray-300"
+                              errors.lab ? 'border-red-500' : 'border-gray-300'
                             } rounded-md`}
-                            onChange={(e) => {
-                              const lab = e.target.value
-                              onChange(lab)
+                            onChange={e => {
+                              const lab = e.target.value;
+                              onChange(lab);
                               loginStore.updateInputUser({
                                 ...loginStore.inputLogin,
                                 lab,
-                              })
+                              });
                             }}
                           >
-                            
-                            <option >Select</option>
+                            <option>Select</option>
                             {labRoleList?.labList?.map((item: any) => (
                               <option key={item.code} value={item.code}>
                                 {item.name}
@@ -305,30 +301,30 @@ export const Login = observer(() => {
                         </Form.InputWrapper>
                       )}
                       name="lab"
-                      rules={{ required: true }}
+                      rules={{required: true}}
                       defaultValue={loginStore.inputLogin?.lab}
                     />
 
                     <Controller
                       control={control}
-                      render={({ field: { onChange } }) => (
+                      render={({field: {onChange}}) => (
                         <Form.InputWrapper
                           label="Role"
                           hasError={errors.role}
-                          style={{ color: "white" }}
+                          style={{color: 'white'}}
                         >
                           <select
                             value={loginStore.inputLogin?.role}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.role ? "border-red-500" : "border-gray-300"
+                              errors.role ? 'border-red-500' : 'border-gray-300'
                             } rounded-md`}
-                            onChange={(e) => {
-                              const role = e.target.value
-                              onChange(role)
+                            onChange={e => {
+                              const role = e.target.value;
+                              onChange(role);
                               loginStore.updateInputUser({
                                 ...loginStore.inputLogin,
                                 role,
-                              })
+                              });
                             }}
                           >
                             <option selected>Select</option>
@@ -341,7 +337,7 @@ export const Login = observer(() => {
                         </Form.InputWrapper>
                       )}
                       name="role"
-                      rules={{ required: true }}
+                      rules={{required: true}}
                       defaultValue={loginStore.inputLogin?.role}
                     />
                   </List>
@@ -361,16 +357,16 @@ export const Login = observer(() => {
                       type="solid"
                       icon={Svg.Remove}
                       onClick={() => {
-                        window.location.reload()
+                        window.location.reload();
                       }}
                     >
                       Clear
                     </Buttons.Button>
                   </List>
                   <h4 className="text-center mt-2 text-white">
-                    {" "}
-                    <b>Note</b>: After 3 invalid login attempts, accounts will be
-                    locked.
+                    {' '}
+                    <b>Note</b>: After 3 invalid login attempts, accounts will
+                    be locked.
                   </h4>
                   <h4 className="text-center text-white">
                     In that case contact the Support Team.
@@ -380,7 +376,7 @@ export const Login = observer(() => {
                   <div className="flex mt-2 justify-center items-center">
                     <a
                       href="#"
-                      onClick={() => setModalForgotPassword({ show: true })}
+                      onClick={() => setModalForgotPassword({show: true})}
                       className="text-white mr-2"
                     >
                       {`Forgot Password`}
@@ -416,10 +412,7 @@ export const Login = observer(() => {
         </Row>
         <div className="flex flex-row justify-center">
           <a href="https://appho.st/d/VZXlvzKV">
-            <img
-              src={images.playStore}
-              className="h-15"
-            />
+            <img src={images.playStore} className="h-15" />
           </a>
           &nbsp; &nbsp;&nbsp;
           <a href="https://apps.apple.com/us/app/memetoons/id1517184743">
@@ -428,104 +421,107 @@ export const Login = observer(() => {
         </div>
         <ModalNoticeBoard
           {...noticeBoard}
-          click={async (action) => {
+          click={async action => {
             setNoticeBoard({
               ...noticeBoard,
               show: false,
-            })
-            if (action !== "login") {
+            });
+            if (action !== 'login') {
               Toast.warning({
                 message: `😔 Please use diff lab`,
-              })
+              });
               setTimeout(() => {
-                window.location.reload()
-              }, 3000)
+                window.location.reload();
+              }, 3000);
             } else {
               Toast.success({
                 message: `😊 Welcome ${noticeBoard.userInfo.fullName}`,
-              })
-              loginStore.saveLogin(noticeBoard.userInfo)
-              loginStore.clearInputUser()
+              });
+              loginStore.saveLogin(noticeBoard.userInfo);
+              loginStore.clearInputUser();
               setTimeout(() => {
-                history.push("/dashboard/default")
-              }, 1000)
+                history.push('/dashboard/default');
+              }, 1000);
             }
           }}
           onClose={() => {
             setNoticeBoard({
               ...noticeBoard,
               show: false,
-            })
+            });
           }}
         />
         <ModalForgotPassword
           {...modalForgotPassword}
           onClick={(userInfo: any) => {
-            loginStore.LoginService.forgotPassword({ input: { ...userInfo } }).then(
-              (res) => {
+            loginStore.LoginService.forgotPassword({input: {...userInfo}}).then(
+              res => {
                 if (res.userForgotPassword.success) {
-                  setModalForgotPassword({ show: false })
-                  loginStore.updateForgotPassword(undefined)
+                  setModalForgotPassword({show: false});
+                  loginStore.updateForgotPassword(undefined);
                   Toast.success({
                     message: `😊 ${res.userForgotPassword.message}`,
-                  })
+                  });
                 } else {
                   Toast.error({
                     message: `😔 ${res.userForgotPassword.message}`,
-                  })
+                  });
                 }
-              }
-            )
+              },
+            );
           }}
           onClose={() => {
-            setModalForgotPassword({ show: false })
+            setModalForgotPassword({show: false});
           }}
         />
         <ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
             const exipreDate = new Date(
-              dayjs(new Date()).add(30, "days").format("YYYY-MM-DD")
-            )
-            let body = Object.assign(loginStore.inputLogin, userStore.changePassword)
+              dayjs(new Date()).add(30, 'days').format('YYYY-MM-DD'),
+            );
+            let body = Object.assign(
+              loginStore.inputLogin,
+              userStore.changePassword,
+            );
             body = {
               ...body,
               exipreDate,
-            }
-            userStore.UsersService.changePassword({ input: { ...body } }).then(
-              (res) => {
+            };
+            userStore.UsersService.changePassword({input: {...body}}).then(
+              res => {
                 if (res.userChnagePassword.success) {
                   loginStore.updateLogin({
                     ...loginStore.login,
                     exipreDate,
                     passChanged: true,
-                  })
+                  });
                   userStore.updateChangePassword({
                     ...userStore.changePassword,
                     tempHide: true,
-                  })
+                  });
                   Toast.success({
                     message: `😊 ${res.userChnagePassword.message}`,
-                  })
-                  setModalChangePassword({ show: false })
+                  });
+                  setModalChangePassword({show: false});
                 } else {
                   Toast.error({
                     message: `😔 ${res.userChnagePassword.message}`,
-                  })
+                  });
                 }
-              }
-            )
+              },
+            );
           }}
           onClose={() => {
             loginStore.updateLogin({
               ...loginStore.login,
               passChanged: true,
-            })
+            });
             userStore.updateChangePassword({
               ...userStore.changePassword,
               tempHide: true,
-            })
-            setModalChangePassword({ show: false })
+            });
+            setModalChangePassword({show: false});
           }}
         />
         <ModalSessionAllowed
@@ -537,26 +533,26 @@ export const Login = observer(() => {
                 userId: loginStore.inputLogin?.userId,
                 accessToken: item.user.accessToken,
               },
-            }).then(async (res) => {
+            }).then(async res => {
               if (res.usersSessionAllowedLogout.success) {
                 Toast.success({
                   message: `😊 ${res.usersSessionAllowedLogout.message}`,
-                })
-                const firstArr = data.slice(0, index) || []
-                const secondArr = data.slice(index + 1) || []
-                const finalArray = [...firstArr, ...secondArr]
+                });
+                const firstArr = data.slice(0, index) || [];
+                const secondArr = data.slice(index + 1) || [];
+                const finalArray = [...firstArr, ...secondArr];
                 setModalSessionAllowed({
                   show: finalArray.length > 0 ? true : false,
                   data: finalArray,
-                })
+                });
               }
-            })
+            });
           }}
           onClose={() => {}}
         />
       </Container>
     </>
-  )
-})
+  );
+});
 
-export default Login
+export default Login;
