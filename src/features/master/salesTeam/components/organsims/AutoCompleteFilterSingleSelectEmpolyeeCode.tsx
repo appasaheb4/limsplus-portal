@@ -46,7 +46,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
 
     const loadUsers = () => {
       userStore.UsersService.findByFields({
-        input: {filter: {role: 'SALES'}},
+        input: {filter: {userGroup: 'S'}},
       }).then(res => {
         if (!res.findByFieldsUser.success)
           return alert(res.findByFieldsUser.message);
@@ -64,7 +64,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
           type: 'filter',
           filter: {
             empCode: value,
-            role: 'SALES',
+            userGroup: 'S',
           },
           page: 0,
           limit: 10,
@@ -112,7 +112,6 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
               <Icons.IconFa.FaChevronDown />
             )}
           </div>
-
           {options && isListOpen
             ? options.length > 0 && (
                 <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">

@@ -16,8 +16,8 @@ import {
   ModalChangePasswordByAdmin,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-} from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+} from '@components';
+import {lookupItems, lookupValue} from '@utils';
 import {UserList} from '../components';
 import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';
@@ -52,6 +52,7 @@ export const Users = UsersHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      resetField,
     } = useForm();
 
     setValue('status', userStore.user?.status);
@@ -196,7 +197,7 @@ export const Users = UsersHoc(
         <div className=" mx-auto flex-wrap">
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -234,11 +235,13 @@ export const Users = UsersHoc(
                           userStore.updateUser({
                             ...userStore.user,
                             defaultLab: item.code,
+                            defaultDepartment: '',
                           });
                           const lab: any = labStore.listLabs.filter(
                             e => e.code == item.code,
                           );
                           setValue('labs', lab);
+                          resetField('defaultDepartment');
                           userStore.updateUser({
                             ...userStore.user,
                             lab,
@@ -699,6 +702,7 @@ export const Users = UsersHoc(
                             lab,
                             department: [],
                           });
+                          resetField('department');
                           if (lab.some(e => e.code !== '*')) {
                             departmentStore.DepartmentService.findByFields({
                               input: {filter: {lab: _.map(lab, 'code')}},
