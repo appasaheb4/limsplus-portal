@@ -2,17 +2,24 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
-  extends: ['airbnb-typescript', 'airbnb/hooks', 'eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'airbnb-typescript',
+    'airbnb/hooks',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:storybook/recommended',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.eslint.json',
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   rules: {
@@ -42,6 +49,6 @@ module.exports = {
     'import/no-cycle': 0,
     '@typescript-eslint/naming-convention': 0,
     'object-curly-spacing': 'off',
-    '@typescript-eslint/object-curly-spacing': 0
-  }
+    '@typescript-eslint/object-curly-spacing': 0,
+  },
 };

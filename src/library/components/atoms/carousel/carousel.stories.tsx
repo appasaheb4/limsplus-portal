@@ -14,7 +14,6 @@ export default {
 
 export const _Carousel: ComponentStory<typeof Carousel> = () => (
   <>
-    
     {/* {[
       'https://media.istockphoto.com/photos/to-do-list-in-notebook-with-calendar-picture-id1092571024?k=20&m=1092571024&s=612x612&w=0&h=dz6l5jjYZC0lU2dUkqu5g5_0XtY3xnHs57mJDNlvJSk=',
       'https://media.istockphoto.com/photos/conceptual-and-inspirational-picture-id960544896?k=20&m=960544896&s=612x612&w=0&h=JsO0QbSKigoffDg1TN2NgzX04fV1ONisiBwpL9KbBQM=',

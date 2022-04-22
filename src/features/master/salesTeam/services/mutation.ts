@@ -152,3 +152,13 @@ export const FIND_BY_FIELDS = gql`
     }
   }
 `;
+
+export const GET_SALES_HIERARCHYLIST = gql`
+  mutation ($input: SalemTeamsInput!) {
+    getSalesHierarchyList(input: $input) {
+      success
+      message
+      list
+    }
+  }
+`;
