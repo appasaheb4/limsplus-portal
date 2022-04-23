@@ -4,7 +4,6 @@
 import React, {CSSProperties} from 'react';
 import {IconProps} from '../svg';
 import {Buttons, Icons} from '../..';
-import {Styles} from '@/config';
 
 export interface ButtonProps {
   type?: 'solid' | 'outline';
@@ -80,7 +79,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -91,18 +90,14 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           }}
           onClick={() => props.onClick(true)}
         >
-          <Icons.EvaIcon
-            icon='plus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='plus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
 
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -113,11 +108,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           }}
           onClick={() => props.onClick(false)}
         >
-          <Icons.EvaIcon
-            icon='minus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='minus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
     </>
@@ -132,7 +123,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -143,18 +134,14 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           }}
           onClick={() => props.onClick(true)}
         >
-          <Icons.EvaIcon
-            icon='plus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='plus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
 
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -165,11 +152,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           }}
           onClick={() => props.onClick(false)}
         >
-          <Icons.EvaIcon
-            icon='minus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='minus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
     </>

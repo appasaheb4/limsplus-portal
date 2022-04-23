@@ -5,7 +5,7 @@ import _ from 'lodash';
 import ToolkitProvider, {
   Search,
   CSVExport,
-} from 'react-bootstrap-table2-toolkit';
+} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import paginationFactory, {
   PaginationProvider,
