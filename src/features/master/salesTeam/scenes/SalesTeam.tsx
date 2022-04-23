@@ -1,3 +1,6 @@
+/* eslint-disable folders/match-regex */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-indent-props */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
@@ -173,6 +176,7 @@ export const SalesTeam = SalesTeamHoc(
                     <Form.Input
                       label='Sales Territory'
                       placeholder='Sales Territory'
+                      hasError={errors.salesTerritory}
                       value={salesTeamStore.salesTeam?.salesTerritory}
                       onChange={salesTerritory => {
                         onChange(salesTerritory);
@@ -268,12 +272,15 @@ export const SalesTeam = SalesTeamHoc(
                                         salesHieRes.getSalesHierarchyList
                                           .message,
                                       );
-                                    console.log({salesHieRes});
-
                                     salesTeamStore.updateSalesTeam({
                                       ...salesTeamStore.salesTeam,
                                       salesHierarchy:
                                         salesHieRes.getSalesHierarchyList.list,
+                                      targets: [
+                                        {
+                                          id: 1,
+                                        },
+                                      ],
                                     });
                                   });
                                 salesTeamStore.updateExistsRecord(false);
@@ -355,34 +362,16 @@ export const SalesTeam = SalesTeamHoc(
                       label='Targets'
                       hasError={errors.targets}
                     >
-                      {!salesTeamStore.salesTeam?.targets && (
-                        <Buttons.Button
-                          size='small'
-                          type='outline'
-                          onClick={() => {
-                            salesTeamStore.updateSalesTeam({
-                              ...salesTeamStore.salesTeam,
-                              targets: [
-                                {
-                                  id: 1,
-                                },
-                              ],
-                            });
-                          }}
-                        >
-                          <Icons.EvaIcon
-                            icon='plus-circle-outline'
-                            color='#000'
-                          />
-                        </Buttons.Button>
-                      )}
-                      {salesTeamStore.salesTeam?.targets?.length > 0 && (
-                        <TargetsTable />
-                      )}
+                      <TargetsTable
+                        hasError={errors.targets}
+                        onSelectItem={item => {
+                          onChange(item);
+                        }}
+                      />
                     </Form.InputWrapper>
                   )}
                   name='targets'
-                  rules={{required: false}}
+                  rules={{required: true}}
                   defaultValue=''
                 />
               </List>
