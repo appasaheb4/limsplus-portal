@@ -1,3 +1,6 @@
+/* eslint-disable folders/match-regex */
+/* eslint-disable unicorn/no-array-for-each */
+/* eslint-disable no-console */
 import {
   ApolloProvider,
   ApolloClient,
@@ -32,9 +35,9 @@ const authLink = setContext(async (_, {headers}) => {
 });
 
 const UploadLink = createUploadLink({
-  //uri: 'http://localhost:8080/graphql',
+  uri: 'http://localhost:8080/graphql',
   //uri: 'http://575f-2409-4042-4c12-e974-bd3d-b4d4-2dbc-8988.ngrok.io/graphql',
-  uri: process.env.REACT_APP_API_HOST,
+  //uri: process.env.REACT_APP_API_HOST,
   fetch: customFetch,
 });
 
