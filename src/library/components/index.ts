@@ -1,5 +1,5 @@
 import {ToastContainer} from 'react-toastify';
-import Toast from '@/library/modules/toast';
+import Toast from '../../library/modules/toast';
 import * as Buttons from './atoms/buttons/button.component';
 import * as Form from './atoms/form';
 import * as Svg from './atoms/svg';

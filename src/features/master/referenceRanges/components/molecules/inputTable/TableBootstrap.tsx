@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
-import ToolkitProvider from 'react-bootstrap-table2-toolkit';
+import ToolkitProvider from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import paginationFactory, {
   PaginationProvider,

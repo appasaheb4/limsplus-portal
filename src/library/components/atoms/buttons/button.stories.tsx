@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent-props */
+/* eslint-disable no-console */
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 import {Button, ButtonCircleAddRemove} from './button.component';
@@ -6,10 +8,6 @@ import {Button, ButtonCircleAddRemove} from './button.component';
 export default {
   title: 'Atoms/Buttons',
   component: Button,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
-    backgroundColor: {control: 'color'},
-  },
 } as ComponentMeta<typeof Button>;
 
 export const _Button: ComponentStory<typeof Button> = () => (

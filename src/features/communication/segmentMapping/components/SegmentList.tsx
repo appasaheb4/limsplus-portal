@@ -14,7 +14,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, {
   Search,
   CSVExport,
-} from 'react-bootstrap-table2-toolkit';
+} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import filterFactory from 'react-bootstrap-table2-filter';

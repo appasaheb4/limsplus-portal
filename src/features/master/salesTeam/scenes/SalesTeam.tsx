@@ -614,61 +614,75 @@ export const SalesTeam = SalesTeamHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                salesTeamStore.salesTeamService
-                  .deleteSalesTeam({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeSalesTeam.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeSalesTeam.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      salesTeamStore.fetchSalesTeam();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  salesTeamStore.salesTeamService
+                    .deleteSalesTeam({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeSalesTeam.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeSalesTeam.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        salesTeamStore.fetchSalesTeam();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  salesTeamStore.salesTeamService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateSalesTeam.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateSalesTeam.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        salesTeamStore.fetchSalesTeam();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  salesTeamStore.updateSalesTeam({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'Update') {
-                salesTeamStore.salesTeamService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateSalesTeam.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateSalesTeam.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      salesTeamStore.fetchSalesTeam();
-                    }
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+                  setHideAddSection(!hideAddSection);
+                  setModalConfirm({show: false});
+
+                  break;
+                }
+                case 'duplicate': {
+                  salesTeamStore.updateSalesTeam({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'versionUpgrade') {
-                salesTeamStore.updateSalesTeam({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-                setHideAddSection(!hideAddSection);
-                setModalConfirm({show: false});
-              } else if (type === 'duplicate') {
-                salesTeamStore.updateSalesTeam({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version),
-                  dateActive: new Date(),
-                });
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-                setHideAddSection(!hideAddSection);
-                setModalConfirm({show: false});
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+                  setHideAddSection(!hideAddSection);
+                  setModalConfirm({show: false});
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => setModalConfirm({show: false})}
