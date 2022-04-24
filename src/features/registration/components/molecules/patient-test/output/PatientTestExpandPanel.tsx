@@ -18,11 +18,15 @@ import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
 import {Buttons, Icons} from '@/library/components';
+import {Confirm} from '@/library/models';
+
+// import * as Config from "@/config"
+import {PatientTestExpandByTestId} from './PatientTestExpandByTestId';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
 
-interface TableBootstrapProps {
+interface PatientTestExpandPanelProps {
   id: string;
   data: any;
   totalSize?: number;
@@ -34,6 +38,7 @@ interface TableBootstrapProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   isSelectRow?: boolean;
+  onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
@@ -45,7 +50,7 @@ interface TableBootstrapProps {
   ) => void;
   clearAllFilter?: () => void;
 }
-const TableBootstrap = ({
+export const PatientTestExpandPanel = ({
   id,
   data,
   totalSize = 10,
@@ -61,7 +66,7 @@ const TableBootstrap = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
-}: TableBootstrapProps) => {
+}: PatientTestExpandPanelProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
@@ -99,9 +104,7 @@ const TableBootstrap = ({
           type='button'
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn ${
-            currSizePerPage === `${option.page}`
-              ? 'btn-primary'
-              : 'btn-secondary'
+            currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
           }`}
         >
           {option.text}
@@ -268,6 +271,31 @@ const TableBootstrap = ({
     </div>
   );
 
+  const expandRow = {
+    renderer: row => (
+      <div className='z-0'>
+        <PatientTestExpandByTestId
+          id='_id'
+          data={row.panelMasterList || []}
+          totalSize={row.panelMasterList?.length}
+          columns={[
+            {
+              dataField: 'panelCode',
+              text: 'Panel Code',
+            },
+            {
+              dataField: 'panelName',
+              text: 'Panel Name',
+            },
+          ]}
+          onSelectedRow={rows => {}}
+          onUpdateItem={(value: any, dataField: string, id: string) => {}}
+        />
+      </div>
+    ),
+    showExpandColumn: true,
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -359,6 +387,15 @@ const TableBootstrap = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
+                  // selectRow={
+                  //   isSelectRow
+                  //     ? {
+                  //         mode: "checkbox",
+                  //         onSelect: handleOnSelect,
+                  //         onSelectAll: handleOnSelectAll,
+                  //       }
+                  //     : undefined
+                  // }
                   cellEdit={
                     isEditModify
                       ? cellEditFactory({
@@ -367,12 +404,9 @@ const TableBootstrap = ({
                         })
                       : undefined
                   }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
-                  // options={{
-                  //   hideSizePerPage: true,
-                  //   showTotal: false,
-                  // }}
+                  //expandRow={expandRow}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>
@@ -394,5 +428,3 @@ const TableBootstrap = ({
     </PaginationProvider>
   );
 };
-
-export default TableBootstrap;

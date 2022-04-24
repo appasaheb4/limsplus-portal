@@ -4,6 +4,6 @@ export * from './PatientRegistration/PatientOrder';
 export * from './PatientRegistration/PatientRegistration';
 export * from './PatientRegistration/PatientResult';
 export * from './PatientRegistration/PatientSample';
-export * from './PatientRegistration/PatientTest';
+export * from './PatientRegistration/patient-test.screen';
 export * from './PatientRegistration/PatientVisit';
 export * from './PatientRegistration/SpecialResult';

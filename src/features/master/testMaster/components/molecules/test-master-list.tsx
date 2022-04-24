@@ -136,7 +136,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     {props.extraData.labList &&
                       props.extraData.labList.map(
                         (item: any, index: number) => (
-                          <option key={index} value={item.code}>
+                          <option key={index} value={item?.code}>
                             {item.name}
                           </option>
                         ),
@@ -171,7 +171,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          item.code,
+                          item?.code,
                           column.dataField,
                           row._id,
                         );
@@ -208,7 +208,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          item.code,
+                          item?.code,
                           column.dataField,
                           row._id,
                         );
@@ -223,7 +223,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.section?.code} - ${row.section?.name}`,
+                `${row?.section?.code} - ${row?.section?.name}`,
               filter: textFilter({
                 getFilter: filter => {
                   section = filter;
@@ -232,7 +232,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               formatter: (cell, row) => {
-                return <>{`${row.section?.code} -${row.section?.name}`}</>;
+                return <>{`${row?.section?.code} -${row?.section?.name}`}</>;
               },
               editorRenderer: (
                 editorProps,
@@ -596,7 +596,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'WORKFLOW').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item?.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -639,7 +639,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'DISEASE').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item?.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -681,7 +681,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item?.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -723,7 +723,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'TEST_TYPE').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item?.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -1188,7 +1188,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'PREFIX').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item?.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -1231,7 +1231,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SUFIX').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item?.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -1316,7 +1316,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item?.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -1526,7 +1526,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                       props.extraData.lookupItems,
                       'ENVIRONMENT',
                     ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
+                      <option key={index} value={item?.code}>
                         {lookupValue(item)}
                       </option>
                     ))}

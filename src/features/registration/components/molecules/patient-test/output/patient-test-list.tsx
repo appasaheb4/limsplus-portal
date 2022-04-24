@@ -192,7 +192,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <span>{row.extraData?.section.code}</span>
+                    <span>{row.extraData?.section?.code}</span>
                   </>
                 );
               },
