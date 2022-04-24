@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -18,8 +18,6 @@ import dayjs from 'dayjs';
 import './style.css';
 
 import {Buttons, Icons} from '..';
-
-import {Styles} from '@/config';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
@@ -101,9 +99,10 @@ export const TableBootstrap = ({
           <Icons.EvaIcon
             icon='trash-outline'
             size='large'
-            color={Styles.COLORS.BLACK}
+            color='#ffffff'
+            className='mr-1'
           />
-          Remove Selected
+          {` Remove Selected`}
         </Buttons.Button>
       )}
       <input
@@ -122,10 +121,8 @@ export const TableBootstrap = ({
           key={option.text}
           type='button'
           onClick={() => onSizePerPageChange(option.page)}
-          className={`btn ${
-            currSizePerPage === `${option.page}`
-              ? 'btn-primary'
-              : 'btn-secondary'
+          className={`btn  ${
+            currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
           }`}
         >
           {option.text}
@@ -278,7 +275,7 @@ export const TableBootstrap = ({
               <button
                 type='button'
                 key={column.dataField}
-                className={` btn btn-primary btn-sm whitespace-nowrap ${
+                className={` btn btn-primary  btn-sm whitespace-nowrap ${
                   column.toggle ? 'active' : ''
                 }`}
                 data-toggle='button'
