@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react/jsx-indent-props */
 import React from 'react';
 import {IconContext as Context, IconType} from 'react-icons';
 import {Icons} from '..';
@@ -147,6 +149,7 @@ export const getIconTag = (Icon: any) => {
 };
 
 export interface IconProps {
+  className?: string;
   type?: 'solid' | 'inverse';
   size?: 'small' | 'medium' | 'large';
   buttonOffset?: boolean;
@@ -159,15 +162,17 @@ export const EvaIcon: React.FunctionComponent<IconProps> = (
   props: IconProps,
 ) => {
   return (
-    <Icon
-      name={props.icon}
-      size={props.size} // small, medium, large, xlarge
-      animation={{
-        type: 'pulse', // zoom, pulse, shake, flip
-        hover: true,
-        infinite: false,
-      }}
-      fill={props.color}
-    />
+    <div className={`${props.className}`}>
+      <Icon
+        name={props.icon}
+        size={props.size} // small, medium, large, xlarge
+        animation={{
+          type: 'pulse', // zoom, pulse, shake, flip
+          hover: true,
+          infinite: false,
+        }}
+        fill={props.color}
+      />
+    </div>
   );
 };

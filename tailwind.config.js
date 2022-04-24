@@ -11,6 +11,7 @@ module.exports = {
         secondary: '#c57c85',
         accent: '#422a68',
         black: '#000000',
+        grey: '#6A727F',
         grey_0: '#4a4a4a',
         grey_1: '#707070',
         light_1: '#ebebeb',
