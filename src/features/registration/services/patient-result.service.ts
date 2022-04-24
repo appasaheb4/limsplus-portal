@@ -7,7 +7,7 @@
 
 import {client, ServiceResponse} from '@/library/modules/apolloClient';
 import {stores} from '@/stores';
-import {LIST_PATIENT_RESULT, FILTER_PATIENT_RESULT} from './mutation-PR';
+import {LIST_PATIENT_RESULT, FILTER_PATIENT_RESULT} from './mutation-pr';
 
 export class PatientResultService {
   listPatientResult = (page = 0, limit = 10) =>

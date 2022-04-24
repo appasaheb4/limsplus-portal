@@ -212,7 +212,6 @@ export const PatientOrder = PatientOrderHoc(
                             const panels =
                               patientOrderStore.selectedItems?.panels;
                             onChange(panels);
-
                             patientOrderStore.updatePatientOrder({
                               ...patientOrderStore.patientOrder,
                               panelCode: _.map(panels, o =>
@@ -266,7 +265,6 @@ export const PatientOrder = PatientOrderHoc(
                           onSelect={item => {
                             let panels =
                               patientOrderStore.selectedItems?.panels;
-
                             if (!item.selected) {
                               if (panels && panels.length > 0) {
                                 panels.push(item);

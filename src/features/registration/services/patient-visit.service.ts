@@ -17,7 +17,7 @@ import {
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
   CHECK_EXISTS_RECORD,
-} from './mutation-PV';
+} from './mutation-pv';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);

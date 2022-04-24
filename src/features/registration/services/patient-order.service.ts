@@ -8,33 +8,33 @@
 import {client, ServiceResponse} from '@/library/modules/apolloClient';
 import {stores} from '@/stores';
 import {
-  LIST_PATIENT_TEST,
-  REMOVE_PATIENT_TEST,
+  LIST_PATIENT_ORDER,
+  REMOVE_PATIENT_ORDER,
   UPDATE_PATIENT_VISIT,
-  CREATE_PATIENT_TEST,
-  FILTER_PATIENT_TEST,
-  SEQUENCING_PATIENT_TEST_TESTID,
-  CHECK_EXISTS_PATIENT,
-  FILTER_BY_FIELDS_PATIENT_TEST,
-  GET_PANEL_LIST,
-} from './mutation-PT';
+  CREATE_PATIENT_ORDER,
+  FILTER_PATIENT_ORDER,
+  COUNTER_PATIENT_ORDER_ORDERID,
+  CHECK_EXISTS_PATIENT_ORDER,
+  FILTER_BY_FIELDS_PATIENT_ORDER,
+  GET_PACKAGES_LIST,
+} from './mutation-po';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
-export class PatientTestService {
-  listPatientTest = (page = 0, limit = 10) =>
+export class PatientOrderService {
+  listPatientOrder = (filter: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
       const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
-          mutation: LIST_PATIENT_TEST,
-          variables: {input: {page, limit, env, role}},
+          mutation: LIST_PATIENT_ORDER,
+          variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.patientTestStore.updateTestList(response.data);
+          stores.patientOrderStore.updatePatientOrderList(response.data);
           resolve(response.data);
         })
         .catch(error =>
@@ -42,11 +42,11 @@ export class PatientTestService {
         );
     });
 
-  addPatientTest = (variables: any) =>
+  addPatientOrder = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: CREATE_PATIENT_TEST,
+          mutation: CREATE_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {
@@ -57,11 +57,11 @@ export class PatientTestService {
         );
     });
 
-  deletePatientTest = (variables: any) =>
+  deletePatientOrder = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: REMOVE_PATIENT_TEST,
+          mutation: REMOVE_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {
@@ -92,13 +92,13 @@ export class PatientTestService {
       stores.uploadLoadingFlag(false);
       client
         .mutate({
-          mutation: FILTER_PATIENT_TEST,
+          mutation: FILTER_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterPatientTest.success)
-            return this.listPatientTest();
-          stores.patientTestStore.filterTestList(response.data);
+          if (!response.data.filterPatientOrder.success)
+            return this.listPatientOrder({documentType: 'patientOrder'});
+          stores.patientOrderStore.filterPatientOrderList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
@@ -107,26 +107,24 @@ export class PatientTestService {
         );
     });
 
-  sequencingTestId = () =>
+  sequencingOrderId = () =>
     new Promise<any>((resolve, reject) => {
       const variables = {
         input: {
           filter: {
-            _id: 'patientTest_TestId',
-            collectionName: 'patientregistrations',
-            documentType: 'patientTest',
+            id: 'patientOrder_orderId',
           },
         },
       };
       client
         .mutate({
-          mutation: SEQUENCING_PATIENT_TEST_TESTID,
+          mutation: COUNTER_PATIENT_ORDER_ORDERID,
           variables,
         })
         .then((response: any) => {
-          stores.patientTestStore.updateTest({
-            ...stores.patientTestStore.patientTest,
-            testId: response.data.sequencing.data[0]?.seq + 1 || 1,
+          stores.patientOrderStore.updatePatientOrder({
+            ...stores.patientOrderStore.patientOrder,
+            orderId: response.data.counter.data[0]?.seq + 1 || 1,
           });
           resolve(response.data);
         })
@@ -135,11 +133,11 @@ export class PatientTestService {
         );
     });
 
-  checkExistsPatient = (variables: any) =>
+  checkExistsRecords = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: CHECK_EXISTS_PATIENT,
+          mutation: CHECK_EXISTS_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {
@@ -155,18 +153,18 @@ export class PatientTestService {
       stores.uploadLoadingFlag(false);
       client
         .mutate({
-          mutation: FILTER_BY_FIELDS_PATIENT_TEST,
+          mutation: FILTER_BY_FIELDS_PATIENT_ORDER,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPatientVisit.success)
-            return this.listPatientTest();
+          if (!response.data.filterByFieldsPatientOrder.success)
+            return this.listPatientOrder({documentType: 'patientOrder'});
           stores.patientOrderStore.filterPatientOrderList({
             filterPatientOrder: {
-              data: response.data.filterByFieldsPatientVisit.data,
+              data: response.data.filterByFieldsPatientOrder.data,
               paginatorInfo: {
                 count:
-                  response.data.filterByFieldsPatientVisit.paginatorInfo.count,
+                  response.data.filterByFieldsPatientOrder.paginatorInfo.count,
               },
             },
           });
@@ -178,19 +176,17 @@ export class PatientTestService {
         );
     });
 
-  getPanelList = (variables: any) =>
+  getPackageList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: GET_PANEL_LIST,
+          mutation: GET_PACKAGES_LIST,
           variables,
         })
         .then((response: any) => {
-          stores.patientTestStore.updateTest({
-            ...stores.patientTestStore.patientTest,
-            panelList:
-              response.data.getPatientTestPanelListByPanelCodes.panelList,
-          });
+          stores.patientOrderStore.updatePackageList(
+            response.data.getPatientOrderPackagesList.packageList,
+          );
           resolve(response.data);
         })
         .catch(error =>

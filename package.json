@@ -94,8 +94,8 @@
     "socket.io-client": "^4.0.0",
     "tailwindcss": "^3.0.24",
     "typescript": "^4.6.3",
-    "web-vitals": "^2.1.4",
     "validate.js": "^0.13.1",
+    "web-vitals": "^2.1.4",
     "xlsx": "^0.16.9"
   },
   "eslintConfig": {
@@ -159,9 +159,9 @@
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-unicorn": "36.0.0",
     "lint-staged": "^12.3.8",
+    "node": "^17.7.2",
     "postcss": "^8.4.12",
     "prettier": "^2.2.1",
-    "node": "^17.7.2",
     "webpack": "^5.72.0"
   },
   "lint-staged": {

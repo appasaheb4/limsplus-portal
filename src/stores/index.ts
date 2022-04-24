@@ -17,7 +17,7 @@ import {DepartmentStore} from '@/features/master/department/stores/department-st
 import {AdministrativeDivisionsStore} from '@/features/master/administrativeDivisions/stores/administrativeDivisions-store';
 import {MasterAnalyteStore} from '@/features/master/masterAnalyte/stores/masterAnalyte-store';
 import {TestAnalyteMappingStore} from '@/features/master/testAnalyteMapping/stores/testAnalyteMapping-store';
-import {TestMasterStore} from '@/features/master/testMaster/stores/testMaster-store';
+import {TestMasterStore} from '@/features/master/testMaster/stores/test-master.store';
 import {DeliveryScheduleStore} from '@/features/master/deliverySchedule/stores/deliverySchedule-store';
 import {MasterPanelStore} from '@/features/master/masterPanel/stores/masterPanel-store';
 import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/testPanelMapping-store';
