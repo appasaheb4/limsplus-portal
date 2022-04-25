@@ -125,9 +125,7 @@ export const PatientOrderExpand = ({
           type='button'
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn ${
-            currSizePerPage === `${option.page}`
-              ? 'btn-primary'
-              : 'btn-secondary'
+            currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
           }`}
         >
           {option.text}

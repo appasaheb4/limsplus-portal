@@ -132,7 +132,7 @@ const NoticeBoards = async(
 const PatientRegistation = async(
   () =>
     import(
-      '@/features/registration/scenes/PatientRegistration/PatientRegistration'
+      '@/features/registration/screens/PatientRegistration/PatientRegistration'
     ),
 );
 
