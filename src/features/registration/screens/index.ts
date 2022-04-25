@@ -1,6 +1,6 @@
 export * from './PatientRegistration/InformationGroup';
 export * from './PatientRegistration/PatientManager';
-export * from './PatientRegistration/PatientOrder';
+export * from './PatientRegistration/patient-order.screen';
 export * from './PatientRegistration/PatientRegistration';
 export * from './PatientRegistration/PatientResult';
 export * from './PatientRegistration/PatientSample';
