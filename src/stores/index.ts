@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {RootStore} from './rootStore';
-import {RouterStore} from './routerStore';
-import {AppStore} from './appStore';
+import {RootStore} from './root-store';
+import {RouterStore} from './router-store';
+import {AppStore} from './app-store';
 import {LoginStore} from '@/features/login/stores/LoginStore';
 import {UserStore} from '@/features/settings/users/stores/UsersStore';
 import {LookupStore} from '@/features/master/lookup/stores/lookup-store';

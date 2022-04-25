@@ -3,7 +3,7 @@ export * from './PatientRegistration/PatientManager';
 export * from './PatientRegistration/patient-order.screen';
 export * from './PatientRegistration/PatientRegistration';
 export * from './PatientRegistration/PatientResult';
-export * from './PatientRegistration/PatientSample';
+export * from './PatientRegistration/patient-sample.screen';
 export * from './PatientRegistration/patient-test.screen';
 export * from './PatientRegistration/PatientVisit';
 export * from './PatientRegistration/SpecialResult';
