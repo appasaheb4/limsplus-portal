@@ -55,9 +55,10 @@ import {
   PatientOrderStore,
   PatientTestStore,
   PatientResultStore,
+  PatientSampleStore,
 } from '@/features/registration/stores';
 
-import {Store} from './Store';
+import {Store} from './store';
 export class Stores extends Store {
   rootStore!: RootStore;
   appStore!: AppStore;
@@ -113,6 +114,7 @@ export class Stores extends Store {
   patientOrderStore!: PatientOrderStore;
   patientTestStore!: PatientTestStore;
   patientResultStore!: PatientResultStore;
+  patientSampleStore!: PatientSampleStore;
 
   constructor() {
     super();
@@ -169,6 +171,7 @@ export class Stores extends Store {
     this.patientOrderStore = new PatientOrderStore();
     this.patientTestStore = new PatientTestStore();
     this.patientResultStore = new PatientResultStore();
+    this.patientSampleStore = new PatientSampleStore();
   }
 }
 

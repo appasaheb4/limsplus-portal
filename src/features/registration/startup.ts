@@ -21,6 +21,9 @@ const startup = async () => {
 
   // patient result
   stores.patientResultStore.patientResultService.listPatientResult();
+
+  // patient sample
+  stores.patientSampleStore.patientSampleService.listPatientSample();
 };
 
 export default startup;
