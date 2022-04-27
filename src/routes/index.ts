@@ -28,7 +28,7 @@ const TestAnalyteMapping = async(
     import('@/features/master/testAnalyteMapping/scenes/TestAnalyteMapping'),
 );
 const MasterPanel = async(
-  () => import('@/features/master/masterPanel/scenes/MasterPanel'),
+  () => import('@/features/master/master-panel/scenes/MasterPanel'),
 );
 const TestPanelMapping = async(
   () => import('@/features/master/testPanelMapping/scenes/TestPanelMapping'),
@@ -72,7 +72,7 @@ const AdministrativeDivisions = async(
     ),
 );
 const SalesTeam = async(
-  () => import('@/features/master/salesTeam/scenes/SalesTeam'),
+  () => import('@/features/master/sales-team/scenes/SalesTeam'),
 );
 const PossibleResults = async(
   () => import('@/features/master/possibleResults/scenes/PossibleResults'),

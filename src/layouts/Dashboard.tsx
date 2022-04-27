@@ -31,7 +31,7 @@ import * as Environment from '@/features/settings/environment';
 import * as Lookup from '@/features/master/lookup';
 import * as MasterAnalyte from '@/features/master/masterAnalyte';
 import * as TestMaster from '@/features/master/testMaster';
-import * as PanelMaster from '@/features/master/masterPanel';
+import * as PanelMaster from '@/features/master/master-panel';
 import * as SampleContainer from '@/features/master/sampleContainer';
 import * as SampleType from '@/features/master/sampleType';
 import * as TestSampleMapping from '@/features/master/testSampleMapping';
@@ -44,7 +44,7 @@ import * as RegistrationLocations from '@/features/master/registrationLocations'
 import * as CorporateClients from '@/features/master/corporateClients';
 import * as DeliverySchdule from '@/features/master/deliverySchedule';
 import * as AdministrativeDivisions from '@/features/master/administrativeDivisions';
-import * as SalesTeam from '@/features/master/salesTeam';
+import * as SalesTeam from '@/features/master/sales-team';
 import * as Section from '@/features/master/section';
 import * as PossibleResults from '@/features/master/possibleResults';
 import * as Library from '@/features/master/library';

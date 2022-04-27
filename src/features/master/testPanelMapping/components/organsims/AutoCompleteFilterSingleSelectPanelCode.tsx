@@ -51,13 +51,13 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
         masterPanelStore.listMasterPanel.filter(item => item.pLab === lab),
       );
     }, [masterPanelStore.listMasterPanel, lab]);
-
+ 
     const onFilter = (value: string) => {
-      masterPanelStore.masterPanelService.filter({
+      masterPanelStore.masterPanelService.filterByFields({
         input: {
-          type: 'search',
           filter: {
-            panelCode: value,
+            fields: ['panelCode'],
+            srText: value,
           },
           page: 0,
           limit: 10,

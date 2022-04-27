@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "serve -s ./build",
+    "serve-webapp": "craco build && craco start",
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
