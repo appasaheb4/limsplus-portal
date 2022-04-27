@@ -161,6 +161,7 @@ export class SalesTeamService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   getSalesHierarchyList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

@@ -11,7 +11,7 @@ import {SectionStore} from '@/features/master/section/stores/section-store';
 // master
 import {BannerStore} from '@/features/master/banner/stores/banner-store';
 import {LabStore} from '@/features/master/labs/stores/lab-store';
-import {SalesTeamStore} from '@/features/master/salesTeam/stores/salesTeam-store';
+import {SalesTeamStore} from '@/features/master/sales-team/stores/salesTeam-store';
 import {DeginisationStore} from '@/features/master/deginisation/stores/deginisation-store';
 import {DepartmentStore} from '@/features/master/department/stores/department-store';
 import {AdministrativeDivisionsStore} from '@/features/master/administrativeDivisions/stores/administrativeDivisions-store';
@@ -19,7 +19,7 @@ import {MasterAnalyteStore} from '@/features/master/masterAnalyte/stores/masterA
 import {TestAnalyteMappingStore} from '@/features/master/testAnalyteMapping/stores/testAnalyteMapping-store';
 import {TestMasterStore} from '@/features/master/testMaster/stores/test-master.store';
 import {DeliveryScheduleStore} from '@/features/master/deliverySchedule/stores/deliverySchedule-store';
-import {MasterPanelStore} from '@/features/master/masterPanel/stores/masterPanel-store';
+import {MasterPanelStore} from '@/features/master/master-panel/stores/masterPanel-store';
 import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/testPanelMapping-store';
 import {MasterPackageStore} from '@/features/master/masterPackage/stores/masterPackage-store';
 import {SampleContainerStore} from '@/features/master/sampleContainer/stores/sampleContainer-store';
