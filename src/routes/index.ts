@@ -72,7 +72,7 @@ const AdministrativeDivisions = async(
     ),
 );
 const SalesTeam = async(
-  () => import('@/features/master/sales-team/scenes/SalesTeam'),
+  () => import('@/features/master/sales-team/scenes/sales-team'),
 );
 const PossibleResults = async(
   () => import('@/features/master/possibleResults/scenes/PossibleResults'),
