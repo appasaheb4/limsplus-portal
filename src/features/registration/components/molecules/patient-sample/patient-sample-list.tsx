@@ -4,6 +4,9 @@ import {observer} from 'mobx-react';
 import {NumberFilter, Form, customFilter} from '@/library/components';
 import {Confirm} from '@/library/models';
 import TableBootstrap from './TableBootstrap';
+
+// import { NumberFilter } from "@/library/components/Organisms"
+
 interface PatientResultProps {
   data: any;
   totalSize: number;
@@ -42,8 +45,8 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               csvExport: false,
             },
             {
-              dataField: 'specimenId',
-              text: 'Specimen Id',
+              dataField: 'labId',
+              text: 'Lab Id',
               headerClasses: 'textHeader4',
               sort: true,
               filter: customFilter({
@@ -54,46 +57,57 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
               dataField: 'pLab',
               text: 'PLab',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
-              dataField: 'rLab',
-              text: 'RLab',
+              dataField: 'analyteCode',
+              text: 'Analyte Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'analyteName',
+              text: 'Analyte Name',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'reportable',
+              text: 'Reportable',
               headerClasses: 'textHeader4',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.reportable}
+                      onChange={reportable => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(reportable, 'reportable', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
-              dataField: 'outSourceLab',
-              text: 'Out Source Lab',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'outSourceStatus',
-              text: 'Out Source Status',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'department',
-              text: 'Department',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'section',
-              text: 'Section',
+              dataField: 'resultType',
+              text: 'Result Type',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>

@@ -8,7 +8,7 @@ import {I18nextProvider} from 'react-i18next';
 import i18next, {setLanguage} from './localization';
 
 import store from './redux/store/index';
-import Routes from './routes/Routes';
+import Routes from './routes/root-route';
 
 // toast
 import 'react-toastify/dist/ReactToastify.css';
