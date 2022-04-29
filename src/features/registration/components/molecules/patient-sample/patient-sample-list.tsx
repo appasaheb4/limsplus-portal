@@ -7,7 +7,7 @@ import TableBootstrap from './TableBootstrap';
 
 // import { NumberFilter } from "@/library/components/Organisms"
 
-interface PatientResultProps {
+interface PatientSampleProps {
   data: any;
   totalSize: number;
   extraData: any;
@@ -26,7 +26,7 @@ interface PatientResultProps {
 }
 
 let labId;
-export const PatientResultList = observer((props: PatientResultProps) => {
+export const PatientSampleList = observer((props: PatientSampleProps) => {
   const editorCell = (row: any) => {
     return false; //row.status !== "I" ? true : false
   };
@@ -45,8 +45,8 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               csvExport: false,
             },
             {
-              dataField: 'labId',
-              text: 'Lab Id',
+              dataField: 'specimenId',
+              text: 'Specimen Id',
               headerClasses: 'textHeader4',
               sort: true,
               filter: customFilter({
@@ -57,79 +57,123 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
             },
             {
               dataField: 'pLab',
               text: 'PLab',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
             },
             {
-              dataField: 'analyteCode',
-              text: 'Analyte Code',
+              dataField: 'rLab',
+              text: 'RLab',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
             },
             {
-              dataField: 'analyteName',
-              text: 'Analyte Name',
+              dataField: 'outSourceLab',
+              text: 'Out Source Lab',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
             },
             {
-              dataField: 'reportable',
-              text: 'Reportable',
+              dataField: 'outSourceStatus',
+              text: 'Out Source Status',
               headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'department',
+              text: 'Department',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'section',
+              text: 'Section',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'containerId',
+              text: 'Container Id',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'sampleType',
+              text: 'Sample Type',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'testList',
+              text: 'Test List',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'departmentList',
+              text: 'Department List',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'receivedDate',
+              text: 'Received Date',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'collectionDate',
+              text: 'Collection Date',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'methodCollection',
+              text: 'Method Collection',
+              headerClasses: 'textHeader6',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'dateCollection',
+              text: 'Date Collection',
+              headerClasses: 'textHeader6',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'primaryContainer',
+              text: 'Primary Container',
+              headerClasses: 'textHeader6',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.reportable}
-                      onChange={reportable => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(reportable, 'reportable', row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'resultType',
-              text: 'Result Type',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'calculationFlag',
-              text: 'Calculation Flag',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.calculationFlag}
-                      onChange={calculationFlag => {
+                      disabled={true}
+                      value={row.primaryContainer}
+                      onChange={primaryContainer => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            calculationFlag,
-                            'calculationFlag',
+                            primaryContainer,
+                            'primaryContainer',
                             row._id,
                           );
                       }}
@@ -139,92 +183,19 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               },
             },
             {
-              dataField: 'picture',
-              text: 'Picture',
-              headerClasses: 'textHeader3',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'result',
-              text: 'Result',
-              headerClasses: 'textHeader3',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'units',
-              text: 'Units',
-              headerClasses: 'textHeader3',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'resultDate',
-              text: 'Result Date',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'alpha',
-              text: 'Alpha',
-              headerClasses: 'textHeader3',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'numeric',
-              text: 'Numeric',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'instrumentResult',
-              text: 'Instrument Result',
-              headerClasses: 'textHeader6',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'instrumentUnit',
-              text: 'Instrument Unit',
-              headerClasses: 'textHeader6',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'instrumentResultDate',
-              text: 'Instrument Result Date',
-              headerClasses: 'textHeader6',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'abnFlag',
-              text: 'ABN Flag',
-              headerClasses: 'textHeader4',
+              dataField: 'aliquot',
+              text: 'Aliquot',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.abnFlag}
-                      onChange={abnFlag => {
+                      disabled={true}
+                      value={row.aliquot}
+                      onChange={aliquot => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(abnFlag, 'abnFlag', row._id);
+                          props.onUpdateItem(aliquot, 'aliquot', row._id);
                       }}
                     />
                   </>
@@ -232,19 +203,24 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               },
             },
             {
-              dataField: 'critical',
-              text: 'Critical',
+              dataField: 'uniqueContainer',
+              text: 'Unique Container',
+              headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.critical}
-                      onChange={critical => {
+                      disabled={true}
+                      value={row.uniqueContainer}
+                      onChange={uniqueContainer => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(critical, 'critical', row._id);
+                          props.onUpdateItem(
+                            uniqueContainer,
+                            'uniqueContainer',
+                            row._id,
+                          );
                       }}
                     />
                   </>
@@ -252,237 +228,92 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               },
             },
             {
-              dataField: 'rangeVersion',
-              text: 'Range Version',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'showRanges',
-              text: 'ShowRanges',
+              dataField: 'labSpecific',
+              text: 'Lab Specific',
+              headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.showRanges}
-                      onChange={showRanges => {
+                      disabled={true}
+                      value={row.labSpecific}
+                      onChange={labSpecific => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(showRanges, 'showRanges', row._id);
+                          props.onUpdateItem(
+                            labSpecific,
+                            'labSpecific',
+                            row._id,
+                          );
                       }}
                     />
                   </>
                 );
               },
             },
-
             {
-              dataField: 'loNor',
-              text: 'Lo Nor',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'hiNor',
-              text: 'Hi Nor',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-
-            {
-              dataField: 'conclusion',
-              text: 'Conclusion',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-
-            {
-              dataField: 'equid',
-              text: 'Equid',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'equType',
-              text: 'EquType',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'testStatus',
-              text: 'Test Status',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            // extra Data
-            {
-              dataField: 'method',
-              text: 'Method',
+              dataField: 'departmentSpecific',
+              text: 'Department Specific',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.extraData.method}
-                      // onChange={(method) => {
-                      //   props.onUpdateItem &&
-                      //     props.onUpdateItem(method, "showRanges", row._id)
-                      // }}
+                      disabled={true}
+                      value={row.departmentSpecific}
+                      onChange={departmentSpecific => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            departmentSpecific,
+                            'departmentSpecific',
+                            row._id,
+                          );
+                      }}
                     />
                   </>
                 );
               },
             },
             {
-              dataField: 'analyteMethodCode',
-              text: 'Analyte Method Code',
-              headerClasses: 'textHeader6',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.analyteMethodCode}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'analyteMethodName',
-              text: 'Analyte Method Name',
-              headerClasses: 'textHeader6',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.analyteMethodName}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'runno',
-              text: 'Runno',
+              dataField: 'sharedSample',
+              text: 'Shared Sample',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
-                    <span>{row.extraData.runno}</span>
+                    <Form.Toggle
+                      disabled={true}
+                      value={row.sharedSample}
+                      onChange={sharedSample => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            sharedSample,
+                            'sharedSample',
+                            row._id,
+                          );
+                      }}
+                    />
                   </>
                 );
               },
             },
             {
-              dataField: 'platerunno',
-              text: 'Platerunno',
+              dataField: 'status',
+              text: 'Status',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.platerunno}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'plateno',
-              text: 'Plateno',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.plateno}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'repetation',
-              text: 'Repetation',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.repetation}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'version',
-              text: 'Version',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.version}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'enteredBy',
-              text: 'Entered By',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.enteredBy}</span>
-                  </>
-                );
-              },
+              editable: false,
             },
             {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData.environment}</span>
-                  </>
-                );
-              },
+              editable: false,
             },
           ]}
           isEditModify={props.isEditModify}

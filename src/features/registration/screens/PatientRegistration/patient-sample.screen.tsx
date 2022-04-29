@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
-import {PatientResultList} from '../../components';
+import {PatientSampleList} from '../../components';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
 import {RouterFlow} from '@/flows';
@@ -11,7 +11,7 @@ interface PatientSampleProps {
 }
 
 export const PatientSample = observer((props: PatientSampleProps) => {
-  const {patientResultStore, routerStore} = useStores();
+  const {patientResultStore, patientSampleStore, routerStore} = useStores();
 
   return (
     <>
@@ -19,9 +19,9 @@ export const PatientSample = observer((props: PatientSampleProps) => {
         className='p-2 rounded-lg shadow-xl overflow-scroll'
         style={{overflowX: 'scroll'}}
       >
-        <PatientResultList
-          data={patientResultStore.patientResultList}
-          totalSize={patientResultStore.patientResultTestCount}
+        <PatientSampleList
+          data={patientSampleStore.patientSampleList}
+          totalSize={patientSampleStore.patientSampleListCount}
           extraData={{}}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),

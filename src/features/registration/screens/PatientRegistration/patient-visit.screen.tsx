@@ -1912,9 +1912,12 @@ export const PatientVisit = PatientVisitHoc(
                       message: `😊 ${res.removePatientVisit.message}`,
                     });
                     setModalConfirm({show: false});
-                    patientVisitStore.patientVisitService.listPatientVisit({
-                      documentType: 'patientVisit',
-                    });
+                    // patientVisitStore.patientVisitService.listPatientVisit({
+                    //   documentType: 'patientVisit',
+                    // });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 1000);
                   }
                 });
             } else if (type === 'update') {
