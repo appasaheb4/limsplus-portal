@@ -1531,11 +1531,14 @@ export const PatientManager = PatientManagerHoc(
                       message: `😊 ${res.removePatientManager.message}`,
                     });
                     setModalConfirm({show: false});
-                    patientManagerStore.patientManagerService.listPatientManager(
-                      {
-                        documentType: 'patientManager',
-                      },
-                    );
+                    // patientManagerStore.patientManagerService.listPatientManager(
+                    //   {
+                    //     documentType: 'patientManager',
+                    //   },
+                    // );
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 1000);
                   }
                 });
             } else if (type === 'update') {

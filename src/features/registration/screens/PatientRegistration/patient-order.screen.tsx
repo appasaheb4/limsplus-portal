@@ -470,9 +470,12 @@ export const PatientOrder = PatientOrderHoc(
                       message: `😊 ${res.removePatientOrder.message}`,
                     });
                     setModalConfirm({show: false});
-                    patientOrderStore.patientOrderService.listPatientOrder({
-                      documentType: 'patientOrder',
-                    });
+                    // patientOrderStore.patientOrderService.listPatientOrder({
+                    //   documentType: 'patientOrder',
+                    // });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 1000);
                   }
                 });
             }
