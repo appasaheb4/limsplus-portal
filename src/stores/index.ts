@@ -25,7 +25,7 @@ import {MasterPackageStore} from '@/features/master/masterPackage/stores/masterP
 import {SampleContainerStore} from '@/features/master/sampleContainer/stores/sampleContainer-store';
 import {SampleTypeStore} from '@/features/master/sampleType/stores/sampleType-store';
 import {MethodsStore} from '@/features/master/methods/stores/methods-store';
-import {TestSampleMappingStore} from '@/features/master/testSampleMapping/stores/testSampleMapping-store';
+import {TestSampleMappingStore} from '@/features/master/test-sample-mapping/stores/testSampleMapping-store';
 import {CorporateClientsStore} from '@/features/master/corporateClients/stores/corporateClients-store';
 import {DoctorsStore} from '@/features/master/doctors/stores/doctors-store';
 import {RegistrationLocationsStore} from '@/features/master/registrationLocations/stores/registrationLocations-store';
@@ -56,6 +56,7 @@ import {
   PatientTestStore,
   PatientResultStore,
   PatientSampleStore,
+  PatientRegistrationStore,
 } from '@/features/registration/stores';
 
 import {Store} from './store';
@@ -115,6 +116,7 @@ export class Stores extends Store {
   patientTestStore!: PatientTestStore;
   patientResultStore!: PatientResultStore;
   patientSampleStore!: PatientSampleStore;
+  patientRegistrationStore!: PatientRegistrationStore;
 
   constructor() {
     super();
@@ -172,6 +174,7 @@ export class Stores extends Store {
     this.patientTestStore = new PatientTestStore();
     this.patientResultStore = new PatientResultStore();
     this.patientSampleStore = new PatientSampleStore();
+    this.patientRegistrationStore = new PatientRegistrationStore();
   }
 }
 

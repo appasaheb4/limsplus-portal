@@ -76,6 +76,7 @@ export const CREATE_PATIENT_VISIT = gql`
     createPatientVisit(input: $input) {
       success
       message
+      labId
     }
   }
 `;

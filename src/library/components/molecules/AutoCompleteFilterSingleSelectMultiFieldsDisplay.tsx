@@ -10,6 +10,7 @@ interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   placeholder?: string;
   data: any;
   hasError?: boolean;
+  className?: string;
   posstion?: string;
   onFilter: (item: any) => void;
   onSelect: (item: any) => any;
@@ -22,6 +23,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   placeholder = 'Search...',
   data,
   hasError = false,
+  className,
   posstion = 'absolute',
   onFilter,
   onSelect,
@@ -72,7 +74,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
 
   return (
     <>
-      <div ref={wrapperRef} className='w-full relative'>
+      <div ref={wrapperRef} className={`${className} w-full relative`}>
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
             hasError ? 'border-red-500' : 'border-gray-300'

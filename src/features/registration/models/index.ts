@@ -1,4 +1,4 @@
-export * from './registration.model';
+export * from './patient-registration.model';
 export * from './patient-manger.model';
 export * from './patient-visit.model';
 export * from './patient-order.model';
