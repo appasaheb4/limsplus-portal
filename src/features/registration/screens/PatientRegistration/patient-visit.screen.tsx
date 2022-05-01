@@ -53,6 +53,7 @@ export const PatientVisit = PatientVisitHoc(
       corporateClientsStore,
       registrationLocationsStore,
       doctorsStore,
+      patientRegistrationStore,
     } = useStores();
     const {
       control,
@@ -78,14 +79,19 @@ export const PatientVisit = PatientVisitHoc(
             },
           })
           .then(res => {
+            console.log({res});
             if (res.createPatientVisit.success) {
+              patientRegistrationStore.updateDefaultValue({
+                ...patientRegistrationStore.defaultValues,
+                labId: res.createPatientVisit?.labId,
+              });
               Toast.success({
                 message: `😊 ${res.createPatientVisit.message}`,
               });
             }
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 1000);
           });
       } else {
         Toast.warning({
@@ -489,15 +495,15 @@ export const PatientVisit = PatientVisitHoc(
                             onChange(item.locationCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
-                              collectionCenter: item.locationCode,
-                              collectionCenterName: item.locationName,
-                              acClass: item.acClass,
-                              corporateCode: item.corporateCode,
+                              collectionCenter: item?.locationCode,
+                              collectionCenterName: item?.locationName,
+                              acClass: item?.acClass,
+                              corporateCode: item?.corporateCode,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
-                                methodCollection: item.methodColn,
-                                accountType: item.accountType,
-                                invoiceAc: item.invoiceAc,
+                                methodCollection: item?.methodColn,
+                                accountType: item?.accountType,
+                                invoiceAc: item?.invoiceAc?.toString(),
                               },
                             });
                             if (item.corporateCode) {
@@ -565,7 +571,7 @@ export const PatientVisit = PatientVisitHoc(
                             corporateName: item.corporateName,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
-                              invoiceAc: item.invoiceAc,
+                              invoiceAc: item?.invoiceAc?.toString(),
                             },
                           });
                           corporateClientsStore.updateCorporateClientsList(
@@ -834,8 +840,8 @@ export const PatientVisit = PatientVisitHoc(
                                 loader={loading}
                                 placeholder='Search by code'
                                 displayValue={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.invoiceAc || ''
+                                  patientVisitStore.patientVisit.extraData?.invoiceAc?.toString() ||
+                                  ''
                                 }
                                 disable={true}
                                 data={{
@@ -864,7 +870,7 @@ export const PatientVisit = PatientVisitHoc(
                                     extraData: {
                                       ...patientVisitStore.patientVisit
                                         .extraData,
-                                      invoiceAc: item.invoice,
+                                      invoiceAc: item.invoice?.toString(),
                                     },
                                   });
                                   corporateClientsStore.updateCorporateClientsList(

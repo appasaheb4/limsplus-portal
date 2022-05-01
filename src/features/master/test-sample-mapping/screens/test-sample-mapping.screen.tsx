@@ -762,6 +762,18 @@ const TestSampleMapping = TestSampleMappingHoc(
                           testSampleMappingStore.updateSampleType({
                             ...testSampleMappingStore.testSampleMapping,
                             sharedSample,
+                            uniqueContainer: sharedSample
+                              ? false
+                              : testSampleMappingStore.testSampleMapping
+                                  ?.uniqueContainer,
+                            labSpecfic: sharedSample
+                              ? false
+                              : testSampleMappingStore.testSampleMapping
+                                  ?.labSpecfic,
+                            departmentSpecfic: sharedSample
+                              ? false
+                              : testSampleMappingStore.testSampleMapping
+                                  ?.departmentSpecfic,
                           });
                           testSampleMappingStore.updateSampleType({
                             ...testSampleMappingStore.testSampleMapping,
@@ -818,6 +830,18 @@ const TestSampleMapping = TestSampleMappingHoc(
                           testSampleMappingStore.updateSampleType({
                             ...testSampleMappingStore.testSampleMapping,
                             uniqueContainer,
+                            sharedSample: uniqueContainer
+                              ? false
+                              : testSampleMappingStore.testSampleMapping
+                                  ?.sharedSample,
+                            labSpecfic: uniqueContainer
+                              ? false
+                              : testSampleMappingStore.testSampleMapping
+                                  ?.labSpecfic,
+                            departmentSpecfic: uniqueContainer
+                              ? false
+                              : testSampleMappingStore.testSampleMapping
+                                  ?.departmentSpecfic,
                           });
                         }}
                       />

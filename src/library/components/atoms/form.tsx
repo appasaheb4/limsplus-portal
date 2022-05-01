@@ -102,7 +102,9 @@ export const Input = React.forwardRef((props: InputProps) => {
         value={props.value}
         onChange={e => props.onChange && props.onChange(e.target.value)}
         onKeyPress={e => handleKeyPress(e)}
-        className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+        className={`${
+          props.className
+        } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red-500 ' : 'border-gray-300'
         } rounded-md`}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}

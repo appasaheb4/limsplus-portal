@@ -48,7 +48,10 @@ const SampleType = async(
   () => import('@/features/master/sampleType/scenes/SampleType'),
 );
 const TestSampleMapping = async(
-  () => import('@/features/master/testSampleMapping/scenes/TestSampleMapping'),
+  () =>
+    import(
+      '@/features/master/test-sample-mapping/screens/test-sample-mapping.screen'
+    ),
 );
 const Methods = async(() => import('@/features/master/methods/scenes/Methods'));
 const Doctors = async(() => import('@/features/master/doctors/scenes/Doctors'));
@@ -132,7 +135,7 @@ const NoticeBoards = async(
 const PatientRegistation = async(
   () =>
     import(
-      '@/features/registration/screens/PatientRegistration/PatientRegistration'
+      '@/features/registration/screens/PatientRegistration/patient-registration.screen'
     ),
 );
 

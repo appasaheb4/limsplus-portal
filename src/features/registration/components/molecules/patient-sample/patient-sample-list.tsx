@@ -45,6 +45,21 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               csvExport: false,
             },
             {
+              dataField: 'labId',
+              text: 'Lab Id',
+              headerClasses: 'textHeader3',
+              sort: true,
+              filter: customFilter({
+                getFilter: filter => {
+                  labId = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editable: false,
+            },
+            {
               dataField: 'specimenId',
               text: 'Specimen Id',
               headerClasses: 'textHeader4',
@@ -60,15 +75,8 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               editable: false,
             },
             {
-              dataField: 'pLab',
-              text: 'PLab',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'rLab',
-              text: 'RLab',
+              dataField: 'labLit',
+              text: 'Lab Lit',
               headerClasses: 'textHeader4',
               sort: true,
               editable: false,
@@ -83,20 +91,6 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'outSourceStatus',
               text: 'Out Source Status',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'department',
-              text: 'Department',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'section',
-              text: 'Section',
               headerClasses: 'textHeader4',
               sort: true,
               editable: false,

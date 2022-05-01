@@ -34,7 +34,7 @@ import * as TestMaster from '@/features/master/testMaster';
 import * as PanelMaster from '@/features/master/master-panel';
 import * as SampleContainer from '@/features/master/sampleContainer';
 import * as SampleType from '@/features/master/sampleType';
-import * as TestSampleMapping from '@/features/master/testSampleMapping';
+import * as TestSampleMapping from '@/features/master/test-sample-mapping';
 import * as TestAnalyteMapping from '@/features/master/testAnalyteMapping';
 import * as TestPanelMapping from '@/features/master/testPanelMapping';
 import * as PackageMaster from '@/features/master/masterPackage';
