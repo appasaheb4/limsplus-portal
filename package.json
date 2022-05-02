@@ -47,6 +47,7 @@
     "html-react-parser": "^1.4.8",
     "husky": "^7.0.4",
     "i18next": "^21.6.16",
+    "jest-canvas-mock": "^2.4.0",
     "lodash": "^4.17.21",
     "mobx": "^6.2.0",
     "mobx-react": "^7.1.0",
@@ -87,6 +88,7 @@
     "react-scripts": "5.0.1",
     "react-session-api": "^1.1.0",
     "react-syntax-highlighter": "^15.4.3",
+    "react-test-renderer": "^18.1.0",
     "react-timekeeper": "^2.2.1",
     "react-toastify": "^7.0.4",
     "react-toasts": "^3.0.6",
@@ -101,7 +103,10 @@
     "xlsx": "^0.16.9"
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
     "overrides": [
       {
         "files": [
@@ -175,6 +180,28 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.+)": "<rootDir>/src/$1"
+    },
+    "coveragePathIgnorePatterns": [
+      ".stories"
+    ],
+    "collectCoverageFrom": [
+      "src/library/components/**/*.{ts,tsx}",
+      "!src/core-components/index.ts",
+      "!src/*.ts",
+      "!src/i18n/*.{ts,tsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 35,
+        "functions": 35,
+        "lines": 35,
+        "statements": 35
+      }
     }
   }
 }

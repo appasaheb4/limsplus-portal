@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {makeObservable, action, observable, intercept} from 'mobx';
 import {DefaultValues} from '../models';
 
@@ -18,10 +19,15 @@ export class PatientRegistrationStore {
     this.defaultValues = values;
   }
 
-  disposer = intercept(this.defaultValues, 'labId', change => {
-    console.log('changed');
-    throw new Error(
-      "This doesn't look like a color at all: " + change.newValue,
-    );
-  });
+  // disposer = observe(this.defaultValues, change => {
+  //   console.log({change});
+  //   // if ('get' === change.labId) {
+  //   //   // obj.get value is changed
+  //   // }
+  // });
 }
+
+// const patientRegistraton = new PatientRegistrationStore();
+// intercept(patientRegistraton, 'defaultValues', function () {
+//   console.log('--intercept todo, title');
+// });
