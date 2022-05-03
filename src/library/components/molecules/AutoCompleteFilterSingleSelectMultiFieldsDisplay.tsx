@@ -74,7 +74,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
 
   return (
     <>
-      <div ref={wrapperRef} className={`${className} w-full relative`}>
+      <div ref={wrapperRef} className={`w-full relative`}>
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
             hasError ? 'border-red-500' : 'border-gray-300'
@@ -83,7 +83,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
           <input
             placeholder={placeholder}
             value={!isListOpen ? value : value}
-            className={`w-full focus:outline-none bg-none`}
+            className={`${className} w-full focus:outline-none bg-none`}
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}

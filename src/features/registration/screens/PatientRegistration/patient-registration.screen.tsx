@@ -11,6 +11,7 @@ import {
 } from '@/library/components';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
+import {patientRegistrationHoc} from '../../hoc';
 
 import {
   PatientManager,
@@ -35,30 +36,31 @@ const PatientRegistation = observer(() => {
           <AutoCompleteFilterSingleSelectMultiFieldsDisplay
             loader={loading}
             placeholder='Lab Id'
+            className='h-4'
             data={{
-              list: patientVisitStore.listPatientVisit,
+              list: [{labId: '*'}].concat(patientVisitStore.labIdList as any),
               displayKey: ['labId'],
             }}
             disable={patientRegistrationStore.defaultValues?.labIdLock}
-            displayValue={patientRegistrationStore.defaultValues?.labId?.toString()}
-            onFilter={(value: string) => {
-              patientVisitStore.patientVisitService.filterByFields({
+            displayValue={
+              patientRegistrationStore.defaultValues?.labId?.toString() || '*'
+            }
+            onFilter={(labId: string) => {
+              patientVisitStore.patientVisitService.filterByLabId({
                 input: {
-                  filter: {
-                    fields: ['labId'],
-                    srText: parseInt(value),
-                  },
-                  page: 0,
-                  limit: 10,
+                  filter: {labId},
                 },
               });
             }}
             onSelect={item => {
               patientRegistrationStore.updateDefaultValue({
                 ...patientRegistrationStore.defaultValues,
-                labId: parseInt(item.labId),
+                labId: item.labId !== '*' ? parseInt(item.labId) : '*',
                 labIdLock: true,
               });
+              item.labId !== '*'
+                ? patientRegistrationHoc.labIdChanged(parseInt(item.labId))
+                : patientRegistrationHoc.labIdChanged();
             }}
           />
           <Buttons.Button

@@ -10,7 +10,7 @@ import {stores} from '@/stores';
 import {LIST_PATIENT_RESULT, FILTER_PATIENT_RESULT} from './mutation-pr';
 
 export class PatientResultService {
-  listPatientResult = (page = 0, limit = 10) =>
+  listPatientResult = (filter?: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
@@ -18,7 +18,7 @@ export class PatientResultService {
       client
         .mutate({
           mutation: LIST_PATIENT_RESULT,
-          variables: {input: {page, limit, env, role}},
+          variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResultList(response.data);
