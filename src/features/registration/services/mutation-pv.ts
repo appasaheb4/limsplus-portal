@@ -170,6 +170,18 @@ export const FILTER_PATIENT_VISIT = gql`
   }
 `;
 
+export const FILTER_BY_LAB_ID_PATIENT_VISIT = gql`
+  mutation ($input: PatientVisitInput!) {
+    filterByLabIdPatientVisit(input: $input) {
+      success
+      message
+      data {
+        labId
+      }
+    }
+  }
+`;
+
 export const COUNTER_PATIENT_VISIT_VISITID = gql`
   mutation ($input: CounterInput!) {
     counter(input: $input) {

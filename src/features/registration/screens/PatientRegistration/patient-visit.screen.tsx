@@ -30,6 +30,8 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import {patientRegistrationHoc} from '../../hoc';
+import hydrateStore from '@/library/modules/startup';
 
 import {PatientVisitHoc} from '../../hoc';
 import {useStores} from '@/stores';
@@ -66,7 +68,7 @@ export const PatientVisit = PatientVisitHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
-    const onSubmitPatientVisit = () => {
+    const onSubmitPatientVisit = async () => {
       if (
         !patientVisitStore.checkExistsVisitId &&
         !patientVisitStore.checkExistsLabId
@@ -78,7 +80,7 @@ export const PatientVisit = PatientVisitHoc(
               documentType: 'patientVisit',
             },
           })
-          .then(res => {
+          .then(async res => {
             console.log({res});
             if (res.createPatientVisit.success) {
               patientRegistrationStore.updateDefaultValue({
@@ -89,9 +91,9 @@ export const PatientVisit = PatientVisitHoc(
                 message: `😊 ${res.createPatientVisit.message}`,
               });
             }
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 1000);
+            setTimeout(async () => {
+              window.location.reload();
+            }, 1000);
           });
       } else {
         Toast.warning({

@@ -1,5 +1,5 @@
 export class DefaultValues {
-  labId?: number;
+  labId?: number | string;
   labIdLock?: boolean;
   constructor(rawData: {[key in string]: any}) {
     this.labId = rawData.labId;

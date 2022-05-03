@@ -17,6 +17,7 @@ import {
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
   CHECK_EXISTS_RECORD,
+  FILTER_BY_LAB_ID_PATIENT_VISIT,
 } from './mutation-pv';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -99,6 +100,26 @@ export class PatientVisitService {
           if (!response.data.filterPatientVisit.success)
             return this.listPatientVisit({documentType: 'patientVisit'});
           stores.patientVisitStore.filterPatientVisitList(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByLabId = (variables?: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_LAB_ID_PATIENT_VISIT,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByLabIdPatientVisit.success)
+            return alert(response.data.filterByLabIdPatientVisit.message);
+          stores.patientVisitStore.updateLabIdList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

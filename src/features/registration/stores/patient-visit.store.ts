@@ -1,10 +1,12 @@
 import {makeObservable, action, observable, computed} from 'mobx';
+import _ from 'lodash';
 import {PatientVisitService} from '../services';
 import {PatientVisit} from '../models';
 
 export class PatientVisitStore {
   patientVisit!: PatientVisit;
   listPatientVisit: PatientVisit[] = [];
+  labIdList: Array<any> = [];
   listPatientVisitCopy: PatientVisit[] = [];
   listPatientVisitCount!: number;
   checkExistsVisitId!: boolean;
@@ -12,6 +14,7 @@ export class PatientVisitStore {
 
   constructor() {
     this.listPatientVisit = [];
+    this.labIdList = [];
     this.listPatientVisitCopy = [];
     this.listPatientVisitCount = 0;
     this.checkExistsVisitId = false;
@@ -28,8 +31,10 @@ export class PatientVisitStore {
       listPatientVisit: observable,
       listPatientVisitCopy: observable,
       listPatientVisitCount: observable,
+      labIdList: observable,
 
       patientVisitService: computed,
+      updateLabIdList: action,
       updatePatientVisitList: action,
       filterPatientVisitList: action,
       updatePatientVisit: action,
@@ -51,6 +56,11 @@ export class PatientVisitStore {
     }
   }
 
+  updateLabIdList(res: any) {
+    console.log({res});
+
+    this.labIdList = res.filterByLabIdPatientVisit.data;
+  }
   filterPatientVisitList(res: any) {
     this.listPatientVisit = res.filterPatientVisit.data;
     this.listPatientVisitCount = res.filterPatientVisit.paginatorInfo.count;

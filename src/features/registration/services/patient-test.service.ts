@@ -23,7 +23,7 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export class PatientTestService {
-  listPatientTest = (page = 0, limit = 10) =>
+  listPatientTest = (filter?: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
@@ -31,7 +31,7 @@ export class PatientTestService {
       client
         .mutate({
           mutation: LIST_PATIENT_TEST,
-          variables: {input: {page, limit, env, role}},
+          variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
           stores.patientTestStore.updateTestList(response.data);

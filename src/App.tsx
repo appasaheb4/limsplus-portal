@@ -42,6 +42,10 @@ const App = observer(() => {
     await hydrateStore('loginStore', stores.loginStore);
     await hydrateStore('routerStore', stores.routerStore);
     await hydrateStore('appStore', stores.appStore);
+    await hydrateStore(
+      'patientRegistrationStore',
+      stores.patientRegistrationStore,
+    );
   };
 
   React.useEffect(() => {
