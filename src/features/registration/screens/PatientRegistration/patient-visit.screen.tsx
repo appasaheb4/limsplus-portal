@@ -1811,7 +1811,8 @@ export const PatientVisit = PatientVisitHoc(
               setModalConfirm({
                 show: true,
                 type: 'delete',
-                id: rows,
+                id: rows.filter(item => item._id),
+                labId: rows.filter(item => item.labId),
                 title: 'Are you sure?',
                 body: `Delete selected items!`,
               });
@@ -1913,7 +1914,9 @@ export const PatientVisit = PatientVisitHoc(
           click={(type?: string) => {
             if (type === 'delete') {
               patientVisitStore.patientVisitService
-                .deletePatientVisit({input: {id: modalConfirm.id}})
+                .deletePatientVisit({
+                  input: {id: modalConfirm.id, labId: modalConfirm.labId},
+                })
                 .then((res: any) => {
                   if (res.removePatientVisit.success) {
                     Toast.success({
