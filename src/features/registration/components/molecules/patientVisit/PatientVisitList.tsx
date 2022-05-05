@@ -21,13 +21,17 @@ import {
   AutoCompleteFilterSingleSelectDoctorId,
   AutoCompleteFilterSingleSelectDoctorName,
 } from '../../index';
+
+interface DeleteExtraParams extends Confirm {
+  labId?: Array<number>;
+}
 interface PatientVisitProps {
   data: any;
   totalSize: number;
   extraData: any;
   isDelete?: boolean;
   isEditModify?: boolean;
-  onDelete?: (selectedItem: Confirm) => void;
+  onDelete?: (selectedItem: DeleteExtraParams) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
@@ -727,6 +731,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                             type: 'delete',
                             show: true,
                             id: [row._id],
+                            labId: [row.labId],
                             title: 'Are you sure?',
                             body: `Delete item`,
                           })
@@ -749,7 +754,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
           fileName='Patient Visit'
           onSelectedRow={rows => {
             props.onSelectedRow &&
-              props.onSelectedRow(rows.map((item: any) => item._id));
+              props.onSelectedRow(rows.map((item: any) => item));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id);
