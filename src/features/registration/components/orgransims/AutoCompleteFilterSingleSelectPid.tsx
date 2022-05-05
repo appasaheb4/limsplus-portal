@@ -104,7 +104,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
                           className='text-gray-400 flex items-center'
                           onClick={() => {
                             setValue(
-                              `${item.pId} - ${item.firstName} ${item.lastName} - ${item.mobileNo}`,
+                              `${item.pId} - ${item.firstName} ${item.lastName} - ${item.mobileNo} - ${item?.age} - ${item?.ageUnit} - ${item?.sex}`,
                             );
                             setIsListOpen(false);
                             patientManagerStore.updatePatientManagerList(
@@ -116,7 +116,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
                           {' '}
                           <label className='ml-2 mt-1 text-black text-sm'>
                             {' '}
-                            {`${item.pId} - ${item.firstName} ${item.lastName} - ${item.mobileNo}`}
+                            {`${item.pId} - ${item.firstName} ${item.lastName} - ${item.mobileNo} - ${item?.age} - ${item?.ageUnit} - ${item?.sex}`}
                           </label>
                         </li>
                       </>
