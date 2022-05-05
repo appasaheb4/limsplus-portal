@@ -126,6 +126,9 @@ export const PatientOrder = PatientOrderHoc(
                           displayKey: ['labId', 'patientName'],
                         }}
                         hasError={errors.visitId}
+                        displayValue={`${patientOrderStore.patientOrder?.labId?.toString()} - ${
+                          patientOrderStore.patientOrder?.patientName
+                        } `}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
