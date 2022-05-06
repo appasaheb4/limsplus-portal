@@ -32,8 +32,8 @@ export class RouterStore {
     });
   }
 
-  updateUserRouter(router) {
-    this.userRouter = router;
+  updateUserRouter(router?) {
+    this.userRouter = router || undefined;
   }
 
   updateRouter(router: any) {

@@ -4,6 +4,7 @@ import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import {Icons} from '@/library/components';
+import dayjs from 'dayjs';
 
 interface AutoCompleteFilterSingleSelectPidProps {
   hasError?: boolean;
@@ -104,7 +105,11 @@ export const AutoCompleteFilterSingleSelectPid = observer(
                           className='text-gray-400 flex items-center'
                           onClick={() => {
                             setValue(
-                              `${item.pId} - ${item.firstName} ${item.lastName} - ${item.mobileNo} - ${item?.age} - ${item?.ageUnit} - ${item?.sex}`,
+                              `${item.pId} - ${item.firstName} ${
+                                item.lastName
+                              } - ${item.mobileNo} - ${dayjs(
+                                item?.birthDate,
+                              ).format('DD/MM/YYYY')} - ${item?.sex}`,
                             );
                             setIsListOpen(false);
                             patientManagerStore.updatePatientManagerList(
@@ -116,7 +121,11 @@ export const AutoCompleteFilterSingleSelectPid = observer(
                           {' '}
                           <label className='ml-2 mt-1 text-black text-sm'>
                             {' '}
-                            {`${item.pId} - ${item.firstName} ${item.lastName} - ${item.mobileNo} - ${item?.age} - ${item?.ageUnit} - ${item?.sex}`}
+                            {`${item.pId} - ${item.firstName} ${
+                              item.lastName
+                            } - ${item.mobileNo} - ${dayjs(
+                              item?.birthDate,
+                            ).format('DD/MM/YYYY')} - ${item?.sex}`}
                           </label>
                         </li>
                       </>
