@@ -35,10 +35,8 @@ export class LoginStore {
     Session.initialize({name: 'limsplus'});
     runInAction(async () => {
       const session = await Session.getSession();
-      if (session) {
-        if (stores) stores.rootStore.updateSesssion(session);
-        // this.login = session
-      }
+      if (session && stores) stores.rootStore.updateSesssion(session);
+      // this.login = session
     });
   }
 
@@ -64,13 +62,16 @@ export class LoginStore {
           },
         }).then(async res => {
           if (res.logout.success) {
-            await Storage.removeItem(`__persist_mobx_stores_loginStore__`);
-            await Storage.removeItem(`__persist_mobx_stores_routerStore__`);
+            await Storage.removeItem('__persist_mobx_stores_loginStore__');
+            await Storage.removeItem('__persist_mobx_stores_routerStore__');
             await Storage.removeItem(
-              `__persist_mobx_stores_routerStore_SelectedCategory__`,
+              '__persist_mobx_stores_routerStore_SelectedCategory__',
+            );
+            await Storage.removeItem(
+              '__persist_mobx_stores_patientRegistrationStore__',
             );
             Session.deleteSession();
-            stores.routerStore.updateUserRouter(undefined);
+            stores.routerStore.updateUserRouter();
             runInAction(() => {
               this.login = new Login({});
             });
@@ -85,13 +86,13 @@ export class LoginStore {
 
   removeLocalSession = (): Promise<boolean> => {
     return new Promise<boolean>(async resolve => {
-      await Storage.removeItem(`__persist_mobx_stores_loginStore__`);
-      await Storage.removeItem(`__persist_mobx_stores_routerStore__`);
+      await Storage.removeItem('__persist_mobx_stores_loginStore__');
+      await Storage.removeItem('__persist_mobx_stores_routerStore__');
       await Storage.removeItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`,
+        '__persist_mobx_stores_routerStore_SelectedCategory__',
       );
       Session.deleteSession();
-      stores.routerStore.updateUserRouter(undefined);
+      stores.routerStore.updateUserRouter();
       runInAction(() => {
         this.login = new Login({});
       });
