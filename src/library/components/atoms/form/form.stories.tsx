@@ -76,14 +76,18 @@ export const _InputDateTime: ComponentStory<typeof Label> = () => (
   />
 );
 
-export const _CheckBoc: ComponentStory<typeof Label> = () => <CheckBox />;
+// export const _CheckBox: ComponentStory<typeof Label> = () => (
+//   <CheckBox>
+//     <h1>bubougpi</h1>
+//   </CheckBox>
+// );
 
 export const _SelectOption: ComponentStory<typeof Label> = () => (
   <SelectOption label='select ' onChange={() => console.log('svsrvr')} key=''>
     <option selected>Select</option>
-    {['0', '1']?.map((item: any) => (
+    {[{name: 'bhink'}]?.map((item: any) => (
       <option key={item} value={item}>
-        {item}
+        {item.name}
       </option>
     ))}
   </SelectOption>
