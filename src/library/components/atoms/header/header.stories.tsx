@@ -19,9 +19,9 @@ export const _Header: ComponentStory<typeof Header> = () => (
 );
 
 export const _PageHeading: ComponentStory<typeof Header> = () => (
-  <PageHeading title="Im Pagetitle" />
+  <PageHeading title='Im Pagetitle' />
 );
 
 export const _PageHeadingLabDetails: ComponentStory<typeof Header> = () => (
-  <PageHeadingLabDetails store="" />
+  <PageHeadingLabDetails store='' />
 );

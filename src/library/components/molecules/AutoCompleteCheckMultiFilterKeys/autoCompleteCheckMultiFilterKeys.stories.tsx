@@ -16,7 +16,7 @@ export const _AutoCompleteCheckMultiFilterKeys: ComponentStory<
   typeof AutoCompleteCheckMultiFilterKeys
 > = () => (
   <AutoCompleteCheckMultiFilterKeys
-    placeholder="Search by panel name or panel code"
+    placeholder='Search by panel name or panel code'
     // data={{
     //   defulatValues: [],
     //   list: props.extraData.listMasterPanel || [],

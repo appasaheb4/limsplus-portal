@@ -6,7 +6,7 @@ it('render autoCompleteFilterMutiSelectMultiFieldsDisplay correctly', () => {
   const autoCompleteFilterMutiSelectMultiFieldsDisplay = render(
     <AutoCompleteFilterMutiSelectMultiFieldsDisplay
       hasError={false}
-      data=""
+      data=''
       onFilter={() => jest.fn()}
       onSelect={() => jest.fn()}
       onUpdate={() => jest.fn()}

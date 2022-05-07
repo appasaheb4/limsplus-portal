@@ -17,8 +17,8 @@ export const _ModalConfirm: ComponentStory<typeof ModalConfirm> = () => (
     show={true}
     click={() => {}}
     close={() => {}}
-    type="im modal"
-    body="Are You Sure You Want Be a Modal"
+    type='im modal'
+    body='Are You Sure You Want Be a Modal'
   />
 );
 
@@ -27,7 +27,7 @@ export const _ModalImportFile: ComponentStory<typeof ModalConfirm> = () => (
     show={true}
     click={status => console.log({status})}
     close={() => {}}
-    accept="Yes"
-    body="Are You Sure You Want to Import Something"
+    accept='Yes'
+    body='Are You Sure You Want to Import Something'
   />
 );

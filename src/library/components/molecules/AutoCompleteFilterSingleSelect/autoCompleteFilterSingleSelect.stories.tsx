@@ -17,7 +17,7 @@ export const _AutoCompleteFilterSingleSelect: ComponentStory<
 > = () => (
   <AutoCompleteFilterSingleSelect
     data={[]}
-    placeholder="I am Auto CompleteFilterSingleSelect"
+    placeholder='I am Auto CompleteFilterSingleSelect'
     onSelect={() => {}}
     onFilter={() => {}}
     disable={false}

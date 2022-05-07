@@ -110,7 +110,7 @@ export const AutoComplete = (props: AutoCompleteProps) => {
           <input
             placeholder={props.placeholder || 'Search ...'}
             value={value}
-            className="w-full focus:outline-none bg-none"
+            className='w-full focus:outline-none bg-none'
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
@@ -124,20 +124,20 @@ export const AutoComplete = (props: AutoCompleteProps) => {
 
         {options && isListOpen
           ? options?.length > 0 && (
-              <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+              <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
                 <ul>
                   <div
-                    className="overflow-y-auto"
+                    className='overflow-y-auto'
                     style={{height: 'auto', maxHeight: '350px'}}
                   >
                     {options?.map((item, index) => (
                       <>
                         <li
                           key={index}
-                          className="text-gray-400 flex items-center"
+                          className='text-gray-400 flex items-center'
                           onClick={() => onChangeItem(item)}
                         >
-                          <label className="ml-2 mt-1 text-black">
+                          <label className='ml-2 mt-1 text-black'>
                             {props.data?.displayKey
                               ?.map(findKey => item[findKey])
                               .join(' - ')}

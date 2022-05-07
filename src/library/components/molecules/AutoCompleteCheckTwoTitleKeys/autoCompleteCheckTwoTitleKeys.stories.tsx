@@ -16,7 +16,7 @@ export const _AutoCompleteCheckTwoTitleKeys: ComponentStory<
   typeof AutoCompleteCheckTwoTitleKeys
 > = () => (
   <AutoCompleteCheckTwoTitleKeys
-    titleKey="This is AutoComplete CheckTwoTitle Key"
+    titleKey='This is AutoComplete CheckTwoTitle Key'
     // data={{
     //   defulatValues: [],
     //   list: props.extraData.listMasterPanel || [],

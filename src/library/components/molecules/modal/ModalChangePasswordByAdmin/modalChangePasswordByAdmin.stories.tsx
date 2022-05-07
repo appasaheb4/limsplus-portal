@@ -18,7 +18,7 @@ export const _ModalChangePassword: ComponentStory<
   <ModalChangePasswordByAdmin
     show={true}
     onClick={() => {}}
-    title="Im ModalChange Password By Admin"
+    title='Im ModalChange Password By Admin'
     onClose={() => {}}
   />
 );
