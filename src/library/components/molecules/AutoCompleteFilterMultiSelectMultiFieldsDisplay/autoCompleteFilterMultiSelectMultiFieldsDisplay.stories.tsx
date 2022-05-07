@@ -22,7 +22,13 @@ export const _AutoCompleteFilterMutiSelectMultiFieldsDisplay: ComponentStory<
     onFilter={() => {}}
     onSelect={() => {}}
     onUpdate={() => {}}
-    disable={false}
-    data=''
+    data={{
+      list: [
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+      ],
+      displayKey: ['code', 'name'],
+    }}
   />
 );

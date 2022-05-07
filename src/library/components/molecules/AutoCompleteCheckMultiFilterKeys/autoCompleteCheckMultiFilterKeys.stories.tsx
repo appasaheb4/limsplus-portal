@@ -17,12 +17,15 @@ export const _AutoCompleteCheckMultiFilterKeys: ComponentStory<
 > = () => (
   <AutoCompleteCheckMultiFilterKeys
     placeholder='Search by panel name or panel code'
-    // data={{
-    //   defulatValues: [],
-    //   list: props.extraData.listMasterPanel || [],
-    //   displayKey: ["panelName", "panelCode"],
-    //   findKey: ["panelName", "panelCode"],
-    // }}
+    data={{
+      list: [
+        {name: 'Lims', code: 'plus'},
+        {name: 'Lims', code: 'plus'},
+        {name: 'Lims', code: 'plus'},
+      ],
+      displayKey: ['name', 'code'],
+      findKey: ['code', 'name'],
+    }}
     onUpdate={items => {
       console.log({items});
     }}

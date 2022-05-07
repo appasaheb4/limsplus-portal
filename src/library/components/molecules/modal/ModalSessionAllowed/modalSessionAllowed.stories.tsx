@@ -17,6 +17,7 @@ export const _ModalSessionAllowed: ComponentStory<
 > = () => (
   <ModalSessionAllowed
     show={true}
+    data={['fmvmf'].map(i => i)}
     onClick={() => {}}
     onClose={() => {}}
     title=' Im ModalSession Allowed'

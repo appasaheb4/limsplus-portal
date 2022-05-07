@@ -16,8 +16,8 @@ export const _AutoCompleteCheckTwoTitleKeys: ComponentStory<
   typeof AutoCompleteGroupByCheck
 > = () => (
   <AutoCompleteGroupByCheck
-    data={[]}
-    defaultItem={[]}
+    data={['name']}
+    defaultItem={[{code: 'name', name: 'code'}]}
     onChange={() => {}}
     onClose={() => {}}
   />

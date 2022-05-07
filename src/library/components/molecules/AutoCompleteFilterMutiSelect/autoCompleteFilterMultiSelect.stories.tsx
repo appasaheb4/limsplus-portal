@@ -22,6 +22,13 @@ export const _AutoCompleteFilterMutiSelect: ComponentStory<
     onFilter={() => {}}
     onSelect={() => {}}
     onUpdate={() => {}}
-    data=''
+    data={{
+      list: [
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+      ],
+      displayKey: ['code'],
+    }}
   />
 );

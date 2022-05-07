@@ -35,5 +35,5 @@ export * from './molecules/modal/ModalTransition/ModalTransition.component';
 export * from './molecules/modal/ModalFileUpload/ModalFileUpload.component';
 
 export * from './organisms/FilterComp';
-export * from './organisms/TableBootstrap';
+export * from './organisms/TableBootstrap/TableBootstrap.component';
 export * from './organisms/utils';

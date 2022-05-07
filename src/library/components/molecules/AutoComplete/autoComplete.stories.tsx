@@ -14,6 +14,15 @@ export default {
 
 export const _AutoComplete: ComponentStory<typeof AutoComplete> = () => (
   <AutoComplete
+    data={{
+      list: [
+        {name: 'Lims', code: 'Pluus'},
+        {name: 'Lims', code: 'Pluus'},
+        {name: 'Lims', code: 'Pluus'},
+      ],
+      displayKey: ['code', 'name'],
+      findKey: ['code'],
+    }}
     hasError={false}
     onChange={(item: any) => {
       console.log({item});
