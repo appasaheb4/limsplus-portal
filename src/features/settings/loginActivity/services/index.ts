@@ -1,3 +1,2 @@
 import LoginActivityService from './loginActivity-services';
-export{LoginActivityService}
-
+export {LoginActivityService};

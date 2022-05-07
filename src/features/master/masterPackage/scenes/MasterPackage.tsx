@@ -257,20 +257,20 @@ const MasterPackage = MasterPackageHOC(
             onClick={() => setHideAddLab(!hideAddLab)}
           />
         )}
-        <div className="mx-auto flex-wrap">
+        <div className='mx-auto flex-wrap'>
           <div
             className={
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Lab" hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
                       <AutoCompleteFilterSingleSelect
-                        placeholder="Search by name"
+                        placeholder='Search by name'
                         loader={loading}
                         disable={
                           loginStore.login &&
@@ -340,16 +340,16 @@ const MasterPackage = MasterPackageHOC(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="lab"
+                  name='lab'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Service Type"
+                      label='Service Type'
                       hasError={errors.serviceType}
                     >
                       <select
@@ -411,15 +411,15 @@ const MasterPackage = MasterPackageHOC(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="serviceType"
+                  name='serviceType'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Package Code"
+                      label='Package Code'
                       hasError={errors.packageCode}
                     >
                       <select
@@ -487,16 +487,16 @@ const MasterPackage = MasterPackageHOC(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="packageCode"
+                  name='packageCode'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 {masterPackageStore.checkExitsLabEnvCode && (
-                  <span className="text-red-600 font-medium relative">
+                  <span className='text-red-600 font-medium relative'>
                     Code already exits. Please use other code.
                   </span>
                 )}
-                <label className="hidden">
+                <label className='hidden'>
                   {' '}
                   {`${masterPackageStore.masterPackage?.packageName}`}
                 </label>
@@ -505,26 +505,26 @@ const MasterPackage = MasterPackageHOC(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       value={masterPackageStore.masterPackage?.packageName}
-                      label="Package Name"
-                      placeholder="Package Name"
+                      label='Package Name'
+                      placeholder='Package Name'
                       disabled={true}
                     />
                   )}
-                  name="packageName"
+                  name='packageName'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Panel Code"
+                      label='Panel Code'
                       hasError={errors.panelCode}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder="Search by code or name"
+                        placeholder='Search by code or name'
                         data={{
                           list:
                             masterPanelStore.listMasterPanel.filter(item => {
@@ -631,15 +631,15 @@ const MasterPackage = MasterPackageHOC(
                       />
                     </Form.InputWrapper>
                   )}
-                  name="panelCode"
+                  name='panelCode'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Panel Name"
+                      label='Panel Name'
                       hasError={errors.panelName}
                     >
                       <select
@@ -658,14 +658,14 @@ const MasterPackage = MasterPackageHOC(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="panelName"
+                  name='panelName'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Status" hasError={errors.status}>
+                    <Form.InputWrapper label='Status' hasError={errors.status}>
                       <select
                         value={masterPackageStore.masterPackage?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -691,15 +691,15 @@ const MasterPackage = MasterPackageHOC(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="status"
+                  name='status'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Entered By"
+                      label='Entered By'
                       placeholder={
                         errors.userId
                           ? 'Please Enter Entered By '
@@ -710,15 +710,15 @@ const MasterPackage = MasterPackageHOC(
                       disabled={true}
                     />
                   )}
-                  name="userId"
+                  name='userId'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Creation"
+                      label='Date Creation'
                       placeholder={
                         errors.dateCreation
                           ? 'Please Enter DateCreation'
@@ -729,9 +729,9 @@ const MasterPackage = MasterPackageHOC(
                       disabled={true}
                     />
                   )}
-                  name="dateCreation"
+                  name='dateCreation'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Grid cols={3}>
@@ -739,8 +739,8 @@ const MasterPackage = MasterPackageHOC(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Bill"
-                        id="modeBill"
+                        label='Bill'
+                        id='modeBill'
                         hasError={errors.bill}
                         value={masterPackageStore.masterPackage?.bill}
                         onChange={bill => {
@@ -751,16 +751,16 @@ const MasterPackage = MasterPackageHOC(
                         }}
                       />
                     )}
-                    name="bill"
+                    name='bill'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Print Package Name"
-                        id="printPackageName"
+                        label='Print Package Name'
+                        id='printPackageName'
                         hasError={errors.printPackageName}
                         value={
                           masterPackageStore.masterPackage?.printPackageName
@@ -773,17 +773,17 @@ const MasterPackage = MasterPackageHOC(
                         }}
                       />
                     )}
-                    name="printPackageName"
+                    name='printPackageName'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
 
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label="Print Panel Name"
-                        id="printPanelName"
+                        label='Print Panel Name'
+                        id='printPanelName'
                         hasError={errors.printPanelName}
                         value={masterPackageStore.masterPackage?.printPanelName}
                         onChange={printPanelName => {
@@ -794,23 +794,23 @@ const MasterPackage = MasterPackageHOC(
                         }}
                       />
                     )}
-                    name="printPanelName"
+                    name='printPanelName'
                     rules={{required: false}}
-                    defaultValue=""
+                    defaultValue=''
                   />
                 </Grid>
               </List>
 
-              <List direction="col" space={4} justify="stretch" fill>
-                <Form.InputWrapper label="Report Order">
-                  <Table striped bordered className="max-h-5" size="sm">
+              <List direction='col' space={4} justify='stretch' fill>
+                <Form.InputWrapper label='Report Order'>
+                  <Table striped bordered className='max-h-5' size='sm'>
                     <thead>
-                      <tr className="text-xs">
-                        <th className="text-white" style={{minWidth: 150}}>
+                      <tr className='text-xs'>
+                        <th className='text-white' style={{minWidth: 150}}>
                           Panel
                         </th>
                         <th
-                          className="text-white flex flex-row gap-2 items-center"
+                          className='text-white flex flex-row gap-2 items-center'
                           style={{minWidth: 150}}
                         >
                           Order
@@ -820,7 +820,7 @@ const MasterPackage = MasterPackageHOC(
                                 <BsFillArrowUpCircleFill />
                               </IconContext.Provider>
                             }
-                            title=""
+                            title=''
                             onClick={() => {
                               let reportOrder =
                                 masterPackageStore.masterPackage.reportOrder;
@@ -841,7 +841,7 @@ const MasterPackage = MasterPackageHOC(
                                 <BsFillArrowDownCircleFill />
                               </IconContext.Provider>
                             }
-                            title=""
+                            title=''
                             onClick={() => {
                               let reportOrder =
                                 masterPackageStore.masterPackage.reportOrder;
@@ -859,7 +859,7 @@ const MasterPackage = MasterPackageHOC(
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="text-xs">
+                    <tbody className='text-xs'>
                       {masterPackageStore.masterPackage?.reportOrder &&
                         masterPackageStore.masterPackage?.reportOrder.map(
                           (item, index) => (
@@ -883,7 +883,7 @@ const MasterPackage = MasterPackageHOC(
                                   </span>
                                 ) : (
                                   <Form.Input
-                                    type="number"
+                                    type='number'
                                     placeholder={item.order}
                                     onChange={order => {
                                       const reportOrder =
@@ -910,7 +910,7 @@ const MasterPackage = MasterPackageHOC(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Active"
+                      label='Date Active'
                       placeholder={
                         errors.dateActive
                           ? 'Please Enter DateActiveFrom'
@@ -921,16 +921,16 @@ const MasterPackage = MasterPackageHOC(
                       disabled={true}
                     />
                   )}
-                  name="dateActive"
+                  name='dateActive'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
-                      label="Date Expire"
+                      label='Date Expire'
                       placeholder={
                         errors.dateExpire
                           ? 'Please Enter Date Expire'
@@ -947,15 +947,15 @@ const MasterPackage = MasterPackageHOC(
                       }}
                     />
                   )}
-                  name="dateExpire"
+                  name='dateExpire'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label="Version"
+                      label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version ' : 'Version'
                       }
@@ -964,15 +964,15 @@ const MasterPackage = MasterPackageHOC(
                       disabled={true}
                     />
                   )}
-                  name="version"
+                  name='version'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label="Environment"
+                      label='Environment'
                       hasError={errors.environment}
                     >
                       <select
@@ -1046,25 +1046,25 @@ const MasterPackage = MasterPackageHOC(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
+                  name='environment'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
               </List>
             </Grid>
             <br />
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitMasterPackage)}
               >
                 Save
               </Buttons.Button>
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload();
@@ -1074,7 +1074,7 @@ const MasterPackage = MasterPackageHOC(
               </Buttons.Button>
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-auto">
+          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             {tableView}
           </div>
           <ModalConfirm

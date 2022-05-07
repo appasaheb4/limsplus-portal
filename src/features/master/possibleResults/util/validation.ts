@@ -1,7 +1,7 @@
-import validate from "validate.js"
-export { validate }
+import validate from 'validate.js';
+export {validate};
 export const possibleResults = {
   analyteCode: {
-    presence: true
+    presence: true,
   },
-}
+};

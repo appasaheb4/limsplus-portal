@@ -1,1 +1,1 @@
-export * from "./rolemapping-services"
+export * from './rolemapping-services';

@@ -157,16 +157,16 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
                     <>
                       <li
                         key={index}
-                        className="text-gray-400 flex items-center"
+                        className='text-gray-400 flex items-center'
                       >
                         <input
-                          type="checkbox"
+                          type='checkbox'
                           name={item.code}
                           value={item.code}
                           checked={item.selected}
                           onChange={() => onChangeItem(item, index)}
                         />{' '}
-                        <label className="ml-2 mt-1 text-black">
+                        <label className='ml-2 mt-1 text-black'>
                           {' '}
                           {item[props.data.displayKey]}
                         </label>

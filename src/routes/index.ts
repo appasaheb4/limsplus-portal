@@ -28,7 +28,7 @@ const TestAnalyteMapping = async(
     import('@/features/master/testAnalyteMapping/scenes/TestAnalyteMapping'),
 );
 const MasterPanel = async(
-  () => import('@/features/master/masterPanel/scenes/MasterPanel'),
+  () => import('@/features/master/master-panel/scenes/MasterPanel'),
 );
 const TestPanelMapping = async(
   () => import('@/features/master/testPanelMapping/scenes/TestPanelMapping'),
@@ -48,7 +48,10 @@ const SampleType = async(
   () => import('@/features/master/sampleType/scenes/SampleType'),
 );
 const TestSampleMapping = async(
-  () => import('@/features/master/testSampleMapping/scenes/TestSampleMapping'),
+  () =>
+    import(
+      '@/features/master/test-sample-mapping/screens/test-sample-mapping.screen'
+    ),
 );
 const Methods = async(() => import('@/features/master/methods/scenes/Methods'));
 const Doctors = async(() => import('@/features/master/doctors/scenes/Doctors'));
@@ -72,7 +75,7 @@ const AdministrativeDivisions = async(
     ),
 );
 const SalesTeam = async(
-  () => import('@/features/master/salesTeam/scenes/SalesTeam'),
+  () => import('@/features/master/sales-team/scenes/sales-team'),
 );
 const PossibleResults = async(
   () => import('@/features/master/possibleResults/scenes/PossibleResults'),
@@ -132,7 +135,7 @@ const NoticeBoards = async(
 const PatientRegistation = async(
   () =>
     import(
-      '@/features/registration/scenes/PatientRegistration/PatientRegistration'
+      '@/features/registration/screens/PatientRegistration/patient-registration.screen'
     ),
 );
 

@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: SampleContainerInput!) {
+  mutation ($input: SampleContainerInput!) {
     sampleContainers(input: $input) {
       paginatorInfo {
         count
@@ -20,85 +20,59 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateSampleContainerInput!) {
+  mutation ($input: CreateSampleContainerInput!) {
     createSampleContainer(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const REMOVE_RECORDS = gql`
-  mutation($input: SampleContainerRemoveInput!) {
+  mutation ($input: SampleContainerRemoveInput!) {
     removeSampleContainer(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateSampleContainerInput!) {
+  mutation ($input: UpdateSampleContainerInput!) {
     updateSampleContainer(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_IMAGE = gql`
-  mutation($input: UpdateSampleContainerInput!) {
+  mutation ($input: UpdateSampleContainerInput!) {
     updateSampleContainersImage(input: $input) {
       success
       message
     }
   }
-`
-
- 
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: SampleContainerInput!) {
+  mutation ($input: SampleContainerInput!) {
     checkSampleContainersExistsRecord(input: $input) {
       success
       message
     }
   }
-`
-
+`;
 
 export const FILTER = gql`
-  mutation($input: SampleContainerInput!) {
+  mutation ($input: SampleContainerInput!) {
     filterSampleContainers(input: $input) {
       paginatorInfo {
         count
       }
-      success
-      message
-      data{
-        _id
-        containerCode
-        containerName
-        description
-        image
-        environment
-        dateOfEntry
-        lastUpdated
-      }
-    }
-  }
-`
-
-
-export const FILTER_BY_FIELDS = gql`
-  mutation($input: SampleContainerInput!) {
-    filterByFieldsSampleContainers(input: $input) {
-      paginatorInfo {
-        count
-      }  
       success
       message
       data {
@@ -110,7 +84,29 @@ export const FILTER_BY_FIELDS = gql`
         environment
         dateOfEntry
         lastUpdated
-      }   
+      }
     }
   }
-`
+`;
+
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: SampleContainerInput!) {
+    filterByFieldsSampleContainers(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        containerCode
+        containerName
+        description
+        image
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

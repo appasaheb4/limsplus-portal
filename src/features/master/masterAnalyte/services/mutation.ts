@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: AnalyteMasterInput!) {
@@ -57,7 +57,7 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
   mutation ($input: AnalyteMasterRemoveInput!) {
@@ -66,7 +66,7 @@ export const REMOVE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
   mutation ($input: CreateAnalyteMasterInput!) {
@@ -75,7 +75,7 @@ export const CREATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
   mutation ($input: CreateAnalyteMasterInput!) {
@@ -84,7 +84,7 @@ export const VERSION_UPGRADE = gql`
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
   mutation ($input: CreateAnalyteMasterInput!) {
@@ -93,7 +93,7 @@ export const DUPLICATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
   mutation ($input: UpdateAnalyteMasterInput!) {
@@ -102,7 +102,7 @@ export const UPDATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
   mutation ($input: AnalyteMasterInput!) {
@@ -111,7 +111,7 @@ export const CHECK_EXISTS_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
   mutation ($input: AnalyteMasterInput!) {
@@ -170,7 +170,7 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
   mutation ($input: AnalyteMasterInput!) {
@@ -229,7 +229,7 @@ export const FILTER_BY_FIELDS = gql`
       }
     }
   }
-`
+`;
 
 export const FIND_BY_FIELDS = gql`
   mutation ($input: AnalyteMasterInput!) {
@@ -285,4 +285,4 @@ export const FIND_BY_FIELDS = gql`
       }
     }
   }
-`
+`;

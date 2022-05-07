@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import {
   Badge,
@@ -8,15 +8,15 @@ import {
   CardHeader,
   CardTitle,
   Media,
-} from "reactstrap";
+} from 'reactstrap';
 
 const Feed = () => (
-  <Card className="flex-fill w-100">
+  <Card className='flex-fill w-100'>
     <CardHeader>
-      <Badge color="info" className="float-right">
+      <Badge color='info' className='float-right'>
         Today
       </Badge>
-      <CardTitle tag="h5" className="mb-0">
+      <CardTitle tag='h5' className='mb-0'>
         Daily feed
       </CardTitle>
     </CardHeader>
@@ -30,11 +30,11 @@ const Feed = () => (
           alt="Ashley Briggs"
         /> */}
         <Media body>
-          <small className="float-right text-navy">5m ago</small>
-          <strong>Ashley Briggs</strong> started following{" "}
+          <small className='float-right text-navy'>5m ago</small>
+          <strong>Ashley Briggs</strong> started following{' '}
           <strong>Stacie Hall</strong>
           <br />
-          <small className="text-muted">Today 7:51 pm</small>
+          <small className='text-muted'>Today 7:51 pm</small>
           <br />
         </Media>
       </Media>
@@ -49,11 +49,10 @@ const Feed = () => (
           alt="Chris Wood"
         /> */}
         <Media body>
-          <small className="float-right text-navy">30m ago</small>
-          <strong>Chris Wood</strong> posted something on{" "}
-          <br />
-          <small className="text-muted">Today 7:21 pm</small>
-          <div className="border text-sm text-muted p-2 mt-1">
+          <small className='float-right text-navy'>30m ago</small>
+          <strong>Chris Wood</strong> posted something on <br />
+          <small className='text-muted'>Today 7:21 pm</small>
+          <div className='border text-sm text-muted p-2 mt-1'>
             Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem
             quam semper libero, sit amet adipiscing...
           </div>
@@ -70,15 +69,15 @@ const Feed = () => (
           alt="Stacie Hall"
         /> */}
         <Media body>
-          <small className="float-right text-navy">1h ago</small>
+          <small className='float-right text-navy'>1h ago</small>
           <strong>Stacie Hall</strong> posted a new blog
           <br />
-          <small className="text-muted">Today 6:35 pm</small>
+          <small className='text-muted'>Today 6:35 pm</small>
         </Media>
       </Media>
 
       <hr />
-      <Button color="primary" block>
+      <Button color='primary' block>
         Load more
       </Button>
     </CardBody>

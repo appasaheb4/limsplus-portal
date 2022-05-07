@@ -1,18 +1,17 @@
 <html>
-
-<header>
-
-</header>
-<body>
-    <span id="div1" style="border: 1px solid grey; width:500px;display: block;"></span>
+  <header></header>
+  <body>
+    <span
+      id="div1"
+      style="border: 1px solid grey; width: 500px; display: block"
+    ></span>
     <script>
-        for(let i=0;i<9;i++){
-            for(let j=i; j<=i; j++){
-                document.getElementById('div1').innerHTML += j +' ';
-            }
-            document.getElementById('div2').innerHTML += '<br/>';
+      for (let i = 0; i < 9; i++) {
+        for (let j = i; j <= i; j++) {
+          document.getElementById('div1').innerHTML += j + ' ';
         }
-       </script>
-</body>
+        document.getElementById('div2').innerHTML += '<br/>';
+      }
+    </script>
+  </body>
 </html>
-

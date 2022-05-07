@@ -23,6 +23,7 @@ import {FormHelper} from '@/helper';
 
 import {useHistory} from 'react-router-dom';
 import {useStores} from '@/stores';
+import {t} from '@localization';
 
 export const Login = observer(() => {
   const {userStore, loginStore, rootStore, labStore, roleStore, bannerStore} =
@@ -75,7 +76,7 @@ export const Login = observer(() => {
       loginStore.LoginService.accountStatusUpdate({
         input: {
           userId: loginStore.inputLogin?.userId,
-          status: 'I',
+          status: 'D',
         },
       }).then(res => {
         if (res.userAccountStatusUpdate.success) {
@@ -140,19 +141,19 @@ export const Login = observer(() => {
 
   return (
     <>
-      <Container fluid className="bg-yellow-300 h-screen">
-        <Row className="items-center pt-4 mb-4">
-          <Col md="7">
-            <div className="flex flex-col justify-center items-center">
-              <img src={logo} className="w-20 h-15" alt="logo" />
-              <div className="mt-2">
+      <Container fluid className='bg-yellow-300 h-screen'>
+        <Row className='items-center pt-4 mb-4'>
+          <Col md='7'>
+            <div className='flex flex-col justify-center items-center'>
+              <img src={logo} className='w-20 h-15' alt='logo' />
+              <div className='mt-2'>
                 <Carousel>
                   {bannerStore.listAllBanner.map((item, key) => (
                     <Carousel.Item interval={5000} key={key}>
                       <img
                         key={key}
                         src={item.image}
-                        className="img-thumbnail img-fluid"
+                        className='img-thumbnail img-fluid'
                         alt={key.toString()}
                         style={{
                           width: width <= 768 ? 400 : 700,
@@ -165,22 +166,22 @@ export const Login = observer(() => {
               </div>
             </div>
           </Col>
-          <Col md="5">
-            <div className="flex flex-col items-center">
-              <img src={logo} className="w-20 h-15  self-center" alt="logo" />
-              <div className="flex flex-col p-3 mt-2 rounded-md bg-black shadow-sm w-full">
-                <div className="flex mt-2 justify-center items-center">
-                  <label className="font-bold text-3xl text-white">Login</label>
+          <Col md='5'>
+            <div className='flex flex-col items-center'>
+              <img src={logo} className='w-20 h-15  self-center' alt='logo' />
+              <div className='flex flex-col p-3 mt-2 rounded-md bg-black shadow-sm w-full'>
+                <div className='flex mt-2 justify-center items-center'>
+                  <label className='font-bold text-3xl text-white'>Login</label>
                 </div>
                 <div>
-                  <List direction="col" space={4} justify="stretch" fill>
+                  <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Input
-                          label="User Id"
-                          id="userId"
-                          name="userId"
+                          label='User Id'
+                          id='userId'
+                          name='userId'
                           inputRef={refUserId}
                           wrapperStyle={{color: 'white'}}
                           placeholder={
@@ -233,7 +234,7 @@ export const Login = observer(() => {
                           }}
                         />
                       )}
-                      name="userId"
+                      name='userId'
                       rules={{required: true}}
                       defaultValue={loginStore.inputLogin?.userId}
                     />
@@ -242,8 +243,8 @@ export const Login = observer(() => {
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Input
-                          type="password"
-                          label="Password"
+                          type='password'
+                          label='Password'
                           wrapperStyle={{color: 'white'}}
                           placeholder={
                             errors.password
@@ -261,7 +262,7 @@ export const Login = observer(() => {
                           }}
                         />
                       )}
-                      name="password"
+                      name='password'
                       rules={{
                         required: true,
                         pattern: FormHelper.patterns.password,
@@ -273,7 +274,7 @@ export const Login = observer(() => {
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
-                          label="Lab"
+                          label='Lab'
                           hasError={errors.lab}
                           style={{color: 'white'}}
                         >
@@ -300,7 +301,7 @@ export const Login = observer(() => {
                           </select>
                         </Form.InputWrapper>
                       )}
-                      name="lab"
+                      name='lab'
                       rules={{required: true}}
                       defaultValue={loginStore.inputLogin?.lab}
                     />
@@ -309,7 +310,7 @@ export const Login = observer(() => {
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
-                          label="Role"
+                          label='Role'
                           hasError={errors.role}
                           style={{color: 'white'}}
                         >
@@ -336,25 +337,25 @@ export const Login = observer(() => {
                           </select>
                         </Form.InputWrapper>
                       )}
-                      name="role"
+                      name='role'
                       rules={{required: true}}
                       defaultValue={loginStore.inputLogin?.role}
                     />
                   </List>
 
                   <br />
-                  <List direction="row" space={3} align="center">
+                  <List direction='row' space={3} align='center'>
                     <Buttons.Button
-                      size="medium"
-                      type="solid"
+                      size='medium'
+                      type='solid'
                       icon={Svg.Check}
                       onClick={handleSubmit(onLogin)}
                     >
-                      Login
+                      {t('common:login').toString()}
                     </Buttons.Button>
                     <Buttons.Button
-                      size="medium"
-                      type="solid"
+                      size='medium'
+                      type='solid'
                       icon={Svg.Remove}
                       onClick={() => {
                         window.location.reload();
@@ -363,21 +364,21 @@ export const Login = observer(() => {
                       Clear
                     </Buttons.Button>
                   </List>
-                  <h4 className="text-center mt-2 text-white">
+                  <h4 className='text-center mt-2 text-white'>
                     {' '}
                     <b>Note</b>: After 3 invalid login attempts, accounts will
                     be locked.
                   </h4>
-                  <h4 className="text-center text-white">
+                  <h4 className='text-center text-white'>
                     In that case contact the Support Team.
                   </h4>
                 </div>
-                <div className="flex p-4 flex-row items-center justify-around">
-                  <div className="flex mt-2 justify-center items-center">
+                <div className='flex p-4 flex-row items-center justify-around'>
+                  <div className='flex mt-2 justify-center items-center'>
                     <a
-                      href="#"
+                      href='#'
                       onClick={() => setModalForgotPassword({show: true})}
-                      className="text-white mr-2"
+                      className='text-white mr-2'
                     >
                       {`Forgot Password`}
                     </a>
@@ -401,7 +402,7 @@ export const Login = observer(() => {
                     ></a>
                   </div>
                   <div>
-                    <a href="privacy-policy" className="text-white">
+                    <a href='privacy-policy' className='text-white'>
                       Privacy and Policy
                     </a>
                   </div>
@@ -410,13 +411,13 @@ export const Login = observer(() => {
             </div>
           </Col>
         </Row>
-        <div className="flex flex-row justify-center">
-          <a href="https://appho.st/d/VZXlvzKV">
-            <img src={images.playStore} className="h-15" />
+        <div className='flex flex-row justify-center'>
+          <a href='https://appho.st/d/VZXlvzKV'>
+            <img src={images.playStore} className='h-15' />
           </a>
           &nbsp; &nbsp;&nbsp;
-          <a href="https://apps.apple.com/us/app/memetoons/id1517184743">
-            <img src={images.appStore} className="h-15" />
+          <a href='https://apps.apple.com/us/app/memetoons/id1517184743'>
+            <img src={images.appStore} className='h-15' />
           </a>
         </div>
         <ModalNoticeBoard

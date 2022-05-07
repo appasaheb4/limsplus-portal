@@ -1,11 +1,10 @@
-import validate from "validate.js"
-export { validate }
+import validate from 'validate.js';
+export {validate};
 export const sampleType = {
-  sampleCode: {   
+  sampleCode: {
     presence: true,
   },
-  sampleType:{
-    presence:true,
+  sampleType: {
+    presence: true,
   },
-  
-}
+};

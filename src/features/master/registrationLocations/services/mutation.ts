@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
-      
+import {gql} from '@apollo/client';
+
 export const LIST = gql`
-  mutation($input: RegistrationLocationInput!) {
+  mutation ($input: RegistrationLocationInput!) {
     registrationLocations(input: $input) {
       paginatorInfo {
         count
@@ -61,64 +61,64 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: RegistrationLocationRemoveInput!) {
+  mutation ($input: RegistrationLocationRemoveInput!) {
     removeRegistrationLocation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateRegistrationLocationInput!) {
+  mutation ($input: CreateRegistrationLocationInput!) {
     createRegistrationLocation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
-  mutation($input: CreateRegistrationLocationInput!) {
+  mutation ($input: CreateRegistrationLocationInput!) {
     versionUpgradeRegistrationLocation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
-  mutation($input: CreateRegistrationLocationInput!) {
+  mutation ($input: CreateRegistrationLocationInput!) {
     duplicateRegistrationLocation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateRegistrationLocationInput!) {
+  mutation ($input: UpdateRegistrationLocationInput!) {
     updateRegistrationLocation(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: RegistrationLocationInput!) {
+  mutation ($input: RegistrationLocationInput!) {
     checkRegistrationLocationExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: RegistrationLocationInput!) {
+  mutation ($input: RegistrationLocationInput!) {
     filterRegistrationLocations(input: $input) {
       paginatorInfo {
         count
@@ -178,10 +178,10 @@ export const FILTER = gql`
       }
     }
   }
-`
-  
+`;
+
 export const FILTER_BY_FIELDS = gql`
-  mutation($input: RegistrationLocationInput!) {
+  mutation ($input: RegistrationLocationInput!) {
     filterByFieldsRegistrationLocations(input: $input) {
       paginatorInfo {
         count
@@ -240,6 +240,5 @@ export const FILTER_BY_FIELDS = gql`
         lastUpdated
       }
     }
-  }  
-`
-  
+  }
+`;

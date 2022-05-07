@@ -1,2 +1,2 @@
-import  ReferenceRanges  from "./ReferenceRanges";
-export {ReferenceRanges}
+import ReferenceRanges from './ReferenceRanges';
+export {ReferenceRanges};

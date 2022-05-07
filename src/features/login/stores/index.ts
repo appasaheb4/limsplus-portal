@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {LoginStore} from './LoginStore';
+import {LoginStore} from './login.store';
 
 export const Stores = {
   loginStore: new LoginStore(),
@@ -9,4 +9,4 @@ export const Stores = {
 export const Contexts = {
   loginContext: React.createContext(Stores.loginStore),
 };
-export * from './LoginStore'
+export * from './login.store';

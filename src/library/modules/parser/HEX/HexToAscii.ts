@@ -1,23 +1,23 @@
 export default class HexToAscii {
-  _message: string
-  _config: any
+  _message: string;
+  _config: any;
   constructor(message: string, config: any) {
-    this._message = message
-    this._config = config
+    this._message = message;
+    this._config = config;
   }
 
   decode = () => {
-    let values: string = ""
-    const fields = this._message.split(/[\n, ]+/)
+    let values: string = '';
+    const fields = this._message.split(/[\n, ]+/);
     for (const field of fields) {
       const conversationMapping = this._config.filter(
-        (item) => item.hexadecimal === field
-      )
+        item => item.hexadecimal === field,
+      );
       values =
         Array.isArray(conversationMapping) && conversationMapping.length > 0
           ? values + conversationMapping[0].ascii
-          : values
+          : values;
     }
-    return values
-  }
+    return values;
+  };
 }

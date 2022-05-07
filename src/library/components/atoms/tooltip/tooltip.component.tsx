@@ -50,12 +50,12 @@ export const Tooltip: React.FunctionComponent<TooltipProps> = ({
       onMouseLeave={() => handleMouseLeave(tipRef)}
     >
       <div
-        className="absolute  whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150 z-50"
+        className='absolute  whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150 z-50'
         style={getPosition(position)}
         ref={tipRef}
       >
         <div
-          className="bg-black h-3 w-3 absolute"
+          className='bg-black h-3 w-3 absolute'
           style={
             position !== 'bottom'
               ? {bottom: '-6px', transform: 'rotate(45deg)'}

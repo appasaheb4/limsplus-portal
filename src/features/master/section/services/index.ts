@@ -1,2 +1,1 @@
-export * from "./section-services"
-
+export * from './section-services';

@@ -1,1 +1,1 @@
-export * from './hostCommunication-store'
+export * from './hostCommunication-store';

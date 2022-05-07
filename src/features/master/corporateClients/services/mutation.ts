@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
-  
+import {gql} from '@apollo/client';
+
 export const LIST = gql`
-  mutation($input: CorporateClientInput!) {
+  mutation ($input: CorporateClientInput!) {
     corporateClients(input: $input) {
       paginatorInfo {
         count
@@ -57,64 +57,64 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: CorporateClientRemoveInput!) {
+  mutation ($input: CorporateClientRemoveInput!) {
     removeCorporateClient(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateCorporateClientInput!) {
+  mutation ($input: CreateCorporateClientInput!) {
     createCorporateClient(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
-  mutation($input: CreateCorporateClientInput!) {
+  mutation ($input: CreateCorporateClientInput!) {
     versionUpgradeCorporateClient(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
-  mutation($input: CreateCorporateClientInput!) {
+  mutation ($input: CreateCorporateClientInput!) {
     duplicateCorporateClient(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateCorporateClientInput!) {
+  mutation ($input: UpdateCorporateClientInput!) {
     updateCorporateClient(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: CorporateClientInput!) {
+  mutation ($input: CorporateClientInput!) {
     checkCorporateClientExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: CorporateClientInput!) {
+  mutation ($input: CorporateClientInput!) {
     filterCorporateClient(input: $input) {
       paginatorInfo {
         count
@@ -170,9 +170,9 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 export const FILTER_BY_FIELDS = gql`
-  mutation($input: CorporateClientInput!) {
+  mutation ($input: CorporateClientInput!) {
     filterByFieldsCorporateClients(input: $input) {
       paginatorInfo {
         count
@@ -228,14 +228,14 @@ export const FILTER_BY_FIELDS = gql`
       }
     }
   }
-`
+`;
 
 export const COUNTER_CORPORATE_CLIENTS_INVOICEAC = gql`
-  mutation($input: CounterInput!) {
+  mutation ($input: CounterInput!) {
     counter(input: $input) {
       message
       success
       data
     }
   }
-`
+`;

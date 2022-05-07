@@ -1,3 +1,6 @@
+/* eslint-disable folders/match-regex */
+/* eslint-disable unicorn/no-array-for-each */
+/* eslint-disable no-console */
 import {
   ApolloProvider,
   ApolloClient,

@@ -40,38 +40,38 @@ export const ModalChangePassword = observer((props: ModalProps) => {
     <>
       {showModal && (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-full my-6 mx-auto max-w-3xl">
+          <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+            <div className='relative w-full my-6 mx-auto max-w-3xl'>
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                 {/*header*/}
-                <div className="flex items-start justify-between border-b border-solid border-gray-300 rounded-t p-2">
-                  <div className="flex-col">
-                    <h3 className="text-3xl font-semibold">Change Password</h3>
+                <div className='flex items-start justify-between border-b border-solid border-gray-300 rounded-t p-2'>
+                  <div className='flex-col'>
+                    <h3 className='text-3xl font-semibold'>Change Password</h3>
                     <br />
                     <h6>{userStore.changePassword?.subTitle}</h6>
                   </div>
 
                   <button
-                    className="p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                     onClick={() => props.onClose && props.onClose()}
                   >
-                    <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                    <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
                       ×
                     </span>
                   </button>
                 </div>
 
                 {/*body*/}
-                <div className="relative  flex-auto p-3">
-                  <List direction="col" space={4} justify="stretch" fill>
+                <div className='relative  flex-auto p-3'>
+                  <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Input
-                          type="password"
-                          label="Old Password"
-                          name="oldPassword"
+                          type='password'
+                          label='Old Password'
+                          name='oldPassword'
                           hasError={errors.oldPassword}
                           placeholder={
                             errors.oldPassword
@@ -88,20 +88,20 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                           }}
                         />
                       )}
-                      name="oldPassword"
+                      name='oldPassword'
                       rules={{
                         required: true,
                         pattern: FormHelper.patterns.password,
                       }}
-                      defaultValue=""
+                      defaultValue=''
                     />
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Input
-                          type="password"
-                          label="New Password"
-                          name="newPassword"
+                          type='password'
+                          label='New Password'
+                          name='newPassword'
                           placeholder={
                             errors.newPassword
                               ? 'Please Enter New Password'
@@ -118,20 +118,20 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                           }}
                         />
                       )}
-                      name="newPassword"
+                      name='newPassword'
                       rules={{
                         required: true,
                         pattern: FormHelper.patterns.password,
                       }}
-                      defaultValue=""
+                      defaultValue=''
                     />
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Input
-                          type="password"
-                          label="Confirm Password"
-                          name="confirmPassword"
+                          type='password'
+                          label='Confirm Password'
+                          name='confirmPassword'
                           placeholder={
                             errors.confirmPassword
                               ? 'Please Enter Confirm Password'
@@ -148,30 +148,30 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                           }}
                         />
                       )}
-                      name="confirmPassword"
+                      name='confirmPassword'
                       rules={{
                         required: true,
                         pattern: FormHelper.patterns.password,
                         validate: value =>
                           value === userStore.changePassword?.newPassword,
                       }}
-                      defaultValue=""
+                      defaultValue=''
                     />
                   </List>
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end  border-t border-solid border-gray-300 rounded-b p-2">
+                <div className='flex items-center justify-end  border-t border-solid border-gray-300 rounded-b p-2'>
                   <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
+                    className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
+                    type='button'
                     style={{transition: 'all .15s ease'}}
                     onClick={() => props.onClose && props.onClose()}
                   >
                     Later
                   </button>
                   <button
-                    className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
+                    className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
+                    type='button'
                     style={{transition: 'all .15s ease'}}
                     onClick={handleSubmit(onSubmitModalChangePassword)}
                   >
@@ -181,7 +181,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          <div className='opacity-25 fixed inset-0 z-40 bg-black'></div>
         </>
       )}
     </>

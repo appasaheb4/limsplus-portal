@@ -1,1 +1,1 @@
-export * from "./RegistrationLocationsHOC"
+export * from './RegistrationLocationsHOC';

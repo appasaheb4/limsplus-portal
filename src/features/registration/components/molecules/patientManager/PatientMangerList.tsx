@@ -1,71 +1,86 @@
 /* eslint-disable */
-import React from "react"
-import { observer } from "mobx-react"
-import dayjs from "dayjs"
-import {lookupItems,lookupValue} from "@/library/utils"
-import {TableBootstrap,NumberFilter,DateFilter,textFilter,customFilter,Form,Tooltip,Icons} from "@/library/components"
-import {Confirm} from "@/library/models"
-import { FormHelper } from "@/helper"
-import { useForm, Controller } from "react-hook-form"
+import React from 'react';
+import {observer} from 'mobx-react';
+import dayjs from 'dayjs';
+import {lookupItems, lookupValue} from '@/library/utils';
+import {
+  TableBootstrap,
+  NumberFilter,
+  DateFilter,
+  textFilter,
+  customFilter,
+  Form,
+  Tooltip,
+  Icons,
+} from '@/library/components';
+import {Confirm} from '@/library/models';
+import {FormHelper} from '@/helper';
+import {useForm, Controller} from 'react-hook-form';
 
 interface PatientMangerProps {
-  data: any
-  totalSize: number
-  extraData: any
-  isDelete?: boolean
-  isEditModify?: boolean
-  onDelete?: (selectedItem: Confirm) => void
-  onSelectedRow?: (selectedItem: any) => void
-  onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page: number, totalSize: number) => void
-  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
+  data: any;
+  totalSize: number;
+  extraData: any;
+  isDelete?: boolean;
+  isEditModify?: boolean;
+  onDelete?: (selectedItem: Confirm) => void;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onPageSizeChange?: (page: number, totalSize: number) => void;
+  onFilter?: (
+    type: string,
+    filter: any,
+    page: number,
+    totalSize: number,
+  ) => void;
 }
-let pId
-let mobileNo
-let birthDate
-let title
-let firstName
-let middleName
-let lastName
-let sex
-let species
-let breed
-let usualDoctor
+let pId;
+let mobileNo;
+let birthDate;
+let title;
+let firstName;
+let middleName;
+let lastName;
+let sex;
+let species;
+let breed;
+let usualDoctor;
 export const PatientMangerList = observer((props: PatientMangerProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     setValue,
-  } = useForm()
+  } = useForm();
   const editorCell = (row: any) => {
-    if (row.status === "I") return false
-    if (row.extraData?.confidental && !props.extraData.confidental) return false
-    return true
-  }
+    if (row.status === 'I') return false;
+    if (row.extraData?.confidental && !props.extraData.confidental)
+      return false;
+    return true;
+  };
 
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div style={{position: 'relative'}}>
         <TableBootstrap
-          id="_id"
+          id='_id'
           data={props.data}
           totalSize={props.totalSize}
           columns={[
             {
-              dataField: "_id",
-              text: "Id",
+              dataField: '_id',
+              text: 'Id',
               hidden: true,
               csvExport: false,
             },
             {
-              dataField: "pId",
-              text: "Pid",
-              headerClasses: "textHeader3",
+              dataField: 'pId',
+              text: 'Pid',
+              headerClasses: 'textHeader3',
               sort: true,
               filter: customFilter({
-                getFilter: (filter) => {
-                  pId = filter
+                getFilter: filter => {
+                  pId = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
@@ -74,30 +89,31 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               editable: false,
             },
             {
-              dataField: "mobileNo",
-              text: "Mobile No",
-              headerClasses: "textHeader3",
+              dataField: 'mobileNo',
+              text: 'Mobile No',
+              headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
-                    ? "XXXXXXXX"
+                    ? 'XXXXXXXX'
                     : col
-                  : "",
+                  : '',
               filter: textFilter({
-                getFilter: (filter) => {
-                  mobileNo = filter
+                getFilter: filter => {
+                  mobileNo = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
-                      ? "XXXXXXXX"
+                      ? 'XXXXXXXX'
                       : row.mobileNo}
                   </>
-                )
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -105,53 +121,64 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Controller
                     control={control}
-                    render={({ field: { onChange } }) => (
+                    render={({field: {onChange}}) => (
                       <Form.Input
                         placeholder={
-                          errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"
+                          errors.mobileNo
+                            ? 'Please Enter MobileNo'
+                            : 'Mobile No'
                         }
                         hasError={errors.mobileNo}
-                        type="number"
+                        type='number'
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.mobileNo}
-                        onChange={(mobileNo) => {
-                          onChange(mobileNo)
+                        onChange={mobileNo => {
+                          onChange(mobileNo);
                         }}
-                        onBlur={(mobileNo) => {
+                        onBlur={mobileNo => {
                           props.onUpdateItem &&
-                            props.onUpdateItem(mobileNo, column.dataField, row._id)
+                            props.onUpdateItem(
+                              mobileNo,
+                              column.dataField,
+                              row._id,
+                            );
                         }}
                       />
                     )}
-                    name="mobileNo"
-                    rules={{ required: true, pattern: FormHelper.patterns.mobileNo }}
-                    defaultValue=""
+                    name='mobileNo'
+                    rules={{
+                      required: true,
+                      pattern: FormHelper.patterns.mobileNo,
+                    }}
+                    defaultValue=''
                   />
                 </>
               ),
             },
             {
-              dataField: "birthDate",
-              text: "Birthdate",
-              headerClasses: "textHeader11",
+              dataField: 'birthDate',
+              text: 'Birthdate',
+              headerClasses: 'textHeader11',
               sort: true,
-              csvFormatter: (col,row) => (row.birthDate ? dayjs(row.birthDate).format("YYYY-MM-DD") : ""),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: (col, row) =>
+                row.birthDate ? dayjs(row.birthDate).format('YYYY-MM-DD') : '',
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               filter: customFilter({
-                getFilter: (filter) => {
-                  birthDate = filter
+                getFilter: filter => {
+                  birthDate = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.birthDate).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.birthDate).format('YYYY-MM-DD')}</>;
               },
               editorRenderer: (
                 editorProps,
@@ -159,52 +186,57 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <Form.InputDateTime
                     value={new Date(row.birthDate)}
-                    onFocusRemove={(birthDate) => {
+                    onFocusRemove={birthDate => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(birthDate, column.dataField, row._id)
+                        props.onUpdateItem(
+                          birthDate,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "title",
-              text: "Title",
-              headerClasses: "textHeader3",
+              dataField: 'title',
+              text: 'Title',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  title = filter
+                getFilter: filter => {
+                  title = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                    onChange={(e) => {
-                      const title = e.target.value
+                    onChange={e => {
+                      const title = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(title, column.dataField, row._id)
+                        props.onUpdateItem(title, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
-                      "PATIENT MANAGER - TITLE"
+                      'PATIENT MANAGER - TITLE',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
@@ -215,119 +247,123 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               ),
             },
             {
-              dataField: "firstName",
-              text: "First Name",
-              headerClasses: "textHeader3",
+              dataField: 'firstName',
+              text: 'First Name',
+              headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
-                    ? "XXXXXXXX"
+                    ? 'XXXXXXXX'
                     : col
-                  : "",
+                  : '',
               filter: textFilter({
-                getFilter: (filter) => {
-                  firstName = filter
+                getFilter: filter => {
+                  firstName = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
-                      ? "XXXXXXXX"
+                      ? 'XXXXXXXX'
                       : row.firstName}
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "middleName",
-              text: "Middle Name",
-              headerClasses: "textHeader3",
+              dataField: 'middleName',
+              text: 'Middle Name',
+              headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
-                    ? "XXXXXXXX"
+                    ? 'XXXXXXXX'
                     : col
-                  : "",
+                  : '',
               filter: textFilter({
-                getFilter: (filter) => {
-                  middleName = filter
+                getFilter: filter => {
+                  middleName = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
-                      ? "XXXXXXXX"
+                      ? 'XXXXXXXX'
                       : row.middleName}
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "lastName",
-              text: "Last Name",
-              headerClasses: "textHeader3",
+              dataField: 'lastName',
+              text: 'Last Name',
+              headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
-                    ? "XXXXXXXX"
+                    ? 'XXXXXXXX'
                     : col
-                  : "",
+                  : '',
               filter: textFilter({
-                getFilter: (filter) => {
-                  lastName = filter
+                getFilter: filter => {
+                  lastName = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
-                      ? "XXXXXXXX"
+                      ? 'XXXXXXXX'
                       : row.lastName}
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "sex",
-              text: "Sex",
-              headerClasses: "textHeader3",
+              dataField: 'sex',
+              text: 'Sex',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  sex = filter
+                getFilter: filter => {
+                  sex = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const sex = e.target.value
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const sex = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(sex, column.dataField, row._id)
+                        props.onUpdateItem(sex, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
-                      "PATIENT MANAGER - SEX"
+                      'PATIENT MANAGER - SEX',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
@@ -338,38 +374,39 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               ),
             },
             {
-              dataField: "species",
-              text: "Species",
-              headerClasses: "textHeader3",
+              dataField: 'species',
+              text: 'Species',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  species = filter
+                getFilter: filter => {
+                  species = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const species = e.target.value
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const species = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(species, column.dataField, row._id)
+                        props.onUpdateItem(species, column.dataField, row._id);
                     }}
                   >
                     <option selected>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
-                      "PATIENT MANAGER - SPECIES"
+                      'PATIENT MANAGER - SPECIES',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
@@ -380,27 +417,28 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               ),
             },
             {
-              dataField: "breed",
-              text: "Breed",
-              headerClasses: "textHeader3",
+              dataField: 'breed',
+              text: 'Breed',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  breed = filter
+                getFilter: filter => {
+                  breed = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
-              dataField: "usualDoctor",
-              text: "Usual Doctor",
-              headerClasses: "textHeader3",
+              dataField: 'usualDoctor',
+              text: 'Usual Doctor',
+              headerClasses: 'textHeader3',
               sort: true,
-              csvFormatter: (col) => (col ? col : ""),
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: (filter) => {
-                  usualDoctor = filter
+                getFilter: filter => {
+                  usualDoctor = filter;
                 },
               }),
               editorRenderer: (
@@ -409,118 +447,124 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 row,
                 column,
                 rowIndex,
-                columnIndex
+                columnIndex,
               ) => (
                 <>
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                    onChange={(e) => {
-                      const usualDoctor = e.target.value
+                    onChange={e => {
+                      const usualDoctor = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(usualDoctor, column.dataField, row._id)
+                        props.onUpdateItem(
+                          usualDoctor,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
-                    {props.extraData.listDoctors.map((item: any, index: number) => (
-                      <option key={index} value={item.doctorCode}>
-                        {`${item.doctorName} - ${item.doctorCode}`}
-                      </option>
-                    ))}
+                    {props.extraData.listDoctors.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.doctorCode}>
+                          {`${item.doctorName} - ${item.doctorCode}`}
+                        </option>
+                      ),
+                    )}
                   </select>
                 </>
               ),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
-              dataField: "history",
-              text: "Histroy",
+              dataField: 'history',
+              text: 'Histroy',
               sort: true,
-              csvFormatter: (col,row) => `${row.history ? row.history ? "Yes" : "No" : "No"}`,
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              csvFormatter: (col, row) =>
+                `${row.history ? (row.history ? 'Yes' : 'No') : 'No'}`,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
                       value={row.history}
-                      onChange={(history) => {
+                      onChange={history => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(history, "history", row._id)
+                          props.onUpdateItem(history, 'history', row._id);
                       }}
                     />
                   </>
-                )
+                );
               },
             },
             {
-              dataField: "opration",
-              text: "Action",
+              dataField: 'opration',
+              text: 'Action',
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row">
-                    <Tooltip tooltipText="Delete">
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color="#fff"
-                        size="20"
+                        color='#fff'
+                        size='20'
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
-                            type: "delete",
+                            type: 'delete',
                             show: true,
                             id: [row._id],
-                            title: "Are you sure?",
+                            title: 'Are you sure?',
                             body: `Delete record`,
                           })
                         }
                       >
-                        {Icons.getIconTag(
-                          Icons.IconBs.BsFillTrashFill
-                        )}
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
                   </div>
                 </>
               ),
-              headerClasses: "sticky right-0  bg-gray-500 text-white",
+              headerClasses: 'sticky right-0  bg-gray-500 text-white',
               classes: (cell, row, rowIndex, colIndex) => {
-                return "sticky right-0 bg-gray-500"
+                return 'sticky right-0 bg-gray-500';
               },
             },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="Patient Manager"
-          onSelectedRow={(rows) => {
+          fileName='Patient Manager'
+          onSelectedRow={rows => {
             props.onSelectedRow &&
-              props.onSelectedRow(rows.map((item: any) => item._id))
+              props.onSelectedRow(rows.map((item: any) => item._id));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
           }}
           onPageSizeChange={(page, size) => {
-            props.onPageSizeChange && props.onPageSizeChange(page, size)
+            props.onPageSizeChange && props.onPageSizeChange(page, size);
           }}
           onFilter={(type, filter, page, size) => {
-            props.onFilter && props.onFilter(type, filter, page, size)
+            props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
-            pId("")
-            mobileNo("")
-            title("")
-            firstName("")
-            lastName("")
-            middleName("")
-            sex("")
-            species("")
-            breed("")
-            usualDoctor("")
-            birthDate()
+            pId('');
+            mobileNo('');
+            title('');
+            firstName('');
+            lastName('');
+            middleName('');
+            sex('');
+            species('');
+            breed('');
+            usualDoctor('');
+            birthDate();
           }}
         />
       </div>
     </>
-  )
-})
-
+  );
+});

@@ -1,69 +1,73 @@
 /* eslint-disable  */
-import React, { useState, useEffect, useRef } from "react"
-import { Spinner } from "react-bootstrap"
-import { observer } from "mobx-react"
-import { useStores } from "@/stores"
-import {Icons} from "@/library/components"
+import React, {useState, useEffect, useRef} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {observer} from 'mobx-react';
+import {useStores} from '@/stores';
+import {Icons} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectTestMethodProps {
-  onSelect: (item: any) => void
+  onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectTestMethod = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectTestMethodProps) => {
-    const { loading, methodsStore } = useStores()
-    const [value, setValue] = useState<string>("")
-    const [options, setOptions] = useState<any[]>()
-    const [isListOpen, setIsListOpen] = useState<boolean>(false)
+  ({onSelect}: AutoCompleteFilterSingleSelectTestMethodProps) => {
+    const {loading, methodsStore} = useStores();
+    const [value, setValue] = useState<string>('');
+    const [options, setOptions] = useState<any[]>();
+    const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
-    const useOutsideAlerter = (ref) => {
+    const useOutsideAlerter = ref => {
       useEffect(() => {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-            setIsListOpen(false)
-            setValue("")
+          if (
+            ref.current &&
+            !ref.current.contains(event.target) &&
+            isListOpen
+          ) {
+            setIsListOpen(false);
+            setValue('');
           }
         }
-        document.addEventListener("mousedown", handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside)
-        }
-      }, [ref, isListOpen])
-    }
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [ref, isListOpen]);
+    };
 
-    const wrapperRef = useRef(null)
-    useOutsideAlerter(wrapperRef)
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      setOptions(methodsStore.listMethods)
-    }, [methodsStore.listMethods])
+      setOptions(methodsStore.listMethods);
+    }, [methodsStore.listMethods]);
 
     const onFilter = (value: string) => {
       methodsStore.methodsService.filterByFields({
         input: {
           filter: {
-            fields: ["methodsCode", "methodsName"],
+            fields: ['methodsCode', 'methodsName'],
             srText: value,
           },
           page: 0,
           limit: 10,
         },
-      })
-    }
+      });
+    };
 
-    const onChange = (e) => {
-      const search = e.target.value
-      setValue(search)
-      onFilter(search)
-    }
+    const onChange = e => {
+      const search = e.target.value;
+      setValue(search);
+      onFilter(search);
+    };
 
-    const onKeyUp = (e) => {
-      const charCode = e.which ? e.which : e.keyCode
+    const onKeyUp = e => {
+      const charCode = e.which ? e.which : e.keyCode;
       if (charCode === 8) {
-        const search = e.target.value
-        onFilter(search)
+        const search = e.target.value;
+        onFilter(search);
       }
-    }
+    };
 
     return (
       <>
@@ -72,14 +76,14 @@ export const AutoCompleteFilterSingleSelectTestMethod = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search by method name"
+              placeholder='Search by method name'
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />
-            {loading && <Spinner animation="border" className="mr-2 h-4 w-4" />}
+            {loading && <Spinner animation='border' className='mr-2 h-4 w-4' />}
             {isListOpen ? (
               <Icons.IconFa.FaChevronUp />
             ) : (
@@ -89,25 +93,25 @@ export const AutoCompleteFilterSingleSelectTestMethod = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
+                <div className='mt-1  bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
                     {options?.map((item, index) => (
                       <>
                         <li
                           key={index}
-                          className="text-gray-400 flex items-center"
+                          className='text-gray-400 flex items-center'
                           onClick={() => {
-                            setValue(item.methodsCode)
-                            setIsListOpen(false)
+                            setValue(item.methodsCode);
+                            setIsListOpen(false);
                             methodsStore.updateMethodsList(
-                                methodsStore.listMethodsCopy
-                            )
-                            onSelect(item)
+                              methodsStore.listMethodsCopy,
+                            );
+                            onSelect(item);
                           }}
                         >
-                          {" "}
-                          <label className="ml-2 mt-1 text-black">
-                            {" "}
+                          {' '}
+                          <label className='ml-2 mt-1 text-black'>
+                            {' '}
                             {item.methodsCode} -{item.methodsName}
                           </label>
                         </li>
@@ -119,6 +123,6 @@ export const AutoCompleteFilterSingleSelectTestMethod = observer(
             : null}
         </div>
       </>
-    )
-  }
-)
+    );
+  },
+);

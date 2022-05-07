@@ -1,1 +1,1 @@
-export * from './DeliverySchedule'
+export * from './DeliverySchedule';

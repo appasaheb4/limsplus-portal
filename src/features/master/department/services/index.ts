@@ -1,3 +1,2 @@
-import DepartmentService from './department-services'
-export{DepartmentService}
-
+import DepartmentService from './department-services';
+export {DepartmentService};

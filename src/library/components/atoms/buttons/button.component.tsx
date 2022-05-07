@@ -4,7 +4,6 @@
 import React, {CSSProperties} from 'react';
 import {IconProps} from '../svg';
 import {Buttons, Icons} from '../..';
-import {Styles} from '@/config';
 
 export interface ButtonProps {
   type?: 'solid' | 'outline';
@@ -41,7 +40,7 @@ export const Button = React.forwardRef((props: ButtonProps) => {
     <div className={`${props.className}`}>
       <button
         onClick={props.onClick}
-        type="button"
+        type='button'
         disabled={!!props.disabled}
         title={props.disabled}
         id={props.id}
@@ -80,7 +79,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -91,18 +90,14 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           }}
           onClick={() => props.onClick(true)}
         >
-          <Icons.EvaIcon
-            icon="plus-outline"
-            size="large"
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='plus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
 
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -113,11 +108,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           }}
           onClick={() => props.onClick(false)}
         >
-          <Icons.EvaIcon
-            icon="minus-outline"
-            size="large"
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='minus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
     </>
@@ -132,7 +123,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -143,18 +134,14 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           }}
           onClick={() => props.onClick(true)}
         >
-          <Icons.EvaIcon
-            icon="plus-outline"
-            size="large"
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='plus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
 
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -165,11 +152,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           }}
           onClick={() => props.onClick(false)}
         >
-          <Icons.EvaIcon
-            icon="minus-outline"
-            size="large"
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='minus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
     </>
@@ -187,7 +170,7 @@ export const CircleButton: React.FunctionComponent<
 > = props => (
   <div
     style={props.style}
-    className="rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center"
+    className='rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center'
     onClick={props.onClick}
   >
     {props.children}
@@ -202,7 +185,7 @@ interface ButtonIconProps {
 
 export const ButtonIcon = ({title, icon, onClick}: ButtonIconProps) => (
   <div
-    className="rounded-full  border border-gray-300 text-gray-400 flex justify-center items-center"
+    className='rounded-full  border border-gray-300 text-gray-400 flex justify-center items-center'
     onClick={() => onClick()}
   >
     {icon}

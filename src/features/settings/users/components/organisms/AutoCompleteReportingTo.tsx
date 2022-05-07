@@ -15,9 +15,9 @@ export const AutoCompleteReportingTo = observer(
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-          posstion="sticky"
+          posstion='sticky'
           loader={loading}
-          placeholder="Search by emp code or full name"
+          placeholder='Search by emp code or full name'
           data={{
             list: userStore.userList,
             displayKey: ['empCode', 'fullName'],

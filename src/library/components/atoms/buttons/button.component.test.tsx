@@ -8,7 +8,7 @@ import {
 
 it('render button correctly', () => {
   const button = render(
-    <Button className="w-40" onClick={() => jest.fn()}>
+    <Button className='w-40' onClick={() => jest.fn()}>
       Permanent Address
     </Button>,
   );

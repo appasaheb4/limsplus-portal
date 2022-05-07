@@ -1,4 +1,4 @@
-import _ from "lodash"
+import _ from 'lodash';
 
 /**
  * Every function in service class returns response.
@@ -6,30 +6,30 @@ import _ from "lodash"
  */
 
 export class ServiceResponse<T> {
-  data?: T
-  success?: number
+  data?: T;
+  success?: number;
   /**
    * @deprecated Use getErrorMessage() instead.
    * Message property can be undefined at times if
    * server fails to return it in some scenarios.
    */
-  message?: string
+  message?: string;
 
   constructor(success: number, message: string, data?: T) {
-    this.data = data
-    this.message = message
-    this.success = success
+    this.data = data;
+    this.message = message;
+    this.success = success;
   }
 
   hasData(): boolean {
-    return !_.isNil(this.data)
+    return !_.isNil(this.data);
   }
 
   hasError(): boolean {
-    return !this.success
+    return !this.success;
   }
 
   getErrorMessage(): string {
-    return this.message ?? ""
+    return this.message ?? '';
   }
 }

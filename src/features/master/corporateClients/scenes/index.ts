@@ -1,1 +1,1 @@
-export { default as CorporateClients } from "./CorporateClients"
+export {default as CorporateClients} from './CorporateClients';

@@ -1,2 +1,2 @@
-export * from './EnvironmentSettings'
-export * from './EnvironmentVariable'
+export * from './EnvironmentSettings';
+export * from './EnvironmentVariable';
