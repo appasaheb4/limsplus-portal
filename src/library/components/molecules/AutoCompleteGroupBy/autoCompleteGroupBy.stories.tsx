@@ -16,7 +16,7 @@ export const _AutocompleteGroupBy: ComponentStory<
   typeof AutocompleteGroupBy
 > = () => (
   <AutocompleteGroupBy
-    data={[]}
+    data={[{name: 'malav', code: 'naagr'}]}
     hasError={true}
     onChange={() => {}}
     onClose={() => {}}

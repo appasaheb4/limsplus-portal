@@ -19,5 +19,6 @@ export const _ModalIdleTimeout: ComponentStory<
     show={true}
     onClick={() => {}}
     title='Im ModalIdle TimeOut'
+    subTitle='YOur Session TimeOut'
   />
 );

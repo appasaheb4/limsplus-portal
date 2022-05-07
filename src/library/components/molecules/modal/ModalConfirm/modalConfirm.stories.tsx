@@ -16,8 +16,9 @@ export const _ModalConfirm: ComponentStory<typeof ModalConfirm> = () => (
   <ModalConfirm
     show={true}
     onClose={() => {}}
-    title='Im Modal TokenExpire'
+    title='Im Modal Confirm'
     type='Modal Confirm'
     click={() => {}}
+    body='Are You Sure You Want to Quit'
   />
 );

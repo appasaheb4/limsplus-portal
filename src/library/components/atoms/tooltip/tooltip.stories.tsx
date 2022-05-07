@@ -13,5 +13,7 @@ export default {
 } as ComponentMeta<typeof Tooltip>;
 
 export const _ToolTip: ComponentStory<typeof Tooltip> = () => (
-  <Tooltip tooltipText='Im ToolTip' position='top' />
+  <Tooltip tooltipText='Im ToolTip' position='bottom'>
+    ToolTip
+  </Tooltip>
 );

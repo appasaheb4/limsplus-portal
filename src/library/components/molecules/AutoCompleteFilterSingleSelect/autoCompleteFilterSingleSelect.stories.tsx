@@ -16,7 +16,14 @@ export const _AutoCompleteFilterSingleSelect: ComponentStory<
   typeof AutoCompleteFilterSingleSelect
 > = () => (
   <AutoCompleteFilterSingleSelect
-    data={[]}
+    data={{
+      list: [
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+      ],
+      displayKey: ['name'],
+    }}
     placeholder='I am Auto CompleteFilterSingleSelect'
     onSelect={() => {}}
     onFilter={() => {}}

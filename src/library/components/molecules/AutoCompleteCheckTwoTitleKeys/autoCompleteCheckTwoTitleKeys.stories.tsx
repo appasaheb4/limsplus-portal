@@ -17,12 +17,14 @@ export const _AutoCompleteCheckTwoTitleKeys: ComponentStory<
 > = () => (
   <AutoCompleteCheckTwoTitleKeys
     titleKey='This is AutoComplete CheckTwoTitle Key'
-    // data={{
-    //   defulatValues: [],
-    //   list: props.extraData.listMasterPanel || [],
-    //   displayKey: ["panelName", "panelCode"],
-    //   findKey: ["panelName", "panelCode"],
-    // }}
+    data={{
+      list: [
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+      ],
+      displayKey: ['code'],
+    }}
     onUpdate={items => {
       console.log({items});
     }}

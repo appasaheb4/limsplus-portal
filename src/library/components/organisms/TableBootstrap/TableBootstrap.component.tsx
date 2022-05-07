@@ -15,9 +15,9 @@ import paginationFactory, {
 } from 'react-bootstrap-table2-paginator';
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
-import './style.css';
+import '../style.css';
 
-import {Buttons, Icons} from '..';
+import {Buttons, Icons} from '../..';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;

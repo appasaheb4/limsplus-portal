@@ -21,6 +21,13 @@ export const _AutoCompleteFilterSingleSelectMultiFieldsDisplay: ComponentStory<
     hasError={false}
     onFilter={() => {}}
     onSelect={() => {}}
-    data=''
+    data={{
+      list: [
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+        {code: 'Lims', name: 'plus'},
+      ],
+      displayKey: ['code', 'name'],
+    }}
   />
 );
