@@ -13,7 +13,7 @@ export default {
 } as ComponentMeta<typeof List>;
 
 export const _List: ComponentStory<typeof List> = () => (
-  <List direction="col" space={2} justify="stretch" fill>
+  <List direction='col' space={2} justify='stretch' fill>
     <h2>Im list</h2>
     <h2>Im list1</h2>
     <h2>Im list2</h2>

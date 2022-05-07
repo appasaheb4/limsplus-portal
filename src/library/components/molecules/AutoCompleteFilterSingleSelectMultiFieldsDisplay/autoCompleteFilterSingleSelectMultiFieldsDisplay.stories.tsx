@@ -17,10 +17,10 @@ export const _AutoCompleteFilterSingleSelectMultiFieldsDisplay: ComponentStory<
 > = () => (
   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
     loader={true}
-    placeholder="Im AutoCompleteFilterSingleSelectMultiFieldsDisplay"
+    placeholder='Im AutoCompleteFilterSingleSelectMultiFieldsDisplay'
     hasError={false}
     onFilter={() => {}}
     onSelect={() => {}}
-    data=""
+    data=''
   />
 );

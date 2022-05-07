@@ -18,6 +18,6 @@ export const _ModalTokenExpire: ComponentStory<
   <ModalTokenExpire
     show={true}
     onClick={() => {}}
-    title="Im Modal TokenExpire"
+    title='Im Modal TokenExpire'
   />
 );

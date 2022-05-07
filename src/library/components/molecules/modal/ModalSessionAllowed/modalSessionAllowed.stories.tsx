@@ -19,6 +19,6 @@ export const _ModalSessionAllowed: ComponentStory<
     show={true}
     onClick={() => {}}
     onClose={() => {}}
-    title=" Im ModalSession Allowed"
+    title=' Im ModalSession Allowed'
   />
 );

@@ -18,6 +18,6 @@ export const _ModalIdleTimeout: ComponentStory<
   <ModalIdleTimeout
     show={true}
     onClick={() => {}}
-    title="Im ModalIdle TimeOut"
+    title='Im ModalIdle TimeOut'
   />
 );

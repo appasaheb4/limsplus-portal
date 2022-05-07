@@ -36,5 +36,5 @@ export const _ButtonCircleAddRemoveBottom: ComponentStory<
 );
 
 export const _ButtonIcon: ComponentStory<typeof Button> = () => (
-  <ButtonIcon title="" icon="" onClick={() => {}} />
+  <ButtonIcon title='' icon='' onClick={() => {}} />
 );

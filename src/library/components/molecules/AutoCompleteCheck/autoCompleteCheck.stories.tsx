@@ -19,6 +19,6 @@ export const _AutocompleteCheck: ComponentStory<
     hasError={false}
     data={[]}
     onUpdate={() => {}}
-    placeholder="Im Auto CompleteCheck"
+    placeholder='Im Auto CompleteCheck'
   />
 );

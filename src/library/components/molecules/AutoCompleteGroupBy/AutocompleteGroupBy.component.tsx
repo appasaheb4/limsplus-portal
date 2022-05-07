@@ -115,9 +115,9 @@ export const AutocompleteGroupBy = observer(
             } rounded-md`}
           >
             <input
-              placeholder="Search..."
+              placeholder='Search...'
               value={value}
-              className="w-full focus:outline-none"
+              className='w-full focus:outline-none'
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
@@ -130,23 +130,23 @@ export const AutocompleteGroupBy = observer(
           </div>
           {options && isListOpen
             ? options?.length > 0 && (
-                <div className="mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200">
-                  <ul className="p-2 rounded-sm">
+                <div className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200'>
+                  <ul className='p-2 rounded-sm'>
                     <PerfectScrollbar>
                       <div
-                        className=""
+                        className=''
                         style={{height: 'auto', maxHeight: '350px'}}
                       >
                         {options?.map((item, index) => (
                           <>
-                            <li key={index} className="text-gray-400">
+                            <li key={index} className='text-gray-400'>
                               {item.title}
                             </li>
-                            <ul className="ml-4">
+                            <ul className='ml-4'>
                               {item.children.map((children, childrenIndex) => (
                                 <li
                                   key={childrenIndex}
-                                  className="hover:bg-gray-200 focus:outline-none cursor-pointer"
+                                  className='hover:bg-gray-200 focus:outline-none cursor-pointer'
                                   onClick={async () => {
                                     props.onChange &&
                                       props.onChange(item, children);

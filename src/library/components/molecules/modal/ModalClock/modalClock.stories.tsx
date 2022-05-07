@@ -16,7 +16,7 @@ export const _ModalClock: ComponentStory<typeof ModalClock> = () => (
   <ModalClock
     show={true}
     onClick={() => {}}
-    title="Im Modal Click"
+    title='Im Modal Click'
     onClose={() => {}}
   />
 );

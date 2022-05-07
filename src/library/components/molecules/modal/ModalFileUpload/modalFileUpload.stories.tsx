@@ -17,6 +17,6 @@ export const _ModalFileUpload: ComponentStory<typeof ModalFileUpload> = () => (
     show={true}
     onClick={() => {}}
     onClose={() => {}}
-    title=" Im Modal File Upload"
+    title=' Im Modal File Upload'
   />
 );

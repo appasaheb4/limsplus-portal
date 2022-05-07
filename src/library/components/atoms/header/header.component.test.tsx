@@ -8,7 +8,7 @@ it('render header correctly', () => {
 });
 
 it('render pageHeading correctly', () => {
-  const pageHeading = render(<PageHeading title="Im Page Title" />);
+  const pageHeading = render(<PageHeading title='Im Page Title' />);
   expect(pageHeading).toMatchSnapshot();
 });
 it('render pageHeadingLabDetails correctly', () => {

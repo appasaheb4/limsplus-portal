@@ -17,12 +17,12 @@ export const _AutoCompleteFilterMutiSelectMultiFieldsDisplay: ComponentStory<
 > = () => (
   <AutoCompleteFilterMutiSelectMultiFieldsDisplay
     loader={true}
-    placeholder="Im Auto CompleteFilterMultiSelectMultiFieldsDisplay"
+    placeholder='Im Auto CompleteFilterMultiSelectMultiFieldsDisplay'
     hasError={false}
     onFilter={() => {}}
     onSelect={() => {}}
     onUpdate={() => {}}
     disable={false}
-    data=""
+    data=''
   />
 );

@@ -25,15 +25,15 @@ export default {
 } as ComponentMeta<typeof Label>;
 
 export const _InputWraaper: ComponentStory<typeof Label> = () => (
-  <InputWrapper label="Testing" />
+  <InputWrapper label='Testing' />
 );
 
 export const _Input: ComponentStory<typeof Label> = () => (
   <Input
-    label="Analyte Name"
-    name="txtAnalyteName"
-    placeholder="Analyte Name"
-    value=""
+    label='Analyte Name'
+    name='txtAnalyteName'
+    placeholder='Analyte Name'
+    value=''
     disabled={false}
     onChange={analyteName => {
       console.log({analyteName});
@@ -43,7 +43,7 @@ export const _Input: ComponentStory<typeof Label> = () => (
 
 export const _MultilineInput: ComponentStory<typeof Label> = () => (
   <MultilineInput
-    label="MultiLineInput"
+    label='MultiLineInput'
     disabled={false}
     onChange={hex => {
       console.log({hex});
@@ -53,7 +53,7 @@ export const _MultilineInput: ComponentStory<typeof Label> = () => (
 
 export const _InputRadio: ComponentStory<typeof Label> = () => (
   <InputRadio
-    label="RadioButton"
+    label='RadioButton'
     onChange={() => console.log('radio')}
     disabled={false}
   />
@@ -61,16 +61,16 @@ export const _InputRadio: ComponentStory<typeof Label> = () => (
 
 export const _InputDate: ComponentStory<typeof Label> = () => (
   <InputDate
-    label="DateTimeTest"
+    label='DateTimeTest'
     disabled={false}
-    value=""
+    value=''
     onChange={() => console.log('Date')}
   />
 );
 
 export const _InputDateTime: ComponentStory<typeof Label> = () => (
   <InputDateTime
-    label="DateTimePicker"
+    label='DateTimePicker'
     disabled={false}
     onChange={() => console.log('sdfsf')}
   />
@@ -79,7 +79,7 @@ export const _InputDateTime: ComponentStory<typeof Label> = () => (
 export const _CheckBoc: ComponentStory<typeof Label> = () => <CheckBox />;
 
 export const _SelectOption: ComponentStory<typeof Label> = () => (
-  <SelectOption label="select " onChange={() => console.log('svsrvr')} key="">
+  <SelectOption label='select ' onChange={() => console.log('svsrvr')} key=''>
     <option selected>Select</option>
     {['0', '1']?.map((item: any) => (
       <option key={item} value={item}>
@@ -91,8 +91,8 @@ export const _SelectOption: ComponentStory<typeof Label> = () => (
 
 export const _InputFile: ComponentStory<typeof Label> = () => (
   <InputFile
-    label="Attachment"
-    placeholder="File"
+    label='Attachment'
+    placeholder='File'
     onChange={e => {
       const attachment = e.target.files[0];
       console.log({attachment});
@@ -101,5 +101,5 @@ export const _InputFile: ComponentStory<typeof Label> = () => (
 );
 
 export const _Toggle: ComponentStory<typeof Label> = () => (
-  <Toggle label="ToggleBtn" onChange={() => console.log('svrvsrf')} />
+  <Toggle label='ToggleBtn' onChange={() => console.log('svrvsrf')} />
 );
