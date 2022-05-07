@@ -162,7 +162,7 @@ export const AutoCompleteCheckMultiFilterKeys = observer(
                     } Items`
                   : value
               }
-              className="w-full focus:outline-none bg-none"
+              className='w-full focus:outline-none bg-none'
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
@@ -176,22 +176,22 @@ export const AutoCompleteCheckMultiFilterKeys = observer(
 
           {options && isListOpen
             ? options?.length > 0 && (
-                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
+                <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
                     {options?.map((item, index) => (
                       <>
                         <li
                           key={index}
-                          className="text-gray-400 flex items-center"
+                          className='text-gray-400 flex items-center'
                         >
                           <input
-                            type="checkbox"
+                            type='checkbox'
                             name={item.code}
                             value={item.code}
                             checked={item.selected}
                             onChange={() => onChangeItem(item, index)}
                           />{' '}
-                          <label className="ml-2 mt-1 text-black">
+                          <label className='ml-2 mt-1 text-black'>
                             {props.data?.displayKey
                               ?.map(findKey => item[findKey])
                               .join(' - ')}

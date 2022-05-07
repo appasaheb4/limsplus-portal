@@ -1,24 +1,23 @@
 export interface UpdateItem {
-  value: string | boolean | undefined | any[]
-  dataField: string
-  id: string
+  value: string | boolean | undefined | any[];
+  dataField: string;
+  id: string;
 }
-  
+
 export interface MappingValues {
-  segments?: string
-  field?: string
-  component?: any
-  field_no?: number
-  mandatory?: boolean
-  default?: string
+  segments?: string;
+  field?: string;
+  component?: any;
+  field_no?: number;
+  mandatory?: boolean;
+  default?: string;
 }
 
 export interface Mapping {
   [key: string]: {
-    values: MappingValues[]
-  }
+    values: MappingValues[];
+  };
 }
 
-
-export * from "./Communication"
-export * from "./constants"
+export * from './Communication';
+export * from './constants';

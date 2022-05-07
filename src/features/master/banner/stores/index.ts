@@ -1,1 +1,1 @@
-export * from './banner-store'
+export * from './banner-store';

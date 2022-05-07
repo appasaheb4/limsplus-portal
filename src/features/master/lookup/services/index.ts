@@ -1,2 +1,1 @@
-export * from './lookup-services'
-
+export * from './lookup-services';

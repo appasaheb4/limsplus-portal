@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: LibraryInput!) {
+  mutation ($input: LibraryInput!) {
     librarys(input: $input) {
       paginatorInfo {
         count
@@ -40,46 +40,46 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORDS = gql`
-  mutation($input: LibraryRemoveInput!) {
+  mutation ($input: LibraryRemoveInput!) {
     removeLibrary(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateLibraryInput!) {
+  mutation ($input: CreateLibraryInput!) {
     createLibrary(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateLibraryInput!) {
+  mutation ($input: UpdateLibraryInput!) {
     updateLibrary(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: LibraryInput!) {
+  mutation ($input: LibraryInput!) {
     checkLibrarysExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: LibraryInput!) {
+  mutation ($input: LibraryInput!) {
     filterLibrarys(input: $input) {
       paginatorInfo {
         count
@@ -118,10 +118,10 @@ export const FILTER = gql`
       }
     }
   }
-`
-   
+`;
+
 export const LIBRARYS_BY_CODE = gql`
-  mutation($input: LibraryInput!) {
+  mutation ($input: LibraryInput!) {
     librarysByCode(input: $input) {
       success
       message
@@ -157,4 +157,4 @@ export const LIBRARYS_BY_CODE = gql`
       }
     }
   }
-`
+`;

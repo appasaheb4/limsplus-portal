@@ -1,1 +1,1 @@
-export * from "./HostCommunicationhoc"
+export * from './HostCommunicationhoc';

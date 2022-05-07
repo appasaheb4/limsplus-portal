@@ -1,2 +1,2 @@
-export * from './SegmentList'
-export * from './SegmentMappingList'
+export * from './SegmentList';
+export * from './SegmentMappingList';

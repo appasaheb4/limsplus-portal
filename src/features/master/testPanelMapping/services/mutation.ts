@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: TestPanelMappingInput!) {
@@ -33,7 +33,7 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
   mutation ($input: TestPanelMappingRemoveInput!) {
@@ -42,7 +42,7 @@ export const REMOVE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
   mutation ($input: CreateTestPanelMappingInput!) {
@@ -51,7 +51,7 @@ export const CREATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
   mutation ($input: CreateTestPanelMappingInput!) {
@@ -60,7 +60,7 @@ export const VERSION_UPGRADE = gql`
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
   mutation ($input: CreateTestPanelMappingInput!) {
@@ -69,7 +69,7 @@ export const DUPLICATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
   mutation ($input: UpdateTestPanelMappingInput!) {
@@ -78,7 +78,7 @@ export const UPDATE_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const UPDATE_REPOSEQ_RECORD = gql`
   mutation ($input: UpdateTestPanelMappingInput!) {
@@ -87,7 +87,7 @@ export const UPDATE_REPOSEQ_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
   mutation ($input: TestPanelMappingInput!) {
@@ -96,7 +96,7 @@ export const CHECK_EXISTS_RECORD = gql`
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
   mutation ($input: TestPanelMappingInput!) {
@@ -131,7 +131,7 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FIND_BY_FIELDS = gql`
   mutation ($input: TestPanelMappingInput!) {
@@ -166,4 +166,4 @@ export const FIND_BY_FIELDS = gql`
       }
     }
   }
-`
+`;

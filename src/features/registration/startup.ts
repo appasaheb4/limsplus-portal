@@ -1,26 +1,37 @@
-import { stores } from "@/stores"
+import {stores} from '@/stores';
+import {patientRegistrationHoc} from './hoc';
 const startup = async () => {
   // patient manager
-  stores.patientManagerStore.patientManagerService.sequencingPid()
+  stores.patientManagerStore.patientManagerService.sequencingPid();
   stores.patientManagerStore.patientManagerService.listPatientManager({
-    documentType: "patientManager",
-  })
+    documentType: 'patientManager',
+  });
   // patient visit
   stores.patientVisitStore.patientVisitService.listPatientVisit({
-    documentType: "patientVisit",
-  })
-  stores.patientVisitStore.patientVisitService.sequencingVisitId()
+    documentType: 'patientVisit',
+  });
+  stores.patientVisitStore.patientVisitService.sequencingVisitId();
+  stores.patientVisitStore.patientVisitService.filterByLabId({
+    input: {filter: {labId: '*'}},
+  });
   // patient order
   stores.patientOrderStore.patientOrderService.listPatientOrder({
-    documentType: "patientOrder",
-  })
-  stores.patientOrderStore.patientOrderService.sequencingOrderId()
+    documentType: 'patientOrder',
+  });
+  stores.patientOrderStore.patientOrderService.sequencingOrderId();
+
+  const labId = stores.patientRegistrationStore.defaultValues?.labId;
+  if (labId && labId !== '*')
+    patientRegistrationHoc.labIdChanged(labId as number);
 
   // patient test
-  stores.patientTestStore.patientTestService.listPatientTest()
+  //stores.patientTestStore.patientTestService.listPatientTest();
 
   // patient result
-  stores.patientResultStore.patientResultService.listPatientResult()
-}
+  //stores.patientResultStore.patientResultService.listPatientResult();
 
-export default startup
+  // patient sample
+  //stores.patientSampleStore.patientSampleService.listPatientSample();
+};
+
+export default startup;

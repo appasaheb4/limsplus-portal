@@ -47,7 +47,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
     <>
       <div style={{position: 'relative'}}>
         <TableBootstrap
-          id="_id"
+          id='_id'
           data={props.data}
           totalSize={props.totalSize}
           columns={[
@@ -305,8 +305,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 <>
                   <Form.MultilineInput
                     rows={5}
-                    name="description"
-                    placeholder="Description"
+                    name='description'
+                    placeholder='Description'
                     onBlur={description => {
                       if (row.description !== description && description) {
                         props.onUpdateItem &&
@@ -375,11 +375,11 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className="flex flex-row">
-                    <Tooltip tooltipText="Delete">
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color="#fff"
-                        size="20"
+                        color='#fff'
+                        size='20'
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
@@ -405,7 +405,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="EnvironmentSettings"
+          fileName='EnvironmentSettings'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

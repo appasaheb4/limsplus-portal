@@ -1,1 +1,1 @@
-export * from "./testAnalyteMapping-services"
+export * from './testAnalyteMapping-services';

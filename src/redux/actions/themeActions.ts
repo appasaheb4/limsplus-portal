@@ -1,17 +1,17 @@
-import * as types from "../constants";
+import * as types from '../constants';
 
-import { toggleTheme } from "../services/themeService";
+import {toggleTheme} from '../services/themeService';
 
 export function enableClassicTheme() {
-  return enableTheme("classic");
+  return enableTheme('classic');
 }
 
 export function enableCorporateTheme() {
-  return enableTheme("corporate");
+  return enableTheme('corporate');
 }
 
 export function enableModernTheme() {
-  return enableTheme("modern");
+  return enableTheme('modern');
 }
 
 function enableTheme(name) {
@@ -19,6 +19,6 @@ function enableTheme(name) {
 
   return {
     type: types.THEME_TOGGLE,
-    payload: name
+    payload: name,
   };
 }

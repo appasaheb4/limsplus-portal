@@ -1,36 +1,36 @@
-import validate from "validate.js"
-import dayjs from "dayjs"
-export { validate }
+import validate from 'validate.js';
+import dayjs from 'dayjs';
+export {validate};
 validate.extend(validate.validators.datetime, {
   // The value is guaranteed not to be null or undefined but otherwise it
   // could be anything.
   parse: function (value: any) {
-    return +dayjs.utc(value)
+    return +dayjs.utc(value);
   },
   // Input is a unix timestamp
   format: function (value: any, options: any) {
-    var format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DD hh:mm:ss"
-    return dayjs.utc(value).format(format)
+    var format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DD hh:mm:ss';
+    return dayjs.utc(value).format(format);
   },
-})
+});
 
 export const constraintsSessionManagement = {
   lab: {
-    type: "array",
+    type: 'array',
   },
   user: {
-    type: "array",
+    type: 'array',
   },
   department: {
-    type: "array",
+    type: 'array',
   },
-  variable:{
+  variable: {
     presence: true,
   },
-  value:{
+  value: {
     presence: true,
-  }
-}
+  },
+};
 
 export const constraintsNoticeBoard = {
   lab: {
@@ -42,7 +42,7 @@ export const constraintsNoticeBoard = {
   message: {
     presence: true,
   },
-  action:{
+  action: {
     presence: true,
-  }
-}
+  },
+};

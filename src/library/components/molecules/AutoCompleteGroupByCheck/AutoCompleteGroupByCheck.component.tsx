@@ -166,9 +166,9 @@ export const AutoCompleteGroupByCheck = (
           } rounded-md`}
         >
           <input
-            placeholder="Select item"
+            placeholder='Select item'
             value={valueRef.current}
-            className="w-full focus:outline-none"
+            className='w-full focus:outline-none'
             //onKeyUp={onKeyUp}
             //onChange={onChange}
             onClick={() => setIsListOpen(true)}
@@ -181,32 +181,32 @@ export const AutoCompleteGroupByCheck = (
         </div>
         {options && isListOpen
           ? options?.length > 0 && (
-              <div className="mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200">
-                <ul className="p-2 rounded-sm ">
+              <div className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200'>
+                <ul className='p-2 rounded-sm '>
                   <div
-                    className="overflow-y-auto"
+                    className='overflow-y-auto'
                     style={{height: 'auto', maxHeight: '350px'}}
                   >
                     {options?.map((item, index) => (
                       <>
-                        <li key={index} className="text-gray-400">
+                        <li key={index} className='text-gray-400'>
                           {item.title}
                         </li>
-                        <ul className="ml-4">
+                        <ul className='ml-4'>
                           {item.children.map(
                             (children, childrenIndex) =>
                               children.title && (
                                 <li
                                   key={childrenIndex}
-                                  className="hover:bg-gray-200 focus:outline-none cursor-pointer"
+                                  className='hover:bg-gray-200 focus:outline-none cursor-pointer'
                                   onClick={async () => {
                                     onChangeItem(index, childrenIndex);
                                   }}
                                 >
                                   <input
-                                    type="checkbox"
+                                    type='checkbox'
                                     checked={children.selected}
-                                    className="mr-2"
+                                    className='mr-2'
                                   />
                                   {children.title}
                                 </li>

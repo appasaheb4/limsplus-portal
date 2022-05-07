@@ -32,7 +32,7 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
         onClose={() => props.onClose && props.onClose()}
       >
         <Header>
-          <PageHeading title="Account" />
+          <PageHeading title='Account' />
         </Header>
 
         <Image
@@ -44,34 +44,34 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
           }
         />
 
-        <div className="flex justify-center">
-          <label className="font-bold text-1xl">
+        <div className='flex justify-center'>
+          <label className='font-bold text-1xl'>
             {' '}
             {loginStore.login?.fullName}
           </label>
         </div>
-        <div className="p-2">
-          <List direction="col" space={4} justify="stretch" fill>
-            <div className="bg-gray-500 rounded-md p-2 items-stretch">
-              <label className="text-white">
+        <div className='p-2'>
+          <List direction='col' space={4} justify='stretch' fill>
+            <div className='bg-gray-500 rounded-md p-2 items-stretch'>
+              <label className='text-white'>
                 Lab : {loginStore.login?.lab}
               </label>
               <br />
-              <label className="text-white">
+              <label className='text-white'>
                 Role: {loginStore.login?.role}
               </label>
               <br />
-              <label className="text-white">
+              <label className='text-white'>
                 Environment: {loginStore.login?.environment}
               </label>
             </div>
             {loginStore.login?.labList !== undefined &&
               loginStore.login?.labList?.length > 1 && (
-                <Form.InputWrapper label={'Switch Lab'} id="labChange">
+                <Form.InputWrapper label={'Switch Lab'} id='labChange'>
                   <select
-                    name="defualtLab"
+                    name='defualtLab'
                     value={loginStore.login?.lab}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const lab = e.target.value;
                       loginStore.updateLogin({
@@ -97,11 +97,11 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
               )}
             {loginStore.login?.roleList !== undefined &&
               loginStore.login?.roleList?.length > 1 && (
-                <Form.InputWrapper label={'Switch Role'} id="roleChange">
+                <Form.InputWrapper label={'Switch Role'} id='roleChange'>
                   <select
-                    name="roleChange"
+                    name='roleChange'
                     value={loginStore.login?.role}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const role = e.target.value;
                       userStore.UsersService.switchAccess({

@@ -2,10 +2,10 @@ import React from 'react';
 import * as Bootstrap from 'react-bootstrap';
 export const Loader = () => {
   return (
-    <div className="bg-black">
+    <div className='bg-black'>
       <Bootstrap.Modal show={true} centered>
         <Bootstrap.Modal.Body style={{textAlign: 'center'}}>
-          <Bootstrap.Spinner animation="border" variant="dark" />
+          <Bootstrap.Spinner animation='border' variant='dark' />
           <br />
           <span>Loading...</span>
         </Bootstrap.Modal.Body>
@@ -18,12 +18,12 @@ export const ModalLoader = () => {
   return (
     <>
       <>
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className="relative  mx-auto ">
+        <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+          <div className='relative  mx-auto '>
             {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
               {/*body*/}
-              <div className="relative p-2 flex-auto flex flex-col items-center">
+              <div className='relative p-2 flex-auto flex flex-col items-center'>
                 <style>
                   {`
     .spinner .background {
@@ -60,15 +60,15 @@ export const ModalLoader = () => {
     `}
                 </style>
                 <svg
-                  className="spinner"
-                  width="100"
-                  height="100"
-                  viewBox="0 0 100 100"
+                  className='spinner'
+                  width='100'
+                  height='100'
+                  viewBox='0 0 100 100'
                 >
-                  <circle className="background" cx="0" cy="0"></circle>
+                  <circle className='background' cx='0' cy='0'></circle>
                   <path
-                    className="line"
-                    d="M 37.5,50 C 37.5,43.096441 43.096441,37.5 50,37.5 C 56.903559,37.5 62.5,43.096441 62.5,50 C 62.5,56.903559 56.903559,62.5 50,62.5 C 43.096441,62.5 37.5,56.903559 37.5,50"
+                    className='line'
+                    d='M 37.5,50 C 37.5,43.096441 43.096441,37.5 50,37.5 C 56.903559,37.5 62.5,43.096441 62.5,50 C 62.5,56.903559 56.903559,62.5 50,62.5 C 43.096441,62.5 37.5,56.903559 37.5,50'
                   ></path>
                 </svg>{' '}
                 <span style={{marginTop: -15}}>loading ...</span>
@@ -76,7 +76,7 @@ export const ModalLoader = () => {
             </div>
           </div>
         </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        <div className='opacity-25 fixed inset-0 z-40 bg-black'></div>
       </>
     </>
   );

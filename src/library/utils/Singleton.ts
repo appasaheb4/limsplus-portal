@@ -1,23 +1,23 @@
 export default class Singleton {
-  static myInstance: any = null
-  public textFilterVal
-  public numberFilterVal
-  public dateFilterVal
-     
+  static myInstance: any = null;
+  public textFilterVal;
+  public numberFilterVal;
+  public dateFilterVal;
+
   /**
    * @returns {Singleton}
    */
   static getInstance() {
     if (Singleton.myInstance == null) {
-      Singleton.myInstance = new Singleton()
+      Singleton.myInstance = new Singleton();
     }
-    return this.myInstance
+    return this.myInstance;
   }
 
   getTextFilterVal() {
-    return this.textFilterVal
-  }   
+    return this.textFilterVal;
+  }
   setTextFilterVal(val: any) {
-    this.textFilterVal = val
+    this.textFilterVal = val;
   }
 }

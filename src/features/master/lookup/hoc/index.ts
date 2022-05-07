@@ -1,2 +1,2 @@
 export * from './DocumentSettingHOC';
-export * from "./GeneralFieldHOC"
+export * from './GeneralFieldHOC';

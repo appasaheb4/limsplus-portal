@@ -1,22 +1,22 @@
-import { makeObservable, action, observable, computed } from "mobx"
-import {AdministrativeDivisions} from "../models"
-import {AdministrativeDivisionsService} from "../services"
+import {makeObservable, action, observable, computed} from 'mobx';
+import {AdministrativeDivisions} from '../models';
+import {AdministrativeDivisionsService} from '../services';
 interface LocalState {
-  state: string
-  district: string
-  city: string
-  area: string
-  postalCode: string
+  state: string;
+  district: string;
+  city: string;
+  area: string;
+  postalCode: string;
 }
 export class AdministrativeDivisionsStore {
-  administrativeDiv!: AdministrativeDivisions
-  listAdministrativeDivCount: number = 0
-  listAdministrativeDiv!: AdministrativeDivisions[]
-  listAdministrativeDivCopy!: AdministrativeDivisions[]
-  localState!: LocalState
+  administrativeDiv!: AdministrativeDivisions;
+  listAdministrativeDivCount: number = 0;
+  listAdministrativeDiv!: AdministrativeDivisions[];
+  listAdministrativeDivCopy!: AdministrativeDivisions[];
+  localState!: LocalState;
 
   constructor() {
-    this.listAdministrativeDiv = []
+    this.listAdministrativeDiv = [];
     makeObservable<AdministrativeDivisionsStore, any>(this, {
       administrativeDiv: observable,
       listAdministrativeDivCount: observable,
@@ -32,52 +32,55 @@ export class AdministrativeDivisionsStore {
       updateLocalCity: action,
       updateLocalArea: action,
       updateLocalPostalCode: action,
-    })
+    });
   }
 
   get administrativeDivisionsService() {
-    return new AdministrativeDivisionsService()
+    return new AdministrativeDivisionsService();
   }
 
   fetchAdministrativeDiv(page?, limit?) {
-    this.administrativeDivisionsService.listAdministrativeDivisions(page, limit)
+    this.administrativeDivisionsService.listAdministrativeDivisions(
+      page,
+      limit,
+    );
   }
 
   updateAdministrativeDivList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.administrativeDivisions.success)
-        return alert(res.administrativeDivisions.message)
+        return alert(res.administrativeDivisions.message);
       this.listAdministrativeDivCount =
-        res.administrativeDivisions.paginatorInfo.count
-      this.listAdministrativeDiv = res.administrativeDivisions.data
-      this.listAdministrativeDivCopy = res.administrativeDivisions.data
+        res.administrativeDivisions.paginatorInfo.count;
+      this.listAdministrativeDiv = res.administrativeDivisions.data;
+      this.listAdministrativeDivCopy = res.administrativeDivisions.data;
     } else {
-      this.listAdministrativeDiv = res
+      this.listAdministrativeDiv = res;
     }
   }
 
   filterAdministrativeDivList(res: any) {
     this.listAdministrativeDivCount =
-      res.filterAdministrativeDivisions.paginatorInfo.count
-    this.listAdministrativeDiv = res.filterAdministrativeDivisions.data
+      res.filterAdministrativeDivisions.paginatorInfo.count;
+    this.listAdministrativeDiv = res.filterAdministrativeDivisions.data;
   }
 
   updateAdministrativeDiv(administrative: AdministrativeDivisions) {
-    this.administrativeDiv = administrative
+    this.administrativeDiv = administrative;
   }
   updateLocalState(state: LocalState) {
-    this.localState = state
+    this.localState = state;
   }
   updateLocalDistrict(district: LocalState) {
-    this.localState = district
+    this.localState = district;
   }
   updateLocalCity(city: LocalState) {
-    this.localState = city
+    this.localState = city;
   }
   updateLocalArea(area: LocalState) {
-    this.localState = area
+    this.localState = area;
   }
   updateLocalPostalCode(postalCode: LocalState) {
-    this.localState = postalCode
+    this.localState = postalCode;
   }
 }

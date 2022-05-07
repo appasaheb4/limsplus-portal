@@ -1,1 +1,1 @@
-export * from "./molecules/MethodsList"
+export * from './molecules/MethodsList';

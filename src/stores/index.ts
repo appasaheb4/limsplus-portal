@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {RootStore} from './rootStore';
-import {RouterStore} from './routerStore';
-import {AppStore} from './appStore';
-import {LoginStore} from '@/features/login/stores/LoginStore';
+import {RootStore} from './root-store';
+import {RouterStore} from './router-store';
+import {AppStore} from './app-store';
+import {LoginStore} from '@/features/login/stores/login.store';
 import {UserStore} from '@/features/settings/users/stores/UsersStore';
 import {LookupStore} from '@/features/master/lookup/stores/lookup-store';
 import {SectionStore} from '@/features/master/section/stores/section-store';
@@ -11,21 +11,21 @@ import {SectionStore} from '@/features/master/section/stores/section-store';
 // master
 import {BannerStore} from '@/features/master/banner/stores/banner-store';
 import {LabStore} from '@/features/master/labs/stores/lab-store';
-import {SalesTeamStore} from '@/features/master/salesTeam/stores/salesTeam-store';
+import {SalesTeamStore} from '@/features/master/sales-team/stores/salesTeam-store';
 import {DeginisationStore} from '@/features/master/deginisation/stores/deginisation-store';
 import {DepartmentStore} from '@/features/master/department/stores/department-store';
 import {AdministrativeDivisionsStore} from '@/features/master/administrativeDivisions/stores/administrativeDivisions-store';
 import {MasterAnalyteStore} from '@/features/master/masterAnalyte/stores/masterAnalyte-store';
 import {TestAnalyteMappingStore} from '@/features/master/testAnalyteMapping/stores/testAnalyteMapping-store';
-import {TestMasterStore} from '@/features/master/testMaster/stores/testMaster-store';
+import {TestMasterStore} from '@/features/master/testMaster/stores/test-master.store';
 import {DeliveryScheduleStore} from '@/features/master/deliverySchedule/stores/deliverySchedule-store';
-import {MasterPanelStore} from '@/features/master/masterPanel/stores/masterPanel-store';
+import {MasterPanelStore} from '@/features/master/master-panel/stores/masterPanel-store';
 import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/testPanelMapping-store';
 import {MasterPackageStore} from '@/features/master/masterPackage/stores/masterPackage-store';
 import {SampleContainerStore} from '@/features/master/sampleContainer/stores/sampleContainer-store';
 import {SampleTypeStore} from '@/features/master/sampleType/stores/sampleType-store';
 import {MethodsStore} from '@/features/master/methods/stores/methods-store';
-import {TestSampleMappingStore} from '@/features/master/testSampleMapping/stores/testSampleMapping-store';
+import {TestSampleMappingStore} from '@/features/master/test-sample-mapping/stores/testSampleMapping-store';
 import {CorporateClientsStore} from '@/features/master/corporateClients/stores/corporateClients-store';
 import {DoctorsStore} from '@/features/master/doctors/stores/doctors-store';
 import {RegistrationLocationsStore} from '@/features/master/registrationLocations/stores/registrationLocations-store';
@@ -55,9 +55,11 @@ import {
   PatientOrderStore,
   PatientTestStore,
   PatientResultStore,
+  PatientSampleStore,
+  PatientRegistrationStore,
 } from '@/features/registration/stores';
 
-import {Store} from './Store';
+import {Store} from './store';
 export class Stores extends Store {
   rootStore!: RootStore;
   appStore!: AppStore;
@@ -113,6 +115,8 @@ export class Stores extends Store {
   patientOrderStore!: PatientOrderStore;
   patientTestStore!: PatientTestStore;
   patientResultStore!: PatientResultStore;
+  patientSampleStore!: PatientSampleStore;
+  patientRegistrationStore!: PatientRegistrationStore;
 
   constructor() {
     super();
@@ -169,6 +173,8 @@ export class Stores extends Store {
     this.patientOrderStore = new PatientOrderStore();
     this.patientTestStore = new PatientTestStore();
     this.patientResultStore = new PatientResultStore();
+    this.patientSampleStore = new PatientSampleStore();
+    this.patientRegistrationStore = new PatientRegistrationStore();
   }
 }
 

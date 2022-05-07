@@ -1,1 +1,1 @@
-export * from "./AdministrativeDivisions"   
+export * from './AdministrativeDivisions';

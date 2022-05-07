@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: DoctorInput!) {
+  mutation ($input: DoctorInput!) {
     doctors(input: $input) {
       paginatorInfo {
         count
@@ -60,64 +60,64 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: DoctorRemoveInput!) {
+  mutation ($input: DoctorRemoveInput!) {
     removeDoctor(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateDoctorInput!) {
+  mutation ($input: CreateDoctorInput!) {
     createDoctor(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const VERSION_UPGRADE = gql`
-  mutation($input: CreateDoctorInput!) {
+  mutation ($input: CreateDoctorInput!) {
     versionUpgradeDoctors(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const DUPLICATE_RECORD = gql`
-  mutation($input: CreateDoctorInput!) {
+  mutation ($input: CreateDoctorInput!) {
     duplicateDoctors(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateDoctorInput!) {
+  mutation ($input: UpdateDoctorInput!) {
     updateDoctor(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: DoctorInput!) {
+  mutation ($input: DoctorInput!) {
     checkDoctorsExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: DoctorInput!) {
+  mutation ($input: DoctorInput!) {
     filterDoctors(input: $input) {
       paginatorInfo {
         count
@@ -176,10 +176,10 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
-  mutation($input: DoctorInput!) {
+  mutation ($input: DoctorInput!) {
     filterByFieldsDoctor(input: $input) {
       paginatorInfo {
         count
@@ -235,7 +235,7 @@ export const FILTER_BY_FIELDS = gql`
         environment
         dateOfEntry
         lastUpdated
-      }   
+      }
     }
   }
-`
+`;

@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import Loader from "./Loader";
+import Loader from './Loader';
 
 type Props = {};
-type State = { component: any };
+type State = {component: any};
 
 export default function asyncComponent(importComponent) {
   class AsyncComponent extends React.Component<Props, State> {
@@ -16,14 +16,14 @@ export default function asyncComponent(importComponent) {
     }
 
     async componentDidMount() {
-      const { default: component } = await importComponent();
+      const {default: component} = await importComponent();
       this.setState({
         component: component,
       });
     }
 
     render() {
-      const { component } = this.state;
+      const {component} = this.state;
 
       const C = component;
 

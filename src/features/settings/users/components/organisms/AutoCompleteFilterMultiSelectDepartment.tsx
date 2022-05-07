@@ -155,12 +155,12 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
     };
     return (
       <>
-        <div ref={wrapperRef} className="w-full relative">
+        <div ref={wrapperRef} className='w-full relative'>
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search by name"
+              placeholder='Search by name'
               value={
                 !isListOpen
                   ? `${
@@ -175,7 +175,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />
-            {loading && <Spinner animation="border" className="mr-2 h-4 w-4" />}
+            {loading && <Spinner animation='border' className='mr-2 h-4 w-4' />}
             {isListOpen ? (
               <Icons.IconFa.FaChevronUp />
             ) : (
@@ -185,20 +185,20 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
 
           {options && isListOpen
             ? options?.length > 0 && (
-                <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
+                <div className='mt-1  bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
                     {options?.map((item, index) => (
                       <>
                         <li
                           key={index}
-                          className="text-gray-400 flex items-center"
+                          className='text-gray-400 flex items-center'
                         >
                           <input
-                            type="checkbox"
+                            type='checkbox'
                             checked={item.selected}
                             onChange={() => onSelect(item)}
                           />{' '}
-                          <label className="ml-2 mt-1 text-black">
+                          <label className='ml-2 mt-1 text-black'>
                             {' '}
                             {item.code} - {item.name}
                           </label>

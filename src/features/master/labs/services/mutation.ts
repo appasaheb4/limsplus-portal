@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LABS_LIST = gql`
-  mutation($input: LabInput!) {
+  mutation ($input: LabInput!) {
     labs(input: $input) {
       paginatorInfo {
         count
@@ -11,55 +11,55 @@ export const LABS_LIST = gql`
       data
     }
   }
-`
+`;
 
 export const REMOVE_LABS = gql`
-  mutation($input: RemoveLabInput!) {
+  mutation ($input: RemoveLabInput!) {
     removeLab(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_LAB = gql`
-  mutation($input: CreateLabInput!) {
+  mutation ($input: CreateLabInput!) {
     createLab(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_LAB = gql`
-  mutation($input: UpdateLabInput!) {
+  mutation ($input: UpdateLabInput!) {
     updateLab(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_LAB_IMAGE = gql`
-  mutation($input: UpdateLabInput!) {
+  mutation ($input: UpdateLabInput!) {
     updateLabImages(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: LabInput!) {
+  mutation ($input: LabInput!) {
     checkLabExitsEnvCode(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: LabInput!) {
+  mutation ($input: LabInput!) {
     filterLabs(input: $input) {
       paginatorInfo {
         count
@@ -69,10 +69,10 @@ export const FILTER = gql`
       data
     }
   }
-`
+`;
 
 export const FILTER_BY_FIELDS = gql`
-  mutation($input: LabInput!) {
+  mutation ($input: LabInput!) {
     filterByFieldsLab(input: $input) {
       paginatorInfo {
         count
@@ -82,14 +82,14 @@ export const FILTER_BY_FIELDS = gql`
       data
     }
   }
-`
+`;
 
 export const FIND_BY_FIELDS = gql`
-  mutation($input: LabInput!) {
+  mutation ($input: LabInput!) {
     findByFieldsLabs(input: $input) {
       success
       message
       data
     }
   }
-`
+`;

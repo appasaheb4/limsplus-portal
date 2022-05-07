@@ -1,6 +1,6 @@
 import {stores} from '@/stores';
 const startup = async () => {
-   stores.noticeBoardStore.fetchNoticeBoards();
-}   
-   
-export default startup;  
+  stores.noticeBoardStore.fetchNoticeBoards();
+};
+
+export default startup;

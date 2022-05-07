@@ -1,70 +1,74 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { Container, Row, Col } from "reactstrap"
-import { observer } from "mobx-react"
-import dayjs from "dayjs"
-import {ModalChangePassword, Toast, ModalConfirm} from "@/library/components"
+import React, {useState, useEffect} from 'react';
+import {Container, Row, Col} from 'reactstrap';
+import {observer} from 'mobx-react';
+import dayjs from 'dayjs';
+import {ModalChangePassword, Toast, ModalConfirm} from '@/library/components';
 
-import BarChart from "./BarChart"
-import Feed from "./Feed"
-import Header from "./Header"
-import LineChart from "./LineChart"
-import Projects from "./Projects"
-import Statistics from "./Statistics"
-import { useHistory } from "react-router-dom"
+import BarChart from './BarChart';
+import Feed from './Feed';
+import Header from './Header';
+import LineChart from './LineChart';
+import Projects from './Projects';
+import Statistics from './Statistics';
+import {useHistory} from 'react-router-dom';
 
 // registration
 
-import { stores, useStores } from "@/stores"
+import {stores, useStores} from '@/stores';
 
 const Default = observer(() => {
-  const { userStore, loginStore } = useStores()
-  const [modalChangePassword, setModalChangePassword] = useState<any>()
-  const [modalConfirm, setModalConfirm] = useState<any>()
-  const history = useHistory()
+  const {userStore, loginStore} = useStores();
+  const [modalChangePassword, setModalChangePassword] = useState<any>();
+  const [modalConfirm, setModalConfirm] = useState<any>();
+  const history = useHistory();
 
   useEffect(() => {
     if (loginStore.login) {
-      const date1 = dayjs(loginStore.login.exipreDate)
-      const date2 = dayjs(new Date())
-      let days = date1.diff(date2, "day")
-      
-      if (days >= 0 && days <= 5 && userStore.changePassword?.tempHide !== true) {
+      const date1 = dayjs(loginStore.login.exipreDate);
+      const date2 = dayjs(new Date());
+      let days = date1.diff(date2, 'day');
+
+      if (
+        days >= 0 &&
+        days <= 5 &&
+        userStore.changePassword?.tempHide !== true
+      ) {
         userStore.updateChangePassword({
           ...userStore.changePassword,
           subTitle: `Please change you password. Your remaining exipre days ${days}`,
-        })
-        setModalChangePassword({ show: true })
+        });
+        setModalChangePassword({show: true});
       }
       if (days < 0) {
         setModalConfirm({
-          type: "accountexpire",
+          type: 'accountexpire',
           show: true,
-          title: "Your account expire.Please contact to admin. ",
-        })
+          title: 'Your account expire.Please contact to admin. ',
+        });
       }
     }
-  }, [loginStore])
+  }, [loginStore]);
 
   return (
     <>
-      <Container fluid className="p-0">
+      <Container fluid className='p-0'>
         <Header />
         <Statistics />
         <Row>
-          <Col lg="8" className="d-flex">
+          <Col lg='8' className='d-flex'>
             <LineChart />
           </Col>
-          <Col lg="4" className="d-flex">
+          <Col lg='4' className='d-flex'>
             <Feed />
           </Col>
         </Row>
 
         <Row>
-          <Col lg="6" xl="8" className="d-flex">
+          <Col lg='6' xl='8' className='d-flex'>
             <Projects />
           </Col>
-          <Col lg="6" xl="4" className="d-flex">
+          <Col lg='6' xl='4' className='d-flex'>
             <BarChart />
           </Col>
         </Row>
@@ -72,7 +76,9 @@ const Default = observer(() => {
         <ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
-            let exipreDate = new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"))
+            let exipreDate = new Date(
+              dayjs(new Date()).add(30, 'days').format('YYYY-MM-DD'),
+            );
             userStore.UsersService.changePassword({
               input: {
                 _id: loginStore.login._id,
@@ -81,72 +87,72 @@ const Default = observer(() => {
                 newPassword: userStore.changePassword.confirmPassword,
                 exipreDate,
               },
-            }).then((res) => {
+            }).then(res => {
               if (res.userChnagePassword.success) {
                 loginStore.updateLogin({
                   ...loginStore.login,
                   exipreDate,
                   passChanged: true,
-                })
+                });
                 userStore.updateChangePassword({
                   ...userStore.changePassword,
                   tempHide: true,
-                })
+                });
                 Toast.success({
                   message: `😊 ${res.userChnagePassword.message}`,
-                })
-                setModalChangePassword({ show: false })
-              } else  {
+                });
+                setModalChangePassword({show: false});
+              } else {
                 Toast.error({
                   message: `😔 ${res.data.data.message}`,
-                })
-            }
-          });
+                });
+              }
+            });
           }}
           onClose={() => {
             loginStore.updateLogin({
               ...loginStore.login,
               passChanged: true,
-            })
+            });
             userStore.updateChangePassword({
               ...userStore.changePassword,
               tempHide: true,
-            })
-            setModalChangePassword({ show: false })
+            });
+            setModalChangePassword({show: false});
           }}
         />
       </Container>
       <ModalConfirm
         {...modalConfirm}
-        click={(type) => {
-          if (type === "accountexpire") {
+        click={type => {
+          if (type === 'accountexpire') {
             loginStore.LoginService.accountStatusUpdate({
               input: {
                 userId: stores.loginStore.login.userId,
-                status: "I",
+                status: 'I',
               },
-            }).then((res) => {
+            }).then(res => {
               if (res.userAccountStatusUpdate.success) {
                 stores.loginStore
                   .removeUser()
-                  .then((res) => {
+                  .then(res => {
                     Toast.success({
                       message: `😊 ${res.logout.message}`,
-                    })
+                    });
                     if (res.logout.success) {
-                      history.push("/")
+                      history.push('/');
                     }
                   })
                   .catch(() => {
-                    alert("Please try again")
-                  })
+                    alert('Please try again');
+                  });
               }
-            })
+            });
           }
         }}
       />
     </>
-  )
-})
+  );
+});
 
-export default Default
+export default Default;

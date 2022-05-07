@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client"
+import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation($input: LoginActivityInput!) {
+  mutation ($input: LoginActivityInput!) {
     loginActivitys(input: $input) {
       paginatorInfo {
         count
@@ -17,53 +17,53 @@ export const LIST = gql`
       }
     }
   }
-`
+`;
 
 export const REMOVE_RECORD = gql`
-  mutation($input: SalemTeamsRemoveInput!) {
+  mutation ($input: SalemTeamsRemoveInput!) {
     removeSalesTeam(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateSalesTeamInput!) {
+  mutation ($input: CreateSalesTeamInput!) {
     createSalesTeam(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateSalesTeamInput!) {
+  mutation ($input: UpdateSalesTeamInput!) {
     updateSalesTeam(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const EXISTS_RECORD = gql`
-  mutation($input: SalemTeamsInput!) {
+  mutation ($input: SalemTeamsInput!) {
     checkSalesTeamsExistsRecord(input: $input) {
       success
       message
     }
   }
-`
+`;
 
 export const FILTER = gql`
-  mutation($input: LoginActivityInput!) {
+  mutation ($input: LoginActivityInput!) {
     filterLoginActivitys(input: $input) {
       paginatorInfo {
         count
       }
       success
       message
-      data{
+      data {
         _id
         user
         systemInfo
@@ -72,4 +72,4 @@ export const FILTER = gql`
       }
     }
   }
-`
+`;

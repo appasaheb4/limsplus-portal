@@ -1,10 +1,10 @@
-import React from "react"
+import React from 'react';
 
 interface SideBarColorBgImagesProps {
-  data: Array<{ color: string }>
+  data: Array<{color: string}>;
   //images: Array<{ image: any }>
-  onChangeShoutcutColor?: (color: string) => void
-  onChangeSidebarColor?: (color: string) => void
+  onChangeShoutcutColor?: (color: string) => void;
+  onChangeSidebarColor?: (color: string) => void;
   //onChangeImage?: (image: any) => void
 }
 
@@ -13,54 +13,54 @@ export const SideBarColorBgImages = ({
   //images,
   onChangeSidebarColor,
   onChangeShoutcutColor,
-  //onChangeImage,
-}: SideBarColorBgImagesProps) => {
+}: //onChangeImage,
+SideBarColorBgImagesProps) => {
   // console.log('Data in props',props)
   return (
     <React.Fragment>
       <>
         <hr />
-        <small className="d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5">
+        <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
           COLOR
         </small>
-        <div className="sideBarColorOptions my-1.5">
-          <div className="row">
-            <div className="col-sm-5">
+        <div className='sideBarColorOptions my-1.5'>
+          <div className='row'>
+            <div className='col-sm-5'>
               <h4>Side Bar</h4>
             </div>
-            <div className="col-md-7 d-flex theme-options overflow-x-scroll  p-0">
+            <div className='col-md-7 d-flex theme-options overflow-x-scroll  p-0'>
               {data.map((item, index) => {
                 return (
                   <div
                     key={index}
-                    className="w-5 h-5 rounded-3xl px-2.5 mx-1.5 border-solid"
-                    style={{ backgroundColor: `${item.color}` }}
+                    className='w-5 h-5 rounded-3xl px-2.5 mx-1.5 border-solid'
+                    style={{backgroundColor: `${item.color}`}}
                     onClick={() =>
                       onChangeSidebarColor && onChangeSidebarColor(item.color)
                     }
                   />
-                )
+                );
               })}
             </div>
           </div>
         </div>
-        <div className="sideBarColorOptions my-1.5">
-          <div className="row">
-            <div className="col-sm-5">
+        <div className='sideBarColorOptions my-1.5'>
+          <div className='row'>
+            <div className='col-sm-5'>
               <h4>Shortcut Bar</h4>
             </div>
-            <div className="col-md-7 d-flex theme-options overflow-x-scroll p-0">
+            <div className='col-md-7 d-flex theme-options overflow-x-scroll p-0'>
               {data.map((item, index) => {
                 return (
                   <div
                     key={index}
-                    className="w-5 h-5  rounded-3xl border-black px-2.5	mx-1.5"
-                    style={{ backgroundColor: `${item.color}` }}
-                    onClick={ ()=>
+                    className='w-5 h-5  rounded-3xl border-black px-2.5	mx-1.5'
+                    style={{backgroundColor: `${item.color}`}}
+                    onClick={() =>
                       onChangeShoutcutColor && onChangeShoutcutColor(item.color)
                     }
                   />
-                )
+                );
               })}
             </div>
           </div>
@@ -91,5 +91,5 @@ export const SideBarColorBgImages = ({
         </div> */}
       </>
     </React.Fragment>
-  )
-}
+  );
+};

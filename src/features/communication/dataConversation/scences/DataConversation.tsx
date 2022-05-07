@@ -7,11 +7,11 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   Buttons,
+  Grid,
   List,
   Form,
   Svg,
   ModalConfirm,
-  Grid,
 } from '@/library/components';
 import {DataConversationList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -80,7 +80,7 @@ const DataConversation = DataConversationHoc(
             }
           />
         )}
-        <div className=" mx-auto  flex-wrap">
+        <div className=' mx-auto  flex-wrap'>
           <div
             className={
               'p-2 rounded-lg shadow-xl ' +
@@ -88,15 +88,15 @@ const DataConversation = DataConversationHoc(
             }
           >
             <Grid cols={2}>
-              <List direction="col" space={4} justify="stretch" fill>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      type="text"
-                      label="Hexa Decimal"
-                      id="hexadecimal"
-                      name="hexadecimal"
+                      type='text'
+                      label='Hexa Decimal'
+                      id='hexadecimal'
+                      name='hexadecimal'
                       placeholder={
                         errors.hexadecimal
                           ? 'Please Enter hexadecimal'
@@ -115,18 +115,18 @@ const DataConversation = DataConversationHoc(
                       }}
                     />
                   )}
-                  name="hexadecimal"
+                  name='hexadecimal'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      type="text"
-                      label="Binary"
-                      id="binary"
-                      name="binary"
+                      type='text'
+                      label='Binary'
+                      id='binary'
+                      name='binary'
                       placeholder={
                         errors.binary ? 'Please Enter Binary' : 'Binary'
                       }
@@ -141,18 +141,18 @@ const DataConversation = DataConversationHoc(
                       }}
                     />
                   )}
-                  name="binary"
+                  name='binary'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      type="text"
-                      label="ASCII"
-                      id="ascii"
-                      name="ascii"
+                      type='text'
+                      label='ASCII'
+                      id='ascii'
+                      name='ascii'
                       placeholder={
                         errors.ascii ? 'Please Enter ascii' : 'ASCII'
                       }
@@ -167,14 +167,14 @@ const DataConversation = DataConversationHoc(
                       }}
                     />
                   )}
-                  name="ascii"
+                  name='ascii'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label="Environment">
+                    <Form.InputWrapper label='Environment'>
                       <select
                         value={
                           dataConversationStore.dataConversation?.environment
@@ -217,17 +217,17 @@ const DataConversation = DataConversationHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name="environment"
+                  name='environment'
                   rules={{required: true}}
-                  defaultValue=""
+                  defaultValue=''
                 />
-                <div className="clearfix" />
+                <div className='clearfix' />
               </List>
             </Grid>
-            <List direction="row" space={3} align="center">
+            <List direction='row' space={3} align='center'>
               <Buttons.Button
-                size="medium"
-                type="solid"
+                size='medium'
+                type='solid'
                 icon={Svg.Save}
                 onClick={handleSubmit(onSubmitDataConversation)}
               >
@@ -235,8 +235,8 @@ const DataConversation = DataConversationHoc(
               </Buttons.Button>
 
               <Buttons.Button
-                size="medium"
-                type="outline"
+                size='medium'
+                type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
                   window.location.reload();
@@ -244,10 +244,10 @@ const DataConversation = DataConversationHoc(
               >
                 Clear
               </Buttons.Button>
-              <div className="clearfix" />
+              <div className='clearfix' />
             </List>
           </div>
-          <div className="p-2 rounded-lg shadow-xl overflow-scroll">
+          <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
             <DataConversationList
               data={dataConversationStore.listdataConversation || []}
               extraData={{lookupItems: routerStore.lookupItems}}

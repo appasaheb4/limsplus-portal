@@ -9,7 +9,8 @@
       "@stores": ["src/stores/index"],
       "@utils": ["./src/library/utils/index"],
       "@routers": ["./src/routers"],
-      "@assets/*": ["./src/library/assets/*"]
+      "@assets/*": ["./src/library/assets/*"],
+      "@localization": ["./src/localization/index"]
     },
     "experimentalDecorators": true
   },

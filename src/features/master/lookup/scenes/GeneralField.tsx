@@ -58,13 +58,13 @@ export const GeneralField = GeneralFieldHoc(
     return (
       <>
         <Grid cols={2}>
-          <List direction="col" space={4} justify="stretch" fill>
+          <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
                   hasError={errors.documentList}
-                  label="Document Name"
+                  label='Document Name'
                 >
                   <AutoCompleteGroupByCheck
                     hasError={errors.documentList}
@@ -85,16 +85,16 @@ export const GeneralField = GeneralFieldHoc(
                   />
                 </Form.InputWrapper>
               )}
-              name="documentList"
+              name='documentList'
               rules={{required: true}}
-              defaultValue=""
+              defaultValue=''
             />
             <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
                   hasError={errors.filedName}
-                  label="Global Filed"
+                  label='Global Filed'
                 >
                   <AutoComplete
                     hasError={errors.filedName}
@@ -118,17 +118,17 @@ export const GeneralField = GeneralFieldHoc(
                   />
                 </Form.InputWrapper>
               )}
-              name="filedName"
+              name='filedName'
               rules={{required: true}}
-              defaultValue=""
+              defaultValue=''
             />
-            <Form.InputWrapper label="Code & Value">
+            <Form.InputWrapper label='Code & Value'>
               <Grid cols={3}>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      placeholder="Code"
+                      placeholder='Code'
                       hasError={errors.code}
                       value={lookupStore.localInput.code}
                       onChange={code => {
@@ -142,15 +142,15 @@ export const GeneralField = GeneralFieldHoc(
                       }}
                     />
                   )}
-                  name="code"
+                  name='code'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      placeholder="Value"
+                      placeholder='Value'
                       hasError={errors.value}
                       value={lookupStore.localInput.value}
                       onChange={value => {
@@ -162,13 +162,13 @@ export const GeneralField = GeneralFieldHoc(
                       }}
                     />
                   )}
-                  name="value"
+                  name='value'
                   rules={{required: false}}
-                  defaultValue=""
+                  defaultValue=''
                 />
-                <div className="mt-2 flex flex-row justify-between">
+                <div className='mt-2 flex flex-row justify-between'>
                   <Form.Toggle
-                    label="Enable Upper Case"
+                    label='Enable Upper Case'
                     hasError={errors.method}
                     value={lookupStore.flagUpperCase}
                     onChange={flag => {
@@ -176,8 +176,8 @@ export const GeneralField = GeneralFieldHoc(
                     }}
                   />
                   <Buttons.Button
-                    size="medium"
-                    type="solid"
+                    size='medium'
+                    type='solid'
                     onClick={() => {
                       const value = lookupStore.localInput.value;
                       const code = lookupStore.localInput.code;
@@ -208,18 +208,18 @@ export const GeneralField = GeneralFieldHoc(
                       }
                     }}
                   >
-                    <Icons.EvaIcon icon="plus-circle-outline" />
+                    <Icons.EvaIcon icon='plus-circle-outline' />
                     {`Add`}
                   </Buttons.Button>
                 </div>
               </Grid>
-              <List space={2} direction="row" justify="center">
-                <div className="mt-2">
+              <List space={2} direction='row' justify='center'>
+                <div className='mt-2'>
                   {lookupStore.globalSettings?.arrValue?.map((item, index) => (
-                    <div className="mb-2" key={index}>
+                    <div className='mb-2' key={index}>
                       <Buttons.Button
-                        size="medium"
-                        type="solid"
+                        size='medium'
+                        type='solid'
                         icon={Svg.Remove}
                         onClick={() => {
                           const firstArr =
@@ -250,7 +250,7 @@ export const GeneralField = GeneralFieldHoc(
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
                   hasError={errors.defaulItem}
-                  label="Default Item"
+                  label='Default Item'
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -284,20 +284,20 @@ export const GeneralField = GeneralFieldHoc(
                   </select>
                 </Form.InputWrapper>
               )}
-              name="defaulItem"
+              name='defaulItem'
               rules={{required: false}}
-              defaultValue=""
+              defaultValue=''
             />
           </List>
-          <List direction="col" space={4} justify="stretch" fill>
+          <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Form.MultilineInput
                   rows={4}
-                  label="Description"
-                  name="txtDescription"
-                  placeholder="Description"
+                  label='Description'
+                  name='txtDescription'
+                  placeholder='Description'
                   value={lookupStore.globalSettings?.description}
                   onChange={description => {
                     onChange(description);
@@ -308,16 +308,16 @@ export const GeneralField = GeneralFieldHoc(
                   }}
                 />
               )}
-              name="description"
+              name='description'
               rules={{required: false}}
-              defaultValue=""
+              defaultValue=''
             />
 
             <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  label="Environment"
+                  label='Environment'
                   hasError={errors.environment}
                 >
                   <select
@@ -354,25 +354,25 @@ export const GeneralField = GeneralFieldHoc(
                   </select>
                 </Form.InputWrapper>
               )}
-              name="environment"
+              name='environment'
               rules={{required: true}}
-              defaultValue=""
+              defaultValue=''
             />
           </List>
         </Grid>
         <br />
-        <List direction="row" space={3} align="center">
+        <List direction='row' space={3} align='center'>
           <Buttons.Button
-            size="medium"
-            type="solid"
+            size='medium'
+            type='solid'
             icon={Svg.Save}
             onClick={handleSubmit(onSubmitGeneralFiled)}
           >
             Update
           </Buttons.Button>
           <Buttons.Button
-            size="medium"
-            type="outline"
+            size='medium'
+            type='outline'
             icon={Svg.Remove}
             onClick={() => {
               window.location.reload();
