@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {MasterPackageStore} from './masterPackage-store';
+import {MasterPackageStore} from './master-package.store';
 
 export const Stores = {
   masterPackageStore: new MasterPackageStore(),

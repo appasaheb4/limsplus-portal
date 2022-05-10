@@ -1,1 +1,1 @@
-export * from './PriceListHoc';
+export * from './price-list.hoc';

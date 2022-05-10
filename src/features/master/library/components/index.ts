@@ -1,3 +1,3 @@
-export * from './molecules/LibraryList';
-export * from './organsims/AutoCompleteFilterSingleSelectDepartment';
-export * from './organsims/AutoCompleteFilterSingleSelectPlabs';
+export * from './molecules/library-list.component';
+export * from './organsims/auto-complete-filter-single-select-department.component';
+export * from './organsims/auto-complete-filter-single-select-plabs.component';

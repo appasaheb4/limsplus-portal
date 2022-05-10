@@ -1,3 +1,3 @@
-import Lab from './Lab';
+import Lab from './lab.screen';
 
 export {Lab};

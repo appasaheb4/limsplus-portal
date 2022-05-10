@@ -12,7 +12,9 @@ const DefaultDashboard = async(() => import('@/features/defaultDashboard'));
 const Banner = async(
   () => import('@/features/master/banner/scenes/banner.screen'),
 );
-const CollectionLab = async(() => import('@/features/master/labs/scenes/Lab'));
+const CollectionLab = async(
+  () => import('@/features/master/labs/scenes/lab.screen'),
+);
 const CollectionDeginisation = async(
   () => import('@/features/master/deginisation/scenes/deginisation.screen'),
 );
@@ -23,25 +25,27 @@ const CollectionDepartment = async(
 
 // master
 const MasterAnalyte = async(
-  () => import('@/features/master/masterAnalyte/scenes/MasterAnalyte'),
+  () => import('@/features/master/masterAnalyte/scenes/master-analyte.screen'),
 );
 const TestAnalyteMapping = async(
   () =>
     import('@/features/master/testAnalyteMapping/scenes/TestAnalyteMapping'),
 );
 const MasterPanel = async(
-  () => import('@/features/master/master-panel/scenes/MasterPanel'),
+  () => import('@/features/master/master-panel/scenes/master-panel.screen'),
 );
 const TestPanelMapping = async(
   () => import('@/features/master/testPanelMapping/scenes/TestPanelMapping'),
 );
 const MasterPackage = async(
-  () => import('@/features/master/masterPackage/scenes/MasterPackage'),
+  () => import('@/features/master/masterPackage/scenes/master-package.screen'),
 );
 const TestMaster = async(
   () => import('@/features/master/testMaster/scenes/TestMaster'),
 );
-const Lookup = async(() => import('@/features/master/lookup/scenes/Lookup'));
+const Lookup = async(
+  () => import('@/features/master/lookup/scenes/lookup.screen'),
+);
 const Section = async(() => import('@/features/master/section/scenes/Section'));
 const SampleContainer = async(
   () => import('@/features/master/sampleContainer/scenes/SampleContainer'),
@@ -55,7 +59,9 @@ const TestSampleMapping = async(
       '@/features/master/test-sample-mapping/screens/test-sample-mapping.screen'
     ),
 );
-const Methods = async(() => import('@/features/master/methods/scenes/Methods'));
+const Methods = async(
+  () => import('@/features/master/methods/scenes/method.screen'),
+);
 const Doctors = async(
   () => import('@/features/master/doctors/scenes/doctor.screen'),
 );
@@ -88,11 +94,14 @@ const SalesTeam = async(
   () => import('@/features/master/sales-team/scenes/sales-team'),
 );
 const PossibleResults = async(
-  () => import('@/features/master/possibleResults/scenes/PossibleResults'),
+  () =>
+    import('@/features/master/possibleResults/scenes/possible-result.screen'),
 );
-const Library = async(() => import('@/features/master/library/scenes/Library'));
+const Library = async(
+  () => import('@/features/master/library/scenes/library.screen'),
+);
 const PriceList = async(
-  () => import('@/features/master/priceList/scenes/PriceList'),
+  () => import('@/features/master/priceList/scenes/price-list.screen'),
 );
 const ReferenceRanges = async(
   () => import('@/features/master/referenceRanges/scenes/ReferenceRanges'),

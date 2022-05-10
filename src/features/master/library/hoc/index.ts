@@ -1,1 +1,1 @@
-export * from './LibraryHoc';
+export * from './library.hoc';
