@@ -1,3 +1,3 @@
-import Banner from './banner';
+import Banner from './banner.screen';
 
 export {Banner};

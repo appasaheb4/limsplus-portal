@@ -1,3 +1,3 @@
-export * from './molecules/DepartmentList';
-export * from './orgransims/AutoCompleteFilterSingleSelectLabs';
-export * from './orgransims/AutoCompleteFilterSingleSelectHod';
+export * from './molecules/department-list.component';
+export * from './orgransims/auto-complete-filter-single-select-labs.component';
+export * from './orgransims/auto-complete-filter-single-select-hod.component';

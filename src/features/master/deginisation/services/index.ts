@@ -1,2 +1,2 @@
-import DeginisationService from './deginisation-services';
+import DeginisationService from './deginisation.service';
 export {DeginisationService};

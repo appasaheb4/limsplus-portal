@@ -1,1 +1,1 @@
-export * from './corporateClients-services';
+export * from './corporate-clients.service';

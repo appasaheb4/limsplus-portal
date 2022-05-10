@@ -9,14 +9,16 @@ import PrivacyPolicy from '@/features/privacyPolicy/scences/PrivacyPolicy';
 const DefaultDashboard = async(() => import('@/features/defaultDashboard'));
 
 // Collection
-const Banner = async(() => import('@/features/master/banner/scenes/banner'));
+const Banner = async(
+  () => import('@/features/master/banner/scenes/banner.screen'),
+);
 const CollectionLab = async(() => import('@/features/master/labs/scenes/Lab'));
 const CollectionDeginisation = async(
-  () => import('@/features/master/deginisation/scenes/deginisation'),
+  () => import('@/features/master/deginisation/scenes/deginisation.screen'),
 );
 
 const CollectionDepartment = async(
-  () => import('@/features/master/department/scenes/Department'),
+  () => import('@/features/master/department/scenes/department.screen'),
 );
 
 // master
@@ -54,7 +56,9 @@ const TestSampleMapping = async(
     ),
 );
 const Methods = async(() => import('@/features/master/methods/scenes/Methods'));
-const Doctors = async(() => import('@/features/master/doctors/scenes/Doctors'));
+const Doctors = async(
+  () => import('@/features/master/doctors/scenes/doctor.screen'),
+);
 const RegistrationLocation = async(
   () =>
     import(
@@ -62,16 +66,22 @@ const RegistrationLocation = async(
     ),
 );
 const CorporateClients = async(
-  () => import('@/features/master/corporateClients/scenes/CorporateClients'),
+  () =>
+    import(
+      '@/features/master/corporateClients/scenes/corporate-clients.screen'
+    ),
 );
 const DeliverySchedule = async(
-  () => import('@/features/master/deliverySchedule/scenes/DeliverySchedule'),
+  () =>
+    import(
+      '@/features/master/deliverySchedule/scenes/delivery-schedule.screen'
+    ),
 );
 
 const AdministrativeDivisions = async(
   () =>
     import(
-      '@/features/master/administrativeDivisions/scenes/AdministrativeDivisions'
+      '@/features/master/administrativeDivisions/scenes/administrative-divisions.screen'
     ),
 );
 const SalesTeam = async(

@@ -1,1 +1,1 @@
-export * from './molecules/AdminstrativeDivList';
+export * from './molecules/adminstrative-div-list.component';
