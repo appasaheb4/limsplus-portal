@@ -18,7 +18,7 @@ import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectPanelCode,
 } from '../index';
-import {ModalReportOrder} from './ModalReportOrder';
+import {ModalReportOrder} from './modal-report-order.component';
 
 let dateCreation;
 let dateActive;

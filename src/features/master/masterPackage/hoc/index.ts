@@ -1,1 +1,1 @@
-export * from './MasterPackageHOC';
+export * from './master-package.hoc';

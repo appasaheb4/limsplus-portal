@@ -1,1 +1,1 @@
-export * from './PossibleResults';
+export * from './possible-result.screen';

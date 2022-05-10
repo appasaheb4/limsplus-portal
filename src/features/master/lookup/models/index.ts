@@ -1,2 +1,2 @@
-export * from './Lookup';
-export * from './GlobalSettings';
+export * from './lookup.model';
+export * from './globals-settings.model';
