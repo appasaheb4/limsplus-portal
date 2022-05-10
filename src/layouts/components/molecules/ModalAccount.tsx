@@ -67,7 +67,7 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
             </div>
             {loginStore.login?.labList !== undefined &&
               loginStore.login?.labList?.length > 1 && (
-                <Form.InputWrapper label={`Switch Lab`} id='labChange'>
+                <Form.InputWrapper label={'Switch Lab'} id='labChange'>
                   <select
                     name='defualtLab'
                     value={loginStore.login?.lab}
@@ -80,7 +80,7 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
                       });
                       history.push('/dashboard/default');
                       Toast.success({
-                        message: `😊 Your lab change successfully`,
+                        message: '😊 Your lab change successfully',
                       });
                       props.onClose && props.onClose();
                     }}
@@ -97,7 +97,7 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
               )}
             {loginStore.login?.roleList !== undefined &&
               loginStore.login?.roleList?.length > 1 && (
-                <Form.InputWrapper label={`Switch Role`} id='roleChange'>
+                <Form.InputWrapper label={'Switch Role'} id='roleChange'>
                   <select
                     name='roleChange'
                     value={loginStore.login?.role}
