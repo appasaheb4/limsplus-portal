@@ -1,1 +1,1 @@
-export * from './CoporateClient';
+export * from './coporate-client.model';

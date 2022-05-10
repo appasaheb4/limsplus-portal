@@ -1,1 +1,1 @@
-export * from './molecules/DeginisationList';
+export * from './molecules/deginisation-list.component';

@@ -1,1 +1,1 @@
-export * from './DeliverySchedule';
+export * from './delivery-schedule.model';

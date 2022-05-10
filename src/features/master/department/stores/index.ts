@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {DepartmentStore} from './department-store';
+import {DepartmentStore} from './department.store';
 
 export const Stores = {
   departmentStore: new DepartmentStore(),
