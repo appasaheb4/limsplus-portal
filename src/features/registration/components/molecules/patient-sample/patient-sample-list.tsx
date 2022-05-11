@@ -296,6 +296,13 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               },
             },
             {
+              dataField: 'labelInstructions',
+              text: 'Label Instructions',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader4',

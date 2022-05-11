@@ -20,6 +20,7 @@ export class PatientSample {
   labSpecific: string;
   departmentSpecific: string;
   sharedSample: string;
+  labelInstructions: string;
   status: string;
   environment: string;
 
@@ -45,6 +46,7 @@ export class PatientSample {
     this.labSpecific = rawData.labSpecific;
     this.departmentSpecific = rawData.departmentSpecific;
     this.sharedSample = rawData.sharedSample;
+    this.labelInstructions = rawData.labelInstructions;
     this.status = rawData.status;
     this.environment = rawData.environment;
   }
