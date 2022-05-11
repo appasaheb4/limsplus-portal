@@ -20,7 +20,7 @@ import {TestAnalyteMappingStore} from '@/features/master/testAnalyteMapping/stor
 import {TestMasterStore} from '@/features/master/testMaster/stores/test-master.store';
 import {DeliveryScheduleStore} from '@/features/master/deliverySchedule/stores/delivery-schedule.store';
 import {MasterPanelStore} from '@/features/master/master-panel/stores/master-panel.store';
-import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/test-panel-mapping.tore';
+import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/test-panel-mapping.store';
 import {MasterPackageStore} from '@/features/master/masterPackage/stores/master-package.store';
 import {SampleContainerStore} from '@/features/master/sampleContainer/stores/sample-container.store';
 import {SampleTypeStore} from '@/features/master/sampleType/stores/sample-type.store';
