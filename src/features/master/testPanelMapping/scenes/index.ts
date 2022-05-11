@@ -1,3 +1,3 @@
-import TestPanelMapping from './TestPanelMapping';
+import TestPanelMapping from './test-panel-mapping.screen';
 
 export {TestPanelMapping};

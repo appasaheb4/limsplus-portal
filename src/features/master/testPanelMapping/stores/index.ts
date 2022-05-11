@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {TestPanelMappingStore} from './testPanelMapping-store';
+import {TestPanelMappingStore} from './test-panel-mapping.tore';
 
 export const Stores = {
   testPanelMappingStore: new TestPanelMappingStore(),

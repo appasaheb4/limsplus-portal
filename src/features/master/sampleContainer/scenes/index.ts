@@ -1,3 +1,3 @@
-import SampleContainer from './SampleContainer';
+import SampleContainer from './sample-container.screen';
 
 export {SampleContainer};

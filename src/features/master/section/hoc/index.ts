@@ -1,1 +1,1 @@
-export * from './SectionHOC';
+export * from './section.hoc';

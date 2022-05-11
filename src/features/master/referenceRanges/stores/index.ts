@@ -1,5 +1,5 @@
 import React from 'react';
-import {RefernceRangesStore} from './referenceRanges-store';
+import {RefernceRangesStore} from './reference-ranges.store';
 
 export const Stores = {
   referenceRangesStore: new RefernceRangesStore(),

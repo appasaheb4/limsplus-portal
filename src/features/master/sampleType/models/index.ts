@@ -1,1 +1,1 @@
-export * from './SampleType';
+export * from './sample-type.model';

@@ -1,3 +1,3 @@
-import SampleType from './SampleType';
+import SampleType from './sample-type.screen';
 
 export {SampleType};

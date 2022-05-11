@@ -29,29 +29,37 @@ const MasterAnalyte = async(
 );
 const TestAnalyteMapping = async(
   () =>
-    import('@/features/master/testAnalyteMapping/scenes/TestAnalyteMapping'),
+    import(
+      '@/features/master/testAnalyteMapping/scenes/test-analyte-mapping.screen'
+    ),
 );
 const MasterPanel = async(
   () => import('@/features/master/master-panel/scenes/master-panel.screen'),
 );
 const TestPanelMapping = async(
-  () => import('@/features/master/testPanelMapping/scenes/TestPanelMapping'),
+  () =>
+    import(
+      '@/features/master/testPanelMapping/scenes/test-panel-mapping.screen'
+    ),
 );
 const MasterPackage = async(
   () => import('@/features/master/masterPackage/scenes/master-package.screen'),
 );
 const TestMaster = async(
-  () => import('@/features/master/testMaster/scenes/TestMaster'),
+  () => import('@/features/master/testMaster/scenes/test-master.screen'),
 );
 const Lookup = async(
   () => import('@/features/master/lookup/scenes/lookup.screen'),
 );
-const Section = async(() => import('@/features/master/section/scenes/Section'));
+const Section = async(
+  () => import('@/features/master/section/scenes/section.screen'),
+);
 const SampleContainer = async(
-  () => import('@/features/master/sampleContainer/scenes/SampleContainer'),
+  () =>
+    import('@/features/master/sampleContainer/scenes/sample-container.screen'),
 );
 const SampleType = async(
-  () => import('@/features/master/sampleType/scenes/SampleType'),
+  () => import('@/features/master/sampleType/scenes/sample-type.screen'),
 );
 const TestSampleMapping = async(
   () =>
@@ -68,7 +76,7 @@ const Doctors = async(
 const RegistrationLocation = async(
   () =>
     import(
-      '@/features/master/registrationLocations/scenes/RegistrationLocations'
+      '@/features/master/registrationLocations/scenes/registration-location.screen'
     ),
 );
 const CorporateClients = async(
@@ -91,7 +99,7 @@ const AdministrativeDivisions = async(
     ),
 );
 const SalesTeam = async(
-  () => import('@/features/master/sales-team/scenes/sales-team'),
+  () => import('@/features/master/sales-team/scenes/sales-team.screen'),
 );
 const PossibleResults = async(
   () =>
@@ -104,7 +112,8 @@ const PriceList = async(
   () => import('@/features/master/priceList/scenes/price-list.screen'),
 );
 const ReferenceRanges = async(
-  () => import('@/features/master/referenceRanges/scenes/ReferenceRanges'),
+  () =>
+    import('@/features/master/referenceRanges/scenes/reference-ranges.screen'),
 );
 
 // Communication

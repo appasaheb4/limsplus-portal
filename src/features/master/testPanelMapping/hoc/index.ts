@@ -1,1 +1,1 @@
-export * from './TestPanelMappingHOC';
+export * from './test-panel-mapping.hoc';
