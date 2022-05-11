@@ -1,1 +1,1 @@
-export * from './SampleContainer';
+export * from './sample-container.model';

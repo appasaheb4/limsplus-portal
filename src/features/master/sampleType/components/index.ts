@@ -1,1 +1,1 @@
-export * from './molecules/SampleTypeList';
+export * from './molecules/sample-type-list.component';

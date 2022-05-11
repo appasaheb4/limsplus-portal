@@ -1,1 +1,1 @@
-export * from './ReferenceRangesHoc';
+export * from './reference-ranges.hoc';

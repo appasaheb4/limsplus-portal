@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {TestAnalyteMappingStore} from './testAnalyteMapping-store';
+import {TestAnalyteMappingStore} from './test-analyte-mapping.store';
 
 export const Stores = {
   testAnalyteMappingStore: new TestAnalyteMappingStore(),

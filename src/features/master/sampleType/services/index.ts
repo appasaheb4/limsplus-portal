@@ -1,1 +1,1 @@
-export * from './sampleType-services';
+export * from './sample-type.service';

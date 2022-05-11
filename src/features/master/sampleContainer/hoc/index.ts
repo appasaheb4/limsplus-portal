@@ -1,1 +1,1 @@
-export * from './SampleContainerHOC';
+export * from './sample-container.hoc';

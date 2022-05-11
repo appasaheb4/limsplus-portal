@@ -6,33 +6,33 @@ import {AppStore} from './app-store';
 import {LoginStore} from '@/features/login/stores/login.store';
 import {UserStore} from '@/features/settings/users/stores/UsersStore';
 import {LookupStore} from '@/features/master/lookup/stores/lookup.store';
-import {SectionStore} from '@/features/master/section/stores/section-store';
+import {SectionStore} from '@/features/master/section/stores/section.store';
 
 // master
 import {BannerStore} from '@/features/master/banner/stores/banner.store';
 import {LabStore} from '@/features/master/labs/stores/lab.store';
-import {SalesTeamStore} from '@/features/master/sales-team/stores/salesTeam-store';
+import {SalesTeamStore} from '@/features/master/sales-team/stores/sales-team.store';
 import {DeginisationStore} from '@/features/master/deginisation/stores/deginisation.store';
 import {DepartmentStore} from '@/features/master/department/stores/department.store';
 import {AdministrativeDivisionsStore} from '@/features/master/administrativeDivisions/stores/administrative-divisions.store';
 import {MasterAnalyteStore} from '@/features/master/masterAnalyte/stores/master-analyte.store';
-import {TestAnalyteMappingStore} from '@/features/master/testAnalyteMapping/stores/testAnalyteMapping-store';
+import {TestAnalyteMappingStore} from '@/features/master/testAnalyteMapping/stores/test-analyte-mapping.store';
 import {TestMasterStore} from '@/features/master/testMaster/stores/test-master.store';
 import {DeliveryScheduleStore} from '@/features/master/deliverySchedule/stores/delivery-schedule.store';
 import {MasterPanelStore} from '@/features/master/master-panel/stores/master-panel.store';
-import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/testPanelMapping-store';
+import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/test-panel-mapping.tore';
 import {MasterPackageStore} from '@/features/master/masterPackage/stores/master-package.store';
-import {SampleContainerStore} from '@/features/master/sampleContainer/stores/sampleContainer-store';
-import {SampleTypeStore} from '@/features/master/sampleType/stores/sampleType-store';
+import {SampleContainerStore} from '@/features/master/sampleContainer/stores/sample-container.store';
+import {SampleTypeStore} from '@/features/master/sampleType/stores/sample-type.store';
 import {MethodsStore} from '@/features/master/methods/stores/method.store';
-import {TestSampleMappingStore} from '@/features/master/test-sample-mapping/stores/testSampleMapping-store';
+import {TestSampleMappingStore} from '@/features/master/test-sample-mapping/stores/test-sample-mapping.store';
 import {CorporateClientsStore} from '@/features/master/corporateClients/stores/corporate-clients.store';
 import {DoctorsStore} from '@/features/master/doctors/stores/doctor.store';
-import {RegistrationLocationsStore} from '@/features/master/registrationLocations/stores/registrationLocations-store';
+import {RegistrationLocationsStore} from '@/features/master/registrationLocations/stores/registration-location.store';
 import {PossibleResultsStore} from '@/features/master/possibleResults/stores/possible-result.store';
 import {LibraryStore} from '@/features/master/library/stores/library.store';
 import {PriceListStore} from '@/features/master/priceList/stores/price-list.store';
-import {RefernceRangesStore} from '@/features/master/referenceRanges/stores/referenceRanges-store';
+import {RefernceRangesStore} from '@/features/master/referenceRanges/stores/reference-ranges.store';
 
 // communication
 import {InterfaceManagerStore} from '@/features/communication/interfaceManager/stores/interfaceManager-store';
