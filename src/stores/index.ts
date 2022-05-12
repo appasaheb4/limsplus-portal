@@ -35,10 +35,10 @@ import {PriceListStore} from '@/features/master/priceList/stores/price-list.stor
 import {RefernceRangesStore} from '@/features/master/referenceRanges/stores/reference-ranges.store';
 
 // communication
-import {InterfaceManagerStore} from '@/features/communication/interfaceManager/stores/interfaceManager-store';
-import {DataConversationStore} from '@/features/communication/dataConversation/stores/dataConversation-store';
-import {HostCommunicationStore} from '@/features/communication/hostCommunication/stores/hostCommunication-store';
-import {SegmentMappingStore} from '@/features/communication/segmentMapping/stores/segmentMapping-store';
+import {InterfaceManagerStore} from '@/features/communication/interfaceManager/stores/interface-manager.store';
+import {DataConversationStore} from '@/features/communication/dataConversation/stores/data-conversation.store';
+import {HostCommunicationStore} from '@/features/communication/hostCommunication/stores/host-communication.store';
+import {SegmentMappingStore} from '@/features/communication/segmentMapping/stores/segment-mapping.store';
 
 // setting
 import {RoleStore} from '@/features/settings/roles/stores/role-store';

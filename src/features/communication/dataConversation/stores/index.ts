@@ -1,1 +1,1 @@
-export * from './dataConversation-store';
+export * from './data-conversation.store';

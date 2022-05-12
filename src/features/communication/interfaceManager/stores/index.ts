@@ -1,1 +1,1 @@
-export * from './interfaceManager-store';
+export * from './interface-manager.store';

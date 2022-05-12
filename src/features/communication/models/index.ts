@@ -19,5 +19,5 @@ export interface Mapping {
   };
 }
 
-export * from './Communication';
-export * from './constants';
+export * from './communication.model';
+export * from './constant.model';

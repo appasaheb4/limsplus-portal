@@ -1,2 +1,2 @@
-export * from './SegmentList';
-export * from './SegmentMappingList';
+export * from './segment-list.component';
+export * from './segment-mapping-list.component';
