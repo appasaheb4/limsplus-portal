@@ -1,1 +1,1 @@
-export * from './NoticeBoard';
+export * from './notice-board.model';

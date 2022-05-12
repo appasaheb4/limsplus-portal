@@ -1,1 +1,1 @@
-export * from './noticeBoard-services';
+export * from './notice-board.service';

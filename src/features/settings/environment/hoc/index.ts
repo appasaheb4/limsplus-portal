@@ -1,1 +1,1 @@
-export * from './EnvironmentSettingsHoc';
+export * from './environment-setting.hoc';

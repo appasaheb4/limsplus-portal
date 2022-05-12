@@ -143,22 +143,27 @@ const InterfaceManager = async(
 );
 
 // Settings
-const Role = async(() => import('@/features/settings/roles/scenes/Role'));
-const User = async(() => import('@/features/settings/users/scenes/Users'));
+const Role = async(
+  () => import('@/features/settings/roles/scenes/role.screen'),
+);
+const User = async(
+  () => import('@/features/settings/users/scenes/user.screen'),
+);
 const RoleMapping = async(
-  () => import('@/features/settings/mapping/role/scenes/RoleMapping'),
+  () => import('@/features/settings/mapping/role/scenes/role-mapping.screen'),
 );
 const LoginActivity = async(
-  () => import('@/features/settings/loginActivity/scenes/LoginActivity'),
+  () =>
+    import('@/features/settings/loginActivity/scenes/login-activity.screen'),
 );
 const ShortcutMenu = async(
-  () => import('@/features/settings/shortcutMenu/scenes/ShortcutMenu'),
+  () => import('@/features/settings/shortcutMenu/scenes/short-cut-menu.screen'),
 );
 const Environment = async(
-  () => import('@/features/settings/environment/scenes/Environment'),
+  () => import('@/features/settings/environment/scenes/environment.screen'),
 );
 const NoticeBoards = async(
-  () => import('@/features/settings/noticeBoard/scenes/NoticeBoard'),
+  () => import('@/features/settings/noticeBoard/scenes/notice-board.screen'),
 );
 
 // Registration

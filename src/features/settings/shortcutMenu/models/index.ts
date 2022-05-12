@@ -1,1 +1,1 @@
-export * from './ShortCutMenu';
+export * from './short-cut-menu.model';
