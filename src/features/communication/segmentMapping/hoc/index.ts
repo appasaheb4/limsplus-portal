@@ -1,1 +1,1 @@
-export * from './SegmentMappingHoc';
+export * from './segment-mapping.hoc';

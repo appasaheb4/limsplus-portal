@@ -1,1 +1,1 @@
-export * from './InterfaceManagerHoc';
+export * from './interface-manager.hoc';

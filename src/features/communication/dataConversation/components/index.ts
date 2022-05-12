@@ -1,1 +1,1 @@
-export * from './molecules/DataConversationList';
+export * from './molecules/data-conversation-list.component';

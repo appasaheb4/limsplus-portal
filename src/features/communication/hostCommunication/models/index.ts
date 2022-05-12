@@ -1,1 +1,1 @@
-export * from './HostCommunication';
+export * from './host-communication.model';

@@ -120,23 +120,25 @@ const ReferenceRanges = async(
 const HostCommunication = async(
   () =>
     import(
-      '@/features/communication/hostCommunication/scences/HostCommunication'
+      '@/features/communication/hostCommunication/scences/host-communication.screen'
     ),
 );
 const SegmentMapping = async(
   () =>
-    import('@/features/communication/segmentMapping/scences/SegmentMapping'),
+    import(
+      '@/features/communication/segmentMapping/scences/SegmentMapping.screen'
+    ),
 );
 const DataConversation = async(
   () =>
     import(
-      '@/features/communication/dataConversation/scences/DataConversation'
+      '@/features/communication/dataConversation/scences/data-conversation.screen'
     ),
 );
 const InterfaceManager = async(
   () =>
     import(
-      '@/features/communication/interfaceManager/scences/InterfaceManager'
+      '@/features/communication/interfaceManager/scences/interface-manager.screen'
     ),
 );
 
