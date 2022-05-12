@@ -81,18 +81,6 @@ export const PatientTest = PatientOrderHoc(
     };
     return (
       <>
-        {/* {patientOrderStore.patientOrder?.labId && (
-          <Heading
-            title={`${patientOrderStore.patientOrder.labId} - ${patientOrderStore.patientOrder.patientName}`}
-          />
-        )}
-        {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
-          <Buttons.ButtonCircleAddRemoveBottom
-            style={{ bottom: 140 }}
-            show={hideInputView}
-            onClick={() => setHideInputView(!hideInputView)}
-          />
-        )} */}
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'hidden')
