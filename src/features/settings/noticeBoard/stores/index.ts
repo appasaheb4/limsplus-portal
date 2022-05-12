@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {NoticeBoardStore} from './noticeBoard-store';
+import {NoticeBoardStore} from './notice-board.store';
 
 export const Stores = {
   noticeBoardStore: new NoticeBoardStore(),

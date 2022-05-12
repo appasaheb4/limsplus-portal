@@ -4,7 +4,7 @@ import {RootStore} from './root-store';
 import {RouterStore} from './router-store';
 import {AppStore} from './app-store';
 import {LoginStore} from '@/features/login/stores/login.store';
-import {UserStore} from '@/features/settings/users/stores/UsersStore';
+import {UserStore} from '@/features/settings/users/stores/user.store';
 import {LookupStore} from '@/features/master/lookup/stores/lookup.store';
 import {SectionStore} from '@/features/master/section/stores/section.store';
 
@@ -41,12 +41,12 @@ import {HostCommunicationStore} from '@/features/communication/hostCommunication
 import {SegmentMappingStore} from '@/features/communication/segmentMapping/stores/segment-mapping.store';
 
 // setting
-import {RoleStore} from '@/features/settings/roles/stores/role-store';
-import {EnvironmentStore} from '@/features/settings/environment/stores/EnvironmentStore';
-import {LoginActivityStore} from '@/features/settings/loginActivity/stores/loginActivity-store';
-import {RoleMappingStore} from '@/features/settings/mapping/role/stores/rolemapping-store';
-import {ShortcutMenuStore} from '@/features/settings/shortcutMenu/stores/shortcutMenu-store';
-import {NoticeBoardStore} from '@/features/settings/noticeBoard/stores/noticeBoard-store';
+import {RoleStore} from '@/features/settings/roles/stores/role.store';
+import {EnvironmentStore} from '@/features/settings/environment/stores/environment.store';
+import {LoginActivityStore} from '@/features/settings/loginActivity/stores/login-activity.store';
+import {RoleMappingStore} from '@/features/settings/mapping/role/stores/role-mapping.store';
+import {ShortcutMenuStore} from '@/features/settings/shortcutMenu/stores/short-cut-menu.store';
+import {NoticeBoardStore} from '@/features/settings/noticeBoard/stores/notice-board.store';
 
 // registation
 import {
