@@ -1,2 +1,2 @@
-export * from './Login';
-export * from './ForgotPassword';
+export * from './login.model';
+export * from './forgot-password.model';

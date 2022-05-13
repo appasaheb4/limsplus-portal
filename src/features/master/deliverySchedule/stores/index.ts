@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {DeliveryScheduleStore} from './deliverySchedule-store';
+import {DeliveryScheduleStore} from './delivery-schedule.store';
 
 export const Stores = {
   deliveryScheduleStore: new DeliveryScheduleStore(),

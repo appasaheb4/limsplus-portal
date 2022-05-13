@@ -1,1 +1,1 @@
-export * from './sampleContainer-service';
+export * from './sample-container.service';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {LoginActivityStore} from './loginActivity-store';
+import {LoginActivityStore} from './login-activity.store';
 
 export const Stores = {
   loginActivityStore: new LoginActivityStore(),

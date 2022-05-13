@@ -1,3 +1,3 @@
-import DeliverySchedule from './DeliverySchedule';
+import DeliverySchedule from './delivery-schedule.screen';
 
 export {DeliverySchedule};

@@ -1,1 +1,1 @@
-export * from './DeliveryScheduleHoc';
+export * from './delivery-schedule.hoc';

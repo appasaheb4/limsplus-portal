@@ -1,2 +1,2 @@
-import {EnvironmentService} from './environment-services';
+import {EnvironmentService} from './environment.service';
 export {EnvironmentService};

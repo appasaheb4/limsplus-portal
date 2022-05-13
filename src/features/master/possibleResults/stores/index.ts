@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {PossibleResultsStore} from './possibleResults-store';
+import {PossibleResultsStore} from './possible-result.store';
 
 export const Stores = {
   possibleResultsStore: new PossibleResultsStore(),

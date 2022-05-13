@@ -1,1 +1,1 @@
-export * from './PossibleResultsHoc';
+export * from './possible-results.hoc';

@@ -1,1 +1,1 @@
-export * from './DataConversation';
+export * from './data-conversation.screen';

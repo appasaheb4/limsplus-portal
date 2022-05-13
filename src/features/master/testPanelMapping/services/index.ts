@@ -1,1 +1,1 @@
-export * from './testPanelMapping-services';
+export * from './test-panel-mapping.service';

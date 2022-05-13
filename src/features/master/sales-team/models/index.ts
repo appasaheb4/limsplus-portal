@@ -1,1 +1,1 @@
-export * from './SalesTeam';
+export * from './sales-team.model';

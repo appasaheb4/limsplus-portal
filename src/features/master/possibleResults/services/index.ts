@@ -1,1 +1,1 @@
-export * from './possibleResults-services';
+export * from './possible-result.service';

@@ -1,1 +1,1 @@
-export * from './MasterAnalyte';
+export * from './master-analyte.model';

@@ -1,1 +1,1 @@
-export * from './LoginActvity';
+export * from './login-actvity.model';

@@ -1,1 +1,1 @@
-export * from './RolesHoc';
+export * from './role.hoc';

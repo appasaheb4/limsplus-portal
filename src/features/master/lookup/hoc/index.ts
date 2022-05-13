@@ -1,2 +1,2 @@
-export * from './DocumentSettingHOC';
-export * from './GeneralFieldHOC';
+export * from './document-setting.hoc';
+export * from './general-field.hoc';

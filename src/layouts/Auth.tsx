@@ -2,8 +2,8 @@ import React from 'react';
 
 import {Col, Container, Row} from 'reactstrap';
 
-import Main from './components/Main';
-import Settings from './components/Settings';
+import Main from './components/main.component';
+import Settings from './components/setting.component';
 
 const Auth = ({children}) => (
   <React.Fragment>

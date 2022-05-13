@@ -1,1 +1,1 @@
-export * from './banner-service';
+export * from './banner.service';

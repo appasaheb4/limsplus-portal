@@ -1,1 +1,1 @@
-export * from './SalesTeamHoc';
+export * from './sales-team.hoc';

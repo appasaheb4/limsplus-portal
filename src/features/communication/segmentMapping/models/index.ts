@@ -1,1 +1,1 @@
-export * from './SegmentMapping';
+export * from './segment-mapping.model';

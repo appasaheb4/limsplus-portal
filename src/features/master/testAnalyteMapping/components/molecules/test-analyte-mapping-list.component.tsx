@@ -21,7 +21,7 @@ import {
 import {
   ModalResultReportOrder,
   ModalResultReportOrderProps,
-} from './ModalResultReportOrder';
+} from './modal-result-report-order.component';
 
 let lab;
 let analyteCode;

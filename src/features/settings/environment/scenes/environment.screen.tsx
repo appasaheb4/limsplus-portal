@@ -13,8 +13,8 @@ import '@/library/assets/css/accordion.css';
 
 import {useStores} from '@/stores';
 
-import {EnvironmentVariable} from './EnvironmentVariable';
-import {EnvironmentSettings} from './EnvironmentSettings';
+import {EnvironmentVariable} from './environment-variable.screen';
+import {EnvironmentSettings} from './environment-setting.screen';
 
 const Environment = observer(() => {
   const {loginStore, environmentStore, routerStore} = useStores();

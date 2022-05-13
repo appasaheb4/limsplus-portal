@@ -1,1 +1,1 @@
-export * from './AdministrativeDivisionsHoc';
+export * from './administrative-divisions.hoc';

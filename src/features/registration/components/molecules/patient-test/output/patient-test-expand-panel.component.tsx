@@ -6,24 +6,27 @@ import ToolkitProvider, {
   Search,
   CSVExport,
 } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-// import cellEditFactory from "react-bootstrap-table2-editor"
+import cellEditFactory from 'react-bootstrap-table2-editor';
 import paginationFactory, {
   PaginationProvider,
+  PaginationListStandalone,
+  SizePerPageDropdownStandalone,
+  PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator';
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
 import {Buttons, Icons} from '@/library/components';
-// import * as LibraryModels from "@/library/models"
+import {Confirm} from '@/library/models';
 
-import * as Config from '@/config';
-import {ExpandPatientTestTestCode} from './ExpandPatientTestTestCode';
+// import * as Config from "@/config"
+import {PatientTestExpandByTestId} from './patient-test-expand-by-test-Id.component';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
 
-interface ExpandExtraDataPatientTestTableProps {
+interface PatientTestExpandPanelProps {
   id: string;
   data: any;
   totalSize?: number;
@@ -35,7 +38,7 @@ interface ExpandExtraDataPatientTestTableProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   isSelectRow?: boolean;
-  //onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
@@ -47,7 +50,7 @@ interface ExpandExtraDataPatientTestTableProps {
   ) => void;
   clearAllFilter?: () => void;
 }
-export const ExpandExtraDataPatientTestTable = ({
+export const PatientTestExpandPanel = ({
   id,
   data,
   totalSize = 10,
@@ -63,7 +66,7 @@ export const ExpandExtraDataPatientTestTable = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
-}: ExpandExtraDataPatientTestTableProps) => {
+}: PatientTestExpandPanelProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
@@ -84,27 +87,6 @@ export const ExpandExtraDataPatientTestTable = ({
     onSizePerPageChange,
   }) => (
     <div className='btn-group items-center' role='group'>
-      {isSelectRow && (
-        <Buttons.Button
-          style={{height: 10, width: 200}}
-          size='small'
-          type='solid'
-          onClick={() => {
-            if (selectedRow) {
-              onSelectedRow && onSelectedRow(selectedRow);
-            } else {
-              alert('Please select any item.');
-            }
-          }}
-        >
-          <Icons.EvaIcon
-            icon='trash-outline'
-            size='large'
-            color={Config.Styles.COLORS.BLACK}
-          />
-          Remove Selected
-        </Buttons.Button>
-      )}
       <input
         type='number'
         min='0'
@@ -122,9 +104,7 @@ export const ExpandExtraDataPatientTestTable = ({
           type='button'
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn ${
-            currSizePerPage === `${option.page}`
-              ? 'btn-primary'
-              : 'btn-secondary'
+            currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
           }`}
         >
           {option.text}
@@ -170,6 +150,26 @@ export const ExpandExtraDataPatientTestTable = ({
     ],
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
+  };
+  let searchProps: any = {
+    placeholder: searchPlaceholder,
+  };
+  const handleOnSelect = (rows: any, isSelect) => {
+    if (isSelect) {
+      if (selectedRow) {
+        let itemSelected: any[] = selectedRow;
+        itemSelected.push(rows);
+        setSelectedRow(itemSelected);
+      } else {
+        setSelectedRow([rows]);
+      }
+    }
+  };
+
+  const handleOnSelectAll = (isSelect, rows) => {
+    if (isSelect) {
+      setSelectedRow(rows);
+    }
   };
 
   const handleTableChange = (
@@ -243,171 +243,49 @@ export const ExpandExtraDataPatientTestTable = ({
     }
   };
 
+  const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
+    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
+      {columns
+        .map(column => ({
+          ...column,
+          toggle: toggles[column.dataField],
+        }))
+        .map((column, index) => {
+          if (index > 0) {
+            return (
+              <button
+                type='button'
+                key={column.dataField}
+                className={` btn btn-primary btn-sm whitespace-nowrap ${
+                  column.toggle ? 'active' : ''
+                }`}
+                data-toggle='button'
+                aria-pressed={column.toggle ? 'true' : 'false'}
+                onClick={() => onColumnToggle(column.dataField)}
+              >
+                {column.text}
+              </button>
+            );
+          }
+        })}
+    </div>
+  );
+
   const expandRow = {
     renderer: row => (
       <div className='z-0'>
-        <ExpandPatientTestTestCode
+        <PatientTestExpandByTestId
           id='_id'
-          data={row.testMasterList}
-          totalSize={row.testMasterList.length}
+          data={row.panelMasterList || []}
+          totalSize={row.panelMasterList?.length}
           columns={[
             {
-              dataField: 'department',
-              text: 'Department',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.department}</span>
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'section',
-              text: 'Section',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.section.code}</span>
-                  </>
-                );
-              },
+              dataField: 'panelCode',
+              text: 'Panel Code',
             },
             {
-              dataField: 'methodCode',
-              text: 'Method Code',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.methodCode}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'methodName',
-              text: 'Method Name',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.methodName}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'validationLevel',
-              text: 'Validation Level',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.validationLevel}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'resultOrder',
-              text: 'Result Order',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.resultOrder}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'prefix',
-              text: 'Prefix',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.prefix}</span>
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'sufix',
-              text: 'Sufix',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.sufix}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'deleverySchedule',
-              text: 'Delevery Schedule',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.deleverySchedule}</span>
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'holdingDays',
-              text: 'Holding Days',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.holdingDays}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'tat',
-              text: 'Tat',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.tat}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'workListCode',
-              text: 'Work List Code',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.workListCode}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'version',
-              text: 'Version',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.version}</span>
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'environment',
-              text: 'Environment',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.environment}</span>
-                  </>
-                );
-              },
+              dataField: 'panelName',
+              text: 'Panel Name',
             },
           ]}
           onSelectedRow={rows => {}}
@@ -447,7 +325,61 @@ export const ExpandExtraDataPatientTestTable = ({
         >
           {props => (
             <div>
-              <div>
+              <div className='flex items-center'>
+                <SearchBar
+                  {...searchProps}
+                  {...props.searchProps}
+                  onChange={value => {}}
+                />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  {...props.searchProps}
+                />
+                <button
+                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  onClick={clearAllFilter}
+                >
+                  Clear all filters
+                </button>
+                <ExportCSVButton
+                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  {...props.csvProps}
+                >
+                  Export CSV!!
+                </ExportCSVButton>
+                {isFilterOpen ? (
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen);
+                    }}
+                  >
+                    <Icons.IconFa.FaChevronUp />
+                  </Buttons.Button>
+                ) : (
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen);
+                    }}
+                  >
+                    <Icons.IconFa.FaChevronDown />
+                  </Buttons.Button>
+                )}
+              </div>
+              {isFilterOpen && (
+                <div className={'mb-2 overflow-auto h-10'}>
+                  <CustomToggleList
+                    contextual='primary'
+                    className='list-custom-class'
+                    btnClassName='list-btn-custom-class'
+                    {...props.columnToggleProps}
+                  />
+                </div>
+              )}
+              <div className='scrollTable'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -455,10 +387,39 @@ export const ExpandExtraDataPatientTestTable = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
+                  // selectRow={
+                  //   isSelectRow
+                  //     ? {
+                  //         mode: "checkbox",
+                  //         onSelect: handleOnSelect,
+                  //         onSelectAll: handleOnSelectAll,
+                  //       }
+                  //     : undefined
+                  // }
+                  cellEdit={
+                    isEditModify
+                      ? cellEditFactory({
+                          mode: 'dbclick',
+                          blurToSave: true,
+                        })
+                      : undefined
+                  }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
-                  expandRow={expandRow}
+                  //expandRow={expandRow}
                 />
+              </div>
+              <div className='flex items-center gap-2 mt-2'>
+                <SizePerPageDropdownStandalone
+                  {...Object.assign(
+                    {},
+                    {...paginationProps, hideSizePerPage: false},
+                  )}
+                />
+                <PaginationListStandalone {...paginationProps} />
+              </div>
+              <div className='flex items-center gap-2 mt-2'>
+                <PaginationTotalStandalone {...paginationProps} />
               </div>
             </div>
           )}

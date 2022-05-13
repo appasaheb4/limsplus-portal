@@ -1,1 +1,1 @@
-export * from './LabHOC';
+export * from './lab.hoc';

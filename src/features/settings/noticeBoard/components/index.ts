@@ -1,2 +1,2 @@
-export * from './molecules/NocieBoardsList';
-export * from './organsims/AutoCompleteFilterSingleSelectLabs';
+export * from './molecules/notice-board-list.component';
+export * from './organsims/auto-complete-filter-single-select-lab.component';

@@ -1,1 +1,1 @@
-export * from './sales-team-services';
+export * from './sales-team.service';

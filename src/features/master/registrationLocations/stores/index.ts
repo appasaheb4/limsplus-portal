@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RegistrationLocationsStore} from './registrationLocations-store';
+import {RegistrationLocationsStore} from './registration-location.store';
 
 export const Stores = {
   registrationLocationsStore: new RegistrationLocationsStore(),

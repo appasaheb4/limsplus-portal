@@ -1,1 +1,1 @@
-export * from './MasterAnalyteHOC';
+export * from './master-analyte.hoc';

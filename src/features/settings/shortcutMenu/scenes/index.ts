@@ -1,1 +1,1 @@
-export {default as ShortcutMenu} from './ShortcutMenu';
+export {default as ShortcutMenu} from './short-cut-menu.screen';

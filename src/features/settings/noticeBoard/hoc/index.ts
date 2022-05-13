@@ -1,1 +1,1 @@
-export * from './NoticeBoardHoc';
+export * from './notice-board.hoc';
