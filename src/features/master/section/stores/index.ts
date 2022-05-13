@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SectionStore} from './section-store';
+import {SectionStore} from './section.store';
 
 export const Stores = {
   sectionStore: new SectionStore(),

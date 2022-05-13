@@ -17,7 +17,7 @@ import {
   ModalChangePassword,
   ModalSessionAllowed,
 } from '@/library/components';
-import {ModalAccount} from '../components';
+import {ModalAccount} from '.';
 
 import {RouterFlow} from '@/flows';
 

@@ -1,1 +1,1 @@
-export * from './SampleTypeHOC';
+export * from './sample-type.hoc';

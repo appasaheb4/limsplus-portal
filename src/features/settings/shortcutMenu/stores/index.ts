@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ShortcutMenuStore} from './shortcutMenu-store';
+import {ShortcutMenuStore} from './short-cut-menu.store';
 
 export const Stores = {
   shortcutMenuStore: new ShortcutMenuStore(),

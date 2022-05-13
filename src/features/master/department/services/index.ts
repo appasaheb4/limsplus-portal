@@ -1,2 +1,2 @@
-import DepartmentService from './department-services';
+import DepartmentService from './department.service';
 export {DepartmentService};

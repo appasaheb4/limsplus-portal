@@ -1,2 +1,2 @@
-export * from './EnvironmentSettings';
-export * from './EnvironmentVariable';
+export * from './environment-setting.model';
+export * from './environment-variable.model';

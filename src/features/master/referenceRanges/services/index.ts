@@ -1,1 +1,1 @@
-export * from './referenceRanges-services';
+export * from './reference-ranges.service';

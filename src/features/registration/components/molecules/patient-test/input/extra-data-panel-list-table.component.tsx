@@ -3,7 +3,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {NumberFilter} from '@/library/components';
 import {Confirm} from '@/library/models';
-import {ExpandExtraDataPatientTestTable} from './ExpandExtraDataPatientTestTable';
+import {ExpandExtraDataPatientTestTable} from './expand-extra-data-patient-test-table.component';
 
 // import { NumberFilter } from "@/library/components/Organisms"
 

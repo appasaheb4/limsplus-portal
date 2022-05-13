@@ -1,1 +1,1 @@
-export * from './TestSampleMapping';
+export * from './test-sample-mapping.model';

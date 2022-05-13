@@ -1,1 +1,1 @@
-export * from './AdministrativeDivisions';
+export * from './administrative-divisions.screen';

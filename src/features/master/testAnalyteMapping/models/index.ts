@@ -1,1 +1,1 @@
-export * from './TestAnalyteMapping';
+export * from './test-analyte-mapping.model';

@@ -1,1 +1,1 @@
-export * from './testMaster-services';
+export * from './test-master.service';

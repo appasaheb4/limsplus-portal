@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SalesTeamStore} from './salesTeam-store';
+import {SalesTeamStore} from './sales-team.store';
 
 export const Stores = {
   salesTeamStore: new SalesTeamStore(),

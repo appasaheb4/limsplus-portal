@@ -1,1 +1,1 @@
-export * from './TestSampleMappingHOC';
+export * from './test-sample-mapping.hoc';

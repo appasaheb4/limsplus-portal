@@ -7,7 +7,7 @@ import {toggleSidebar} from '../../redux/actions/sidebarActions';
 import {Settings as SettingsIcon} from 'react-feather';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
-import {SideBarColorBgImages} from './SideBarColorBgImages';
+import {SideBarColorBgImages} from './sidebar-color-bg-image.component';
 import {images} from '@/library/assets';
 
 import {Badge, Button} from 'reactstrap';

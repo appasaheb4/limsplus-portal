@@ -1,51 +1,65 @@
 /* eslint-disable */
-import async from '../layouts/components/Async';
+import async from '../layouts/components/async.component';
 
 // Landing
-import login from '@/features/login/scenes/Login';
+import login from '@/features/login/scenes/login.screen';
 import PrivacyPolicy from '@/features/privacyPolicy/scences/PrivacyPolicy';
 
 // Dashboards
 const DefaultDashboard = async(() => import('@/features/defaultDashboard'));
 
 // Collection
-const Banner = async(() => import('@/features/master/banner/scenes/banner'));
-const CollectionLab = async(() => import('@/features/master/labs/scenes/Lab'));
+const Banner = async(
+  () => import('@/features/master/banner/scenes/banner.screen'),
+);
+const CollectionLab = async(
+  () => import('@/features/master/labs/scenes/lab.screen'),
+);
 const CollectionDeginisation = async(
-  () => import('@/features/master/deginisation/scenes/deginisation'),
+  () => import('@/features/master/deginisation/scenes/deginisation.screen'),
 );
 
 const CollectionDepartment = async(
-  () => import('@/features/master/department/scenes/Department'),
+  () => import('@/features/master/department/scenes/department.screen'),
 );
 
 // master
 const MasterAnalyte = async(
-  () => import('@/features/master/masterAnalyte/scenes/MasterAnalyte'),
+  () => import('@/features/master/masterAnalyte/scenes/master-analyte.screen'),
 );
 const TestAnalyteMapping = async(
   () =>
-    import('@/features/master/testAnalyteMapping/scenes/TestAnalyteMapping'),
+    import(
+      '@/features/master/testAnalyteMapping/scenes/test-analyte-mapping.screen'
+    ),
 );
 const MasterPanel = async(
-  () => import('@/features/master/master-panel/scenes/MasterPanel'),
+  () => import('@/features/master/master-panel/scenes/master-panel.screen'),
 );
 const TestPanelMapping = async(
-  () => import('@/features/master/testPanelMapping/scenes/TestPanelMapping'),
+  () =>
+    import(
+      '@/features/master/testPanelMapping/scenes/test-panel-mapping.screen'
+    ),
 );
 const MasterPackage = async(
-  () => import('@/features/master/masterPackage/scenes/MasterPackage'),
+  () => import('@/features/master/masterPackage/scenes/master-package.screen'),
 );
 const TestMaster = async(
-  () => import('@/features/master/testMaster/scenes/TestMaster'),
+  () => import('@/features/master/testMaster/scenes/test-master.screen'),
 );
-const Lookup = async(() => import('@/features/master/lookup/scenes/Lookup'));
-const Section = async(() => import('@/features/master/section/scenes/Section'));
+const Lookup = async(
+  () => import('@/features/master/lookup/scenes/lookup.screen'),
+);
+const Section = async(
+  () => import('@/features/master/section/scenes/section.screen'),
+);
 const SampleContainer = async(
-  () => import('@/features/master/sampleContainer/scenes/SampleContainer'),
+  () =>
+    import('@/features/master/sampleContainer/scenes/sample-container.screen'),
 );
 const SampleType = async(
-  () => import('@/features/master/sampleType/scenes/SampleType'),
+  () => import('@/features/master/sampleType/scenes/sample-type.screen'),
 );
 const TestSampleMapping = async(
   () =>
@@ -53,82 +67,103 @@ const TestSampleMapping = async(
       '@/features/master/test-sample-mapping/screens/test-sample-mapping.screen'
     ),
 );
-const Methods = async(() => import('@/features/master/methods/scenes/Methods'));
-const Doctors = async(() => import('@/features/master/doctors/scenes/Doctors'));
+const Methods = async(
+  () => import('@/features/master/methods/scenes/method.screen'),
+);
+const Doctors = async(
+  () => import('@/features/master/doctors/scenes/doctor.screen'),
+);
 const RegistrationLocation = async(
   () =>
     import(
-      '@/features/master/registrationLocations/scenes/RegistrationLocations'
+      '@/features/master/registrationLocations/scenes/registration-location.screen'
     ),
 );
 const CorporateClients = async(
-  () => import('@/features/master/corporateClients/scenes/CorporateClients'),
+  () =>
+    import(
+      '@/features/master/corporateClients/scenes/corporate-clients.screen'
+    ),
 );
 const DeliverySchedule = async(
-  () => import('@/features/master/deliverySchedule/scenes/DeliverySchedule'),
+  () =>
+    import(
+      '@/features/master/deliverySchedule/scenes/delivery-schedule.screen'
+    ),
 );
 
 const AdministrativeDivisions = async(
   () =>
     import(
-      '@/features/master/administrativeDivisions/scenes/AdministrativeDivisions'
+      '@/features/master/administrativeDivisions/scenes/administrative-divisions.screen'
     ),
 );
 const SalesTeam = async(
-  () => import('@/features/master/sales-team/scenes/sales-team'),
+  () => import('@/features/master/sales-team/scenes/sales-team.screen'),
 );
 const PossibleResults = async(
-  () => import('@/features/master/possibleResults/scenes/PossibleResults'),
+  () =>
+    import('@/features/master/possibleResults/scenes/possible-result.screen'),
 );
-const Library = async(() => import('@/features/master/library/scenes/Library'));
+const Library = async(
+  () => import('@/features/master/library/scenes/library.screen'),
+);
 const PriceList = async(
-  () => import('@/features/master/priceList/scenes/PriceList'),
+  () => import('@/features/master/priceList/scenes/price-list.screen'),
 );
 const ReferenceRanges = async(
-  () => import('@/features/master/referenceRanges/scenes/ReferenceRanges'),
+  () =>
+    import('@/features/master/referenceRanges/scenes/reference-ranges.screen'),
 );
 
 // Communication
 const HostCommunication = async(
   () =>
     import(
-      '@/features/communication/hostCommunication/scences/HostCommunication'
+      '@/features/communication/hostCommunication/scences/host-communication.screen'
     ),
 );
 const SegmentMapping = async(
   () =>
-    import('@/features/communication/segmentMapping/scences/SegmentMapping'),
+    import(
+      '@/features/communication/segmentMapping/scences/SegmentMapping.screen'
+    ),
 );
 const DataConversation = async(
   () =>
     import(
-      '@/features/communication/dataConversation/scences/DataConversation'
+      '@/features/communication/dataConversation/scences/data-conversation.screen'
     ),
 );
 const InterfaceManager = async(
   () =>
     import(
-      '@/features/communication/interfaceManager/scences/InterfaceManager'
+      '@/features/communication/interfaceManager/scences/interface-manager.screen'
     ),
 );
 
 // Settings
-const Role = async(() => import('@/features/settings/roles/scenes/Role'));
-const User = async(() => import('@/features/settings/users/scenes/Users'));
+const Role = async(
+  () => import('@/features/settings/roles/scenes/role.screen'),
+);
+const User = async(
+  () => import('@/features/settings/users/scenes/user.screen'),
+);
 const RoleMapping = async(
-  () => import('@/features/settings/mapping/role/scenes/RoleMapping'),
+  () => import('@/features/settings/mapping/role/scenes/role-mapping.screen'),
 );
 const LoginActivity = async(
-  () => import('@/features/settings/loginActivity/scenes/LoginActivity'),
+  () =>
+    import('@/features/settings/loginActivity/scenes/login-activity.screen'),
 );
 const ShortcutMenu = async(
-  () => import('@/features/settings/shortcutMenu/scenes/ShortcutMenu'),
+  () => import('@/features/settings/shortcutMenu/scenes/short-cut-menu.screen'),
 );
 const Environment = async(
-  () => import('@/features/settings/environment/scenes/Environment'),
+  () => import('@/features/settings/environment/scenes/environment.screen'),
 );
 const NoticeBoards = async(
-  () => import('@/features/settings/noticeBoard/scenes/NoticeBoard'),
+  () => import('@/features/settings/noticeBoard/scenes/notice-board.screen'),
 );
 
 // Registration

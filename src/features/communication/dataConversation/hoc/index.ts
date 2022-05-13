@@ -1,1 +1,1 @@
-export * from './DataConversationHoc';
+export * from './data-conversation.hoc';

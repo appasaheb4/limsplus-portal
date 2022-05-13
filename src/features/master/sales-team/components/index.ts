@@ -1,9 +1,9 @@
-export * from './molecules/output/SalesTeamList';
-export * from './molecules/input/SalesHierarchyTable';
-export * from './molecules/input/TargetsTable';
+export * from './molecules/output/sales-team-list.component';
+export * from './molecules/input/sales-hierarchy-table.component';
+export * from './molecules/input/targets-table.component';
 
-export * from './organsims/AutoCompleteFilterSingleSelectEmpolyeeCode';
-export * from './organsims/AutoCompleteFilterSingleSelectReportingTo';
-export * from './organsims/AutoCompleteFilterSingleSelectSalesTerrotiy';
-export * from './molecules/input/TargetTableForSalesTeam';
-export * from './molecules/input/SalesHierarchyTableForSalesTeam';
+export * from './organsims/auto-complete-filter-single-select-empolyee-code.component';
+export * from './organsims/auto-complete-filter-single-select-reporting-to.component';
+export * from './organsims/auto-complete-filter-single-select-sales-terrotiy.component';
+export * from './molecules/input/target-table-for-sales-team.component';
+export * from './molecules/input/sales-hierarchy-table-for-sales-team.component';

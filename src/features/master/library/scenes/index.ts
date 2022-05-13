@@ -1,3 +1,3 @@
-import Library from './Library';
+import Library from './library.screen';
 
 export {Library};

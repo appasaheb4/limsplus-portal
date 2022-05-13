@@ -1,1 +1,1 @@
-export * from './methods-services';
+export * from './method.service';

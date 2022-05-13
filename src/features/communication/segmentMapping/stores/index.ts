@@ -1,1 +1,1 @@
-export * from './segmentMapping-store';
+export * from './segment-mapping.store';

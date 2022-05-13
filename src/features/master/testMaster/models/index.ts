@@ -1,1 +1,1 @@
-export * from './TestMaster';
+export * from './test-master.model';

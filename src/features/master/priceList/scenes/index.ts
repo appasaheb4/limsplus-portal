@@ -1,3 +1,3 @@
-import PriceList from './PriceList';
+import PriceList from './price-list.screen';
 
 export {PriceList};

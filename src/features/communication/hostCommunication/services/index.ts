@@ -1,1 +1,1 @@
-export * from './communication-services';
+export * from './host-communication.service';

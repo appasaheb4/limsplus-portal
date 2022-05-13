@@ -1,1 +1,1 @@
-export * from './MasterPanel';
+export * from './master-panel.model';

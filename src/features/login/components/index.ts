@@ -1,2 +1,2 @@
-export * from './molecules/ModalForgotPassword';
-export * from './molecules/ModalNoticeboard';
+export * from './molecules/modal-forgot-password.component';
+export * from './molecules/modal-notice-board.component';

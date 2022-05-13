@@ -1,3 +1,3 @@
-import MasterPackage from './MasterPackage';
+import MasterPackage from './master-package.screen';
 
 export {MasterPackage};

@@ -21,8 +21,8 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 let router = dashboardRoutes;
 
-import {DocumentSettings} from './DocumentSettings';
-import {GeneralField} from './GeneralField';
+import {DocumentSettings} from './document-setting.screen';
+import {GeneralField} from './general-field.screen';
 
 const Lookup = observer(() => {
   const {loginStore, lookupStore, routerStore} = useStores();

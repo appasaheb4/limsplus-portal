@@ -9,7 +9,7 @@ import {
   textFilter,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {PatientOrderExpand} from './patient-order-expand';
+import {PatientOrderExpand} from './patient-order-expand.component';
 
 // import { NumberFilter } from "@/library/components/Organisms"
 

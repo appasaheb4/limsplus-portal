@@ -1,1 +1,1 @@
-export * from './sales-team';
+export * from './sales-team.screen';

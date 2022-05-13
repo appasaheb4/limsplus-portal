@@ -1,1 +1,1 @@
-export {default as RoleMapping} from './RoleMapping';
+export {default as RoleMapping} from './role-mapping.screen';

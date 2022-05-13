@@ -1,1 +1,1 @@
-export * from './TestMasterHOC';
+export * from './test-master.hoc';

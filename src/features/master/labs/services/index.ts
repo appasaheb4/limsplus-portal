@@ -1,1 +1,1 @@
-export * from './lab-services';
+export * from './lab.service';

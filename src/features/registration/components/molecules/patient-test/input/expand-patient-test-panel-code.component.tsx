@@ -21,7 +21,7 @@ import {Buttons, Icons, Form} from '@/library/components';
 import * as LibraryModels from '@/library/models';
 
 import {Styles} from '@/config';
-import {ExpandPatientTestTestCode} from './ExpandPatientTestTestCode';
+import {ExpandPatientTestTestCode} from './expand-patient-test-test-code.component';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;

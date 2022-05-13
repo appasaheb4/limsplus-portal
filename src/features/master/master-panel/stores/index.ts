@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {MasterPanelStore} from './masterPanel-store';
+import {MasterPanelStore} from './master-panel.store';
 
 export const Stores = {
   masterPanelStore: new MasterPanelStore(),
