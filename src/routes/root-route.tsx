@@ -10,7 +10,7 @@ import {
 import DashboardLayout from '../layouts/Dashboard';
 import LandingLayout from '../layouts/Landing';
 import AuthLayout from '../layouts/Auth';
-import Page404 from '@/features/login/scenes/Page404';
+import Page404 from '@/features/login/scenes/page-404.component';
 
 import ScrollToTop from '@/layouts/components/ScrollToTop';
 
