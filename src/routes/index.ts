@@ -2,7 +2,7 @@
 import async from '../layouts/components/Async';
 
 // Landing
-import login from '@/features/login/scenes/Login';
+import login from '@/features/login/scenes/login.screen';
 import PrivacyPolicy from '@/features/privacyPolicy/scences/PrivacyPolicy';
 
 // Dashboards
