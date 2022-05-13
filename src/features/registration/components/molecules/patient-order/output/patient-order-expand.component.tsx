@@ -21,7 +21,7 @@ import {Buttons, Icons, Form} from '@/library/components';
 import {Confirm} from '@/library/models';
 
 import * as Config from '@/config';
-import {PatientOrderExpandPackageList} from './PatientOrderExpandPackageList';
+import {PatientOrderExpandPackageList} from './patient-order-expand-package-list.component';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;

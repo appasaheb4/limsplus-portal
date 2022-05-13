@@ -16,7 +16,7 @@ import paginationFactory, {
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
-import {PatientTestExpandExtraData} from './PatientTestExpandExtraData';
+import {PatientTestExpandExtraData} from './patient-test-expand-extra-data.component';
 
 import {Form} from '@/library/components';
 const {SearchBar, ClearSearchButton} = Search;
