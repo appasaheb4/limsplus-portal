@@ -1,5 +1,5 @@
 /* eslint-disable */
-import async from '../layouts/components/Async';
+import async from '../layouts/components/async.component';
 
 // Landing
 import login from '@/features/login/scenes/login.screen';

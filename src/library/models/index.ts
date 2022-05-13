@@ -1,4 +1,4 @@
-export * from './confirm';
+export * from './confirm.model';
 export enum StatusCode {
   SUCCESS = 200,
   CREATED = 201,
