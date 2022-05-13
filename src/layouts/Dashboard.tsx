@@ -2,13 +2,13 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {ModalIdleTimeout} from '@/library/components';
-import Wrapper from './components/Wrapper';
-import Sidebar from './components/Sidebar';
-import Main from './components/Main';
-import Navbar from './components/Navbar';
-import Content from './components/Content';
-import Footer from './components/Footer';
-import Settings from './components/Settings';
+import Wrapper from './components/wrapper.component';
+import Sidebar from './components/sidebar.component';
+import Main from './components/main.component';
+import Navbar from './components/navbar.component';
+import Content from './components/content.component';
+import Footer from './components/footer.component';
+import Settings from './components/setting.component';
 import {useHistory} from 'react-router-dom';
 import {useIdleTimer} from 'react-idle-timer';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Loader from './Loader';
+import Loader from './loader.component';
 
 type Props = {};
 type State = {component: any};
