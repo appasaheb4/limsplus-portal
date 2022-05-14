@@ -1,7 +1,7 @@
 import {stores} from '@/stores';
-import {InterfaceManager} from '../interfaceManager/models';
+import {InterfaceManager} from '../interface-manager/models';
 import {MappingValues} from '../models';
-import {SegmentMapping} from '../segmentMapping/models';
+import {SegmentMapping} from '../segment-mapping/models';
 import {decode} from '@/library/modules/parser/HL7';
 
 class HostCommunicationFlows {
@@ -59,11 +59,11 @@ class HostCommunicationFlows {
         // decode
         if (type === 'HL7') {
           const tempData = {};
-          mappingList.forEach(item => {
-            Object.keys(item).forEach(key => {
+          for (const item of mappingList) {
+            for (const key of Object.keys(item)) {
               tempData[key] = item[key];
-            });
-          });
+            }
+          }
           const mapping = {
             mapping: tempData,
           };
