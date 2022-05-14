@@ -14,39 +14,39 @@ import {LabStore} from '@/features/master/labs/stores/lab.store';
 import {SalesTeamStore} from '@/features/master/sales-team/stores/sales-team.store';
 import {DeginisationStore} from '@/features/master/deginisation/stores/deginisation.store';
 import {DepartmentStore} from '@/features/master/department/stores/department.store';
-import {AdministrativeDivisionsStore} from '@/features/master/administrativeDivisions/stores/administrative-divisions.store';
-import {MasterAnalyteStore} from '@/features/master/masterAnalyte/stores/master-analyte.store';
-import {TestAnalyteMappingStore} from '@/features/master/testAnalyteMapping/stores/test-analyte-mapping.store';
-import {TestMasterStore} from '@/features/master/testMaster/stores/test-master.store';
-import {DeliveryScheduleStore} from '@/features/master/deliverySchedule/stores/delivery-schedule.store';
+import {AdministrativeDivisionsStore} from '@/features/master/administrative-divisions/stores/administrative-divisions.store';
+import {MasterAnalyteStore} from '@/features/master/master-analyte/stores/master-analyte.store';
+import {TestAnalyteMappingStore} from '@/features/master/test-analyte-mapping/stores/test-analyte-mapping.store';
+import {TestMasterStore} from '@/features/master/test-master/stores/test-master.store';
+import {DeliveryScheduleStore} from '@/features/master/delivery-schedule/stores/delivery-schedule.store';
 import {MasterPanelStore} from '@/features/master/master-panel/stores/master-panel.store';
-import {TestPanelMappingStore} from '@/features/master/testPanelMapping/stores/test-panel-mapping.store';
-import {MasterPackageStore} from '@/features/master/masterPackage/stores/master-package.store';
-import {SampleContainerStore} from '@/features/master/sampleContainer/stores/sample-container.store';
+import {TestPanelMappingStore} from '@/features/master/test-panel-mapping/stores/test-panel-mapping.store';
+import {MasterPackageStore} from '@/features/master/master-package/stores/master-package.store';
+import {SampleContainerStore} from '@/features/master/sample-container/stores/sample-container.store';
 import {SampleTypeStore} from '@/features/master/sampleType/stores/sample-type.store';
 import {MethodsStore} from '@/features/master/methods/stores/method.store';
 import {TestSampleMappingStore} from '@/features/master/test-sample-mapping/stores/test-sample-mapping.store';
-import {CorporateClientsStore} from '@/features/master/corporateClients/stores/corporate-clients.store';
+import {CorporateClientsStore} from '@/features/master/corporate-clients/stores/corporate-clients.store';
 import {DoctorsStore} from '@/features/master/doctors/stores/doctor.store';
-import {RegistrationLocationsStore} from '@/features/master/registrationLocations/stores/registration-location.store';
-import {PossibleResultsStore} from '@/features/master/possibleResults/stores/possible-result.store';
+import {RegistrationLocationsStore} from '@/features/master/registration-locations/stores/registration-location.store';
+import {PossibleResultsStore} from '@/features/master/possible-results/stores/possible-result.store';
 import {LibraryStore} from '@/features/master/library/stores/library.store';
 import {PriceListStore} from '@/features/master/priceList/stores/price-list.store';
-import {RefernceRangesStore} from '@/features/master/referenceRanges/stores/reference-ranges.store';
+import {RefernceRangesStore} from '@/features/master/reference-ranges/stores/reference-ranges.store';
 
 // communication
-import {InterfaceManagerStore} from '@/features/communication/interfaceManager/stores/interface-manager.store';
-import {DataConversationStore} from '@/features/communication/dataConversation/stores/data-conversation.store';
-import {HostCommunicationStore} from '@/features/communication/hostCommunication/stores/host-communication.store';
-import {SegmentMappingStore} from '@/features/communication/segmentMapping/stores/segment-mapping.store';
+import {InterfaceManagerStore} from '@/features/communication/interface-manager/stores/interface-manager.store';
+import {DataConversationStore} from '@/features/communication/data-conversation/stores/data-conversation.store';
+import {HostCommunicationStore} from '@/features/communication/host-communication/stores/host-communication.store';
+import {SegmentMappingStore} from '@/features/communication/segment-mapping/stores/segment-mapping.store';
 
 // setting
 import {RoleStore} from '@/features/settings/roles/stores/role.store';
 import {EnvironmentStore} from '@/features/settings/environment/stores/environment.store';
-import {LoginActivityStore} from '@/features/settings/loginActivity/stores/login-activity.store';
+import {LoginActivityStore} from '@/features/settings/login-activity/stores/login-activity.store';
 import {RoleMappingStore} from '@/features/settings/mapping/role/stores/role-mapping.store';
-import {ShortcutMenuStore} from '@/features/settings/shortcutMenu/stores/short-cut-menu.store';
-import {NoticeBoardStore} from '@/features/settings/noticeBoard/stores/notice-board.store';
+import {ShortcutMenuStore} from '@/features/settings/shortcut-menu/stores/short-cut-menu.store';
+import {NoticeBoardStore} from '@/features/settings/notice-board/stores/notice-board.store';
 
 // registation
 import {
