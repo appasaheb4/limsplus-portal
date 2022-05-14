@@ -1,1 +1,1 @@
-export * from './FormHelper';
+export * from './form.helper';
