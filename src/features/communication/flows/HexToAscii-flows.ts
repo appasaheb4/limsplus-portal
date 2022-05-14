@@ -1,7 +1,7 @@
 import {decode} from '@/library/modules/parser/HEX';
 import {toJS} from 'mobx';
 import {stores} from '@/stores';
-import {DataConversation} from '../dataConversation/models';
+import {DataConversation} from '../data-conversation/models';
 
 class HexToAsciiFlow {
   conversationMapping = async () => {

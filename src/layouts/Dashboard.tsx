@@ -29,32 +29,32 @@ import * as User from '@/features/settings/users';
 import * as RoleMappping from '@/features/settings/mapping/role';
 import * as Environment from '@/features/settings/environment';
 import * as Lookup from '@/features/master/lookup';
-import * as MasterAnalyte from '@/features/master/masterAnalyte';
-import * as TestMaster from '@/features/master/testMaster';
+import * as MasterAnalyte from '@/features/master/master-analyte';
+import * as TestMaster from '@/features/master/test-master';
 import * as PanelMaster from '@/features/master/master-panel';
-import * as SampleContainer from '@/features/master/sampleContainer';
+import * as SampleContainer from '@/features/master/sample-container';
 import * as SampleType from '@/features/master/sampleType';
 import * as TestSampleMapping from '@/features/master/test-sample-mapping';
-import * as TestAnalyteMapping from '@/features/master/testAnalyteMapping';
-import * as TestPanelMapping from '@/features/master/testPanelMapping';
-import * as PackageMaster from '@/features/master/masterPackage';
+import * as TestAnalyteMapping from '@/features/master/test-analyte-mapping';
+import * as TestPanelMapping from '@/features/master/test-panel-mapping';
+import * as PackageMaster from '@/features/master/master-package';
 import * as Methods from '@/features/master/methods';
 import * as Doctors from '@/features/master/doctors';
-import * as RegistrationLocations from '@/features/master/registrationLocations';
-import * as CorporateClients from '@/features/master/corporateClients';
-import * as DeliverySchdule from '@/features/master/deliverySchedule';
-import * as AdministrativeDivisions from '@/features/master/administrativeDivisions';
+import * as RegistrationLocations from '@/features/master/registration-locations';
+import * as CorporateClients from '@/features/master/corporate-clients';
+import * as DeliverySchdule from '@/features/master/delivery-schedule';
+import * as AdministrativeDivisions from '@/features/master/administrative-divisions';
 import * as SalesTeam from '@/features/master/sales-team';
 import * as Section from '@/features/master/section';
-import * as PossibleResults from '@/features/master/possibleResults';
+import * as PossibleResults from '@/features/master/possible-results';
 import * as Library from '@/features/master/library';
 import * as PriceList from '@/features/master/priceList';
-import * as ReferenceRanges from '@/features/master/referenceRanges';
-import * as SegmentMapping from '@/features/communication/segmentMapping';
+import * as ReferenceRanges from '@/features/master/reference-ranges';
+import * as SegmentMapping from '@/features/communication/segment-mapping';
 
 // communication
-import * as InterfaceManager from '@/features/communication/interfaceManager';
-import * as DataConveration from '@/features/communication/dataConversation';
+import * as InterfaceManager from '@/features/communication/interface-manager';
+import * as DataConveration from '@/features/communication/data-conversation';
 
 // registration
 import * as PatientRegistration from '@/features/registration';
