@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import Axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 //import Session from "@/library/modules/session"
-import {ServiceResponse} from './ServiceResponse';
+import {ServiceResponse} from './service-response';
 import _ from 'lodash';
 
 enum StatusCode {
@@ -86,7 +86,7 @@ export class Http {
         return response;
       },
       error => {
-        console.log('Axios Error: ', error);
+        console.log('Axios Error:', error);
         // stores.setLoading(false)
         const {response} = error;
         return Http.handleError(response);

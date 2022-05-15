@@ -1,4 +1,4 @@
-import HostCommunicationFlows from './HostCommunication-flows';
-import HexToAsciiFlow from './HexToAscii-flows';
+import HostCommunicationFlows from './host-communication.flow';
+import HexToAsciiFlow from './hex-to-ascii.flow';
 
 export {HostCommunicationFlows, HexToAsciiFlow};

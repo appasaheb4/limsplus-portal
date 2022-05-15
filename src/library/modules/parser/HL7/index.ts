@@ -1,4 +1,4 @@
-import Decoder from './Decoder';
+import Decoder from './decoder';
 
 /**
  * @description Decode message from configuration

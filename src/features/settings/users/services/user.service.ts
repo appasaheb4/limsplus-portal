@@ -6,7 +6,7 @@
 
 import {Http, http} from '@/library/modules/http';
 import {stores} from '@/stores';
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import * as Models from '../models';
 import {
   CHECK_EXISTS_USERID,

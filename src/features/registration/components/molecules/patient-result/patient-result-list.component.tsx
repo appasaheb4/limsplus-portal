@@ -3,7 +3,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {NumberFilter, Form, customFilter} from '@/library/components';
 import {Confirm} from '@/library/models';
-import TableBootstrap from './TableBootstrap';
+import TableBootstrap from './table-bootstrap.component';
 
 // import { NumberFilter } from "@/library/components/Organisms"
 
