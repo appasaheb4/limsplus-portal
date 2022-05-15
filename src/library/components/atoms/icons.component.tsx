@@ -136,7 +136,13 @@ export const getIcons = (icon: string): any => {
   // registration
   if (icon === 'Icons.IconRi.RiUserAddLine') return Icons.IconRi.RiUserAddLine;
   if (icon === 'Icons.IconFa.FaAddressCard') return Icons.IconFa.FaAddressCard;
-
+  // report builder
+  if (icon === 'Icons.Iconhi.HiDocumentReport')
+    return Icons.Iconhi.HiDocumentReport;
+  if (icon === 'Icons.IconRi.RiListSettingsFill')
+    return Icons.IconRi.RiListSettingsFill;
+  if (icon === 'Icons.IconIm.ImInsertTemplate')
+    return Icons.IconIm.ImInsertTemplate;
   //common
   if (icon === 'Icons.IconBs.BsFillTrashFill')
     return Icons.IconBs.BsFillTrashFill;
