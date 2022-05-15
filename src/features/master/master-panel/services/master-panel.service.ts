@@ -6,7 +6,7 @@
  */
 import * as Models from '../models';
 import _ from 'lodash';
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {SectionService} from '@/features/master/section/services';
 import {stores} from '@/stores';
 import {

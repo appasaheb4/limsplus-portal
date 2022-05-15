@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
 import {GET_BANNER_LIST_ALL} from './query';
 import * as Model from '../models/index';

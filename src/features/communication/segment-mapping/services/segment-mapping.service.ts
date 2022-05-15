@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
 import {
   LIST,
@@ -41,9 +41,9 @@ export class SegmentMappingService {
             segmentList.sort((a, b) => {
               return a.field_no - b.field_no;
             });
-            segmentList.forEach(item => {
+            for (const item of segmentList) {
               values.push(item);
-            });
+            }
           }
           stores.segmentMappingStore.updateListSegmentMapping({
             segmentMappings: {

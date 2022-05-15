@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import '../css/toggle.css';
 import classNames from 'classnames';
 import DateTimePicker from 'react-datetime-picker';
-import '../css/DateTimePicker.css';
+import '../css/date-time-picker.css';
 
 interface LabelProps {
   htmlFor: string;

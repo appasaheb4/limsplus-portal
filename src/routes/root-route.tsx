@@ -7,10 +7,10 @@ import {
   dashboardRouter as dashboardRoutes,
 } from './index';
 
-import DashboardLayout from '../layouts/Dashboard';
-import LandingLayout from '../layouts/Landing';
-import AuthLayout from '../layouts/Auth';
-import Page404 from '@/features/login/scenes/page-404.component';
+import DashboardLayout from '../layouts/dashboard.component';
+import LandingLayout from '../layouts/landing.component';
+import AuthLayout from '../layouts/auth.component';
+import Page404 from '@/features/login/screens/page-404.screen';
 
 import ScrollToTop from '@/layouts/components/scroll-to-top.component';
 
