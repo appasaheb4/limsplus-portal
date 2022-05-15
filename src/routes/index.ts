@@ -179,8 +179,10 @@ const PatientRegistation = async(
       '@/features/registration/screens/PatientRegistration/patient-registration.screen'
     ),
 );
-import {reportBuilderRoutes} from '@/features/report-builder/routers/report-builder.router';
+
 import {resultEntryRoutes} from '@/features/result-entry/routers/result-entry.router';
+import {patientReportsRoutes} from '@/features/patient-reports/routers/patient-reports.router';
+import {reportBuilderRoutes} from '@/features/report-builder/routers/report-builder.router';
 
 // Routes
 const loginRoutes = {
@@ -470,6 +472,7 @@ export const dashboardRouter = [
   communicationRoutes,
   settingsRoutes,
   registrationRoutes,
-  reportBuilderRoutes,
   resultEntryRoutes,
+  patientReportsRoutes,
+  reportBuilderRoutes,
 ];

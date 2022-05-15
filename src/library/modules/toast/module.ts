@@ -3,7 +3,7 @@ class Toast {
   success = async (details: any) => {
     toast.success(details.message, {
       position: 'bottom-right',
-      autoClose: details.timer || 10000,
+      autoClose: details.timer || 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -14,7 +14,7 @@ class Toast {
   error = async (details: any) => {
     toast.error(details.message, {
       position: 'bottom-right',
-      autoClose: details.timer || 10000,
+      autoClose: details.timer || 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -25,7 +25,7 @@ class Toast {
   warning = async (details: any) => {
     toast.warning(details.message, {
       position: 'bottom-right',
-      autoClose: details.timer || 10000,
+      autoClose: details.timer || 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

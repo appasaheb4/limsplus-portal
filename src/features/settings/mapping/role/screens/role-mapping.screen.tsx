@@ -569,7 +569,7 @@ const RoleMapping = observer(() => {
               }
               setHideAddRoleMapping(!hideAddRoleMapping);
               setHideRole(true);
-              //console.log({selectedItem});
+              console.log({selectedItem});
               roleMappingStore.updateSelectedRole(toJS(selectedItem));
               setIsModify({status: true, id: selectedItem.id});
             }}
