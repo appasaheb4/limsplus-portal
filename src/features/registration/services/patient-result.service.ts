@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
 import {LIST_PATIENT_RESULT, FILTER_PATIENT_RESULT} from './mutation-pr';
 

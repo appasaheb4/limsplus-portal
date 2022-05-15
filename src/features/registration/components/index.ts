@@ -1,4 +1,4 @@
-export * from './molecules/patientManager/PatientMangerList';
+export * from './molecules/patientManager/patient-manger-list.component';
 export * from './molecules/patientManager/extra-data-patient-manager-list.component';
 export * from './molecules/patientVisit/patient-visit-list.component';
 export * from './molecules/patientVisit/extra-data-patient-visit-list.component';

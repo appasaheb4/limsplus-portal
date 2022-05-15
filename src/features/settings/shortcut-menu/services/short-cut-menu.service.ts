@@ -5,7 +5,7 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {UPDATE_SHORTCUT_MENU} from './mutation';
 
 export class ShortcutMenuService {

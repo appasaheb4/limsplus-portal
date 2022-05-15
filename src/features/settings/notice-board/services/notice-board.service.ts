@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {
   LIST,
   REMOVE_RECORD,

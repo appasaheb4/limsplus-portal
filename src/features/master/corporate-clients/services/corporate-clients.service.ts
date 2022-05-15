@@ -6,7 +6,7 @@
  */
 
 import * as Models from '../models';
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
 import {
   LIST,
@@ -208,7 +208,7 @@ export class CorporateClientsService {
         .then((response: any) => {
           stores.corporateClientsStore.updateCorporateClients({
             ...stores.corporateClientsStore.corporateClients,
-            invoiceAc: response.data.counter.data[0]?.seq + 1 || 1000001,
+            invoiceAc: response.data.counter.data[0]?.seq + 1 || 1_000_001,
           });
           resolve(response.data);
         })

@@ -5,7 +5,7 @@
  * @author limsplus
  */
 import * as Model from '../models';
-import {client, ServiceResponse} from '@/library/modules/apolloClient';
+import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
 import {
   LABS_LIST,
