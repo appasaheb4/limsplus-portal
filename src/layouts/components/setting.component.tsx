@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {toggleBoxedLayout} from '../../redux/actions/layoutActions';
-import {toggleStickySidebar} from '../../redux/actions/sidebarActions';
-import {toggleSidebar} from '../../redux/actions/sidebarActions';
+import {toggleBoxedLayout} from '../../redux/actions/layout-action';
+import {toggleStickySidebar} from '../../redux/actions/sidebar-action';
+import {toggleSidebar} from '../../redux/actions/sidebar-action';
 import {Settings as SettingsIcon} from 'react-feather';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
