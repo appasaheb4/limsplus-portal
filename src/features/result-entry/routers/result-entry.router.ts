@@ -29,7 +29,7 @@ export const resultEntryRoutes = {
     {
       path: '/result-entry/histo',
       name: 'Histo Result Entry',
-      icon: 'Icons.IconGi.GiMicroscope',
+      icon: 'Icons.Iconmd.MdHistoryToggleOff',
       component: HistoResultEntry,
     },
   ],

@@ -145,6 +145,19 @@ export const getIcons = (icon: string): any => {
     return Icons.IconRi.RiListSettingsFill;
   if (icon === 'Icons.IconIm.ImInsertTemplate')
     return Icons.IconIm.ImInsertTemplate;
+  // result entry
+  if (icon === 'Icons.Iconsi.SiSentry') return Icons.Iconsi.SiSentry;
+  if (icon === 'Icons.IconBi.BiCategory') return Icons.IconBi.BiCategory;
+  if (icon === 'Icons.IconGi.GiMicroscope') return Icons.IconGi.GiMicroscope;
+  if (icon === 'Icons.Iconmd.MdHistoryToggleOff')
+    return Icons.Iconmd.MdHistoryToggleOff;
+  // patient reports
+  if (icon === 'Icons.Iconmd.MdOutlineLibraryBooks')
+    return Icons.Iconmd.MdOutlineLibraryBooks;
+  if (icon === 'Icons.IconGi.GiRegeneration')
+    return Icons.IconGi.GiRegeneration;
+  if (icon === 'Icons.Iconmd.MdOutlineDeliveryDining')
+    return Icons.Iconmd.MdOutlineDeliveryDining;
   //common
   if (icon === 'Icons.IconBs.BsFillTrashFill')
     return Icons.IconBs.BsFillTrashFill;
