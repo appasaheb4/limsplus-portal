@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-indent-props */
 import React, {CSSProperties} from 'react';
-import {IconProps} from '../svg';
+import {IconProps} from '../svg.component';
 import {Buttons, Icons} from '../..';
 
 export interface ButtonProps {

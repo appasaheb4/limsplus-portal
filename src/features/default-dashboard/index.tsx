@@ -5,12 +5,12 @@ import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {ModalChangePassword, Toast, ModalConfirm} from '@/library/components';
 
-import BarChart from './BarChart';
-import Feed from './Feed';
-import Header from './Header';
-import LineChart from './LineChart';
-import Projects from './Projects';
-import Statistics from './Statistics';
+import BarChart from './bar-chart.component';
+import Feed from './feed.component';
+import Header from './header.component';
+import LineChart from './line-chart.component';
+import Projects from './project.component';
+import Statistics from './statistic.component';
 import {useHistory} from 'react-router-dom';
 
 // registration

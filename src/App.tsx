@@ -16,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {stores} from '@/stores';
 
 import hydrateStore from '@/library/modules/startup';
-import {ApolloProvider, client} from '@/library/modules/apolloClient';
+import {ApolloProvider, client} from '@/library/modules/apollo-client';
 
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";

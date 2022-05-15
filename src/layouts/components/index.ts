@@ -1,1 +1,1 @@
-export * from '../components/molecules/ModalAccount';
+export * from './molecules/modal-account.component';
