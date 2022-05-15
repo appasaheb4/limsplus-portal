@@ -180,6 +180,7 @@ const PatientRegistation = async(
     ),
 );
 import {reportBuilderRoutes} from '@/features/report-builder/routers/report-builder.router';
+import {resultEntryRoutes} from '@/features/result-entry/routers/result-entry.router';
 
 // Routes
 const loginRoutes = {
@@ -470,12 +471,5 @@ export const dashboardRouter = [
   settingsRoutes,
   registrationRoutes,
   reportBuilderRoutes,
+  resultEntryRoutes,
 ];
-
-// // All routes
-// export default [
-//   dashboardRoutes,
-//   collectionRoutes,
-//   communicationRoutes,
-//   settingsRoutes,
-// ]

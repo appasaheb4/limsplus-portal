@@ -21,6 +21,7 @@ import * as Iconsi from 'react-icons/si';
 import * as Iconai from 'react-icons/ai';
 import * as Iconvsc from 'react-icons/vsc';
 import * as Iconhi from 'react-icons/hi';
+import * as IconBi from 'react-icons/bi';
 
 export interface IconsProps {
   size?: string;
@@ -57,6 +58,7 @@ export {
   Iconai,
   Iconvsc,
   Iconhi,
+  IconBi,
 };
 
 export const getIcons = (icon: string): any => {
