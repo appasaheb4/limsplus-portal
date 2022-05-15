@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 
-import {toggleSidebar} from '../../redux/actions/sidebarActions';
+import {toggleSidebar} from '../../redux/actions/sidebar-action';
 import {useHistory} from 'react-router-dom';
 import {stores, useStores} from '@/stores';
 

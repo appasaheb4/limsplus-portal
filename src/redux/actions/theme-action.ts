@@ -1,6 +1,6 @@
 import * as types from '../constants';
 
-import {toggleTheme} from '../services/themeService';
+import {toggleTheme} from '../services/theme.service';
 
 export function enableClassicTheme() {
   return enableTheme('classic');
