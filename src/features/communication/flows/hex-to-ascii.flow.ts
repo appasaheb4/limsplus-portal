@@ -13,13 +13,13 @@ class HexToAsciiFlow {
         ascii:
           item.ascii !== undefined
             ? item.ascii
-              .replaceAll(/&amp;/g, '&')
-              .replaceAll(/&gt;/g, '>')
-              .replaceAll(/&lt;/g, '<')
-              .replaceAll(/&quot;/g, '"')
-              .replaceAll(/â/g, '’')
-              .replaceAll(/â¦/g, '…')
-              .toString()
+                .replaceAll(/&amp;/g, '&')
+                .replaceAll(/&gt;/g, '>')
+                .replaceAll(/&lt;/g, '<')
+                .replaceAll(/&quot;/g, '"')
+                .replaceAll(/â/g, '’')
+                .replaceAll(/â¦/g, '…')
+                .toString()
             : undefined,
       });
     });

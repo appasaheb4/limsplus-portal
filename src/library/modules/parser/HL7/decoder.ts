@@ -1,4 +1,4 @@
-import Hl7 from './hl7';
+import Hl7 from './hl7.parser';
 
 export default class Decoder {
   _message: any;
