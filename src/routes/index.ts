@@ -5,8 +5,7 @@ import async from '../layouts/components/async.component';
 import login from '@/features/login/screens/login.screen';
 import PrivacyPolicy from '@/features/privacy-policy/screens/privacy-policy.screen';
 
-// Dashboards
-const DefaultDashboard = async(() => import('@/features/default-dashboard'));
+import {dashboardRoutes} from '@/features/default-dashboard/routers/default-dashboard.router';
 
 // Collection
 const Banner = async(
@@ -196,21 +195,6 @@ const privacyPolicyRoutes = {
   name: 'Privacy Policy',
   component: PrivacyPolicy,
   children: null,
-};
-
-const dashboardRoutes = {
-  path: '/dashboard',
-  name: 'Dashboard',
-  header: 'Dashboard',
-  icon: 'Icons.IconRi.RiDashboardFill',
-  children: [
-    {
-      path: '/dashboard/default',
-      name: 'Default',
-      icon: 'Icons.IconRi.RiDashboard3Fill',
-      component: DefaultDashboard,
-    },
-  ],
 };
 
 const collectionRoutes = {
