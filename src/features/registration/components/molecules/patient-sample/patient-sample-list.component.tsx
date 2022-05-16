@@ -319,7 +319,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='PatientResult'
+          fileName='PatientSample'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
