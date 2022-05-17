@@ -127,7 +127,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='analyte'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={masterAnalyteStore.listMasterAnalyte}
               />
             </td>
             <td>

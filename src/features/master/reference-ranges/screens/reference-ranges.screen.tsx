@@ -305,6 +305,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   ...refernceRangesStore.referenceRanges,
                   refRangesInputList,
                 });
+                setModalConfirm({show: false});
               } else if (type === 'duplicate') {
                 let refRangesInputList =
                   refernceRangesStore.referenceRanges?.refRangesInputList;
@@ -322,6 +323,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   refRangesInputList,
                 });
                 setHideAddLab(!hideAddLab);
+                setModalConfirm({show: false});
               }
             }}
             onClose={() => {
