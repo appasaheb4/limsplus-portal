@@ -2,7 +2,7 @@ import {stores} from '@/stores';
 import {InterfaceManager} from '../interface-manager/models';
 import {MappingValues} from '../models';
 import {SegmentMapping} from '../segment-mapping/models';
-import {decode} from '@/library/modules/parser/hl7';
+import {decode} from '@/library/modules/parser/HL7';
 
 class HostCommunicationFlows {
   mapping = async (interfaceManager: InterfaceManager) => {
