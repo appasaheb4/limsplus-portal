@@ -1,4 +1,4 @@
-import {decode} from '@/library/modules/parser/hex';
+import {decode} from '@/library/modules/parser/HEX';
 import {toJS} from 'mobx';
 import {stores} from '@/stores';
 import {DataConversation} from '../data-conversation/models';
