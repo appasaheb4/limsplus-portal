@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {dashboardRoutes} from '@/features/default-dashboard/routers/default-dashboard.router';
 import {communicationRoutes} from '@/features/communication/routers/communication.router';
 import {settingsRoutes} from '@/features/settings/routers/settings.router';
@@ -10,7 +9,6 @@ import {collectionRoutes} from '@/features/master/routers/masters.router';
 import {loginRoutes} from '@/features/login/routers/login.router';
 import {privacyPolicyRoutes} from '@/features/privacy-policy/routers/privacy-policy.router';
 
-// Login specific routes
 export const loginRouter = [loginRoutes];
 export const privacyPolicyRoute = [privacyPolicyRoutes];
 

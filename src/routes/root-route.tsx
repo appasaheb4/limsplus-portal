@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-shadow */
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {
