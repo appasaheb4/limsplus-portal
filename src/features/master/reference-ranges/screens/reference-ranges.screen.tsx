@@ -37,37 +37,51 @@ const ReferenceRanges = ReferenceRangesHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [dupExistsRecords, setDupExistsRecords] = useState<any>();
     const onSubmitReferenceRanges = () => {
       if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
         if (!refernceRangesStore.checkExitsRecord) {
-          refernceRangesStore.referenceRangesService
-            .addReferenceRanges({
-              input: {
-                filter: {
-                  refRangesInputList: _.filter(
-                    refernceRangesStore.referenceRanges?.refRangesInputList,
-                    a => {
-                      a._id = undefined;
-                      return a;
-                    },
-                  ),
+          if (
+            !_.isEqual(
+              JSON.stringify(
+                refernceRangesStore.referenceRanges?.refRangesInputList,
+              ),
+              dupExistsRecords,
+            )
+          ) {
+            refernceRangesStore.referenceRangesService
+              .addReferenceRanges({
+                input: {
+                  filter: {
+                    refRangesInputList: _.filter(
+                      refernceRangesStore.referenceRanges?.refRangesInputList,
+                      a => {
+                        a._id = undefined;
+                        return a;
+                      },
+                    ),
+                  },
                 },
-              },
-            })
-            .then(res => {
-              if (res.createReferenceRange.success) {
-                Toast.success({
-                  message: `😊 ${res.createReferenceRange.message}`,
-                });
-                setTimeout(() => {
-                  window.location.reload();
-                }, 2000);
-              } else {
-                Toast.error({
-                  message: `😔 ${res.createReferenceRange.message}`,
-                });
-              }
+              })
+              .then(res => {
+                if (res.createReferenceRange.success) {
+                  Toast.success({
+                    message: `😊 ${res.createReferenceRange.message}`,
+                  });
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
+                } else {
+                  Toast.error({
+                    message: `😔 ${res.createReferenceRange.message}`,
+                  });
+                }
+              });
+          } else {
+            Toast.warning({
+              message: `😔 Duplicate record found!`,
             });
+          }
         } else {
           Toast.warning({
             message: `😔 Duplicate record found!`,
@@ -318,6 +332,8 @@ const ReferenceRanges = ReferenceRangesHoc(
                   version: parseInt(modalConfirm.data.version),
                   type: 'duplicate',
                 });
+                console.log({refRangesInputList});
+                setDupExistsRecords(JSON.stringify(refRangesInputList));
                 refernceRangesStore.updateReferenceRanges({
                   ...refernceRangesStore.referenceRanges,
                   refRangesInputList,
