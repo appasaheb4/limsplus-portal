@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import SessionStore from 'mobx-session';
 class Session {
   initialized: boolean = false;
