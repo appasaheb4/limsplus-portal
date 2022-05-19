@@ -37,6 +37,7 @@
     "add": "^2.0.6",
     "apollo-upload-client": "^16.0.0",
     "axios": "^0.20.0",
+    "canvas": "^2.9.1",
     "chai": "^4.3.3",
     "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
@@ -104,7 +105,6 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
       "react-app/jest"
     ],
     "overrides": [
@@ -131,6 +131,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.17.12",
     "@craco/craco": "^5.8.0",
     "@storybook/addon-actions": "^6.4.22",
     "@storybook/addon-essentials": "^6.4.22",
@@ -166,7 +167,6 @@
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-unicorn": "36.0.0",
     "lint-staged": "^12.3.8",
-    "node": "^17.7.2",
     "postcss": "^8.4.12",
     "prettier": "^2.2.1",
     "process": "^0.11.10",
@@ -175,7 +175,8 @@
   "lint-staged": {
     "src/*.{ts,tsx}": [
       "yarn prettier:fix",
-      "yarn lint"
+      "yarn lint",
+      "yarn test:coverage"
     ]
   },
   "husky": {
@@ -188,20 +189,31 @@
       "^@/(.+)": "<rootDir>/src/$1"
     },
     "coveragePathIgnorePatterns": [
-      ".stories"
+      "18n",
+      ".eslintrc.js",
+      "index.ts",
+      "react-app-env.d.ts",
+      "report-web-vitals.ts",
+      "stories",
+      "route.ts",
+      "src/library/modules/session/module.ts",
+      "src/library/modules/session/index.ts"
     ],
     "collectCoverageFrom": [
-      "src/library/components/**/*.{ts,tsx}",
-      "!src/core-components/index.ts",
-      "!src/*.ts",
-      "!src/i18n/*.{ts,tsx}"
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/",
+      "!src/i18n/*.{ts,tsx}",
+      "!src/setup-test.ts",
+      "!src/library/modules/session/module.ts",
+      "!src/library/modules/session/index.ts"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 35,
-        "functions": 35,
-        "lines": 35,
-        "statements": 35
+        "branches": 60,
+        "functions": 60,
+        "lines": 60,
+        "statements": 60
       }
     }
   }
