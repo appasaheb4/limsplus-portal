@@ -142,10 +142,13 @@ export const PatientOrder = PatientOrderHoc(
                           onChange(item.visitId);
                           patientOrderStore.updatePatientOrder({
                             ...patientOrderStore.patientOrder,
+                            pId: item?.pId,
                             visitId: item.visitId,
                             labId: item.labId,
                             rLab: item.rLab,
                             patientName: item.patientName,
+                            age: item?.age,
+                            ageUnits: item?.ageUnits,
                           });
                           patientVisitStore.updatePatientVisitList(
                             patientVisitStore.listPatientVisitCopy,

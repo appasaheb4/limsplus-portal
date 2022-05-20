@@ -8,7 +8,7 @@
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "test:coverage": "craco test --coverage --watchAll",
+    "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "prettier:fix": "prettier --write .",
@@ -16,7 +16,8 @@
     "storybook": "start-storybook -p 7007 -s public",
     "build-storybook": "build-storybook -s public",
     "dockerizeImage": "docker-compose -f docker-compose.yml up -d",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "sonar": "node sonarqube-scanner.js"
   },
   "dependencies": {
     "@apollo/client": "3.4.11",
@@ -166,10 +167,12 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-unicorn": "36.0.0",
+    "jest-sonar-reporter": "^2.0.0",
     "lint-staged": "^12.3.8",
     "postcss": "^8.4.12",
     "prettier": "^2.2.1",
     "process": "^0.11.10",
+    "sonarqube-scanner": "^2.8.1",
     "webpack": "^5.72.0"
   },
   "lint-staged": {
@@ -178,6 +181,11 @@
       "yarn lint",
       "yarn test:coverage"
     ]
+  },
+  "jestSonar": {
+    "reportPath": "reports",
+    "reportFile": "test-report.xml",
+    "indent": 4
   },
   "husky": {
     "hooks": {
