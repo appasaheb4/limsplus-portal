@@ -1,5 +1,8 @@
 export class PatientOrder {
   _id: string;
+  pId: number;
+  age: number;
+  ageUnits: string;
   orderId: number;
   labId: number;
   visitId: string;
@@ -62,6 +65,9 @@ export class PatientOrder {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.pId = rawData.pId;
+    this.age = rawData.age;
+    this.ageUnits = rawData.ageUnits;
     this.orderId = rawData.orderId;
     this.labId = rawData.labId;
     this.visitId = rawData.visitId;
