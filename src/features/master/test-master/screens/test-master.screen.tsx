@@ -1648,136 +1648,136 @@ const TestMater = TestMasterHOC(
                   rules={{required: true}}
                   defaultValue=''
                 />
-
-                <Grid cols={6}>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Method'
-                        hasError={errors.method}
-                        value={testMasterStore.testMaster?.method}
-                        onChange={method => {
-                          onChange(method);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            method,
-                            testMethodCode: !method
-                              ? ''
-                              : testMasterStore.testMaster?.testMethodCode,
-                            testMethodName: !method
-                              ? ''
-                              : testMasterStore.testMaster?.testMethodName,
-                          });
-                        }}
-                      />
-                    )}
-                    name='method'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Cumulative'
-                        hasError={errors.cumulative}
-                        value={testMasterStore.testMaster?.cumulative}
-                        onChange={cumulative => {
-                          onChange(cumulative);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            cumulative,
-                          });
-                        }}
-                      />
-                    )}
-                    name='cumulative'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='QC Hold'
-                        hasError={errors.qcHold}
-                        value={testMasterStore.testMaster?.qcHold}
-                        onChange={qcHold => {
-                          onChange(qcHold);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            qcHold,
-                          });
-                        }}
-                      />
-                    )}
-                    name='qcHold'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='OOS Hold'
-                        hasError={errors.oosHold}
-                        value={testMasterStore.testMaster?.oosHold}
-                        onChange={oosHold => {
-                          onChange(oosHold);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            oosHold,
-                          });
-                        }}
-                      />
-                    )}
-                    name=' oosHold'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Delta Hold'
-                        hasError={errors.deltaHold}
-                        value={testMasterStore.testMaster?.deltaHold}
-                        onChange={deltaHold => {
-                          onChange(deltaHold);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            deltaHold,
-                          });
-                        }}
-                      />
-                    )}
-                    name='deltaHold'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Allow Partial'
-                        hasError={errors.allowPartial}
-                        value={testMasterStore.testMaster?.allowPartial}
-                        onChange={allowPartial => {
-                          onChange(allowPartial);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            allowPartial,
-                          });
-                        }}
-                      />
-                    )}
-                    name='allowPartial'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                </Grid>
-
+                <List direction='row'>
+                  <Grid cols={4}>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Toggle
+                          label='Method'
+                          hasError={errors.method}
+                          value={testMasterStore.testMaster?.method}
+                          onChange={method => {
+                            onChange(method);
+                            testMasterStore.updateTestMaster({
+                              ...testMasterStore.testMaster,
+                              method,
+                              testMethodCode: !method
+                                ? ''
+                                : testMasterStore.testMaster?.testMethodCode,
+                              testMethodName: !method
+                                ? ''
+                                : testMasterStore.testMaster?.testMethodName,
+                            });
+                          }}
+                        />
+                      )}
+                      name='method'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Toggle
+                          label='Cumulative'
+                          hasError={errors.cumulative}
+                          value={testMasterStore.testMaster?.cumulative}
+                          onChange={cumulative => {
+                            onChange(cumulative);
+                            testMasterStore.updateTestMaster({
+                              ...testMasterStore.testMaster,
+                              cumulative,
+                            });
+                          }}
+                        />
+                      )}
+                      name='cumulative'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Toggle
+                          label='QC Hold'
+                          hasError={errors.qcHold}
+                          value={testMasterStore.testMaster?.qcHold}
+                          onChange={qcHold => {
+                            onChange(qcHold);
+                            testMasterStore.updateTestMaster({
+                              ...testMasterStore.testMaster,
+                              qcHold,
+                            });
+                          }}
+                        />
+                      )}
+                      name='qcHold'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Toggle
+                          label='OOS Hold'
+                          hasError={errors.oosHold}
+                          value={testMasterStore.testMaster?.oosHold}
+                          onChange={oosHold => {
+                            onChange(oosHold);
+                            testMasterStore.updateTestMaster({
+                              ...testMasterStore.testMaster,
+                              oosHold,
+                            });
+                          }}
+                        />
+                      )}
+                      name=' oosHold'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Toggle
+                          label='Delta Hold'
+                          hasError={errors.deltaHold}
+                          value={testMasterStore.testMaster?.deltaHold}
+                          onChange={deltaHold => {
+                            onChange(deltaHold);
+                            testMasterStore.updateTestMaster({
+                              ...testMasterStore.testMaster,
+                              deltaHold,
+                            });
+                          }}
+                        />
+                      )}
+                      name='deltaHold'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Toggle
+                          label='Allow Partial'
+                          hasError={errors.allowPartial}
+                          value={testMasterStore.testMaster?.allowPartial}
+                          onChange={allowPartial => {
+                            onChange(allowPartial);
+                            testMasterStore.updateTestMaster({
+                              ...testMasterStore.testMaster,
+                              allowPartial,
+                            });
+                          }}
+                        />
+                      )}
+                      name='allowPartial'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                  </Grid>
+                </List>
                 {/* </Grid> */}
               </List>
             </Grid>
