@@ -38,6 +38,7 @@ const MasterPanel = MasterPanelHoc(
       deliveryScheduleStore,
       routerStore,
       loading,
+      libraryStore,
     } = useStores();
     const {
       control,
@@ -1599,6 +1600,49 @@ const MasterPanel = MasterPanelHoc(
                   name='version'
                   rules={{required: false}}
                   defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Interpretation'>
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code'
+                        hasError={errors.interpretation}
+                        data={{
+                          list: libraryStore.listLibrary.filter(
+                            item => item.libraryType === 'I',
+                          ),
+                          displayKey: ['code'],
+                        }}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['code'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.code);
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            interpretation: item.code,
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='interpretation'
+                  rules={{required: false}}
+                  defaultValue={libraryStore.listLibrary}
                 />
                 <Controller
                   control={control}

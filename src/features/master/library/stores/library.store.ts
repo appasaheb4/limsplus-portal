@@ -5,11 +5,13 @@ import {MasterAnalyteService} from '../services';
 export class LibraryStore {
   library!: Library;
   listLibrary: Library[];
+  listLibraryCopy: Library[];
   listLibraryCount: number;
   checkExistsLabEnvCode: boolean;
 
   constructor() {
     this.listLibrary = [];
+    this.listLibraryCopy = [];
     this.listLibraryCount = 0;
     this.checkExistsLabEnvCode = false;
     this.library = {
@@ -21,6 +23,7 @@ export class LibraryStore {
       listLibrary: observable,
       listLibraryCount: observable,
       checkExistsLabEnvCode: observable,
+      listLibraryCopy: observable,
 
       libraryService: computed,
       fetchLibrary: action,
@@ -39,9 +42,14 @@ export class LibraryStore {
   }
 
   updateLibraryList(res: any) {
-    if (!res.librarys.success) return alert(res.librarys.message);
-    this.listLibrary = res.librarys.data;
-    this.listLibraryCount = res.librarys.paginatorInfo.count;
+    if (!Array.isArray(res)) {
+      if (!res.librarys.success) return alert(res.librarys.message);
+      this.listLibrary = res.librarys.data;
+      this.listLibraryCopy = res.librarys.data;
+      this.listLibraryCount = res.librarys.paginatorInfo.count;
+    } else {
+      this.listLibrary = res;
+    }
   }
 
   filterLibraryList(res: any) {

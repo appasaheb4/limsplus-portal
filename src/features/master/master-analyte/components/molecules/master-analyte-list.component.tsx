@@ -909,7 +909,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
 
             {
               dataField: 'calcyName',
-              text: 'Calcy Name',
+              text: 'Calculation Name',
               headerClasses: 'textHeader4',
               sort: true,
               csvFormatter: col => (col ? col : ''),
