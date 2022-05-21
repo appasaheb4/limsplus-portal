@@ -60,6 +60,7 @@ export const LIST = gql`
         reportTemplate
         sampleType
         specalInstructions
+        interpretation
         status
         environment
         dateOfEntry
@@ -183,6 +184,7 @@ export const FILTER = gql`
         reportTemplate
         sampleType
         specalInstructions
+        interpretation
         status
         environment
         dateOfEntry
@@ -252,6 +254,7 @@ export const FILTER_BY_FIELDS = gql`
         reportTemplate
         sampleType
         specalInstructions
+        interpretation
         status
         environment
         dateOfEntry
@@ -318,6 +321,7 @@ export const FIND_BY_FIELDS = gql`
         reportTemplate
         sampleType
         specalInstructions
+        interpretation
         status
         environment
         dateOfEntry

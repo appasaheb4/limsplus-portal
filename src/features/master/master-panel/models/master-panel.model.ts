@@ -51,6 +51,7 @@ export class MasterPanel {
   reportTemplate: string;
   sampleType: string;
   specalInstructions: string;
+  interpretation: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -111,6 +112,7 @@ export class MasterPanel {
     this.specalInstructions = rawData.specalInstructions;
     this.status = rawData.status;
     this.serviceType = rawData.serviceType;
+    this.interpretation = rawData.interpretation;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

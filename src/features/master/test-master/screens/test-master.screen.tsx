@@ -38,6 +38,7 @@ const TestMater = TestMasterHOC(
       routerStore,
       loading,
       methodsStore,
+      libraryStore,
     } = useStores();
     const {
       control,
@@ -1533,6 +1534,49 @@ const TestMater = TestMasterHOC(
                   name='version'
                   rules={{required: false}}
                   defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Interpretation'>
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code'
+                        hasError={errors.interpretation}
+                        data={{
+                          list: libraryStore.listLibrary.filter(
+                            item => item.libraryType === 'I',
+                          ),
+                          displayKey: ['code'],
+                        }}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['code'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.code);
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            interpretation: item.code,
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='interpretation'
+                  rules={{required: false}}
+                  defaultValue={libraryStore.listLibrary}
                 />
                 <Controller
                   control={control}

@@ -62,6 +62,7 @@ export const LIST = gql`
         sufix
         allowPartial
         collectionContainer
+        interpretation
         status
         environment
         dateOfEntry
@@ -187,6 +188,7 @@ export const FILTER = gql`
         sufix
         allowPartial
         collectionContainer
+        interpretation
         status
         environment
         dateOfEntry
@@ -258,6 +260,7 @@ export const FILTER_BY_FIELDS = gql`
         sufix
         allowPartial
         collectionContainer
+        interpretation
         status
         environment
         dateOfEntry
@@ -329,6 +332,7 @@ export const FIND_BY_FIELDS = gql`
         sufix
         allowPartial
         collectionContainer
+        interpretation
         status
         environment
         dateOfEntry

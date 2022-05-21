@@ -52,6 +52,7 @@ export class TestMaster {
   sufix: string;
   allowPartial: boolean;
   collectionContainer: string;
+  interpretation: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -117,6 +118,7 @@ export class TestMaster {
     this.allowPartial = rawData.allowPartial;
     this.sampleType = rawData.sampleType;
     this.collectionContainer = rawData.collectionContainer;
+    this.interpretation = rawData.interpretation;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

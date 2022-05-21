@@ -76,7 +76,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             },
             {
               dataField: 'labLit',
-              text: 'Lab Lit',
+              text: 'Lab List',
               headerClasses: 'textHeader4',
               sort: true,
               editable: false,

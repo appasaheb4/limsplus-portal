@@ -69,6 +69,22 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 editorCell(row),
             },
             {
+              dataField: 'departement',
+              text: 'Departement',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'testCode',
+              text: 'Test Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
               dataField: 'analyteCode',
               text: 'Analyte Code',
               headerClasses: 'textHeader4',
@@ -79,6 +95,14 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'analyteName',
               text: 'Analyte Name',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'resultType',
+              text: 'Result Type',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
@@ -105,14 +129,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 );
               },
             },
-            {
-              dataField: 'resultType',
-              text: 'Result Type',
-              headerClasses: 'textHeader4',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
+
             {
               dataField: 'calculationFlag',
               text: 'Calculation Flag',
@@ -137,6 +154,14 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                   </>
                 );
               },
+            },
+            {
+              dataField: 'calcyName',
+              text: 'Calculation Name',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
               dataField: 'picture',
@@ -278,7 +303,54 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 );
               },
             },
-
+            {
+              dataField: 'rangeSetOn',
+              text: 'Range Set On',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'rangeId',
+              text: 'Range Id',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'sex',
+              text: 'Sex',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'age',
+              text: 'Age',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'ageUnit',
+              text: 'Age Unit',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'species',
+              text: 'Species',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
             {
               dataField: 'loNor',
               text: 'Lo Nor',
@@ -295,7 +367,13 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
-
+            {
+              dataField: 'interpretation',
+              text: 'Interpretation',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
             {
               dataField: 'conclusion',
               text: 'Conclusion',
@@ -323,6 +401,14 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'testStatus',
               text: 'Test Status',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'analyteStatus',
+              text: 'Analyte Status',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
@@ -441,7 +527,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             },
             {
               dataField: 'version',
-              text: 'Version',
+              text: 'Analyte Version',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>

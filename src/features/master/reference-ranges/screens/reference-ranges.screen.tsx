@@ -329,7 +329,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                     refernceRangesStore.referenceRanges?.refRangesInputList
                       .length + 1,
                   existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version),
+                  version: 1,
                   type: 'duplicate',
                 });
                 console.log({refRangesInputList});

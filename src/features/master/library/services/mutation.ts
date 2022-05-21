@@ -158,3 +158,45 @@ export const LIBRARYS_BY_CODE = gql`
     }
   }
 `;
+
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: LibraryInput!) {
+    filterByFieldsLibrarys(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        code
+        description
+        usageType
+        libraryType
+        commentType
+        lab
+        department
+        commentsTarget
+        details
+        parameter
+        action
+        results
+        value
+        reflex
+        analyte
+        rule
+        abNormal
+        status
+        organismGroup
+        organismClass
+        loAge
+        hiAge
+        sex
+        sexAction
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

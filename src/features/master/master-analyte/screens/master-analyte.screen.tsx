@@ -37,6 +37,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       loading,
       departmentStore,
       interfaceManagerStore,
+      libraryStore,
     } = useStores();
     const {
       control,
@@ -1381,6 +1382,49 @@ const MasterAnalyte = MasterAnalyteHoc(
                     validate: value => FormHelper.isNumberAvailable(value),
                   }}
                   defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Interpretation'>
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code'
+                        hasError={errors.interpretation}
+                        data={{
+                          list: libraryStore.listLibrary.filter(
+                            item => item.libraryType === 'I',
+                          ),
+                          displayKey: ['code'],
+                        }}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['code'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.code);
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            interpretation: item.code,
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='interpretation'
+                  rules={{required: false}}
+                  defaultValue={libraryStore.listLibrary}
                 />
                 <Controller
                   control={control}

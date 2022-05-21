@@ -98,6 +98,7 @@ const Dashboard = observer(({children}) => {
         await MasterAnalyte.startup();
         await Methods.startup();
         await InterfaceManager.startup();
+        await Library.startup();
       }
       if (
         pathname === '/collection/testMaster' ||
@@ -107,6 +108,7 @@ const Dashboard = observer(({children}) => {
       ) {
         await TestMaster.startup();
         await Methods.startup();
+        await Library.startup();
       }
       if (
         pathname === '/collection/masterPanel' ||
@@ -117,8 +119,8 @@ const Dashboard = observer(({children}) => {
       ) {
         await PanelMaster.startup();
         await Methods.startup();
+        await Library.startup();
       }
-
       if (
         pathname === '/collection/sampleContainer' ||
         pathname === '/collection/testSampleMapping'
