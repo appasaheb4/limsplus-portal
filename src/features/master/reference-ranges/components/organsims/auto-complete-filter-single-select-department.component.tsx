@@ -6,14 +6,30 @@ import {useStores} from '@/stores';
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
 
 interface AutoCompleteDepartmentProps {
+  departmentCode?: string;
   analyteDepartments?: string[];
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteDepartment = observer(
-  ({onSelect, analyteDepartments}: AutoCompleteDepartmentProps) => {
+  ({
+    onSelect,
+    analyteDepartments,
+    departmentCode,
+  }: AutoCompleteDepartmentProps) => {
     const {loading, departmentStore} = useStores();
-    console.log({analyteDepartments});
+    useEffect(() => {
+      departmentStore.DepartmentService.filter({
+        input: {
+          type: 'filter',
+          filter: {
+            code: departmentCode,
+          },
+          page: 0,
+          limit: 10,
+        },
+      });
+    }, []);
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay

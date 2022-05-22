@@ -188,7 +188,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='department'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={departmentStore.listDepartment}
               />
             </td>
             <td>
