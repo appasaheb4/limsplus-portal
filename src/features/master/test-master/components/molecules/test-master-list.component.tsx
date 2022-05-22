@@ -18,6 +18,7 @@ import {
   AutoCompleteFilterSingleSelectDepartment,
   AutoCompleteFilterSingleSelectDeliverySchedule,
   AutoCompleteFilterSingleSelectTestMethod,
+  AutoCompleteInterpretation,
 } from '../index';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
@@ -61,6 +62,7 @@ let collectionContainer;
 let holdingDays;
 let status;
 let environment;
+let interpretation;
 
 interface TestMasterProps {
   data: any;
@@ -1487,6 +1489,37 @@ export const TestMasterList = (props: TestMasterProps) => {
               ),
             },
             {
+              dataField: 'interpretation',
+              text: 'Interpretation',
+              headerClasses: 'textHeader5',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  interpretation = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteInterpretation
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader3',
@@ -1654,6 +1687,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             holdingDays('');
             status('');
             environment('');
+            interpretation('');
           }}
         />
       </div>

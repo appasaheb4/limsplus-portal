@@ -3,3 +3,4 @@ export * from './organsims/auto-complete-filter-single-select-analyte-method.com
 export * from './organsims/auto-complete-filter-single-select-lab.component';
 export * from './organsims/auto-complete-department.component';
 export * from './organsims/auto-complete-equipment-type.component';
+export * from './organsims/auto-complete-interpretation.component';

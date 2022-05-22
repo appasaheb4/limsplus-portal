@@ -18,6 +18,7 @@ import {
   AutoCompleteFilterSingleSelectPlabs,
   AutoCompleteFilterSingleSelectDepartment,
   AutoCompleteFilterSingleSelectPanelMethod,
+  AutoCompleteInterpretation,
 } from '../index';
 import {FormHelper} from '@/helper';
 
@@ -60,6 +61,7 @@ let dateActive;
 let dateExpire;
 let version;
 let enteredBy;
+let interpretation;
 
 interface PanelMasterListProps {
   data: any;
@@ -1524,6 +1526,37 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ),
             },
             {
+              dataField: 'interpretation',
+              text: 'Interpretation',
+              headerClasses: 'textHeader5',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  interpretation = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteInterpretation
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader3',
@@ -1684,7 +1717,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
 
             workflow('');
             reportTemplate('');
-
+            interpretation('');
             specalInstructions('');
             status('');
             environment('');
