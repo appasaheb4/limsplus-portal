@@ -57,8 +57,6 @@ export class PatientVisitStore {
   }
 
   updateLabIdList(res: any) {
-    console.log({res});
-
     this.labIdList = res.filterByLabIdPatientVisit.data;
   }
   filterPatientVisitList(res: any) {

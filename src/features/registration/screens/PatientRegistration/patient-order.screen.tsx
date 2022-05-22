@@ -47,6 +47,7 @@ export const PatientOrder = PatientOrderHoc(
       loginStore,
       routerStore,
       masterPanelStore,
+      patientRegistrationStore,
     } = useStores();
     const {
       control,
@@ -59,6 +60,7 @@ export const PatientOrder = PatientOrderHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
+
     const onSubmitPatientOrder = () => {
       if (!patientOrderStore.checkExistsRecord) {
         const packageList = [
@@ -92,6 +94,7 @@ export const PatientOrder = PatientOrderHoc(
         });
       }
     };
+
     return (
       <>
         {patientOrderStore.patientOrder?.labId && (
@@ -99,13 +102,14 @@ export const PatientOrder = PatientOrderHoc(
             title={`${patientOrderStore.patientOrder.labId} - ${patientOrderStore.patientOrder.patientName}`}
           />
         )}
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemoveBottom
-            style={{bottom: 140}}
-            show={hideInputView}
-            onClick={() => setHideInputView(!hideInputView)}
-          />
-        )}
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') &&
+          !patientRegistrationStore.defaultValues?.labIdLock && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              style={{bottom: 60}}
+              show={hideInputView}
+              onClick={() => setHideInputView(!hideInputView)}
+            />
+          )}
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
