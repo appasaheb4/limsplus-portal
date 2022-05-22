@@ -16,7 +16,7 @@ import {
 import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectLabs,
-  AutoCompleteFilterSingleSelectDepartment,
+  AutoCompleteDepartment,
   AutoCompleteFilterSingleSelectAnalyteCode,
   AutoCompleteFilterSingleSelectAnalyteName,
 } from '../../index';
@@ -58,6 +58,7 @@ interface ReferenceRangesProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onVersionUpgrade?: (item: any) => void;
   onDuplicate?: (item: any) => void;
+  onUpdateFileds?: (fileds: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -123,10 +124,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectAnalyteCode
                     onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.analyteCode,
-                          column.dataField,
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            analyteCode: item.analyteCode,
+                            analyteName: item.analyteName,
+                          },
                           row._id,
                         );
                     }}
@@ -158,10 +161,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectAnalyteName
                     onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.analyteName,
-                          column.dataField,
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            analyteCode: item.analyteCode,
+                            analyteName: item.analyteName,
+                          },
                           row._id,
                         );
                     }}
@@ -191,7 +196,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <AutoCompleteFilterSingleSelectDepartment
+                  <AutoCompleteDepartment
                     analyteDepartments={row.analyteDepartments}
                     onSelect={item => {
                       props.onUpdateItem &&

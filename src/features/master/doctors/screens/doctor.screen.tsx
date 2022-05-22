@@ -1538,7 +1538,7 @@ const Doctors = DoctorsHoc(
                   rules={{required: true}}
                   defaultValue=''
                 />
-                <Grid cols={5}>
+                <Grid cols={3}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (

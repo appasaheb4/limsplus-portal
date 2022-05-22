@@ -5,32 +5,29 @@ import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
 
-interface AutoCompleteDepartmentProps {
-  analyteDepartments?: string[];
+interface AutoCompleteInterpretationProps {
   onSelect: (item: any) => void;
 }
 
-export const AutoCompleteDepartment = observer(
-  ({onSelect, analyteDepartments}: AutoCompleteDepartmentProps) => {
-    const {loading, departmentStore} = useStores();
-    console.log({analyteDepartments});
+export const AutoCompleteInterpretation = observer(
+  ({onSelect}: AutoCompleteInterpretationProps) => {
+    const {loading, libraryStore} = useStores();
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-          posstion='relative'
           loader={loading}
-          placeholder='Search by code or name'
+          placeholder='Search by code'
           data={{
-            list: departmentStore.listDepartment.filter(item =>
-              analyteDepartments?.includes(item.code),
+            list: libraryStore.listLibrary.filter(
+              item => item.libraryType === 'I',
             ),
-            displayKey: ['code', 'name'],
+            displayKey: ['code'],
           }}
           onFilter={(value: string) => {
-            departmentStore.DepartmentService.filterByFields({
+            libraryStore.libraryService.filterByFields({
               input: {
                 filter: {
-                  fields: ['code', 'name'],
+                  fields: ['code'],
                   srText: value,
                 },
                 page: 0,
@@ -39,11 +36,8 @@ export const AutoCompleteDepartment = observer(
             });
           }}
           onSelect={item => {
-            console.log({item});
             onSelect && onSelect(item.code);
-            departmentStore.updateDepartmentList(
-              departmentStore.listDepartmentCopy,
-            );
+            libraryStore.updateLibraryList(libraryStore.listLibraryCopy);
           }}
         />
       </>
