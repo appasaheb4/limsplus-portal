@@ -19,6 +19,7 @@ import {
   AutoCompleteFilterSingleSelectAnalayteMethod,
   AutoCompleteDepartment,
   AutoCompleteEquipmentType,
+  AutoCompleteInterpretation,
 } from '../index';
 import {FormHelper} from '@/helper';
 
@@ -50,6 +51,7 @@ let status;
 let version;
 let minReportable;
 let maxReportable;
+let interpretation;
 
 interface MasterAnalyteProps {
   data: any;
@@ -1247,6 +1249,37 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ),
             },
             {
+              dataField: 'interpretation',
+              text: 'Interpretation',
+              headerClasses: 'textHeader5',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  interpretation = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteInterpretation
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader4',
@@ -1399,6 +1432,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             dateActive();
             dateExpire();
             version('');
+            interpretation('');
             minReportable('');
             maxReportable('');
             price('');

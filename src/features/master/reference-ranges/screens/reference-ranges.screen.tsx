@@ -133,6 +133,15 @@ const ReferenceRanges = ReferenceRangesHoc(
               body: `Update item!`,
             });
           }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'UpdateFileds',
+              data: {fileds, id},
+              title: 'Are you sure?',
+              body: `Update records!`,
+            });
+          }}
           onVersionUpgrade={item => {
             setModalConfirm({
               show: true,
@@ -292,6 +301,23 @@ const ReferenceRanges = ReferenceRangesHoc(
                     input: {
                       _id: modalConfirm.data.id,
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updateReferenceRange.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateReferenceRange.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      refernceRangesStore.fetchListReferenceRanges();
+                    }
+                  });
+              } else if (type === 'UpdateFileds') {
+                refernceRangesStore.referenceRangesService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
                     },
                   })
                   .then((res: any) => {

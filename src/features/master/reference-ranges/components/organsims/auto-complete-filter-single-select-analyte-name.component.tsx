@@ -112,7 +112,7 @@ export const AutoCompleteFilterSingleSelectAnalyteName = observer(
                           {' '}
                           <label className='ml-2 mt-1 text-black'>
                             {' '}
-                            {item.analyteName}
+                            {item.analyteCode} - {item.analyteName}
                           </label>
                         </li>
                       </>
