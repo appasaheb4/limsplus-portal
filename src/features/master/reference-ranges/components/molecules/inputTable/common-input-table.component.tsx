@@ -122,6 +122,16 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       masterAnalyteStore.updateMasterAnalyteList(
                         masterAnalyteStore.listMasterAnalyteCopy,
                       );
+                      departmentStore.DepartmentService.filter({
+                        input: {
+                          type: 'filter',
+                          filter: {
+                            code: item.departments,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      });
                     }}
                   />
                 )}
