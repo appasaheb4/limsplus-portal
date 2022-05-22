@@ -198,6 +198,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 <>
                   <AutoCompleteDepartment
                     analyteDepartments={row.analyteDepartments}
+                    departmentCode={row.department}
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
