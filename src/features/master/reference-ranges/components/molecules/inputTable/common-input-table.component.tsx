@@ -25,6 +25,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     routerStore,
     interfaceManagerStore,
     loginStore,
+    labStore,
   } = useStores();
   const {
     control,
@@ -80,6 +81,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <th className='text-white'>Species</th>
             <th className='text-white'>Sex</th>
             <th className='text-white'>Range_Set_On</th>
+            <th className='text-white'>Lab</th>
             <th className='text-white'>Equipment_Type</th>
           </tr>
         </thead>
@@ -305,6 +307,44 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 render={({field: {onChange}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
+                    placeholder='Search by code or name'
+                    data={{
+                      list: labStore.listLabs,
+                      displayKey: ['code', 'name'],
+                    }}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filterByFields({
+                        input: {
+                          filter: {
+                            fields: ['code', 'name'],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      });
+                    }}
+                    onSelect={item => {
+                      onChange(item.code);
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
+                        lab: item.code,
+                      });
+                      labStore.updateLabList(labStore.listLabsCopy);
+                    }}
+                  />
+                )}
+                name='equipmentType'
+                rules={{required: false}}
+                defaultValue={interfaceManagerStore.listInterfaceManager}
+              />
+            </td>
+            <td>
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
                     placeholder='Search by instrumentType'
                     hasError={errors.equipmentType}
                     disable={
@@ -347,7 +387,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='equipmentType'
                 rules={{required: false}}
-                defaultValue=''
+                defaultValue={interfaceManagerStore.listInterfaceManager}
               />
             </td>
           </tr>

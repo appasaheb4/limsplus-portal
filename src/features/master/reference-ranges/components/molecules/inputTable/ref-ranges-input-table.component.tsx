@@ -612,42 +612,42 @@ export const RefRangesInputTable = observer(
               // editable: (content, row, rowIndex, columnIndex) =>
               //   row?.rangeSetOn === "I" ? false : true,
               editable: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                    loader={loading}
-                    placeholder='Search by code or name'
-                    data={{
-                      list: labStore.listLabs,
-                      displayKey: ['code', 'name'],
-                    }}
-                    onFilter={(value: string) => {
-                      labStore.LabService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['code', 'name'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
-                    }}
-                    onSelect={item => {
-                      onUpdateItems &&
-                        onUpdateItems({lab: item.code}, row.rangeId);
-                      labStore.updateLabList(labStore.listLabsCopy);
-                    }}
-                  />
-                </>
-              ),
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              //       loader={loading}
+              //       placeholder='Search by code or name'
+              //       data={{
+              //         list: labStore.listLabs,
+              //         displayKey: ['code', 'name'],
+              //       }}
+              //       onFilter={(value: string) => {
+              //         labStore.LabService.filterByFields({
+              //           input: {
+              //             filter: {
+              //               fields: ['code', 'name'],
+              //               srText: value,
+              //             },
+              //             page: 0,
+              //             limit: 10,
+              //           },
+              //         });
+              //       }}
+              //       onSelect={item => {
+              //         onUpdateItems &&
+              //           onUpdateItems({lab: item.code}, row.rangeId);
+              //         labStore.updateLabList(labStore.listLabsCopy);
+              //       }}
+              //     />
+              //   </>
+              // ),
             },
 
             {
