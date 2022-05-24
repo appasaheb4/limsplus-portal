@@ -8,7 +8,6 @@ import {
   InputRadio,
   InputDate,
   InputDateTime,
-  CheckBox,
   SelectOption,
   InputFile,
   Toggle,
@@ -35,9 +34,7 @@ export const _Input: ComponentStory<typeof Label> = () => (
     placeholder='Analyte Name'
     value=''
     disabled={false}
-    onChange={analyteName => {
-      console.log({analyteName});
-    }}
+    onChange={analyteName => {}}
   />
 );
 
@@ -52,11 +49,7 @@ export const _MultilineInput: ComponentStory<typeof Label> = () => (
 );
 
 export const _InputRadio: ComponentStory<typeof Label> = () => (
-  <InputRadio
-    label='RadioButton'
-    onChange={() => console.log('radio')}
-    disabled={false}
-  />
+  <InputRadio label='RadioButton' onChange={() => {}} disabled={false} />
 );
 
 export const _InputDate: ComponentStory<typeof Label> = () => (
@@ -69,21 +62,11 @@ export const _InputDate: ComponentStory<typeof Label> = () => (
 );
 
 export const _InputDateTime: ComponentStory<typeof Label> = () => (
-  <InputDateTime
-    label='DateTimePicker'
-    disabled={false}
-    onChange={() => console.log('sdfsf')}
-  />
+  <InputDateTime label='DateTimePicker' disabled={false} onChange={() => {}} />
 );
 
-// export const _CheckBox: ComponentStory<typeof Label> = () => (
-//   <CheckBox>
-//     <h1>bubougpi</h1>
-//   </CheckBox>
-// );
-
 export const _SelectOption: ComponentStory<typeof Label> = () => (
-  <SelectOption label='select ' onChange={() => console.log('svsrvr')} key=''>
+  <SelectOption label='select ' onChange={() => {}} key=''>
     <option selected>Select</option>
     {[{name: 'bhink'}]?.map((item: any) => (
       <option key={item} value={item}>
@@ -105,5 +88,5 @@ export const _InputFile: ComponentStory<typeof Label> = () => (
 );
 
 export const _Toggle: ComponentStory<typeof Label> = () => (
-  <Toggle label='ToggleBtn' onChange={() => console.log('svrvsrf')} />
+  <Toggle label='ToggleBtn' onChange={() => {}} />
 );

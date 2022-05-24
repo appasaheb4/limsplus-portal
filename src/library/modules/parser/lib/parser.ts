@@ -11,7 +11,7 @@ export default class Parser {
   _blockStart: any;
   _blockEnd: any;
   _fileds: Fildes;
-  _instrumentType: string = '';
+  _instrumentType = '';
 
   // SEGMENT = "\n"
   // FIELD = "|"
@@ -111,18 +111,30 @@ export default class Parser {
   };
 
   parse = (data: any) => {
-    if (this._instrumentType === 'ERP' || this._instrumentType === 'ERP_REG') {
-      if (data.substr(0, 3) !== 'MSH') return null;
-    } else if (this._instrumentType === 'URISED') {
-      if (data.substr(0, 4) !== this._blockStart) return null;
-      if (data.substr(data.length - 12) !== this._blockEnd) return null;
-      data = data.slice(4, -12);
-    } else if (this._instrumentType === 'HORIBA_H550') {
-      console.log({start: data.substr(0, 5), ss: this._blockStart});
-      console.log({end: data.substr(data.length - 9), ss: this._blockEnd});
-      if (data.substr(0, 5) !== this._blockStart) return null;
-      if (data.substr(data.length - 9) !== this._blockEnd) return null;
-      data = data.slice(5, -9);
+    switch (this._instrumentType) {
+      case 'ERP':
+      case 'ERP_REG': {
+        if (data.slice(0, 3) !== 'MSH') return null;
+
+        break;
+      }
+      case 'URISED': {
+        if (data.slice(0, 4) !== this._blockStart) return null;
+        if (data.slice(data.length - 12) !== this._blockEnd) return null;
+        data = data.slice(4, -12);
+
+        break;
+      }
+      case 'HORIBA_H550': {
+        console.log({start: data.slice(0, 5), ss: this._blockStart});
+        console.log({end: data.slice(data.length - 9), ss: this._blockEnd});
+        if (data.slice(0, 5) !== this._blockStart) return null;
+        if (data.slice(data.length - 9) !== this._blockEnd) return null;
+        data = data.slice(5, -9);
+
+        break;
+      }
+      // No default
     }
 
     console.log({data});
@@ -135,11 +147,11 @@ export default class Parser {
     const NEW_LINE = new RegExp(this._fileds.NEW_LINE);
     //console.log({ NEW_LINE })
     const segments = data.split(NEW_LINE);
-    for (let i = 0; i < segments.length; i++) {
-      if (segments[i] === '') {
+    for (const segment of segments) {
+      if (segment === '') {
         continue;
       }
-      const segmentItem = segments[i].replace(/  +/g, '');
+      const segmentItem = segment.replace(/  +/g, '');
       const seg = this.parseSegment(segmentItem);
       result.push(seg);
     }
