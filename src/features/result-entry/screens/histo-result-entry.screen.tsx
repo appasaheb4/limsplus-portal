@@ -51,13 +51,13 @@ export const HistoResultEntry = observer(() => {
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
-	style={{bottom: 140}}
-	show={hideInputView}
-	onClick={() => setHideInputView(!hideInputView)}
+          style={{bottom: 140}}
+          show={hideInputView}
+          onClick={() => setHideInputView(!hideInputView)}
         />
       )}
       <div
-	className={
+        className={
           'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
         }
       >
@@ -65,137 +65,137 @@ export const HistoResultEntry = observer(() => {
           <Grid cols={2}>
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.Input
-	label='Pid'
-	name='txtPid'
-	disabled={true}
-	placeholder={errors.pId ? 'Please enter pid' : 'Pid'}
-	hasError={errors.pId}
-	value={patientManagerStore.patientManger?.pId}
-	onChange={pId => {
-	  onChange(pId);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    pId,
-	  });
-	}}
+                    label='Pid'
+                    name='txtPid'
+                    disabled={true}
+                    placeholder={errors.pId ? 'Please enter pid' : 'Pid'}
+                    hasError={errors.pId}
+                    value={patientManagerStore.patientManger?.pId}
+                    onChange={pId => {
+                      onChange(pId);
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        pId,
+                      });
+                    }}
                   />
-	)}
-	name='pId'
-	rules={{required: false}}
-	defaultValue=''
+                )}
+                name='pId'
+                rules={{required: false}}
+                defaultValue=''
               />
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.Input
-	label='Mobile No'
-	placeholder={
+                    label='Mobile No'
+                    placeholder={
                       errors.txtMobileNo ? 'Please Enter MobileNo' : 'Mobile No'
                     }
-	hasError={errors.txtMobileNo}
-	type='number'
-	pattern={FormHelper.patterns.mobileNo}
-	value={patientManagerStore.patientManger?.mobileNo}
-	onChange={mobileNo => {
-	  onChange(mobileNo);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    mobileNo,
-	  });
-	}}
-	onBlur={mobileNo => {
-	  patientManagerStore.patientManagerService
-	    .checkExistsPatient({
-	      input: {
-	        firstName:
+                    hasError={errors.txtMobileNo}
+                    type='number'
+                    pattern={FormHelper.patterns.mobileNo}
+                    value={patientManagerStore.patientManger?.mobileNo}
+                    onChange={mobileNo => {
+                      onChange(mobileNo);
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        mobileNo,
+                      });
+                    }}
+                    onBlur={mobileNo => {
+                      patientManagerStore.patientManagerService
+                        .checkExistsPatient({
+                          input: {
+                            firstName:
                               patientManagerStore.patientManger?.firstName,
-	        lastName:
+                            lastName:
                               patientManagerStore.patientManger?.lastName,
-	        mobileNo,
-	        birthDate:
+                            mobileNo,
+                            birthDate:
                               patientManagerStore.patientManger?.birthDate,
-	      },
-	    })
-	    .then(res => {
-	      if (res.checkExistsPatientManager.success) {
-	        patientManagerStore.updateExistsPatient(true);
-	        Toast.error({
-	          message: `😔 ${res.checkExistsPatientManager.message}`,
-	        });
-	      } else patientManagerStore.updateExistsPatient(false);
-	    });
-	}}
+                          },
+                        })
+                        .then(res => {
+                          if (res.checkExistsPatientManager.success) {
+                            patientManagerStore.updateExistsPatient(true);
+                            Toast.error({
+                              message: `😔 ${res.checkExistsPatientManager.message}`,
+                            });
+                          } else patientManagerStore.updateExistsPatient(false);
+                        });
+                    }}
                   />
-	)}
-	name='txtMobileNo'
-	rules={{
-	  required: true,
-	  pattern: FormHelper.patterns.mobileNo,
-	}}
-	defaultValue=''
+                )}
+                name='txtMobileNo'
+                rules={{
+                  required: true,
+                  pattern: FormHelper.patterns.mobileNo,
+                }}
+                defaultValue=''
               />
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.InputDateTime
-	label='Bithdate'
-	placeholder={
+                    label='Bithdate'
+                    placeholder={
                       errors.birthDate ? 'Please Enter BirthDate' : 'BirthDate'
                     }
-	hasError={errors.birthDate}
-	value={patientManagerStore.patientManger?.birthDate}
-	onChange={birthDate => {
-	  onChange(birthDate);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    birthDate,
-	  });
-	  patientManagerStore.patientManagerService
-	    .checkExistsPatient({
-	      input: {
-	        firstName:
+                    hasError={errors.birthDate}
+                    value={patientManagerStore.patientManger?.birthDate}
+                    onChange={birthDate => {
+                      onChange(birthDate);
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        birthDate,
+                      });
+                      patientManagerStore.patientManagerService
+                        .checkExistsPatient({
+                          input: {
+                            firstName:
                               patientManagerStore.patientManger?.firstName,
-	        lastName:
+                            lastName:
                               patientManagerStore.patientManger?.lastName,
-	        mobileNo:
+                            mobileNo:
                               patientManagerStore.patientManger?.mobileNo,
-	        birthDate,
-	      },
-	    })
-	    .then(res => {
-	      if (res.checkExistsPatientManager.success) {
-	        patientManagerStore.updateExistsPatient(true);
-	        Toast.error({
-	          message: `😔 ${res.checkExistsPatientManager.message}`,
-	        });
-	      } else patientManagerStore.updateExistsPatient(false);
-	    });
-	}}
+                            birthDate,
+                          },
+                        })
+                        .then(res => {
+                          if (res.checkExistsPatientManager.success) {
+                            patientManagerStore.updateExistsPatient(true);
+                            Toast.error({
+                              message: `😔 ${res.checkExistsPatientManager.message}`,
+                            });
+                          } else patientManagerStore.updateExistsPatient(false);
+                        });
+                    }}
                   />
-	)}
-	name='birthDate'
-	rules={{required: true}}
-	defaultValue=''
+                )}
+                name='birthDate'
+                rules={{required: true}}
+                defaultValue=''
               />
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.InputWrapper label='Title' hasError={errors.title}>
                     <select
-	className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-	  errors.title ? 'border-red-500  ' : 'border-gray-300'
-	} rounded-md`}
-	onChange={e => {
-	  const title = e.target.value;
-	  onChange(title);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    title,
-	  });
-	}}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.title ? 'border-red-500  ' : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const title = e.target.value;
+                        onChange(title);
+                        patientManagerStore.updatePatientManager({
+                          ...patientManagerStore.patientManger,
+                          title,
+                        });
+                      }}
                     >
                       <option selected>Select</option>
                       {lookupItems(
@@ -208,126 +208,126 @@ export const HistoResultEntry = observer(() => {
                       ))}
                     </select>
                   </Form.InputWrapper>
-	)}
-	name='title'
-	rules={{required: true}}
-	defaultValue=''
+                )}
+                name='title'
+                rules={{required: true}}
+                defaultValue=''
               />
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.Input
-	label='First Name'
-	name='txtFirstName'
-	placeholder={
+                    label='First Name'
+                    name='txtFirstName'
+                    placeholder={
                       errors.firstName ? 'Please Enter FirstName' : 'First Name'
                     }
-	hasError={errors.firstName}
-	value={patientManagerStore.patientManger?.firstName}
-	onChange={firstName => {
-	  onChange(firstName);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    firstName: firstName.toUpperCase(),
-	  });
-	}}
-	onBlur={firstName => {
-	  patientManagerStore.patientManagerService
-	    .checkExistsPatient({
-	      input: {
-	        firstName,
-	        lastName:
+                    hasError={errors.firstName}
+                    value={patientManagerStore.patientManger?.firstName}
+                    onChange={firstName => {
+                      onChange(firstName);
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        firstName: firstName.toUpperCase(),
+                      });
+                    }}
+                    onBlur={firstName => {
+                      patientManagerStore.patientManagerService
+                        .checkExistsPatient({
+                          input: {
+                            firstName,
+                            lastName:
                               patientManagerStore.patientManger?.lastName,
-	        mobileNo:
+                            mobileNo:
                               patientManagerStore.patientManger?.mobileNo,
-	        birthDate:
+                            birthDate:
                               patientManagerStore.patientManger?.birthDate,
-	      },
-	    })
-	    .then(res => {
-	      if (res.checkExistsPatientManager.success) {
-	        patientManagerStore.updateExistsPatient(true);
-	        Toast.error({
-	          message: `😔 ${res.checkExistsPatientManager.message}`,
-	        });
-	      } else patientManagerStore.updateExistsPatient(false);
-	    });
-	}}
+                          },
+                        })
+                        .then(res => {
+                          if (res.checkExistsPatientManager.success) {
+                            patientManagerStore.updateExistsPatient(true);
+                            Toast.error({
+                              message: `😔 ${res.checkExistsPatientManager.message}`,
+                            });
+                          } else patientManagerStore.updateExistsPatient(false);
+                        });
+                    }}
                   />
-	)}
-	name='firstName'
-	rules={{required: true}}
-	defaultValue=''
+                )}
+                name='firstName'
+                rules={{required: true}}
+                defaultValue=''
               />
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.Input
-	label='Middle Name'
-	placeholder={
+                    label='Middle Name'
+                    placeholder={
                       errors.middleName
                         ? 'Please Enter MiddleName'
                         : 'Middle Name'
                     }
-	hasError={errors.middleName}
-	value={patientManagerStore.patientManger?.middleName}
-	onChange={middleName => {
-	  onChange(middleName);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    middleName: middleName.toUpperCase(),
-	  });
-	}}
+                    hasError={errors.middleName}
+                    value={patientManagerStore.patientManger?.middleName}
+                    onChange={middleName => {
+                      onChange(middleName);
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        middleName: middleName.toUpperCase(),
+                      });
+                    }}
                   />
-	)}
-	name='middleName'
-	rules={{required: false}}
-	defaultValue=''
+                )}
+                name='middleName'
+                rules={{required: false}}
+                defaultValue=''
               />
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.Input
-	label='Last Name'
-	placeholder={
+                    label='Last Name'
+                    placeholder={
                       errors.lastName ? 'Please Enter LastName' : 'Last Name'
                     }
-	hasError={errors.lastName}
-	value={patientManagerStore.patientManger?.lastName}
-	onChange={lastName => {
-	  onChange(lastName);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    lastName: lastName.toUpperCase(),
-	  });
-	}}
-	onBlur={lastName => {
-	  patientManagerStore.patientManagerService
-	    .checkExistsPatient({
-	      input: {
-	        firstName:
+                    hasError={errors.lastName}
+                    value={patientManagerStore.patientManger?.lastName}
+                    onChange={lastName => {
+                      onChange(lastName);
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        lastName: lastName.toUpperCase(),
+                      });
+                    }}
+                    onBlur={lastName => {
+                      patientManagerStore.patientManagerService
+                        .checkExistsPatient({
+                          input: {
+                            firstName:
                               patientManagerStore.patientManger?.firstName,
-	        lastName,
-	        mobileNo:
+                            lastName,
+                            mobileNo:
                               patientManagerStore.patientManger?.mobileNo,
-	        birthDate:
+                            birthDate:
                               patientManagerStore.patientManger?.birthDate,
-	      },
-	    })
-	    .then(res => {
-	      if (res.checkExistsPatientManager.success) {
-	        patientManagerStore.updateExistsPatient(true);
-	        Toast.error({
-	          message: `😔 ${res.checkExistsPatientManager.message}`,
-	        });
-	      } else patientManagerStore.updateExistsPatient(false);
-	    });
-	}}
+                          },
+                        })
+                        .then(res => {
+                          if (res.checkExistsPatientManager.success) {
+                            patientManagerStore.updateExistsPatient(true);
+                            Toast.error({
+                              message: `😔 ${res.checkExistsPatientManager.message}`,
+                            });
+                          } else patientManagerStore.updateExistsPatient(false);
+                        });
+                    }}
                   />
-	)}
-	name='lastName'
-	rules={{required: true}}
-	defaultValue=''
+                )}
+                name='lastName'
+                rules={{required: true}}
+                defaultValue=''
               />
               {patientManagerStore.checkExistsPatient && (
                 <span className='text-red-600 font-medium relative'>
@@ -335,21 +335,21 @@ export const HistoResultEntry = observer(() => {
                 </span>
               )}
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.InputWrapper label='Sex' hasError={errors.sex}>
                     <select
-	className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-	  errors.sex ? 'border-red-500  ' : 'border-gray-300'
-	} rounded-md`}
-	onChange={e => {
-	  const sex = e.target.value;
-	  onChange(sex);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    sex,
-	  });
-	}}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.sex ? 'border-red-500  ' : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const sex = e.target.value;
+                        onChange(sex);
+                        patientManagerStore.updatePatientManager({
+                          ...patientManagerStore.patientManger,
+                          sex,
+                        });
+                      }}
                     >
                       <option selected>Select</option>
                       {lookupItems(
@@ -362,32 +362,32 @@ export const HistoResultEntry = observer(() => {
                       ))}
                     </select>
                   </Form.InputWrapper>
-	)}
-	name='sex'
-	rules={{required: true}}
-	defaultValue=''
+                )}
+                name='sex'
+                rules={{required: true}}
+                defaultValue=''
               />
             </List>
 
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
-	control={control}
-	render={({field: {onChange, value}}) => (
+                control={control}
+                render={({field: {onChange, value}}) => (
                   <Form.InputWrapper label='Species' hasError={errors.species}>
                     <select
-	value={patientManagerStore.patientManger?.species}
-	className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-	  errors.species ? 'border-red-500  ' : 'border-gray-300'
-	} rounded-md`}
-	onChange={e => {
-	  const species = e.target.value as string;
-	  onChange(species);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    species,
-	    breed: species === 'H' ? null : undefined,
-	  });
-	}}
+                      value={patientManagerStore.patientManger?.species}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.species ? 'border-red-500  ' : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const species = e.target.value as string;
+                        onChange(species);
+                        patientManagerStore.updatePatientManager({
+                          ...patientManagerStore.patientManger,
+                          species,
+                          breed: species === 'H' ? null : undefined,
+                        });
+                      }}
                     >
                       <option selected>Select</option>
                       {lookupItems(
@@ -400,58 +400,58 @@ export const HistoResultEntry = observer(() => {
                       ))}
                     </select>
                   </Form.InputWrapper>
-	)}
-	name='species'
-	rules={{required: true}}
-	defaultValue=''
+                )}
+                name='species'
+                rules={{required: true}}
+                defaultValue=''
               />
               {patientManagerStore.patientManger.breed !== null && (
                 <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                  control={control}
+                  render={({field: {onChange}}) => (
                     <Form.Input
-	label='Breed'
-	placeholder={
+                      label='Breed'
+                      placeholder={
                         errors.breed ? 'Please Enter Breed' : 'Breed'
                       }
-	hasError={errors.breed}
-	value={patientManagerStore.patientManger?.breed}
-	onChange={breed => {
-	  onChange(breed);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    breed,
-	  });
-	}}
+                      hasError={errors.breed}
+                      value={patientManagerStore.patientManger?.breed}
+                      onChange={breed => {
+                        onChange(breed);
+                        patientManagerStore.updatePatientManager({
+                          ...patientManagerStore.patientManger,
+                          breed,
+                        });
+                      }}
                     />
-	)}
-	name='breed'
-	rules={{required: false}}
-	defaultValue=''
+                  )}
+                  name='breed'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
               )}
               {doctorsStore.listDoctors && (
                 <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                  control={control}
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
-	label='Usual Doctor'
-	hasError={errors.usualDoctor}
+                      label='Usual Doctor'
+                      hasError={errors.usualDoctor}
                     >
                       <select
-	className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-	  errors.usualDoctor
-	    ? 'border-red-500'
-	    : 'border-gray-300'
-	} rounded-md`}
-	onChange={e => {
-	  const usualDoctor = e.target.value;
-	  onChange(usualDoctor);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    usualDoctor,
-	  });
-	}}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.usualDoctor
+                            ? 'border-red-500'
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const usualDoctor = e.target.value;
+                          onChange(usualDoctor);
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            usualDoctor,
+                          });
+                        }}
                       >
                         <option selected>Select</option>
                         {doctorsStore.listDoctors.map(
@@ -463,32 +463,32 @@ export const HistoResultEntry = observer(() => {
                         )}
                       </select>
                     </Form.InputWrapper>
-	)}
-	name='usualDoctor'
-	rules={{required: true}}
-	defaultValue=''
+                  )}
+                  name='usualDoctor'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
               )}
 
               <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.Toggle
-	label='History'
-	hasError={errors.history}
-	value={patientManagerStore.patientManger?.history}
-	onChange={history => {
-	  onChange(history);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    history,
-	  });
-	}}
+                    label='History'
+                    hasError={errors.history}
+                    value={patientManagerStore.patientManger?.history}
+                    onChange={history => {
+                      onChange(history);
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        history,
+                      });
+                    }}
                   />
-	)}
-	name='history'
-	rules={{required: false}}
-	defaultValue=''
+                )}
+                name='history'
+                rules={{required: false}}
+                defaultValue=''
               />
             </List>
           </Grid>
@@ -507,220 +507,220 @@ export const HistoResultEntry = observer(() => {
                     <List direction='col' space={4} justify='stretch' fill>
                       {administrativeDivisions.listAdministrativeDiv && (
                         <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                          control={control}
+                          render={({field: {onChange}}) => (
                             <Form.InputWrapper
-	label='Country'
-	id='country'
-	hasError={errors.country}
+                              label='Country'
+                              id='country'
+                              hasError={errors.country}
                             >
                               <AutoCompleteFilterSingleSelect
-	loader={loading}
-	data={{
-	  list: _.uniqBy(
-	    administrativeDivisions.listAdministrativeDiv,
-	    'country',
-	  ),
-	  displayKey: 'country',
-	  findKey: 'country',
-	}}
-	displayValue={
+                                loader={loading}
+                                data={{
+                                  list: _.uniqBy(
+                                    administrativeDivisions.listAdministrativeDiv,
+                                    'country',
+                                  ),
+                                  displayKey: 'country',
+                                  findKey: 'country',
+                                }}
+                                displayValue={
                                   patientManagerStore.patientManger.extraData
                                     ?.country
                                 }
-	hasError={errors.country}
-	onFilter={(value: string) => {
-	  administrativeDivisions.administrativeDivisionsService.filter(
-	    {
-	      input: {
-	        filter: {
-	          type: 'search',
-	          ['country']: value,
-	        },
-	        page: 0,
-	        limit: 10,
-	      },
-	    },
-	  );
-	}}
-	onSelect={item => {
-	  onChange(item.country);
-	  onChange(item.country);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      country: item.country,
-	    },
-	  });
-	}}
+                                hasError={errors.country}
+                                onFilter={(value: string) => {
+                                  administrativeDivisions.administrativeDivisionsService.filter(
+                                    {
+                                      input: {
+                                        filter: {
+                                          type: 'search',
+                                          ['country']: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
+                                      },
+                                    },
+                                  );
+                                }}
+                                onSelect={item => {
+                                  onChange(item.country);
+                                  onChange(item.country);
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    extraData: {
+                                      ...patientManagerStore.patientManger
+                                        ?.extraData,
+                                      country: item.country,
+                                    },
+                                  });
+                                }}
                               />
                             </Form.InputWrapper>
-	)}
-	name='country'
-	rules={{required: false}}
-	defaultValue=''
+                          )}
+                          name='country'
+                          rules={{required: false}}
+                          defaultValue=''
                         />
                       )}
                       {(patientManagerStore.patientManger.extraData?.country ||
                         administrativeDivisions.listAdministrativeDiv) && (
                         <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                          control={control}
+                          render={({field: {onChange}}) => (
                             <Form.InputWrapper
-	label='State'
-	id='state'
-	hasError={errors.state}
+                              label='State'
+                              id='state'
+                              hasError={errors.state}
                             >
                               <AutoCompleteFilterSingleSelect
-	loader={loading}
-	disable={
+                                loader={loading}
+                                disable={
                                   !patientManagerStore.patientManger.extraData
                                     ?.country
                                 }
-	data={{
-	  list: _.uniqBy(
-	    administrativeDivisions.listAdministrativeDiv.filter(
-	      item =>
-	        item.country ===
+                                data={{
+                                  list: _.uniqBy(
+                                    administrativeDivisions.listAdministrativeDiv.filter(
+                                      item =>
+                                        item.country ===
                                         patientManagerStore.patientManger
                                           .extraData?.country,
-	    ),
-	    'state',
-	  ),
-	  displayKey: 'state',
-	  findKey: 'state',
-	}}
-	hasError={errors.state}
-	onFilter={(value: string) => {
-	  administrativeDivisions.administrativeDivisionsService.filter(
-	    {
-	      input: {
-	        filter: {
-	          type: 'search',
-	          country:
+                                    ),
+                                    'state',
+                                  ),
+                                  displayKey: 'state',
+                                  findKey: 'state',
+                                }}
+                                hasError={errors.state}
+                                onFilter={(value: string) => {
+                                  administrativeDivisions.administrativeDivisionsService.filter(
+                                    {
+                                      input: {
+                                        filter: {
+                                          type: 'search',
+                                          country:
                                             patientManagerStore.patientManger
                                               .extraData?.country,
-	          state: value,
-	        },
-	        page: 0,
-	        limit: 10,
-	      },
-	    },
-	  );
-	}}
-	onSelect={item => {
-	  onChange(item.state);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      state: item.state,
-	    },
-	  });
-	}}
+                                          state: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
+                                      },
+                                    },
+                                  );
+                                }}
+                                onSelect={item => {
+                                  onChange(item.state);
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    extraData: {
+                                      ...patientManagerStore.patientManger
+                                        ?.extraData,
+                                      state: item.state,
+                                    },
+                                  });
+                                }}
                               />
                             </Form.InputWrapper>
-	)}
-	name='state'
-	rules={{required: false}}
-	defaultValue=''
+                          )}
+                          name='state'
+                          rules={{required: false}}
+                          defaultValue=''
                         />
                       )}
 
                       {(patientManagerStore.patientManger.extraData?.state ||
                         administrativeDivisions.listAdministrativeDiv) && (
                         <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                          control={control}
+                          render={({field: {onChange}}) => (
                             <Form.InputWrapper
-	label='City'
-	id='city'
-	hasError={errors.city}
+                              label='City'
+                              id='city'
+                              hasError={errors.city}
                             >
                               <AutoCompleteFilterSingleSelect
-	loader={loading}
-	disable={
+                                loader={loading}
+                                disable={
                                   !patientManagerStore.patientManger.extraData
                                     ?.state
                                 }
-	data={{
-	  list: _.uniqBy(
-	    administrativeDivisions.listAdministrativeDiv.filter(
-	      item =>
-	        item.country ===
+                                data={{
+                                  list: _.uniqBy(
+                                    administrativeDivisions.listAdministrativeDiv.filter(
+                                      item =>
+                                        item.country ===
                                           patientManagerStore.patientManger
                                             .extraData?.country &&
                                         item.state ===
                                           patientManagerStore.patientManger
                                             .extraData?.state,
-	    ),
-	    'city',
-	  ),
-	  displayKey: 'city',
-	  findKey: 'city',
-	}}
-	hasError={errors.city}
-	onFilter={(value: string) => {
-	  administrativeDivisions.administrativeDivisionsService.filter(
-	    {
-	      input: {
-	        filter: {
-	          type: 'search',
-	          country:
+                                    ),
+                                    'city',
+                                  ),
+                                  displayKey: 'city',
+                                  findKey: 'city',
+                                }}
+                                hasError={errors.city}
+                                onFilter={(value: string) => {
+                                  administrativeDivisions.administrativeDivisionsService.filter(
+                                    {
+                                      input: {
+                                        filter: {
+                                          type: 'search',
+                                          country:
                                             patientManagerStore.patientManger
                                               .extraData?.country,
-	          state:
+                                          state:
                                             patientManagerStore.patientManger
                                               .extraData?.state,
-	          city: value,
-	        },
-	        page: 0,
-	        limit: 10,
-	      },
-	    },
-	  );
-	}}
-	onSelect={item => {
-	  onChange(item.city);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      city: item.city,
-	    },
-	  });
-	}}
+                                          city: value,
+                                        },
+                                        page: 0,
+                                        limit: 10,
+                                      },
+                                    },
+                                  );
+                                }}
+                                onSelect={item => {
+                                  onChange(item.city);
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    extraData: {
+                                      ...patientManagerStore.patientManger
+                                        ?.extraData,
+                                      city: item.city,
+                                    },
+                                  });
+                                }}
                               />
                             </Form.InputWrapper>
-	)}
-	name='city'
-	rules={{required: false}}
-	defaultValue=''
+                          )}
+                          name='city'
+                          rules={{required: false}}
+                          defaultValue=''
                         />
                       )}
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.InputWrapper
-	label='Postal Code'
-	id='postalCode'
-	hasError={errors.postalCode}
+                            label='Postal Code'
+                            id='postalCode'
+                            hasError={errors.postalCode}
                           >
                             <AutoCompleteFilterSingleSelect
-	loader={loading}
-	disable={
+                              loader={loading}
+                              disable={
                                 !patientManagerStore.patientManger.extraData
                                   ?.city
                               }
-	data={{
-	  list: _.uniqBy(
-	    administrativeDivisions.listAdministrativeDiv.filter(
-	      item =>
-	        item.country ===
+                              data={{
+                                list: _.uniqBy(
+                                  administrativeDivisions.listAdministrativeDiv.filter(
+                                    item =>
+                                      item.country ===
                                         patientManagerStore.patientManger
                                           .extraData?.country &&
                                       item.state ===
@@ -729,234 +729,234 @@ export const HistoResultEntry = observer(() => {
                                       item.city ===
                                         patientManagerStore.patientManger
                                           .extraData?.city,
-	    ),
-	    'postalCode',
-	  ),
-	  displayKey: 'postalCode',
-	  findKey: 'postalCode',
-	}}
-	hasError={errors.postalCode}
-	onFilter={(value: string) => {
-	  administrativeDivisions.administrativeDivisionsService.filter(
-	    {
-	      input: {
-	        filter: {
-	          type: 'search',
-	          country:
+                                  ),
+                                  'postalCode',
+                                ),
+                                displayKey: 'postalCode',
+                                findKey: 'postalCode',
+                              }}
+                              hasError={errors.postalCode}
+                              onFilter={(value: string) => {
+                                administrativeDivisions.administrativeDivisionsService.filter(
+                                  {
+                                    input: {
+                                      filter: {
+                                        type: 'search',
+                                        country:
                                           patientManagerStore.patientManger
                                             .extraData?.country,
-	          state:
+                                        state:
                                           patientManagerStore.patientManger
                                             .extraData?.state,
-	          city: patientManagerStore.patientManger
-	            .extraData?.city,
-	          postalCode: value,
-	        },
-	        page: 0,
-	        limit: 10,
-	      },
-	    },
-	  );
-	}}
-	onSelect={item => {
-	  onChange(item.postalCode);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      postcode: item.postalCode[0],
-	    },
-	  });
-	  administrativeDivisions.updateAdministrativeDivList(
-	    administrativeDivisions.listAdministrativeDivCopy,
-	  );
-	}}
+                                        city: patientManagerStore.patientManger
+                                          .extraData?.city,
+                                        postalCode: value,
+                                      },
+                                      page: 0,
+                                      limit: 10,
+                                    },
+                                  },
+                                );
+                              }}
+                              onSelect={item => {
+                                onChange(item.postalCode);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    postcode: item.postalCode[0],
+                                  },
+                                });
+                                administrativeDivisions.updateAdministrativeDivList(
+                                  administrativeDivisions.listAdministrativeDivCopy,
+                                );
+                              }}
                             />
                           </Form.InputWrapper>
-	)}
-	name='postalCode'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='postalCode'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
 
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.MultilineInput
-	rows={2}
-	label='Address'
-	placeholder={
+                            rows={2}
+                            label='Address'
+                            placeholder={
                               errors.address
                                 ? 'Please Enter Address'
                                 : 'Address'
                             }
-	hasError={errors.address}
-	value={
+                            hasError={errors.address}
+                            value={
                               patientManagerStore.patientManger?.extraData
                                 ?.address
                             }
-	onChange={address => {
-	  onChange(address);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      address,
-	    },
-	  });
-	}}
+                            onChange={address => {
+                              onChange(address);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  address,
+                                },
+                              });
+                            }}
                           />
-	)}
-	name='address'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='address'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.Input
-	label='Email'
-	name='txtEmail'
-	placeholder={
+                            label='Email'
+                            name='txtEmail'
+                            placeholder={
                               errors.email ? 'Please Enter Email' : 'Email'
                             }
-	hasError={errors.email}
-	type='mail'
-	value={
+                            hasError={errors.email}
+                            type='mail'
+                            value={
                               patientManagerStore.patientManger?.extraData
                                 ?.email
                             }
-	onChange={email => {
-	  onChange(email);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      email,
-	    },
-	  });
-	}}
+                            onChange={email => {
+                              onChange(email);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  email,
+                                },
+                              });
+                            }}
                           />
-	)}
-	name='email'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='email'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.Input
-	label='WhatsApp Number'
-	name='txtWhatsappNumber'
-	placeholder={
+                            label='WhatsApp Number'
+                            name='txtWhatsappNumber'
+                            placeholder={
                               errors.whatsappNumber
                                 ? 'Please Enter WhatsappNumber'
                                 : 'WhatsAppNumber'
                             }
-	type='number'
-	pattern={FormHelper.patterns.mobileNo}
-	hasError={errors.whatsappNumber}
-	value={
+                            type='number'
+                            pattern={FormHelper.patterns.mobileNo}
+                            hasError={errors.whatsappNumber}
+                            value={
                               patientManagerStore.patientManger?.extraData
                                 ?.whatsappNumber
                             }
-	onChange={whatsappNumber => {
-	  onChange(whatsappNumber);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      whatsappNumber,
-	    },
-	  });
-	}}
+                            onChange={whatsappNumber => {
+                              onChange(whatsappNumber);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  whatsappNumber,
+                                },
+                              });
+                            }}
                           />
-	)}
-	name='whatsappNumber'
-	rules={{
-	  required: false,
-	  pattern: FormHelper.patterns.mobileNo,
-	}}
-	defaultValue=''
+                        )}
+                        name='whatsappNumber'
+                        rules={{
+                          required: false,
+                          pattern: FormHelper.patterns.mobileNo,
+                        }}
+                        defaultValue=''
                       />
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.InputFile
-	label='Photograph'
-	placeholder='File'
-	onChange={e => {
-	  const photograph = e.target.files[0];
-	  onChange(photograph);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      photograph,
-	    },
-	  });
-	}}
+                            label='Photograph'
+                            placeholder='File'
+                            onChange={e => {
+                              const photograph = e.target.files[0];
+                              onChange(photograph);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  photograph,
+                                },
+                              });
+                            }}
                           />
-	)}
-	name='photograph'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='photograph'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.InputFile
-	label='Signature'
-	placeholder='File'
-	onChange={e => {
-	  const signature = e.target.files[0];
-	  onChange(signature);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      signature,
-	    },
-	  });
-	}}
+                            label='Signature'
+                            placeholder='File'
+                            onChange={e => {
+                              const signature = e.target.files[0];
+                              onChange(signature);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  signature,
+                                },
+                              });
+                            }}
                           />
-	)}
-	name='signature'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='signature'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.InputWrapper label='Blood Group'>
                             <select
-	value={
+                              value={
                                 patientManagerStore.patientManger.extraData
                                   ?.bloodGroup
                               }
-	className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-	  errors.bloodGroup
-	    ? 'border-red-500  '
-	    : 'border-gray-300'
-	} rounded-md`}
-	onChange={e => {
-	  const bloodGroup = e.target.value;
-	  onChange(bloodGroup);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      bloodGroup,
-	    },
-	  });
-	}}
+                              className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                                errors.bloodGroup
+                                  ? 'border-red-500  '
+                                  : 'border-gray-300'
+                              } rounded-md`}
+                              onChange={e => {
+                                const bloodGroup = e.target.value;
+                                onChange(bloodGroup);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    bloodGroup,
+                                  },
+                                });
+                              }}
                             >
                               <option selected>{'Select'}</option>
                               {lookupItems(
@@ -969,76 +969,76 @@ export const HistoResultEntry = observer(() => {
                               ))}
                             </select>
                           </Form.InputWrapper>
-	)}
-	name='bloodGroup'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='bloodGroup'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
                     </List>
                     <List direction='col' space={4} justify='stretch' fill>
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.Input
-	label='Follow Up'
-	placeholder={
+                            label='Follow Up'
+                            placeholder={
                               errors.followUp
                                 ? 'Please Enter FollowUp'
                                 : 'FollowUp'
                             }
-	hasError={errors.followUp}
-	value={
+                            hasError={errors.followUp}
+                            value={
                               patientManagerStore.patientManger?.extraData
                                 ?.followUp
                             }
-	onChange={followUp => {
-	  onChange(followUp);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      followUp,
-	    },
-	  });
-	}}
+                            onChange={followUp => {
+                              onChange(followUp);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  followUp,
+                                },
+                              });
+                            }}
                           />
-	)}
-	name='followUp'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='followUp'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
                       <Controller
-	control={control}
-	render={({field: {onChange}}) => (
+                        control={control}
+                        render={({field: {onChange}}) => (
                           <Form.Input
-	label='Comments'
-	placeholder={
+                            label='Comments'
+                            placeholder={
                               errors.comments
                                 ? 'Please Enter FollowUp'
                                 : 'FollowUp'
                             }
-	hasError={errors.comments}
-	value={
+                            hasError={errors.comments}
+                            value={
                               patientManagerStore.patientManger?.extraData
                                 ?.comments
                             }
-	onChange={comments => {
-	  onChange(comments);
-	  patientManagerStore.updatePatientManager({
-	    ...patientManagerStore.patientManger,
-	    extraData: {
-	      ...patientManagerStore.patientManger
-	        ?.extraData,
-	      comments,
-	    },
-	  });
-	}}
+                            onChange={comments => {
+                              onChange(comments);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  comments,
+                                },
+                              });
+                            }}
                           />
-	)}
-	name='comments'
-	rules={{required: false}}
-	defaultValue=''
+                        )}
+                        name='comments'
+                        rules={{required: false}}
+                        defaultValue=''
                       />
                     </List>
                   </Grid>
@@ -1051,20 +1051,20 @@ export const HistoResultEntry = observer(() => {
         <br />
         <List direction='row' space={3} align='center'>
           <Buttons.Button
-	size='medium'
-	type='solid'
-	icon={Svg.Save}
-	onClick={handleSubmit(onSubmitPatientManager)}
+            size='medium'
+            type='solid'
+            icon={Svg.Save}
+            onClick={handleSubmit(onSubmitPatientManager)}
           >
             Save
           </Buttons.Button>
           <Buttons.Button
-	size='medium'
-	type='outline'
-	icon={Svg.Remove}
-	onClick={() => {
-	  window.location.reload();
-	}}
+            size='medium'
+            type='outline'
+            icon={Svg.Remove}
+            onClick={() => {
+              window.location.reload();
+            }}
           >
             Clear
           </Buttons.Button>
