@@ -407,8 +407,8 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 editorCell(row),
             },
             {
-              dataField: 'analyteStatus',
-              text: 'Analyte Status',
+              dataField: 'resultStatus',
+              text: 'Result Status',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
