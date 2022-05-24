@@ -33,9 +33,45 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     formState: {errors},
     setValue,
     clearErrors,
-  } = useForm();
+    setError,
+  } = useForm({mode: 'all'});
   setValue('species', refernceRangesStore.referenceRanges?.species);
   setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
+
+  const [isDisableLab, setIsDisableLab] = useState<boolean>(false);
+  const [isDisableEquipmentType, setIsDisableEquipmentType] =
+    useState<boolean>(false);
+  useEffect(() => {
+    switch (refernceRangesStore.referenceRanges?.rangeSetOn) {
+      case 'I':
+        setIsDisableEquipmentType(false);
+        setError('equipmentType', {type: 'onBlur'});
+        setIsDisableLab(true);
+        clearErrors('lab');
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          lab: undefined,
+        });
+        break;
+      case 'L':
+        setIsDisableEquipmentType(true);
+        clearErrors('equipmentType');
+        setIsDisableLab(false);
+        setError('lab', {type: 'onBlur'});
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          equipmentType: undefined,
+        });
+      case 'B':
+        setIsDisableEquipmentType(false);
+        setError('equipmentType', {type: 'onBlur'});
+        setIsDisableLab(false);
+        setError('lab', {type: 'onBlur'});
+        break;
+      default:
+        break;
+    }
+  }, [refernceRangesStore.referenceRanges?.rangeSetOn]);
 
   const addItem = () => {
     let refRangesInputList =
@@ -308,10 +344,13 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder='Search by code or name'
+                    hasError={errors.lab}
                     data={{
                       list: labStore.listLabs,
                       displayKey: ['code', 'name'],
                     }}
+                    displayValue={refernceRangesStore.referenceRanges?.lab}
+                    disable={isDisableLab}
                     onFilter={(value: string) => {
                       labStore.LabService.filterByFields({
                         input: {
@@ -334,9 +373,9 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                     }}
                   />
                 )}
-                name='equipmentType'
-                rules={{required: false}}
-                defaultValue={interfaceManagerStore.listInterfaceManager}
+                name='lab'
+                rules={{required: !isDisableLab}}
+                defaultValue={labStore.listLabs || isDisableLab}
               />
             </td>
             <td>
@@ -347,11 +386,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                     loader={loading}
                     placeholder='Search by instrumentType'
                     hasError={errors.equipmentType}
-                    disable={
-                      refernceRangesStore.referenceRanges?.rangeSetOn === 'L'
-                        ? true
-                        : false
-                    }
+                    disable={isDisableEquipmentType}
                     data={{
                       list: interfaceManagerStore.listInterfaceManager,
                       displayKey: ['instrumentType'],
@@ -386,8 +421,11 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                   />
                 )}
                 name='equipmentType'
-                rules={{required: false}}
-                defaultValue={interfaceManagerStore.listInterfaceManager}
+                rules={{required: !isDisableEquipmentType}}
+                defaultValue={
+                  interfaceManagerStore.listInterfaceManager ||
+                  isDisableEquipmentType
+                }
               />
             </td>
           </tr>
