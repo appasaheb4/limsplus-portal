@@ -237,16 +237,6 @@ const ReferenceRanges = ReferenceRangesHoc(
           <PageHeading title={routerStore.selectedComponents?.title || ''} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
-          />
-        )}
-
         <div className='mx-auto flex-wrap'>
           <div
             className={
