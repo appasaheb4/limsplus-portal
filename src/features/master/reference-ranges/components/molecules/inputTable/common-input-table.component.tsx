@@ -62,11 +62,23 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
           ...refernceRangesStore.referenceRanges,
           equipmentType: undefined,
         });
+        break;
       case 'B':
         setIsDisableEquipmentType(false);
         setError('equipmentType', {type: 'onBlur'});
         setIsDisableLab(false);
         setError('lab', {type: 'onBlur'});
+        break;
+      case 'A':
+        setIsDisableEquipmentType(true);
+        clearErrors('equipmentType');
+        setIsDisableLab(true);
+        clearErrors('lab');
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          equipmentType: undefined,
+          lab: undefined,
+        });
         break;
       default:
         break;
