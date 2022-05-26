@@ -3,19 +3,20 @@ import {PatientResultService} from '../services';
 import {PatientResult} from '../models';
 
 export class PatientResultStore {
-  patientResultList: PatientResult[] = [];
+  //patientResultList: PatientResult[] = [];
+  patientResultListWithLabId: PatientResult[] = [];
   patientResultTestCount!: number;
 
   constructor() {
-    this.patientResultList = [];
+    this.patientResultListWithLabId = [];
     this.patientResultTestCount = 0;
 
     makeObservable<PatientResultStore, any>(this, {
-      patientResultList: observable,
+      patientResultListWithLabId: observable,
       patientResultTestCount: observable,
 
       patientResultService: computed,
-      updatePatientResultList: action,
+      updatePatientResultListWithLabId: action,
       filterPatientResultList: action,
     });
   }
@@ -24,14 +25,19 @@ export class PatientResultStore {
     return new PatientResultService();
   }
 
-  updatePatientResultList(res: any) {
-    if (!res.patientResults.success) return alert(res.patientResults.message);
-    this.patientResultList = res.patientResults.patientResultList;
-    this.patientResultTestCount = res.patientResults.paginatorInfo.count;
+  updatePatientResultListWithLabId(res: any) {
+    if (!res.patientResultsWithLabId.success)
+      return alert(res.patientResultsWithLabId.message);
+    this.patientResultListWithLabId =
+      res.patientResultsWithLabId.patientResultList;
+    this.patientResultTestCount =
+      res.patientResultsWithLabId.paginatorInfo.count;
   }
 
   filterPatientResultList(res: any) {
-    this.patientResultList = res.filterPatientResult.patientResultList;
-    this.patientResultTestCount = res.filterPatientResult.paginatorInfo.count;
+    this.patientResultListWithLabId =
+      res.filterPatientResultWithLabId.patientResultList;
+    this.patientResultTestCount =
+      res.filterPatientResultWithLabId.paginatorInfo.count;
   }
 }

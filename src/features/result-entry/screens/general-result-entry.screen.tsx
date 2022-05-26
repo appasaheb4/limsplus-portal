@@ -17,6 +17,7 @@ import {
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {FormHelper} from '@/helper';
+import {FilterInputTable} from '../components';
 
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
@@ -38,6 +39,9 @@ const GeneralResultEntry = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
+      <div className='mx-auto flex-wrap'>
+        <FilterInputTable />
+      </div>
     </>
   );
 });

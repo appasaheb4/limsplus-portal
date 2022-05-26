@@ -11,7 +11,8 @@ interface PatientResultProps {
   onModalConfirm?: (item: any) => void;
 }
 export const PatientResult = observer((props: PatientResultProps) => {
-  const {patientResultStore, routerStore} = useStores();
+  const {patientResultStore, patientRegistrationStore, routerStore} =
+    useStores();
 
   return (
     <>
@@ -20,7 +21,7 @@ export const PatientResult = observer((props: PatientResultProps) => {
         style={{overflowX: 'scroll'}}
       >
         <PatientResultList
-          data={patientResultStore.patientResultList}
+          data={patientResultStore.patientResultListWithLabId}
           totalSize={patientResultStore.patientResultTestCount}
           extraData={{}}
           isDelete={RouterFlow.checkPermission(
@@ -55,14 +56,22 @@ export const PatientResult = observer((props: PatientResultProps) => {
               });
           }}
           onPageSizeChange={(page, limit) => {
-            patientResultStore.patientResultService.listPatientResult(
+            patientResultStore.patientResultService.listPatientResultWithLabId(
               page,
               limit,
             );
           }}
           onFilter={(type, filter, page, limit) => {
-            patientResultStore.patientResultService.filter({
-              input: {type, filter, page, limit},
+            patientResultStore.patientResultService.filterWithLabId({
+              input: {
+                type,
+                filter: {
+                  ...filter,
+                  labId: patientRegistrationStore.defaultValues?.labId,
+                },
+                page,
+                limit,
+              },
             });
           }}
         />

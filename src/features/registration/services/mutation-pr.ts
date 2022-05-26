@@ -13,9 +13,22 @@ export const LIST_PATIENT_RESULT = gql`
   }
 `;
 
-export const FILTER_PATIENT_RESULT = gql`
+export const LIST_PATIENT_RESULT_WITH_LABID = gql`
   mutation ($input: PatientResultInput!) {
-    filterPatientResult(input: $input) {
+    patientResultsWithLabId(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      patientResultList
+    }
+  }
+`;
+
+export const FILTER_PATIENT_RESULT_WITH_LABID = gql`
+  mutation ($input: PatientResultInput!) {
+    filterPatientResultWithLabId(input: $input) {
       paginatorInfo {
         count
       }
