@@ -33,7 +33,7 @@ module.exports = {
     indent: 'off',
     'react/jsx-filename-extension': 0,
     'import/extensions': 0,
-    'react/jsx-indent-props': [1, 'tab'],
+    'react/jsx-indent-props': 0,
     'react/jsx-props-no-spreading': 0,
     'no-tabs': 0,
     'no-console': 2,
