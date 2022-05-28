@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -27,7 +27,6 @@ const initOpenRoutes = location => {
       const isActive = pathName.indexOf(route.path) === 0;
       const isOpen = route.open;
       const isHome = route.containsHome && pathName === '/' ? true : false;
-
       _routes = Object.assign({}, _routes, {
         [index]: isActive || isOpen || isHome,
       });
@@ -48,7 +47,7 @@ const SidebarCategory = withRouter(
     to,
   }) => {
     const getSidebarItemClass = path => {
-      return location.pathname.indexOf(path) !== -1 ||
+      return location.pathname.includes(path) ||
         (location.pathname === '/' && path === '/dashboard')
         ? 'active'
         : '';
@@ -143,13 +142,11 @@ const Sidebar = observer(({location, sidebar, layout}) => {
   }, [stores.routerStore.userRouter]);
 
   const toggle = index => {
-    Object.keys(openRoutes).forEach(
-      item =>
-        openRoutes[index] ||
+    for (const item of Object.keys(openRoutes))
+      openRoutes[index] ||
         setOpenRoutes(openRoutes =>
           Object.assign({}, openRoutes, {[item]: false}),
-        ),
-    );
+        );
     // Toggle selected element
     setOpenRoutes(openRoutes =>
       Object.assign({}, openRoutes, {[index]: !openRoutes[index]}),
@@ -178,7 +175,7 @@ const Sidebar = observer(({location, sidebar, layout}) => {
                 alt='appIcon'
                 style={{width: 40, height: 40}}
               />
-              <span className='align-middle ml-2'>{`Lims Plus`}</span>
+              <span className='align-middle ml-2'>{'Lims Plus'}</span>
             </a>
             <div className='p-2'>
               <AutocompleteGroupBy

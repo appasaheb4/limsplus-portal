@@ -19,17 +19,9 @@ import {FormHelper} from '@/helper';
 
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-const ReportTemplate = observer(() => {
+const HistoResultEntry = observer(() => {
   const {
     loading,
     patientManagerStore,
@@ -61,4 +53,4 @@ const ReportTemplate = observer(() => {
   );
 });
 
-export default ReportTemplate;
+export default HistoResultEntry;

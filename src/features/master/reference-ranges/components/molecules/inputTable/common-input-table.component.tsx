@@ -25,6 +25,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     routerStore,
     interfaceManagerStore,
     loginStore,
+    labStore,
   } = useStores();
   const {
     control,
@@ -32,9 +33,57 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     formState: {errors},
     setValue,
     clearErrors,
-  } = useForm();
+    setError,
+  } = useForm({mode: 'all'});
   setValue('species', refernceRangesStore.referenceRanges?.species);
   setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
+
+  const [isDisableLab, setIsDisableLab] = useState<boolean>(false);
+  const [isDisableEquipmentType, setIsDisableEquipmentType] =
+    useState<boolean>(false);
+  useEffect(() => {
+    switch (refernceRangesStore.referenceRanges?.rangeSetOn) {
+      case 'I':
+        setIsDisableEquipmentType(false);
+        setError('equipmentType', {type: 'onBlur'});
+        setIsDisableLab(true);
+        clearErrors('lab');
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          lab: undefined,
+        });
+        break;
+      case 'L':
+        setIsDisableEquipmentType(true);
+        clearErrors('equipmentType');
+        setIsDisableLab(false);
+        setError('lab', {type: 'onBlur'});
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          equipmentType: undefined,
+        });
+        break;
+      case 'B':
+        setIsDisableEquipmentType(false);
+        setError('equipmentType', {type: 'onBlur'});
+        setIsDisableLab(false);
+        setError('lab', {type: 'onBlur'});
+        break;
+      case 'A':
+        setIsDisableEquipmentType(true);
+        clearErrors('equipmentType');
+        setIsDisableLab(true);
+        clearErrors('lab');
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          equipmentType: undefined,
+          lab: undefined,
+        });
+        break;
+      default:
+        break;
+    }
+  }, [refernceRangesStore.referenceRanges?.rangeSetOn]);
 
   const addItem = () => {
     let refRangesInputList =
@@ -80,6 +129,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <th className='text-white'>Species</th>
             <th className='text-white'>Sex</th>
             <th className='text-white'>Range_Set_On</th>
+            <th className='text-white'>Lab</th>
             <th className='text-white'>Equipment_Type</th>
           </tr>
         </thead>
@@ -305,13 +355,50 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 render={({field: {onChange}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
+                    placeholder='Search by code or name'
+                    hasError={errors.lab}
+                    data={{
+                      list: labStore.listLabs,
+                      displayKey: ['code', 'name'],
+                    }}
+                    displayValue={refernceRangesStore.referenceRanges?.lab}
+                    disable={isDisableLab}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filterByFields({
+                        input: {
+                          filter: {
+                            fields: ['code', 'name'],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      });
+                    }}
+                    onSelect={item => {
+                      onChange(item.code);
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
+                        lab: item.code,
+                      });
+                      labStore.updateLabList(labStore.listLabsCopy);
+                    }}
+                  />
+                )}
+                name='lab'
+                rules={{required: !isDisableLab}}
+                defaultValue={labStore.listLabs || isDisableLab}
+              />
+            </td>
+            <td>
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
                     placeholder='Search by instrumentType'
                     hasError={errors.equipmentType}
-                    disable={
-                      refernceRangesStore.referenceRanges?.rangeSetOn === 'L'
-                        ? true
-                        : false
-                    }
+                    disable={isDisableEquipmentType}
                     data={{
                       list: interfaceManagerStore.listInterfaceManager,
                       displayKey: ['instrumentType'],
@@ -346,8 +433,11 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                   />
                 )}
                 name='equipmentType'
-                rules={{required: false}}
-                defaultValue=''
+                rules={{required: !isDisableEquipmentType}}
+                defaultValue={
+                  interfaceManagerStore.listInterfaceManager ||
+                  isDisableEquipmentType
+                }
               />
             </td>
           </tr>

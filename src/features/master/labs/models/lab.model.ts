@@ -31,11 +31,14 @@ export class Labs {
   routingDept: boolean;
   reportFormat: boolean;
   printLable: boolean;
+  abnFlag: boolean;
+  critical: boolean;
   fyiLine: string;
   workLine: string;
   status: string;
   environment: string;
   priceList: Array<PriceList>;
+
   dateOfEntry: Date;
   lastUpdated: Date;
 
@@ -71,11 +74,14 @@ export class Labs {
     this.routingDept = rawData.routingDept;
     this.reportFormat = rawData.reportFormat;
     this.printLable = rawData.printLable;
+    this.abnFlag = rawData.abnFlag;
+    this.critical = rawData.critical;
     this.fyiLine = rawData.fyiLine;
     this.workLine = rawData.workLine;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.priceList = rawData.priceList;
+
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

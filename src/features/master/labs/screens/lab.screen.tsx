@@ -977,6 +977,46 @@ const Lab = LabHoc(
                     rules={{required: false}}
                     defaultValue=''
                   />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Abn Flag'
+                        hasError={errors.abnFlag}
+                        value={labStore.labs?.abnFlag}
+                        onChange={abnFlag => {
+                          onChange(abnFlag);
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            abnFlag,
+                          });
+                        }}
+                      />
+                    )}
+                    name='abnFlag'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Critical'
+                        hasError={errors.critical}
+                        value={labStore.labs?.critical}
+                        onChange={critical => {
+                          onChange(critical);
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            critical,
+                          });
+                        }}
+                      />
+                    )}
+                    name='critical'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
                 </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>

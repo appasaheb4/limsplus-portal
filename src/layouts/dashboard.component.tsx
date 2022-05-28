@@ -56,6 +56,9 @@ import * as SegmentMapping from '@/features/communication/segment-mapping';
 import * as InterfaceManager from '@/features/communication/interface-manager';
 import * as DataConveration from '@/features/communication/data-conversation';
 
+// result entry
+import * as GeneralResultEntry from '@/features/result-entry/general-result-entry';
+
 // registration
 import * as PatientRegistration from '@/features/registration';
 const Dashboard = observer(({children}) => {
@@ -208,6 +211,10 @@ const Dashboard = observer(({children}) => {
         await RegistrationLocations.startup();
         await CorporateClients.startup();
         await PanelMaster.startup();
+      }
+      // result entry
+      if (pathname === '/result-entry/general') {
+        await GeneralResultEntry.startup();
       }
       stores;
     }

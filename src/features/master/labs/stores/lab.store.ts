@@ -21,6 +21,8 @@ export class LabStore {
       closingTime: dayjs().format('hh:mm a'),
       reportFormat: true,
       printLable: false,
+      abnFlag: false,
+      critical: false,
       priceList: [{id: 0, maxDis: 0}],
     };
 
