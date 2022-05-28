@@ -1,13 +1,16 @@
 import React from 'react';
 import {Table} from 'reactstrap';
-import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
+import {
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  Buttons,
+} from '@/library/components';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
 
 export const FilterInputTable = observer(() => {
-  const {loading, patientResultStore} = useStores();
+  const {loading, patientResultStore, generalResultEntryStore} = useStores();
   const {
     control,
     formState: {errors},
@@ -44,21 +47,52 @@ export const FilterInputTable = observer(() => {
                       ),
                       displayKey: ['pLab'],
                     }}
+                    displayValue={
+                      generalResultEntryStore.filterGeneralResEntry?.pLab
+                    }
                     onFilter={(value: string) => {
-                      patientResultStore.patientResultService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['pLab'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
+                      // patientResultStore.patientResultService.filterByFields({
+                      //   input: {
+                      //     filter: {
+                      //       fields: ['pLab'],
+                      //       srText: value,
+                      //     },
+                      //     page: 0,
+                      //     limit: 10,
+                      //   },
+                      // });
                     }}
                     onSelect={item => {
                       onChange(item.pLab);
-                      console.log({item});
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        pLab: item.pLab,
+                      });
+                      const input = _.pickBy(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          pLab: item.pLab,
+                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        function (value, key) {
+                          return !(
+                            value === undefined ||
+                            value === null ||
+                            value === ''
+                          );
+                        },
+                      );
+                      patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        {
+                          input: {
+                            filter: {
+                              ...input,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        },
+                      );
                     }}
                   />
                 )}
@@ -82,21 +116,52 @@ export const FilterInputTable = observer(() => {
                       ),
                       displayKey: ['departement'],
                     }}
+                    displayValue={
+                      generalResultEntryStore.filterGeneralResEntry?.departement
+                    }
                     onFilter={(value: string) => {
-                      patientResultStore.patientResultService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['departement'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
+                      // patientResultStore.patientResultService.filterByFields({
+                      //   input: {
+                      //     filter: {
+                      //       fields: ['departement'],
+                      //       srText: value,
+                      //     },
+                      //     page: 0,
+                      //     limit: 10,
+                      //   },
+                      // });
                     }}
                     onSelect={item => {
                       onChange(item.departement);
-                      console.log({item});
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        departement: item.departement,
+                      });
+                      const input = _.pickBy(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          departement: item.departement,
+                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        function (value, key) {
+                          return !(
+                            value === undefined ||
+                            value === null ||
+                            value === ''
+                          );
+                        },
+                      );
+                      patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        {
+                          input: {
+                            filter: {
+                              ...input,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        },
+                      );
                     }}
                   />
                 )}
@@ -120,21 +185,52 @@ export const FilterInputTable = observer(() => {
                       ),
                       displayKey: ['testStatus'],
                     }}
+                    displayValue={
+                      generalResultEntryStore.filterGeneralResEntry?.testStatus
+                    }
                     onFilter={(value: string) => {
-                      patientResultStore.patientResultService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['testStatus'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
+                      // patientResultStore.patientResultService.filterByFields({
+                      //   input: {
+                      //     filter: {
+                      //       fields: ['testStatus'],
+                      //       srText: value,
+                      //     },
+                      //     page: 0,
+                      //     limit: 10,
+                      //   },
+                      // });
                     }}
                     onSelect={item => {
                       onChange(item.testStatus);
-                      console.log({item});
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        testStatus: item.testStatus,
+                      });
+                      const input = _.pickBy(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          testStatus: item.testStatus,
+                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        function (value, key) {
+                          return !(
+                            value === undefined ||
+                            value === null ||
+                            value === ''
+                          );
+                        },
+                      );
+                      patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        {
+                          input: {
+                            filter: {
+                              ...input,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        },
+                      );
                     }}
                   />
                 )}
@@ -158,21 +254,53 @@ export const FilterInputTable = observer(() => {
                       ),
                       displayKey: ['resultStatus'],
                     }}
+                    displayValue={
+                      generalResultEntryStore.filterGeneralResEntry
+                        ?.resultStatus
+                    }
                     onFilter={(value: string) => {
-                      patientResultStore.patientResultService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['resultStatus'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
+                      // patientResultStore.patientResultService.filterByFields({
+                      //   input: {
+                      //     filter: {
+                      //       fields: ['resultStatus'],
+                      //       srText: value,
+                      //     },
+                      //     page: 0,
+                      //     limit: 10,
+                      //   },
+                      // });
                     }}
                     onSelect={item => {
                       onChange(item.resultStatus);
-                      console.log({item});
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        resultStatus: item.resultStatus,
+                      });
+                      const input = _.pickBy(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          resultStatus: item.resultStatus,
+                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        function (value, key) {
+                          return !(
+                            value === undefined ||
+                            value === null ||
+                            value === ''
+                          );
+                        },
+                      );
+                      patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        {
+                          input: {
+                            filter: {
+                              ...input,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        },
+                      );
                     }}
                   />
                 )}
@@ -188,7 +316,7 @@ export const FilterInputTable = observer(() => {
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     hasError={errors.testCode}
-                    placeholder='Search by code or name'
+                    placeholder='Search by code '
                     data={{
                       list: _.uniqBy(
                         patientResultStore.patientResultList,
@@ -196,21 +324,52 @@ export const FilterInputTable = observer(() => {
                       ),
                       displayKey: ['testCode', 'testName'],
                     }}
+                    displayValue={
+                      generalResultEntryStore.filterGeneralResEntry?.testCode
+                    }
                     onFilter={(value: string) => {
-                      patientResultStore.patientResultService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['testCode', 'testName'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
+                      // patientResultStore.patientResultService.filterByFields({
+                      //   input: {
+                      //     filter: {
+                      //       fields: ['testCode', 'testName'],
+                      //       srText: value,
+                      //     },
+                      //     page: 0,
+                      //     limit: 10,
+                      //   },
+                      // });
                     }}
                     onSelect={item => {
-                      onChange(item.testStatus);
-                      console.log({item});
+                      onChange(item.testCode);
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        testCode: item.testCode,
+                      });
+                      const input = _.pickBy(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          testCode: item.testCode,
+                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        function (value, key) {
+                          return !(
+                            value === undefined ||
+                            value === null ||
+                            value === ''
+                          );
+                        },
+                      );
+                      patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        {
+                          input: {
+                            filter: {
+                              ...input,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        },
+                      );
                     }}
                   />
                 )}
@@ -226,7 +385,7 @@ export const FilterInputTable = observer(() => {
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     hasError={errors.analyteCode}
-                    placeholder='Search by code or name'
+                    placeholder='Search by code'
                     data={{
                       list: _.uniqBy(
                         patientResultStore.patientResultList,
@@ -234,21 +393,52 @@ export const FilterInputTable = observer(() => {
                       ),
                       displayKey: ['analyteCode', 'analyteName'],
                     }}
+                    displayValue={
+                      generalResultEntryStore.filterGeneralResEntry?.analyteCode
+                    }
                     onFilter={(value: string) => {
-                      patientResultStore.patientResultService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['analyteCode', 'analyteName'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
+                      // patientResultStore.patientResultService.filterByFields({
+                      //   input: {
+                      //     filter: {
+                      //       fields: ['analyteCode', 'analyteName'],
+                      //       srText: value,
+                      //     },
+                      //     page: 0,
+                      //     limit: 10,
+                      //   },
+                      // });
                     }}
                     onSelect={item => {
                       onChange(item.analyteCode);
-                      console.log({item});
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        analyteCode: item.analyteCode,
+                      });
+                      const input = _.pickBy(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          analyteCode: item.analyteCode,
+                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        function (value, key) {
+                          return !(
+                            value === undefined ||
+                            value === null ||
+                            value === ''
+                          );
+                        },
+                      );
+                      patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        {
+                          input: {
+                            filter: {
+                              ...input,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        },
+                      );
                     }}
                   />
                 )}
@@ -272,21 +462,50 @@ export const FilterInputTable = observer(() => {
                       ),
                       displayKey: ['labId'],
                     }}
+                    displayValue={generalResultEntryStore.filterGeneralResEntry?.labId?.toString()}
                     onFilter={(value: string) => {
-                      patientResultStore.patientResultService.filterByFields({
-                        input: {
-                          filter: {
-                            fields: ['labId'],
-                            srText: value,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      });
+                      // patientResultStore.patientResultService.filterByFields({
+                      //   input: {
+                      //     filter: {
+                      //       fields: ['labId'],
+                      //       srText: value,
+                      //     },
+                      //     page: 0,
+                      //     limit: 10,
+                      //   },
+                      // });
                     }}
                     onSelect={item => {
                       onChange(item.labId);
-                      console.log({item});
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        labId: item.labId,
+                      });
+                      const input = _.pickBy(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          labId: Number.parseInt(item.labId),
+                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        function (value, key) {
+                          return !(
+                            value === undefined ||
+                            value === null ||
+                            value === ''
+                          );
+                        },
+                      );
+                      patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        {
+                          input: {
+                            filter: {
+                              ...input,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        },
+                      );
                     }}
                   />
                 )}
@@ -298,6 +517,25 @@ export const FilterInputTable = observer(() => {
           </tr>
         </tbody>
       </Table>
+      <Buttons.Button
+        size='small'
+        type='solid'
+        onClick={() => {
+          generalResultEntryStore.updateFilterGeneralResEntry({
+            ...generalResultEntryStore.filterGeneralResEntry,
+            pLab: '',
+            departement: '',
+            testStatus: '',
+            resultStatus: '',
+            testCode: '',
+            analyteCode: '',
+            labId: '',
+          });
+          patientResultStore.patientResultService.listPatientResult();
+        }}
+      >
+        {'Clear Filter'}
+      </Buttons.Button>
     </div>
   );
 });
