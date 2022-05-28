@@ -25,6 +25,7 @@ export class PatientResultStore {
 
       updatePatientResult: action,
       filterPatientResultList: action,
+      patientResultListForGeneralResEntry: action,
     });
   }
 
@@ -33,8 +34,6 @@ export class PatientResultStore {
   }
 
   updatePatientResult(res: any) {
-    console.log({res});
-
     if (!res.patientResults.success) return alert(res.patientResults.message);
     this.patientResultList = res.patientResults.patientResultList;
     this.patientResultListCount = res.patientResults.paginatorInfo.count;
@@ -57,7 +56,16 @@ export class PatientResultStore {
   }
 
   filterPatientResultList(res: any) {
-    this.patientResultList = res.filterPatientResult.patientResultList;
-    this.patientResultListCount = res.filterPatientResult.paginatorInfo.count;
+    this.patientResultList =
+      res.patientResultListForGenResEntry.patientResultList;
+    this.patientResultListCount =
+      res.patientResultListForGenResEntry.paginatorInfo.count;
+  }
+
+  patientResultListForGeneralResEntry(res: any) {
+    this.patientResultList =
+      res.patientResultListForGenResEntry.patientResultList;
+    this.patientResultListCount =
+      res.patientResultListForGenResEntry.paginatorInfo.count;
   }
 }

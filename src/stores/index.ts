@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Store} from './store';
+
 import {RootStore} from './root.store';
 import {RouterStore} from './router.store';
 import {AppStore} from './app.store';
@@ -59,7 +61,9 @@ import {
   PatientRegistrationStore,
 } from '@/features/registration/stores';
 
-import {Store} from './store';
+// Result Entry
+import {GeneralResultEntryStore} from '@/features/result-entry/general-result-entry/stores';
+
 export class Stores extends Store {
   rootStore!: RootStore;
   appStore!: AppStore;
@@ -118,6 +122,9 @@ export class Stores extends Store {
   patientSampleStore!: PatientSampleStore;
   patientRegistrationStore!: PatientRegistrationStore;
 
+  // result entry
+  generalResultEntryStore!: GeneralResultEntryStore;
+
   constructor() {
     super();
     this.rootStore = new RootStore();
@@ -175,6 +182,9 @@ export class Stores extends Store {
     this.patientResultStore = new PatientResultStore();
     this.patientSampleStore = new PatientSampleStore();
     this.patientRegistrationStore = new PatientRegistrationStore();
+
+    // result entry
+    this.generalResultEntryStore = new GeneralResultEntryStore();
   }
 }
 

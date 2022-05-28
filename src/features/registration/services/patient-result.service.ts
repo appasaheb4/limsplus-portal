@@ -13,6 +13,7 @@ import {
   FILTER_PATIENT_RESULT,
   FILTER_PATIENT_RESULT_WITH_LABID,
   FILTER_BY_FIELDS,
+  PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -79,6 +80,7 @@ export class PatientResultService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false);
@@ -99,24 +101,56 @@ export class PatientResultService {
         );
     });
 
-  filterByFields = (variables: any) =>
+  // filterByFields = (variables: any) =>
+  //   new Promise<any>((resolve, reject) => {
+  //     stores.uploadLoadingFlag(false);
+  //     client
+  //       .mutate({
+  //         mutation: FILTER_BY_FIELDS,
+  //         variables,
+  //       })
+  //       .then((response: any) => {
+  //         if (!response.data.filterByFieldsPatientResult.success)
+  //           return this.listPatientResult();
+  //         stores.patientResultStore.filterPatientResultList({
+  //           filterPatientResult: {
+  //             patientResultList:
+  //               response.data.filterByFieldsPatientResult.patientResultList,
+  //             paginatorInfo: {
+  //               count:
+  //                 response.data.filterByFieldsPatientResult.paginatorInfo.count,
+  //             },
+  //           },
+  //         });
+  //         stores.uploadLoadingFlag(true);
+  //         resolve(response.data);
+  //       })
+  //       .catch(error =>
+  //         reject(new ServiceResponse<any>(0, error.message, undefined)),
+  //       );
+  //   });
+
+  patientListForGeneralResultEntry = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false);
       client
         .mutate({
-          mutation: FILTER_BY_FIELDS,
+          mutation: PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPatientResult.success)
+          if (!response.data.patientResultListForGenResEntry.success)
             return this.listPatientResult();
-          stores.patientResultStore.filterPatientResultList({
-            filterPatientResult: {
+          console.log({response});
+
+          stores.patientResultStore.patientResultListForGeneralResEntry({
+            patientResultListForGenResEntry: {
               patientResultList:
-                response.data.filterByFieldsPatientResult.patientResultList,
+                response.data.patientResultListForGenResEntry.patientResultList,
               paginatorInfo: {
                 count:
-                  response.data.filterByFieldsPatientResult.paginatorInfo.count,
+                  response.data.patientResultListForGenResEntry.paginatorInfo
+                    .count,
               },
             },
           });
