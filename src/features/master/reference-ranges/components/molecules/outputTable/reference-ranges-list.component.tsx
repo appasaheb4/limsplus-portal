@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -318,7 +317,9 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                    }
                     onChange={e => {
                       const rangeSetOn = e.target.value as string;
                       props.onUpdateItem &&
@@ -370,7 +371,9 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 <>
                   {props.extraData.listInterfaceManager && (
                     <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                      }
                       onChange={e => {
                         const eqType = e.target.value as string;
                         props.onUpdateItem &&
@@ -582,7 +585,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           props.onUpdateItem(low, column.dataField, row._id);
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -624,7 +628,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           props.onUpdateItem(high, column.dataField, row._id);
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -737,7 +742,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                       lookupItems(
                         props.extraData.lookupItems,
                         `${row.rangeType}_LW_COLOR`,
-                      ).filter(item => item.code === row.colorLo)[0]?.value
+                      ).find(item => item.code === row.colorLo)?.value
                     }
                   </>
                 );
@@ -763,7 +768,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                       lookupItems(
                         props.extraData.lookupItems,
                         `${row.rangeType}_HI_COLOR`,
-                      ).filter(item => item.code === row.colorHi)[0]?.value
+                      ).find(item => item.code === row.colorHi)?.value
                     }
                   </>
                 );
@@ -789,7 +794,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                       lookupItems(
                         props.extraData.lookupItems,
                         `${row.rangeType}_NO_COLOR`,
-                      ).filter(item => item.code === row.colorNormal)[0]?.value
+                      ).find(item => item.code === row.colorNormal)?.value
                     }
                   </>
                 );
@@ -1070,7 +1075,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >
