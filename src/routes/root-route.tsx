@@ -4,7 +4,7 @@ import {
   loginRouter as loginRouters,
   privacyPolicyRoute as privacyPolicyRoutes,
   dashboardRouter as dashboardRoutes,
-} from './index';
+} from '.';
 
 import DashboardLayout from '../layouts/dashboard.component';
 import LandingLayout from '../layouts/landing.component';
