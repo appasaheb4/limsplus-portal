@@ -1,12 +1,12 @@
 import async from '@/layouts/components/async.component';
 const GeneralResultEntry = async(
-  () => import('../screens/general-result-entry.screen'),
+  () => import('../general-result-entry/screens/general-result-entry.screen'),
 );
 const MicroResultEntry = async(
-  () => import('../screens/micro-result-entry.screen'),
+  () => import('../micro-result-entry/screens/micro-result-entry.screen'),
 );
 const HistoResultEntry = async(
-  () => import('../screens/histo-result-entry.screen'),
+  () => import('../histo-result-entry/screens/histo-result-entry.screen'),
 );
 
 export const resultEntryRoutes = {

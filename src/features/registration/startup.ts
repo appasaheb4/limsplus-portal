@@ -23,15 +23,6 @@ const startup = async () => {
   const labId = stores.patientRegistrationStore.defaultValues?.labId;
   if (labId && labId !== '*')
     patientRegistrationHoc.labIdChanged(labId as number);
-
-  // patient test
-  //stores.patientTestStore.patientTestService.listPatientTest();
-
-  // patient result
-  //stores.patientResultStore.patientResultService.listPatientResult();
-
-  // patient sample
-  //stores.patientSampleStore.patientSampleService.listPatientSample();
 };
 
 export default startup;

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
-import {NumberFilter, Form, customFilter} from '@/library/components';
+import {textFilter, Form} from '@/library/components';
 import {Confirm} from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 
@@ -26,6 +26,7 @@ interface PatientResultProps {
 }
 
 let labId;
+let plab;
 export const PatientResultList = observer((props: PatientResultProps) => {
   const editorCell = (row: any) => {
     return false; //row.status !== "I" ? true : false
@@ -49,14 +50,14 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               text: 'Lab Id',
               headerClasses: 'textHeader4',
               sort: true,
-              filter: customFilter({
-                getFilter: filter => {
-                  labId = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              // filter: customFilter({
+              //   getFilter: filter => {
+              //     labId = filter;
+              //   },
+              // }),
+              // filterRenderer: (onFilter, column) => (
+              //   <NumberFilter onFilter={onFilter} column={column} />
+              // ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
@@ -64,6 +65,11 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               dataField: 'pLab',
               text: 'PLab',
               headerClasses: 'textHeader4',
+              filter: textFilter({
+                getFilter: filter => {
+                  plab = filter;
+                },
+              }),
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -407,8 +413,8 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 editorCell(row),
             },
             {
-              dataField: 'analyteStatus',
-              text: 'Analyte Status',
+              dataField: 'resultStatus',
+              text: 'Result Status',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
@@ -589,6 +595,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
           }}
           clearAllFilter={() => {
             labId('');
+            plab('');
           }}
         />
       </div>

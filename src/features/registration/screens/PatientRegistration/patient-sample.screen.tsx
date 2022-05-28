@@ -55,13 +55,13 @@ export const PatientSample = observer((props: PatientSampleProps) => {
               });
           }}
           onPageSizeChange={(page, limit) => {
-            patientResultStore.patientResultService.listPatientResult(
+            patientSampleStore.patientSampleService.listPatientSample(
               page,
               limit,
             );
           }}
           onFilter={(type, filter, page, limit) => {
-            patientResultStore.patientResultService.filter({
+            patientSampleStore.patientSampleService.filter({
               input: {type, filter, page, limit},
             });
           }}

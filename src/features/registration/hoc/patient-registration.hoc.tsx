@@ -16,7 +16,7 @@ class PatientRegistrationHoc {
     stores.patientTestStore.patientTestService.listPatientTest({
       labId,
     });
-    stores.patientResultStore.patientResultService.listPatientResult({
+    stores.patientResultStore.patientResultService.listPatientResultWithLabId({
       labId,
     });
     stores.patientSampleStore.patientSampleService.listPatientSample({

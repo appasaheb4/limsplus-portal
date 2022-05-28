@@ -4,18 +4,26 @@ import {PatientResult} from '../models';
 
 export class PatientResultStore {
   patientResultList: PatientResult[] = [];
+  patientResultListCount!: number;
+  patientResultListWithLabId: PatientResult[] = [];
   patientResultTestCount!: number;
 
   constructor() {
     this.patientResultList = [];
+    this.patientResultListWithLabId = [];
     this.patientResultTestCount = 0;
 
     makeObservable<PatientResultStore, any>(this, {
       patientResultList: observable,
+      patientResultListCount: observable,
+      patientResultListWithLabId: observable,
       patientResultTestCount: observable,
 
       patientResultService: computed,
-      updatePatientResultList: action,
+      updatePatientResultListWithLabId: action,
+      filterPatientResultListWithLabid: action,
+
+      updatePatientResult: action,
       filterPatientResultList: action,
     });
   }
@@ -24,14 +32,32 @@ export class PatientResultStore {
     return new PatientResultService();
   }
 
-  updatePatientResultList(res: any) {
+  updatePatientResult(res: any) {
+    console.log({res});
+
     if (!res.patientResults.success) return alert(res.patientResults.message);
     this.patientResultList = res.patientResults.patientResultList;
-    this.patientResultTestCount = res.patientResults.paginatorInfo.count;
+    this.patientResultListCount = res.patientResults.paginatorInfo.count;
+  }
+
+  updatePatientResultListWithLabId(res: any) {
+    if (!res.patientResultsWithLabId.success)
+      return alert(res.patientResultsWithLabId.message);
+    this.patientResultListWithLabId =
+      res.patientResultsWithLabId.patientResultList;
+    this.patientResultTestCount =
+      res.patientResultsWithLabId.paginatorInfo.count;
+  }
+
+  filterPatientResultListWithLabid(res: any) {
+    this.patientResultListWithLabId =
+      res.filterPatientResultWithLabId.patientResultList;
+    this.patientResultTestCount =
+      res.filterPatientResultWithLabId.paginatorInfo.count;
   }
 
   filterPatientResultList(res: any) {
     this.patientResultList = res.filterPatientResult.patientResultList;
-    this.patientResultTestCount = res.filterPatientResult.paginatorInfo.count;
+    this.patientResultListCount = res.filterPatientResult.paginatorInfo.count;
   }
 }
