@@ -16,6 +16,7 @@ export interface ButtonProps {
   id?: string;
   innerRef?: any;
   className?: string;
+  buttonClass?: string;
   children?: React.ReactNode;
 }
 
@@ -45,7 +46,7 @@ export const Button = React.forwardRef((props: ButtonProps) => {
         title={props.disabled}
         id={props.id}
         ref={props.innerRef}
-        className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+        className={`${props.buttonClass} inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
       >
         {Icon && (
           <Icon

@@ -1,18 +1,13 @@
 /* eslint-disable */
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
-  Buttons,
-  List,
-  Grid,
-  Svg,
   Toast,
-  Form,
-  AutoCompleteFilterSingleSelect,
   Header,
   PageHeading,
   PageHeadingLabDetails,
+  ModalConfirm,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
@@ -35,6 +30,7 @@ const GeneralResultEntry = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
+  const [modalConfirm, setModalConfirm] = useState<any>();
 
   const tableView = useMemo(
     () => (
@@ -49,14 +45,28 @@ const GeneralResultEntry = observer(() => {
           toJS(routerStore.userPermission),
           'Edit/Modify',
         )}
-        onSaveFields={rows => {
-          // setModalConfirm({
-          //   show: true,
-          //   type: 'delete',
-          //   id: rows,
-          //   title: 'Are you sure?',
-          //   body: `Delete selected items!`,
-          // });
+        onUpdateValue={(item, id) => {
+          const updated = patientResultStore.patientResultList?.map(
+            (e: any) => {
+              if (e._id === id)
+                return {
+                  ...e,
+                  ...item,
+                };
+              else return e;
+            },
+          );
+          patientResultStore.updatePatientResult(updated);
+        }}
+        onSaveFields={(rows, id) => {
+          setModalConfirm({
+            show: true,
+            type: 'save',
+            id: id,
+            data: rows,
+            title: 'Are you sure?',
+            body: `Update records!`,
+          });
         }}
         onPageSizeChange={(page, limit) => {
           //refernceRangesStore.fetchListReferenceRanges(page, limit);
@@ -80,6 +90,33 @@ const GeneralResultEntry = observer(() => {
       <div className='mx-auto flex-wrap'>
         <FilterInputTable />
       </div>
+      <ModalConfirm
+        {...modalConfirm}
+        click={(type?: string) => {
+          setModalConfirm({show: false});
+          if (type === 'save') {
+            patientResultStore.patientResultService
+              .updateSingleFiled({
+                input: {
+                  ...modalConfirm.data,
+                  _id: modalConfirm.id,
+                  __v: undefined,
+                },
+              })
+              .then(res => {
+                if (res.updatePatientResult.success) {
+                  Toast.success({
+                    message: `😊 ${res.updatePatientResult.message}`,
+                  });
+                  patientResultStore.patientResultService.listPatientResult();
+                }
+              });
+          }
+        }}
+        onClose={() => {
+          setModalConfirm({show: false});
+        }}
+      />
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
     </>
   );

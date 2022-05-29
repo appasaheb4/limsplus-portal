@@ -16,6 +16,18 @@ export const FilterInputTable = observer(() => {
     formState: {errors},
   } = useForm({mode: 'all'});
 
+  const getFilteredData = (searchInput, key, itemList) => {
+    if (!_.isEmpty(searchInput)) {
+      return itemList.filter(item => {
+        return item[key]
+          ?.toString()
+          .toLowerCase()
+          .includes(searchInput?.toLowerCase());
+      });
+    }
+    return itemList;
+  };
+
   return (
     <div className='flex flex-row gap-2 items-center'>
       <Table striped bordered>
@@ -42,7 +54,9 @@ export const FilterInputTable = observer(() => {
                     placeholder='Search by plab'
                     data={{
                       list: _.uniqBy(
-                        patientResultStore.patientResultList,
+                        patientResultStore.distinctPatientResult?.filter(
+                          item => item.pLab !== undefined,
+                        ),
                         'pLab',
                       ),
                       displayKey: ['pLab'],
@@ -51,16 +65,13 @@ export const FilterInputTable = observer(() => {
                       generalResultEntryStore.filterGeneralResEntry?.pLab
                     }
                     onFilter={(value: string) => {
-                      // patientResultStore.patientResultService.filterByFields({
-                      //   input: {
-                      //     filter: {
-                      //       fields: ['pLab'],
-                      //       srText: value,
-                      //     },
-                      //     page: 0,
-                      //     limit: 10,
-                      //   },
-                      // });
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'pLab',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
                     }}
                     onSelect={item => {
                       onChange(item.pLab);
@@ -93,12 +104,15 @@ export const FilterInputTable = observer(() => {
                           },
                         },
                       );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
+                      );
                     }}
                   />
                 )}
                 name='plab'
                 rules={{required: true}}
-                defaultValue={patientResultStore.patientResultList}
+                defaultValue={patientResultStore.distinctPatientResult}
               />
             </td>
             <td>
@@ -111,7 +125,9 @@ export const FilterInputTable = observer(() => {
                     placeholder='Search by departement'
                     data={{
                       list: _.uniqBy(
-                        patientResultStore.patientResultList,
+                        patientResultStore.distinctPatientResult?.filter(
+                          item => item.departement !== undefined,
+                        ),
                         'departement',
                       ),
                       displayKey: ['departement'],
@@ -120,16 +136,13 @@ export const FilterInputTable = observer(() => {
                       generalResultEntryStore.filterGeneralResEntry?.departement
                     }
                     onFilter={(value: string) => {
-                      // patientResultStore.patientResultService.filterByFields({
-                      //   input: {
-                      //     filter: {
-                      //       fields: ['departement'],
-                      //       srText: value,
-                      //     },
-                      //     page: 0,
-                      //     limit: 10,
-                      //   },
-                      // });
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'departement',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
                     }}
                     onSelect={item => {
                       onChange(item.departement);
@@ -162,6 +175,9 @@ export const FilterInputTable = observer(() => {
                           },
                         },
                       );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
+                      );
                     }}
                   />
                 )}
@@ -180,7 +196,9 @@ export const FilterInputTable = observer(() => {
                     placeholder='Search by test status'
                     data={{
                       list: _.uniqBy(
-                        patientResultStore.patientResultList,
+                        patientResultStore.distinctPatientResult?.filter(
+                          item => item.testStatus !== undefined,
+                        ),
                         'testStatus',
                       ),
                       displayKey: ['testStatus'],
@@ -189,16 +207,13 @@ export const FilterInputTable = observer(() => {
                       generalResultEntryStore.filterGeneralResEntry?.testStatus
                     }
                     onFilter={(value: string) => {
-                      // patientResultStore.patientResultService.filterByFields({
-                      //   input: {
-                      //     filter: {
-                      //       fields: ['testStatus'],
-                      //       srText: value,
-                      //     },
-                      //     page: 0,
-                      //     limit: 10,
-                      //   },
-                      // });
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'testStatus',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
                     }}
                     onSelect={item => {
                       onChange(item.testStatus);
@@ -231,6 +246,9 @@ export const FilterInputTable = observer(() => {
                           },
                         },
                       );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
+                      );
                     }}
                   />
                 )}
@@ -249,7 +267,9 @@ export const FilterInputTable = observer(() => {
                     placeholder='Search by result status'
                     data={{
                       list: _.uniqBy(
-                        patientResultStore.patientResultList,
+                        patientResultStore.distinctPatientResult?.filter(
+                          item => item.resultStatus !== undefined,
+                        ),
                         'resultStatus',
                       ),
                       displayKey: ['resultStatus'],
@@ -259,16 +279,13 @@ export const FilterInputTable = observer(() => {
                         ?.resultStatus
                     }
                     onFilter={(value: string) => {
-                      // patientResultStore.patientResultService.filterByFields({
-                      //   input: {
-                      //     filter: {
-                      //       fields: ['resultStatus'],
-                      //       srText: value,
-                      //     },
-                      //     page: 0,
-                      //     limit: 10,
-                      //   },
-                      // });
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'resultStatus',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
                     }}
                     onSelect={item => {
                       onChange(item.resultStatus);
@@ -301,6 +318,9 @@ export const FilterInputTable = observer(() => {
                           },
                         },
                       );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
+                      );
                     }}
                   />
                 )}
@@ -319,7 +339,9 @@ export const FilterInputTable = observer(() => {
                     placeholder='Search by code '
                     data={{
                       list: _.uniqBy(
-                        patientResultStore.patientResultList,
+                        patientResultStore.distinctPatientResult?.filter(
+                          item => item.testCode !== undefined,
+                        ),
                         'testCode',
                       ),
                       displayKey: ['testCode', 'testName'],
@@ -328,16 +350,13 @@ export const FilterInputTable = observer(() => {
                       generalResultEntryStore.filterGeneralResEntry?.testCode
                     }
                     onFilter={(value: string) => {
-                      // patientResultStore.patientResultService.filterByFields({
-                      //   input: {
-                      //     filter: {
-                      //       fields: ['testCode', 'testName'],
-                      //       srText: value,
-                      //     },
-                      //     page: 0,
-                      //     limit: 10,
-                      //   },
-                      // });
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'testCode',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
                     }}
                     onSelect={item => {
                       onChange(item.testCode);
@@ -370,6 +389,9 @@ export const FilterInputTable = observer(() => {
                           },
                         },
                       );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
+                      );
                     }}
                   />
                 )}
@@ -388,7 +410,9 @@ export const FilterInputTable = observer(() => {
                     placeholder='Search by code'
                     data={{
                       list: _.uniqBy(
-                        patientResultStore.patientResultList,
+                        patientResultStore.distinctPatientResult?.filter(
+                          item => item.analyteCode !== undefined,
+                        ),
                         'analyteCode',
                       ),
                       displayKey: ['analyteCode', 'analyteName'],
@@ -397,16 +421,13 @@ export const FilterInputTable = observer(() => {
                       generalResultEntryStore.filterGeneralResEntry?.analyteCode
                     }
                     onFilter={(value: string) => {
-                      // patientResultStore.patientResultService.filterByFields({
-                      //   input: {
-                      //     filter: {
-                      //       fields: ['analyteCode', 'analyteName'],
-                      //       srText: value,
-                      //     },
-                      //     page: 0,
-                      //     limit: 10,
-                      //   },
-                      // });
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'analyteCode',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
                     }}
                     onSelect={item => {
                       onChange(item.analyteCode);
@@ -439,6 +460,9 @@ export const FilterInputTable = observer(() => {
                           },
                         },
                       );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
+                      );
                     }}
                   />
                 )}
@@ -457,23 +481,22 @@ export const FilterInputTable = observer(() => {
                     placeholder='Search by labId'
                     data={{
                       list: _.uniqBy(
-                        patientResultStore.patientResultList,
+                        patientResultStore.distinctPatientResult?.filter(
+                          item => item.labId !== undefined,
+                        ),
                         'labId',
                       ),
                       displayKey: ['labId'],
                     }}
                     displayValue={generalResultEntryStore.filterGeneralResEntry?.labId?.toString()}
                     onFilter={(value: string) => {
-                      // patientResultStore.patientResultService.filterByFields({
-                      //   input: {
-                      //     filter: {
-                      //       fields: ['labId'],
-                      //       srText: value,
-                      //     },
-                      //     page: 0,
-                      //     limit: 10,
-                      //   },
-                      // });
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'labId',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
                     }}
                     onSelect={item => {
                       onChange(item.labId);
@@ -505,6 +528,9 @@ export const FilterInputTable = observer(() => {
                             limit: 10,
                           },
                         },
+                      );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
                       );
                     }}
                   />

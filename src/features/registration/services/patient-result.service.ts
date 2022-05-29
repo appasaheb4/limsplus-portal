@@ -14,6 +14,8 @@ import {
   FILTER_PATIENT_RESULT_WITH_LABID,
   FILTER_BY_FIELDS,
   PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
+  GET_PATIENT_RESULT_DISTINCT,
+  UPDATE_RECORD,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -101,34 +103,34 @@ export class PatientResultService {
         );
     });
 
-  // filterByFields = (variables: any) =>
-  //   new Promise<any>((resolve, reject) => {
-  //     stores.uploadLoadingFlag(false);
-  //     client
-  //       .mutate({
-  //         mutation: FILTER_BY_FIELDS,
-  //         variables,
-  //       })
-  //       .then((response: any) => {
-  //         if (!response.data.filterByFieldsPatientResult.success)
-  //           return this.listPatientResult();
-  //         stores.patientResultStore.filterPatientResultList({
-  //           filterPatientResult: {
-  //             patientResultList:
-  //               response.data.filterByFieldsPatientResult.patientResultList,
-  //             paginatorInfo: {
-  //               count:
-  //                 response.data.filterByFieldsPatientResult.paginatorInfo.count,
-  //             },
-  //           },
-  //         });
-  //         stores.uploadLoadingFlag(true);
-  //         resolve(response.data);
-  //       })
-  //       .catch(error =>
-  //         reject(new ServiceResponse<any>(0, error.message, undefined)),
-  //       );
-  //   });
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsPatientResult.success)
+            return this.listPatientResult();
+          stores.patientResultStore.filterPatientResultList({
+            filterPatientResult: {
+              patientResultList:
+                response.data.filterByFieldsPatientResult.patientResultList,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsPatientResult.paginatorInfo.count,
+              },
+            },
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   patientListForGeneralResultEntry = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -141,8 +143,6 @@ export class PatientResultService {
         .then((response: any) => {
           if (!response.data.patientResultListForGenResEntry.success)
             return this.listPatientResult();
-          console.log({response});
-
           stores.patientResultStore.patientResultListForGeneralResEntry({
             patientResultListForGenResEntry: {
               patientResultList:
@@ -155,6 +155,36 @@ export class PatientResultService {
             },
           });
           stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getPatientResultDistinct = () =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .query({
+          query: GET_PATIENT_RESULT_DISTINCT,
+        })
+        .then((response: any) => {
+          stores.patientResultStore.updateDistinctPatientResult(response.data);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>
