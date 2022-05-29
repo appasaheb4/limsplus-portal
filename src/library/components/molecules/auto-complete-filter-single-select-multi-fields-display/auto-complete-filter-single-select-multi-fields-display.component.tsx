@@ -1,6 +1,7 @@
 /* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import {Icons} from '../..';
 
 interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
@@ -101,37 +102,44 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
         {options && isListOpen
           ? options.length > 0 && (
               <div
-                className={`mt-1 absolute z-2 bg-gray-100 p-2 rounded-sm z-50`}
+                className={`mt-1 absolute z-2 w-full bg-gray-100 p-2 rounded-sm z-50`}
               >
                 <ul>
-                  {options?.map((item, index) => (
-                    <>
-                      <li
-                        key={index}
-                        className='text-gray-400 flex items-center'
-                        onClick={() => {
-                          setValue(
-                            data.displayKey
-                              .map(key => `${item[key]}`)
-                              .join(' - '),
-                          );
-                          setIsListOpen(false);
-                          onSelect(item);
-                        }}
-                      >
-                        {' '}
-                        <label className='ml-2 mt-1 text-black'>
-                          {data.displayKey
-                            .map(
-                              key =>
-                                `${item[key]}
+                  <PerfectScrollbar>
+                    <div
+                      style={{
+                        height: 'auto',
+                        maxHeight: '350px',
+                      }}
+                    >
+                      {options?.map((item, index) => (
+                        <li
+                          key={index}
+                          className='text-gray-400 flex items-center'
+                          onClick={() => {
+                            setValue(
+                              data.displayKey
+                                .map(key => `${item[key]}`)
+                                .join(' - '),
+                            );
+                            setIsListOpen(false);
+                            onSelect(item);
+                          }}
+                        >
+                          {' '}
+                          <label className='ml-2 mt-1 text-black'>
+                            {data.displayKey
+                              .map(
+                                key =>
+                                  `${item[key]}
                               `,
-                            )
-                            .join(' - ')}
-                        </label>
-                      </li>
-                    </>
-                  ))}
+                              )
+                              .join(' - ')}
+                          </label>
+                        </li>
+                      ))}
+                    </div>
+                  </PerfectScrollbar>
                 </ul>
               </div>
             )

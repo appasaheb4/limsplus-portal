@@ -77,3 +77,22 @@ export const FILTER_PATIENT_RESULT_WITH_LABID = gql`
     }
   }
 `;
+
+export const GET_PATIENT_RESULT_DISTINCT = gql`
+  query {
+    getPatientResultDistinct {
+      success
+      message
+      patientResultList
+    }
+  }
+`;
+
+export const UPDATE_RECORD = gql`
+  mutation ($input: UpdatePatientResultInput!) {
+    updatePatientResult(input: $input) {
+      success
+      message
+    }
+  }
+`;
