@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   Header,
   PageHeading,
@@ -38,7 +39,14 @@ const PatientRegistation = observer(() => {
             placeholder='Lab Id'
             className='h-4'
             data={{
-              list: [{labId: '*'}].concat(patientVisitStore.labIdList as any),
+              list: [{labId: '*'}].concat(
+                _.uniqBy(
+                  patientVisitStore.labIdList?.filter(
+                    item => item.labId !== undefined,
+                  ),
+                  'labId',
+                ),
+              ),
               displayKey: ['labId'],
             }}
             disable={patientRegistrationStore.defaultValues?.labIdLock}

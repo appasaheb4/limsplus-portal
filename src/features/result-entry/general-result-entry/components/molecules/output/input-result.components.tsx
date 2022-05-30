@@ -21,7 +21,7 @@ export const InputResult = observer(
 
     return (
       <div className='relative w-full'>
-        {(resultType === 'V' || resultType === 'S') && (
+        {resultType === 'V' && (
           <Controller
             control={control}
             render={({field: {onChange}}) => (
@@ -29,6 +29,7 @@ export const InputResult = observer(
                 label=''
                 type='text'
                 placeholder='Result'
+                maxLength={50}
                 className={
                   'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
                 }

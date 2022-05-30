@@ -90,6 +90,7 @@ const GeneralResultEntry = observer(() => {
       <div className='mx-auto flex-wrap'>
         <FilterInputTable />
       </div>
+      <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
       <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
@@ -99,6 +100,7 @@ const GeneralResultEntry = observer(() => {
               .updateSingleFiled({
                 input: {
                   ...modalConfirm.data,
+                  resultDate: new Date(),
                   _id: modalConfirm.id,
                   __v: undefined,
                 },
@@ -117,7 +119,6 @@ const GeneralResultEntry = observer(() => {
           setModalConfirm({show: false});
         }}
       />
-      <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
     </>
   );
 });
