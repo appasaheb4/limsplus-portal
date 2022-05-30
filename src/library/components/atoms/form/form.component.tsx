@@ -66,6 +66,7 @@ interface InputProps extends InputWrapperProps {
   wrapperStyle?: any;
   hasError?: boolean;
   pattern?: any;
+  maxLength?: number;
   onChange?: (e: any) => void;
   onBlur?: (e: any) => void;
   onKeyDown?: (e: any) => void;
@@ -99,6 +100,7 @@ export const Input = React.forwardRef((props: InputProps) => {
         required={props.required || false}
         disabled={props.disabled || false}
         autoComplete='given-name'
+        maxLength={props.maxLength}
         value={props.value}
         onChange={e => props.onChange && props.onChange(e.target.value)}
         onKeyPress={e => handleKeyPress(e)}
