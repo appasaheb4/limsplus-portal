@@ -334,7 +334,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             }),
             formatter: (cellContent, row) => (
               <>
-                {row.defaultConclusion && (
+                {row?.defaultConclusion && (
                   <label>
                     {`Result: ${row.defaultConclusion.result || ''} 
                        PossibleValue: ${
@@ -344,6 +344,58 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                        Critical: ${row.defaultConclusion.critical || false}`}
                   </label>
                 )}
+              </>
+            ),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  onChange={e => {
+                    if (e.target.value === 'removeItem') {
+                      return (
+                        props.onUpdateItem &&
+                        props.onUpdateItem(null, 'defaultConclusion', row._id)
+                      );
+                    }
+                    let defaultItem = JSON.parse(e.target.value);
+                    defaultItem = {
+                      result: defaultItem.result,
+                      possibleValue: defaultItem.possibleValue,
+                      abNormal: defaultItem.abNormal,
+                      critical: defaultItem.critical,
+                    };
+                    console.log({defaultItem});
+
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        defaultItem,
+                        'defaultConclusion',
+                        row._id,
+                      );
+                  }}
+                >
+                  <option selected>Select</option>
+                  <option value='removeItem'>Remove Item</option>
+                  {row.conclusionResult.map((item: any, index: number) => (
+                    <option key={index} value={JSON.stringify(item)}>
+                      {`Result: ${item.result} ,
+                        PossibleValue: ${item.possibleValue} ,
+                        Ab Normal: ${
+                          item.abNormal ? (item.abNormal ? 'Yes' : 'No') : 'No'
+                        } ,
+                        Critical: ${
+                          item.critical ? (item.critical ? 'Yes' : 'No') : 'No'
+                        }`}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },

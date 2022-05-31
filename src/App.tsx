@@ -13,6 +13,8 @@ import Routes from './routes/root-route';
 // toast
 import 'react-toastify/dist/ReactToastify.css';
 
+import 'react-perfect-scrollbar/dist/css/styles.css';
+
 import {stores} from '@/stores';
 
 import hydrateStore from '@/library/modules/startup';
