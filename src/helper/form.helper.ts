@@ -49,7 +49,7 @@ export class FormHelper {
   }
 
   static isNumberAvailable(val: string): boolean {
-    var matches = val.match(/\d+/g);
+    const matches = val.match(/\d+/g);
     if (val) {
       if (matches != null) return true;
       else return false;

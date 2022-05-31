@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 
@@ -145,8 +144,8 @@ const Banner = BannerHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : bannerStore.banner?.environment || `Select`}
+                            ? 'Select'
+                            : bannerStore.banner?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -209,7 +208,7 @@ const Banner = BannerHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -218,7 +217,7 @@ const Banner = BannerHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update banner!`,
+                  body: 'Update banner!',
                 });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -227,7 +226,7 @@ const Banner = BannerHoc(
                   type: 'UpdateImage',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update banner!`,
+                  body: 'Update banner!',
                 });
               }}
               onPageSizeChange={(page, limit) => {

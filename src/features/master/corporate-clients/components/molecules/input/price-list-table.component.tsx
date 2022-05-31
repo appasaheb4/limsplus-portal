@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import dayjs from 'dayjs';
@@ -15,7 +14,7 @@ import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 
-export const PriceListTable = observer(({}) => {
+export const PriceListTable = observer(() => {
   const {loading, corporateClientsStore, priceListStore} = useStores();
 
   const {
@@ -27,7 +26,7 @@ export const PriceListTable = observer(({}) => {
   } = useForm();
 
   const addItem = () => {
-    let priceList = corporateClientsStore.corporateClients?.priceList;
+    const priceList = corporateClientsStore.corporateClients?.priceList;
     priceList.push({
       id: corporateClientsStore.corporateClients?.priceList.length + 1,
       maxDis: 0,
@@ -239,7 +238,9 @@ export const PriceListTable = observer(({}) => {
                         value={item?.priority}
                         type='number'
                         placeholder='Priority'
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        className={
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                        }
                         hasError={errors.priority}
                         onChange={priority => {
                           onChange(priority);
@@ -247,7 +248,7 @@ export const PriceListTable = observer(({}) => {
                             corporateClientsStore.corporateClients?.priceList;
                           priceList[index] = {
                             ...priceList[index],
-                            priority: parseInt(priority),
+                            priority: Number.parseInt(priority),
                           };
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
@@ -269,7 +270,9 @@ export const PriceListTable = observer(({}) => {
                         label=''
                         type='number'
                         placeholder={item?.maxDis?.toString()}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        className={
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                        }
                         hasError={errors.maxDis}
                         onChange={maxDis => {
                           onChange(maxDis);
@@ -277,7 +280,7 @@ export const PriceListTable = observer(({}) => {
                             corporateClientsStore.corporateClients?.priceList;
                           priceList[index] = {
                             ...priceList[index],
-                            maxDis: parseFloat(maxDis),
+                            maxDis: Number.parseFloat(maxDis),
                           };
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,

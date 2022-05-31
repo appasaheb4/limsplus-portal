@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -44,7 +43,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
       if (administrativeDivisions.administrativeDiv) {
         if (!administrativeDivisions.administrativeDiv.postalCode)
           return Toast.warning({
-            message: `😔 Please enter postal code!`,
+            message: '😔 Please enter postal code!',
           });
         administrativeDivisions.administrativeDivisionsService
           .addAdministrativeDivisions({
@@ -62,7 +61,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter all information!`,
+          message: '😔 Please enter all information!',
         });
       }
     };
@@ -262,7 +261,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                           if (postalCode === undefined)
                             return alert('Please Enter PostalCode');
                           if (postalCode !== undefined) {
-                            let arrState =
+                            const arrState =
                               administrativeDivisions.administrativeDiv &&
                               administrativeDivisions.administrativeDiv
                                 .postalCode;
@@ -280,7 +279,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         }}
                       >
                         <Icons.EvaIcon icon='plus-circle-outline' />
-                        {`Add`}
+                        {'Add'}
                       </Buttons.Button>
                     </div>
                   </div>
@@ -423,9 +422,9 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : administrativeDivisions.administrativeDiv
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -500,7 +499,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -509,7 +508,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update Section!`,
+                  body: 'Update Section!',
                 });
               }}
               onPageSizeChange={(page, limit) => {

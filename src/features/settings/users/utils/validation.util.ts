@@ -9,7 +9,7 @@ validate.extend(validate.validators.datetime, {
   },
   // Input is a unix timestamp
   format: function (value: any, options: any) {
-    var format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DD hh:mm:ss';
+    const format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DD hh:mm:ss';
     return dayjs.utc(value).format(format);
   },
 });
