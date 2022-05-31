@@ -4,6 +4,7 @@ import {observer} from 'mobx-react';
 import {textFilter, Form} from '@/library/components';
 import {Confirm} from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
+import dayjs from 'dayjs';
 
 // import { NumberFilter } from "@/library/components/Organisms"
 
@@ -198,6 +199,15 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               text: 'Result Date',
               headerClasses: 'textHeader4',
               sort: true,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.resultDate
+                      ? dayjs(row.resultDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
+              },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
@@ -240,6 +250,15 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.instrumentResultDate
+                      ? dayjs(row.instrumentResultDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
+              },
             },
             {
               dataField: 'abnFlag',

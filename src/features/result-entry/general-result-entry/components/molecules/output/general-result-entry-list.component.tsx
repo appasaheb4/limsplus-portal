@@ -10,8 +10,9 @@ import {
   Tooltip,
   customFilter,
   Form,
-  Toast,
+  Buttons,
 } from '@/library/components';
+import {InputResult} from './input-result.components';
 
 let analyteCode;
 let analyteName;
@@ -43,7 +44,8 @@ interface GeneralResultEntryListProps {
   totalSize: number;
   isDelete?: boolean;
   isEditModify?: boolean;
-  onSaveFields?: (fileds: any, id: string) => void;
+  onUpdateValue: (item: any, id: string) => void;
+  onSaveFields: (fileds: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -74,7 +76,24 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              editable: false,
+              headerClasses: 'textHeader',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <InputResult
+                    resultType={row.resultType}
+                    onSelect={result => {
+                      props.onUpdateValue({result}, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'labId',
@@ -261,24 +280,20 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    {row.status === 'P' && (
+                    {row.testStatus === 'P' && row.resultStatus === 'P' && (
                       <>
-                        <Tooltip
-                          className='ml-2'
-                          tooltipText='Version Upgrade'
-                          position='bottom'
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          buttonClass='text-white'
+                          onClick={() => {
+                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                            props.onSaveFields &&
+                              props.onSaveFields(row, row._id);
+                          }}
                         >
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onSaveFields &&
-                              props.onSaveFields(row, 'new')
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                          </Icons.IconContext>
-                        </Tooltip>
+                          {'Save'}
+                        </Buttons.Button>
                       </>
                     )}
                   </div>

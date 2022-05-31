@@ -59,6 +59,7 @@ export class PatientVisitStore {
   updateLabIdList(res: any) {
     this.labIdList = res.filterByLabIdPatientVisit.data;
   }
+
   filterPatientVisitList(res: any) {
     this.listPatientVisit = res.filterPatientVisit.data;
     this.listPatientVisitCount = res.filterPatientVisit.paginatorInfo.count;
