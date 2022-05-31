@@ -19,7 +19,7 @@ function translateSegment(segment) {
     format = format.split('\n');
 
     var data = {};
-    data['Segment'] = segment[0];
+    data.Segment = segment[0];
 
     //console.log("segment.lengh", segment.length);
     //console.log("format.lengh", format.length);

@@ -65,7 +65,7 @@ export const ModalForgotPassword = observer(
                         style={{width: 70, height: 55, marginRight: 10}}
                         alt='lims plus'
                       />
-                      <h4 className='font-semibold'>{`Lims Plus`}</h4>
+                      <h4 className='font-semibold'>{'Lims Plus'}</h4>
                     </div>
                     <div>
                       <div className='items-center justify-center flex'>
