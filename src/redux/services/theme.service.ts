@@ -1,9 +1,8 @@
 function detachStylesheets() {
-  Array.from(document.querySelectorAll('link[rel="stylesheet"]')).forEach(
-    (style: any) => {
-      style.remove();
-    },
-  );
+  const sheet = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
+  for (const style of sheet) {
+    style.remove();
+  }
 }
 
 function insertStylesheet(name) {
