@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -57,6 +57,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
 
   useEffect(() => {
     segmentMappingStore.fetchListSegmentMapping();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -1119,7 +1120,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                               type: 'delete',
                               show: true,
                               title: 'Are you sure delete recoard? ',
-                              body: `Delete selected items!`,
+                              body: 'Delete selected items!',
                             });
                           }
                         } else {
