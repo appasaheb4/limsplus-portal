@@ -7,7 +7,7 @@ class HexToAsciiFlow {
   conversationMapping = async () => {
     const data = stores.dataConversationStore.listdataConversation;
     const values: DataConversation[] | any = [];
-    data?.forEach((item: DataConversation) => {
+    for (const item of data) {
       values.push({
         hexadecimal: item.hexadecimal,
         ascii:
@@ -22,7 +22,8 @@ class HexToAsciiFlow {
                 .toString()
             : undefined,
       });
-    });
+    }
+
     return values;
   };
 
