@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import React, {useState, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -53,6 +53,7 @@ export const Login = observer(() => {
 
   useEffect(() => {
     bannerStore.fetchListAllBanner();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -68,6 +69,7 @@ export const Login = observer(() => {
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginStore.login]);
 
   const onLogin = async (data: any) => {
@@ -380,7 +382,7 @@ export const Login = observer(() => {
                       onClick={() => setModalForgotPassword({show: true})}
                       className='text-white mr-2'
                     >
-                      {`Forgot Password`}
+                      {'Forgot Password'}
                     </a>
                     <a
                       onClick={() =>
@@ -396,6 +398,7 @@ export const Login = observer(() => {
                   Cannot user previous 4 password
                   Cannot use same password before specify number of days \n
                   `,
+                          // eslint-disable-next-line unicorn/numeric-separators-style
                           timer: 50000,
                         })
                       }
@@ -429,7 +432,7 @@ export const Login = observer(() => {
             });
             if (action !== 'login') {
               Toast.warning({
-                message: `😔 Please use diff lab`,
+                message: '😔 Please use diff lab',
               });
               setTimeout(() => {
                 window.location.reload();
@@ -459,7 +462,7 @@ export const Login = observer(() => {
               res => {
                 if (res.userForgotPassword.success) {
                   setModalForgotPassword({show: false});
-                  loginStore.updateForgotPassword(undefined);
+                  loginStore.updateForgotPassword();
                   Toast.success({
                     message: `😊 ${res.userForgotPassword.message}`,
                   });

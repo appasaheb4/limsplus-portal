@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -116,7 +116,7 @@ const CorporateClients = CorporateClientsHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -148,7 +148,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -157,7 +157,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onSelectedRow={rows => {
@@ -166,7 +166,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -175,7 +175,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update Section!`,
+              body: 'Update Section!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -184,7 +184,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -197,6 +197,7 @@ const CorporateClients = CorporateClientsHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [corporateClientsStore.listCorporateClients],
     );
 
@@ -985,7 +986,7 @@ const CorporateClients = CorporateClientsHoc(
                           onChange(item.postalCode);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            postalCode: parseInt(item.postalCode),
+                            postalCode: Number.parseInt(item.postalCode),
                             zone: item?.zone,
                             sbu: item?.sbu,
                           });
@@ -1585,9 +1586,9 @@ const CorporateClients = CorporateClientsHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : corporateClientsStore.corporateClients
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,

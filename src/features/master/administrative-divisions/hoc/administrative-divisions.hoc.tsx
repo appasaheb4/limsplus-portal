@@ -5,7 +5,9 @@ import {getDefaultLookupItem} from '@/library/utils';
 
 export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const {loginStore, administrativeDivisions, routerStore} = useStores();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       administrativeDivisions.updateAdministrativeDiv({
         ...administrativeDivisions.administrativeDiv,
@@ -22,6 +24,7 @@ export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
 
     return <Component {...props} />;
