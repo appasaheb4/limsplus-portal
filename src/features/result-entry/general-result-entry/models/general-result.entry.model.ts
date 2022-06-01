@@ -17,3 +17,10 @@ export class FilterGeneralResEntryList {
     this.labId = rawData.labId;
   }
 }
+
+export class SelectedItems {
+  library: any[];
+  constructor(rawData: {[key in string]: any}) {
+    this.library = rawData.library;
+  }
+}

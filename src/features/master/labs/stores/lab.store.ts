@@ -39,6 +39,7 @@ export class LabStore {
       filterLabList: action,
       setExitsEnvCode: action,
       updateLabs: action,
+      updateSelectedItems: action,
     });
   }
 
@@ -73,6 +74,7 @@ export class LabStore {
   updateLabs = (labs: Labs) => {
     this.labs = labs;
   };
+
   updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items;
     else this.selectedItems = new SelectedItems({});

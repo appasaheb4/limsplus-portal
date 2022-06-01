@@ -1,43 +1,11 @@
+/* eslint-disable no-case-declarations */
 import React from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {
-  NumberFilter,
-  DateFilter,
-  TableBootstrap,
-  textFilter,
-  Icons,
-  Tooltip,
-  customFilter,
-  Form,
-  Buttons,
-} from '@/library/components';
+import _ from 'lodash';
+import {Form, Buttons} from '@/library/components';
 import {InputResult} from './input-result.components';
-
-let analyteCode;
-let analyteName;
-let department;
-let species;
-let sex;
-let rangeSetOn;
-let equipmentType;
-let lab;
-let rangType;
-let age;
-let ageUnit;
-let low;
-let high;
-let alpha;
-let enteredBy;
-let status;
-let environment;
-let dateCreation;
-let dateActive;
-let dateExpire;
-let version;
-let deltaRangTeType;
-let deltaInterval;
-let intervalUnit;
+import {DisplayResult} from './display-result.components';
+import TableBootstrap from './table-bootstrap.component';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -59,6 +27,84 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+
+  const getStatus = (
+    status: string,
+    type: string,
+    result: number,
+    lo: number,
+    hi: number,
+  ) => {
+    if (status === 'resultStatus' && type === 'V') {
+      if (result >= lo && result <= hi) return 'N';
+      else if (result < lo) return 'L';
+      else if (result > hi) return 'H';
+      return 'N';
+    } else if (status === 'testStatus' && type === 'V') {
+      if (result >= lo && result <= hi) return 'N';
+      else if (result < lo) return 'A';
+      else if (result > hi) return 'A';
+      return 'N';
+    }
+    return 'N';
+  };
+
+  const getResultStatus = (type: string, row: any) => {
+    switch (type) {
+      case 'V':
+        if (!row?.loNor && !row?.hiNor) return 'N';
+        const numberResult = Number.parseFloat(
+          row?.result?.replace(/[^0-9]/g, ''),
+        );
+        const numberLo = Number.parseFloat(
+          row?.loNor?.replace(/[^0-9]/g, '') || 0,
+        );
+        const numberHi = Number.parseFloat(
+          row?.hiNor?.replace(/[^0-9]/g, '') || 0,
+        );
+        return getStatus(
+          'resultStatus',
+          type,
+          numberResult,
+          numberLo,
+          numberHi,
+        );
+        break;
+      case 'D' || 'L' || 'F' || 'M':
+        return row?.abnFlag ? 'A' : 'N';
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const getTestStatus = (type: string, row: any) => {
+    switch (type) {
+      case 'V':
+        if (!row?.loNor && !row?.hiNor) return 'N';
+        // eslint-disable-next-line no-case-declarations
+        const numberResult = Number.parseFloat(
+          row?.result?.replace(/[^0-9]/g, ''),
+        );
+        const numberLo = Number.parseFloat(
+          row?.loNor?.replace(/[^0-9]/g, '') || 0,
+        );
+        const numberHi = Number.parseFloat(
+          row?.hiNor?.replace(/[^0-9]/g, '') || 0,
+        );
+        return getStatus('testStatus', type, numberResult, numberLo, numberHi);
+        break;
+
+      case 'D' || 'L' || 'F' || 'M':
+        return row?.abnFlag ? 'A' : 'N';
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -77,6 +123,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'result',
               text: 'Result',
               headerClasses: 'textHeader',
+              formatter: (cellContent, row) => (
+                <>
+                  <DisplayResult row={row} />
+                </>
+              ),
               editorRenderer: (
                 editorProps,
                 value,
@@ -87,9 +138,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               ) => (
                 <>
                   <InputResult
-                    resultType={row.resultType}
+                    row={row}
                     onSelect={result => {
-                      props.onUpdateValue({result}, row._id);
+                      props.onUpdateValue(result, row._id);
                     }}
                   />
                 </>
@@ -140,8 +191,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       disabled={!editorCell(row)}
                       value={row.reportable}
                       onChange={reportable => {
-                        // props.onUpdateItem &&
-                        //   props.onUpdateItem(method, 'method', row._id);
+                        props.onUpdateValue({reportable}, row._id);
                       }}
                     />
                   </>
@@ -169,11 +219,14 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={true}
+                      disabled={
+                        row.resultType === 'F' || row.resultType === 'M'
+                          ? false
+                          : true
+                      }
                       value={row.abnFlag}
                       onChange={abnFlag => {
-                        // props.onUpdateItem &&
-                        //   props.onUpdateItem(method, 'method', row._id);
+                        props.onUpdateValue({abnFlag}, row._id);
                       }}
                     />
                   </>
@@ -188,11 +241,14 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={true}
+                      disabled={
+                        row.resultType === 'F' || row.resultType === 'M'
+                          ? false
+                          : true
+                      }
                       value={row.critical}
                       onChange={critical => {
-                        // props.onUpdateItem &&
-                        //   props.onUpdateItem(method, 'method', row._id);
+                        props.onUpdateValue({critical}, row._id);
                       }}
                     />
                   </>
@@ -210,8 +266,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       disabled={!editorCell(row)}
                       value={row.showRanges}
                       onChange={showRanges => {
-                        // props.onUpdateItem &&
-                        //   props.onUpdateItem(method, 'method', row._id);
+                        props.onUpdateValue({showRanges}, row._id);
                       }}
                     />
                   </>
@@ -251,7 +306,24 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'conclusion',
               text: 'Conclusion',
-              editable: false,
+              headerClasses: 'textHeader',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder='Conclusion'
+                    onBlur={conclusion => {
+                      props.onUpdateValue({conclusion}, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'testStatus',
@@ -280,16 +352,31 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    {row.testStatus === 'P' && row.resultStatus === 'P' && (
+                    {row.testStatus === 'P' && (
                       <>
                         <Buttons.Button
                           size='small'
                           type='outline'
                           buttonClass='text-white'
                           onClick={() => {
+                            if (!row?.result)
+                              return alert('Please enter result value ');
                             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                             props.onSaveFields &&
-                              props.onSaveFields(row, row._id);
+                              props.onSaveFields(
+                                {
+                                  ...row,
+                                  resultStatus: getResultStatus(
+                                    row.resultType,
+                                    row,
+                                  ),
+                                  testStatus: getTestStatus(
+                                    row.resultType,
+                                    row,
+                                  ),
+                                },
+                                row._id,
+                              );
                           }}
                         >
                           {'Save'}
@@ -316,32 +403,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
-          clearAllFilter={() => {
-            analyteCode('');
-            analyteName('');
-            department('');
-            species('');
-            sex('');
-            rangeSetOn('');
-            equipmentType('');
-            lab('');
-            rangType('');
-            age('');
-            ageUnit('');
-            low('');
-            high('');
-            alpha('');
-            enteredBy('');
-            status('');
-            environment('');
-            dateCreation();
-            dateActive();
-            dateExpire();
-            version('');
-            deltaRangTeType('');
-            deltaInterval('');
-            intervalUnit('');
-          }}
+          clearAllFilter={() => {}}
         />
       </div>
     </>
