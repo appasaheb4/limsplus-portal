@@ -6,6 +6,7 @@ import {io} from 'socket.io-client';
 let socket;
 export const HostCommunicationHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const {hostCommunicationStore} = useStores();
     socket = io('restapi-hosturl'.split('/api')[0], {
       transports: ['websocket'],
@@ -24,6 +25,7 @@ export const HostCommunicationHoc = (Component: React.FC<any>) => {
           txtDataReceivefromInstrument: data,
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return <Component {...props} />;

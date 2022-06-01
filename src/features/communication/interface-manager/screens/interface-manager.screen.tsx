@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -386,7 +385,7 @@ const InterfaceManager = InterfaceManagerHoc(
                         }}
                       >
                         <Icons.EvaIcon icon='plus-circle-outline' />
-                        {`Add`}
+                        {'Add'}
                       </Buttons.Button>
                     </div>
                     <div className='clearfix'></div>
@@ -461,9 +460,9 @@ const InterfaceManager = InterfaceManagerHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : interfaceManagerStore.interfaceManager
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -531,7 +530,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -540,7 +539,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update interface manager!`,
+                  body: 'Update interface manager!',
                 });
               }}
               onPageSizeChange={(page, limit) => {

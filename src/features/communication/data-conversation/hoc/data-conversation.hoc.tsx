@@ -5,7 +5,9 @@ import {getDefaultLookupItem} from '@/library/utils';
 
 export const DataConversationHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const {loginStore, dataConversationStore, routerStore} = useStores();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       dataConversationStore.updateDataConversation({
         ...dataConversationStore.dataConversation,
@@ -20,6 +22,7 @@ export const DataConversationHoc = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
 
     return <Component {...props} />;

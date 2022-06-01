@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -513,7 +512,7 @@ export const InterfaceManagerList = observer(
                       }}
                     >
                       <Icons.EvaIcon icon='plus-circle-outline' />
-                      {`Add`}
+                      {'Add'}
                     </Buttons.Button>
                   </div>
                   <div className='clearfix'></div>
@@ -630,7 +629,7 @@ export const InterfaceManagerList = observer(
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >
