@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -69,7 +68,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 type: 'delete',
                 show: true,
                 title: 'Are you sure delete recoard? ',
-                body: `Delete selected items!`,
+                body: 'Delete selected items!',
               });
             } else {
               alert('Please select any item.');
