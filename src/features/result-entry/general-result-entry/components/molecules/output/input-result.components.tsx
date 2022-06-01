@@ -3,6 +3,7 @@ import {Form} from '@/library/components';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import {useForm, Controller} from 'react-hook-form';
+import {FormHelper} from '@/helper';
 interface InputResultProps {
   resultType: string;
   onSelect: (item) => void;
@@ -30,6 +31,7 @@ export const InputResult = observer(
                 type='text'
                 placeholder='Result'
                 maxLength={50}
+                pattern={FormHelper.patterns.decimalPatterm}
                 className={
                   'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
                 }
@@ -41,7 +43,10 @@ export const InputResult = observer(
               />
             )}
             name='result'
-            rules={{required: false}}
+            rules={{
+              required: false,
+              pattern: FormHelper.patterns.decimalPatterm,
+            }}
           />
         )}
         {resultType !== 'V' && <span>development state</span>}
