@@ -2,44 +2,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {
-  NumberFilter,
-  DateFilter,
-  TableBootstrap,
-  textFilter,
-  Icons,
-  Tooltip,
-  customFilter,
-  Form,
-  Buttons,
-} from '@/library/components';
+import {Form, Buttons} from '@/library/components';
 import {InputResult} from './input-result.components';
 import {DisplayResult} from './display-result.components';
-
-let analyteCode;
-let analyteName;
-let department;
-let species;
-let sex;
-let rangeSetOn;
-let equipmentType;
-let lab;
-let rangType;
-let age;
-let ageUnit;
-let low;
-let high;
-let alpha;
-let enteredBy;
-let environment;
-let dateCreation;
-let dateActive;
-let dateExpire;
-let version;
-let deltaRangTeType;
-let deltaInterval;
-let intervalUnit;
+import TableBootstrap from './table-bootstrap.component';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -437,31 +403,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
-          clearAllFilter={() => {
-            analyteCode('');
-            analyteName('');
-            department('');
-            species('');
-            sex('');
-            rangeSetOn('');
-            equipmentType('');
-            lab('');
-            rangType('');
-            age('');
-            ageUnit('');
-            low('');
-            high('');
-            alpha('');
-            enteredBy('');
-            environment('');
-            dateCreation();
-            dateActive();
-            dateExpire();
-            version('');
-            deltaRangTeType('');
-            deltaInterval('');
-            intervalUnit('');
-          }}
+          clearAllFilter={() => {}}
         />
       </div>
     </>
