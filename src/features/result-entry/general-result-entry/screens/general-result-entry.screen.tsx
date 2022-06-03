@@ -58,18 +58,21 @@ const GeneralResultEntry = observer(() => {
           );
           patientResultStore.updatePatientResult(updated);
         }}
-        onSaveFields={(rows, id) => {
+        onSaveFields={(updatedRecords, id) => {
           setModalConfirm({
             show: true,
             type: 'save',
             id: id,
-            data: rows,
+            data: updatedRecords,
             title: 'Are you sure?',
             body: `Update records!`,
           });
         }}
         onPageSizeChange={(page, limit) => {
-          //refernceRangesStore.fetchListReferenceRanges(page, limit);
+          patientResultStore.patientResultService.listPatientResult(
+            page,
+            limit,
+          );
         }}
         onFilter={(type, filter, page, limit) => {
           // refernceRangesStore.referenceRangesService.filter({

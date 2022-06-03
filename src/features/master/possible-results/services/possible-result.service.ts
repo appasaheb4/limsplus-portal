@@ -14,6 +14,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FILTER,
+  FIND_BY_FIELDS,
 } from './mutation';
 
 export class PossibleResultsService {
@@ -111,6 +112,23 @@ export class PossibleResultsService {
           if (!response.data.filterPossibleResult.success)
             return this.listPossibleResults();
           stores.possibleResultsStore.filterPossibleResult(response.data);
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

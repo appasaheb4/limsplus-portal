@@ -108,3 +108,36 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: PossibleResultInput!) {
+    findByFieldsPossibleResult(input: $input) {
+      success
+      message
+      data {
+        _id
+        analyteCode
+        analyteName
+        result
+        possibleValue
+        abNormal
+        critical
+        conclusionResult {
+          result
+          possibleValue
+          abNormal
+          critical
+        }
+        defaultConclusion
+        environment
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
