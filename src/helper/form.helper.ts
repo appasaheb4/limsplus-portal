@@ -7,12 +7,15 @@ export class FormHelper {
     userName: /^[a-z][a-z0-9_.]+$/,
     password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
     mobileNo: /^[0-9]{0,10}$/,
+    decimalPatterm: /^[0-9<>=.]*$/,
   };
 
   static isUserNameValid(userName: string): boolean {
     return this.patterns.userName.test(userName);
   }
-
+  static isDecimal(val: string): boolean {
+    return this.patterns.decimalPatterm.test(val);
+  }
   static isEmailValid(email: string): boolean {
     return this.patterns.email.test(email);
   }
