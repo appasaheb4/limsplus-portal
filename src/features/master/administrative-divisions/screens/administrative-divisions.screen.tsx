@@ -524,35 +524,45 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                administrativeDivisions.administrativeDivisionsService
-                  .deleteAdministrativeDivisions({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeAdministrativeDivision.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeAdministrativeDivision.message}`,
+              switch (type) {
+                case 'Delete':
+                  {
+                    administrativeDivisions.administrativeDivisionsService
+                      .deleteAdministrativeDivisions({
+                        input: {id: modalConfirm.id},
+                      })
+                      .then((res: any) => {
+                        if (res.removeAdministrativeDivision.success) {
+                          Toast.success({
+                            message: `😊 ${res.removeAdministrativeDivision.message}`,
+                          });
+                          setModalConfirm({show: false});
+                          administrativeDivisions.fetchAdministrativeDiv();
+                        }
                       });
-                      setModalConfirm({show: false});
-                      administrativeDivisions.fetchAdministrativeDiv();
-                    }
-                  });
-              } else if (type === 'Update') {
-                administrativeDivisions.administrativeDivisionsService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateAdministrativeDivision.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateAdministrativeDivision.message}`,
+                  }
+                  break;
+                case 'Update':
+                  {
+                    administrativeDivisions.administrativeDivisionsService
+                      .updateSingleFiled({
+                        input: {
+                          _id: modalConfirm.data.id,
+                          [modalConfirm.data.dataField]:
+                            modalConfirm.data.value,
+                        },
+                      })
+                      .then((res: any) => {
+                        if (res.updateAdministrativeDivision.success) {
+                          Toast.success({
+                            message: `😊 ${res.updateAdministrativeDivision.message}`,
+                          });
+                          setModalConfirm({show: false});
+                          administrativeDivisions.fetchAdministrativeDiv();
+                        }
                       });
-                      setModalConfirm({show: false});
-                      administrativeDivisions.fetchAdministrativeDiv();
-                    }
-                  });
+                  }
+                  break;
               }
             }}
             onClose={() => setModalConfirm({show: false})}
