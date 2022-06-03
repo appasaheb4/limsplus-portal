@@ -25,6 +25,7 @@ export class TestMaster {
   urgent: boolean;
   reportGroup: string;
   accredited: boolean;
+  abnFlag: boolean;
   cretical: boolean;
   processing: string;
   repitation: boolean;
@@ -53,6 +54,7 @@ export class TestMaster {
   allowPartial: boolean;
   collectionContainer: string;
   interpretation: string;
+  testResultDate: Date;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -88,6 +90,7 @@ export class TestMaster {
     this.urgent = rawData.urgent;
     this.reportGroup = rawData.reportGroup;
     this.accredited = rawData.accredited;
+    this.abnFlag = rawData.abnFlag;
     this.cretical = rawData.cretical;
     this.repitation = rawData.repitation;
     this.sampleRunOn = rawData.sampleRunOn;
@@ -119,6 +122,7 @@ export class TestMaster {
     this.sampleType = rawData.sampleType;
     this.collectionContainer = rawData.collectionContainer;
     this.interpretation = rawData.interpretation;
+    this.testResultDate = rawData.testResultDate;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

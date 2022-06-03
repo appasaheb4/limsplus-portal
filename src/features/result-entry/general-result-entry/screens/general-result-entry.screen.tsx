@@ -22,7 +22,8 @@ import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const GeneralResultEntry = observer(() => {
-  const {loginStore, routerStore, patientResultStore} = useStores();
+  const {loginStore, routerStore, patientResultStore, generalResultEntryStore} =
+    useStores();
 
   const {
     control,
@@ -113,7 +114,20 @@ const GeneralResultEntry = observer(() => {
                   Toast.success({
                     message: `😊 ${res.updatePatientResult.message}`,
                   });
-                  patientResultStore.patientResultService.listPatientResult();
+                  if (!generalResultEntryStore.filterGeneralResEntry)
+                    patientResultStore.patientResultService.listPatientResult();
+                  else
+                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                      {
+                        input: {
+                          filter: {
+                            ...generalResultEntryStore.filterGeneralResEntry,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      },
+                    );
                 }
               });
           }
