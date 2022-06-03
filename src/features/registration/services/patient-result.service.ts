@@ -40,7 +40,7 @@ export class PatientResultService {
         );
     });
 
-  listPatientResult = (filter?: any, page = 0, limit = 10) =>
+  listPatientResult = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
@@ -48,7 +48,7 @@ export class PatientResultService {
       client
         .mutate({
           mutation: LIST_PATIENT_RESULT,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResult(response.data);
