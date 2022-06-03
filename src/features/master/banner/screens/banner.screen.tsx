@@ -241,51 +241,60 @@ const Banner = BannerHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type: string) => {
-              if (type === 'Delete') {
-                bannerStore.BannerService.deleteBanner({
-                  input: {id: modalConfirm.id},
-                }).then((res: any) => {
-                  if (res.removeBanner.success) {
-                    Toast.success({
-                      message: `😊 ${res.removeBanner.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    bannerStore.fetchListBanner();
-                  }
-                });
-              } else if (type === 'Update') {
-                bannerStore.BannerService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateBanner.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateBanner.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    bannerStore.fetchListBanner();
-                  }
-                });
-              } else {
-                bannerStore.BannerService.updateBannerImage({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    file: modalConfirm.data.value,
-                    containerName: 'banner',
-                  },
-                }).then((res: any) => {
-                  if (res.updateBannerImage.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateBannerImage.message}`,
-                    });
-                    setTimeout(() => {
+            click={(type?: string) => {
+              switch (type) {
+                case 'Delete': {
+                  bannerStore.BannerService.deleteBanner({
+                    input: {id: modalConfirm.id},
+                  }).then((res: any) => {
+                    if (res.removeBanner.success) {
+                      Toast.success({
+                        message: `😊 ${res.removeBanner.message}`,
+                      });
+                      setModalConfirm({show: false});
                       bannerStore.fetchListBanner();
-                    }, 2000);
-                  }
-                });
+                    }
+                  });
+                  break;
+                }
+
+                case 'Update': {
+                  bannerStore.BannerService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateBanner.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateBanner.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      bannerStore.fetchListBanner();
+                    }
+                  });
+                  break;
+                }
+
+                case 'UpdateImage': {
+                  bannerStore.BannerService.updateBannerImage({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      file: modalConfirm.data.value,
+                      containerName: 'banner',
+                    },
+                  }).then((res: any) => {
+                    if (res.updateBannerImage.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateBannerImage.message}`,
+                      });
+                      setTimeout(() => {
+                        bannerStore.fetchListBanner();
+                      }, 2000);
+                    }
+                  });
+                  break;
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

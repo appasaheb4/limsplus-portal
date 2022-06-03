@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import {useForm, Controller} from 'react-hook-form';
@@ -18,7 +17,7 @@ import {
 import {lookupItems, lookupValue} from '@/library/utils';
 
 import {dashboardRouter as dashboardRoutes} from '@/routes';
-let router = dashboardRoutes;
+const router = dashboardRoutes;
 import {GeneralFieldHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
@@ -209,7 +208,7 @@ export const GeneralField = GeneralFieldHoc(
                     }}
                   >
                     <Icons.EvaIcon icon='plus-circle-outline' />
-                    {`Add`}
+                    {'Add'}
                   </Buttons.Button>
                 </div>
               </Grid>
@@ -341,8 +340,8 @@ export const GeneralField = GeneralFieldHoc(
                   >
                     <option selected>
                       {loginStore.login && loginStore.login.role !== 'SYSADMIN'
-                        ? `Select`
-                        : lookupStore.globalSettings?.environment || `Select`}
+                        ? 'Select'
+                        : lookupStore.globalSettings?.environment || 'Select'}
                     </option>
                     {lookupItems(routerStore.lookupItems, 'ENVIRONMENT').map(
                       (item: any, index: number) => (

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {action, computed, makeObservable, observable} from 'mobx';
 import _ from 'lodash';
 

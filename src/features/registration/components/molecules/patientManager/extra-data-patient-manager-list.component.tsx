@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -314,7 +313,6 @@ export const ExtraDataPatientManagerList = observer(
                   return (
                     row.extraData.photograph && (
                       <div>
-                         
                         <div
                           style={{
                             background: `transparent url(${row.extraData.photograph}) no-repeat`,
@@ -473,7 +471,9 @@ export const ExtraDataPatientManagerList = observer(
                   <>
                     <select
                       value={row.extraData?.status}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                      }
                       onChange={e => {
                         const status = e.target.value;
                         props.onUpdateItem &&
@@ -519,7 +519,9 @@ export const ExtraDataPatientManagerList = observer(
                   <>
                     <select
                       value={row.extraData?.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                      }
                       onChange={e => {
                         const environment = e.target.value;
                         props.onUpdateItem &&
@@ -563,7 +565,7 @@ export const ExtraDataPatientManagerList = observer(
                               show: true,
                               id: [row._id],
                               title: 'Are you sure?',
-                              body: `Delete record`,
+                              body: 'Delete record',
                             })
                           }
                         >

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -84,6 +83,7 @@ const Environment = observer(() => {
                   message: `😊 ${res.updateEnviroment.message}`,
                 });
                 setModalConfirm({show: false});
+                // eslint-disable-next-line unicorn/no-useless-undefined
                 environmentStore.updateSelectedItems(undefined);
                 // setTimeout(() => {
                 //   window.location.reload()

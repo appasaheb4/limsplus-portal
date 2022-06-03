@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect} from 'react';
 // import { Spinner } from "react-bootstrap"
 import {observer} from 'mobx-react';
@@ -24,6 +23,7 @@ export const AutoCompleteLabs = observer(
         ...environmentStore.selectedItems,
         labs: data?.lab,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, selected]);
 
     return (
@@ -38,10 +38,8 @@ export const AutoCompleteLabs = observer(
                 : !environmentStore.permission?.allLabs || false
             }
             onChange={allLabs => {
-              if (!defaultData?.allLabs) {
-                if (allLabs) {
-                  onUpdate({allLabs});
-                }
+              if (!defaultData?.allLabs && allLabs) {
+                onUpdate({allLabs});
               }
               setData({
                 ...data,

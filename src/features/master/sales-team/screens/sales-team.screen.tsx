@@ -1,7 +1,3 @@
-/* eslint-disable folders/match-regex */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-indent-props */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import {

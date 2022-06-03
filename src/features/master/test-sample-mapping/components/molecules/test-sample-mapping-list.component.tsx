@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import _ from 'lodash';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -822,7 +821,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         onChange={prefrence => {
                           props.extraData.updateLocalInput({
                             ...props.extraData.localInput,
-                            prefrence: parseFloat(prefrence),
+                            prefrence: Number.parseFloat(prefrence),
                           });
                         }}
                       />
@@ -833,7 +832,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         onChange={tatInMin => {
                           props.extraData.updateLocalInput({
                             ...props.extraData.localInput,
-                            tatInMin: parseFloat(tatInMin),
+                            tatInMin: Number.parseFloat(tatInMin),
                           });
                         }}
                       />
@@ -895,7 +894,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           }}
                         >
                           <Icons.EvaIcon icon='plus-circle-outline' />
-                          {`Add`}
+                          {'Add'}
                         </Buttons.Button>
                       </div>
                       <div className='clearfix'></div>
@@ -969,7 +968,9 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 <>
                   <select
                     value={row.environment}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                    }
                     onChange={e => {
                       const environment = e.target.value;
                       props.onUpdateItem &&
@@ -1014,7 +1015,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

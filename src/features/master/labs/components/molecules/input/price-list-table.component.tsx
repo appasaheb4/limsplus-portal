@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {
@@ -16,7 +15,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
-export const PriceListTable = observer(({}) => {
+export const PriceListTable = observer(() => {
   const {loading, labStore, priceListStore, corporateClientsStore} =
     useStores();
 
@@ -46,7 +45,7 @@ export const PriceListTable = observer(({}) => {
   }, []);
 
   const addItem = () => {
-    let priceList = labStore.labs?.priceList;
+    const priceList = labStore.labs?.priceList;
     priceList.push({
       id: labStore.labs?.priceList.length + 1,
       maxDis: 0,
@@ -247,14 +246,16 @@ export const PriceListTable = observer(({}) => {
                       value={item?.priority}
                       type='number'
                       placeholder='Priority'
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       hasError={errors.priority}
                       onChange={priority => {
                         onChange(priority);
                         const priceList = labStore.labs?.priceList;
                         priceList[index] = {
                           ...priceList[index],
-                          priority: parseInt(priority),
+                          priority: Number.parseInt(priority),
                         };
                         labStore.updateLabs({
                           ...labStore.labs,
@@ -276,14 +277,16 @@ export const PriceListTable = observer(({}) => {
                       label=''
                       type='number'
                       placeholder={item?.maxDis?.toString()}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       hasError={errors.maxDis}
                       onChange={maxDis => {
                         onChange(maxDis);
                         const priceList = labStore.labs?.priceList;
                         priceList[index] = {
                           ...priceList[index],
-                          maxDis: parseFloat(maxDis),
+                          maxDis: Number.parseFloat(maxDis),
                         };
                         labStore.updateLabs({
                           ...labStore.labs,

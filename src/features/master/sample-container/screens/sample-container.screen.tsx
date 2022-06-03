@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -54,7 +53,7 @@ const SampleContainer = SampleContainerHoc(
           });
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -259,9 +258,9 @@ const SampleContainer = SampleContainerHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : sampleContainerStore.sampleContainer
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -325,7 +324,7 @@ const SampleContainer = SampleContainerHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -334,7 +333,7 @@ const SampleContainer = SampleContainerHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update item!`,
+                  body: 'Update item!',
                 });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -343,7 +342,7 @@ const SampleContainer = SampleContainerHoc(
                   type: 'UpdateImage',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Record update!`,
+                  body: 'Record update!',
                 });
               }}
               onPageSizeChange={(page, limit) => {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -51,7 +50,7 @@ const Methods = MethodsHoc(
           });
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -255,8 +254,8 @@ const Methods = MethodsHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : methodsStore.methods?.environment || `Select`}
+                            ? 'Select'
+                            : methodsStore.methods?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -319,7 +318,7 @@ const Methods = MethodsHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -328,7 +327,7 @@ const Methods = MethodsHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update Section!`,
+                  body: 'Update Section!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -344,35 +343,40 @@ const Methods = MethodsHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                methodsStore.methodsService
-                  .deleteMethods({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeMethod.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeMethod.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      methodsStore.fetchMethods();
-                    }
-                  });
-              } else if (type === 'Update') {
-                methodsStore.methodsService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateMethod.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateMethod.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      methodsStore.fetchMethods();
-                    }
-                  });
+              switch (type) {
+                case 'Delete': {
+                  methodsStore.methodsService
+                    .deleteMethods({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeMethod.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeMethod.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        methodsStore.fetchMethods();
+                      }
+                    });
+                  break;
+                }
+                case 'Update': {
+                  methodsStore.methodsService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateMethod.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateMethod.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        methodsStore.fetchMethods();
+                      }
+                    });
+                  break;
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

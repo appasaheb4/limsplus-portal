@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -49,6 +48,7 @@ const ShortcutMenu = observer(() => {
       });
     });
     shortcutMenuStore.updateShortcutMenu(list);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onItemSelect = (item: any, index: number) => {
@@ -155,7 +155,7 @@ const ShortcutMenu = observer(() => {
                         shortcutMenuStore.updateDragDrop(false);
                       } else {
                         Toast.error({
-                          message: `😔Please try agian.`,
+                          message: '😔Please try agian.',
                         });
                       }
                     });
@@ -225,7 +225,7 @@ const ShortcutMenu = observer(() => {
                     });
                   } else {
                     Toast.error({
-                      message: `😔Please try agian.`,
+                      message: '😔Please try agian.',
                     });
                   }
                 });

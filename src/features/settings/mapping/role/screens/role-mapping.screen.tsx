@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -78,6 +77,7 @@ const RoleMapping = observer(() => {
           childernItem.title = childernItem.name;
           childernItem.toggle = false;
           childernItem.permission = permission;
+          // eslint-disable-next-line no-self-assign
           childernItem.icon = childernItem.icon;
           return childernItem;
         });
@@ -87,6 +87,7 @@ const RoleMapping = observer(() => {
     if (routers) {
       routerStore.updateRouter(routers);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -131,6 +132,7 @@ const RoleMapping = observer(() => {
                           childernItem.title = childernItem.name;
                           childernItem.toggle = false;
                           childernItem.permission = permission;
+                          // eslint-disable-next-line no-self-assign
                           childernItem.icon = childernItem.icon;
                           return childernItem;
                         }
@@ -149,7 +151,7 @@ const RoleMapping = observer(() => {
               <option selected>
                 {roleMappingStore.selectedRole
                   ? roleMappingStore.selectedRole.description
-                  : `Select`}
+                  : 'Select'}
               </option>
               {roleList.map((item: any, index: number) => (
                 <option key={index} value={index}>
@@ -430,6 +432,7 @@ const RoleMapping = observer(() => {
                               let children = isRouter.children.concat([
                                 toJS(item.children[indexChildern]),
                               ]);
+                              // eslint-disable-next-line unicorn/no-array-reduce
                               children = children.reduce((filtered, item) => {
                                 if (
                                   !filtered.some(

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
@@ -196,7 +195,9 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <select
                     value={row?.userGroup}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const userGroup = e.target.value;
                       props.onUpdateItem &&
@@ -673,12 +674,14 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                    }
                     onChange={e => {
                       const validationLevel = e.target.value;
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          parseInt(validationLevel),
+                          Number.parseInt(validationLevel),
                           column.dataField,
                           row._id,
                         );
@@ -1220,7 +1223,8 @@ export const UserList = observer((props: UserListProps) => {
                           });
                         } else {
                           Toast.error({
-                            message: `😔 Password re-send not successfully please try again.`,
+                            message:
+                              '😔 Password re-send not successfully please try again.',
                           });
                         }
                       });
@@ -1272,7 +1276,7 @@ export const UserList = observer((props: UserListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

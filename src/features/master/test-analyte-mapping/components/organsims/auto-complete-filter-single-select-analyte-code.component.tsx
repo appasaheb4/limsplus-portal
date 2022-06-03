@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import _ from 'lodash';
 import {observer} from 'mobx-react';
@@ -25,7 +24,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
                 masterAnalyteStore.listMasterAnalyte.filter(
                   item => item.lab === lab,
                 ),
-                v => [v.analyteName, v.analyteCode, v.lab].join(),
+                v => [v.analyteName, v.analyteCode, v.lab].join(','),
               ) || [],
             displayKey: ['analyteCode', 'analyteName'],
           }}

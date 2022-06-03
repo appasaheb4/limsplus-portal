@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -248,9 +247,9 @@ const SampleType = SampleTypeHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : sampleTypeStore.sampleType?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -314,7 +313,7 @@ const SampleType = SampleTypeHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -323,7 +322,7 @@ const SampleType = SampleTypeHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update items!`,
+                  body: 'Update items!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -339,35 +338,40 @@ const SampleType = SampleTypeHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                sampleTypeStore.sampleTypeService
-                  .deleteSampleType({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeSampleType.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeSampleType.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      sampleTypeStore.fetchSampleTypeList();
-                    }
-                  });
-              } else if (type === 'Update') {
-                sampleTypeStore.sampleTypeService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateSampleType.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateSampleType.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      sampleTypeStore.fetchSampleTypeList();
-                    }
-                  });
+              switch (type) {
+                case 'Delete': {
+                  sampleTypeStore.sampleTypeService
+                    .deleteSampleType({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeSampleType.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeSampleType.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        sampleTypeStore.fetchSampleTypeList();
+                      }
+                    });
+                  break;
+                }
+                case 'Update': {
+                  sampleTypeStore.sampleTypeService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateSampleType.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateSampleType.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        sampleTypeStore.fetchSampleTypeList();
+                      }
+                    });
+                  break;
+                }
               }
             }}
             onClose={() => {

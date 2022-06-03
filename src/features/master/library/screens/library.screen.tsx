@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -67,7 +66,7 @@ export const Library = LibraryHoc(
         // }, 2000)
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -101,7 +100,7 @@ export const Library = LibraryHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -110,7 +109,7 @@ export const Library = LibraryHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update item!`,
+              body: 'Update item!',
             });
           }}
           onVersionUpgrade={item => {
@@ -119,7 +118,7 @@ export const Library = LibraryHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -128,7 +127,7 @@ export const Library = LibraryHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -141,7 +140,15 @@ export const Library = LibraryHoc(
           }}
         />
       ),
-      [libraryStore.listLibrary],
+      [
+        departmentStore.listDepartment,
+        labStore.listLabs,
+        libraryStore,
+        lookupStore.listLookup,
+        masterPanelStore.listMasterPanel,
+        routerStore.lookupItems,
+        routerStore.userPermission,
+      ],
     );
 
     return (
@@ -826,7 +833,7 @@ export const Library = LibraryHoc(
                         onChange(loAge);
                         libraryStore.updateLibrary({
                           ...libraryStore.library,
-                          loAge: parseInt(loAge),
+                          loAge: Number.parseInt(loAge),
                         });
                       }}
                     />
@@ -849,7 +856,7 @@ export const Library = LibraryHoc(
                         onChange(hiAge);
                         libraryStore.updateLibrary({
                           ...libraryStore.library,
-                          hiAge: parseInt(hiAge),
+                          hiAge: Number.parseInt(hiAge),
                         });
                       }}
                     />
@@ -977,8 +984,8 @@ export const Library = LibraryHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : libraryStore.library?.environment || `Select`}
+                            ? 'Select'
+                            : libraryStore.library?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1025,35 +1032,41 @@ export const Library = LibraryHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                libraryStore.libraryService
-                  .deleteLibrary({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeLibrary.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeLibrary.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      libraryStore.fetchLibrary();
-                    }
-                  });
-              } else if (type === 'Update') {
-                libraryStore.libraryService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateLibrary.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateLibrary.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      libraryStore.fetchLibrary();
-                    }
-                  });
+              switch (type) {
+                case 'Delete': {
+                  libraryStore.libraryService
+                    .deleteLibrary({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeLibrary.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeLibrary.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        libraryStore.fetchLibrary();
+                      }
+                    });
+                  break;
+                }
+
+                case 'Update': {
+                  libraryStore.libraryService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateLibrary.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateLibrary.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        libraryStore.fetchLibrary();
+                      }
+                    });
+                  break;
+                }
               }
             }}
             onClose={() => {

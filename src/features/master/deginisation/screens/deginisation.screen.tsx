@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -195,9 +194,9 @@ const Deginisation = DeginisationHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : deginisationStore.deginisation?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -261,7 +260,7 @@ const Deginisation = DeginisationHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -270,7 +269,7 @@ const Deginisation = DeginisationHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update deginisation!`,
+                  body: 'Update deginisation!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -286,33 +285,39 @@ const Deginisation = DeginisationHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                deginisationStore.DeginisationService.deleteDeginisation({
-                  input: {id: modalConfirm.id},
-                }).then((res: any) => {
-                  if (res.removeDesignation.success) {
-                    Toast.success({
-                      message: `😊 ${res.removeDesignation.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    deginisationStore.fetchListDeginisation();
-                  }
-                });
-              } else if (type === 'Update') {
-                deginisationStore.DeginisationService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateDesignation.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateDesignation.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    deginisationStore.fetchListDeginisation();
-                  }
-                });
+              switch (type) {
+                case 'Delete': {
+                  deginisationStore.DeginisationService.deleteDeginisation({
+                    input: {id: modalConfirm.id},
+                  }).then((res: any) => {
+                    if (res.removeDesignation.success) {
+                      Toast.success({
+                        message: `😊 ${res.removeDesignation.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      deginisationStore.fetchListDeginisation();
+                    }
+                  });
+                  break;
+                }
+
+                case 'Update': {
+                  deginisationStore.DeginisationService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateDesignation.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateDesignation.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      deginisationStore.fetchListDeginisation();
+                    }
+                  });
+                  break;
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

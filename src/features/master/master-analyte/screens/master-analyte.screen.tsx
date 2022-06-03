@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -117,7 +116,7 @@ const MasterAnalyte = MasterAnalyteHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -146,7 +145,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -155,7 +154,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update item!`,
+              body: 'Update item!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -173,7 +172,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -182,7 +181,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -195,7 +194,12 @@ const MasterAnalyte = MasterAnalyteHoc(
           }}
         />
       ),
-      [masterAnalyteStore.listMasterAnalyte],
+      [
+        labStore.listLabs,
+        masterAnalyteStore,
+        routerStore.lookupItems,
+        routerStore.userPermission,
+      ],
     );
 
     return (
@@ -526,7 +530,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         onChange(price);
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
-                          price: parseFloat(price),
+                          price: Number.parseFloat(price),
                         });
                       }}
                     />
@@ -984,7 +988,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           onChange(picture);
                           masterAnalyteStore.updateMasterAnalyte({
                             ...masterAnalyteStore.masterAnalyte,
-                            picture: parseInt(picture),
+                            picture: Number.parseInt(picture),
                           });
                         }}
                       >
@@ -1339,7 +1343,8 @@ const MasterAnalyte = MasterAnalyteHoc(
                           });
                         } else {
                           Toast.warning({
-                            message: `😔 Only > and < sign and numbers should be allowed`,
+                            message:
+                              '😔 Only > and < sign and numbers should be allowed',
                           });
                         }
                       }}
@@ -1347,7 +1352,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   )}
                   name='minReportable'
                   rules={{
-                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    pattern: /^[0-9<>=\\-`.+,/"]*$/,
                     validate: value => FormHelper.isNumberAvailable(value),
                   }}
                   defaultValue=''
@@ -1370,7 +1375,8 @@ const MasterAnalyte = MasterAnalyteHoc(
                           });
                         } else {
                           Toast.warning({
-                            message: `😔 Only > and < sign and numbers should be allowed`,
+                            message:
+                              '😔 Only > and < sign and numbers should be allowed',
                           });
                         }
                       }}
@@ -1378,7 +1384,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   )}
                   name='maxReportable'
                   rules={{
-                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    pattern: /^[0-9<>=\\-`.+,/"]*$/,
                     validate: value => FormHelper.isNumberAvailable(value),
                   }}
                   defaultValue=''
@@ -1486,9 +1492,9 @@ const MasterAnalyte = MasterAnalyteHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : masterAnalyteStore.masterAnalyte?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1537,78 +1543,95 @@ const MasterAnalyte = MasterAnalyteHoc(
             {...modalConfirm}
             click={(type?: string) => {
               setModalConfirm({show: false});
-              if (type === 'Delete') {
-                masterAnalyteStore.masterAnalyteService
-                  .deleteAnalyteMaster({input: {id: modalConfirm.id}})
-                  .then(res => {
-                    if (res.removeAnalyteMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeAnalyteMaster.message}`,
-                      });
-                      masterAnalyteStore.fetchAnalyteMaster();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  masterAnalyteStore.masterAnalyteService
+                    .deleteAnalyteMaster({input: {id: modalConfirm.id}})
+                    .then(res => {
+                      if (res.removeAnalyteMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeAnalyteMaster.message}`,
+                        });
+                        masterAnalyteStore.fetchAnalyteMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  masterAnalyteStore.masterAnalyteService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateAnalyteMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateAnalyteMaster.message}`,
+                        });
+                        masterAnalyteStore.fetchAnalyteMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'updateFileds': {
+                  masterAnalyteStore.masterAnalyteService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateAnalyteMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateAnalyteMaster.message}`,
+                        });
+                        masterAnalyteStore.fetchAnalyteMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  masterAnalyteStore.updateMasterAnalyte({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'Update') {
-                masterAnalyteStore.masterAnalyteService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateAnalyteMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateAnalyteMaster.message}`,
-                      });
-                      masterAnalyteStore.fetchAnalyteMaster();
-                    }
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('analyteCode', modalConfirm.data.analyteCode);
+                  setValue('analyteName', modalConfirm.data.analyteName);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                case 'duplicate': {
+                  masterAnalyteStore.updateMasterAnalyte({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'updateFileds') {
-                masterAnalyteStore.masterAnalyteService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateAnalyteMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateAnalyteMaster.message}`,
-                      });
-                      masterAnalyteStore.fetchAnalyteMaster();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                masterAnalyteStore.updateMasterAnalyte({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                setValue('lab', modalConfirm.data.lab);
-                setValue('analyteCode', modalConfirm.data.analyteCode);
-                setValue('analyteName', modalConfirm.data.analyteName);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-              } else if (type === 'duplicate') {
-                masterAnalyteStore.updateMasterAnalyte({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version),
-                  dateActive: new Date(),
-                });
-                setHideAddLab(!hideAddLab);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('analyteCode', modalConfirm.data.analyteCode);
-                setValue('analyteName', modalConfirm.data.analyteName);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
+                  setHideAddLab(!hideAddLab);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('analyteCode', modalConfirm.data.analyteCode);
+                  setValue('analyteName', modalConfirm.data.analyteName);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {

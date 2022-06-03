@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -23,6 +22,7 @@ export const AutoCompleteDepartment = observer(
         ...environmentStore.selectedItems,
         department: data?.department,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, selected]);
 
     return (
@@ -32,10 +32,8 @@ export const AutoCompleteDepartment = observer(
             value={environmentStore.permission?.allDepartment || false}
             disabled={!environmentStore.permission?.allDepartment || false}
             onChange={allDepartment => {
-              if (!defaultData?.allDepartment) {
-                if (allDepartment) {
-                  onUpdate({allDepartment});
-                }
+              if (!defaultData?.allDepartment && allDepartment) {
+                onUpdate({allDepartment});
               }
               setData({
                 ...data,

@@ -41,6 +41,7 @@ export const AutoCompleteFilterSingleSelectCity = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
 
@@ -59,6 +60,7 @@ export const AutoCompleteFilterSingleSelectCity = observer(
           'city',
         ),
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [administrativeDivisions.listAdministrativeDiv]);
 
     const onFilter = (value: string) => {

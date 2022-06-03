@@ -43,6 +43,7 @@ export const AutoCompleteFilterSingleSelectArea = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
 
@@ -62,6 +63,7 @@ export const AutoCompleteFilterSingleSelectArea = observer(
           'area',
         ),
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [administrativeDivisions.listAdministrativeDiv]);
 
     const onFilter = (value: string) => {

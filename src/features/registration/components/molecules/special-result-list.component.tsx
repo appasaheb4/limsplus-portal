@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 // import {lookupItems} from "@/library/utils"
@@ -118,7 +117,7 @@ export const SpecialResultList = observer((props: SpecialResultProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

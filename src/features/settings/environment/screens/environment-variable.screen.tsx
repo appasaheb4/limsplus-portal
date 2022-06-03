@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {Toast, Buttons, Grid, List, Form, Svg} from '@/library/components';
@@ -331,7 +330,7 @@ export const EnvironmentVariable = observer(
                   type: 'delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -341,7 +340,7 @@ export const EnvironmentVariable = observer(
                   type: 'update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update recoard!`,
+                  body: 'Update recoard!',
                 });
             }}
             onPageSizeChange={(page, limit) => {

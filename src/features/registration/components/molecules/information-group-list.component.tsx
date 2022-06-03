@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -119,7 +118,9 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
                 <>
                   <>
                     <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const infoType = e.target.value;
                         props.onUpdateItem &&
@@ -299,7 +300,9 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
                 <>
                   <>
                     <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const status = e.target.value;
                         props.onUpdateItem &&
@@ -340,7 +343,7 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

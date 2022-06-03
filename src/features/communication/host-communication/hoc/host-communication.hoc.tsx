@@ -11,6 +11,7 @@ export const HostCommunicationHoc = (Component: React.FC<any>) => {
     socket = io('restapi-hosturl'.split('/api')[0], {
       transports: ['websocket'],
     });
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       socket.on('hostCommunicationSendDataToInstrument', data => {
         hostCommunicationStore.updateHostCommuication({
@@ -25,7 +26,7 @@ export const HostCommunicationHoc = (Component: React.FC<any>) => {
           txtDataReceivefromInstrument: data,
         });
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return <Component {...props} />;

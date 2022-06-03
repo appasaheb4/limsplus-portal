@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import {useForm, Controller} from 'react-hook-form';
@@ -16,7 +15,7 @@ import {
 import {lookupItems, lookupValue} from '@/library/utils';
 
 import {dashboardRouter as dashboardRoutes} from '@/routes';
-let router = dashboardRoutes;
+const router = dashboardRoutes;
 import {DocumentSettingHoc} from '../hoc';
 import {useStores} from '@/stores';
 
@@ -53,7 +52,7 @@ export const DocumentSettings = DocumentSettingHoc(
         });
       } else {
         Toast.warning({
-          message: `😔 Please add code and value then submit.`,
+          message: '😔 Please add code and value then submit.',
         });
       }
     };
@@ -199,7 +198,7 @@ export const DocumentSettings = DocumentSettingHoc(
                     }}
                   >
                     <Icons.EvaIcon icon='plus-circle-outline' />
-                    {`Add`}
+                    {'Add'}
                   </Buttons.Button>
                 </div>
                 <div className='clearfix'></div>
@@ -324,8 +323,8 @@ export const DocumentSettings = DocumentSettingHoc(
                   >
                     <option selected>
                       {loginStore.login && loginStore.login.role !== 'SYSADMIN'
-                        ? `Select`
-                        : lookupStore.lookup?.environment || `Select`}
+                        ? 'Select'
+                        : lookupStore.lookup?.environment || 'Select'}
                     </option>
                     {lookupItems(routerStore.lookupItems, 'ENVIRONMENT').map(
                       (item: any, index: number) => (

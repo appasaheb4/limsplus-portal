@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -188,8 +187,8 @@ const Role = RolesHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : roleStore.role?.environment || `Select`}
+                            ? 'Select'
+                            : roleStore.role?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -253,7 +252,7 @@ const Role = RolesHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -262,7 +261,7 @@ const Role = RolesHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update role!`,
+                  body: 'Update role!',
                 });
               }}
               onPageSizeChange={(page, limit) => {

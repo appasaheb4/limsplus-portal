@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 
@@ -193,7 +192,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

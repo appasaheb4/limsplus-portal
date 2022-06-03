@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
@@ -141,13 +140,13 @@ export const PatientTestExpandByTestId = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
-  let searchProps: any = {
+  const searchProps: any = {
     placeholder: searchPlaceholder,
   };
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
-        let itemSelected: any[] = selectedRow;
+        const itemSelected: any[] = selectedRow;
         itemSelected.push(rows);
         setSelectedRow(itemSelected);
       } else {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';

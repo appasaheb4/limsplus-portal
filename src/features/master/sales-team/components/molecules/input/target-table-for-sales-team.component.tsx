@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useRef, useState} from 'react';
 import {Table} from 'reactstrap';
 import {
@@ -148,7 +147,9 @@ export const TargetTableForSalesTeam = observer(
                   >
                     {!displayTargetSale && (
                       <span
-                        className={`leading-4 p-2 h-11 focus:outline-none focus:ring block w-30 shadow-sm sm:text-base border-2 rounded-md`}
+                        className={
+                          'leading-4 p-2 h-11 focus:outline-none focus:ring block w-30 shadow-sm sm:text-base border-2 rounded-md'
+                        }
                       >
                         {item.targetSale}
                       </span>
@@ -161,14 +162,16 @@ export const TargetTableForSalesTeam = observer(
                             label=''
                             type='number'
                             placeholder={item.targetSale}
-                            className={`leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md`}
+                            className={
+                              'leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md'
+                            }
                             hasError={errors.targetSale}
                             onChange={targetSale => {
                               onChange(targetSale);
                               // const targets = salesTeamStore.salesTeam?.targets;
                               targetSaleTable.current[index] = {
                                 ...targetSaleTable.current[index],
-                                targetSale: parseFloat(targetSale),
+                                targetSale: Number.parseFloat(targetSale),
                               };
                               // salesTeamStore.updateSalesTeam({
                               //   ...salesTeamStore.salesTeam,

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -119,7 +118,7 @@ const MasterPanel = MasterPanelHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -153,7 +152,7 @@ const MasterPanel = MasterPanelHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -162,7 +161,7 @@ const MasterPanel = MasterPanelHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update record!`,
+              body: 'Update record!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -171,7 +170,7 @@ const MasterPanel = MasterPanelHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onVersionUpgrade={item => {
@@ -180,7 +179,7 @@ const MasterPanel = MasterPanelHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -189,7 +188,7 @@ const MasterPanel = MasterPanelHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -202,7 +201,16 @@ const MasterPanel = MasterPanelHoc(
           }}
         />
       ),
-      [masterPanelStore.listMasterPanel],
+      [
+        deliveryScheduleStore.listDeliverySchedule,
+        departmentStore.listDepartment,
+        labStore.listLabs,
+        loginStore.login?.labList,
+        masterPanelStore,
+        methodsStore.listMethods,
+        routerStore.lookupItems,
+        routerStore.userPermission,
+      ],
     );
 
     return (
@@ -657,7 +665,7 @@ const MasterPanel = MasterPanelHoc(
                         onChange(price);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
-                          price: parseFloat(price),
+                          price: Number.parseFloat(price),
                         });
                       }}
                     />
@@ -731,7 +739,7 @@ const MasterPanel = MasterPanelHoc(
                           onChange(validationLevel);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
-                            validationLevel: parseInt(validationLevel),
+                            validationLevel: Number.parseInt(validationLevel),
                           });
                         }}
                       >
@@ -901,7 +909,7 @@ const MasterPanel = MasterPanelHoc(
                         onChange(reportOrder);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
-                          reportOrder: parseInt(reportOrder),
+                          reportOrder: Number.parseInt(reportOrder),
                         });
                       }}
                     />
@@ -1182,7 +1190,8 @@ const MasterPanel = MasterPanelHoc(
                           });
                         } else {
                           Toast.warning({
-                            message: `😔 Only > and < sign and numbers should be allowed`,
+                            message:
+                              '😔 Only > and < sign and numbers should be allowed',
                           });
                         }
                       }}
@@ -1196,7 +1205,7 @@ const MasterPanel = MasterPanelHoc(
                       !masterPanelStore.masterPanel?.hiAge
                         ? true
                         : false,
-                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    pattern: /^[0-9<>=\\-`.+,/"]*$/,
                     validate: value => FormHelper.isNumberAvailable(value),
                   }}
                   defaultValue=''
@@ -1222,7 +1231,8 @@ const MasterPanel = MasterPanelHoc(
                           });
                         } else {
                           Toast.warning({
-                            message: `😔 Only > and < sign and numbers should be allowed`,
+                            message:
+                              '😔 Only > and < sign and numbers should be allowed',
                           });
                         }
                       }}
@@ -1231,7 +1241,7 @@ const MasterPanel = MasterPanelHoc(
                   name='hiAge'
                   rules={{
                     required: false,
-                    pattern: /^[0-9<>=\\-`.+,/\"]*$/,
+                    pattern: /^[0-9<>=\\-`.+,/"]*$/,
                     validate: value => FormHelper.isNumberAvailable(value),
                   }}
                   defaultValue=''
@@ -1698,9 +1708,9 @@ const MasterPanel = MasterPanelHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : masterPanelStore.masterPanel?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1789,87 +1799,104 @@ const MasterPanel = MasterPanelHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                masterPanelStore.masterPanelService
-                  .deletePanelMaster({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removePanelMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.removePanelMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      masterPanelStore.fetchPanelMaster();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  masterPanelStore.masterPanelService
+                    .deletePanelMaster({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removePanelMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.removePanelMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        masterPanelStore.fetchPanelMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  masterPanelStore.masterPanelService
+                    .updateFileds({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePanelMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updatePanelMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        masterPanelStore.fetchPanelMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  masterPanelStore.masterPanelService
+                    .updateFileds({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePanelMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updatePanelMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        masterPanelStore.fetchPanelMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  masterPanelStore.updateMasterPanel({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'Update') {
-                masterPanelStore.masterPanelService
-                  .updateFileds({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePanelMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePanelMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      masterPanelStore.fetchPanelMaster();
-                    }
+                  setValue('rLab', modalConfirm.data.rLab);
+                  setValue('pLab', modalConfirm.data.pLab);
+                  setValue('panelCode', modalConfirm.data.panelCode);
+                  setValue('panelName', modalConfirm.data.panelName);
+                  setValue('department', modalConfirm.data.department);
+                  setValue('serviceType', modalConfirm.data.serviceType);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                case 'duplicate': {
+                  masterPanelStore.updateMasterPanel({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'UpdateFileds') {
-                masterPanelStore.masterPanelService
-                  .updateFileds({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePanelMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePanelMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      masterPanelStore.fetchPanelMaster();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                masterPanelStore.updateMasterPanel({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setValue('rLab', modalConfirm.data.rLab);
-                setValue('pLab', modalConfirm.data.pLab);
-                setValue('panelCode', modalConfirm.data.panelCode);
-                setValue('panelName', modalConfirm.data.panelName);
-                setValue('department', modalConfirm.data.department);
-                setValue('serviceType', modalConfirm.data.serviceType);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
-              } else if (type === 'duplicate') {
-                masterPanelStore.updateMasterPanel({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setHideAddLab(!hideAddLab);
-                setValue('rLab', modalConfirm.data.rLab);
-                setValue('pLab', modalConfirm.data.pLab);
-                setValue('panelCode', modalConfirm.data.panelCode);
-                setValue('panelName', modalConfirm.data.panelName);
-                setValue('department', modalConfirm.data.department);
-                setValue('serviceType', modalConfirm.data.serviceType);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
+                  setHideAddLab(!hideAddLab);
+                  setValue('rLab', modalConfirm.data.rLab);
+                  setValue('pLab', modalConfirm.data.pLab);
+                  setValue('panelCode', modalConfirm.data.panelCode);
+                  setValue('panelName', modalConfirm.data.panelName);
+                  setValue('department', modalConfirm.data.department);
+                  setValue('serviceType', modalConfirm.data.serviceType);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {
