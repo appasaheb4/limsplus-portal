@@ -35,6 +35,7 @@ export const LIST = gql`
         urgent
         reportGroup
         accredited
+        abnFlag
         cretical
         processing
         repitation
@@ -63,6 +64,7 @@ export const LIST = gql`
         allowPartial
         collectionContainer
         interpretation
+        testResultDate
         status
         environment
         dateOfEntry
@@ -161,6 +163,7 @@ export const FILTER = gql`
         urgent
         reportGroup
         accredited
+        abnFlag
         cretical
         processing
         repitation
@@ -189,6 +192,7 @@ export const FILTER = gql`
         allowPartial
         collectionContainer
         interpretation
+        testResultDate
         status
         environment
         dateOfEntry
@@ -233,6 +237,7 @@ export const FILTER_BY_FIELDS = gql`
         urgent
         reportGroup
         accredited
+        abnFlag
         cretical
         processing
         repitation
@@ -261,6 +266,7 @@ export const FILTER_BY_FIELDS = gql`
         allowPartial
         collectionContainer
         interpretation
+        testResultDate
         status
         environment
         dateOfEntry
@@ -305,6 +311,7 @@ export const FIND_BY_FIELDS = gql`
         urgent
         reportGroup
         accredited
+        abnFlag
         cretical
         processing
         repitation
@@ -333,6 +340,7 @@ export const FIND_BY_FIELDS = gql`
         allowPartial
         collectionContainer
         interpretation
+        testResultDate
         status
         environment
         dateOfEntry

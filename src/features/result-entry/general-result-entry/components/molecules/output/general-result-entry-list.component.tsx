@@ -70,11 +70,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           numberHi,
         );
         break;
-      case 'D' || 'L' || 'F' || 'M':
-        return row?.abnFlag ? 'A' : 'N';
-        break;
-
       default:
+        return row?.abnFlag ? 'A' : 'N';
         break;
     }
   };
@@ -95,12 +92,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         );
         return getStatus('testStatus', type, numberResult, numberLo, numberHi);
         break;
-
-      case 'D' || 'L' || 'F' || 'M':
-        return row?.abnFlag ? 'A' : 'N';
-        break;
-
       default:
+        return row?.abnFlag ? 'A' : 'N';
         break;
     }
   };
