@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
@@ -226,7 +225,9 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               ) => (
                 <>
                   <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                    }
                     onChange={e => {
                       const title = e.target.value;
                       props.onUpdateItem &&
@@ -451,7 +452,9 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               ) => (
                 <>
                   <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const usualDoctor = e.target.value;
                       props.onUpdateItem &&
@@ -518,7 +521,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete record`,
+                            body: 'Delete record',
                           })
                         }
                       >

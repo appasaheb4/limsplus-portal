@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import _ from 'lodash';
 import {observer} from 'mobx-react';
@@ -29,7 +28,7 @@ export const AutoCompleteDepartment = observer(
           limit: 10,
         },
       });
-    }, []);
+    }, [departmentCode, departmentStore.DepartmentService]);
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay

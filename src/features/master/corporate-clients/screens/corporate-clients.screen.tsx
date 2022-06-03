@@ -1,4 +1,3 @@
-
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -1652,80 +1651,97 @@ const CorporateClients = CorporateClientsHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                corporateClientsStore.corporateClientsService
-                  .deleteCorporateClients({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeCorporateClient.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeCorporateClient.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      corporateClientsStore.fetchCorporateClients();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  corporateClientsStore.corporateClientsService
+                    .deleteCorporateClients({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeCorporateClient.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeCorporateClient.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        corporateClientsStore.fetchCorporateClients();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  corporateClientsStore.corporateClientsService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateCorporateClient.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateCorporateClient.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        corporateClientsStore.fetchCorporateClients();
+                      }
+                    });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  corporateClientsStore.corporateClientsService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateCorporateClient.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateCorporateClient.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        corporateClientsStore.fetchCorporateClients();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  corporateClientsStore.updateCorporateClients({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'Update') {
-                corporateClientsStore.corporateClientsService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateCorporateClient.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateCorporateClient.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      corporateClientsStore.fetchCorporateClients();
-                    }
+                  setValue('corporateCode', modalConfirm.data.corporateCode);
+                  setValue('corporateName', modalConfirm.data.corporateName);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+                  //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
+
+                  break;
+                }
+                case 'duplicate': {
+                  corporateClientsStore.updateCorporateClients({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'UpdateFileds') {
-                corporateClientsStore.corporateClientsService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateCorporateClient.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateCorporateClient.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      corporateClientsStore.fetchCorporateClients();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                corporateClientsStore.updateCorporateClients({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                setValue('corporateCode', modalConfirm.data.corporateCode);
-                setValue('corporateName', modalConfirm.data.corporateName);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
-                //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
-              } else if (type === 'duplicate') {
-                corporateClientsStore.updateCorporateClients({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                setHideAddSection(!hideAddSection);
-                setValue('corporateCode', modalConfirm.data.corporateCode);
-                setValue('corporateName', modalConfirm.data.corporateName);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
+                  setHideAddSection(!hideAddSection);
+                  setValue('corporateCode', modalConfirm.data.corporateCode);
+                  setValue('corporateName', modalConfirm.data.corporateName);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => setModalConfirm({show: false})}

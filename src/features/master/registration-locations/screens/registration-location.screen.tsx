@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -130,7 +129,7 @@ const RegistrationLocation = RegistrationLocationHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code!`,
+          message: '😔 Please enter diff code!',
         });
       }
     };
@@ -162,7 +161,7 @@ const RegistrationLocation = RegistrationLocationHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -171,7 +170,7 @@ const RegistrationLocation = RegistrationLocationHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update Section!`,
+              body: 'Update Section!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -180,7 +179,7 @@ const RegistrationLocation = RegistrationLocationHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onVersionUpgrade={item => {
@@ -189,7 +188,7 @@ const RegistrationLocation = RegistrationLocationHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -198,7 +197,7 @@ const RegistrationLocation = RegistrationLocationHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -211,7 +210,13 @@ const RegistrationLocation = RegistrationLocationHoc(
           }}
         />
       ),
-      [registrationLocationsStore.listRegistrationLocations],
+      [
+        administrativeDivisions.listAdministrativeDiv,
+        loginStore.login?.labList,
+        registrationLocationsStore,
+        routerStore.lookupItems,
+        routerStore.userPermission,
+      ],
     );
 
     return (
@@ -761,7 +766,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               district: '',
                               city: '',
                               area: '',
-                              postalCode: parseInt(''),
+                              postalCode: Number.parseInt(''),
                             },
                           );
                         }}
@@ -829,7 +834,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               district: '',
                               city: '',
                               area: '',
-                              postalCode: parseInt(''),
+                              postalCode: Number.parseInt(''),
                             },
                           );
                         }}
@@ -902,7 +907,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               district: item?.district?.toUpperCase(),
                               city: '',
                               area: '',
-                              postalCode: parseInt(''),
+                              postalCode: Number.parseInt(''),
                             },
                           );
                         }}
@@ -983,7 +988,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               ...registrationLocationsStore.registrationLocations,
                               city: item?.city?.toUpperCase(),
                               area: '',
-                              postalCode: parseInt(''),
+                              postalCode: Number.parseInt(''),
                             },
                           );
                         }}
@@ -1069,7 +1074,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             {
                               ...registrationLocationsStore.registrationLocations,
                               area: item?.area?.toUpperCase(),
-                              postalCode: parseInt(''),
+                              postalCode: Number.parseInt(''),
                             },
                           );
                         }}
@@ -1160,7 +1165,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
-                              postalCode: parseInt(item?.postalCode),
+                              postalCode: Number.parseInt(item?.postalCode),
                               zone: item?.zone,
                               sbu: item?.sbu,
                             },
@@ -1809,9 +1814,9 @@ const RegistrationLocation = RegistrationLocationHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : registrationLocationsStore.registrationLocations
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -2003,81 +2008,98 @@ const RegistrationLocation = RegistrationLocationHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                registrationLocationsStore.registrationLocationsService
-                  .deleteRegistrationLocations({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeRegistrationLocation.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeRegistrationLocation.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      registrationLocationsStore.fetchRegistrationLocations();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  registrationLocationsStore.registrationLocationsService
+                    .deleteRegistrationLocations({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeRegistrationLocation.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeRegistrationLocation.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        registrationLocationsStore.fetchRegistrationLocations();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  registrationLocationsStore.registrationLocationsService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateRegistrationLocation.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateRegistrationLocation.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        registrationLocationsStore.fetchRegistrationLocations();
+                      }
+                    });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  registrationLocationsStore.registrationLocationsService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateRegistrationLocation.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateRegistrationLocation.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        registrationLocationsStore.fetchRegistrationLocations();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  registrationLocationsStore.updateRegistrationLocations({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'Update') {
-                registrationLocationsStore.registrationLocationsService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateRegistrationLocation.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateRegistrationLocation.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      registrationLocationsStore.fetchRegistrationLocations();
-                    }
+                  setValue('locationCode', modalConfirm.data.locationCode);
+                  setValue('locationName', modalConfirm.data.locationName);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                case 'duplicate': {
+                  registrationLocationsStore.updateRegistrationLocations({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'UpdateFileds') {
-                registrationLocationsStore.registrationLocationsService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateRegistrationLocation.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateRegistrationLocation.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      registrationLocationsStore.fetchRegistrationLocations();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                registrationLocationsStore.updateRegistrationLocations({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setValue('locationCode', modalConfirm.data.locationCode);
-                setValue('locationName', modalConfirm.data.locationName);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
-              } else if (type === 'duplicate') {
-                registrationLocationsStore.updateRegistrationLocations({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setHideAddSection(!hideAddSection);
-                setValue('locationCode', modalConfirm.data.locationCode);
-                setValue('locationName', modalConfirm.data.locationName);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
+                  setHideAddSection(!hideAddSection);
+                  setValue('locationCode', modalConfirm.data.locationCode);
+                  setValue('locationName', modalConfirm.data.locationName);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => setModalConfirm({show: false})}

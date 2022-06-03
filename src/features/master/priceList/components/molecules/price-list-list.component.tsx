@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
@@ -622,7 +621,7 @@ export const PriceListList = (props: PriceListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

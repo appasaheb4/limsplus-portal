@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import _ from 'lodash';
 import {observer} from 'mobx-react';

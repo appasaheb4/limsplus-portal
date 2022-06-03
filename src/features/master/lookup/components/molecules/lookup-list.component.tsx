@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect} from 'react';
 import _ from 'lodash';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -228,7 +227,7 @@ export const LookupList = (props: LookupListProps) => {
                       }}
                     >
                       <Icons.EvaIcon icon='plus-circle-outline' />
-                      {`Add`}
+                      {'Add'}
                     </Buttons.Button>
                   </div>
                   <div className='clearfix'></div>
@@ -325,7 +324,9 @@ export const LookupList = (props: LookupListProps) => {
             ) => (
               <>
                 <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                  }
                   onChange={e => {
                     if (e.target.value === 'removeItem') {
                       return (
@@ -420,7 +421,7 @@ export const LookupList = (props: LookupListProps) => {
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >

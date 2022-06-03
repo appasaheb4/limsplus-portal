@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {makeObservable, action, observable} from 'mobx';
 import Session from '@/library/modules/session';
 import {stores} from '@/stores';

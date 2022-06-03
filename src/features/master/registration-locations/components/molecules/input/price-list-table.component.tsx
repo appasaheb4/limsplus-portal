@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {
@@ -14,7 +13,7 @@ import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 
-export const PriceListTable = observer(({}) => {
+export const PriceListTable = observer(() => {
   const {
     loading,
     registrationLocationsStore,
@@ -31,7 +30,8 @@ export const PriceListTable = observer(({}) => {
   } = useForm();
 
   const addItem = () => {
-    let priceList = registrationLocationsStore.registrationLocations?.priceList;
+    const priceList =
+      registrationLocationsStore.registrationLocations?.priceList;
     priceList.push({
       id:
         registrationLocationsStore.registrationLocations?.priceList.length + 1,
@@ -262,7 +262,9 @@ export const PriceListTable = observer(({}) => {
                         value={item?.priority}
                         type='number'
                         placeholder='Priority'
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        className={
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                        }
                         hasError={errors.priority}
                         onChange={priority => {
                           onChange(priority);
@@ -271,7 +273,7 @@ export const PriceListTable = observer(({}) => {
                               ?.priceList;
                           priceList[index] = {
                             ...priceList[index],
-                            priority: parseInt(priority),
+                            priority: Number.parseInt(priority),
                           };
                           registrationLocationsStore.updateRegistrationLocations(
                             {
@@ -295,7 +297,9 @@ export const PriceListTable = observer(({}) => {
                         label=''
                         type='number'
                         placeholder={item?.maxDis?.toString()}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        className={
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                        }
                         hasError={errors.maxDis}
                         onChange={maxDis => {
                           onChange(maxDis);
@@ -304,7 +308,7 @@ export const PriceListTable = observer(({}) => {
                               ?.priceList;
                           priceList[index] = {
                             ...priceList[index],
-                            maxDis: parseFloat(maxDis),
+                            maxDis: Number.parseFloat(maxDis),
                           };
                           registrationLocationsStore.updateRegistrationLocations(
                             {

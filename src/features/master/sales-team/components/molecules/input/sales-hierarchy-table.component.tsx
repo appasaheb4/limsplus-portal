@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {
@@ -45,10 +44,11 @@ export const SalesHierarchyTable = observer(
 
     useEffect(() => {
       loadEmployee();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const addItem = () => {
-      let salesHierarchy = salesTeamStore.salesTeam?.salesHierarchy;
+      const salesHierarchy = salesTeamStore.salesTeam?.salesHierarchy;
       salesHierarchy.push({
         id: salesTeamStore.salesTeam?.salesHierarchy.length + 1,
       });

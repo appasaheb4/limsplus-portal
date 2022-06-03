@@ -1,13 +1,13 @@
 import {makeObservable, action, observable} from 'mobx';
-import * as LibraryModels from '../library/models';
+import {SelectedCategory, SelectedComponent} from '../library/models';
 
 export class RouterStore {
   userRouter!: any[];
-  selectedUserCategory!: LibraryModels.SelectedCategory;
+  selectedUserCategory!: SelectedCategory;
   userPermission: any[];
-  selectedCategory!: LibraryModels.SelectedCategory;
+  selectedCategory!: SelectedCategory;
   router: any;
-  selectedComponents!: LibraryModels.SelectedComponent;
+  selectedComponents!: SelectedComponent;
   lookupItems: Array<any>;
 
   constructor() {
@@ -43,11 +43,11 @@ export class RouterStore {
     this.userPermission = permission;
   }
 
-  updateSelectedCategory(category: LibraryModels.SelectedCategory) {
+  updateSelectedCategory(category: SelectedCategory) {
     this.selectedUserCategory = category;
     this.selectedCategory = category;
   }
-  updateSelectedComponents(comp: LibraryModels.SelectedComponent) {
+  updateSelectedComponents(comp: SelectedComponent) {
     this.selectedComponents = comp;
   }
   updateLookupItems(items: any) {

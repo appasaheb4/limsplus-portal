@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
@@ -116,7 +115,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     {row.extraData?.invoiceAc && (
                       <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        className={
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                        }
                         disabled={true}
                         value={row.extraData?.invoiceAc}
                         onChange={e => {
@@ -171,7 +172,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row.extraData?.billingMethod}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const billingMethod = e.target.value;
                         props.onUpdateItem &&
@@ -239,7 +242,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row.extraData?.methodCollection}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                      }
                       onChange={e => {
                         const methodCollection = e.target.value;
                         props.onUpdateItem &&
@@ -521,7 +526,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row.extraData?.approvalStatus}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const approvalStatus = e.target.value;
                         props.onUpdateItem &&
@@ -571,7 +578,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row.extraData?.reportStatus}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 } rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 } rounded-md'
+                      }
                       onChange={e => {
                         const reportStatus = e.target.value;
                         props.onUpdateItem &&
@@ -716,7 +725,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row.extraData?.archieve}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const archieve = e.target.value;
                         props.onUpdateItem &&
@@ -769,7 +780,9 @@ export const ExtraDataPatientVisitList = observer(
                     <select
                       value={row.extraData?.loginInterface}
                       disabled={true}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const loginInterface = e.target.value;
                         props.onUpdateItem &&
@@ -821,7 +834,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row.extraData?.registrationInterface}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const registrationInterface = e.target.value;
                         props.onUpdateItem &&
@@ -921,7 +936,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row?.extraData?.accountType}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const accountType = e.target.value;
                         props.onUpdateItem &&
@@ -973,7 +990,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row?.extraData?.deliveryMethod}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const deliveryMethod = e.target.value;
                         props.onUpdateItem &&
@@ -1023,7 +1042,9 @@ export const ExtraDataPatientVisitList = observer(
                   <>
                     <select
                       value={row.extraData?.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const environment = e.target.value;
                         props.onUpdateItem &&
@@ -1067,7 +1088,7 @@ export const ExtraDataPatientVisitList = observer(
                               show: true,
                               id: [row._id],
                               title: 'Are you sure?',
-                              body: `Delete item`,
+                              body: 'Delete item',
                             })
                           }
                         >

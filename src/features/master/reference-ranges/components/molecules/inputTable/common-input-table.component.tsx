@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import dayjs from 'dayjs';
@@ -83,10 +82,11 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       default:
         break;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refernceRangesStore.referenceRanges?.rangeSetOn]);
 
   const addItem = () => {
-    let refRangesInputList =
+    const refRangesInputList =
       refernceRangesStore.referenceRanges?.refRangesInputList;
     refRangesInputList.push({
       rangeId:
@@ -110,7 +110,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       ),
       enterBy: loginStore.login.userId,
       status: 'A',
-      environment: getDefaultLookupItem(routerStore.lookupItems, `ENVIRONMENT`),
+      environment: getDefaultLookupItem(routerStore.lookupItems, 'ENVIRONMENT'),
       type: 'insert',
     });
     refernceRangesStore.updateReferenceRanges({
@@ -449,7 +449,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
         onClick={handleSubmit(addItem)}
       >
         <Icons.EvaIcon icon='plus-circle-outline' />
-        {`Add`}
+        {'Add'}
       </Buttons.Button>
     </div>
   );

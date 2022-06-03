@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Container} from 'reactstrap';
 import _ from 'lodash';
@@ -48,6 +47,7 @@ export const ModalReportOrder = observer(
             ),
           );
         });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [panelCode]);
 
     return (
@@ -139,7 +139,9 @@ export const ModalReportOrder = observer(
                             <td style={{width: 150}}>
                               {txtDisable ? (
                                 <span
-                                  className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
+                                  className={
+                                    'leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md'
+                                  }
                                 >
                                   {item.reportOrder}
                                 </span>
@@ -149,7 +151,8 @@ export const ModalReportOrder = observer(
                                   disabled={txtDisable}
                                   placeholder={item.reportOrder}
                                   onChange={seq => {
-                                    order[index].reportOrder = parseInt(seq);
+                                    order[index].reportOrder =
+                                      Number.parseInt(seq);
                                   }}
                                 />
                               )}

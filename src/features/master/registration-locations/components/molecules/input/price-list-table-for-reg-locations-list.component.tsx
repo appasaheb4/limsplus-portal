@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState, useRef} from 'react';
 import {Table} from 'reactstrap';
 import {
@@ -260,13 +259,15 @@ export const PriceListTableForRegLocationsList = observer(
                           value={item?.priority}
                           type='number'
                           placeholder='Priority'
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                          className={
+                            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                          }
                           hasError={errors.priority}
                           onChange={priority => {
                             onChange(priority);
                             priceList.current[index] = {
                               ...priceList.current[index],
-                              priority: parseInt(priority),
+                              priority: Number.parseInt(priority),
                             };
                           }}
                         />
@@ -284,13 +285,15 @@ export const PriceListTableForRegLocationsList = observer(
                           label=''
                           type='number'
                           placeholder={item?.maxDis?.toString()}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                          className={
+                            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                          }
                           hasError={errors.maxDis}
                           onChange={maxDis => {
                             onChange(maxDis);
                             priceList.current[index] = {
                               ...priceList.current[index],
-                              maxDis: parseFloat(maxDis),
+                              maxDis: Number.parseFloat(maxDis),
                             };
                           }}
                         />

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
@@ -97,7 +96,7 @@ export const PatientVisit = PatientVisitHoc(
           });
       } else {
         Toast.warning({
-          message: `😔 Please enter diff visitId or labId`,
+          message: '😔 Please enter diff visitId or labId',
         });
       }
     };
@@ -167,7 +166,7 @@ export const PatientVisit = PatientVisitHoc(
                         onChange(labId);
                         patientVisitStore.updatePatientVisit({
                           ...patientVisitStore.patientVisit,
-                          labId: parseFloat(labId),
+                          labId: Number.parseFloat(labId),
                         });
                       }}
                       onBlur={labId => {
@@ -175,7 +174,7 @@ export const PatientVisit = PatientVisitHoc(
                           .checkExistsRecord({
                             input: {
                               filter: {
-                                labId: parseFloat(labId),
+                                labId: Number.parseFloat(labId),
                                 documentType: 'patientVisit',
                               },
                             },
@@ -405,7 +404,7 @@ export const PatientVisit = PatientVisitHoc(
                           onChange(age);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
-                            age: parseInt(age),
+                            age: Number.parseInt(age),
                           });
                         }}
                       />
@@ -1814,7 +1813,7 @@ export const PatientVisit = PatientVisitHoc(
                 id: rows.filter(item => item._id),
                 labId: rows.filter(item => item.labId),
                 title: 'Are you sure?',
-                body: `Delete selected items!`,
+                body: 'Delete selected items!',
               });
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -1823,7 +1822,7 @@ export const PatientVisit = PatientVisitHoc(
                 type: 'update',
                 data: {value, dataField, id},
                 title: 'Are you sure?',
-                body: `Update recoard!`,
+                body: 'Update recoard!',
               });
             }}
             onPageSizeChange={(page, limit) => {
@@ -1874,7 +1873,7 @@ export const PatientVisit = PatientVisitHoc(
                           type: 'delete',
                           id: rows,
                           title: 'Are you sure?',
-                          body: `Delete selected items!`,
+                          body: 'Delete selected items!',
                         });
                       }}
                       onUpdateItem={(
@@ -1887,7 +1886,7 @@ export const PatientVisit = PatientVisitHoc(
                           type: 'update',
                           data: {value, dataField, id},
                           title: 'Are you sure?',
-                          body: `Update recoard!`,
+                          body: 'Update recoard!',
                         });
                       }}
                       onPageSizeChange={(page, limit) => {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -118,7 +117,7 @@ export const Users = UsersHoc(
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -127,7 +126,7 @@ export const Users = UsersHoc(
               type: 'update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update user!`,
+              body: 'Update user!',
             });
           }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -136,7 +135,7 @@ export const Users = UsersHoc(
               type: 'UpdateImage',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `UpdateImage!`,
+              body: 'UpdateImage!',
             });
           }}
           onVersionUpgrade={item => {
@@ -145,7 +144,7 @@ export const Users = UsersHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -154,7 +153,7 @@ export const Users = UsersHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onChangePassword={(id: string, userId: string, email: string) => {
@@ -163,7 +162,7 @@ export const Users = UsersHoc(
               type: 'changePassword',
               data: {id, userId, email},
               title: 'Are You Sure?',
-              body: `UpdatePassword!`,
+              body: 'UpdatePassword!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -176,6 +175,7 @@ export const Users = UsersHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [userStore.userList],
     );
 
@@ -1013,7 +1013,7 @@ export const Users = UsersHoc(
                           onChange(validationLevel);
                           userStore.updateUser({
                             ...userStore.user,
-                            validationLevel: parseInt(validationLevel),
+                            validationLevel: Number.parseInt(validationLevel),
                           });
                         }}
                       >
@@ -1113,7 +1113,7 @@ export const Users = UsersHoc(
                           onChange(expireDays);
                           userStore.updateUser({
                             ...userStore.user,
-                            expireDays: parseInt(expireDays),
+                            expireDays: Number.parseInt(expireDays),
                           });
                         }}
                       />
@@ -1378,9 +1378,9 @@ export const Users = UsersHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : (userStore && userStore.user?.environment) ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1429,120 +1429,134 @@ export const Users = UsersHoc(
             {...modalConfirm}
             click={(type?: string) => {
               setModalConfirm({show: false});
-              if (type === 'delete') {
-                userStore &&
-                  userStore.UsersService.deleteUser({
-                    input: {id: modalConfirm.id},
-                  }).then((res: any) => {
-                    if (res.removeUser.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeUser.message}`,
-                      });
-                      setTimeout(() => {
-                        userStore.UsersService.userList();
-                      }, 2000);
-                    }
+              switch (type) {
+                case 'delete': {
+                  userStore &&
+                    userStore.UsersService.deleteUser({
+                      input: {id: modalConfirm.id},
+                    }).then((res: any) => {
+                      if (res.removeUser.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeUser.message}`,
+                        });
+                        setTimeout(() => {
+                          userStore.UsersService.userList();
+                        }, 2000);
+                      }
+                    });
+
+                  break;
+                }
+                case 'update': {
+                  userStore &&
+                    userStore.UsersService.updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    }).then((res: any) => {
+                      if (res.updateUser.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateUser.message}`,
+                        });
+                        userStore.loadUser();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  userStore.updateUser({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'update') {
-                userStore &&
-                  userStore.UsersService.updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  }).then((res: any) => {
-                    if (res.updateUser.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateUser.message}`,
-                      });
-                      userStore.loadUser();
-                    }
+                  userStore.updateSelectedItems({
+                    ...userStore.selectedItems,
+                    roles: modalConfirm.data?.role,
+                    labs: modalConfirm.data?.lab,
+                    department: modalConfirm.data?.department,
                   });
-              } else if (type === 'versionUpgrade') {
-                userStore.updateUser({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                userStore.updateSelectedItems({
-                  ...userStore.selectedItems,
-                  roles: modalConfirm.data?.role,
-                  labs: modalConfirm.data?.lab,
-                  department: modalConfirm.data?.department,
-                });
-                setHideAddUser(!hideAddUser);
-                setValue('defaultLab', modalConfirm.data?.defaultLab);
-                setValue(
-                  'defaultDepartment',
-                  modalConfirm.data?.defaultDepartment,
-                );
-                setValue('role', modalConfirm.data?.role);
-                setValue('labs', modalConfirm.data?.lab);
-                setValue('department', modalConfirm.data?.department);
-                setValue('userId', modalConfirm.data?.userId);
-                setValue('fullName', modalConfirm.data?.fullName);
-                setValue('empCode', modalConfirm.data?.empCode);
-                setValue('reportingTo', modalConfirm.data?.reportingTo);
-                setValue('deginisation', modalConfirm.data?.deginisation);
-                setValue('mobileNo', modalConfirm.data?.mobileNo);
-                setValue('email', modalConfirm.data?.email);
-                setValue('status', modalConfirm.data?.status);
-                setValue('environment', modalConfirm.data?.environment);
-                setValue('userGroup', modalConfirm.data?.userGroup);
-              } else if (type === 'duplicate') {
-                userStore.updateUser({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version),
-                  dateActive: new Date(),
-                });
-                userStore.updateSelectedItems({
-                  ...userStore.selectedItems,
-                  roles: modalConfirm.data?.role,
-                  labs: modalConfirm.data?.lab,
-                  department: modalConfirm.data?.department,
-                });
-                setHideAddUser(!hideAddUser);
-                setValue('defaultLab', modalConfirm.data?.defaultLab);
-                setValue(
-                  'defaultDepartment',
-                  modalConfirm.data?.defaultDepartment,
-                );
-                setValue('role', modalConfirm.data?.role);
-                setValue('labs', modalConfirm.data?.lab);
-                setValue('department', modalConfirm.data?.department);
-                setValue('userId', modalConfirm.data?.userId);
-                setValue('fullName', modalConfirm.data?.fullName);
-                setValue('empCode', modalConfirm.data?.empCode);
-                setValue('reportingTo', modalConfirm.data?.reportingTo);
-                setValue('deginisation', modalConfirm.data?.deginisation);
-                setValue('mobileNo', modalConfirm.data?.mobileNo);
-                setValue('email', modalConfirm.data?.email);
-                setValue('status', modalConfirm.data?.status);
-                setValue('environment', modalConfirm.data?.environment);
-                setValue('userGroup', modalConfirm.data?.userGroup);
-              } else {
-                userStore &&
-                  userStore.UsersService.uploadImage({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  }).then((res: any) => {
-                    if (res.updateUserImages.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateUserImages.message}`,
-                      });
-                      setTimeout(() => {
-                        window.location.reload();
-                      }, 1000);
-                    }
+                  setHideAddUser(!hideAddUser);
+                  setValue('defaultLab', modalConfirm.data?.defaultLab);
+                  setValue(
+                    'defaultDepartment',
+                    modalConfirm.data?.defaultDepartment,
+                  );
+                  setValue('role', modalConfirm.data?.role);
+                  setValue('labs', modalConfirm.data?.lab);
+                  setValue('department', modalConfirm.data?.department);
+                  setValue('userId', modalConfirm.data?.userId);
+                  setValue('fullName', modalConfirm.data?.fullName);
+                  setValue('empCode', modalConfirm.data?.empCode);
+                  setValue('reportingTo', modalConfirm.data?.reportingTo);
+                  setValue('deginisation', modalConfirm.data?.deginisation);
+                  setValue('mobileNo', modalConfirm.data?.mobileNo);
+                  setValue('email', modalConfirm.data?.email);
+                  setValue('status', modalConfirm.data?.status);
+                  setValue('environment', modalConfirm.data?.environment);
+                  setValue('userGroup', modalConfirm.data?.userGroup);
+
+                  break;
+                }
+                case 'duplicate': {
+                  userStore.updateUser({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version),
+                    dateActive: new Date(),
                   });
+                  userStore.updateSelectedItems({
+                    ...userStore.selectedItems,
+                    roles: modalConfirm.data?.role,
+                    labs: modalConfirm.data?.lab,
+                    department: modalConfirm.data?.department,
+                  });
+                  setHideAddUser(!hideAddUser);
+                  setValue('defaultLab', modalConfirm.data?.defaultLab);
+                  setValue(
+                    'defaultDepartment',
+                    modalConfirm.data?.defaultDepartment,
+                  );
+                  setValue('role', modalConfirm.data?.role);
+                  setValue('labs', modalConfirm.data?.lab);
+                  setValue('department', modalConfirm.data?.department);
+                  setValue('userId', modalConfirm.data?.userId);
+                  setValue('fullName', modalConfirm.data?.fullName);
+                  setValue('empCode', modalConfirm.data?.empCode);
+                  setValue('reportingTo', modalConfirm.data?.reportingTo);
+                  setValue('deginisation', modalConfirm.data?.deginisation);
+                  setValue('mobileNo', modalConfirm.data?.mobileNo);
+                  setValue('email', modalConfirm.data?.email);
+                  setValue('status', modalConfirm.data?.status);
+                  setValue('environment', modalConfirm.data?.environment);
+                  setValue('userGroup', modalConfirm.data?.userGroup);
+
+                  break;
+                }
+                default: {
+                  userStore &&
+                    userStore.UsersService.uploadImage({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    }).then((res: any) => {
+                      if (res.updateUserImages.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateUserImages.message}`,
+                        });
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 1000);
+                      }
+                    });
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

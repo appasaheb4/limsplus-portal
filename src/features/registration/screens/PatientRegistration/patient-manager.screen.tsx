@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -31,10 +30,8 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-interface PatientManagerProps {}
-
 export const PatientManager = PatientManagerHoc(
-  observer((props: PatientManagerProps) => {
+  observer(() => {
     const {
       loading,
       loginStore,
@@ -80,7 +77,7 @@ export const PatientManager = PatientManagerHoc(
           });
       } else {
         Toast.warning({
-          message: `😔 Please enter diff patient`,
+          message: '😔 Please enter diff patient',
         });
       }
     };
@@ -1012,7 +1009,7 @@ export const PatientManager = PatientManagerHoc(
                                   });
                                 }}
                               >
-                                <option selected>{`Select`}</option>
+                                <option selected>{'Select'}</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - BLOOD_GROUP',
@@ -1257,9 +1254,9 @@ export const PatientManager = PatientManagerHoc(
                                 <option selected>
                                   {loginStore.login &&
                                   loginStore.login.role !== 'SYSADMIN'
-                                    ? `Select`
+                                    ? 'Select'
                                     : patientManagerStore.patientManger
-                                        ?.extraData?.environment || `Select`}
+                                        ?.extraData?.environment || 'Select'}
                                 </option>
                                 {lookupItems(
                                   routerStore.lookupItems,
@@ -1424,7 +1421,7 @@ export const PatientManager = PatientManagerHoc(
                 type: 'delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: `Delete selected records!`,
+                body: 'Delete selected records!',
               });
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -1433,7 +1430,7 @@ export const PatientManager = PatientManagerHoc(
                 type: 'update',
                 data: {value, dataField, id},
                 title: 'Are you sure?',
-                body: `Update this record!`,
+                body: 'Update this record!',
               });
             }}
             onPageSizeChange={(page, limit) => {
@@ -1484,7 +1481,7 @@ export const PatientManager = PatientManagerHoc(
                           type: 'delete',
                           id: rows,
                           title: 'Are you sure?',
-                          body: `Delete selected records!`,
+                          body: 'Delete selected records!',
                         });
                       }}
                       onUpdateItem={(
@@ -1497,7 +1494,7 @@ export const PatientManager = PatientManagerHoc(
                           type: 'update',
                           data: {value, dataField, id},
                           title: 'Are you sure?',
-                          body: `Update this record!`,
+                          body: 'Update this record!',
                         });
                       }}
                       onPageSizeChange={(page, limit) => {

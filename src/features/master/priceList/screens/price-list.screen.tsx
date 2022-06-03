@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -115,7 +114,7 @@ export const PriceList = PriceListHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -146,7 +145,7 @@ export const PriceList = PriceListHoc(
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -155,7 +154,7 @@ export const PriceList = PriceListHoc(
               type: 'update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update item!`,
+              body: 'Update item!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -164,7 +163,7 @@ export const PriceList = PriceListHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onVersionUpgrade={item => {
@@ -173,7 +172,7 @@ export const PriceList = PriceListHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -182,7 +181,7 @@ export const PriceList = PriceListHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -195,7 +194,14 @@ export const PriceList = PriceListHoc(
           }}
         />
       ),
-      [priceListStore.listPriceList],
+      [
+        corporateClientsStore.listCorporateClients,
+        labStore.listLabs,
+        masterPanelStore.listMasterPanel,
+        priceListStore,
+        routerStore.lookupItems,
+        routerStore.userPermission,
+      ],
     );
 
     return (
@@ -467,7 +473,7 @@ export const PriceList = PriceListHoc(
                         onChange(price);
                         priceListStore.updatePriceList({
                           ...priceListStore.priceList,
-                          price: parseFloat(price),
+                          price: Number.parseFloat(price),
                         });
                       }}
                     />
@@ -496,7 +502,7 @@ export const PriceList = PriceListHoc(
                         onChange(minSp);
                         priceListStore.updatePriceList({
                           ...priceListStore.priceList,
-                          minSp: parseInt(minSp),
+                          minSp: Number.parseInt(minSp),
                         });
                       }}
                     />
@@ -523,7 +529,7 @@ export const PriceList = PriceListHoc(
                         onChange(maxSp);
                         priceListStore.updatePriceList({
                           ...priceListStore.priceList,
-                          maxSp: parseInt(maxSp),
+                          maxSp: Number.parseInt(maxSp),
                         });
                       }}
                     />
@@ -546,7 +552,7 @@ export const PriceList = PriceListHoc(
                         onChange(maxDis);
                         priceListStore.updatePriceList({
                           ...priceListStore.priceList,
-                          maxDis: parseFloat(maxDis),
+                          maxDis: Number.parseFloat(maxDis),
                         });
                       }}
                     />
@@ -769,8 +775,8 @@ export const PriceList = PriceListHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : priceListStore.priceList?.environment || `Select`}
+                            ? 'Select'
+                            : priceListStore.priceList?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -817,92 +823,109 @@ export const PriceList = PriceListHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'delete') {
-                priceListStore.priceListService
-                  .deletePriceList({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removePriceList.success) {
-                      Toast.success({
-                        message: `😊 ${res.removePriceList.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      priceListStore.fetchListPriceList();
-                    }
+              switch (type) {
+                case 'delete': {
+                  priceListStore.priceListService
+                    .deletePriceList({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removePriceList.success) {
+                        Toast.success({
+                          message: `😊 ${res.removePriceList.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        priceListStore.fetchListPriceList();
+                      }
+                    });
+
+                  break;
+                }
+                case 'update': {
+                  priceListStore.priceListService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePriceList.success) {
+                        Toast.success({
+                          message: `😊 ${res.updatePriceList.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        priceListStore.fetchListPriceList();
+                      }
+                    });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  priceListStore.priceListService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePriceList.success) {
+                        Toast.success({
+                          message: `😊 ${res.updatePriceList.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        priceListStore.fetchListPriceList();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  priceListStore.updatePriceList({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    __typename: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                   });
-              } else if (type === 'update') {
-                priceListStore.priceListService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePriceList.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePriceList.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      priceListStore.fetchListPriceList();
-                    }
+                  setHideAddLab(!hideAddLab);
+                  setModalConfirm({show: false});
+                  setValue('panelCode', modalConfirm.data.panelCode);
+                  setValue('panelName', modalConfirm.data.panelName);
+                  setValue('billTo', modalConfirm.data.billTo);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('priceGroup', modalConfirm.data.priceGroup);
+                  setValue('price', modalConfirm.data.price);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                case 'duplicate': {
+                  priceListStore.updatePriceList({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    __typename: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                   });
-              } else if (type === 'UpdateFileds') {
-                priceListStore.priceListService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePriceList.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePriceList.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      priceListStore.fetchListPriceList();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                priceListStore.updatePriceList({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  __typename: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateCreation: new Date(),
-                });
-                setHideAddLab(!hideAddLab);
-                setModalConfirm({show: false});
-                setValue('panelCode', modalConfirm.data.panelCode);
-                setValue('panelName', modalConfirm.data.panelName);
-                setValue('billTo', modalConfirm.data.billTo);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('priceGroup', modalConfirm.data.priceGroup);
-                setValue('price', modalConfirm.data.price);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
-              } else if (type === 'duplicate') {
-                priceListStore.updatePriceList({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  __typename: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateCreation: new Date(),
-                });
-                setHideAddLab(!hideAddLab);
-                setModalConfirm({show: false});
-                setValue('panelCode', modalConfirm.data.panelCode);
-                setValue('panelName', modalConfirm.data.panelName);
-                setValue('billTo', modalConfirm.data.billTo);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('priceGroup', modalConfirm.data.priceGroup);
-                setValue('price', modalConfirm.data.price);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
+                  setHideAddLab(!hideAddLab);
+                  setModalConfirm({show: false});
+                  setValue('panelCode', modalConfirm.data.panelCode);
+                  setValue('panelName', modalConfirm.data.panelName);
+                  setValue('billTo', modalConfirm.data.billTo);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('priceGroup', modalConfirm.data.priceGroup);
+                  setValue('price', modalConfirm.data.price);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {

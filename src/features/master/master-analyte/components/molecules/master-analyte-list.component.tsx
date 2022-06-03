@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -333,7 +332,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     onChange={price => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          parseFloat(price),
+                          Number.parseFloat(price),
                           column.dataField,
                           row._id,
                         );
@@ -761,7 +760,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                       const picture = e.target.value;
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          parseInt(picture),
+                          Number.parseInt(picture),
                           column.dataField,
                           row._id,
                         );
@@ -1192,7 +1191,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                           );
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -1240,7 +1240,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                           );
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -1348,7 +1349,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >
