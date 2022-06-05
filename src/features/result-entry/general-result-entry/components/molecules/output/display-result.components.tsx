@@ -11,9 +11,11 @@ export const DisplayResult = observer(({row}: DisplayResultProps) => {
     <div className='relative w-full'>
       {row?.resultType === 'M' && row.result && (
         <>
-          {JSON.parse(row.result)?.map((item: any, index: number) => (
-            <span key={index}>{item?.code}</span>
-          ))}
+          <ul>
+            {JSON.parse(row.result)?.map((item: any, index: number) => (
+              <li key={index}>{item?.code}</li>
+            ))}
+          </ul>
         </>
       )}
       {row?.resultType !== 'M' && (

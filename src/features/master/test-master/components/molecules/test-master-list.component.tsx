@@ -62,6 +62,7 @@ let holdingDays;
 let status;
 let environment;
 let interpretation;
+let testResultDate;
 
 interface TestMasterProps {
   data: any;
@@ -986,6 +987,28 @@ export const TestMasterList = (props: TestMasterProps) => {
               },
             },
             {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row.abnFlag ? (row.abnFlag ? 'Yes' : 'No') : 'No'}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.abnFlag}
+                      onChange={abnFlag => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(abnFlag, 'abnFlag', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'cretical',
               text: 'Cretical',
               sort: true,
@@ -1000,7 +1023,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                       value={row.cretical}
                       onChange={cretical => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(cretical, ' cretical', row._id);
+                          props.onUpdateItem(cretical, 'cretical', row._id);
                       }}
                     />
                   </>
@@ -1519,6 +1542,34 @@ export const TestMasterList = (props: TestMasterProps) => {
               ),
             },
             {
+              dataField: 'testResultDate',
+              editable: false,
+              text: 'Test Result Date',
+              headerClasses: 'textHeader2',
+              sort: true,
+              csvFormatter: (col, row) =>
+                row.testResultDate
+                  ? dayjs(row.testResultDate).format('YYYY-MM-DD')
+                  : '',
+              filter: customFilter({
+                getFilter: filter => {
+                  testResultDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row?.testResultDate
+                      ? dayjs(row.testResultDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader3',
@@ -1687,6 +1738,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             status('');
             environment('');
             interpretation('');
+            testResultDate('');
           }}
         />
       </div>
