@@ -1325,6 +1325,26 @@ const TestMater = TestMasterHOC(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
+                        label='Abn Flag'
+                        hasError={errors.abnFlag}
+                        value={testMasterStore.testMaster?.abnFlag}
+                        onChange={abnFlag => {
+                          onChange(abnFlag);
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            abnFlag,
+                          });
+                        }}
+                      />
+                    )}
+                    name='abnFlag'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
                         label='Cretical'
                         hasError={errors.cretical}
                         value={testMasterStore.testMaster?.cretical}
@@ -1577,6 +1597,28 @@ const TestMater = TestMasterHOC(
                   name='interpretation'
                   rules={{required: false}}
                   defaultValue={libraryStore.listLibrary}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputDateTime
+                      label='Test Result Date'
+                      placeholder='Date'
+                      hasError={errors.testResultDate}
+                      disabled={true}
+                      value={testMasterStore.testMaster?.testResultDate}
+                      onChange={testResultDate => {
+                        onChange(testResultDate);
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
+                          testResultDate,
+                        });
+                      }}
+                    />
+                  )}
+                  name='testResultDate'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}

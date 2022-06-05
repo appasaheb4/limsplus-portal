@@ -34,6 +34,8 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
   const [libraryList, setLibraryList] = useState<Array<any>>();
 
   useEffect(() => {
+    console.log({row});
+
     switch (row?.resultType) {
       case 'D': {
         possibleResultsStore.possibleResultsService
@@ -58,31 +60,15 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
 
         break;
       }
-      case 'L': {
-        labStore.LabService.findByFields({
-          input: {
-            filter: {
-              labType: 'R',
-            },
-          },
-        }).then(res => {
-          if (res.findByFieldsLabs.success) {
-            setLabList(res.findByFieldsLabs?.data);
-          } else {
-            Toast.warning({
-              message: `😔 ${res.findByFieldsLabs.message}`,
-            });
-          }
-        });
-
-        break;
-      }
+      case 'L':
       case 'M': {
         libraryStore.libraryService
           .findByFields({
             input: {
               filter: {
                 libraryType: 'R',
+                lab: row?.pLab,
+                department: row?.departement,
               },
             },
           })
@@ -95,7 +81,6 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               });
             }
           });
-
         break;
       }
       // No default
@@ -168,15 +153,15 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             const item = JSON.parse(e.target.value);
             onSelect({
               result: item.code,
-              abnFlag: item?.abNormal,
-              critical: item?.critical,
+              abnFlag: item?.abNormal || false,
+              critical: item?.critical || false,
             });
           }}
         >
           <option selected>Select</option>
-          {labList?.map((item: any, index: number) => (
+          {libraryList?.map((item: any, index: number) => (
             <option key={index} value={JSON.stringify(item)}>
-              {`${item.code} - ${item.name}`}
+              {`${item.code} - ${item.description}`}
             </option>
           ))}
         </select>

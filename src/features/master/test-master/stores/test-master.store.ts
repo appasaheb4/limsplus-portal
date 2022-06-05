@@ -31,6 +31,7 @@ export class TestMasterStore {
       confidential: false,
       urgent: false,
       accredited: false,
+      abnFlag: false,
       cretical: false,
       repitation: false,
       printLabel: false,

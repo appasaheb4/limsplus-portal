@@ -14,6 +14,7 @@ import {createUploadLink} from 'apollo-upload-client';
 
 const customFetch = (uri, options): Promise<any> => {
   stores.setLoading(true);
+  //console.log({uri, options});
   const response = fetch(uri, options).then(response => {
     stores.setLoading(false);
     if (response.status >= 500) {
@@ -35,7 +36,7 @@ const authLink = setContext(async (_, {headers}) => {
 });
 
 const UploadLink = createUploadLink({
-  uri: 'http://localhost:8080/graphql',
+  //uri: 'http://localhost:8080/graphql',
   //uri: 'http://575f-2409-4042-4c12-e974-bd3d-b4d4-2dbc-8988.ngrok.io/graphql',
   // uri: process.env.REACT_APP_API_HOST,
   fetch: customFetch,
