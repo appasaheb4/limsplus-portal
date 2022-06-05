@@ -210,13 +210,8 @@ const RegistrationLocation = RegistrationLocationHoc(
           }}
         />
       ),
-      [
-        administrativeDivisions.listAdministrativeDiv,
-        loginStore.login?.labList,
-        registrationLocationsStore,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [registrationLocationsStore.listRegistrationLocations],
     );
 
     return (

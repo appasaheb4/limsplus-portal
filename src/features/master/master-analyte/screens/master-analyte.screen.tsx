@@ -194,12 +194,8 @@ const MasterAnalyte = MasterAnalyteHoc(
           }}
         />
       ),
-      [
-        labStore.listLabs,
-        masterAnalyteStore,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [masterAnalyteStore.listMasterAnalyte],
     );
 
     return (

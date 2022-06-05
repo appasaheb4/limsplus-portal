@@ -140,15 +140,8 @@ export const Library = LibraryHoc(
           }}
         />
       ),
-      [
-        departmentStore.listDepartment,
-        labStore.listLabs,
-        libraryStore,
-        lookupStore.listLookup,
-        masterPanelStore.listMasterPanel,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [libraryStore.listLibrary],
     );
 
     return (

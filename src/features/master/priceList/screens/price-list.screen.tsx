@@ -194,14 +194,8 @@ export const PriceList = PriceListHoc(
           }}
         />
       ),
-      [
-        corporateClientsStore.listCorporateClients,
-        labStore.listLabs,
-        masterPanelStore.listMasterPanel,
-        priceListStore,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [priceListStore.listPriceList],
     );
 
     return (

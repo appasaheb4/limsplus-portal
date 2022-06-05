@@ -139,12 +139,8 @@ export const PossibleResults = PossibleResultHoc(
           }}
         />
       ),
-      [
-        masterAnalyteStore.listMasterAnalyte,
-        possibleResultsStore,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [possibleResultsStore.listPossibleResults],
     );
 
     return (

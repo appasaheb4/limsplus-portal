@@ -44,7 +44,8 @@ export const AutoCompleteFilterSingleSelectPostalCode = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
-      }, [ref]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [ref, isListOpen]);
     };
 
     const wrapperRef = useRef(null);

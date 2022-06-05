@@ -194,14 +194,8 @@ const Doctors = DoctorsHoc(
           }}
         />
       ),
-      [
-        administrativeDivisions.listAdministrativeDiv,
-        doctorsStore,
-        labStore.listLabs,
-        loginStore.login?.labList,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [doctorsStore.listDoctors],
     );
 
     return (

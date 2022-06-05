@@ -228,12 +228,8 @@ const MasterPackage = MasterPackageHOC(
           }}
         />
       ),
-      [
-        labStore.listLabs,
-        masterPackageStore,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [masterPackageStore.listMasterPackage],
     );
 
     const handleOnDragEndResultOrder = (result: any) => {

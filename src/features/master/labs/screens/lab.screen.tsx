@@ -156,12 +156,8 @@ const Lab = LabHoc(
           }}
         />
       ),
-      [
-        administrativeDivisions.listAdministrativeDiv,
-        labStore,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [labStore.listLabs],
     );
     return (
       <>

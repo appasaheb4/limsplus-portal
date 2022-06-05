@@ -201,16 +201,8 @@ const MasterPanel = MasterPanelHoc(
           }}
         />
       ),
-      [
-        deliveryScheduleStore.listDeliverySchedule,
-        departmentStore.listDepartment,
-        labStore.listLabs,
-        loginStore.login?.labList,
-        masterPanelStore,
-        methodsStore.listMethods,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [masterPanelStore.listMasterPanel],
     );
 
     return (
