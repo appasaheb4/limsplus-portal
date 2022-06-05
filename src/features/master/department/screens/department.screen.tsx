@@ -123,13 +123,8 @@ export const Department = DeginisationHoc(
           }}
         />
       ),
-      [
-        departmentStore,
-        labStore.listLabs,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-        userStore,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [departmentStore.listDepartment],
     );
 
     return (

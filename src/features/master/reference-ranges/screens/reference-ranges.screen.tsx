@@ -169,15 +169,8 @@ const ReferenceRanges = ReferenceRangesHoc(
           }}
         />
       ),
-      [
-        departmentStore.listDepartment,
-        interfaceManagerStore.listInterfaceManager,
-        labStore.listLabs,
-        masterAnalyteStore.listMasterAnalyte,
-        refernceRangesStore,
-        routerStore.lookupItems,
-        routerStore.userPermission,
-      ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [refernceRangesStore.listReferenceRanges],
     );
 
     const refRangesInputTable = useMemo(

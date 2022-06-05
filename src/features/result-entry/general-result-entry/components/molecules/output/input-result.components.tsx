@@ -100,6 +100,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
       }
       // No default
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [row]);
 
   return (
