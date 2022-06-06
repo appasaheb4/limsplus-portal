@@ -402,10 +402,6 @@ export const TableBootstrap = ({
                   }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
-                  // options={{
-                  //   hideSizePerPage: true,
-                  //   showTotal: false,
-                  // }}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>

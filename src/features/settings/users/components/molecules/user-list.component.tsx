@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
@@ -13,7 +12,6 @@ import {
   Icons,
   Tooltip,
   Form,
-  AutocompleteCheck,
   customFilter,
   Buttons,
   Toast,
@@ -28,8 +26,6 @@ import {
   ModalDefaultLabDeptUpdate,
   ModalDefaultLabDeptUpdateProps,
 } from '..';
-
-import {toJS} from 'mobx';
 
 let userId;
 let empCode;
@@ -64,6 +60,7 @@ interface UserListProps {
   extraData: any;
   isDelete?: boolean;
   isEditModify?: boolean;
+  role: string;
   onDelete?: (selectedUser: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -80,7 +77,7 @@ interface UserListProps {
   ) => void;
 }
 
-export const UserList = observer((props: UserListProps) => {
+export const UserList = (props: UserListProps) => {
   const {
     control,
     handleSubmit,
@@ -102,6 +99,7 @@ export const UserList = observer((props: UserListProps) => {
   }
 
   const editorCell = (row: any) => {
+    if (props?.role === 'SYSADMIN') return true;
     return row.status !== 'I' ? true : false;
   };
 
@@ -131,19 +129,24 @@ export const UserList = observer((props: UserListProps) => {
                 },
               }),
               headerClasses: 'textHeader3',
-              formatter: (cellContent, row) => (
-                <span
-                  onDoubleClick={() => {
+              formatter: (cellContent, row) => <span>{row.defaultLab}</span>,
+              events: {
+                onDoubleClick: (
+                  e: any,
+                  row: any,
+                  rowIndex: any,
+                  column: any,
+                  columnIndex: any,
+                ) => {
+                  if (row.dataField === 'defaultLab') {
                     setModalDefaultLabDeptUpdate({
                       show: true,
                       id: row._id,
                       type: 'default',
                     });
-                  }}
-                >
-                  {row.defaultLab}
-                </span>
-              ),
+                  }
+                },
+              },
             },
             {
               dataField: 'defaultDepartment',
@@ -267,6 +270,8 @@ export const UserList = observer((props: UserListProps) => {
               text: 'Reporting To',
               sort: true,
               csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               filter: textFilter({
                 getFilter: filter => {
                   reportingTo = filter;
@@ -390,9 +395,10 @@ export const UserList = observer((props: UserListProps) => {
               dataField: 'lab',
               text: 'Assigned Lab',
               sort: true,
-              editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.lab.map(item => item.name)}`,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               filter: textFilter({
                 getFilter: filter => {
                   lab = filter;
@@ -401,28 +407,37 @@ export const UserList = observer((props: UserListProps) => {
               headerClasses: 'textHeader6',
               formatter: (cellContent, row) => (
                 <>
-                  <ul
-                    style={{listStyle: 'inside'}}
-                    onDoubleClick={() => {
-                      setModalDefaultLabDeptUpdate({
-                        show: true,
-                        id: row._id,
-                        type: 'assigned',
-                      });
-                    }}
-                  >
-                    {row.lab.map((item, index) => (
+                  <ul style={{listStyle: 'inside'}}>
+                    {row?.lab.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
                   </ul>
                 </>
               ),
+              events: {
+                onDoubleClick: (
+                  e: any,
+                  row: any,
+                  rowIndex: any,
+                  column: any,
+                  columnIndex: any,
+                ) => {
+                  if (row.dataField === 'lab') {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: row._id,
+                      type: 'assigned',
+                    });
+                  }
+                },
+              },
             },
             {
               dataField: 'department',
               text: 'Assigned Department',
               sort: true,
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.department.map(item => item.name)}`,
               filter: textFilter({
@@ -433,22 +448,30 @@ export const UserList = observer((props: UserListProps) => {
               headerClasses: 'textHeader6',
               formatter: (cellContent, row) => (
                 <>
-                  <ul
-                    style={{listStyle: 'inside'}}
-                    onDoubleClick={() => {
-                      setModalDefaultLabDeptUpdate({
-                        show: true,
-                        id: row._id,
-                        type: 'assigned',
-                      });
-                    }}
-                  >
+                  <ul style={{listStyle: 'inside'}}>
                     {row.department.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
                   </ul>
                 </>
               ),
+              events: {
+                onDoubleClick: (
+                  e: any,
+                  row: any,
+                  rowIndex: any,
+                  column: any,
+                  columnIndex: any,
+                ) => {
+                  if (row.dataField === 'department') {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: row._id,
+                      type: 'assigned',
+                    });
+                  }
+                },
+              },
             },
             {
               dataField: 'mobileNo',
@@ -697,23 +720,6 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-            // {
-            //   dataField: "workStation",
-            //   text: "Work Station",
-            //   sort: true,
-
-            //   filter: textFilter({
-            //   headerClasses: "textHeader3",
-            // },
-            // {
-            //   dataField: "ipAddress",
-            //   text: "IP Address",
-            //   sort: true,
-
-            //   filter: textFilter({
-            //   headerClasses: "textHeader3",
-            // },
-
             {
               dataField: 'dateOfBirth',
               text: 'Birth Date',
@@ -849,7 +855,6 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-
             {
               dataField: 'confidential',
               text: 'Confidential',
@@ -1077,7 +1082,7 @@ export const UserList = observer((props: UserListProps) => {
             },
             {
               dataField: 'createdBy',
-              text: 'Created  By',
+              text: 'Created By',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -1196,7 +1201,6 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-
             {
               dataField: 'opration',
               text: 'Password Re-Send',
@@ -1372,4 +1376,4 @@ export const UserList = observer((props: UserListProps) => {
       </div>
     </>
   );
-});
+};
