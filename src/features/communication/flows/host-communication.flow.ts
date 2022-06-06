@@ -19,7 +19,7 @@ class HostCommunicationFlows {
             .replaceAll(/â/g, '’')
             .replaceAll(/â¦/g, '…')
         : undefined;
-    data?.forEach((item: SegmentMapping) => {
+    for (const item of data) {
       if (
         item.equipmentType === interfaceManager.instrumentType &&
         item.dataFlowFrom === dataFlowFrom
@@ -35,18 +35,25 @@ class HostCommunicationFlows {
           default: '',
         });
       }
-    });
+    }
+
+    // eslint-disable-next-line unicorn/no-array-reduce
     const group = values.reduce((r: any, a: any) => {
       r[a.segments] = [...(r[a.segments] || []), a];
       return r;
     }, {});
 
     const entries = Object.entries(group);
-    entries.forEach((item: any) => {
+    for (const item of entries) {
       mapping.push({
         [item[0].toLowerCase() || '']: {values: item[1]},
       });
-    });
+    }
+    // entries.forEach((item: any) => {
+    //   mapping.push({
+    //     [item[0].toLowerCase() || '']: {values: item[1]},
+    //   });
+    // });
 
     return mapping;
   };

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -90,7 +89,7 @@ export const PatientOrder = PatientOrderHoc(
           });
       } else {
         Toast.warning({
-          message: `😔 Please select different lab id`,
+          message: '😔 Please select different lab id',
         });
       }
     };
@@ -448,7 +447,7 @@ export const PatientOrder = PatientOrderHoc(
                 type: 'delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: `Delete selected items!`,
+                body: 'Delete selected items!',
               });
             }}
             onPageSizeChange={(page, limit) => {

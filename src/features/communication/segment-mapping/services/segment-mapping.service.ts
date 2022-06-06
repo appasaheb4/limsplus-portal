@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-array-for-each */
+/* eslint-disable unicorn/no-array-reduce */
 /**
  * @fileoverview Use this file invoke LimsPlus API
  * implementation related to LimsPlus standards

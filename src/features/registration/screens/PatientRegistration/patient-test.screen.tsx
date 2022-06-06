@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -326,7 +325,7 @@ export const PatientTest = PatientOrderHoc(
                 type: 'delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: `Delete selected items!`,
+                body: 'Delete selected items!',
               });
             }}
             onPageSizeChange={(page, limit) => {

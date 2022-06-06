@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -6,7 +5,9 @@ import * as LibraryUtils from '@/library/utils';
 
 export const MasterPackageHOC = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const {loginStore, masterPackageStore, routerStore} = useStores();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       masterPackageStore &&
         masterPackageStore.updateMasterPackage({
@@ -31,7 +32,7 @@ export const MasterPackageHOC = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
-    }, [loginStore.login, routerStore.lookupItems]);
+    }, [loginStore.login, masterPackageStore, routerStore.lookupItems]);
     return <Component {...props} />;
   });
 };

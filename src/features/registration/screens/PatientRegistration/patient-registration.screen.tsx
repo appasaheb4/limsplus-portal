@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -63,11 +62,13 @@ const PatientRegistation = observer(() => {
             onSelect={item => {
               patientRegistrationStore.updateDefaultValue({
                 ...patientRegistrationStore.defaultValues,
-                labId: item.labId !== '*' ? parseInt(item.labId) : '*',
+                labId: item.labId !== '*' ? Number.parseInt(item.labId) : '*',
                 labIdLock: true,
               });
               item.labId !== '*'
-                ? patientRegistrationHoc.labIdChanged(parseInt(item.labId))
+                ? patientRegistrationHoc.labIdChanged(
+                    Number.parseInt(item.labId),
+                  )
                 : patientRegistrationHoc.labIdChanged();
             }}
           />

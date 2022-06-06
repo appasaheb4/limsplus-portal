@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
@@ -464,7 +463,7 @@ export const RegistrationLocationsList = (
                           district: '',
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -504,7 +503,7 @@ export const RegistrationLocationsList = (
                           district: '',
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -544,7 +543,7 @@ export const RegistrationLocationsList = (
                           district: item.district,
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -581,7 +580,11 @@ export const RegistrationLocationsList = (
                   onSelect={item => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
-                        {city: item.city, area: '', postalCode: parseInt('')},
+                        {
+                          city: item.city,
+                          area: '',
+                          postalCode: Number.parseInt(''),
+                        },
                         row._id,
                       );
                   }}
@@ -618,7 +621,7 @@ export const RegistrationLocationsList = (
                   onSelect={item => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
-                        {area: item.area, postalCode: parseInt('')},
+                        {area: item.area, postalCode: Number.parseInt('')},
                         row._id,
                       );
                   }}
@@ -660,7 +663,7 @@ export const RegistrationLocationsList = (
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
                         {
-                          postalCode: parseInt(item.postalCode),
+                          postalCode: Number.parseInt(item.postalCode),
                           sbu: item.sbu,
                           zone: item.zone,
                         },
@@ -981,7 +984,9 @@ export const RegistrationLocationsList = (
               <>
                 <select
                   value={row?.lab}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                  }
                   onChange={e => {
                     const lab = e.target.value;
                     props.onUpdateItem &&
@@ -1407,7 +1412,9 @@ export const RegistrationLocationsList = (
               <>
                 <select
                   value={row.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
                   onChange={e => {
                     const environment = e.target.value;
                     props.onUpdateItem &&
@@ -1450,7 +1457,7 @@ export const RegistrationLocationsList = (
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >

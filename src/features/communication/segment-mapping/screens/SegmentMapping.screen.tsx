@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useContext, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -49,7 +48,7 @@ const SegmentMapping = SegmentMappingHoc(
 
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
-      reader.onload = (evt: any) => {
+      reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
         const wb = XLSX.read(bstr, {type: 'binary'});
@@ -82,8 +81,9 @@ const SegmentMapping = SegmentMappingHoc(
           'ATTACHMENTS',
         ];
         const headers: any = [];
-        let object = new Array();
+        let object: any = [];
         let fileImaport: boolean = false;
+        // eslint-disable-next-line unicorn/no-array-for-each
         data.forEach((item: any, index: number) => {
           if (index === 0) {
             headers.push(item);
@@ -97,8 +97,8 @@ const SegmentMapping = SegmentMappingHoc(
                 data_type: item[2],
                 segments: item[3],
                 segment_usage: item[4],
-                field_no: parseFloat(item[5]).toFixed(2).toString(),
-                item_no: parseFloat(item[6]).toFixed(2).toString(),
+                field_no: Number.parseFloat(item[5]).toFixed(2).toString(),
+                item_no: Number.parseFloat(item[6]).toFixed(2).toString(),
                 field_required: item[7] === 'Yes' ? true : false,
                 element_name:
                   item[8] !== undefined
@@ -127,7 +127,7 @@ const SegmentMapping = SegmentMappingHoc(
                 field_array: item[10],
                 field_length:
                   item[11] !== undefined
-                    ? parseFloat(item[11]).toFixed(2).toString()
+                    ? Number.parseFloat(item[11]).toFixed(2).toString()
                     : undefined,
                 field_type: item[12],
                 repeat_delimiter: item[13] === 'Yes' ? true : false,
@@ -158,6 +158,7 @@ const SegmentMapping = SegmentMappingHoc(
         // })
 
         //object = object.concat(listSegmentMapping)
+        // eslint-disable-next-line unicorn/no-array-reduce
         const uniqueData = object.reduce((filtered, item) => {
           if (
             !filtered.some(
@@ -181,7 +182,7 @@ const SegmentMapping = SegmentMappingHoc(
               }
             });
         }
-      };
+      });
       reader.readAsBinaryString(file);
     };
 
@@ -457,7 +458,9 @@ const SegmentMapping = SegmentMappingHoc(
                         onChange(field_no);
                         segmentMappingStore.updateSegmentMapping({
                           ...segmentMappingStore.segmentMapping,
-                          field_no: parseFloat(field_no).toFixed(2).toString(),
+                          field_no: Number.parseFloat(field_no)
+                            .toFixed(2)
+                            .toString(),
                         });
                       }}
                     />
@@ -482,7 +485,9 @@ const SegmentMapping = SegmentMappingHoc(
                         onChange(item_no);
                         segmentMappingStore.updateSegmentMapping({
                           ...segmentMappingStore.segmentMapping,
-                          item_no: parseFloat(item_no).toFixed(2).toString(),
+                          item_no: Number.parseFloat(item_no)
+                            .toFixed(2)
+                            .toString(),
                         });
                       }}
                     />
@@ -613,7 +618,7 @@ const SegmentMapping = SegmentMappingHoc(
                         onChange(field_length);
                         segmentMappingStore.updateSegmentMapping({
                           ...segmentMappingStore.segmentMapping,
-                          field_length: parseFloat(field_length)
+                          field_length: Number.parseFloat(field_length)
                             .toFixed(2)
                             .toString(),
                         });
@@ -881,9 +886,9 @@ const SegmentMapping = SegmentMappingHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : segmentMappingStore.segmentMapping?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,

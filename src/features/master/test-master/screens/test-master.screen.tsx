@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -120,7 +119,7 @@ const TestMater = TestMasterHOC(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -153,7 +152,7 @@ const TestMater = TestMasterHOC(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -162,7 +161,7 @@ const TestMater = TestMasterHOC(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update items!`,
+              body: 'Update items!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -171,7 +170,7 @@ const TestMater = TestMasterHOC(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onVersionUpgrade={item => {
@@ -180,7 +179,7 @@ const TestMater = TestMasterHOC(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -189,7 +188,7 @@ const TestMater = TestMasterHOC(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -202,6 +201,7 @@ const TestMater = TestMasterHOC(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [testMasterStore.listTestMaster],
     );
 
@@ -338,7 +338,7 @@ const TestMater = TestMasterHOC(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label={`Department`}
+                      label={'Department'}
                       hasError={errors.department}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
@@ -565,7 +565,7 @@ const TestMater = TestMasterHOC(
                         onChange(price);
                         testMasterStore.updateTestMaster({
                           ...testMasterStore.testMaster,
-                          price: parseFloat(price),
+                          price: Number.parseFloat(price),
                         });
                       }}
                     />
@@ -642,7 +642,7 @@ const TestMater = TestMasterHOC(
                           onChange(validationLevel);
                           testMasterStore.updateTestMaster({
                             ...testMasterStore.testMaster,
-                            validationLevel: parseInt(validationLevel),
+                            validationLevel: Number.parseInt(validationLevel),
                           });
                         }}
                       >
@@ -1671,9 +1671,9 @@ const TestMater = TestMasterHOC(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : testMasterStore.testMaster?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1851,87 +1851,104 @@ const TestMater = TestMasterHOC(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                testMasterStore.testMasterService
-                  .deleteTestMaster({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeTestMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeTestMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testMasterStore.fetchTestMaster();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  testMasterStore.testMasterService
+                    .deleteTestMaster({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeTestMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeTestMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testMasterStore.fetchTestMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  testMasterStore.testMasterService
+                    .updateFileds({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateTestMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateTestMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testMasterStore.fetchTestMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  testMasterStore.testMasterService
+                    .updateFileds({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateTestMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateTestMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testMasterStore.fetchTestMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  testMasterStore.updateTestMaster({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'Update') {
-                testMasterStore.testMasterService
-                  .updateFileds({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateTestMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateTestMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testMasterStore.fetchTestMaster();
-                    }
+                  setValue('rLab', modalConfirm.data.rLab);
+                  setValue('pLab', modalConfirm.data.pLab);
+                  setValue('department', modalConfirm.data.department);
+                  setValue('testCode', modalConfirm.data.testCode);
+                  setValue('testName', modalConfirm.data.testName);
+                  setValue('department', modalConfirm.data.department);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                case 'duplicate': {
+                  testMasterStore.updateTestMaster({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'UpdateFileds') {
-                testMasterStore.testMasterService
-                  .updateFileds({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateTestMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateTestMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testMasterStore.fetchTestMaster();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                testMasterStore.updateTestMaster({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setValue('rLab', modalConfirm.data.rLab);
-                setValue('pLab', modalConfirm.data.pLab);
-                setValue('department', modalConfirm.data.department);
-                setValue('testCode', modalConfirm.data.testCode);
-                setValue('testName', modalConfirm.data.testName);
-                setValue('department', modalConfirm.data.department);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-              } else if (type === 'duplicate') {
-                testMasterStore.updateTestMaster({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setHideAddLab(!hideAddLab);
-                setValue('rLab', modalConfirm.data.rLab);
-                setValue('pLab', modalConfirm.data.pLab);
-                setValue('department', modalConfirm.data.department);
-                setValue('testCode', modalConfirm.data.testCode);
-                setValue('testName', modalConfirm.data.testName);
-                setValue('department', modalConfirm.data.department);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
+                  setHideAddLab(!hideAddLab);
+                  setValue('rLab', modalConfirm.data.rLab);
+                  setValue('pLab', modalConfirm.data.pLab);
+                  setValue('department', modalConfirm.data.department);
+                  setValue('testCode', modalConfirm.data.testCode);
+                  setValue('testName', modalConfirm.data.testName);
+                  setValue('department', modalConfirm.data.department);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {

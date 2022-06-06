@@ -47,7 +47,7 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                       style={{width: 70, height: 55, marginRight: 10}}
                       alt='lims plus'
                     />
-                    <h4 className='font-semibold'>{`Lims Plus`}</h4>
+                    <h4 className='font-semibold'>{'Lims Plus'}</h4>
                   </div>
                   <div>
                     <div className='items-center justify-center flex'>
@@ -83,7 +83,7 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                       props.click(props.data.action);
                     }}
                   >
-                    {props.data.action !== 'login' ? `Logout` : 'Login'}
+                    {props.data.action !== 'login' ? 'Logout' : 'Login'}
                   </button>
                 </div>
                 <div className='justify-center items-center flex'>

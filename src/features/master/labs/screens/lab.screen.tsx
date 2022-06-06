@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -54,7 +53,9 @@ const Lab = LabHoc(
         if (
           labStore.labs?.priceList?.filter(item => {
             return (
+              // eslint-disable-next-line no-prototype-builtins
               item.hasOwnProperty('priceGroup') &&
+              // eslint-disable-next-line no-prototype-builtins
               item.hasOwnProperty('priority')
             );
           }).length > 0
@@ -106,7 +107,7 @@ const Lab = LabHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -115,7 +116,7 @@ const Lab = LabHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -124,7 +125,7 @@ const Lab = LabHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update lab!`,
+              body: 'Update lab!',
             });
           }}
           onUpdateFields={(fileds: any, id: string) => {
@@ -133,7 +134,7 @@ const Lab = LabHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -142,7 +143,7 @@ const Lab = LabHoc(
               type: 'UpdateImage',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update lab!`,
+              body: 'Update lab!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -155,6 +156,7 @@ const Lab = LabHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [labStore.listLabs],
     );
     return (
@@ -1234,8 +1236,8 @@ const Lab = LabHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : labStore.labs?.environment || `Select`}
+                            ? 'Select'
+                            : labStore.labs?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1382,65 +1384,76 @@ const Lab = LabHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                labStore.LabService.deleteLab({
-                  input: {id: modalConfirm.id},
-                }).then((res: any) => {
-                  if (res.removeLab.success) {
-                    Toast.success({
-                      message: `😊 ${res.removeLab.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    labStore.fetchListLab();
-                  }
-                });
-              } else if (type === 'Update') {
-                labStore.LabService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateLab.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateLab.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    labStore.fetchListLab();
-                  }
-                });
-              } else if (type === 'UpdateFileds') {
-                labStore.LabService.updateSingleFiled({
-                  input: {
-                    ...modalConfirm.data.fileds,
-                    _id: modalConfirm.data.id,
-                  },
-                }).then((res: any) => {
-                  if (res.updateLab.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateLab.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    labStore.fetchListLab();
-                  }
-                });
-              } else {
-                labStore.LabService.updateLabImages({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    labLog: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateLabImages.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateLabImages.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 2000);
-                  }
-                });
+              switch (type) {
+                case 'Delete': {
+                  labStore.LabService.deleteLab({
+                    input: {id: modalConfirm.id},
+                  }).then((res: any) => {
+                    if (res.removeLab.success) {
+                      Toast.success({
+                        message: `😊 ${res.removeLab.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      labStore.fetchListLab();
+                    }
+                  });
+
+                  break;
+                }
+                case 'Update': {
+                  labStore.LabService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateLab.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateLab.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      labStore.fetchListLab();
+                    }
+                  });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  labStore.LabService.updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateLab.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateLab.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      labStore.fetchListLab();
+                    }
+                  });
+
+                  break;
+                }
+                default: {
+                  labStore.LabService.updateLabImages({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      labLog: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateLabImages.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateLabImages.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 2000);
+                    }
+                  });
+                }
               }
             }}
             onClose={() => {

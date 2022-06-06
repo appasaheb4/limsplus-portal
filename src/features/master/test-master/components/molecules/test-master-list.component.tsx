@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -1638,7 +1637,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

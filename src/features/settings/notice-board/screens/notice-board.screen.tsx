@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -79,7 +78,7 @@ const NoticeBoard = NoticeBoardHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -88,7 +87,7 @@ const NoticeBoard = NoticeBoardHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update recoard!`,
+              body: 'Update recoard!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -101,6 +100,7 @@ const NoticeBoard = NoticeBoardHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [noticeBoardStore.noticeBoardList],
     );
 

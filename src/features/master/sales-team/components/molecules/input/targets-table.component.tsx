@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {
@@ -65,7 +64,9 @@ export const TargetsTable = observer(
                     render={({field: {onChange}}) => (
                       <select
                         value={item.fyYear}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                        className={
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                        }
                         onChange={e => {
                           const fyYear = e.target.value;
                           onChange(fyYear);
@@ -117,7 +118,9 @@ export const TargetsTable = observer(
                 >
                   {!displayTargetSale && (
                     <span
-                      className={`leading-4 p-2 h-11 focus:outline-none focus:ring block w-30 shadow-sm sm:text-base border-2 rounded-md`}
+                      className={
+                        'leading-4 p-2 h-11 focus:outline-none focus:ring block w-30 shadow-sm sm:text-base border-2 rounded-md'
+                      }
                     >
                       {item.targetSale}
                     </span>
@@ -130,14 +133,16 @@ export const TargetsTable = observer(
                           label=''
                           type='number'
                           placeholder={item.targetSale}
-                          className={`leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md`}
+                          className={
+                            'leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md'
+                          }
                           hasError={errors.targetSale}
                           onChange={targetSale => {
                             onChange(targetSale);
                             const targets = salesTeamStore.salesTeam?.targets;
                             targets[index] = {
                               ...targets[index],
-                              targetSale: parseFloat(targetSale),
+                              targetSale: Number.parseFloat(targetSale),
                             };
                             salesTeamStore.updateSalesTeam({
                               ...salesTeamStore.salesTeam,

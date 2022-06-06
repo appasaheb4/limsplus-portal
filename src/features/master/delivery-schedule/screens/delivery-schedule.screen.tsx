@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -59,7 +58,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
           });
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -497,9 +496,9 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : deliveryScheduleStore.deliverySchedule
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -677,7 +676,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -686,7 +685,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update items!`,
+                  body: 'Update items!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -702,35 +701,41 @@ const DeliverySchedule = DeliveryScheduleHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                deliveryScheduleStore.deliveryScheduleService
-                  .deleteDeliverySchdule({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeDeliverySchdule.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeDeliverySchdule.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      deliveryScheduleStore.fetchDeliverySchedule();
-                    }
-                  });
-              } else if (type === 'Update') {
-                deliveryScheduleStore.deliveryScheduleService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateDeliverySchdule.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateDeliverySchdule.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      deliveryScheduleStore.fetchDeliverySchedule();
-                    }
-                  });
+              switch (type) {
+                case 'Delete': {
+                  deliveryScheduleStore.deliveryScheduleService
+                    .deleteDeliverySchdule({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeDeliverySchdule.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeDeliverySchdule.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        deliveryScheduleStore.fetchDeliverySchedule();
+                      }
+                    });
+                  break;
+                }
+
+                case 'Update': {
+                  deliveryScheduleStore.deliveryScheduleService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateDeliverySchdule.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateDeliverySchdule.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        deliveryScheduleStore.fetchDeliverySchedule();
+                      }
+                    });
+                  break;
+                }
               }
             }}
             onClose={() => {

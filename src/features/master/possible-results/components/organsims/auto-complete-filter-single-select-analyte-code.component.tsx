@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import _ from 'lodash';
 import {Spinner} from 'react-bootstrap';
@@ -39,7 +38,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
-      }, [ref, isListOpen]);
+      }, [ref]);
     };
 
     const wrapperRef = useRef(null);
@@ -59,6 +58,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
 
     useEffect(() => {
       getAnalyteList();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onFilter = (value: string) => {
@@ -106,7 +106,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
             <input
               placeholder='Search by analyate code'
               value={!isListOpen ? value : value}
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

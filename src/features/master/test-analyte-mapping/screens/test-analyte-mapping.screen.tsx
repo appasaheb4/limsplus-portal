@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -125,7 +124,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -154,7 +153,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -163,7 +162,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update items!`,
+              body: 'Update items!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -181,7 +180,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -190,7 +189,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -213,6 +212,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [testAnalyteMappingStore.listTestAnalyteMapping],
     );
 
@@ -433,7 +433,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   testAnalyteMappingStore.testAnalyteMapping
                                     ?.lab,
                               ),
-                              v => [v.analyteName, v.analyteCode, v.lab].join(),
+                              v =>
+                                [v.analyteName, v.analyteCode, v.lab].join(','),
                             ) || [],
                           selected:
                             testAnalyteMappingStore.selectedItems?.analyteCode,
@@ -850,7 +851,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               <td style={{width: 150}}>
                                 {txtDisable ? (
                                   <span
-                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
+                                    className={
+                                      'leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md'
+                                    }
                                   >
                                     {item.order}
                                   </span>
@@ -863,7 +866,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         testAnalyteMappingStore
                                           .testAnalyteMapping?.resultOrder;
                                       resultOrder[index].order =
-                                        parseInt(order);
+                                        Number.parseInt(order);
                                       testAnalyteMappingStore.updateTestAnalyteMapping(
                                         {
                                           ...testAnalyteMappingStore.testAnalyteMapping,
@@ -959,7 +962,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               <td style={{width: 150}}>
                                 {txtDisable ? (
                                   <span
-                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
+                                    className={
+                                      'leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md'
+                                    }
                                   >
                                     {item.order}
                                   </span>
@@ -972,7 +977,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         testAnalyteMappingStore
                                           .testAnalyteMapping?.reportOrder;
                                       reportOrder[index].order =
-                                        parseInt(order);
+                                        Number.parseInt(order);
                                       testAnalyteMappingStore.updateTestAnalyteMapping(
                                         {
                                           ...testAnalyteMappingStore.testAnalyteMapping,
@@ -1077,9 +1082,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : testAnalyteMappingStore.testAnalyteMapping
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1130,83 +1135,100 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                testAnalyteMappingStore.testAnalyteMappingService
-                  .deleteTestAnalyteMapping({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeTestAnalyteMapping.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeTestAnalyteMapping.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testAnalyteMappingStore.fetchTestAnalyteMapping();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  testAnalyteMappingStore.testAnalyteMappingService
+                    .deleteTestAnalyteMapping({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeTestAnalyteMapping.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeTestAnalyteMapping.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testAnalyteMappingStore.fetchTestAnalyteMapping();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  testAnalyteMappingStore.testAnalyteMappingService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateTestAnalyteMapping.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateTestAnalyteMapping.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testAnalyteMappingStore.fetchTestAnalyteMapping();
+                      }
+                    });
+
+                  break;
+                }
+                case 'updateFileds': {
+                  testAnalyteMappingStore.testAnalyteMappingService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateTestAnalyteMapping.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateTestAnalyteMapping.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testAnalyteMappingStore.fetchTestAnalyteMapping();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  testAnalyteMappingStore.updateTestAnalyteMapping({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                   });
-              } else if (type === 'Update') {
-                testAnalyteMappingStore.testAnalyteMappingService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateTestAnalyteMapping.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateTestAnalyteMapping.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testAnalyteMappingStore.fetchTestAnalyteMapping();
-                    }
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('testCode', modalConfirm.data.testCode);
+                  setValue('testName', modalConfirm.data.testName);
+                  setValue('analyteCode', 'default');
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                case 'duplicate': {
+                  testAnalyteMappingStore.updateTestAnalyteMapping({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                   });
-              } else if (type === 'updateFileds') {
-                testAnalyteMappingStore.testAnalyteMappingService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateTestAnalyteMapping.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateTestAnalyteMapping.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testAnalyteMappingStore.fetchTestAnalyteMapping();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                testAnalyteMappingStore.updateTestAnalyteMapping({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateCreation: new Date(),
-                });
-                setValue('lab', modalConfirm.data.lab);
-                setValue('testCode', modalConfirm.data.testCode);
-                setValue('testName', modalConfirm.data.testName);
-                setValue('analyteCode', 'default');
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-              } else if (type === 'duplicate') {
-                testAnalyteMappingStore.updateTestAnalyteMapping({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateCreation: new Date(),
-                });
-                setHideAddLab(!hideAddLab);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('testCode', modalConfirm.data.testCode);
-                setValue('testName', modalConfirm.data.testName);
-                setValue('analyteCode', 'default');
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
+                  setHideAddLab(!hideAddLab);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('testCode', modalConfirm.data.testCode);
+                  setValue('testName', modalConfirm.data.testName);
+                  setValue('analyteCode', 'default');
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -99,7 +98,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 type: 'delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: `Delete selected items!`,
+                body: 'Delete selected items!',
               });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -109,7 +108,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 type: 'update',
                 data: {value, dataField, id},
                 title: 'Are you sure?',
-                body: `Update recoard!`,
+                body: 'Update recoard!',
               });
           }}
           onPageSizeChange={(page, limit) => {
@@ -129,6 +128,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [environmentStore.environmentSettingsList],
     );
 
@@ -623,9 +623,9 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : environmentStore.environmentSettings
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,

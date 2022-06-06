@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {Form} from '@/library/components';
@@ -49,6 +48,7 @@ export const TableExtraDataPackages = observer(
           _.extend({panelStatus, orderStatus}, o),
         );
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       data = {
         ...data,
         pacakgeListS,

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import {useForm} from 'react-hook-form';
@@ -42,7 +41,7 @@ export const PatientResult = observer((props: PatientResultProps) => {
                 type: 'Delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: `Delete selected items!`,
+                body: 'Delete selected items!',
               });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -52,7 +51,7 @@ export const PatientResult = observer((props: PatientResultProps) => {
                 type: 'Update',
                 data: {value, dataField, id},
                 title: 'Are you sure?',
-                body: `Update recoard!`,
+                body: 'Update recoard!',
               });
           }}
           onPageSizeChange={(page, limit) => {

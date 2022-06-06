@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
@@ -618,7 +617,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {Accordion, AccordionItem} from 'react-sanfona';
@@ -118,7 +117,7 @@ const Lookup = observer(() => {
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -127,7 +126,7 @@ const Lookup = observer(() => {
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update Lookup!`,
+                  body: 'Update Lookup!',
                 });
               }}
               onPageSizeChange={(page, size) => {
@@ -143,33 +142,39 @@ const Lookup = observer(() => {
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                lookupStore.LookupService.deleteLookup({
-                  input: {id: modalConfirm.id},
-                }).then((res: any) => {
-                  if (res.removeLookup.success) {
-                    Toast.success({
-                      message: `😊 ${res.removeLookup.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    lookupStore.fetchListLookup();
-                  }
-                });
-              } else if (type === 'Update') {
-                lookupStore.LookupService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateLookup.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateLookup.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    lookupStore.fetchListLookup();
-                  }
-                });
+              switch (type) {
+                case 'Delete': {
+                  lookupStore.LookupService.deleteLookup({
+                    input: {id: modalConfirm.id},
+                  }).then((res: any) => {
+                    if (res.removeLookup.success) {
+                      Toast.success({
+                        message: `😊 ${res.removeLookup.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      lookupStore.fetchListLookup();
+                    }
+                  });
+                  break;
+                }
+
+                case 'Update': {
+                  lookupStore.LookupService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateLookup.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateLookup.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      lookupStore.fetchListLookup();
+                    }
+                  });
+                  break;
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

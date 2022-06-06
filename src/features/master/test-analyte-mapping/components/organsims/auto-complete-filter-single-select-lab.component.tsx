@@ -1,4 +1,4 @@
-/* eslint-disable  */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
@@ -73,12 +73,14 @@ export const AutoCompleteFilterSingleSelectLabs = observer(
       <>
         <div ref={wrapperRef}>
           <div
-            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
+            className={
+              'flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md'
+            }
           >
             <input
               placeholder='Search by name'
               value={!isListOpen ? value : value}
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

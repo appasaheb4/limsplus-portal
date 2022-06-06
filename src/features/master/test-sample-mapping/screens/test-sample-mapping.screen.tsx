@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -105,7 +104,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -114,7 +113,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update items!`,
+              body: 'Update items!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -127,6 +126,7 @@ const TestSampleMapping = TestSampleMappingHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [testSampleMappingStore.listTestSampleMapping],
     );
 
@@ -618,7 +618,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                               onChange(prefrence);
                               testSampleMappingStore.updateDepartments({
                                 ...testSampleMappingStore.departments,
-                                prefrence: parseFloat(prefrence),
+                                prefrence: Number.parseFloat(prefrence),
                               });
                             }}
                           />
@@ -640,7 +640,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                               onChange(tatInMin);
                               testSampleMappingStore.updateDepartments({
                                 ...testSampleMappingStore.departments,
-                                tatInMin: parseFloat(tatInMin),
+                                tatInMin: Number.parseFloat(tatInMin),
                               });
                             }}
                           />
@@ -701,7 +701,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           }}
                         >
                           <Icons.EvaIcon icon='plus-circle-outline' />
-                          {`Add`}
+                          {'Add'}
                         </Buttons.Button>
                       </div>
                       <div className='clearfix'></div>
@@ -1071,9 +1071,9 @@ const TestSampleMapping = TestSampleMappingHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : testSampleMappingStore.testSampleMapping
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,

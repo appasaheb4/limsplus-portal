@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {
   NumberFilter,
@@ -279,7 +278,9 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               <>
                 <select
                   value={row?.billingOn}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                  }
                   onChange={e => {
                     const billingOn = e.target.value;
                     props.onUpdateItem &&
@@ -321,7 +322,9 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               <>
                 <select
                   value={row?.billingFrequency}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                  }
                   onChange={e => {
                     const billingFrequency = e.target.value;
                     props.onUpdateItem &&
@@ -464,7 +467,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                           district: '',
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -504,7 +507,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                           district: '',
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -544,7 +547,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                           district: item.district,
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -581,7 +584,11 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                   onSelect={item => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
-                        {city: item.city, area: '', postalCode: parseInt('')},
+                        {
+                          city: item.city,
+                          area: '',
+                          postalCode: Number.parseInt(''),
+                        },
                         row._id,
                       );
                   }}
@@ -618,7 +625,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                   onSelect={item => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
-                        {area: item.area, postalCode: parseInt('')},
+                        {area: item.area, postalCode: Number.parseInt('')},
                         row._id,
                       );
                   }}
@@ -660,7 +667,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
                         {
-                          postalCode: parseInt(item.postalCode),
+                          postalCode: Number.parseInt(item.postalCode),
                           zone: item.zone,
                           sbu: item.sbu,
                         },
@@ -1238,7 +1245,9 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               <>
                 <select
                   value={row.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
                   onChange={e => {
                     const environment = e.target.value;
                     props.onUpdateItem &&
@@ -1282,7 +1291,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -126,7 +125,7 @@ const TestPanelMapping = TestPanelMappingHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -157,7 +156,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -166,7 +165,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update items!`,
+              body: 'Update items!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -184,7 +183,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -193,7 +192,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onUpdateOrderSeq={orderSeq => {
@@ -216,6 +215,7 @@ const TestPanelMapping = TestPanelMappingHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [testPanelMappingStore.listTestPanelMapping],
     );
 
@@ -780,7 +780,9 @@ const TestPanelMapping = TestPanelMappingHoc(
                               <td style={{width: 150}}>
                                 {txtDisable ? (
                                   <span
-                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
+                                    className={
+                                      'leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md'
+                                    }
                                   >
                                     {item.order}
                                   </span>
@@ -793,7 +795,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                                         testPanelMappingStore.testPanelMapping
                                           ?.reportOrder;
                                       reportOrder[index].order =
-                                        parseInt(order);
+                                        Number.parseInt(order);
                                       testPanelMappingStore.updateTestPanelMapping(
                                         {
                                           ...testPanelMappingStore.testPanelMapping,
@@ -941,9 +943,9 @@ const TestPanelMapping = TestPanelMappingHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : testPanelMappingStore.testPanelMapping
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -993,83 +995,100 @@ const TestPanelMapping = TestPanelMappingHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                testPanelMappingStore.testPanelMappingService
-                  .deleteTestPanelMapping({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeTestPanelMapping.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeTestPanelMapping.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testPanelMappingStore.fetchTestPanelMapping();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  testPanelMappingStore.testPanelMappingService
+                    .deleteTestPanelMapping({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeTestPanelMapping.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeTestPanelMapping.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testPanelMappingStore.fetchTestPanelMapping();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  testPanelMappingStore.testPanelMappingService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateTestPanelMapping.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateTestPanelMapping.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testPanelMappingStore.fetchTestPanelMapping();
+                      }
+                    });
+
+                  break;
+                }
+                case 'updateFileds': {
+                  testPanelMappingStore.testPanelMappingService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateTestPanelMapping.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateTestPanelMapping.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        testPanelMappingStore.fetchTestPanelMapping();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  testPanelMappingStore.updateTestPanelMapping({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'Update') {
-                testPanelMappingStore.testPanelMappingService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateTestPanelMapping.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateTestPanelMapping.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testPanelMappingStore.fetchTestPanelMapping();
-                    }
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('panelCode', modalConfirm.data.panelCode);
+                  setValue('testCode', modalConfirm.data.testCode);
+                  setValue('testName', modalConfirm.data.testName);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                case 'duplicate': {
+                  testPanelMappingStore.updateTestPanelMapping({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActiveFrom: new Date(),
                   });
-              } else if (type === 'updateFileds') {
-                testPanelMappingStore.testPanelMappingService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateTestPanelMapping.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateTestPanelMapping.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      testPanelMappingStore.fetchTestPanelMapping();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                testPanelMappingStore.updateTestPanelMapping({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setValue('lab', modalConfirm.data.lab);
-                setValue('panelCode', modalConfirm.data.panelCode);
-                setValue('testCode', modalConfirm.data.testCode);
-                setValue('testName', modalConfirm.data.testName);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-              } else if (type === 'duplicate') {
-                testPanelMappingStore.updateTestPanelMapping({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActiveFrom: new Date(),
-                });
-                setHideAddLab(!hideAddLab);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('panelCode', modalConfirm.data.panelCode);
-                setValue('testCode', modalConfirm.data.testCode);
-                setValue('testName', modalConfirm.data.testName);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
+                  setHideAddLab(!hideAddLab);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('panelCode', modalConfirm.data.panelCode);
+                  setValue('testCode', modalConfirm.data.testCode);
+                  setValue('testName', modalConfirm.data.testName);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {

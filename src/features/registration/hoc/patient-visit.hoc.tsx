@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useCallback, useEffect, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -13,15 +12,19 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
       routerStore,
       environmentStore,
       appStore,
+      // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useStores();
-    let labId: any = parseFloat(
+    let labId: any = Number.parseFloat(
       uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
     );
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useMemo(() => {
-      labId = parseFloat(
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      labId = Number.parseFloat(
         uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
       );
     }, [appStore.environmentValues?.LABID_AUTO_GENERATE]);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       patientVisitStore.updatePatientVisit({
         ...patientVisitStore.patientVisit,
@@ -95,8 +98,9 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           },
         });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems, appStore.environmentValues]);
-
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       // get Environment value
       //if (!_.isBoolean(appStore.environmentValues.LABID_AUTO_GENERATE.allLabs)) {
@@ -113,25 +117,26 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           ...appStore.environmentValues,
           LABID_AUTO_GENERATE: {
             ...appStore.environmentValues?.LABID_AUTO_GENERATE,
-            allLabs: res.getEnviromentValue.enviromentValues.filter(
+            allLabs: res.getEnviromentValue.enviromentValues.find(
               item => item.variable === 'LABID_AUTO_GENERATE',
-            )[0].data[0].allLabs,
-            value: res.getEnviromentValue.enviromentValues.filter(
+            ).data[0].allLabs,
+            value: res.getEnviromentValue.enviromentValues.find(
               item => item.variable === 'LABID_AUTO_GENERATE',
-            )[0].data[0].value,
+            ).data[0].value,
           },
           LABID_LENGTH: {
             ...appStore.environmentValues?.LABID_LENGTH,
-            allLabs: res.getEnviromentValue.enviromentValues.filter(
+            allLabs: res.getEnviromentValue.enviromentValues.find(
               item => item.variable === 'LABID_LENGTH',
-            )[0].data[0].allLabs,
-            value: res.getEnviromentValue.enviromentValues.filter(
+            ).data[0].allLabs,
+            value: res.getEnviromentValue.enviromentValues.find(
               item => item.variable === 'LABID_LENGTH',
-            )[0].data[0].value,
+            ).data[0].value,
           },
         });
       });
       //}
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login]);
     return <Component {...props} />;
   });

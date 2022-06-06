@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -113,7 +112,7 @@ const Doctors = DoctorsHoc(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -146,7 +145,7 @@ const Doctors = DoctorsHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -155,7 +154,7 @@ const Doctors = DoctorsHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update Section!`,
+              body: 'Update Section!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -164,7 +163,7 @@ const Doctors = DoctorsHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onVersionUpgrade={item => {
@@ -173,7 +172,7 @@ const Doctors = DoctorsHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -182,7 +181,7 @@ const Doctors = DoctorsHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -195,6 +194,7 @@ const Doctors = DoctorsHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [doctorsStore.listDoctors],
     );
 
@@ -857,7 +857,7 @@ const Doctors = DoctorsHoc(
                           console.log({item});
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            postalCode: parseInt(item?.postalCode),
+                            postalCode: Number.parseInt(item?.postalCode),
                             zone: item?.zone,
                             sbu: item?.sbu,
                           });
@@ -1520,8 +1520,8 @@ const Doctors = DoctorsHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : doctorsStore.doctors?.environment || `Select`}
+                            ? 'Select'
+                            : doctorsStore.doctors?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1630,81 +1630,98 @@ const Doctors = DoctorsHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                doctorsStore.doctorsService
-                  .deleteDoctors({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeDoctor.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeDoctor.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      doctorsStore.fetchDoctors();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  doctorsStore.doctorsService
+                    .deleteDoctors({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeDoctor.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeDoctor.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        doctorsStore.fetchDoctors();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  doctorsStore.doctorsService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateDoctor.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateDoctor.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        doctorsStore.fetchDoctors();
+                      }
+                    });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  doctorsStore.doctorsService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateDoctor.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateDoctor.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        doctorsStore.fetchDoctors();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  doctorsStore.updateDoctors({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'Update') {
-                doctorsStore.doctorsService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateDoctor.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateDoctor.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      doctorsStore.fetchDoctors();
-                    }
+                  setValue('doctorCode', modalConfirm.data.doctorCode);
+                  setValue('doctorName', modalConfirm.data.doctorName);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                case 'duplicate': {
+                  doctorsStore.updateDoctors({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'UpdateFileds') {
-                doctorsStore.doctorsService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateDoctor.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateDoctor.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      doctorsStore.fetchDoctors();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                doctorsStore.updateDoctors({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                setValue('doctorCode', modalConfirm.data.doctorCode);
-                setValue('doctorName', modalConfirm.data.doctorName);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
-              } else if (type === 'duplicate') {
-                doctorsStore.updateDoctors({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                setHideAddSection(!hideAddSection);
-                setValue('doctorCode', modalConfirm.data.doctorCode);
-                setValue('doctorName', modalConfirm.data.doctorName);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('status', modalConfirm.data.status);
-                setValue('environment', modalConfirm.data.environment);
+                  setHideAddSection(!hideAddSection);
+                  setValue('doctorCode', modalConfirm.data.doctorCode);
+                  setValue('doctorName', modalConfirm.data.doctorName);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('status', modalConfirm.data.status);
+                  setValue('environment', modalConfirm.data.environment);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => setModalConfirm({show: false})}

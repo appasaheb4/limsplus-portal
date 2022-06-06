@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {Icons, Form} from '@/library/components';
@@ -48,6 +47,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
         _.extend({panelStatus, orderStatus}, o),
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     data = {
       ...data,
       pacakgeListS,
@@ -197,7 +197,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                     const pacakgeListS =
                       patientOrderStore.packageList.pacakgeListS;
                     pacakgeListS[index] = Object.assign(item, {
-                      grossAmt: parseFloat(grossAmt),
+                      grossAmt: Number.parseFloat(grossAmt),
                     });
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
@@ -218,7 +218,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                     const pacakgeListS =
                       patientOrderStore.packageList.pacakgeListS;
                     pacakgeListS[index] = Object.assign(item, {
-                      netAmt: parseFloat(netAmt),
+                      netAmt: Number.parseFloat(netAmt),
                     });
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
@@ -239,7 +239,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                     const pacakgeListS =
                       patientOrderStore.packageList.pacakgeListS;
                     pacakgeListS[index] = Object.assign(item, {
-                      discount: parseFloat(discount),
+                      discount: Number.parseFloat(discount),
                     });
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
@@ -288,7 +288,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                 <select
                   value={item.orderStatus}
                   disabled={true}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   onChange={e => {
                     const orderStatus = e.target.value;
                     const pacakgeListS =
@@ -315,7 +317,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                 <select
                   value={item.panelStatus}
                   disabled={true}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   onChange={e => {
                     const panelStatus = e.target.value;
                     const pacakgeListS =
@@ -477,7 +481,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               <td>
                 <select
                   value={item.orderStatus}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   disabled={true}
                   onChange={e => {
                     const orderStatus = e.target.value;
@@ -504,7 +510,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               <td>
                 <select
                   value={item.panelStatus}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   disabled={true}
                   onChange={e => {
                     const panelStatus = e.target.value;
@@ -666,7 +674,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                 <select
                   value={item.orderStatus}
                   disabled={true}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   onChange={e => {
                     const orderStatus = e.target.value;
                     const pacakgeListN =
@@ -693,7 +703,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                 <select
                   value={item.panelStatus}
                   disabled={true}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   onChange={e => {
                     const panelStatus = e.target.value;
                     const pacakgeListN =
@@ -854,7 +866,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                 <select
                   value={item.orderStatus}
                   disabled={true}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   onChange={e => {
                     const orderStatus = e.target.value;
                     const pacakgeListK =
@@ -881,7 +895,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                 <select
                   value={item.panelStatus}
                   disabled={true}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
+                  }
                   onChange={e => {
                     const panelStatus = e.target.value;
                     const pacakgeListK =

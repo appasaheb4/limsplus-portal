@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {
   loginRouter as loginRouters,
   privacyPolicyRoute as privacyPolicyRoutes,
   dashboardRouter as dashboardRoutes,
-} from './index';
+} from '.';
 
 import DashboardLayout from '../layouts/dashboard.component';
 import LandingLayout from '../layouts/landing.component';

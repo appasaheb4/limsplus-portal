@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import {observer} from 'mobx-react';
@@ -392,7 +391,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                   <select
                     disabled={true}
                     value={row?.ageUnits}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const ageUnits = e.target.value;
                       props.onUpdateItem &&
@@ -507,7 +508,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <select
                     value={row?.acClass}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const acClass = e.target.value;
                       props.onUpdateItem &&
@@ -621,7 +624,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <select
                     value={row.deliveryType}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const deliveryType = e.target.value as string;
                       props.onUpdateItem &&
@@ -692,7 +697,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <select
                     value={row?.status}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                    }
                     onChange={e => {
                       const status = e.target.value;
                       props.onUpdateItem &&
@@ -733,7 +740,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                             id: [row._id],
                             labId: [row.labId],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >
