@@ -35,7 +35,7 @@ const SampleContainer = async(
   () => import('../sample-container/screens/sample-container.screen'),
 );
 const SampleType = async(
-  () => import('../sampleType/screens/sample-type.screen'),
+  () => import('../sample-type/screens/sample-type.screen'),
 );
 const TestSampleMapping = async(
   () => import('../test-sample-mapping/screens/test-sample-mapping.screen'),
@@ -66,7 +66,9 @@ const PossibleResults = async(
   () => import('../possible-results/screens/possible-result.screen'),
 );
 const Library = async(() => import('../library/screens/library.screen'));
-const PriceList = async(() => import('../priceList/screens/price-list.screen'));
+const PriceList = async(
+  () => import('../price-list/screens/price-list.screen'),
+);
 const ReferenceRanges = async(
   () => import('../reference-ranges/screens/reference-ranges.screen'),
 );

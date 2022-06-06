@@ -1,6 +1,6 @@
 import async from '@/layouts/components/async.component';
 const PatientRegistation = async(
-  () => import('../screens/PatientRegistration/patient-registration.screen'),
+  () => import('../screens/patient-registration/patient-registration.screen'),
 );
 
 export const registrationRoutes = {
