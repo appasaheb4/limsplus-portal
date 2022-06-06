@@ -28,7 +28,7 @@ export * from './molecules/auto-complete-group-by-check/auto-complete-group-by-c
 export * from './molecules/modal/modal-change-password/modal-change-password.component';
 export * from './molecules/modal/modal-change-password-by-admin/modal-change-password-by-admin.component';
 export * from './molecules/modal/modal-clock/Modal-clock.component';
-export * from './molecules/modal/modal-Idle-timeout/modal-Idle-timeout.component';
+export * from './molecules/modal/modal-idle-timeout/modal-Idle-timeout.component';
 export * from './molecules/modal/modal-session-allowed/modal-session-allowed.component';
 export * from './molecules/modal/modal-token-expire/modal-token-expire.component';
 export * from './molecules/modal/modal-transition/moda-transition.component';
