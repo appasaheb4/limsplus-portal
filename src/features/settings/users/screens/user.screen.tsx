@@ -110,6 +110,7 @@ export const Users = UsersHoc(
             toJS(routerStore.userPermission),
             'Edit/Modify',
           )}
+          role={loginStore.login?.role}
           onDelete={selectedUser => setModalConfirm(selectedUser)}
           onSelectedRow={rows => {
             setModalConfirm({
