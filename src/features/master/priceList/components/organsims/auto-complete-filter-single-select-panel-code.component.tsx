@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
@@ -33,7 +32,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
-      }, [ref, isListOpen]);
+      }, [ref]);
     };
 
     const wrapperRef = useRef(null);
@@ -81,7 +80,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
             <input
               placeholder='Search by panel code'
               value={!isListOpen ? value : value}
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

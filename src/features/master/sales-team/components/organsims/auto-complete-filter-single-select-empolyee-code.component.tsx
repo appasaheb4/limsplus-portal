@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
@@ -38,6 +37,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
 
@@ -56,6 +56,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
 
     useEffect(() => {
       loadUsers();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onFilter = (value: string) => {
@@ -100,7 +101,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
             <input
               placeholder='Search  by emp code'
               value={!isListOpen ? value : value}
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

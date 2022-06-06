@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
@@ -35,6 +34,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
 
@@ -81,7 +81,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
             <input
               placeholder='Search by PId, Name, Mobile No.'
               value={!isListOpen ? value : value}
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
@@ -146,13 +145,13 @@ const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
-  let searchProps: any = {
+  const searchProps: any = {
     placeholder: searchPlaceholder,
   };
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
-        let itemSelected: any[] = selectedRow;
+        const itemSelected: any[] = selectedRow;
         itemSelected.push(rows);
         setSelectedRow(itemSelected);
       } else {
@@ -302,17 +301,23 @@ const TableBootstrap = ({
                   onChange={value => {}}
                 />
                 <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={
+                    'inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                  }
                   {...props.searchProps}
                 />
                 <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  className={
+                    'ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white'
+                  }
                   onClick={clearAllFilter}
                 >
                   Clear all filters
                 </button>
                 <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={
+                    'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                  }
                   {...props.csvProps}
                 >
                   Export CSV!!

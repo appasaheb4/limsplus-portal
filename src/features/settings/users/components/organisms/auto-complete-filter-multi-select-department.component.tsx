@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
@@ -27,13 +26,11 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
             !ref.current.contains(event.target) &&
             isListOpen
           ) {
-            if (originalOptions && options) {
-              if (isListOpen) {
-                departmentStore.updateDepartmentList(
-                  departmentStore.listDepartmentCopy,
-                );
-                onUpdate && onUpdate(userStore.selectedItems?.department);
-              }
+            if (originalOptions && options && isListOpen) {
+              departmentStore.updateDepartmentList(
+                departmentStore.listDepartmentCopy,
+              );
+              onUpdate && onUpdate(userStore.selectedItems?.department);
             }
             setIsListOpen(false);
             setValue('');
@@ -43,6 +40,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
     const wrapperRef = useRef(null);
@@ -75,6 +73,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
         ...userStore.selectedItems,
         department: selected,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selected]);
     useEffect(() => {
       setOriginalOptions(
@@ -109,6 +108,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
           'name',
         ),
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [departmentStore.listDepartment, userStore.selectedItems?.department]);
 
     const onFilter = (value: string) => {
@@ -157,7 +157,9 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
       <>
         <div ref={wrapperRef} className='w-full relative'>
           <div
-            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
+            className={
+              'flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md'
+            }
           >
             <input
               placeholder='Search by name'
@@ -170,7 +172,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(
                     } Items`
                   : value
               }
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

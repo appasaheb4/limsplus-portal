@@ -17,7 +17,7 @@ export class AssetsService {
         form.append('folder', folder);
         form.append('fileName', name);
         http
-          .post(`/assets/uploadFile`, form, {
+          .post('/assets/uploadFile', form, {
             headers: {
               Accept: 'application/json',
               'Content-Type': 'multipart/form-data',

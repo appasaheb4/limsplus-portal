@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import {stores} from '@/stores';
 import _ from 'lodash';
 //import hydrateStore from '@/library/modules/startup';

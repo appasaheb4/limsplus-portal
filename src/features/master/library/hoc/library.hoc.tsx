@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -6,7 +5,9 @@ import {getDefaultLookupItem} from '@/library/utils';
 
 export const LibraryHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const {loginStore, libraryStore, routerStore} = useStores();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       libraryStore.updateLibrary({
         ...libraryStore.library,
@@ -41,7 +42,7 @@ export const LibraryHoc = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
-    }, [loginStore.login, routerStore.lookupItems]);
+    }, [libraryStore, loginStore.login, routerStore.lookupItems]);
     return <Component {...props} />;
   });
 };

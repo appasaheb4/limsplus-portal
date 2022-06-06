@@ -1,20 +1,18 @@
-export function toggleTheme(name) {
-  detachStylesheets();
-  insertStylesheet(name);
-}
-
 function detachStylesheets() {
-  Array.from(document.querySelectorAll('link[rel="stylesheet"]')).forEach(
-    (style: any) => {
-      style.parentNode.removeChild(style);
-    },
-  );
+  const sheet = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
+  for (const style of sheet) {
+    style.remove();
+  }
 }
 
 function insertStylesheet(name) {
-  var link = document.createElement('link');
+  const link = document.createElement('link');
   link.href = '/css/' + name + '.css';
   link.type = 'text/css';
   link.rel = 'stylesheet';
-  document.getElementsByTagName('head')[0].appendChild(link);
+  document.getElementsByTagName('head')[0].append(link);
+}
+export function toggleTheme(name) {
+  detachStylesheets();
+  insertStylesheet(name);
 }

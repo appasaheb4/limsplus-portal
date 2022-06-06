@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import daysjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -489,7 +488,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     onChange={price => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          parseFloat(price),
+                          Number.parseFloat(price),
                           column.dataField,
                           row._id,
                         );
@@ -544,7 +543,9 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ) => (
                 <>
                   <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const schedule = e.target.value;
                       props.onUpdateItem &&
@@ -587,7 +588,9 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <>
                   <select
                     value={row.validationLevel}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const validationLevel: any = e.target.value;
                       props.onUpdateItem &&
@@ -1133,7 +1136,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                           props.onUpdateItem(loAge, column.dataField, row._id);
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -1176,7 +1180,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                           props.onUpdateItem(hiAge, column.dataField, row._id);
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -1625,7 +1630,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: `Delete item`,
+                            body: 'Delete item',
                           })
                         }
                       >

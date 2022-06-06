@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 
@@ -145,8 +144,8 @@ const Banner = BannerHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : bannerStore.banner?.environment || `Select`}
+                            ? 'Select'
+                            : bannerStore.banner?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -209,7 +208,7 @@ const Banner = BannerHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: `Delete selected items!`,
+                  body: 'Delete selected items!',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -218,7 +217,7 @@ const Banner = BannerHoc(
                   type: 'Update',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update banner!`,
+                  body: 'Update banner!',
                 });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -227,7 +226,7 @@ const Banner = BannerHoc(
                   type: 'UpdateImage',
                   data: {value, dataField, id},
                   title: 'Are you sure?',
-                  body: `Update banner!`,
+                  body: 'Update banner!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -242,51 +241,60 @@ const Banner = BannerHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type: string) => {
-              if (type === 'Delete') {
-                bannerStore.BannerService.deleteBanner({
-                  input: {id: modalConfirm.id},
-                }).then((res: any) => {
-                  if (res.removeBanner.success) {
-                    Toast.success({
-                      message: `😊 ${res.removeBanner.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    bannerStore.fetchListBanner();
-                  }
-                });
-              } else if (type === 'Update') {
-                bannerStore.BannerService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateBanner.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateBanner.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    bannerStore.fetchListBanner();
-                  }
-                });
-              } else {
-                bannerStore.BannerService.updateBannerImage({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    file: modalConfirm.data.value,
-                    containerName: 'banner',
-                  },
-                }).then((res: any) => {
-                  if (res.updateBannerImage.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateBannerImage.message}`,
-                    });
-                    setTimeout(() => {
+            click={(type?: string) => {
+              switch (type) {
+                case 'Delete': {
+                  bannerStore.BannerService.deleteBanner({
+                    input: {id: modalConfirm.id},
+                  }).then((res: any) => {
+                    if (res.removeBanner.success) {
+                      Toast.success({
+                        message: `😊 ${res.removeBanner.message}`,
+                      });
+                      setModalConfirm({show: false});
                       bannerStore.fetchListBanner();
-                    }, 2000);
-                  }
-                });
+                    }
+                  });
+                  break;
+                }
+
+                case 'Update': {
+                  bannerStore.BannerService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateBanner.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateBanner.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      bannerStore.fetchListBanner();
+                    }
+                  });
+                  break;
+                }
+
+                case 'UpdateImage': {
+                  bannerStore.BannerService.updateBannerImage({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      file: modalConfirm.data.value,
+                      containerName: 'banner',
+                    },
+                  }).then((res: any) => {
+                    if (res.updateBannerImage.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateBannerImage.message}`,
+                      });
+                      setTimeout(() => {
+                        bannerStore.fetchListBanner();
+                      }, 2000);
+                    }
+                  });
+                  break;
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useEffect, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -51,7 +50,7 @@ export const Department = DeginisationHoc(
 
     useEffect(() => {
       reset();
-    }, [labStore.listLabs, userStore && userStore.userList]);
+    }, [labStore.listLabs, reset]);
 
     const onSubmitDepartment = () => {
       if (!departmentStore.checkExitsCode) {
@@ -102,7 +101,7 @@ export const Department = DeginisationHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -111,7 +110,7 @@ export const Department = DeginisationHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update department!`,
+              body: 'Update department!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -124,6 +123,7 @@ export const Department = DeginisationHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [departmentStore.listDepartment],
     );
 
@@ -666,9 +666,9 @@ export const Department = DeginisationHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : departmentStore.department?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -717,33 +717,39 @@ export const Department = DeginisationHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                departmentStore.DepartmentService.deletedepartment({
-                  input: {id: modalConfirm.id},
-                }).then((res: any) => {
-                  if (res.removeDepartment.success) {
-                    Toast.success({
-                      message: `😊 ${res.removeDepartment.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    departmentStore.fetchListDepartment();
-                  }
-                });
-              } else if (type === 'Update') {
-                departmentStore.DepartmentService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateDepartment.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateDepartment.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    departmentStore.fetchListDepartment();
-                  }
-                });
+              switch (type) {
+                case 'Delete': {
+                  departmentStore.DepartmentService.deletedepartment({
+                    input: {id: modalConfirm.id},
+                  }).then((res: any) => {
+                    if (res.removeDepartment.success) {
+                      Toast.success({
+                        message: `😊 ${res.removeDepartment.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      departmentStore.fetchListDepartment();
+                    }
+                  });
+                  break;
+                }
+
+                case 'Update': {
+                  departmentStore.DepartmentService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateDepartment.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateDepartment.message}`,
+                      });
+                      setModalConfirm({show: false});
+                      departmentStore.fetchListDepartment();
+                    }
+                  });
+                  break;
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

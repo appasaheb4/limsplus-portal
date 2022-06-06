@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -7,7 +6,9 @@ import {getDefaultLookupItem} from '@/library/utils';
 export const PatientManagerHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     const {loginStore, patientManagerStore, routerStore, environmentStore} =
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       useStores();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       patientManagerStore.updatePatientManager({
         ...patientManagerStore.patientManger,
@@ -69,6 +70,7 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
           },
         });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
     return <Component {...props} />;
   });

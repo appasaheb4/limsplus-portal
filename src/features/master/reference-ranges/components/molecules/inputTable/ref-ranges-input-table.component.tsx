@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import {
@@ -51,7 +50,7 @@ export const RefRangesInputTable = observer(
       const hasDuplicates = set.size < arr.length;
       if (hasDuplicates) {
         Toast.warning({
-          message: `😔 Duplicate record found!`,
+          message: '😔 Duplicate record found!',
         });
       }
       refernceRangesStore.updateExistsRecord(hasDuplicates);
@@ -243,7 +242,7 @@ export const RefRangesInputTable = observer(
                             onUpdateItems(
                               {
                                 low: row?.picture
-                                  ? parseFloat(low).toFixed(row?.picture)
+                                  ? Number.parseFloat(low).toFixed(row?.picture)
                                   : low,
                               },
                               row.rangeId,
@@ -254,7 +253,8 @@ export const RefRangesInputTable = observer(
                         }
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -290,7 +290,9 @@ export const RefRangesInputTable = observer(
                             onUpdateItems(
                               {
                                 high: row?.picture
-                                  ? parseFloat(high).toFixed(row?.picture)
+                                  ? Number.parseFloat(high).toFixed(
+                                      row?.picture,
+                                    )
                                   : high,
                               },
                               row.rangeId,
@@ -300,7 +302,8 @@ export const RefRangesInputTable = observer(
                         }
                       } else {
                         Toast.warning({
-                          message: `😔 Only > and < sign and numbers should be allowed`,
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
                         });
                       }
                     }}
@@ -448,7 +451,9 @@ export const RefRangesInputTable = observer(
                 <>
                   <select
                     value={row?.species}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const species = e.target.value as string;
                       onUpdateItems && onUpdateItems({species}, row.rangeId);
@@ -521,7 +526,9 @@ export const RefRangesInputTable = observer(
                 <>
                   <select
                     value={row?.rangeSetOn}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
                     onChange={e => {
                       const rangeSetOn = e.target.value as string;
                       onUpdateItems &&
@@ -743,7 +750,7 @@ export const RefRangesInputTable = observer(
                       lookupItems(
                         extraData.lookupItems,
                         `${row.rangeType}_LW_COLOR`,
-                      ).filter(item => item.code === row.colorLo)[0]?.value
+                      ).find(item => item.code === row.colorLo)?.value
                     }
                   </>
                 );
@@ -790,7 +797,7 @@ export const RefRangesInputTable = observer(
                       lookupItems(
                         extraData.lookupItems,
                         `${row.rangeType}_HI_COLOR`,
-                      ).filter(item => item.code == row.colorHi)[0]?.value
+                      ).find(item => item.code == row.colorHi)?.value
                     }
                   </>
                 );
@@ -837,7 +844,7 @@ export const RefRangesInputTable = observer(
                       lookupItems(
                         extraData.lookupItems,
                         `${row.rangeType}_NO_COLOR`,
-                      ).filter(item => item.code == row.colorNormal)[0]?.value
+                      ).find(item => item.code == row.colorNormal)?.value
                     }
                   </>
                 );
@@ -995,26 +1002,26 @@ export const RefRangesInputTable = observer(
           isEditModify={true}
           isSelectRow={true}
           fileName='Doctors'
-          onSelectedRow={rows => {
-            {
-            }
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            {
-            }
-          }}
-          onPageSizeChange={(page, size) => {
-            {
-            }
-          }}
-          onFilter={(type, filter, page, size) => {
-            {
-            }
-          }}
-          clearAllFilter={() => {
-            {
-            }
-          }}
+          // onSelectedRow={rows => {
+          //   {
+          //   }
+          // }}
+          // onUpdateItem={(value: any, dataField: string, id: string) => {
+          //   {
+          //   }
+          // }}
+          // onPageSizeChange={(page, size) => {
+          //   {
+          //   }
+          // }}
+          // onFilter={(type, filter, page, size) => {
+          //   {
+          //   }
+          // }}
+          // clearAllFilter={() => {
+          //   {
+          //   }
+          // }}
         />
       </div>
     );

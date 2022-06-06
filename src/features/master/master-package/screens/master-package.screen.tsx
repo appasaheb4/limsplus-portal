@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import {Table} from 'reactstrap';
@@ -140,7 +139,7 @@ const MasterPackage = MasterPackageHOC(
         }, 2000);
       } else {
         Toast.warning({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -170,7 +169,7 @@ const MasterPackage = MasterPackageHOC(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -179,7 +178,7 @@ const MasterPackage = MasterPackageHOC(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update items!`,
+              body: 'Update items!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -197,7 +196,7 @@ const MasterPackage = MasterPackageHOC(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -206,7 +205,7 @@ const MasterPackage = MasterPackageHOC(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onUpdateOrderSeq={orderSeq => {
@@ -229,6 +228,7 @@ const MasterPackage = MasterPackageHOC(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [masterPackageStore.listMasterPackage],
     );
 
@@ -653,7 +653,7 @@ const MasterPackage = MasterPackageHOC(
                         <option selected>
                           {masterPackageStore.masterPackage?.panelName?.join(
                             ',',
-                          ) || `Select`}
+                          ) || 'Select'}
                         </option>
                       </select>
                     </Form.InputWrapper>
@@ -877,7 +877,9 @@ const MasterPackage = MasterPackageHOC(
                               <td style={{width: 150}}>
                                 {txtDisable ? (
                                   <span
-                                    className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md`}
+                                    className={
+                                      'leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md'
+                                    }
                                   >
                                     {item.order}
                                   </span>
@@ -890,7 +892,7 @@ const MasterPackage = MasterPackageHOC(
                                         masterPackageStore.masterPackage
                                           ?.reportOrder;
                                       reportOrder[index].order =
-                                        parseInt(order);
+                                        Number.parseInt(order);
                                       masterPackageStore.updateMasterPackage({
                                         ...masterPackageStore.masterPackage,
                                         reportOrder,
@@ -1031,9 +1033,9 @@ const MasterPackage = MasterPackageHOC(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : masterPackageStore.masterPackage?.environment ||
-                              `Select`}
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -1080,77 +1082,94 @@ const MasterPackage = MasterPackageHOC(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                masterPackageStore.masterPackageService
-                  .deletePackageMaster({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removePackageMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.removePackageMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      masterPackageStore.fetchPackageMaster();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  masterPackageStore.masterPackageService
+                    .deletePackageMaster({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removePackageMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.removePackageMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        masterPackageStore.fetchPackageMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  masterPackageStore.masterPackageService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePackageMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updatePackageMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        masterPackageStore.fetchPackageMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'updateFileds': {
+                  masterPackageStore.masterPackageService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePackageMaster.success) {
+                        Toast.success({
+                          message: `😊 ${res.updatePackageMaster.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        masterPackageStore.fetchPackageMaster();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  masterPackageStore.updateMasterPackage({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: dayjs().unix(),
                   });
-              } else if (type === 'Update') {
-                masterPackageStore.masterPackageService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePackageMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePackageMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      masterPackageStore.fetchPackageMaster();
-                    }
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                case 'duplicate': {
+                  masterPackageStore.updateMasterPackage({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: dayjs().unix(),
                   });
-              } else if (type === 'updateFileds') {
-                masterPackageStore.masterPackageService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePackageMaster.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePackageMaster.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      masterPackageStore.fetchPackageMaster();
-                    }
-                  });
-              } else if (type === 'versionUpgrade') {
-                masterPackageStore.updateMasterPackage({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: dayjs().unix(),
-                });
-                setValue('lab', modalConfirm.data.lab);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-              } else if (type === 'duplicate') {
-                masterPackageStore.updateMasterPackage({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: dayjs().unix(),
-                });
-                setHideAddLab(!hideAddLab);
-                setValue('lab', modalConfirm.data.lab);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
+                  setHideAddLab(!hideAddLab);
+                  setValue('lab', modalConfirm.data.lab);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -52,7 +51,7 @@ const Section = SectionHoc(
               });
             } else {
               Toast.error({
-                message: `😔 Please try again`,
+                message: '😔 Please try again',
               });
             }
           });
@@ -61,7 +60,7 @@ const Section = SectionHoc(
         }, 2000);
       } else {
         Toast.error({
-          message: `😔 Please enter diff code`,
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -90,7 +89,7 @@ const Section = SectionHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -99,7 +98,7 @@ const Section = SectionHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update Section!`,
+              body: 'Update Section!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -112,6 +111,7 @@ const Section = SectionHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [sectionStore.listSection],
     );
 
@@ -462,8 +462,8 @@ const Section = SectionHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
-                            : sectionStore.section?.environment || `Select`}
+                            ? 'Select'
+                            : sectionStore.section?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -511,35 +511,40 @@ const Section = SectionHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                sectionStore.sectionService
-                  .deleteSection({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeSection.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeSection.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      sectionStore.fetchSections();
-                    }
-                  });
-              } else if (type === 'Update') {
-                sectionStore.sectionService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateSection.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateSection.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      sectionStore.fetchSections();
-                    }
-                  });
+              switch (type) {
+                case 'Delete': {
+                  sectionStore.sectionService
+                    .deleteSection({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeSection.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeSection.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        sectionStore.fetchSections();
+                      }
+                    });
+                  break;
+                }
+                case 'Update': {
+                  sectionStore.sectionService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateSection.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateSection.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        sectionStore.fetchSections();
+                      }
+                    });
+                  break;
+                }
               }
             }}
             onClose={() => setModalConfirm({show: false})}

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -79,17 +78,17 @@ const ReferenceRanges = ReferenceRangesHoc(
               });
           } else {
             Toast.warning({
-              message: `😔 Duplicate record found!`,
+              message: '😔 Duplicate record found!',
             });
           }
         } else {
           Toast.warning({
-            message: `😔 Duplicate record found!`,
+            message: '😔 Duplicate record found!',
           });
         }
       } else {
         Toast.warning({
-          message: `😔 Records not found.`,
+          message: '😔 Records not found.',
         });
       }
     };
@@ -121,7 +120,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -130,7 +129,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update item!`,
+              body: 'Update item!',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -139,7 +138,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'UpdateFileds',
               data: {fileds, id},
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: 'Update records!',
             });
           }}
           onVersionUpgrade={item => {
@@ -148,7 +147,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -157,7 +156,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -170,6 +169,7 @@ const ReferenceRanges = ReferenceRangesHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [refernceRangesStore.listReferenceRanges],
     );
 
@@ -225,6 +225,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             />
           </div>
         ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [
         refernceRangesStore.referenceRanges?.refRangesInputList.length,
         refernceRangesStore.referenceRanges?.refreshList,
@@ -273,89 +274,106 @@ const ReferenceRanges = ReferenceRangesHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'delete') {
-                refernceRangesStore.referenceRangesService
-                  .deleteReferenceRanges({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removeReferenceRange.success) {
-                      Toast.success({
-                        message: `😊 ${res.removeReferenceRange.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      refernceRangesStore.fetchListReferenceRanges();
-                    }
+              switch (type) {
+                case 'delete': {
+                  refernceRangesStore.referenceRangesService
+                    .deleteReferenceRanges({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removeReferenceRange.success) {
+                        Toast.success({
+                          message: `😊 ${res.removeReferenceRange.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        refernceRangesStore.fetchListReferenceRanges();
+                      }
+                    });
+
+                  break;
+                }
+                case 'update': {
+                  refernceRangesStore.referenceRangesService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateReferenceRange.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateReferenceRange.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        refernceRangesStore.fetchListReferenceRanges();
+                      }
+                    });
+
+                  break;
+                }
+                case 'UpdateFileds': {
+                  refernceRangesStore.referenceRangesService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updateReferenceRange.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateReferenceRange.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        refernceRangesStore.fetchListReferenceRanges();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  const refRangesInputList =
+                    refernceRangesStore.referenceRanges?.refRangesInputList;
+                  refRangesInputList.push({
+                    ...modalConfirm.data,
+                    rangeId:
+                      refernceRangesStore.referenceRanges?.refRangesInputList
+                        .length + 1,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    type: 'versionUpgrade',
                   });
-              } else if (type === 'update') {
-                refernceRangesStore.referenceRangesService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateReferenceRange.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateReferenceRange.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      refernceRangesStore.fetchListReferenceRanges();
-                    }
+                  refernceRangesStore.updateReferenceRanges({
+                    ...refernceRangesStore.referenceRanges,
+                    refRangesInputList,
                   });
-              } else if (type === 'UpdateFileds') {
-                refernceRangesStore.referenceRangesService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updateReferenceRange.success) {
-                      Toast.success({
-                        message: `😊 ${res.updateReferenceRange.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      refernceRangesStore.fetchListReferenceRanges();
-                    }
+                  setModalConfirm({show: false});
+
+                  break;
+                }
+                case 'duplicate': {
+                  const refRangesInputList =
+                    refernceRangesStore.referenceRanges?.refRangesInputList;
+                  refRangesInputList.push({
+                    ...modalConfirm.data,
+                    rangeId:
+                      refernceRangesStore.referenceRanges?.refRangesInputList
+                        .length + 1,
+                    existsRecordId: modalConfirm.data._id,
+                    version: 1,
+                    type: 'duplicate',
                   });
-              } else if (type === 'versionUpgrade') {
-                let refRangesInputList =
-                  refernceRangesStore.referenceRanges?.refRangesInputList;
-                refRangesInputList.push({
-                  ...modalConfirm.data,
-                  rangeId:
-                    refernceRangesStore.referenceRanges?.refRangesInputList
-                      .length + 1,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  type: 'versionUpgrade',
-                });
-                refernceRangesStore.updateReferenceRanges({
-                  ...refernceRangesStore.referenceRanges,
-                  refRangesInputList,
-                });
-                setModalConfirm({show: false});
-              } else if (type === 'duplicate') {
-                let refRangesInputList =
-                  refernceRangesStore.referenceRanges?.refRangesInputList;
-                refRangesInputList.push({
-                  ...modalConfirm.data,
-                  rangeId:
-                    refernceRangesStore.referenceRanges?.refRangesInputList
-                      .length + 1,
-                  existsRecordId: modalConfirm.data._id,
-                  version: 1,
-                  type: 'duplicate',
-                });
-                console.log({refRangesInputList});
-                setDupExistsRecords(JSON.stringify(refRangesInputList));
-                refernceRangesStore.updateReferenceRanges({
-                  ...refernceRangesStore.referenceRanges,
-                  refRangesInputList,
-                });
-                setHideAddLab(!hideAddLab);
-                setModalConfirm({show: false});
+                  console.log({refRangesInputList});
+                  setDupExistsRecords(JSON.stringify(refRangesInputList));
+                  refernceRangesStore.updateReferenceRanges({
+                    ...refernceRangesStore.referenceRanges,
+                    refRangesInputList,
+                  });
+                  setHideAddLab(!hideAddLab);
+                  setModalConfirm({show: false});
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => {

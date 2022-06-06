@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
@@ -26,11 +25,9 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
             !ref.current.contains(event.target) &&
             isListOpen
           ) {
-            if (originalOptions && options) {
-              if (isListOpen) {
-                roleStore.updateRoleList(roleStore.listRoleCopy);
-                onUpdate && onUpdate(userStore.selectedItems?.roles);
-              }
+            if (originalOptions && options && isListOpen) {
+              roleStore.updateRoleList(roleStore.listRoleCopy);
+              onUpdate && onUpdate(userStore.selectedItems?.roles);
             }
             setIsListOpen(false);
             setValue('');
@@ -40,6 +37,7 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
 
@@ -76,6 +74,7 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
         ...userStore.selectedItems,
         roles: selected,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selected]);
 
     useEffect(() => {
@@ -93,6 +92,7 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
           'description',
         ),
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roleStore.listRole, userStore.selectedItems]);
 
     const onFilter = (value: string) => {
@@ -145,7 +145,9 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
       <>
         <div ref={wrapperRef} className='w-full relative'>
           <div
-            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
+            className={
+              'flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md'
+            }
           >
             <input
               placeholder='Search...'
@@ -158,7 +160,7 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
                     } Items`
                   : value
               }
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -66,7 +65,7 @@ export const PossibleResults = PossibleResultHoc(
           });
       } else {
         Toast.warning({
-          message: `😔 Please use diff code`,
+          message: '😔 Please use diff code',
         });
       }
     };
@@ -100,7 +99,7 @@ export const PossibleResults = PossibleResultHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: `Delete selected items!`,
+              body: 'Delete selected items!',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -109,7 +108,7 @@ export const PossibleResults = PossibleResultHoc(
               type: 'Update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: `Update Lookup!`,
+              body: 'Update Lookup!',
             });
           }}
           onVersionUpgrade={item => {
@@ -118,7 +117,7 @@ export const PossibleResults = PossibleResultHoc(
               type: 'versionUpgrade',
               data: item,
               title: 'Are you version upgrade?',
-              body: `Version upgrade this record`,
+              body: 'Version upgrade this record',
             });
           }}
           onDuplicate={item => {
@@ -127,7 +126,7 @@ export const PossibleResults = PossibleResultHoc(
               type: 'duplicate',
               data: item,
               title: 'Are you duplicate?',
-              body: `Duplicate this record`,
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -140,6 +139,7 @@ export const PossibleResults = PossibleResultHoc(
           }}
         />
       ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [possibleResultsStore.listPossibleResults],
     );
 
@@ -382,7 +382,7 @@ export const PossibleResults = PossibleResultHoc(
                         }}
                       >
                         <Icons.EvaIcon icon='plus-circle-outline' />
-                        {`Add`}
+                        {'Add'}
                       </Buttons.Button>
                     </div>
                     <div className='clearfix'></div>
@@ -527,9 +527,9 @@ export const PossibleResults = PossibleResultHoc(
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
-                            ? `Select`
+                            ? 'Select'
                             : possibleResultsStore.possibleResults
-                                ?.environment || `Select`}
+                                ?.environment || 'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -710,63 +710,77 @@ export const PossibleResults = PossibleResultHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(type?: string) => {
-              if (type === 'Delete') {
-                possibleResultsStore.possibleResultsService
-                  .deletePossibleResults({input: {id: modalConfirm.id}})
-                  .then((res: any) => {
-                    if (res.removePossibleResult.success) {
-                      Toast.success({
-                        message: `😊 ${res.removePossibleResult.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      possibleResultsStore.fetchListPossibleResults();
-                    }
+              switch (type) {
+                case 'Delete': {
+                  possibleResultsStore.possibleResultsService
+                    .deletePossibleResults({input: {id: modalConfirm.id}})
+                    .then((res: any) => {
+                      if (res.removePossibleResult.success) {
+                        Toast.success({
+                          message: `😊 ${res.removePossibleResult.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        possibleResultsStore.fetchListPossibleResults();
+                      }
+                    });
+
+                  break;
+                }
+                case 'Update': {
+                  possibleResultsStore.possibleResultsService
+                    .updateSingleFiled({
+                      input: {
+                        _id: modalConfirm.data.id,
+                        [modalConfirm.data.dataField]: modalConfirm.data.value,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePossibleResult.success) {
+                        Toast.success({
+                          message: `😊 ${res.updatePossibleResult.message}`,
+                        });
+                        setModalConfirm({show: false});
+                        possibleResultsStore.fetchListPossibleResults();
+                      }
+                    });
+
+                  break;
+                }
+                case 'versionUpgrade': {
+                  possibleResultsStore.updatePossibleResults({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'Update') {
-                possibleResultsStore.possibleResultsService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePossibleResult.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePossibleResult.message}`,
-                      });
-                      setModalConfirm({show: false});
-                      possibleResultsStore.fetchListPossibleResults();
-                    }
+                  setValue('analyteCode', modalConfirm.data.analyteCode);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+                  setHideAddLookup(!hideAddLookup);
+                  setModalConfirm({show: false});
+
+                  break;
+                }
+                case 'duplicate': {
+                  possibleResultsStore.updatePossibleResults({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version),
+                    dateActive: new Date(),
                   });
-              } else if (type === 'versionUpgrade') {
-                possibleResultsStore.updatePossibleResults({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: modalConfirm.data._id,
-                  existsRecordId: undefined,
-                  version: parseInt(modalConfirm.data.version + 1),
-                  dateActive: new Date(),
-                });
-                setValue('analyteCode', modalConfirm.data.analyteCode);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-                setHideAddLookup(!hideAddLookup);
-                setModalConfirm({show: false});
-              } else if (type === 'duplicate') {
-                possibleResultsStore.updatePossibleResults({
-                  ...modalConfirm.data,
-                  _id: undefined,
-                  existsVersionId: undefined,
-                  existsRecordId: modalConfirm.data._id,
-                  version: parseInt(modalConfirm.data.version),
-                  dateActive: new Date(),
-                });
-                setValue('analyteCode', modalConfirm.data.analyteCode);
-                setValue('environment', modalConfirm.data.environment);
-                setValue('status', modalConfirm.data.status);
-                setHideAddLookup(!hideAddLookup);
-                setModalConfirm({show: false});
+                  setValue('analyteCode', modalConfirm.data.analyteCode);
+                  setValue('environment', modalConfirm.data.environment);
+                  setValue('status', modalConfirm.data.status);
+                  setHideAddLookup(!hideAddLookup);
+                  setModalConfirm({show: false});
+
+                  break;
+                }
+                // No default
               }
             }}
             onClose={() => setModalConfirm({show: false})}

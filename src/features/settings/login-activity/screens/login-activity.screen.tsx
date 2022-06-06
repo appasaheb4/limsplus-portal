@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -22,6 +21,7 @@ const LoginActivity = observer(() => {
   const {loginStore, loginActivityStore, routerStore} = useStores();
   useEffect(() => {
     loginActivityStore.fetchLoginActivity();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

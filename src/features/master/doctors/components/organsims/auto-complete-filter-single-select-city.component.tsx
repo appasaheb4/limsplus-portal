@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
@@ -41,6 +40,7 @@ export const AutoCompleteFilterSingleSelectCity = observer(
         return () => {
           document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
 
@@ -59,7 +59,12 @@ export const AutoCompleteFilterSingleSelectCity = observer(
           'city',
         ),
       );
-    }, [administrativeDivisions.listAdministrativeDiv]);
+    }, [
+      administrativeDivisions.listAdministrativeDiv,
+      country,
+      district,
+      state,
+    ]);
 
     const onFilter = (value: string) => {
       administrativeDivisions.administrativeDivisionsService.filter({
@@ -95,12 +100,14 @@ export const AutoCompleteFilterSingleSelectCity = observer(
       <>
         <div ref={wrapperRef}>
           <div
-            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
+            className={
+              'flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md'
+            }
           >
             <input
               placeholder='Search....'
               value={!isListOpen ? value : value}
-              className={`w-full focus:outline-none bg-none`}
+              className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}

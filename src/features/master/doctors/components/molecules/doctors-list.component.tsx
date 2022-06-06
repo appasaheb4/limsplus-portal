@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -252,7 +251,9 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <select
                   value={row.doctorType}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
                   onChange={e => {
                     const doctorType = e.target.value;
                     props.onUpdateItem &&
@@ -336,7 +337,9 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <select
                   value={row.category}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
                   onChange={e => {
                     const category = e.target.value;
                     props.onUpdateItem &&
@@ -386,7 +389,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                           district: '',
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -426,7 +429,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                           district: '',
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -466,7 +469,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                           district: item.district,
                           city: '',
                           area: '',
-                          postalCode: parseInt(''),
+                          postalCode: Number.parseInt(''),
                         },
                         row._id,
                       );
@@ -503,7 +506,11 @@ export const DoctorsList = (props: DoctorsListProps) => {
                   onSelect={item => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
-                        {city: item.city, area: '', postalCode: parseInt('')},
+                        {
+                          city: item.city,
+                          area: '',
+                          postalCode: Number.parseInt(''),
+                        },
                         row._id,
                       );
                   }}
@@ -540,7 +547,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                   onSelect={item => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
-                        {area: item.area, postalCode: parseInt('')},
+                        {area: item.area, postalCode: Number.parseInt('')},
                         row._id,
                       );
                   }}
@@ -579,7 +586,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                     props.onUpdateFileds &&
                       props.onUpdateFileds(
                         {
-                          postalCode: parseInt(item.postalCode),
+                          postalCode: Number.parseInt(item.postalCode),
                           zone: item.zone,
                           sbu: item.sbu,
                         },
@@ -923,7 +930,9 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <select
                   value={row?.lab}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                  }
                   onChange={e => {
                     const lab = e.target.value;
                     props.onUpdateItem &&
@@ -1294,7 +1303,9 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <select
                   value={row.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
                   onChange={e => {
                     const environment = e.target.value;
                     props.onUpdateItem &&
@@ -1338,7 +1349,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >

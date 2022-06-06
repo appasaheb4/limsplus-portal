@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {TableBootstrap, textFilter, Icons, Tooltip} from '@/library/components';
 import {Confirm} from '@/library/models';
@@ -182,7 +181,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
                         show: true,
                         id: [row._id],
                         title: 'Are you sure?',
-                        body: `Delete item`,
+                        body: 'Delete item',
                       })
                     }
                   >

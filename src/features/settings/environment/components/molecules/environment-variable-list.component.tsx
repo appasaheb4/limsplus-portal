@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -84,7 +83,9 @@ export const EnvironmentVariableList = observer(
                 ) => (
                   <>
                     <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                      }
                       onChange={e => {
                         const category = e.target.value as string;
                         props.onUpdateItem &&
@@ -199,7 +200,7 @@ export const EnvironmentVariableList = observer(
                               show: true,
                               id: [row._id],
                               title: 'Are you sure?',
-                              body: `Delete item`,
+                              body: 'Delete item',
                             })
                           }
                         >

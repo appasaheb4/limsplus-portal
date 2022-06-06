@@ -11,7 +11,7 @@ export class PatientRegistrationService {
   sessionManagementList = () =>
     new Promise<any[]>((resolve, reject) => {
       http
-        .get(`/settings/environment/listSessionManagement`)
+        .get('/settings/environment/listSessionManagement')
         .then((res: any) => {
           resolve(res.data.data);
         })
@@ -23,7 +23,7 @@ export class PatientRegistrationService {
     new Promise<any>((resolve, reject) => {
       session.documentType = 'session';
       http
-        .post(`/settings/environment/addSessionManagement`, session)
+        .post('/settings/environment/addSessionManagement', session)
         .then(res => {
           resolve(res);
         })
@@ -46,7 +46,7 @@ export class PatientRegistrationService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/settings/environment/updateSingleFiled`, newValue)
+        .post('/settings/environment/updateSingleFiled', newValue)
         .then(res => {
           resolve(res);
         })

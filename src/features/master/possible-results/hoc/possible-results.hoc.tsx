@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -8,7 +7,9 @@ import * as LibraryUtils from '@/library/utils';
 let router = dashboardRoutes;
 export const PossibleResultHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const {loginStore, possibleResultsStore, routerStore} = useStores();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       router = router.filter((item: any) => {
         if (item.name !== 'Dashboard') {
@@ -39,7 +40,7 @@ export const PossibleResultHoc = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
-    }, [loginStore.login, routerStore.lookupItems]);
+    }, [loginStore.login, possibleResultsStore, routerStore.lookupItems]);
     return <Component {...props} />;
   });
 };

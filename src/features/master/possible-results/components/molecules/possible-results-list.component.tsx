@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -229,13 +228,13 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       size='medium'
                       type='solid'
                       onClick={() => {
-                        let result =
+                        const result =
                           props.extraData.possibleResultsStore?.possibleResults
                             .result;
-                        let possibleValue =
+                        const possibleValue =
                           props.extraData.possibleResultsStore?.possibleResults
                             .possibleValue;
-                        let conclusionResult = row.conclusionResult || [];
+                        const conclusionResult = row.conclusionResult || [];
                         if (result === undefined || possibleValue === undefined)
                           return alert('Please enter value and code.');
                         if (result !== undefined) {
@@ -264,7 +263,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       }}
                     >
                       <Icons.EvaIcon icon='plus-circle-outline' />
-                      {`Add`}
+                      {'Add'}
                     </Buttons.Button>
                   </div>
                   <div className='clearfix'></div>
@@ -356,7 +355,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             ) => (
               <>
                 <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                  }
                   onChange={e => {
                     if (e.target.value === 'removeItem') {
                       return (
@@ -421,7 +422,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <>
                 <select
                   value={row.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
                   onChange={e => {
                     const environment = e.target.value;
                     props.onUpdateItem &&
@@ -667,7 +670,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >

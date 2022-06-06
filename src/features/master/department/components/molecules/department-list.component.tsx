@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
@@ -499,7 +498,9 @@ export const DepartmentList = (props: DepartmentListProps) => {
               <>
                 <select
                   value={row.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
                   onChange={e => {
                     const environment = e.target.value;
                     props.onUpdateItem &&
@@ -542,7 +543,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >

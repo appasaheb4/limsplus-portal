@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect} from 'react';
 // import { Spinner } from "react-bootstrap"
 import {observer} from 'mobx-react';
@@ -20,6 +19,7 @@ export const AutoCompleteFilterSingleSelectVariable = observer(
         ...environmentStore.environmentSettings,
         variable: data?.environmentVariable,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, selected]);
     return (
       <>

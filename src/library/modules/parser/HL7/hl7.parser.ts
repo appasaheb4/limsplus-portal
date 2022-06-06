@@ -33,22 +33,20 @@ export default class Hl7 {
       if (this._config.mapping[message.fields.toLowerCase()]) {
         for (const value of this._config.mapping[message.fields.toLowerCase()]
           .values) {
-          if (value !== undefined) {
-            if (value.field && message instanceof Object) {
-              const index1 = value.component[0];
-              const object = this._generateObject(
-                value.field,
-                message.values[index1 - 1],
-                value.field_no,
-              );
-              // if (message.values[index1 - 1] !== "") {
-              //   values.push(object)
-              // } else {
-              if (value.mandatory) {
-                values.push(object);
-              }
-              // }
+          if (value !== undefined && value.field && message instanceof Object) {
+            const index1 = value.component[0];
+            const object = this._generateObject(
+              value.field,
+              message.values[index1 - 1],
+              value.field_no,
+            );
+            // if (message.values[index1 - 1] !== "") {
+            //   values.push(object)
+            // } else {
+            if (value.mandatory) {
+              values.push(object);
             }
+            // }
           }
         }
         values.sort((a, b) => {

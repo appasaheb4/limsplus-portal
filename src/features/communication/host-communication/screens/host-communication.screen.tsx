@@ -1,5 +1,4 @@
-/* eslint-disable */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Header,
@@ -92,8 +91,8 @@ const HostCommunication = HostCommunicationHoc(
                       {`${
                         hostCommunicationStore.hostCommuication
                           ?.manualAutomaticMode
-                          ? `On`
-                          : `Off`
+                          ? 'On'
+                          : 'Off'
                       }`}
                     </label>
                     <label
@@ -347,7 +346,7 @@ const HostCommunication = HostCommunicationHoc(
                     {item.title === 'Hex to ASCII' && (
                       <>
                         <List direction='col' space={4} justify='stretch' fill>
-                          <div className={`grid grid-cols-3 gap-4`}>
+                          <div className={'grid grid-cols-3 gap-4'}>
                             <div className='col-span-2'>
                               <Form.MultilineInput
                                 label=''
@@ -481,7 +480,7 @@ const HostCommunication = HostCommunicationHoc(
                           <div className='clearfix'></div>
                         </Grid>
                         <List direction='col' space={4} justify='stretch' fill>
-                          <div className={`grid grid-cols-3 gap-4`}>
+                          <div className={'grid grid-cols-3 gap-4'}>
                             <div className='col-span-2'>
                               <Form.MultilineInput
                                 label=''
@@ -538,7 +537,7 @@ const HostCommunication = HostCommunicationHoc(
                     )}
                     {item.title === 'Send data to Intrument' && (
                       <>
-                        <div className={`grid grid-cols-3 gap-4`}>
+                        <div className={'grid grid-cols-3 gap-4'}>
                           <div className='col-span-2'>
                             <Form.MultilineInput
                               label=''
@@ -648,7 +647,7 @@ const HostCommunication = HostCommunicationHoc(
                           <div className='clearfix'></div>
                         </Grid>
                         <List direction='col' space={4} justify='stretch' fill>
-                          <div className={`grid grid-cols-3 gap-4`}>
+                          <div className={'grid grid-cols-3 gap-4'}>
                             <div className='col-span-2'>
                               {hostCommunicationStore.convertTo?.hl7 !==
                                 undefined && (
@@ -713,7 +712,7 @@ const HostCommunication = HostCommunicationHoc(
                           <div className='clearfix'></div>
                         </List>
                         <List direction='col' space={4} justify='stretch' fill>
-                          <div className={`grid grid-cols-3 gap-4`}>
+                          <div className={'grid grid-cols-3 gap-4'}>
                             <div className='col-span-2'>
                               <Form.MultilineInput
                                 id='txtOutputin'
@@ -882,15 +881,17 @@ const HostCommunication = HostCommunicationHoc(
           click={(file: any) => {
             setModalImportFile({show: false});
 
-            let reader = new FileReader();
-            reader.onload = (e: any) => {
+            const reader = new FileReader();
+            reader.addEventListener('load', (e: any) => {
               const file = e.target.result;
               const lines = file.split(/\r/);
 
-              let message = lines.join('\n');
+              const message = lines.join('\n');
               HostCommunicationFlows.newMessage(message);
-            };
-            reader.onerror = (e: any) => alert(e.target.error.name);
+            });
+            reader.addEventListener('error', (e: any) =>
+              alert(e.target.error.name),
+            );
             reader.readAsText(file);
           }}
           close={() => {

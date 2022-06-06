@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
@@ -582,7 +581,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: `Delete item`,
+                          body: 'Delete item',
                         })
                       }
                     >

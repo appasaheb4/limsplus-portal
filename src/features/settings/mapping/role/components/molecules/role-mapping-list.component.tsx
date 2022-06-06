@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 
@@ -182,7 +181,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                               show: true,
                               id: [row._id],
                               title: 'Are you sure?',
-                              body: `Delete this role mapping!`,
+                              body: 'Delete this role mapping!',
                             });
                         }}
                       >

@@ -1,4 +1,3 @@
-/* eslint-disable  */
 import React, {useState, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -23,6 +22,7 @@ export const AutoCompleteUsers = observer(
         ...environmentStore.selectedItems,
         users: data?.user,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, selected]);
 
     return (
@@ -32,10 +32,8 @@ export const AutoCompleteUsers = observer(
             value={environmentStore.permission?.allUsers || false}
             disabled={!environmentStore.permission?.allUsers || false}
             onChange={allUsers => {
-              if (!defaultData?.allUsers) {
-                if (allUsers) {
-                  onUpdate({allUsers});
-                }
+              if (!defaultData?.allUsers && allUsers) {
+                onUpdate({allUsers});
               }
               setData({
                 ...data,

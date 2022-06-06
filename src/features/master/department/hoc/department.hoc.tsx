@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -6,7 +5,9 @@ import {getDefaultLookupItem} from '@/library/utils';
 
 export const DeginisationHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const {loginStore, departmentStore, routerStore} = useStores();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       departmentStore &&
         departmentStore.updateDepartment({
@@ -24,7 +25,7 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
-    }, [loginStore.login, routerStore.lookupItems]);
+    }, [departmentStore, loginStore.login, routerStore.lookupItems]);
 
     return <Component {...props} />;
   });
