@@ -33,7 +33,7 @@ import * as MasterAnalyte from '@/features/master/master-analyte';
 import * as TestMaster from '@/features/master/test-master';
 import * as PanelMaster from '@/features/master/master-panel';
 import * as SampleContainer from '@/features/master/sample-container';
-import * as SampleType from '@/features/master/sampleType';
+import * as SampleType from '@/features/master/sample-type';
 import * as TestSampleMapping from '@/features/master/test-sample-mapping';
 import * as TestAnalyteMapping from '@/features/master/test-analyte-mapping';
 import * as TestPanelMapping from '@/features/master/test-panel-mapping';
@@ -48,7 +48,7 @@ import * as SalesTeam from '@/features/master/sales-team';
 import * as Section from '@/features/master/section';
 import * as PossibleResults from '@/features/master/possible-results';
 import * as Library from '@/features/master/library';
-import * as PriceList from '@/features/master/priceList';
+import * as PriceList from '@/features/master/price-list';
 import * as ReferenceRanges from '@/features/master/reference-ranges';
 import * as SegmentMapping from '@/features/communication/segment-mapping';
 

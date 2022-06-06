@@ -25,7 +25,7 @@ import {MasterPanelStore} from '@/features/master/master-panel/stores/master-pan
 import {TestPanelMappingStore} from '@/features/master/test-panel-mapping/stores/test-panel-mapping.store';
 import {MasterPackageStore} from '@/features/master/master-package/stores/master-package.store';
 import {SampleContainerStore} from '@/features/master/sample-container/stores/sample-container.store';
-import {SampleTypeStore} from '@/features/master/sampleType/stores/sample-type.store';
+import {SampleTypeStore} from '@/features/master/sample-type/stores/sample-type.store';
 import {MethodsStore} from '@/features/master/methods/stores/method.store';
 import {TestSampleMappingStore} from '@/features/master/test-sample-mapping/stores/test-sample-mapping.store';
 import {CorporateClientsStore} from '@/features/master/corporate-clients/stores/corporate-clients.store';
@@ -33,7 +33,7 @@ import {DoctorsStore} from '@/features/master/doctors/stores/doctor.store';
 import {RegistrationLocationsStore} from '@/features/master/registration-locations/stores/registration-location.store';
 import {PossibleResultsStore} from '@/features/master/possible-results/stores/possible-result.store';
 import {LibraryStore} from '@/features/master/library/stores/library.store';
-import {PriceListStore} from '@/features/master/priceList/stores/price-list.store';
+import {PriceListStore} from '@/features/master/price-list/stores/price-list.store';
 import {RefernceRangesStore} from '@/features/master/reference-ranges/stores/reference-ranges.store';
 
 // communication

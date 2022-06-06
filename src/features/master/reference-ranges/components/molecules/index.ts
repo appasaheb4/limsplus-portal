@@ -1,3 +1,3 @@
-export * from './outputTable/reference-ranges-list.component';
-export * from './inputTable/common-input-table.component';
-export * from './inputTable/ref-ranges-input-table.component';
+export * from './output-table/reference-ranges-list.component';
+export * from './input-table/common-input-table.component';
+export * from './input-table/ref-ranges-input-table.component';
