@@ -141,7 +141,7 @@ export const UserList = (props: UserListProps) => {
                   if (row.dataField === 'defaultLab') {
                     setModalDefaultLabDeptUpdate({
                       show: true,
-                      id: row._id,
+                      id: column._id,
                       type: 'default',
                     });
                   }
@@ -160,18 +160,25 @@ export const UserList = (props: UserListProps) => {
                 },
               }),
               formatter: (cellContent, row) => (
-                <span
-                  onDoubleClick={() => {
+                <span>{row.defaultDepartment}</span>
+              ),
+              events: {
+                onDoubleClick: (
+                  e: any,
+                  row: any,
+                  rowIndex: any,
+                  column: any,
+                  columnIndex: any,
+                ) => {
+                  if (row.dataField === 'defaultLab') {
                     setModalDefaultLabDeptUpdate({
                       show: true,
-                      id: row._id,
+                      id: column._id,
                       type: 'default',
                     });
-                  }}
-                >
-                  {row.defaultDepartment}
-                </span>
-              ),
+                  }
+                },
+              },
               headerClasses: 'textHeader6',
             },
             {
@@ -422,10 +429,12 @@ export const UserList = (props: UserListProps) => {
                   column: any,
                   columnIndex: any,
                 ) => {
+                  console.log({e, row});
+
                   if (row.dataField === 'lab') {
                     setModalDefaultLabDeptUpdate({
                       show: true,
-                      id: row._id,
+                      id: column._id,
                       type: 'assigned',
                     });
                   }
@@ -466,7 +475,7 @@ export const UserList = (props: UserListProps) => {
                   if (row.dataField === 'department') {
                     setModalDefaultLabDeptUpdate({
                       show: true,
-                      id: row._id,
+                      id: column._id,
                       type: 'assigned',
                     });
                   }
