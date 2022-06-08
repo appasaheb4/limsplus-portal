@@ -14,7 +14,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircle} from '@fortawesome/free-solid-svg-icons';
 import * as Assets from '@/library/assets';
 
-import {stores} from '@/stores';
+import {stores, useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 
@@ -134,6 +134,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
 });
 
 const Sidebar = observer(({location, sidebar, layout}) => {
+  const {routerStore} = useStores();
   const history = useHistory();
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location));
 
@@ -181,11 +182,13 @@ const Sidebar = observer(({location, sidebar, layout}) => {
               <AutocompleteGroupBy
                 data={stores.routerStore.userRouter}
                 onChange={async (item: any, children: any) => {
-                  await RouterFlow.updateSelectedCategory(
-                    stores,
-                    item.name,
-                    children.name,
-                  );
+                  const {permission, selectedComp} =
+                    await RouterFlow.updateSelectedCategory(
+                      item.name,
+                      children.name,
+                    );
+                  routerStore.updateSelectedComponents(selectedComp);
+                  routerStore.updateUserPermission(permission);
                   history.push(children.path);
                 }}
               />
@@ -222,11 +225,15 @@ const Sidebar = observer(({location, sidebar, layout}) => {
                                 Icons.IconBs.BsList
                               }
                               onChangeItem={async (category, item) => {
-                                await RouterFlow.updateSelectedCategory(
-                                  stores,
-                                  category,
-                                  item,
+                                const {permission, selectedComp} =
+                                  await RouterFlow.updateSelectedCategory(
+                                    category,
+                                    item,
+                                  );
+                                routerStore.updateSelectedComponents(
+                                  selectedComp,
                                 );
+                                routerStore.updateUserPermission(permission);
                               }}
                             />
                           ))}
@@ -240,11 +247,13 @@ const Sidebar = observer(({location, sidebar, layout}) => {
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           onChangeItem={async (category, item) => {
-                            await RouterFlow.updateSelectedCategory(
-                              stores,
-                              category,
-                              item,
-                            );
+                            const {permission, selectedComp} =
+                              await RouterFlow.updateSelectedCategory(
+                                category,
+                                item,
+                              );
+                            routerStore.updateSelectedComponents(selectedComp);
+                            routerStore.updateUserPermission(permission);
                           }}
                         />
                       )}

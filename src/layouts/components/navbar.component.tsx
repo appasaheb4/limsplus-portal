@@ -34,7 +34,7 @@ import {
 
 const NavbarComponent = observer(({dispatch}) => {
   const [userId, serUserId] = useState<string>('');
-  const {appStore, userStore, loginStore} = useStores();
+  const {appStore, userStore, routerStore, loginStore} = useStores();
   const history = useHistory();
   const [modalAccount, setModalAccount] = useState<any>();
   const [modalChangePassword, setModalChangePassword] = useState<any>();
@@ -95,11 +95,13 @@ const NavbarComponent = observer(({dispatch}) => {
                           size='medium'
                           type='outline'
                           onClick={async () => {
-                            await RouterFlow.updateSelectedCategory(
-                              stores,
-                              item.category,
-                              item.name,
-                            );
+                            const {permission, selectedComp} =
+                              await RouterFlow.updateSelectedCategory(
+                                item.category,
+                                item.name,
+                              );
+                            routerStore.updateSelectedComponents(selectedComp);
+                            routerStore.updateUserPermission(permission);
                             history.push(item.path);
                           }}
                         >

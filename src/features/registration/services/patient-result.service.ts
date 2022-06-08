@@ -45,10 +45,11 @@ export class PatientResultService {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
       const role = stores.loginStore.login && stores.loginStore.login.role;
+      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST_PATIENT_RESULT,
-          variables: {input: {page, limit, env, role}},
+          variables: {input: {filter: {lab}, page, limit, env, role}},
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResult(response.data);
