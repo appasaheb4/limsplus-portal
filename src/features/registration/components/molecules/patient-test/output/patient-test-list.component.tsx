@@ -3,8 +3,7 @@ import {observer} from 'mobx-react';
 import {NumberFilter, customFilter, Form} from '@/library/components';
 import {Confirm} from '@/library/models';
 import {PatientTestExpandPanel} from './patient-test-expand-panel.component';
-
-// import { NumberFilter } from "@/library/components/Organisms"
+import dayjs from 'dayjs';
 
 interface PatientTestListProps {
   data: any;
@@ -73,28 +72,6 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
             },
-            // {
-            //   dataField: "panelCode",
-            //   text: "Panel Code",
-            //   headerClasses: "textHeader4 z-10",
-            //   sort: true,
-            //   csvFormatter: (cell, row, rowIndex) =>
-            //     `${row.panelCode.map((item) => item.panelCode)}`,
-            //   filter: textFilter({
-            //     getFilter: (filter) => {
-            //       panelCode = filter
-            //     },
-            //   }),
-            //   formatter: (cellContent, row) => (
-            //     <>
-            //       <ul style={{ listStyle: "inside" }}>
-            //         {row.panelCodes.map((item, index) => (
-            //           <li key={index}>{item.panelCode}</li>
-            //         ))}
-            //       </ul>
-            //     </>
-            //   ),
-            // },
             {
               dataField: 'panelCode',
               text: 'Panel Code',
@@ -140,6 +117,31 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
                 return (
                   <>
                     <Form.Toggle value={row.cretical} disabled={true} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle value={row?.abnFlag} disabled={true} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'resultDate',
+              text: 'Result Date',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row?.resultDate
+                      ? dayjs(row.resultDate).format('YYYY-MM-DD')
+                      : ''}
                   </>
                 );
               },
