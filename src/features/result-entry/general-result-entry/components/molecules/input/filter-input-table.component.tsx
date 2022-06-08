@@ -11,7 +11,8 @@ import {useForm, Controller} from 'react-hook-form';
 import {Icons} from '@components';
 
 export const FilterInputTable = observer(() => {
-  const {loading, patientResultStore, generalResultEntryStore} = useStores();
+  const {loading, patientResultStore, loginStore, generalResultEntryStore} =
+    useStores();
   const {
     control,
     formState: {errors},
@@ -64,7 +65,8 @@ export const FilterInputTable = observer(() => {
                         displayKey: ['pLab'],
                       }}
                       displayValue={
-                        generalResultEntryStore.filterGeneralResEntry?.pLab
+                        generalResultEntryStore.filterGeneralResEntry?.pLab ||
+                        loginStore.login?.lab
                       }
                       onFilter={(value: string) => {
                         patientResultStore.filterDistinctPatientResult(
@@ -834,7 +836,11 @@ export const FilterInputTable = observer(() => {
             analyteCode: '',
             labId: '',
           });
-          patientResultStore.patientResultService.listPatientResult();
+          patientResultStore.patientResultService.listPatientResult({
+            pLab: loginStore.login?.lab,
+            resultStatus: 'P',
+            testStatus: 'P',
+          });
         }}
       >
         {'Clear Filter'}

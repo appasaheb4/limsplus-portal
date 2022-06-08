@@ -40,16 +40,15 @@ export class PatientResultService {
         );
     });
 
-  listPatientResult = (page = 0, limit = 10) =>
+  listPatientResult = (filter, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
       const role = stores.loginStore.login && stores.loginStore.login.role;
-      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST_PATIENT_RESULT,
-          variables: {input: {filter: {lab}, page, limit, env, role}},
+          variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResult(response.data);
@@ -94,7 +93,11 @@ export class PatientResultService {
         })
         .then((response: any) => {
           if (!response.data.filterPatientResultWithLabId.success)
-            return this.listPatientResult();
+            return this.listPatientResult({
+              pLab: stores.loginStore.login?.lab,
+              resultStatus: 'P',
+              testStatus: 'P',
+            });
           stores.patientResultStore.filterPatientResultList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
@@ -114,7 +117,11 @@ export class PatientResultService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPatientResult.success)
-            return this.listPatientResult();
+            return this.listPatientResult({
+              pLab: stores.loginStore.login?.lab,
+              resultStatus: 'P',
+              testStatus: 'P',
+            });
           stores.patientResultStore.filterPatientResultList({
             filterPatientResult: {
               patientResultList:
@@ -143,7 +150,11 @@ export class PatientResultService {
         })
         .then((response: any) => {
           if (!response.data.patientResultListForGenResEntry.success)
-            return this.listPatientResult();
+            return this.listPatientResult({
+              pLab: stores.loginStore.login?.lab,
+              resultStatus: 'P',
+              testStatus: 'P',
+            });
           stores.patientResultStore.patientResultListForGeneralResEntry({
             patientResultListForGenResEntry: {
               patientResultList:

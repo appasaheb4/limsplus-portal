@@ -115,7 +115,11 @@ const GeneralResultEntry = observer(() => {
                     message: `😊 ${res.updatePatientResult.message}`,
                   });
                   if (!generalResultEntryStore.filterGeneralResEntry)
-                    patientResultStore.patientResultService.listPatientResult();
+                    patientResultStore.patientResultService.listPatientResult({
+                      pLab: loginStore.login?.lab,
+                      resultStatus: 'P',
+                      testStatus: 'P',
+                    });
                   else
                     patientResultStore.patientResultService.patientListForGeneralResultEntry(
                       {
