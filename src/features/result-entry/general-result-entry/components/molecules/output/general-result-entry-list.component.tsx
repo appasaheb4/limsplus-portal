@@ -345,37 +345,34 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    {row.testStatus === 'P' && (
-                      <>
-                        <Buttons.Button
-                          size='small'
-                          type='outline'
-                          buttonClass='text-white'
-                          onClick={() => {
-                            if (!row?.result)
-                              return alert('Please enter result value ');
-                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                            props.onSaveFields &&
-                              props.onSaveFields(
-                                {
-                                  ...row,
-                                  resultStatus: getResultStatus(
-                                    row.resultType,
-                                    row,
-                                  ),
-                                  testStatus: getTestStatus(
-                                    row.resultType,
-                                    row,
-                                  ),
-                                },
-                                row._id,
-                              );
-                          }}
-                        >
-                          {'Save'}
-                        </Buttons.Button>
-                      </>
-                    )}
+                    {/* {row.testStatus === 'P' && ( */}
+                    <>
+                      <Buttons.Button
+                        size='small'
+                        type='outline'
+                        buttonClass='text-white'
+                        onClick={() => {
+                          if (!row?.result)
+                            return alert('Please enter result value ');
+                          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                          props.onSaveFields &&
+                            props.onSaveFields(
+                              {
+                                ...row,
+                                resultStatus: getResultStatus(
+                                  row.resultType,
+                                  row,
+                                ),
+                                testStatus: getTestStatus(row.resultType, row),
+                              },
+                              row._id,
+                            );
+                        }}
+                      >
+                        {'Save'}
+                      </Buttons.Button>
+                    </>
+                    {/* )} */}
                   </div>
                 </>
               ),
