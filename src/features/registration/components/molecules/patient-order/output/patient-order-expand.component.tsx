@@ -404,14 +404,24 @@ export const PatientOrderExpand = ({
             {
               dataField: 'resultDate',
               text: 'Result Date',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row?.resultDate
+                      ? dayjs(row.resultDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
+              },
             },
             {
               dataField: 'orderStatus',
               text: 'Order Status',
             },
             {
-              dataField: 'panelStatus',
-              text: 'Panel Status',
+              dataField: 'status',
+              text: 'Status',
             },
             {
               dataField: 'priority',
@@ -607,6 +617,28 @@ export const PatientOrderExpand = ({
                 return (
                   <>
                     <Form.Toggle value={row.confidential} disabled={true} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'cretical',
+              text: 'Cretical',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle value={row.cretical} disabled={true} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle value={row.abnFlag} disabled={true} />
                   </>
                 );
               },
