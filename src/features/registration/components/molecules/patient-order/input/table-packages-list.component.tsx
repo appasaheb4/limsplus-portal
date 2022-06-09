@@ -143,7 +143,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
             <th className='text-white'>Due Date</th>
             <th className='text-white'>Result Date</th>
             <th className='text-white'>Order Status</th>
-            <th className='text-white'>Panel Status</th>
+            <th className='text-white'>Status</th>
           </tr>
         </thead>
         <tbody className='text-xs'>
@@ -315,16 +315,16 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               </td>
               <td>
                 <select
-                  value={item.panelStatus}
+                  value={item.status}
                   disabled={true}
                   className={
                     'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
                   }
                   onChange={e => {
-                    const panelStatus = e.target.value;
+                    const status = e.target.value;
                     const pacakgeListS =
                       patientOrderStore.packageList.pacakgeListS;
-                    pacakgeListS[index] = Object.assign(item, {panelStatus});
+                    pacakgeListS[index] = Object.assign(item, {status});
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListS,
@@ -509,16 +509,16 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               </td>
               <td>
                 <select
-                  value={item.panelStatus}
+                  value={item.status}
                   className={
                     'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
                   }
                   disabled={true}
                   onChange={e => {
-                    const panelStatus = e.target.value;
+                    const status = e.target.value;
                     const pacakgeListM =
                       patientOrderStore.packageList.pacakgeListM;
-                    pacakgeListM[index] = Object.assign(item, {panelStatus});
+                    pacakgeListM[index] = Object.assign(item, {status});
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListM,
@@ -701,16 +701,16 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               </td>
               <td>
                 <select
-                  value={item.panelStatus}
+                  value={item.status}
                   disabled={true}
                   className={
                     'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
                   }
                   onChange={e => {
-                    const panelStatus = e.target.value;
+                    const status = e.target.value;
                     const pacakgeListN =
                       patientOrderStore.packageList.pacakgeListN;
-                    pacakgeListN[index] = Object.assign(item, {panelStatus});
+                    pacakgeListN[index] = Object.assign(item, {status});
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListN,
@@ -893,16 +893,16 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               </td>
               <td>
                 <select
-                  value={item.panelStatus}
+                  value={item.status}
                   disabled={true}
                   className={
                     'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
                   }
                   onChange={e => {
-                    const panelStatus = e.target.value;
+                    const status = e.target.value;
                     const pacakgeListK =
                       patientOrderStore.packageList.pacakgeListK;
-                    pacakgeListK[index] = Object.assign(item, {panelStatus});
+                    pacakgeListK[index] = Object.assign(item, {status});
                     patientOrderStore.updatePackageList({
                       ...patientOrderStore.packageList,
                       pacakgeListK,

@@ -31,8 +31,10 @@ export const LIST_PATIENT_ORDER = gql`
           discount
           dueDate
           resultDate
+          cretical
+          abnFlag
           orderStatus
-          panelStatus
+          status
           extraData {
             priority
             outsourceLab
@@ -129,8 +131,10 @@ export const FILTER_PATIENT_ORDER = gql`
           discount
           dueDate
           resultDate
+          cretical
+          abnFlag
           orderStatus
-          panelStatus
+          status
           extraData {
             priority
             outsourceLab
@@ -219,8 +223,10 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
           discount
           dueDate
           resultDate
+          cretical
+          abnFlag
           orderStatus
-          panelStatus
+          status
           extraData {
             priority
             outsourceLab

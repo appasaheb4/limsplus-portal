@@ -26,8 +26,10 @@ export class PatientOrder {
       discount: number;
       dueDate: Date;
       resultDate: Date;
+      abnFlag: boolean;
+      cretical: boolean;
       orderStatus: string;
-      panelStatus: string;
+      status: string;
       extraData: {
         priority: string;
         outsourceLab: string;

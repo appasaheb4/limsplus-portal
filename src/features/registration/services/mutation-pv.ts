@@ -31,6 +31,9 @@ export const LIST_PATIENT_VISIT = gql`
         doctorName
         deliveryType
         history
+        resultDate
+        abnFlag
+        critical
         status
         extraData {
           accountType
@@ -130,6 +133,9 @@ export const FILTER_PATIENT_VISIT = gql`
         doctorName
         deliveryType
         history
+        resultDate
+        abnFlag
+        critical
         status
         extraData {
           accountType
@@ -232,6 +238,9 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         doctorName
         deliveryType
         history
+        resultDate
+        abnFlag
+        critical
         status
         extraData {
           accountType
