@@ -651,6 +651,20 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
             },
             {
+              dataField: 'resultDate',
+              text: 'Result Date',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row?.resultDate
+                      ? dayjs(row.resultDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'history',
               text: 'History',
               sort: true,
@@ -673,6 +687,48 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 editorCell(row),
             },
 
+            {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.abnFlag ? (row.abnFlag ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.abnFlag}
+                      onChange={abnFlag => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(abnFlag, 'abnFlag', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'critical',
+              text: 'Critical',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.critical ? (row.critical ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.critical}
+                      onChange={critical => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(critical, 'critical', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
             {
               dataField: 'status',
               text: 'Status',
