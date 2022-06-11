@@ -28,17 +28,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     return row.status !== 'I' ? true : false;
   };
 
-  const extractInteger = str => {
-    let result = 0;
-    let factor = 1;
-    for (let i = str.length; i > 0; i--) {
-      if (Number.isNaN(str[i - 1])) return Number.NaN;
-      result += Number.parseInt(str[i - 1]) * factor;
-      factor *= 10;
-    }
-    return result;
-  };
-
   const getStatus = (
     status: string,
     type: string,
@@ -371,6 +360,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                   row,
                                 ),
                                 testStatus: getTestStatus(row.resultType, row),
+                                abnFlag:
+                                  (row?.resultType === 'V' &&
+                                    getResultStatus(row.resultType, row) ===
+                                      'L') ||
+                                  getResultStatus(row.resultType, row) === 'H'
+                                    ? true
+                                    : row?.abnFlag,
                               },
                               row._id,
                             );
