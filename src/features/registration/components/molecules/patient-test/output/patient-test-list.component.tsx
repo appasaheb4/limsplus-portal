@@ -140,7 +140,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
                 return (
                   <>
                     {row?.resultDate
-                      ? dayjs(row.resultDate).format('YYYY-MM-DD')
+                      ? dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')
                       : ''}
                   </>
                 );

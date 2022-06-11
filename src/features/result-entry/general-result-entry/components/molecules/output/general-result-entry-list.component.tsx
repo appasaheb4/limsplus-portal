@@ -28,6 +28,17 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     return row.status !== 'I' ? true : false;
   };
 
+  const extractInteger = str => {
+    let result = 0;
+    let factor = 1;
+    for (let i = str.length; i > 0; i--) {
+      if (Number.isNaN(str[i - 1])) return Number.NaN;
+      result += Number.parseInt(str[i - 1]) * factor;
+      factor *= 10;
+    }
+    return result;
+  };
+
   const getStatus = (
     status: string,
     type: string,
@@ -43,7 +54,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     } else if (status === 'testStatus' && type === 'V') {
       if (result >= lo && result <= hi) return 'N';
       else if (result < lo) return 'A';
-      else if (result > hi) return 'A';
+      else if (result > hi) return 'H';
       return 'N';
     }
     return 'N';
@@ -53,15 +64,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     switch (type) {
       case 'V':
         if (!row?.loNor && !row?.hiNor) return 'N';
-        const numberResult = Number.parseFloat(
-          row?.result?.replace(/[^0-9]/g, ''),
-        );
-        const numberLo = Number.parseFloat(
-          row?.loNor?.replace(/[^0-9]/g, '') || 0,
-        );
-        const numberHi = Number.parseFloat(
-          row?.hiNor?.replace(/[^0-9]/g, '') || 0,
-        );
+        const numberResult = Number.parseFloat(row?.result);
+        const numberLo = Number.parseFloat(row?.loNor || 0);
+        const numberHi = Number.parseFloat(row?.hiNor || 0);
         return getStatus(
           'resultStatus',
           type,
@@ -201,7 +206,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Result Date',
               editable: false,
               formatter: (cell, row) => {
-                return <>{dayjs(row.resultDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}</>
+                );
               },
             },
             {
