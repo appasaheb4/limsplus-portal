@@ -17,5 +17,5 @@
     "isolatedModules": true,
     "noImplicitAny": false
   },
-  "include": ["src", "limsplus-core-service"]
+  "include": ["src", "src/limsplus-core-service"]
 }
