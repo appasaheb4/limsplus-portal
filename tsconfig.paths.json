@@ -10,9 +10,10 @@
       "@utils": ["./src/library/utils/index"],
       "@routers": ["./src/routers"],
       "@assets/*": ["./src/library/assets/*"],
-      "@localization": ["./src/localization/index"]
+      "@localization": ["./src/localization/index"],
+      "@limsplus-core-service/*": ["limsplus-core-service/*"]
     },
     "experimentalDecorators": true
   },
-  "include": ["src"]
+  "include": ["src", "limsplus-core-service"]
 }

@@ -34,8 +34,6 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
   const [libraryList, setLibraryList] = useState<Array<any>>();
 
   useEffect(() => {
-    console.log({row});
-
     switch (row?.resultType) {
       case 'D': {
         possibleResultsStore.possibleResultsService
@@ -105,8 +103,10 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               }
               hasError={errors.result}
               onBlur={result => {
-                onChange(result);
-                onSelect({result});
+                onChange(Number.parseFloat(result).toFixed(row?.picture || 0));
+                onSelect({
+                  result: Number.parseFloat(result).toFixed(row?.picture || 0),
+                });
               }}
             />
           )}
