@@ -6,6 +6,7 @@ import {Form, Buttons} from '@/library/components';
 import {InputResult} from './input-result.components';
 import {DisplayResult} from './display-result.components';
 import TableBootstrap from './table-bootstrap.component';
+import {RefRangesExpandList} from './ref-ranges-expand-list.component';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -84,6 +85,43 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         return row?.abnFlag ? 'A' : 'N';
         break;
     }
+  };
+
+  const expandRow = {
+    renderer: row => (
+      <div className='z-0'>
+        <RefRangesExpandList
+          id='_id'
+          data={row?.refRangesList || []}
+          totalSize={row?.refRangesList?.length || 0}
+          columns={[
+            {
+              dataField: 'rangeId',
+              headerClasses: 'textHeader1',
+              text: 'Range Id',
+            },
+            {
+              dataField: 'version',
+              text: 'Range Version',
+              headerClasses: 'textHeader',
+            },
+            {
+              dataField: 'loNor',
+              text: 'Lo Nor',
+              headerClasses: 'textHeader',
+            },
+            {
+              dataField: 'hiNor',
+              text: 'Hi Nor',
+              headerClasses: 'textHeader',
+            },
+          ]}
+          onSelectedRow={rows => {}}
+          onUpdateItem={(value: any, dataField: string, id: string) => {}}
+        />
+      </div>
+    ),
+    showExpandColumn: true,
   };
 
   return (
@@ -355,12 +393,14 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                 ),
                                 testStatus: getTestStatus(row.resultType, row),
                                 abnFlag:
-                                  (row?.resultType === 'V' &&
-                                    getResultStatus(row.resultType, row) ===
-                                      'L') ||
-                                  getResultStatus(row.resultType, row) === 'H'
-                                    ? true
-                                    : false,
+                                  row?.resultType === 'V'
+                                    ? getResultStatus(row.resultType, row) ===
+                                        'L' ||
+                                      getResultStatus(row.resultType, row) ===
+                                        'H'
+                                      ? true
+                                      : false
+                                    : row.abnFlag,
                               },
                               row._id,
                             );
@@ -379,6 +419,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
           ]}
+          expandRow={expandRow}
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName='General Result Entry'

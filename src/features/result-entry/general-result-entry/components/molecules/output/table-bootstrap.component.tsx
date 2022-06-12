@@ -34,6 +34,7 @@ interface TableBootstrapProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   isSelectRow?: boolean;
+  expandRow?: any;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
@@ -56,6 +57,7 @@ const TableBootstrap = ({
   fileName,
   isEditModify,
   isSelectRow,
+  expandRow,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
@@ -367,10 +369,7 @@ const TableBootstrap = ({
                   }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
-                  // options={{
-                  //   hideSizePerPage: true,
-                  //   showTotal: false,
-                  // }}
+                  expandRow={expandRow}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>

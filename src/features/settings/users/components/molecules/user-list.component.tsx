@@ -15,7 +15,7 @@ import {
   customFilter,
   Buttons,
   Toast,
-} from '@components';
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterMutiSelectRoles,

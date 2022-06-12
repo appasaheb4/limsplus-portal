@@ -8,7 +8,7 @@ import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
-import {Icons} from '@components';
+import {Icons} from '@/library/components';
 
 export const FilterInputTable = observer(() => {
   const {loading, patientResultStore, loginStore, generalResultEntryStore} =
