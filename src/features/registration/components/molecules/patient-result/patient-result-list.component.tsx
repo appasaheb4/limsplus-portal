@@ -4,6 +4,7 @@ import {textFilter, Form} from '@/library/components';
 import {Confirm} from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 import dayjs from 'dayjs';
+import {RefRangesExpandList} from './ref-ranges-expand-list.component';
 
 // import { NumberFilter } from "@/library/components/Organisms"
 
@@ -31,6 +32,44 @@ export const PatientResultList = observer((props: PatientResultProps) => {
   const editorCell = (row: any) => {
     return false; //row.status !== "I" ? true : false
   };
+
+  const expandRow = {
+    renderer: row => (
+      <div className='z-0'>
+        <RefRangesExpandList
+          id='_id'
+          data={row?.refRangesList || []}
+          totalSize={row?.refRangesList?.length || 0}
+          columns={[
+            {
+              dataField: 'rangeId',
+              headerClasses: 'textHeader1',
+              text: 'Range Id',
+            },
+            {
+              dataField: 'version',
+              text: 'Range Version',
+              headerClasses: 'textHeader',
+            },
+            {
+              dataField: 'loNor',
+              text: 'Lo Nor',
+              headerClasses: 'textHeader',
+            },
+            {
+              dataField: 'hiNor',
+              text: 'Hi Nor',
+              headerClasses: 'textHeader',
+            },
+          ]}
+          onSelectedRow={rows => {}}
+          onUpdateItem={(value: any, dataField: string, id: string) => {}}
+        />
+      </div>
+    ),
+    showExpandColumn: true,
+  };
+
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -50,14 +89,6 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               text: 'Lab Id',
               headerClasses: 'textHeader4',
               sort: true,
-              // filter: customFilter({
-              //   getFilter: filter => {
-              //     labId = filter;
-              //   },
-              // }),
-              // filterRenderer: (onFilter, column) => (
-              //   <NumberFilter onFilter={onFilter} column={column} />
-              // ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
@@ -598,6 +629,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName='PatientResult'
+          expandRow={expandRow}
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

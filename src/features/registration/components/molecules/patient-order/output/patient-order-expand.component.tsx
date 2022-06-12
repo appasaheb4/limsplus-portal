@@ -291,33 +291,6 @@ export const PatientOrderExpand = ({
     </div>
   );
 
-  const getPackageCode = (
-    service: string,
-    serviceType: string,
-    packageCode: string,
-  ) => {
-    switch (service) {
-      case 'S':
-        return serviceType !== 'M' ? packageCode : '';
-      case 'M':
-        return serviceType !== 'M' ? serviceType : '';
-      default:
-        return serviceType;
-    }
-  };
-
-  const handleOnExpand = (row, isExpand, rowIndex, e) => {
-    if (isExpand) {
-      // this.setState(() => ({
-      //   expanded: [...this.state.expanded, row.id]
-      // }));
-    } else {
-      // this.setState(() => ({
-      //   expanded: this.state.expanded.filter(x => x !== row.id)
-      // }));
-    }
-  };
-
   const expandRow = {
     renderer: row => (
       <div className='z-0'>

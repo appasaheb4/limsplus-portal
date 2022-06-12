@@ -15,7 +15,7 @@ import {
   ModalChangePasswordByAdmin,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-} from '@components';
+} from '@/library/components';
 import {lookupItems, lookupValue} from '@utils';
 import {UserList} from '../components';
 import dayjs from 'dayjs';
