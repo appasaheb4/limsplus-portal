@@ -43,7 +43,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     } else if (status === 'testStatus' && type === 'V') {
       if (result >= lo && result <= hi) return 'N';
       else if (result < lo) return 'A';
-      else if (result > hi) return 'H';
+      else if (result > hi) return 'A';
       return 'N';
     }
     return 'N';
@@ -75,15 +75,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
       case 'V':
         if (!row?.loNor && !row?.hiNor) return 'N';
         // eslint-disable-next-line no-case-declarations
-        const numberResult = Number.parseFloat(
-          row?.result?.replace(/[^0-9]/g, ''),
-        );
-        const numberLo = Number.parseFloat(
-          row?.loNor?.replace(/[^0-9]/g, '') || 0,
-        );
-        const numberHi = Number.parseFloat(
-          row?.hiNor?.replace(/[^0-9]/g, '') || 0,
-        );
+        const numberResult = Number.parseFloat(row?.result);
+        const numberLo = Number.parseFloat(row?.loNor || 0);
+        const numberHi = Number.parseFloat(row?.hiNor || 0);
         return getStatus('testStatus', type, numberResult, numberLo, numberHi);
         break;
       default:
@@ -366,7 +360,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                       'L') ||
                                   getResultStatus(row.resultType, row) === 'H'
                                     ? true
-                                    : row?.abnFlag,
+                                    : false,
                               },
                               row._id,
                             );
