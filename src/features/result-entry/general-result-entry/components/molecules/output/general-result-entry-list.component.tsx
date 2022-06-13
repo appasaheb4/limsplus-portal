@@ -96,24 +96,28 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           totalSize={row?.refRangesList?.length || 0}
           columns={[
             {
+              dataField: 'rangeType',
+              text: 'Range Type',
+            },
+            {
+              dataField: 'low',
+              text: 'Low',
+            },
+            {
+              dataField: 'high',
+              text: 'High',
+            },
+            {
+              dataField: 'rangeSetOn',
+              text: 'Range Set On',
+            },
+            {
               dataField: 'rangeId',
-              headerClasses: 'textHeader1',
               text: 'Range Id',
             },
             {
               dataField: 'version',
               text: 'Range Version',
-              headerClasses: 'textHeader',
-            },
-            {
-              dataField: 'loNor',
-              text: 'Lo Nor',
-              headerClasses: 'textHeader',
-            },
-            {
-              dataField: 'hiNor',
-              text: 'Hi Nor',
-              headerClasses: 'textHeader',
             },
           ]}
           onSelectedRow={rows => {}}
