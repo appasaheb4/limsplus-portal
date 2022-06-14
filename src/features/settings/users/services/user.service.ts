@@ -25,7 +25,7 @@ import {
   FILTER,
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
-} from './mutation';
+} from '@/lp-core-service/settings/users/mutation';
 
 export class UserService {
   userList = (page = 0, limit = 10) =>
