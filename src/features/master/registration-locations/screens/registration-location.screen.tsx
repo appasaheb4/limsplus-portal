@@ -294,8 +294,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                                         ...registrationLocationsStore.registrationLocations,
                                         priceList:
                                           res.findByFieldsLabs.data.length > 0
-                                            ? _.first(res.findByFieldsLabs.data)
-                                                .priceList
+                                            ? res.findByFieldsLabs.data
+                                                ?.length > 0
+                                              ? res.findByFieldsLabs.data[0]
+                                                  ?.priceList
+                                              : undefined
                                             : registrationLocationsStore
                                                 .registrationLocations
                                                 .priceList,

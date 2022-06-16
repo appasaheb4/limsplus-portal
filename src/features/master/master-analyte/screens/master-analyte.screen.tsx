@@ -345,13 +345,16 @@ const MasterAnalyte = MasterAnalyteHoc(
                             .findByFields({
                               input: {filter: {analyteCode: code}},
                             })
-                            .then(res => {
+                            .then((res: any) => {
                               if (res.findByFieldsAnalyteMaster.success) {
                                 masterAnalyteStore.updateMasterAnalyte({
                                   ...masterAnalyteStore.masterAnalyte,
-                                  analyteName: _.first(
-                                    res.findByFieldsAnalyteMaster.data,
-                                  ).analyteName,
+                                  analyteName:
+                                    res.findByFieldsAnalyteMaster.data?.length >
+                                    0
+                                      ? res.findByFieldsAnalyteMaster.data[0]
+                                          ?.analyteName
+                                      : undefined,
                                 });
                                 masterAnalyteStore.updateMasterAnalyteActivity({
                                   ...masterAnalyteStore.masterAnalyteActivity,

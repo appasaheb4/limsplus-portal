@@ -140,7 +140,7 @@ export const PriceListTableForRegLocationsList = observer(
                           onSelect={element => {
                             onChange(element.priceGroup);
                             if (
-                              _.findIndex(priceList.current, o => {
+                              _.findIndex(priceList.current, (o: any) => {
                                 return _.isMatch(o, {
                                   priceGroup: element.priceGroup,
                                   priceList:

@@ -474,13 +474,15 @@ const MasterPanel = MasterPanelHoc(
                       onBlur={panelCode => {
                         masterPanelStore.masterPanelService
                           .findByFields({input: {filter: {panelCode}}})
-                          .then(res => {
+                          .then((res: any) => {
                             if (res.findByFieldsPanelMaster.success) {
                               masterPanelStore.updateMasterPanel({
                                 ...masterPanelStore.masterPanel,
-                                panelName: _.first(
-                                  res.findByFieldsPanelMaster.data,
-                                ).panelName,
+                                panelName:
+                                  res.findByFieldsPanelMaster.data?.length > 0
+                                    ? res.findByFieldsPanelMaster.data[0]
+                                        ?.panelName
+                                    : undefined,
                               });
                               masterPanelStore.updateMasterPanelActivity({
                                 ...masterPanelStore.masterPanelActivity,

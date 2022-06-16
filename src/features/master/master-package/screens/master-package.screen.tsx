@@ -372,29 +372,24 @@ const MasterPackage = MasterPackageHOC(
                       >
                         <option selected>
                           {(routerStore.lookupItems.length > 0 &&
-                            _.first(
+                            getServiceTypes(
+                              routerStore?.lookupItems?.find(item => {
+                                return item.fieldName === 'SERVICE_TYPE';
+                              }),
+                            ).find(
+                              item =>
+                                item?.code ===
+                                masterPackageStore.masterPackage?.serviceType,
+                            )?.value +
+                              ' - ' +
                               getServiceTypes(
                                 routerStore?.lookupItems?.find(item => {
                                   return item.fieldName === 'SERVICE_TYPE';
                                 }),
-                              ).filter(
+                              ).find(
                                 item =>
                                   item?.code ===
                                   masterPackageStore.masterPackage?.serviceType,
-                              ),
-                            )?.value +
-                              ' - ' +
-                              _.first(
-                                getServiceTypes(
-                                  routerStore?.lookupItems?.find(item => {
-                                    return item.fieldName === 'SERVICE_TYPE';
-                                  }),
-                                ).filter(
-                                  item =>
-                                    item?.code ===
-                                    masterPackageStore.masterPackage
-                                      ?.serviceType,
-                                ),
                               )?.code) ||
                             'Select'}
                         </option>

@@ -140,7 +140,7 @@ export const PriceListTableForLabList = observer(
                             console.log({item});
                             onChange(element.priceGroup);
                             if (
-                              _.findIndex(priceList.current, o => {
+                              _.findIndex(priceList.current, (o: any) => {
                                 return _.isMatch(o, {
                                   priceGroup: element.priceGroup,
                                 });

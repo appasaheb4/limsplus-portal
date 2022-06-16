@@ -11,14 +11,16 @@ const PrivacyPolicy = observer(() => {
   useEffect(() => {
     libraryStore.libraryService
       .librarysByCode({input: {code: 'privacy-policy'}})
-      .then(res => {
+      .then((res: any) => {
         if (!res.librarysByCode.success)
           Toast.error({
             message: `😔 ${res.librarysByCode.message}`,
           });
-        console.log({content: _.first(res.librarysByCode.data).details});
-
-        setContent(_.first(res.librarysByCode.data).details);
+        setContent(
+          res?.librarysByCode?.data?.length > 0
+            ? res.librarysByCode.data[0].details
+            : null,
+        );
       });
   });
   return <div>{content && Parser(content)}</div>;

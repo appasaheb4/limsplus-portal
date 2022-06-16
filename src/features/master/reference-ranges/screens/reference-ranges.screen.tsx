@@ -54,7 +54,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   filter: {
                     refRangesInputList: _.filter(
                       refernceRangesStore.referenceRanges?.refRangesInputList,
-                      a => {
+                      (a: any) => {
                         a._id = undefined;
                         return a;
                       },
