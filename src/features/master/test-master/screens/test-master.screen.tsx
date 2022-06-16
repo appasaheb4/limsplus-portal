@@ -445,13 +445,15 @@ const TestMater = TestMasterHOC(
                             });
                           testMasterStore.testMasterService
                             .findByFields({input: {filter: {testCode: code}}})
-                            .then(res => {
+                            .then((res: any) => {
                               if (res.findByFieldsTestMaster.success) {
                                 testMasterStore.updateTestMaster({
                                   ...testMasterStore.testMaster,
-                                  testName: _.first(
-                                    res.findByFieldsTestMaster.data,
-                                  ).testName,
+                                  testName:
+                                    res.findByFieldsTestMaster.data?.length > 0
+                                      ? res.findByFieldsTestMaster.data[0]
+                                          .testName
+                                      : undefined,
                                   disableTestName: true,
                                 });
                               } else {

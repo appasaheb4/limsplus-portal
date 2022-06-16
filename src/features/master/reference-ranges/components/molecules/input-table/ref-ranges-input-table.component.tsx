@@ -33,7 +33,7 @@ export const RefRangesInputTable = observer(
 
     const duplicateCombination = () => {
       const {refRangesInputList} = refernceRangesStore.referenceRanges;
-      const arr = _.map(refRangesInputList, o =>
+      const arr: any = _.map(refRangesInputList, o =>
         _.pick(o, [
           'analyteCode',
           'species',
