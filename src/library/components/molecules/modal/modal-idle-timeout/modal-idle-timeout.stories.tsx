@@ -1,6 +1,6 @@
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
-import {ModalIdleTimeout} from './modal-Idle-timeout.component';
+import {ModalIdleTimeout} from './modal-idle-timeout.component';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
