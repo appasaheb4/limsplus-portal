@@ -140,7 +140,8 @@ export const RefRangesInputTable = observer(
                 <>
                   <Form.Input
                     placeholder={row?.ageFrom}
-                    type='number'
+                    type='text'
+                    pattern={FormHelper.patterns.decimalPatterm}
                     onBlur={ageFrom => {
                       onUpdateItems && onUpdateItems({ageFrom}, row.rangeId);
                       setTimeout(() => {
@@ -167,7 +168,8 @@ export const RefRangesInputTable = observer(
                 <>
                   <Form.Input
                     placeholder={row?.ageTo}
-                    type='number'
+                    type='text'
+                    pattern={FormHelper.patterns.decimalPatterm}
                     onBlur={ageTo => {
                       onUpdateItems && onUpdateItems({ageTo}, row.rangeId);
                       setTimeout(() => {
