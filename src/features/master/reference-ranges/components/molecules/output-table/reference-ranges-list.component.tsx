@@ -491,6 +491,26 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row.ageFrom}
+                    type='text'
+                    pattern={FormHelper.patterns.decimalPatterm}
+                    onBlur={ageFrom => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(ageFrom, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'ageTo',
@@ -508,6 +528,26 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row.ageTo}
+                    type='text'
+                    pattern={FormHelper.patterns.decimalPatterm}
+                    onBlur={ageTo => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(ageTo, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'ageUnit',
@@ -725,85 +765,6 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   </select>
                 </>
               ),
-            },
-            {
-              dataField: 'colorLo',
-              text: 'Color Low',
-              headerClasses: 'textHeader5',
-              sort: true,
-              editable: false,
-
-              csvFormatter: col => (col ? col : ''),
-              // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {
-                      lookupItems(
-                        props.extraData.lookupItems,
-                        `${row.rangeType}_LW_COLOR`,
-                      ).find(item => item.code === row.colorLo)?.value
-                    }
-                  </>
-                );
-              },
-              // filter: textFilter({
-              //   getFilter: (filter) => {
-              //     intervalUnit = filter
-              //   },
-              // }),
-            },
-            {
-              dataField: 'colorHi',
-              text: 'Color High',
-              headerClasses: 'textHeader5',
-              sort: true,
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              //editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {
-                      lookupItems(
-                        props.extraData.lookupItems,
-                        `${row.rangeType}_HI_COLOR`,
-                      ).find(item => item.code === row.colorHi)?.value
-                    }
-                  </>
-                );
-              },
-              // filter: textFilter({
-              //   getFilter: (filter) => {
-              //     intervalUnit = filter
-              //   },
-              // }),
-            },
-            {
-              dataField: 'colorNormal',
-              text: 'Color Normal',
-              headerClasses: 'textHeader5',
-              sort: true,
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {
-                      lookupItems(
-                        props.extraData.lookupItems,
-                        `${row.rangeType}_NO_COLOR`,
-                      ).find(item => item.code === row.colorNormal)?.value
-                    }
-                  </>
-                );
-              },
-              // filter: textFilter({
-              //   getFilter: (filter) => {
-              //     intervalUnit = filter
-              //   },
-              // }),
             },
             {
               dataField: 'enterBy',

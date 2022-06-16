@@ -112,6 +112,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       status: 'A',
       environment: getDefaultLookupItem(routerStore.lookupItems, 'ENVIRONMENT'),
       type: 'insert',
+      rangeType: getDefaultLookupItem(routerStore.lookupItems, 'RANGE_TYPE'),
     });
     refernceRangesStore.updateReferenceRanges({
       ...refernceRangesStore.referenceRanges,
