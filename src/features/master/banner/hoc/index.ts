@@ -1,1 +1,1 @@
-export * from './BannerHoc';
+export * from './banner.hoc';

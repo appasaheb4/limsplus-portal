@@ -4,17 +4,21 @@ import {ToastContainer, ModalLoader} from '@/library/components';
 import {Provider} from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
 import {configure} from 'mobx';
+import {I18nextProvider} from 'react-i18next';
+import i18next, {setLanguage} from './localization';
 
 import store from './redux/store/index';
-import Routes from './routes/Routes';
+import Routes from './routes/root-route';
 
-// toast ui
+// toast
 import 'react-toastify/dist/ReactToastify.css';
+
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import {stores} from '@/stores';
 
 import hydrateStore from '@/library/modules/startup';
-import {ApolloProvider, client} from '@/library/modules/apolloClient';
+import {ApolloProvider, client} from '@/library/modules/apollo-client';
 
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
@@ -35,10 +39,16 @@ configure({
 });
 
 const App = observer(() => {
+  setLanguage();
+
   const loader = async () => {
     await hydrateStore('loginStore', stores.loginStore);
     await hydrateStore('routerStore', stores.routerStore);
     await hydrateStore('appStore', stores.appStore);
+    await hydrateStore(
+      'patientRegistrationStore',
+      stores.patientRegistrationStore,
+    );
   };
 
   React.useEffect(() => {
@@ -48,18 +58,20 @@ const App = observer(() => {
   return (
     <>
       <ApolloProvider client={client}>
-        <Provider store={store}>
-          <Routes />
-          <ReduxToastr
-            timeOut={5000}
-            newestOnTop={true}
-            position='top-right'
-            transitionIn='fadeIn'
-            transitionOut='fadeOut'
-            progressBar
-            closeOnToastrClick
-          />
-        </Provider>
+        <I18nextProvider i18n={i18next}>
+          <Provider store={store}>
+            <Routes />
+            <ReduxToastr
+              timeOut={5000}
+              newestOnTop={true}
+              position='top-right'
+              transitionIn='fadeIn'
+              transitionOut='fadeOut'
+              progressBar
+              closeOnToastrClick
+            />
+          </Provider>
+        </I18nextProvider>
         <ToastContainer />
         {stores.flagLoading && stores.loading && <ModalLoader />}
       </ApolloProvider>

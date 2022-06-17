@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {LabStore} from './lab-store';
+import {LabStore} from './lab.store';
 
 export const Stores = {
   labStore: new LabStore(),

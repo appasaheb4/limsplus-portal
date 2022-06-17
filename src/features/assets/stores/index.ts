@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AssetsStore from './assets-store';
+import AssetsStore from './assets.store';
 
 export const Stores = {
   assetsStore: new AssetsStore(),

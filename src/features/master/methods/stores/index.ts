@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {MethodsStore} from './methods-store';
+import {MethodsStore} from './method.store';
 
 export const Stores = {
   methodsStore: new MethodsStore(),

@@ -11,6 +11,7 @@ export function getItem<T>(key: string): Promise<T> {
 
 export function setItem(key: string, value: any): Promise<boolean> {
   return new Promise<boolean>(async resolve => {
+    //console.log({key, value});
     await window.sessionStorage.setItem(key, JSON.stringify(value));
     resolve(true);
   });

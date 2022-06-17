@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {DoctorsStore} from './doctors-store';
+import {DoctorsStore} from './doctor.store';
 
 export const Stores = {
   doctorsStore: new DoctorsStore(),
