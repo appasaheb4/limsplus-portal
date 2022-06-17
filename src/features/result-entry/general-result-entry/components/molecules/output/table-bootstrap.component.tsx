@@ -268,6 +268,10 @@ const TableBootstrap = ({
     </div>
   );
 
+  const rowStyle = (row, rowIndex) => {
+    return {backgroundColor: '#c8e6c9', color: '#000000'};
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -370,6 +374,7 @@ const TableBootstrap = ({
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
                   expandRow={expandRow}
+                  rowStyle={rowStyle}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>
