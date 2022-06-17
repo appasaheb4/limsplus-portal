@@ -82,7 +82,30 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         return getStatus('testStatus', type, numberResult, numberLo, numberHi);
         break;
       default:
+        if (!row?.loNor && !row?.hiNor) return 'A';
         return row?.abnFlag ? 'A' : 'N';
+        break;
+    }
+  };
+
+  const getAbnFlag = (type: string, row: any) => {
+    switch (type) {
+      case 'V':
+        return getResultStatus(row.resultType, row) === 'L' ||
+          getResultStatus(row.resultType, row) === 'H'
+          ? true
+          : false;
+        break;
+      default:
+        return row?.abnFlag;
+        break;
+    }
+  };
+
+  const getCretical = (type: string, row: any) => {
+    switch (type) {
+      default:
+        return row?.cretical;
         break;
     }
   };
@@ -396,15 +419,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                   row,
                                 ),
                                 testStatus: getTestStatus(row.resultType, row),
-                                abnFlag:
-                                  row?.resultType === 'V'
-                                    ? getResultStatus(row.resultType, row) ===
-                                        'L' ||
-                                      getResultStatus(row.resultType, row) ===
-                                        'H'
-                                      ? true
-                                      : false
-                                    : row.abnFlag,
+                                abnFlag: getAbnFlag(row.resultType, row),
+                                cretical: getCretical(row.resultType, row),
                               },
                               row._id,
                             );

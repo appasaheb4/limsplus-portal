@@ -40,9 +40,8 @@ configure({
 
 const App = observer(() => {
   setLanguage();
-  const loader = async () => {
-    console.log({login: stores.loginStore});
 
+  const loader = async () => {
     await hydrateStore('loginStore', stores.loginStore);
     await hydrateStore('routerStore', stores.routerStore);
     await hydrateStore('appStore', stores.appStore);

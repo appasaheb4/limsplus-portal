@@ -198,6 +198,10 @@ export const RefRangesExpandList = ({
     }
   };
 
+  const rowStyle = (row, rowIndex) => {
+    return {backgroundColor: '#c8e6c9', color: '#000000'};
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -227,6 +231,7 @@ export const RefRangesExpandList = ({
                 filter={filterFactory()}
                 headerClasses='bg-gray-500 text-white whitespace-nowrap'
                 onTableChange={handleTableChange}
+                rowStyle={rowStyle}
               />
             </div>
           )}
