@@ -269,7 +269,26 @@ const TableBootstrap = ({
   );
 
   const rowStyle = (row, rowIndex) => {
-    return {backgroundColor: '#c8e6c9', color: '#000000'};
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        break;
+    }
   };
 
   return (
