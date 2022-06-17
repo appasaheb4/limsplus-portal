@@ -1,2 +1,2 @@
-export * from './User';
-export * from './ChangePassword';
+export * from './user.model';
+export * from './change-password.model';

@@ -1,1 +1,1 @@
-export * from './Deginisation';
+export * from './deginisation.model';

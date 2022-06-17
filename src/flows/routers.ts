@@ -3,6 +3,7 @@ import Storage from '@/library/modules/storage';
 import hydrateStore from '@/library/modules/startup';
 /* eslint-disable */
 import {LookupService} from '@/features/master/lookup/services';
+import {stores} from '@/stores';
 
 export const selectedComponents = (store, category, subCategory) => {
   if (store) {
@@ -51,7 +52,6 @@ export const checkPermission = (permission: any[], title: string) => {
 };
 
 export const updateSelectedCategory = async (
-  stores: any,
   category: string,
   item: string,
 ) => {
@@ -77,9 +77,8 @@ export const updateSelectedCategory = async (
     category,
     item,
   );
-  stores.routerStore.updateSelectedComponents(selectedComp);
-  stores.routerStore.updateUserPermission(permission);
   await hydrateStore('routerStore', stores.routerStore);
+  return {permission, selectedComp};
 };
 
 export const getLookupValues = async (path: string): Promise<any> => {

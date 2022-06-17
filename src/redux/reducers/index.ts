@@ -1,9 +1,9 @@
 /* eslint-disable */
 import {combineReducers} from 'redux';
 
-import sidebar from './sidebarReducers';
-import layout from './layoutReducer';
-import theme from './themeReducer';
+import sidebar from './sidebar-reducers';
+import layout from './layout-reducer';
+import theme from './theme-reducer';
 
 import {reducer as toastr} from 'react-redux-toastr';
 

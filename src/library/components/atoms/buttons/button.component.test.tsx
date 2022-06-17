@@ -10,3 +10,17 @@ it('render button correctly', () => {
   );
   expect(button).toMatchSnapshot();
 });
+
+// it('render buttonCircleAddRemove correctly ', () => {
+//   const buttonCircleAddRemove = render(
+//     <ButtonCircleAddRemove show={true} onClick={() => jest.fn()} />,
+//   );
+//   expect(buttonCircleAddRemove).toMatchSnapshot();
+// });
+
+// it('render buttonCircleAddRemoveBottom correctly ', () => {
+//   const buttonCircleAddRemoveBottom = render(
+//     <ButtonCircleAddRemoveBottom show={true} onClick={() => jest.fn()} />,
+//   );
+//   expect(buttonCircleAddRemoveBottom).toMatchSnapshot();
+// });

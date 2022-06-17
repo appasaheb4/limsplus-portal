@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RoleMappingStore} from './rolemapping-store';
+import {RoleMappingStore} from './role-mapping.store';
 
 export const Stores = {
   roleMappingStore: new RoleMappingStore(),

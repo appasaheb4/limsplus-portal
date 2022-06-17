@@ -1,9 +1,9 @@
-export * from './molecules/UserList';
-export * from './molecules/ModalDefaultLabDeptUpdate';
+export * from './molecules/user-list.component';
+export * from './molecules/modal-default-lab-dept-update.component';
 
-export * from './organisms/AutoCompleteFilterMultiSelectDepartment';
-export * from './organisms/AutoCompleteFilterMutiSelectRoles';
-export * from './organisms/AutoCompleteFilterSingleSelectDefaultLabs';
-export * from './organisms/AutoCompleteFilterSingleSelectDegnisation';
-export * from './organisms/AutoCompleteReportingTo';
-export * from './organisms/AutoCompleteDefaultDepartment';
+export * from './organisms/auto-complete-filter-multi-select-department.component';
+export * from './organisms/auto-complete-filter-muti-select-role.component';
+export * from './organisms/auto-complete-filter-single-select-default-lab.component';
+export * from './organisms/auto-complete-filter-single-select-degnisation.component';
+export * from './organisms/auto-complete-reporting-to.component';
+export * from './organisms/auto-complete-default-department.component';

@@ -1,1 +1,1 @@
-export * from './molecules/BannerList';
+export * from './molecules/banner-list.component';

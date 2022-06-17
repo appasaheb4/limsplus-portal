@@ -2,9 +2,8 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-indent-props */
 import React, {CSSProperties} from 'react';
-import {IconProps} from '../svg';
+import {IconProps} from '../svg.component';
 import {Buttons, Icons} from '../..';
-import {Styles} from '@/config';
 
 export interface ButtonProps {
   type?: 'solid' | 'outline';
@@ -17,6 +16,7 @@ export interface ButtonProps {
   id?: string;
   innerRef?: any;
   className?: string;
+  buttonClass?: string;
   children?: React.ReactNode;
 }
 
@@ -46,7 +46,7 @@ export const Button = React.forwardRef((props: ButtonProps) => {
         title={props.disabled}
         id={props.id}
         ref={props.innerRef}
-        className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+        className={`${props.buttonClass} inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
       >
         {Icon && (
           <Icon
@@ -80,7 +80,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -91,18 +91,14 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           }}
           onClick={() => props.onClick(true)}
         >
-          <Icons.EvaIcon
-            icon='plus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='plus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
 
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -113,11 +109,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
           }}
           onClick={() => props.onClick(false)}
         >
-          <Icons.EvaIcon
-            icon='minus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='minus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
     </>
@@ -132,7 +124,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -143,18 +135,14 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           }}
           onClick={() => props.onClick(true)}
         >
-          <Icons.EvaIcon
-            icon='plus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='plus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
 
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: Styles.COLORS.PRIMARY,
+            backgroundColor: '#454CBF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -165,11 +153,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           }}
           onClick={() => props.onClick(false)}
         >
-          <Icons.EvaIcon
-            icon='minus-outline'
-            size='large'
-            color={Styles.COLORS.WHITE}
-          />
+          <Icons.EvaIcon icon='minus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
       )}
     </>

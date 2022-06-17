@@ -5,7 +5,7 @@ class Storage {
     await sessionStorage.setItem(key, value);
   };
   getItem = async (key): Promise<any> => {
-    return await sessionStorage.getItem(key);
+    return sessionStorage.getItem(key);
   };
   removeItem = async key => {
     await sessionStorage.removeItem(key);

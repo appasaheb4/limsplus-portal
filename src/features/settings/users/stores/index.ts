@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {UserStore} from './UsersStore';
+import {UserStore} from './user.store';
 
 export const Stores = {
   userStore: new UserStore(),
