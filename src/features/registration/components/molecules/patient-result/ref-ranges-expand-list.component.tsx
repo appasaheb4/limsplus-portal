@@ -198,6 +198,29 @@ export const RefRangesExpandList = ({
     }
   };
 
+  const rowStyle = (row, rowIndex) => {
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -227,6 +250,7 @@ export const RefRangesExpandList = ({
                 filter={filterFactory()}
                 headerClasses='bg-gray-500 text-white whitespace-nowrap'
                 onTableChange={handleTableChange}
+                rowStyle={rowStyle}
               />
             </div>
           )}
