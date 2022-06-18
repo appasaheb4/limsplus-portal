@@ -42,6 +42,16 @@ export const PatientResultList = observer((props: PatientResultProps) => {
           totalSize={row?.refRangesList?.length || 0}
           columns={[
             {
+              dataField: 'result',
+              text: 'Result',
+              editable: false,
+              formatter: () => (
+                <>
+                  <span>{row.result}</span>
+                </>
+              ),
+            },
+            {
               dataField: 'rangeType',
               text: 'Range Type',
             },
