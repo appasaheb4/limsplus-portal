@@ -104,8 +104,19 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   const getCretical = (type: string, row: any) => {
     switch (type) {
+      case 'V':
+        const numberResult = Number.parseFloat(row?.result);
+        const numberLo = Number.parseFloat(
+          row?.refRangesList?.find(item => item.rangeType === 'C').low || 0,
+        );
+        const numberHi = Number.parseFloat(
+          row?.refRangesList?.find(item => item.rangeType === 'C').high || 0,
+        );
+        if (numberResult >= numberLo && numberResult <= numberHi) return false;
+        return true;
+        break;
       default:
-        return row?.cretical;
+        return row?.critical;
         break;
     }
   };
@@ -118,6 +129,16 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           data={row?.refRangesList || []}
           totalSize={row?.refRangesList?.length || 0}
           columns={[
+            {
+              dataField: 'result',
+              text: 'Result',
+              editable: false,
+              formatter: () => (
+                <>
+                  <span>{row.result}</span>
+                </>
+              ),
+            },
             {
               dataField: 'rangeType',
               text: 'Range Type',
@@ -420,7 +441,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                 ),
                                 testStatus: getTestStatus(row.resultType, row),
                                 abnFlag: getAbnFlag(row.resultType, row),
-                                cretical: getCretical(row.resultType, row),
+                                critical: getCretical(row.resultType, row),
                               },
                               row._id,
                             );

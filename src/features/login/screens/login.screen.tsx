@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect, useRef} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
@@ -53,7 +52,7 @@ export const Login = observer(() => {
 
   useEffect(() => {
     bannerStore.fetchListAllBanner();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -69,7 +68,7 @@ export const Login = observer(() => {
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginStore.login]);
 
   const onLogin = async (data: any) => {
@@ -94,6 +93,7 @@ export const Login = observer(() => {
           user: loginStore.inputLogin,
           loginActivity: {
             device: width <= 768 ? 'Mobile' : 'Desktop',
+            platform: 'Web',
           },
         },
       })
