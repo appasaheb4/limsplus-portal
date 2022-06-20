@@ -389,13 +389,13 @@ export const Users = UsersHoc(
                       }}
                       onBlur={userId => {
                         if (userId) {
-                          userStore.UsersService.checkExitsUserId(userId).then(
-                            res => {
+                          userStore.UsersService.serviceUser
+                            .checkExitsUserId(userId)
+                            .then(res => {
                               if (res.checkUserExitsUserId.success)
                                 userStore.setExitsUserId(true);
                               else userStore.setExitsUserId(false);
-                            },
-                          );
+                            });
                         }
                       }}
                     />

@@ -10,7 +10,7 @@ import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import * as Models from '../models';
 
 import {
-  CHECK_EXISTS_USERID,
+  UserService as ServiceUser,
   USER_LIST,
   UPDATE_USER,
   REMOVE_USER,
@@ -25,14 +25,18 @@ import {
   FILTER,
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
-} from '@/lp-core-service/settings/users/mutation';
+} from '@/lp-core-service/settings/users';
 
 export class UserService {
+  env = stores.loginStore.login && stores.loginStore.login.environment;
+  role = stores.loginStore.login && stores.loginStore.login.role;
+  serviceUser = new ServiceUser(
+    client,
+    stores.loginStore.login && stores.loginStore.login.environment,
+    stores.loginStore.login && stores.loginStore.login.role,
+  );
   userList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: USER_LIST,
@@ -40,8 +44,8 @@ export class UserService {
             input: {
               page,
               limit,
-              env,
-              role,
+              env: this.env,
+              role: this.role,
             },
           },
         })
@@ -54,20 +58,20 @@ export class UserService {
         );
     });
 
-  checkExitsUserId = (userId: string) =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: CHECK_EXISTS_USERID,
-          variables: {userId},
-        })
-        .then((response: any) => {
-          resolve(response.data);
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
+  // checkExitsUserId = (userId: string) =>
+  //   new Promise<any>((resolve, reject) => {
+  //     client
+  //       .mutate({
+  //         mutation: CHECK_EXISTS_USERID,
+  //         variables: {userId},
+  //       })
+  //       .then((response: any) => {
+  //         resolve(response.data);
+  //       })
+  //       .catch(error =>
+  //         reject(new ServiceResponse<any>(0, error.message, undefined)),
+  //       );
+  //   });
 
   addUser = async (variables: any) =>
     new Promise((resolve, reject) => {

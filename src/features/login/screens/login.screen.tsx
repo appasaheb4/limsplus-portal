@@ -200,38 +200,38 @@ export const Login = observer(() => {
                           }}
                           onBlur={userId => {
                             if (userId) {
-                              userStore.UsersService.checkExitsUserId(
-                                userId.trim(),
-                              ).then(res => {
-                                if (res.checkUserExitsUserId.success) {
-                                  const {
-                                    data: {user},
-                                  } = res.checkUserExitsUserId;
-                                  setValue('lab', user.defaultLab);
-                                  clearErrors('lab');
-                                  if (user.role.length == 1)
-                                    setValue('role', user.role[0].code);
-                                  clearErrors('role');
-                                  loginStore.updateInputUser({
-                                    ...loginStore.inputLogin,
-                                    lab: user.defaultLab,
-                                    role:
-                                      user.role.length == 1
-                                        ? user.role[0].code
-                                        : '',
-                                  });
-                                  labStore.fetchListLab();
-                                  roleStore.fetchListRole();
-                                  setlabRoleList({
-                                    labList: user.lab,
-                                    roleList: user.role,
-                                  });
-                                } else {
-                                  Toast.error({
-                                    message: `😔 ${res.checkUserExitsUserId.message}`,
-                                  });
-                                }
-                              });
+                              userStore.UsersService.serviceUser
+                                .checkExitsUserId(userId.trim())
+                                .then(res => {
+                                  if (res.checkUserExitsUserId.success) {
+                                    const {
+                                      data: {user},
+                                    } = res.checkUserExitsUserId;
+                                    setValue('lab', user.defaultLab);
+                                    clearErrors('lab');
+                                    if (user.role.length == 1)
+                                      setValue('role', user.role[0].code);
+                                    clearErrors('role');
+                                    loginStore.updateInputUser({
+                                      ...loginStore.inputLogin,
+                                      lab: user.defaultLab,
+                                      role:
+                                        user.role.length == 1
+                                          ? user.role[0].code
+                                          : '',
+                                    });
+                                    labStore.fetchListLab();
+                                    roleStore.fetchListRole();
+                                    setlabRoleList({
+                                      labList: user.lab,
+                                      roleList: user.role,
+                                    });
+                                  } else {
+                                    Toast.error({
+                                      message: `😔 ${res.checkUserExitsUserId.message}`,
+                                    });
+                                  }
+                                });
                             }
                           }}
                         />
