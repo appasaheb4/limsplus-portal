@@ -122,53 +122,54 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   };
 
   const expandRow = {
-    renderer: row => (
-      <div className='z-0'>
-        <RefRangesExpandList
-          id='_id'
-          data={row?.refRangesList || []}
-          totalSize={row?.refRangesList?.length || 0}
-          columns={[
-            {
-              dataField: 'result',
-              text: 'Result',
-              editable: false,
-              formatter: () => (
-                <>
-                  <span>{row.result}</span>
-                </>
-              ),
-            },
-            {
-              dataField: 'rangeType',
-              text: 'Range Type',
-            },
-            {
-              dataField: 'low',
-              text: 'Low',
-            },
-            {
-              dataField: 'high',
-              text: 'High',
-            },
-            {
-              dataField: 'rangeSetOn',
-              text: 'Range Set On',
-            },
-            {
-              dataField: 'rangeId',
-              text: 'Range Id',
-            },
-            {
-              dataField: 'version',
-              text: 'Range Version',
-            },
-          ]}
-          onSelectedRow={rows => {}}
-          onUpdateItem={(value: any, dataField: string, id: string) => {}}
-        />
-      </div>
-    ),
+    renderer: row =>
+      row?.resultType === 'V' ? (
+        <div className='z-0'>
+          <RefRangesExpandList
+            id='_id'
+            data={row?.refRangesList || []}
+            totalSize={row?.refRangesList?.length || 0}
+            columns={[
+              {
+                dataField: 'result',
+                text: 'Result',
+                editable: false,
+                formatter: () => (
+                  <>
+                    <span>{row.result}</span>
+                  </>
+                ),
+              },
+              {
+                dataField: 'rangeType',
+                text: 'Range Type',
+              },
+              {
+                dataField: 'low',
+                text: 'Low',
+              },
+              {
+                dataField: 'high',
+                text: 'High',
+              },
+              {
+                dataField: 'rangeSetOn',
+                text: 'Range Set On',
+              },
+              {
+                dataField: 'rangeId',
+                text: 'Range Id',
+              },
+              {
+                dataField: 'version',
+                text: 'Range Version',
+              },
+            ]}
+            onSelectedRow={rows => {}}
+            onUpdateItem={(value: any, dataField: string, id: string) => {}}
+          />
+        </div>
+      ) : null,
     showExpandColumn: true,
   };
 

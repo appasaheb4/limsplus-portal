@@ -1,6 +1,10 @@
 import async from '@/layouts/components/async.component';
-const ReportSettings = async(() => import('../screens/report-settings.screen'));
-const ReportTemplate = async(() => import('../screens/report-template.screen'));
+const ReportSettings = async(
+  () => import('../report-settings/screens/report-settings.screen'),
+);
+const ReportTemplate = async(
+  () => import('../report-template/screens/report-template.screen'),
+);
 
 export const reportBuilderRoutes = {
   path: '/report-builder',

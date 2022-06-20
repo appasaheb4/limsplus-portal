@@ -20,14 +20,10 @@ import {FormHelper} from '@/helper';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
-import 'react-accessible-accordion/dist/fancy-example.css';
+import {Accordion, AccordionItem} from 'react-sanfona';
+import '@/library/assets/css/accordion.css';
+
+import {ReportSection} from './report-section.screen';
 
 const ReportSettings = observer(() => {
   const {
@@ -57,6 +53,32 @@ const ReportSettings = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
+      <div>
+        <Accordion>
+          {[
+            {title: 'REPORT SECTION'},
+            {title: 'SECTION SETTING'},
+            {title: 'PAGE SETTING'},
+            {title: 'GENERAL SETTING'},
+            {title: 'FONT SETTING'},
+            {title: 'REPORT FIELD MAPPING'},
+          ].map(item => {
+            return (
+              <AccordionItem
+                title={`${item.title}`}
+                // expanded={item.title === "PATIENT MANAGER"}
+              >
+                {item.title === 'REPORT SECTION' && <ReportSection />}
+                {item.title === 'PATIENT VISIT' && <ReportSection />}
+                {item.title === 'PATIENT ORDER' && <ReportSection />}
+                {item.title === 'PATIENT TEST' && <ReportSection />}
+                {item.title === 'PATIENT RESULT' && <ReportSection />}
+                {item.title === 'PATIENT SAMPLE' && <ReportSection />}
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
+      </div>
     </>
   );
 });
