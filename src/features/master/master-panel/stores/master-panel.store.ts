@@ -6,7 +6,6 @@ import {MasterPanelService} from '../services';
 import * as ModelsSection from '@/features/master/section/models';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class MasterPanelStore {
   masterPanel!: MasterPanel;
   listMasterPanel: MasterPanel[];

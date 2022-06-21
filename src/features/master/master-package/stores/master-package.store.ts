@@ -4,7 +4,6 @@ import {MasterPackage, SelectedItems} from '../models';
 import {MasterPackageService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class MasterPackageStore {
   masterPackage!: MasterPackage;
   listMasterPackage!: MasterPackage[];

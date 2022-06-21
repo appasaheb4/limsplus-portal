@@ -4,7 +4,6 @@ import {Department, SelectedItems} from '../models';
 import {DepartmentService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class DepartmentStore {
   listDepartment!: Department[];
   listDepartmentCopy!: Department[];
