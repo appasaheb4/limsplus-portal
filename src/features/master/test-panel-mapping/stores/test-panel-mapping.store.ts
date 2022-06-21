@@ -4,7 +4,6 @@ import {TestPanelMapping, SelectedItems} from '../models';
 import {TestPanelMappingService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class TestPanelMappingStore {
   testPanelMapping!: TestPanelMapping;
   listTestPanelMapping: TestPanelMapping[];

@@ -4,7 +4,6 @@ import {TestAnalyteMapping, SelectedItems} from '../models';
 import {TestAnalyteMappingService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class TestAnalyteMappingStore {
   testAnalyteMapping!: TestAnalyteMapping;
   listTestAnalyteMapping!: TestAnalyteMapping[];

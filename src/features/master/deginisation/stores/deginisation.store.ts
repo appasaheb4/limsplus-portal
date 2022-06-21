@@ -3,7 +3,6 @@ import {makeObservable, action, observable, computed} from 'mobx';
 import {Deginisation} from '../models';
 import {DeginisationService} from '../services';
 
-@version(0.1)
 export class DeginisationStore {
   listDeginisation!: Deginisation[];
   listDeginisationCopy!: Deginisation[];
