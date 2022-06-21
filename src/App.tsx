@@ -33,7 +33,7 @@ import {ApolloProvider, client} from '@/library/modules/apollo-client';
 // };
 
 configure({
-  reactionScheduler: (f): void => {
+  reactionScheduler: f => {
     setTimeout(f, 1);
   },
 });

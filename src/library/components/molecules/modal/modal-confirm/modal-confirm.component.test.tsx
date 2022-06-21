@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {ModalConfirm} from './modal-confirm.component';
 
 it('render modalConfirm correctly', () => {

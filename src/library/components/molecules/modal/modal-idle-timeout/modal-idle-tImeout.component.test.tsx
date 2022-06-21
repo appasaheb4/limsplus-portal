@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {ModalIdleTimeout} from './modal-idle-timeout.component';
 
 it('render modalIdleTimeout correctly', () => {

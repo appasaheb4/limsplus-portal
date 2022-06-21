@@ -7,7 +7,7 @@
     "serve-webapp": "craco build && craco start",
     "dev": "craco start",
     "build": "craco build",
-    "test": "craco test",
+    "test": "jest",
     "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint src",
@@ -30,7 +30,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
+    "@types/jest": "^28.1.2",
     "@types/node": "^17.0.25",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
@@ -133,6 +133,10 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.17.12",
+    "@babel/plugin-transform-runtime": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/preset-typescript": "^7.17.12",
     "@craco/craco": "^5.8.0",
     "@storybook/addon-actions": "^6.4.22",
     "@storybook/addon-essentials": "^6.4.22",
@@ -155,6 +159,7 @@
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "autoprefixer": "^10.4.4",
+    "babel-jest": "^28.1.1",
     "craco-alias": "^2.1.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -167,12 +172,14 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-unicorn": "36.0.0",
+    "jest": "^28.1.1",
     "jest-sonar-reporter": "^2.0.0",
     "lint-staged": "^12.3.8",
     "postcss": "^8.4.12",
     "prettier": "^2.2.1",
     "process": "^0.11.10",
     "sonarqube-scanner": "^2.8.1",
+    "ts-jest": "^28.0.5",
     "webpack": "^5.72.0"
   },
   "lint-staged": {
@@ -194,7 +201,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^@/(.+)": "<rootDir>/src/$1"
+      "^@/(.+)": "<rootDir>/src/$1",
+      "\\.(css|scss)$": "identity-obj-proxy"
     },
     "coveragePathIgnorePatterns": [
       "18n",

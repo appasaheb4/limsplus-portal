@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {Button} from './button.component';
 
 it('render button correctly', () => {
@@ -10,17 +10,3 @@ it('render button correctly', () => {
   );
   expect(button).toMatchSnapshot();
 });
-
-// it('render buttonCircleAddRemove correctly ', () => {
-//   const buttonCircleAddRemove = render(
-//     <ButtonCircleAddRemove show={true} onClick={() => jest.fn()} />,
-//   );
-//   expect(buttonCircleAddRemove).toMatchSnapshot();
-// });
-
-// it('render buttonCircleAddRemoveBottom correctly ', () => {
-//   const buttonCircleAddRemoveBottom = render(
-//     <ButtonCircleAddRemoveBottom show={true} onClick={() => jest.fn()} />,
-//   );
-//   expect(buttonCircleAddRemoveBottom).toMatchSnapshot();
-// });

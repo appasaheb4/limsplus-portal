@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {ModalTransition} from './moda-transition.component';
 
 it('render modalTransition correctly', () => {

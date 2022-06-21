@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {AutocompleteGroupBy} from './auto-complete-group-by.component';
 
 it('render autocompleteGroupBy correctly', () => {
