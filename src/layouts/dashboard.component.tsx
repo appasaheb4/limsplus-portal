@@ -59,6 +59,9 @@ import * as DataConveration from '@/features/communication/data-conversation';
 // result entry
 import * as GeneralResultEntry from '@/features/result-entry/general-result-entry';
 
+// report builder
+import * as ReportSettings from '@/features/report-builder/report-settings';
+
 // registration
 import * as PatientRegistration from '@/features/registration';
 const Dashboard = observer(({children}) => {
@@ -215,6 +218,9 @@ const Dashboard = observer(({children}) => {
       // result entry
       if (pathname === '/result-entry/general') {
         await GeneralResultEntry.startup();
+      }
+      if (pathname === '/report-builder/report-settings') {
+        await ReportSettings.startup();
       }
       stores;
     }

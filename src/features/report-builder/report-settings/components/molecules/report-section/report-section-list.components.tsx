@@ -23,14 +23,9 @@ interface ReportSectionListProps {
   ) => void;
 }
 
-let labId;
-let plab;
+let section;
 
 export const ReportSectionList = observer((props: ReportSectionListProps) => {
-  const editorCell = (row: any) => {
-    return false; //row.status !== "I" ? true : false
-  };
-
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -58,17 +53,16 @@ export const ReportSectionList = observer((props: ReportSectionListProps) => {
               headerClasses: 'textHeader4',
               filter: textFilter({
                 getFilter: filter => {
-                  plab = filter;
+                  section = filter;
                 },
               }),
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
             },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='PatientResult'
+          fileName='Report_Section'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
@@ -83,8 +77,7 @@ export const ReportSectionList = observer((props: ReportSectionListProps) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
-            labId('');
-            plab('');
+            section('');
           }}
         />
       </div>
