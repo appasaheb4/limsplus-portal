@@ -11,8 +11,7 @@ interface ReportSectionProps {
 }
 
 export const ReportSection = observer((props: ReportSectionProps) => {
-  const {patientResultStore, patientRegistrationStore, routerStore} =
-    useStores();
+  const {reportSettingStore, routerStore} = useStores();
 
   return (
     <>
@@ -21,8 +20,8 @@ export const ReportSection = observer((props: ReportSectionProps) => {
         style={{overflowX: 'scroll'}}
       >
         <ReportSectionList
-          data={patientResultStore.patientResultListWithLabId}
-          totalSize={patientResultStore.patientResultTestCount}
+          data={reportSettingStore.reportSectionList}
+          totalSize={reportSettingStore.reportSectionListCount}
           extraData={{}}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -62,17 +61,17 @@ export const ReportSection = observer((props: ReportSectionProps) => {
             // );
           }}
           onFilter={(type, filter, page, limit) => {
-            patientResultStore.patientResultService.filterWithLabId({
-              input: {
-                type,
-                filter: {
-                  ...filter,
-                  labId: patientRegistrationStore.defaultValues?.labId,
-                },
-                page,
-                limit,
-              },
-            });
+            // patientResultStore.patientResultService.filterWithLabId({
+            //   input: {
+            //     type,
+            //     filter: {
+            //       ...filter,
+            //       labId: patientRegistrationStore.defaultValues?.labId,
+            //     },
+            //     page,
+            //     limit,
+            //   },
+            // });
           }}
         />
       </div>

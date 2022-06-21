@@ -20,7 +20,7 @@ export class ReportSettingService {
           query: LIST_REPORT_SECTION,
         })
         .then((response: any) => {
-          stores.patientTestStore.updateTestList(response.data);
+          stores.reportSettingStore.updateReportSectionList(response.data);
           resolve(response.data);
         })
         .catch(error =>

@@ -8,7 +8,7 @@
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll",
+    "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "prettier:fix": "prettier --write .",
@@ -90,7 +90,7 @@
     "react-scripts": "5.0.1",
     "react-session-api": "^1.1.0",
     "react-syntax-highlighter": "^15.4.3",
-    "react-test-renderer": "^18.1.0",
+    "react-test-renderer": "^18.2.0",
     "react-timekeeper": "^2.2.1",
     "react-toastify": "^7.0.4",
     "react-toasts": "^3.0.6",
@@ -199,7 +199,7 @@
     "coveragePathIgnorePatterns": [
       "18n",
       ".eslintrc.js",
-      "index.ts",
+      "index",
       "react-app-env.d.ts",
       "report-web-vitals.ts",
       "stories",
@@ -210,11 +210,7 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/path/to/dir/",
-      "!src/i18n/*.{ts,tsx}",
-      "!src/setup-test.ts",
-      "!src/library/modules/session/module.ts",
-      "!src/library/modules/session/index.ts"
+      "!src/App.tsx"
     ],
     "coverageThreshold": {
       "global": {

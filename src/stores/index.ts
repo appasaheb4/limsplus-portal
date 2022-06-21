@@ -49,6 +49,7 @@ import {LoginActivityStore} from '@/features/settings/login-activity/stores/logi
 import {RoleMappingStore} from '@/features/settings/mapping/role/stores/role-mapping.store';
 import {ShortcutMenuStore} from '@/features/settings/shortcut-menu/stores/short-cut-menu.store';
 import {NoticeBoardStore} from '@/features/settings/notice-board/stores/notice-board.store';
+import {ReportSettingStore} from '@/features/report-builder/report-settings/stores';
 
 // registation
 import {
@@ -125,6 +126,9 @@ export class Stores extends Store {
   // result entry
   generalResultEntryStore!: GeneralResultEntryStore;
 
+  // report builder
+  reportSettingStore!: ReportSettingStore;
+
   constructor() {
     super();
     this.rootStore = new RootStore();
@@ -185,6 +189,9 @@ export class Stores extends Store {
 
     // result entry
     this.generalResultEntryStore = new GeneralResultEntryStore();
+
+    // report builder
+    this.reportSettingStore = new ReportSettingStore();
   }
 }
 
