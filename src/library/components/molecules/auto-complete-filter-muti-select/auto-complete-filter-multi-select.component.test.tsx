@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {AutoCompleteFilterMutiSelect} from './auto-complete-filter-muti-select.component';
 
 it('render autoCompleteFilterMutiSelect correctly', () => {

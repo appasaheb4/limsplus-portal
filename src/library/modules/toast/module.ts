@@ -1,6 +1,6 @@
 import {toast} from 'react-toastify';
 class Toast {
-  success = async (details: any) => {
+  success = async details => {
     toast.success(details.message, {
       position: 'bottom-right',
       autoClose: details.timer || 3000,
@@ -11,7 +11,7 @@ class Toast {
       progress: undefined,
     });
   };
-  error = async (details: any) => {
+  error = async details => {
     toast.error(details.message, {
       position: 'bottom-right',
       autoClose: details.timer || 3000,
@@ -22,7 +22,7 @@ class Toast {
       progress: undefined,
     });
   };
-  warning = async (details: any) => {
+  warning = async details => {
     toast.warning(details.message, {
       position: 'bottom-right',
       autoClose: details.timer || 3000,

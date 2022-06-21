@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {ModalChangePasswordByAdmin} from './modal-change-password-by-admin.component';
 
 it('render modalChangePasswordByAdmin correctly', () => {

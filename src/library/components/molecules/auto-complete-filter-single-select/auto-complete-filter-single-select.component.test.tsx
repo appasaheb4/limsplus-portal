@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {AutoCompleteFilterSingleSelect} from './auto-complete-filter-single-select.component';
 
 it('render autoCompleteFilterSingleSelect correctly', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {Header, PageHeading, PageHeadingLabDetails} from './header.component';
 
 it('render header correctly', () => {

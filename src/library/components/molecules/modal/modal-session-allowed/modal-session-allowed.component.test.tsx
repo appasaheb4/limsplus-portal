@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {ModalSessionAllowed} from './modal-session-allowed.component';
 
 it('render modalSessionAllowed correctly', () => {

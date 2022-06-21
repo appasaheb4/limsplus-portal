@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from './auto-complete-filter-single-select-multi-fields-display.component';
 
 it('render autoCompleteFilterSingleSelectMultiFieldsDisplay correctly', () => {
