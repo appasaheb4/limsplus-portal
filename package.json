@@ -7,7 +7,7 @@
     "serve-webapp": "craco build && craco start",
     "dev": "craco start",
     "build": "craco build",
-    "test": "jest",
+    "test": "jest --watch --config=jest.config.js",
     "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint src",
@@ -173,6 +173,7 @@
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-unicorn": "36.0.0",
     "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.1",
     "jest-sonar-reporter": "^2.0.0",
     "lint-staged": "^12.3.8",
     "postcss": "^8.4.12",
@@ -198,36 +199,5 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^@/(.+)": "<rootDir>/src/$1",
-      "\\.(css|scss)$": "identity-obj-proxy"
-    },
-    "coveragePathIgnorePatterns": [
-      "18n",
-      ".eslintrc.js",
-      "index",
-      "react-app-env.d.ts",
-      "report-web-vitals.ts",
-      "stories",
-      "route.ts",
-      "src/library/modules/session/module.ts",
-      "src/library/modules/session/index.ts"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/node_modules/",
-      "!src/App.tsx"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 60,
-        "functions": 60,
-        "lines": 60,
-        "statements": 60
-      }
-    }
-  },
-  "testEnvironment": "jsdom"
+  }
 }
