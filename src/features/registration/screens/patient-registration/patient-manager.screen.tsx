@@ -17,7 +17,6 @@ import {PatientMangerList, ExtraDataPatientManagerList} from '../../components';
 import {FormHelper} from '@/helper';
 import {PatientManagerHoc} from '../../hoc';
 
-import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
 import {RouterFlow} from '@/flows';
@@ -29,6 +28,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import '@/library/assets/css/accordion.css';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
