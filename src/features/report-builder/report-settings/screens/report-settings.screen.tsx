@@ -1,29 +1,16 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
-import {
-  Buttons,
-  List,
-  Grid,
-  Svg,
-  Toast,
-  Form,
-  AutoCompleteFilterSingleSelect,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-} from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import {Header, PageHeading, PageHeadingLabDetails} from '@/library/components';
+import {useForm} from 'react-hook-form';
 
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
 import {ReportSection} from './report-section.screen';
+import {SectionSettings} from './section-settings.screen';
 
 const ReportSettings = observer(() => {
   const {
@@ -42,10 +29,6 @@ const ReportSettings = observer(() => {
     setValue,
   } = useForm();
   setValue('species', patientManagerStore.patientManger.species);
-
-  const [hideInputView, setHideInputView] = useState<boolean>(true);
-
-  const onSubmitPatientManager = () => {};
 
   return (
     <>
@@ -69,11 +52,11 @@ const ReportSettings = observer(() => {
                 // expanded={item.title === "PATIENT MANAGER"}
               >
                 {item.title === 'REPORT SECTION' && <ReportSection />}
-                {item.title === 'PATIENT VISIT' && <ReportSection />}
-                {item.title === 'PATIENT ORDER' && <ReportSection />}
-                {item.title === 'PATIENT TEST' && <ReportSection />}
-                {item.title === 'PATIENT RESULT' && <ReportSection />}
-                {item.title === 'PATIENT SAMPLE' && <ReportSection />}
+                {item.title === 'SECTION SETTING' && <SectionSettings />}
+                {item.title === 'PAGE SETTING' && <ReportSection />}
+                {item.title === 'GENERAL SETTING' && <ReportSection />}
+                {item.title === 'FONT SETTING' && <ReportSection />}
+                {item.title === 'REPORT FIELD MAPPING' && <ReportSection />}
               </AccordionItem>
             );
           })}
