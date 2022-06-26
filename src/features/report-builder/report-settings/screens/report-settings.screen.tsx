@@ -11,6 +11,7 @@ import '@/library/assets/css/accordion.css';
 
 import {ReportSection} from './report-section.screen';
 import {SectionSettings} from './section-settings.screen';
+import {PageSetting} from './page-setting.screen';
 
 const ReportSettings = observer(() => {
   const {
@@ -53,7 +54,7 @@ const ReportSettings = observer(() => {
               >
                 {item.title === 'REPORT SECTION' && <ReportSection />}
                 {item.title === 'SECTION SETTING' && <SectionSettings />}
-                {item.title === 'PAGE SETTING' && <ReportSection />}
+                {item.title === 'PAGE SETTING' && <PageSetting />}
                 {item.title === 'GENERAL SETTING' && <ReportSection />}
                 {item.title === 'FONT SETTING' && <ReportSection />}
                 {item.title === 'REPORT FIELD MAPPING' && <ReportSection />}

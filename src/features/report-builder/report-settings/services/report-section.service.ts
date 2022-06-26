@@ -7,12 +7,12 @@
 
 import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
-import {LIST_REPORT_SECTION} from './mutation';
+import {LIST_REPORT_SECTION} from './mutation-rep-sec';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
-export class ReportSettingService {
+export class ReportSectionService {
   listReportSection = () =>
     new Promise<any>((resolve, reject) => {
       client

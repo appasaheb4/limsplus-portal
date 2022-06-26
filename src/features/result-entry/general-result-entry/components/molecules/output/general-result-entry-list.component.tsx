@@ -107,10 +107,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
       case 'V':
         const numberResult = Number.parseFloat(row?.result);
         const numberLo = Number.parseFloat(
-          row?.refRangesList?.find(item => item.rangeType === 'C').low || 0,
+          row?.refRangesList?.find(item => item.rangeType === 'C')?.low || 0,
         );
         const numberHi = Number.parseFloat(
-          row?.refRangesList?.find(item => item.rangeType === 'C').high || 0,
+          row?.refRangesList?.find(item => item.rangeType === 'C')?.high || 0,
         );
         if (numberResult >= numberLo && numberResult <= numberHi) return false;
         return true;
