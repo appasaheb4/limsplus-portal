@@ -103,12 +103,18 @@ export const SectionSettings = SectionSettingHoc(
                               input: {
                                 filter: {
                                   tempCode,
+                                  sectionSetting:
+                                    reportSettingStore.sectionSetting
+                                      ?.sectionSetting || '',
                                 },
                               },
                             })
                             .then(res => {
+                              console.log({res});
+
                               if (res.findByFieldsSectionSetting.success) {
                                 setError('tempCode', {type: 'onBlur'});
+                                setError('sectionSetting', {type: 'onBlur'});
                                 Toast.warning({
                                   message:
                                     '😔 Already exists temp code. Please enter diff.',
@@ -116,6 +122,7 @@ export const SectionSettings = SectionSettingHoc(
                                 return setIsExistsTempCode(true);
                               } else {
                                 clearErrors('tempCode');
+                                clearErrors('sectionSetting');
                                 return setIsExistsTempCode(false);
                               }
                             });
@@ -129,27 +136,70 @@ export const SectionSettings = SectionSettingHoc(
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
-                      <Form.MultilineInput
+                      <Form.InputWrapper
                         label='Section Setting'
-                        placeholder='Section Setting'
                         hasError={errors.sectionSetting}
-                        rows={3}
-                        value={
-                          reportSettingStore.sectionSetting?.sectionSetting
-                        }
-                        onChange={sectionSetting => {
-                          onChange(sectionSetting);
-                          reportSettingStore.updateSectionSetting({
-                            ...reportSettingStore.sectionSetting,
-                            sectionSetting,
-                          });
-                        }}
-                      />
+                      >
+                        <select
+                          value={
+                            reportSettingStore.sectionSetting?.sectionSetting
+                          }
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.sectionSetting
+                              ? 'border-red-500  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const sectionSetting = e.target.value;
+                            onChange(sectionSetting);
+                            reportSettingStore.updateSectionSetting({
+                              ...reportSettingStore.sectionSetting,
+                              sectionSetting,
+                            });
+                            reportSettingStore.sectionSettingService
+                              .findByFields({
+                                input: {
+                                  filter: {
+                                    tempCode:
+                                      reportSettingStore.sectionSetting
+                                        ?.tempCode || '',
+                                    sectionSetting,
+                                  },
+                                },
+                              })
+                              .then(res => {
+                                if (res.findByFieldsSectionSetting.success) {
+                                  setError('tempCode', {type: 'onBlur'});
+                                  setError('sectionSetting', {type: 'onBlur'});
+                                  Toast.warning({
+                                    message:
+                                      '😔 Already exists temp code. Please enter diff.',
+                                  });
+                                  return setIsExistsTempCode(true);
+                                } else {
+                                  clearErrors('tempCode');
+                                  clearErrors('sectionSetting');
+                                  return setIsExistsTempCode(false);
+                                }
+                              });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {reportSettingStore.reportSectionList.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.section}>
+                                {item.section}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
                     )}
                     name='sectionSetting'
                     rules={{required: true}}
                     defaultValue=''
                   />
+
                   <Grid cols={4}>
                     <Controller
                       control={control}

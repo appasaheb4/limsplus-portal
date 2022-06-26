@@ -13,7 +13,7 @@ import {
   Svg,
   ModalConfirm,
 } from '@/library/components';
-import {SectionSettingsList} from '../components';
+import {PageSettingsList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
@@ -84,7 +84,7 @@ export const PageSetting = PageSettingHoc(
 
         <div
           className={
-            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'shown')
+            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
           }
         >
           <Grid cols={2}>
@@ -556,9 +556,9 @@ export const PageSetting = PageSettingHoc(
           </List>
         </div>
         <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-          <SectionSettingsList
-            data={reportSettingStore.sectionSettingList || []}
-            totalSize={reportSettingStore.sectionSettingListCount}
+          <PageSettingsList
+            data={reportSettingStore.pageSettingList || []}
+            totalSize={reportSettingStore.pageSettingListCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
             }}
@@ -604,17 +604,17 @@ export const PageSetting = PageSettingHoc(
           click={(type?: string) => {
             switch (type) {
               case 'delete': {
-                reportSettingStore.sectionSettingService
-                  .deleteSectionSetting({
+                reportSettingStore.pageSettingService
+                  .deletePageSetting({
                     input: {id: modalConfirm.id},
                   })
                   .then((res: any) => {
-                    if (res.removeSectionSetting.success) {
+                    if (res.removePageSetting.success) {
                       Toast.success({
-                        message: `😊 ${res.removeSectionSetting.message}`,
+                        message: `😊 ${res.removePageSetting.message}`,
                       });
                       setModalConfirm({show: false});
-                      reportSettingStore.sectionSettingService.listSectionSetting();
+                      reportSettingStore.pageSettingService.listPageSetting();
                     }
                   });
                 break;

@@ -80,7 +80,7 @@ export class ReportSettingStore {
   }
 
   updatePageSettingList(res: any) {
-    this.pageSettingList = res;
-    this.pageSettingListCount = res;
+    this.pageSettingList = res.pageSettings.data;
+    this.pageSettingListCount = res.pageSettings.paginatorInfo.count;
   }
 }
