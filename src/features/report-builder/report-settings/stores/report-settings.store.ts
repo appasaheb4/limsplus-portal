@@ -1,6 +1,10 @@
 import {makeObservable, action, observable, computed} from 'mobx';
-import {ReportSettingService} from '../services';
-import {ReportSection, SectionSettings} from '../models';
+import {
+  ReportSectionService,
+  SectionSettingService,
+  PageSettingService,
+} from '../services';
+import {ReportSection, SectionSettings, PageSetting} from '../models';
 
 export class ReportSettingStore {
   reportSectionList: ReportSection[] = [];
@@ -8,12 +12,24 @@ export class ReportSettingStore {
   sectionSetting!: SectionSettings;
   sectionSettingList!: Array<SectionSettings>;
   sectionSettingListCount!: number;
+  pageSetting!: PageSetting;
+  pageSettingList!: Array<PageSetting>;
+  pageSettingListCount: number = 0;
+
   constructor() {
     this.sectionSetting = new SectionSettings({
+      sectionRequired: false,
+      sectionGrid: false,
+      lineGrid: false,
+      columnGrid: false,
       version: 1,
     });
     this.sectionSettingList = [];
     this.sectionSettingListCount = 0;
+    this.pageSetting = new PageSetting({
+      version: 1,
+    });
+    this.pageSettingList = [];
 
     makeObservable<ReportSettingStore, any>(this, {
       reportSectionList: observable,
@@ -21,17 +37,30 @@ export class ReportSettingStore {
       sectionSetting: observable,
       sectionSettingList: observable,
       sectionSettingListCount: observable,
+      pageSetting: observable,
+      pageSettingList: observable,
+      pageSettingListCount: observable,
 
-      reportSettingService: computed,
+      reportSectionService: computed,
+      sectionSettingService: computed,
 
       updateReportSectionList: action,
+      updateSectionSetting: action,
+      updateSectionSettingList: action,
     });
   }
 
-  get reportSettingService() {
-    return new ReportSettingService();
+  get reportSectionService() {
+    return new ReportSectionService();
   }
 
+  get sectionSettingService() {
+    return new SectionSettingService();
+  }
+
+  get pageSettingService() {
+    return new PageSettingService();
+  }
   updateReportSectionList(res: any) {
     this.reportSectionList = res.reportSections.data;
     this.reportSectionListCount = res.reportSections.paginatorInfo.count;
@@ -42,7 +71,16 @@ export class ReportSettingStore {
   }
 
   updateSectionSettingList(res: any) {
-    this.sectionSettingList = res;
-    this.sectionSettingListCount = res.count;
+    this.sectionSettingList = res.sectionSettings.data;
+    this.sectionSettingListCount = res.sectionSettings.paginatorInfo.count;
+  }
+
+  updatePageSetting(res: PageSetting) {
+    this.pageSetting = res;
+  }
+
+  updatePageSettingList(res: any) {
+    this.pageSettingList = res;
+    this.pageSettingListCount = res;
   }
 }
