@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const PAGE_SETTING_LIST = gql`
-  mutation ($input: SectionSettingInput!) {
-    sectionSettings(input: $input) {
+  mutation ($input: PageSettingInput!) {
+    pageSettings(input: $input) {
       paginatorInfo {
         count
       }
@@ -40,8 +40,8 @@ export const CREATE_PAGE_SETTING = gql`
 `;
 
 export const REMOVE_PAGE_SETTING = gql`
-  mutation ($input: SectionSettingInput!) {
-    removeSectionSetting(input: $input) {
+  mutation ($input: PageSettingInput!) {
+    removePageSetting(input: $input) {
       success
       message
     }
