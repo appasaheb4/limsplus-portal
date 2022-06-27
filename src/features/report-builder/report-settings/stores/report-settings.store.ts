@@ -4,7 +4,12 @@ import {
   SectionSettingService,
   PageSettingService,
 } from '../services';
-import {ReportSection, SectionSettings, PageSetting} from '../models';
+import {
+  ReportSection,
+  SectionSettings,
+  PageSetting,
+  GeneralSettings,
+} from '../models';
 
 export class ReportSettingStore {
   reportSectionList: ReportSection[] = [];
@@ -15,6 +20,9 @@ export class ReportSettingStore {
   pageSetting!: PageSetting;
   pageSettingList!: Array<PageSetting>;
   pageSettingListCount: number = 0;
+  generalSetting!: GeneralSettings;
+  generalSettingList!: Array<GeneralSettings>;
+  generalSettingListCount: number = 0;
 
   constructor() {
     this.sectionSetting = new SectionSettings({
@@ -30,6 +38,9 @@ export class ReportSettingStore {
       version: 1,
     });
     this.pageSettingList = [];
+    this.generalSetting = new GeneralSettings({
+      version: 1,
+    });
 
     makeObservable<ReportSettingStore, any>(this, {
       reportSectionList: observable,
@@ -40,13 +51,19 @@ export class ReportSettingStore {
       pageSetting: observable,
       pageSettingList: observable,
       pageSettingListCount: observable,
+      generalSetting: observable,
+      generalSettingList: observable,
+      generalSettingListCount: observable,
 
       reportSectionService: computed,
       sectionSettingService: computed,
+      pageSettingService: computed,
 
       updateReportSectionList: action,
       updateSectionSetting: action,
       updateSectionSettingList: action,
+      updateGeneralSetting: action,
+      updateGeneralSettingList: action,
     });
   }
 
@@ -61,6 +78,7 @@ export class ReportSettingStore {
   get pageSettingService() {
     return new PageSettingService();
   }
+
   updateReportSectionList(res: any) {
     this.reportSectionList = res.reportSections.data;
     this.reportSectionListCount = res.reportSections.paginatorInfo.count;
@@ -82,5 +100,13 @@ export class ReportSettingStore {
   updatePageSettingList(res: any) {
     this.pageSettingList = res.pageSettings.data;
     this.pageSettingListCount = res.pageSettings.paginatorInfo.count;
+  }
+
+  updateGeneralSetting(res: any) {
+    this.generalSetting = res;
+  }
+
+  updateUpdateGeneralSettingList(res: any) {
+    this.generalSettingList = res;
   }
 }
