@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-indent-props */
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, Ref} from 'react';
 import {IconProps} from '../svg.component';
 import {Buttons, Icons} from '../..';
 
@@ -20,7 +20,7 @@ export interface ButtonProps {
   children?: React.ReactNode;
 }
 
-export const Button = React.forwardRef((props: ButtonProps) => {
+export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
   const buttonSizeClass =
     props.size === 'small'
       ? 'px-2 py-1 text-xs'

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Ref} from 'react';
 import {List, ModalClock} from '../..';
 import dayjs from 'dayjs';
 import '../css/toggle.css';
@@ -73,7 +73,7 @@ interface InputProps extends InputWrapperProps {
   inputRef?: any;
 }
 
-export const Input = React.forwardRef((props: InputProps) => {
+export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
   const handleKeyPress = e => {
     const key = e.key;
     const regex = props.pattern;

@@ -47,4 +47,7 @@ module.exports = {
     },
   },
   testEnvironment: 'jsdom',
+  transform: {
+    '\\.js$': '<rootDir>/node_modules/babel-jest',
+  },
 };
