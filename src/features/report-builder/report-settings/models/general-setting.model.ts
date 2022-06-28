@@ -4,7 +4,6 @@ export class GeneralSettings {
   reportSection: string;
   sectionSetting: string;
   pageSetting: string;
-
   version: number;
   environment: string;
   documentType: string;
