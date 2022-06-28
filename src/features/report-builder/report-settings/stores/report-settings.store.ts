@@ -3,6 +3,7 @@ import {
   ReportSectionService,
   SectionSettingService,
   PageSettingService,
+  GeneralSettingService,
 } from '../services';
 import {
   ReportSection,
@@ -58,6 +59,7 @@ export class ReportSettingStore {
       reportSectionService: computed,
       sectionSettingService: computed,
       pageSettingService: computed,
+      generalSettingService: computed,
 
       updateReportSectionList: action,
       updateSectionSetting: action,
@@ -77,6 +79,10 @@ export class ReportSettingStore {
 
   get pageSettingService() {
     return new PageSettingService();
+  }
+
+  get generalSettingService() {
+    return new GeneralSettingService();
   }
 
   updateReportSectionList(res: any) {
@@ -106,7 +112,8 @@ export class ReportSettingStore {
     this.generalSetting = res;
   }
 
-  updateUpdateGeneralSettingList(res: any) {
+  updateGeneralSettingList(res: any) {
     this.generalSettingList = res;
+    this.generalSettingListCount = res;
   }
 }
