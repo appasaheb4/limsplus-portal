@@ -71,6 +71,32 @@ export const FILTER = gql`
   }
 `;
 
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: SectionSettingInput!) {
+    filterByFieldsSectionSetting(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        sectionSetting
+        sectionRequired
+        sectionGrid
+        lineGrid
+        columnGrid
+        tempCode
+        version
+        environment
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: SectionSettingInput!) {
     findByFieldsSectionSetting(input: $input) {

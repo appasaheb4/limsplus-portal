@@ -87,6 +87,36 @@ export const FILTER = gql`
   }
 `;
 
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: PageSettingInput!) {
+    filterByFieldsPageSetting(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        tempCode
+        pageSize
+        topMargin
+        bottomMargin
+        leftMargin
+        rightMargin
+        headerSize
+        footerSize
+        pageOrientation
+        backgroundImage
+        version
+        environment
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: PageSettingInput!) {
     findByFieldsPageSetting(input: $input) {
