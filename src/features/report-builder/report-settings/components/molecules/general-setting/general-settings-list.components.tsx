@@ -12,10 +12,9 @@ import {
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
 
-interface PageSettingsProps {
+interface GeneralSettingsProps {
   data: any;
   totalSize: number;
-  extraData: any;
   isDelete?: boolean;
   isEditModify?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
@@ -34,7 +33,7 @@ let sectionSetting;
 let version;
 let environment;
 
-export const PageSettingsList = observer((props: PageSettingsProps) => {
+export const GeneralSettingsList = observer((props: GeneralSettingsProps) => {
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -57,8 +56,8 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
               editable: false,
             },
             {
-              dataField: 'pageSize',
-              text: 'Page Size',
+              dataField: 'reportSection.section',
+              text: 'Report Section',
               headerClasses: 'textHeader4',
               // filter: textFilter({
               //   getFilter: filter => {
@@ -69,8 +68,8 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
               editable: false,
             },
             {
-              dataField: 'topMargin',
-              text: 'Top Margin',
+              dataField: 'sectionSetting.tempCode',
+              text: 'Section Setting',
               headerClasses: 'textHeader4',
               // filter: textFilter({
               //   getFilter: filter => {
@@ -81,8 +80,8 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
               editable: false,
             },
             {
-              dataField: 'bottomMargin',
-              text: 'Bottom Margin',
+              dataField: 'pageSetting.tempCode',
+              text: 'Page Setting',
               headerClasses: 'textHeader4',
               // filter: textFilter({
               //   getFilter: filter => {
@@ -91,91 +90,6 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
               // }),
               sort: true,
               editable: false,
-            },
-            {
-              dataField: 'leftMargin',
-              text: 'Left Margin',
-              headerClasses: 'textHeader4',
-              // filter: textFilter({
-              //   getFilter: filter => {
-              //     sectionSetting = filter;
-              //   },
-              // }),
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'rightMargin',
-              text: 'Right Margin',
-              headerClasses: 'textHeader4',
-              // filter: textFilter({
-              //   getFilter: filter => {
-              //     sectionSetting = filter;
-              //   },
-              // }),
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'headerSize',
-              text: 'Header Size',
-              headerClasses: 'textHeader4',
-              // filter: textFilter({
-              //   getFilter: filter => {
-              //     sectionSetting = filter;
-              //   },
-              // }),
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'footerSize',
-              text: 'Footer Size',
-              headerClasses: 'textHeader4',
-              // filter: textFilter({
-              //   getFilter: filter => {
-              //     sectionSetting = filter;
-              //   },
-              // }),
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'pageOrientation',
-              text: 'Page Orientation',
-              headerClasses: 'textHeader4',
-              // filter: textFilter({
-              //   getFilter: filter => {
-              //     sectionSetting = filter;
-              //   },
-              // }),
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'backgroundImage',
-              text: 'Background Image',
-              headerClasses: 'textHeader4',
-              // filter: textFilter({
-              //   getFilter: filter => {
-              //     sectionSetting = filter;
-              //   },
-              // }),
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {row.backgroundImage && (
-                      <img
-                        src={row.backgroundImage}
-                        alt='backgroundImage'
-                        className='object-fill h-35 w-40 rounded-md'
-                      />
-                    )}
-                  </>
-                );
-              },
             },
             {
               dataField: 'version',
@@ -244,7 +158,7 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='Page_Settings'
+          fileName='General_Settings'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

@@ -1,8 +1,8 @@
 export class GeneralSettings {
   _id: string;
   tempCode: string;
-  reportSection: string;
-  sectionSetting: string;
+  reportSection: object;
+  sectionSetting: object;
   pageSetting: string;
   version: number;
   environment: string;

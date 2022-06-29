@@ -3,4 +3,5 @@ export const startup = async () => {
   stores.reportSettingStore.reportSectionService.listReportSection();
   stores.reportSettingStore.sectionSettingService.listSectionSetting();
   stores.reportSettingStore.pageSettingService.listPageSetting();
+  stores.reportSettingStore.generalSettingService.listGeneralSetting();
 };

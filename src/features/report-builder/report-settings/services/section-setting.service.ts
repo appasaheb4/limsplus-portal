@@ -11,8 +11,9 @@ import {
   SECTION_SETTING_LIST,
   CREATE_SECTION_SETTING,
   REMOVE_SECTION_SETTING,
+  FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
-} from './mutation-section-setting copy';
+} from './mutation-section-setting';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -60,6 +61,35 @@ export class SectionSettingService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsSectionSetting.success)
+            return this.listSectionSetting();
+          stores.reportSettingStore.filterSectionSettingList({
+            filterSectionSettings: {
+              data: response.data.filterByFieldsSectionSetting.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsSectionSetting.paginatorInfo
+                    .count,
+              },
+            },
+          });
+          stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
         .catch(error =>
