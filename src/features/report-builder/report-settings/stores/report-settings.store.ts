@@ -10,6 +10,7 @@ import {
   SectionSettings,
   PageSetting,
   GeneralSettings,
+  FontSetting,
 } from '../models';
 
 export class ReportSettingStore {
@@ -27,6 +28,9 @@ export class ReportSettingStore {
   generalSetting!: GeneralSettings;
   generalSettingList!: Array<GeneralSettings>;
   generalSettingListCount: number = 0;
+  fontSetting!: FontSetting;
+  fontSettingList!: Array<FontSetting>;
+  fontSettingListCount: number = 0;
 
   constructor() {
     this.sectionSetting = new SectionSettings({
@@ -47,6 +51,8 @@ export class ReportSettingStore {
     this.generalSetting = new GeneralSettings({
       version: 1,
     });
+    this.fontSetting = new FontSetting({});
+    this.fontSettingList = [];
 
     makeObservable<ReportSettingStore, any>(this, {
       reportSectionList: observable,
@@ -63,6 +69,9 @@ export class ReportSettingStore {
       generalSetting: observable,
       generalSettingList: observable,
       generalSettingListCount: observable,
+      fontSetting: observable,
+      fontSettingList: observable,
+      fontSettingListCount: observable,
 
       reportSectionService: computed,
       sectionSettingService: computed,
@@ -75,6 +84,8 @@ export class ReportSettingStore {
       filterSectionSettingList: action,
       updateGeneralSetting: action,
       updateGeneralSettingList: action,
+      updateFontSetting: action,
+      updateFontSettingList: action,
     });
   }
 
@@ -150,5 +161,14 @@ export class ReportSettingStore {
   updateGeneralSettingList(res: any) {
     this.generalSettingList = res.generalSettings.data;
     this.generalSettingListCount = res.generalSettings.paginatorInfo.count;
+  }
+
+  updateFontSetting(res: any) {
+    this.fontSetting = res;
+  }
+
+  updateFontSettingList(res: any) {
+    this.fontSettingList = res;
+    this.fontSettingListCount = res;
   }
 }

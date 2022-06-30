@@ -72,7 +72,7 @@ export const GeneralSettings = GeneralSettingHoc(
 
         <div
           className={
-            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'shown')
+            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
           }
         >
           <Grid cols={2}>

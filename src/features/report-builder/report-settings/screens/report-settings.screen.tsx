@@ -13,6 +13,7 @@ import {ReportSection} from './report-section.screen';
 import {SectionSettings} from './section-settings.screen';
 import {PageSetting} from './page-setting.screen';
 import {GeneralSettings} from './general-setting.screen';
+import {FontSetting} from './font-setting.screen';
 
 const ReportSettings = observer(() => {
   const {
@@ -57,7 +58,7 @@ const ReportSettings = observer(() => {
                 {item.title === 'SECTION SETTING' && <SectionSettings />}
                 {item.title === 'PAGE SETTING' && <PageSetting />}
                 {item.title === 'GENERAL SETTING' && <GeneralSettings />}
-                {item.title === 'FONT SETTING' && <ReportSection />}
+                {item.title === 'FONT SETTING' && <FontSetting />}
                 {item.title === 'REPORT FIELD MAPPING' && <ReportSection />}
               </AccordionItem>
             );
