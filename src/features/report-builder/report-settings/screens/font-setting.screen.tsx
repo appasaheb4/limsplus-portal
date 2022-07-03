@@ -92,43 +92,43 @@ export const FontSetting = PageSettingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        label='Temp Code'
-                        placeholder='Temp code'
-                        hasError={errors.tempCode}
-                        value={reportSettingStore.fontSetting?.tempCode}
-                        onChange={tempCode => {
-                          onChange(tempCode);
+                        label='Font Id'
+                        placeholder='Font Id'
+                        hasError={errors.fontId}
+                        value={reportSettingStore.fontSetting?.fontId}
+                        onChange={fontId => {
+                          onChange(fontId);
                           reportSettingStore.updateFontSetting({
                             ...reportSettingStore.fontSetting,
-                            tempCode,
+                            fontId,
                           });
                         }}
-                        onBlur={tempCode => {
-                          reportSettingStore.pageSettingService
+                        onBlur={fontId => {
+                          reportSettingStore.fontSettingService
                             .findByFields({
                               input: {
                                 filter: {
-                                  tempCode,
+                                  fontId,
                                 },
                               },
                             })
                             .then(res => {
-                              if (res.findByFieldsPageSetting.success) {
-                                setError('tempCode', {type: 'onBlur'});
+                              if (res.findByFieldsFontSetting.success) {
+                                setError('fontId', {type: 'onBlur'});
                                 Toast.warning({
                                   message:
-                                    '😔 Already exists temp code. Please enter diff.',
+                                    '😔 Already exists font id. Please enter diff.',
                                 });
                                 return setIsExistsTempCode(true);
                               } else {
-                                clearErrors('tempCode');
+                                clearErrors('fontId');
                                 return setIsExistsTempCode(false);
                               }
                             });
                         }}
                       />
                     )}
-                    name='tempCode'
+                    name='fontId'
                     rules={{required: true}}
                     defaultValue=''
                   />
@@ -136,29 +136,29 @@ export const FontSetting = PageSettingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        label='Page Size'
-                        hasError={errors.pageSize}
+                        label='Font Name'
+                        hasError={errors.fontName}
                       >
                         <select
-                          value={reportSettingStore.pageSetting?.pageSize}
+                          value={reportSettingStore.fontSetting?.fontName}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.pageSize
+                            errors.fontName
                               ? 'border-red-500  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
-                            const pageSize = e.target.value;
-                            onChange(pageSize);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              pageSize,
+                            const fontName = e.target.value;
+                            onChange(fontName);
+                            reportSettingStore.updateFontSetting({
+                              ...reportSettingStore.fontSetting,
+                              fontName,
                             });
                           }}
                         >
                           <option selected>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
-                            'PAGE SETTING-PAPER_SIZE',
+                            'FONT SETTING-FONT_NAME',
                           ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
@@ -167,76 +167,102 @@ export const FontSetting = PageSettingHoc(
                         </select>
                       </Form.InputWrapper>
                     )}
-                    name='pageSize'
+                    name='fontName'
                     rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
-                      <Form.InputWrapper
-                        label='Top Margin'
-                        hasError={errors.topMargin}
-                      >
-                        <select
-                          value={reportSettingStore.pageSetting?.topMargin}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.topMargin
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const topMargin = e.target.value;
-                            onChange(topMargin);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              topMargin,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'PAGE SETTING-TOP_MARGIN',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
+                      <Form.Input
+                        label='Font Size'
+                        placeholder='Font Size'
+                        hasError={errors.fontSize}
+                        value={reportSettingStore.fontSetting?.fontSize}
+                        onChange={fontSize => {
+                          onChange(fontSize);
+                          reportSettingStore.updateFontSetting({
+                            ...reportSettingStore.fontSetting,
+                            fontSize,
+                          });
+                        }}
+                      />
                     )}
-                    name='topMargin'
-                    rules={{required: false}}
+                    name='fontSize'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Input
+                        label='Font Color'
+                        placeholder='Font Color'
+                        style={{color: '#ffffff', backgroundColor: '#000000'}}
+                        hasError={errors.fontColor}
+                        value={reportSettingStore.fontSetting?.fontColor}
+                        onChange={fontColor => {
+                          onChange(fontColor);
+                          reportSettingStore.updateFontSetting({
+                            ...reportSettingStore.fontSetting,
+                            fontColor,
+                          });
+                        }}
+                      />
+                    )}
+                    name='fontColor'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Input
+                        label='Background Color'
+                        placeholder='Background Color'
+                        style={{color: '#ffffff', backgroundColor: '#000000'}}
+                        hasError={errors.fontBackground}
+                        value={reportSettingStore.fontSetting?.fontBackground}
+                        onChange={fontBackground => {
+                          onChange(fontBackground);
+                          reportSettingStore.updateFontSetting({
+                            ...reportSettingStore.fontSetting,
+                            fontBackground,
+                          });
+                        }}
+                      />
+                    )}
+                    name='fontBackground'
+                    rules={{required: true}}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        label='Bottom Margin'
-                        hasError={errors.bottomMargin}
+                        label='Font Case'
+                        hasError={errors.fontCase}
                       >
                         <select
-                          value={reportSettingStore.pageSetting?.bottomMargin}
+                          value={reportSettingStore.fontSetting?.fontCase}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.bottomMargin
+                            errors.fontCase
                               ? 'border-red-500  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
-                            const bottomMargin = e.target.value;
-                            onChange(bottomMargin);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              bottomMargin,
+                            const fontCase = e.target.value;
+                            onChange(fontCase);
+                            reportSettingStore.updateFontSetting({
+                              ...reportSettingStore.fontSetting,
+                              fontCase,
                             });
                           }}
                         >
                           <option selected>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
-                            'PAGE SETTING-BOTTOM MARGIN',
+                            'FONT SETTING-FONT_CASE',
                           ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
@@ -245,233 +271,25 @@ export const FontSetting = PageSettingHoc(
                         </select>
                       </Form.InputWrapper>
                     )}
-                    name='bottomMargin'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.InputWrapper
-                        label='Left Margin'
-                        hasError={errors.leftMargin}
-                      >
-                        <select
-                          value={reportSettingStore.pageSetting?.leftMargin}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.leftMargin
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const leftMargin = e.target.value;
-                            onChange(leftMargin);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              leftMargin,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'PAGE SETTING-LEFT_MARGIN',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='leftMargin'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.InputWrapper
-                        label='Right Margin'
-                        hasError={errors.rightMargin}
-                      >
-                        <select
-                          value={reportSettingStore.pageSetting?.rightMargin}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.rightMargin
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const rightMargin = e.target.value;
-                            onChange(rightMargin);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              rightMargin,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'PAGE SETTING-RIGHT_MARGIN',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='rightMargin'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.InputWrapper
-                        label='Header Size'
-                        hasError={errors.headerSize}
-                      >
-                        <select
-                          value={reportSettingStore.pageSetting?.headerSize}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.headerSize
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const headerSize = e.target.value;
-                            onChange(headerSize);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              headerSize,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'PAGE SETTING-HEADER_SIZE',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='headerSize'
+                    name='fontCase'
                     rules={{required: false}}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.InputWrapper
-                        label='Footer Size'
-                        hasError={errors.footerSize}
-                      >
-                        <select
-                          value={reportSettingStore.pageSetting?.footerSize}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.footerSize
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const footerSize = e.target.value;
-                            onChange(footerSize);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              footerSize,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'PAGE SETTING-FOOTER_SIZE',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='footerSize'
-                    rules={{required: false}}
-                    defaultValue=''
+                  <Form.MultilineInput
+                    label='Font CSS'
+                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    placeholder='css'
+                    value={reportSettingStore.fontSetting?.fontCss}
+                    onChange={fontCss => {
+                      reportSettingStore.updateFontSetting({
+                        ...reportSettingStore.fontSetting,
+                        fontCss,
+                      });
+                    }}
                   />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.InputWrapper
-                        label='Page Orientation'
-                        hasError={errors.pageOrientation}
-                      >
-                        <select
-                          value={
-                            reportSettingStore.pageSetting?.pageOrientation
-                          }
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.pageOrientation
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const pageOrientation = e.target.value;
-                            onChange(pageOrientation);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
-                              pageOrientation,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'PAGE SETTING-PAGE_ORIENTATION',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='pageOrientation'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.InputFile
-                        label='Background Image'
-                        placeholder='Please select image'
-                        hasError={errors.image}
-                        onChange={e => {
-                          const backgroundImage = e.target.files[0];
-                          onChange(backgroundImage);
-                          reportSettingStore.updatePageSetting({
-                            ...reportSettingStore.pageSetting,
-                            backgroundImage,
-                          });
-                        }}
-                      />
-                    )}
-                    name='image'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
+
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (

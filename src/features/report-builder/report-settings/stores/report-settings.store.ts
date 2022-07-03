@@ -4,6 +4,7 @@ import {
   SectionSettingService,
   PageSettingService,
   GeneralSettingService,
+  FontSettingService,
 } from '../services';
 import {
   ReportSection,
@@ -77,6 +78,7 @@ export class ReportSettingStore {
       sectionSettingService: computed,
       pageSettingService: computed,
       generalSettingService: computed,
+      fontSettingService: computed,
 
       updateReportSectionList: action,
       updateSectionSetting: action,
@@ -103,6 +105,10 @@ export class ReportSettingStore {
 
   get generalSettingService() {
     return new GeneralSettingService();
+  }
+
+  get fontSettingService() {
+    return new FontSettingService();
   }
 
   updateReportSectionList(res: any) {

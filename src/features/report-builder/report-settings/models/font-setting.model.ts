@@ -1,6 +1,6 @@
 export class FontSetting {
   _id: string;
-  tempCode: string;
+  fontId: string;
 
   fontName: string;
   fontSize: number;
@@ -9,6 +9,7 @@ export class FontSetting {
   fontBackground: string;
   fontCase: string;
 
+  fontCss: string;
   version: number;
   environment: string;
   documentType: string;
@@ -17,7 +18,7 @@ export class FontSetting {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
-    this.tempCode = rawData.tempCode;
+    this.fontId = rawData.fontId;
 
     this.fontName = rawData.fontName;
     this.fontSize = rawData.fontSize;
@@ -26,6 +27,7 @@ export class FontSetting {
     this.fontBackground = rawData.fontBackground;
     this.fontCase = rawData.fontCase;
 
+    this.fontCss = rawData.fontCss;
     this.version = rawData.version;
     this.environment = rawData.environment;
     this.documentType = rawData.documentType;
