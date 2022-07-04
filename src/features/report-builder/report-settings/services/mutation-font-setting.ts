@@ -29,8 +29,8 @@ export const FONT_SETTING_LIST = gql`
 `;
 
 export const CREATE_FONT_SETTING = gql`
-  mutation ($input: CreateGeneralSettingInput!) {
-    createGeneralSetting(input: $input) {
+  mutation ($input: CreateFontSettingInput!) {
+    createFontSetting(input: $input) {
       success
       message
     }

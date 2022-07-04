@@ -16,12 +16,12 @@ import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
 
-import {PageSettingHoc} from '../hoc';
+import {FontSettingHoc} from '../hoc';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
-export const FontSetting = PageSettingHoc(
+export const FontSetting = FontSettingHoc(
   observer(() => {
     const {routerStore, reportSettingStore} = useStores();
     const {
@@ -33,34 +33,27 @@ export const FontSetting = PageSettingHoc(
       clearErrors,
     } = useForm();
 
-    setValue('environment', reportSettingStore.pageSetting?.environment);
-    setValue('pageSize', reportSettingStore.pageSetting?.pageSize);
-    setValue('topMargin', reportSettingStore.pageSetting?.topMargin);
-    setValue('bottomMargin', reportSettingStore.pageSetting?.bottomMargin);
-    setValue('leftMargin', reportSettingStore.pageSetting?.leftMargin);
-    setValue('rightMargin', reportSettingStore.pageSetting?.rightMargin);
-    setValue('headerSize', reportSettingStore.pageSetting?.headerSize);
-    setValue('footerSize', reportSettingStore.pageSetting?.footerSize);
-    setValue(
-      'pageOrientation',
-      reportSettingStore.pageSetting?.pageOrientation,
-    );
+    console.log({reportSettingStore});
+
+    setValue('environment', reportSettingStore.fontSetting?.environment);
+    setValue('fontName', reportSettingStore.fontSetting?.fontName);
+    setValue('fontCase', reportSettingStore.fontSetting?.fontCase);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
-    const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
+    const [isExistsId, setIsExistsId] = useState<boolean>(false);
 
     const onSubmitBanner = () => {
-      if (isExistsTempCode)
+      if (isExistsId)
         return Toast.warning({
-          message: '😔 Already exists temp code. Please enter diff.',
+          message: '😔 Already exists id. Please enter diff.',
         });
-      reportSettingStore.pageSettingService
-        .addPageSetting({input: {...reportSettingStore.pageSetting}})
+      reportSettingStore.fontSettingService
+        .addFontSetting({input: {...reportSettingStore.fontSetting}})
         .then(res => {
-          if (res.createPageSetting.success) {
+          if (res.createFontSetting.success) {
             Toast.success({
-              message: `😊 ${res.createPageSetting.message}`,
+              message: `😊 ${res.createFontSetting.message}`,
             });
           }
           setTimeout(() => {
@@ -119,10 +112,10 @@ export const FontSetting = PageSettingHoc(
                                   message:
                                     '😔 Already exists font id. Please enter diff.',
                                 });
-                                return setIsExistsTempCode(true);
+                                return setIsExistsId(true);
                               } else {
                                 clearErrors('fontId');
-                                return setIsExistsTempCode(false);
+                                return setIsExistsId(false);
                               }
                             });
                         }}
@@ -183,7 +176,7 @@ export const FontSetting = PageSettingHoc(
                           onChange(fontSize);
                           reportSettingStore.updateFontSetting({
                             ...reportSettingStore.fontSetting,
-                            fontSize,
+                            fontSize: Number.parseFloat(fontSize),
                           });
                         }}
                       />
@@ -211,7 +204,7 @@ export const FontSetting = PageSettingHoc(
                       />
                     )}
                     name='fontColor'
-                    rules={{required: true}}
+                    rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
@@ -233,7 +226,7 @@ export const FontSetting = PageSettingHoc(
                       />
                     )}
                     name='fontBackground'
-                    rules={{required: true}}
+                    rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
@@ -297,7 +290,7 @@ export const FontSetting = PageSettingHoc(
                         label='Version'
                         placeholder='Version'
                         hasError={errors.version}
-                        value={reportSettingStore.pageSetting?.version}
+                        value={reportSettingStore.fontSetting?.version}
                         disabled={true}
                       />
                     )}
@@ -313,7 +306,7 @@ export const FontSetting = PageSettingHoc(
                         hasError={errors.environment}
                       >
                         <select
-                          value={reportSettingStore.pageSetting?.environment}
+                          value={reportSettingStore.fontSetting?.environment}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.environment
                               ? 'border-red-500  '
@@ -322,8 +315,8 @@ export const FontSetting = PageSettingHoc(
                           onChange={e => {
                             const environment = e.target.value;
                             onChange(environment);
-                            reportSettingStore.updatePageSetting({
-                              ...reportSettingStore.pageSetting,
+                            reportSettingStore.updateFontSetting({
+                              ...reportSettingStore.fontSetting,
                               environment,
                             });
                           }}
@@ -331,7 +324,7 @@ export const FontSetting = PageSettingHoc(
                           <option selected>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
-                            'PAGE SETTING-ENVIRONMENT',
+                            'FONT SETTING-ENVIRONMENT',
                           ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
