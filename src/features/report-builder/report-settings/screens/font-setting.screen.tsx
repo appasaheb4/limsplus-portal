@@ -10,11 +10,12 @@ import {
   Svg,
   ModalConfirm,
 } from '@/library/components';
-import {PageSettingsList} from '../components';
+import {FontSettingsList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
+import {invertHex} from '@utils';
 
 import {FontSettingHoc} from '../hoc';
 
@@ -33,7 +34,7 @@ export const FontSetting = FontSettingHoc(
       clearErrors,
     } = useForm();
 
-    console.log({reportSettingStore});
+    console.log({bgColor: invertHex(reportSettingStore.fontSetting.fontColor)});
 
     setValue('environment', reportSettingStore.fontSetting?.environment);
     setValue('fontName', reportSettingStore.fontSetting?.fontName);
@@ -74,7 +75,7 @@ export const FontSetting = FontSettingHoc(
 
         <div
           className={
-            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'shown')
+            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
           }
         >
           <Grid cols={2}>
@@ -188,20 +189,30 @@ export const FontSetting = FontSettingHoc(
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
-                      <Form.Input
-                        label='Font Color'
-                        placeholder='Font Color'
-                        style={{color: '#ffffff', backgroundColor: '#000000'}}
-                        hasError={errors.fontColor}
-                        value={reportSettingStore.fontSetting?.fontColor}
-                        onChange={fontColor => {
-                          onChange(fontColor);
-                          reportSettingStore.updateFontSetting({
-                            ...reportSettingStore.fontSetting,
-                            fontColor,
-                          });
-                        }}
-                      />
+                      <div className='flex flex-row gap-4 items-center justify-around'>
+                        <Form.Input
+                          label='Font hex color'
+                          placeholder='Like #000000'
+                          hasError={errors.fontColor}
+                          value={reportSettingStore.fontSetting?.fontColor}
+                          onChange={fontColor => {
+                            onChange(fontColor);
+                            reportSettingStore.updateFontSetting({
+                              ...reportSettingStore.fontSetting,
+                              fontColor,
+                            });
+                          }}
+                        />
+                        <div
+                          className='h-8 w-8 mt-4 rounded-md'
+                          style={{
+                            backgroundColor:
+                              reportSettingStore.fontSetting.fontColor,
+                            borderWidth: 0.6,
+                            borderColor: '#000000',
+                          }}
+                        />
+                      </div>
                     )}
                     name='fontColor'
                     rules={{required: false}}
@@ -210,20 +221,30 @@ export const FontSetting = FontSettingHoc(
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
-                      <Form.Input
-                        label='Background Color'
-                        placeholder='Background Color'
-                        style={{color: '#ffffff', backgroundColor: '#000000'}}
-                        hasError={errors.fontBackground}
-                        value={reportSettingStore.fontSetting?.fontBackground}
-                        onChange={fontBackground => {
-                          onChange(fontBackground);
-                          reportSettingStore.updateFontSetting({
-                            ...reportSettingStore.fontSetting,
-                            fontBackground,
-                          });
-                        }}
-                      />
+                      <div className='flex flex-row gap-4 items-center justify-around'>
+                        <Form.Input
+                          label='Background hex color'
+                          placeholder='Like #000000'
+                          hasError={errors.fontBackground}
+                          value={reportSettingStore.fontSetting?.fontBackground}
+                          onChange={fontBackground => {
+                            onChange(fontBackground);
+                            reportSettingStore.updateFontSetting({
+                              ...reportSettingStore.fontSetting,
+                              fontBackground,
+                            });
+                          }}
+                        />
+                        <div
+                          className='h-8 w-8 mt-4 rounded-md'
+                          style={{
+                            backgroundColor:
+                              reportSettingStore.fontSetting.fontBackground,
+                            borderWidth: 0.6,
+                            borderColor: '#000000',
+                          }}
+                        />
+                      </div>
                     )}
                     name='fontBackground'
                     rules={{required: false}}
@@ -364,12 +385,9 @@ export const FontSetting = FontSettingHoc(
           </List>
         </div>
         <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-          <PageSettingsList
-            data={reportSettingStore.pageSettingList || []}
-            totalSize={reportSettingStore.pageSettingListCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-            }}
+          <FontSettingsList
+            data={reportSettingStore.fontSettingList || []}
+            totalSize={reportSettingStore.fontSettingListCount}
             isDelete={RouterFlow.checkPermission(
               routerStore.userPermission,
               'Delete',
@@ -412,17 +430,17 @@ export const FontSetting = FontSettingHoc(
           click={(type?: string) => {
             switch (type) {
               case 'delete': {
-                reportSettingStore.pageSettingService
-                  .deletePageSetting({
+                reportSettingStore.fontSettingService
+                  .deleteFontSetting({
                     input: {id: modalConfirm.id},
                   })
                   .then((res: any) => {
-                    if (res.removePageSetting.success) {
+                    if (res.removeFontSetting.success) {
                       Toast.success({
-                        message: `😊 ${res.removePageSetting.message}`,
+                        message: `😊 ${res.removeFontSetting.message}`,
                       });
                       setModalConfirm({show: false});
-                      reportSettingStore.pageSettingService.listPageSetting();
+                      reportSettingStore.fontSettingService.listFontSetting();
                     }
                   });
                 break;
