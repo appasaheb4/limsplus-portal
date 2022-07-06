@@ -5,6 +5,7 @@ import {
   PageSettingService,
   GeneralSettingService,
   FontSettingService,
+  ReportFieldMappingService,
 } from '../services';
 import {
   ReportSection,
@@ -12,6 +13,7 @@ import {
   PageSetting,
   GeneralSettings,
   FontSetting,
+  ReportFieldMapping,
 } from '../models';
 
 export class ReportSettingStore {
@@ -32,6 +34,9 @@ export class ReportSettingStore {
   fontSetting!: FontSetting;
   fontSettingList!: Array<FontSetting>;
   fontSettingListCount: number = 0;
+  reportFieldMapping!: ReportFieldMapping;
+  reportFieldMappingList!: Array<ReportFieldMapping>;
+  reportFieldMappingListCount: number = 0;
 
   constructor() {
     this.sectionSetting = new SectionSettings({
@@ -52,8 +57,12 @@ export class ReportSettingStore {
     this.generalSetting = new GeneralSettings({
       version: 1,
     });
-    this.fontSetting = new FontSetting({});
+    this.fontSetting = new FontSetting({
+      version: 1,
+    });
     this.fontSettingList = [];
+    this.reportFieldMapping = new ReportFieldMapping({});
+    this.reportFieldMappingList = [];
 
     makeObservable<ReportSettingStore, any>(this, {
       reportSectionList: observable,
@@ -73,12 +82,16 @@ export class ReportSettingStore {
       fontSetting: observable,
       fontSettingList: observable,
       fontSettingListCount: observable,
+      reportFieldMapping: observable,
+      reportFieldMappingList: observable,
+      reportFieldMappingListCount: observable,
 
       reportSectionService: computed,
       sectionSettingService: computed,
       pageSettingService: computed,
       generalSettingService: computed,
       fontSettingService: computed,
+      reportFieldMappingService: computed,
 
       updateReportSectionList: action,
       updateSectionSetting: action,
@@ -88,6 +101,8 @@ export class ReportSettingStore {
       updateGeneralSettingList: action,
       updateFontSetting: action,
       updateFontSettingList: action,
+      updateReportFieldMapping: action,
+      updateReportFieldMappingList: action,
     });
   }
 
@@ -109,6 +124,10 @@ export class ReportSettingStore {
 
   get fontSettingService() {
     return new FontSettingService();
+  }
+
+  get reportFieldMappingService() {
+    return new ReportFieldMappingService();
   }
 
   updateReportSectionList(res: any) {
@@ -174,7 +193,16 @@ export class ReportSettingStore {
   }
 
   updateFontSettingList(res: any) {
-    this.fontSettingList = res;
-    this.fontSettingListCount = res;
+    this.fontSettingList = res.fontSettings.data;
+    this.fontSettingListCount = res.fontSettings.paginatorInfo.count;
+  }
+
+  updateReportFieldMapping(res) {
+    this.reportFieldMapping = res;
+  }
+
+  updateReportFieldMappingList(res) {
+    this.reportFieldMappingList = res;
+    this.reportFieldMappingListCount = res;
   }
 }

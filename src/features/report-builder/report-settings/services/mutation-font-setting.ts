@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const FONT_SETTING_LIST = gql`
-  mutation ($input: GeneralSettingInput!) {
-    generalSettings(input: $input) {
+  mutation ($input: FontSettingInput!) {
+    fontSettings(input: $input) {
       paginatorInfo {
         count
       }
@@ -38,8 +38,8 @@ export const CREATE_FONT_SETTING = gql`
 `;
 
 export const REMOVE_FONT_SETTING = gql`
-  mutation ($input: GeneralSettingInput!) {
-    removeGeneralSetting(input: $input) {
+  mutation ($input: FontSettingInput!) {
+    removeFontSetting(input: $input) {
       success
       message
     }
