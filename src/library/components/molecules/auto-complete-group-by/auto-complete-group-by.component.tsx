@@ -128,6 +128,7 @@ export const AutocompleteGroupBy = observer(
               <Icons.IconFa.FaChevronDown />
             )}
           </div>
+
           {options && isListOpen
             ? options?.length > 0 && (
                 <div className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200'>

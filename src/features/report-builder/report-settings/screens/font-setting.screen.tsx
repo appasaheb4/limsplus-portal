@@ -34,8 +34,6 @@ export const FontSetting = FontSettingHoc(
       clearErrors,
     } = useForm();
 
-    console.log({bgColor: invertHex(reportSettingStore.fontSetting.fontColor)});
-
     setValue('environment', reportSettingStore.fontSetting?.environment);
     setValue('fontName', reportSettingStore.fontSetting?.fontName);
     setValue('fontCase', reportSettingStore.fontSetting?.fontCase);

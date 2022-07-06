@@ -32,6 +32,7 @@ export const DocumentSettings = DocumentSettingHoc(
       formState: {errors},
       setValue,
     } = useForm();
+
     setValue('environment', lookupStore.lookup?.environment);
     const onSubmitNewField = (data: any) => {
       if (

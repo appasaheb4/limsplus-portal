@@ -8,8 +8,6 @@ export const FontSettingHoc = (Component: React.FC<any>) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const {loginStore, reportSettingStore, routerStore} = useStores();
 
-    console.log({env: routerStore.lookupItems});
-
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       reportSettingStore.updateFontSetting({
