@@ -10,6 +10,7 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutocompleteGroupBy,
 } from '@/library/components';
 import {GeneralSettingsList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -20,7 +21,12 @@ import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
-import {GeneralSettingHoc} from '../hoc';
+// model
+import {Banner} from '@features/master/banner/models';
+import {Labs} from '@features/master/labs/models';
+
+import {dashboardRouter as dashboardRoutes} from '@/routes';
+let router = dashboardRoutes;
 
 export const ReportFieldMapping = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -32,12 +38,49 @@ export const ReportFieldMapping = observer(() => {
     setError,
     clearErrors,
   } = useForm();
+  const [fieldsName, setFieldsName] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    router = router.filter((item: any) => {
+      if (item.name !== 'Dashboard') {
+        item.toggle = false;
+        item.title = item.name;
+        item = item.children.filter(childernItem => {
+          childernItem.title = childernItem.name;
+          childernItem.toggle = false;
+          return childernItem;
+        });
+        return item;
+      }
+    });
+  }, []);
 
   setValue('environment', reportSettingStore.generalSetting?.environment);
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [isInputView, setIsInputView] = useState<boolean>(true);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
+
+  const getFieldName = (tableName: string) => {
+    switch (tableName) {
+      case 'Banner':
+        setFieldsName(Object.keys(new Banner({})));
+        clearErrors('fieldName');
+        break;
+      case 'Lab':
+        setFieldsName(Object.keys(new Labs({})));
+        clearErrors('fieldName');
+        break;
+
+      default:
+        setFieldsName([]);
+        Toast.error({
+          message: '😔 Not found model.',
+        });
+        setError('fieldName', {type: 'onBlur'});
+        break;
+    }
+  };
 
   const onSubmitBanner = () => {
     console.log({isExistsTempCode});
@@ -184,44 +227,69 @@ export const ReportFieldMapping = observer(() => {
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder='Page Setting'
-                      data={{
-                        list: reportSettingStore.pageSettingList,
-                        displayKey: ['tempCode'],
-                      }}
-                      hasError={errors.pageSetting}
-                      onFilter={(value: string) => {
-                        reportSettingStore.pageSettingService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ['tempCode'],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        });
-                      }}
-                      onSelect={item => {
-                        onChange(item._id);
-                        reportSettingStore.updateGeneralSetting({
-                          ...reportSettingStore.generalSetting,
-                          pageSetting: {
-                            id: item._id,
-                            tempCode: item.tempCode,
-                          },
-                        });
-                        reportSettingStore.updatePageSettingList(
-                          reportSettingStore.pageSettingListCopy,
-                        );
-                      }}
-                    />
+                    <Form.InputWrapper
+                      hasError={errors.tableName}
+                      label='Table Name'
+                    >
+                      <AutocompleteGroupBy
+                        hasError={errors.tableName}
+                        data={router}
+                        onChange={async (item: any, children: any) => {
+                          const documentName = {
+                            name: item.name,
+                            title: item.title,
+                            path: item.path,
+                            children,
+                          };
+                          getFieldName(documentName.children?.name);
+                          onChange(documentName);
+                          // lookupStore.updateLookup({
+                          //   ...lookupStore.lookup,
+                          //   documentName,
+                          // });
+                        }}
+                      />
+                    </Form.InputWrapper>
                   )}
-                  name='pageSetting'
+                  name='tableName'
                   rules={{required: true}}
-                  defaultValue={reportSettingStore.pageSettingList}
+                  defaultValue={router}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Field Name'
+                      hasError={errors.fieldName}
+                    >
+                      <select
+                        value={reportSettingStore.reportFieldMapping?.fieldName}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.fieldName
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const fieldName = e.target.value;
+                          onChange(fieldName);
+                          reportSettingStore.updateReportFieldMapping({
+                            ...reportSettingStore.reportFieldMapping,
+                            fieldName,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {fieldsName?.map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='fieldName'
+                  rules={{required: true}}
+                  defaultValue=''
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
@@ -366,23 +434,6 @@ export const ReportFieldMapping = observer(() => {
                 });
               break;
             }
-            // case 'update': {
-            //   bannerStore.BannerService.updateSingleFiled({
-            //     input: {
-            //       _id: modalConfirm.data.id,
-            //       [modalConfirm.data.dataField]: modalConfirm.data.value,
-            //     },
-            //   }).then((res: any) => {
-            //     if (res.updateBanner.success) {
-            //       Toast.success({
-            //         message: `😊 ${res.updateBanner.message}`,
-            //       });
-            //       setModalConfirm({show: false});
-            //       bannerStore.fetchListBanner();
-            //     }
-            //   });
-            //   break;
-            // }
           }
         }}
         onClose={() => setModalConfirm({show: false})}
