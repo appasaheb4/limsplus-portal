@@ -210,7 +210,7 @@ export class ReportSettingStore {
       res.filterByFieldsFontSetting.paginatorInfo.count;
   }
 
-  updateReportFieldMapping(res) {
+  updateReportFieldMapping(res: ReportFieldMapping) {
     this.reportFieldMapping = res;
   }
 

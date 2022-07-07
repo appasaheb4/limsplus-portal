@@ -21,6 +21,8 @@ import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
+import {patientRegistrationOptions} from '@features/registration/screens/patient-registration/patient-registration.screen';
+
 import {dashboardRouter as dashboardRoutes} from '@/routes';
 let router = dashboardRoutes;
 
@@ -64,6 +66,15 @@ import {Role as RoleMapping} from '@features/settings/mapping/role/models';
 import {ShortcutMenu} from '@features/settings/shortcut-menu/models';
 import {EnvironmentSettings} from '@features/settings/environment/models';
 import {NoticeBoard} from '@features/settings/notice-board/models';
+// Registration
+import {
+  PatientManger,
+  PatientVisit,
+  PatientOrder,
+  PatientResult,
+  PatientSample,
+  PatientTest,
+} from '@features/registration/models';
 
 export const ReportFieldMapping = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -76,10 +87,17 @@ export const ReportFieldMapping = observer(() => {
     clearErrors,
   } = useForm();
   const [fieldsName, setFieldsName] = useState<Array<any>>([]);
+  const [subTitleList, setSubTitleList] = useState<Array<any>>([]);
+  const [document, setDocument] = useState<object>();
 
   useEffect(() => {
     router = router.filter((item: any) => {
-      if (item.name !== 'Dashboard') {
+      if (
+        item.name !== 'Dashboard' &&
+        item.name !== 'Patient Reports' &&
+        item.name !== 'Report Builder' &&
+        item.name !== 'Communication'
+      ) {
         item.toggle = false;
         item.title = item.name;
         item = item.children.filter(childernItem => {
@@ -99,6 +117,8 @@ export const ReportFieldMapping = observer(() => {
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const getFieldName = (tableName: string) => {
+    console.log({tableName});
+
     switch (tableName) {
       // master
       case 'Banner':
@@ -249,6 +269,31 @@ export const ReportFieldMapping = observer(() => {
         break;
       case 'Notice Boards':
         setFieldsName(Object.keys(new NoticeBoard({})));
+        clearErrors('fieldName');
+        break;
+      // Registration
+      case 'PATIENT MANAGER':
+        setFieldsName(Object.keys(new PatientManger({})));
+        clearErrors('fieldName');
+        break;
+      case 'PATIENT VISIT':
+        setFieldsName(Object.keys(new PatientVisit({})));
+        clearErrors('fieldName');
+        break;
+      case 'PATIENT ORDER':
+        setFieldsName(Object.keys(new PatientOrder({})));
+        clearErrors('fieldName');
+        break;
+      case 'PATIENT TEST':
+        setFieldsName(Object.keys(new PatientTest({})));
+        clearErrors('fieldName');
+        break;
+      case 'PATIENT RESULT':
+        setFieldsName(Object.keys(new PatientResult({})));
+        clearErrors('fieldName');
+        break;
+      case 'PATIENT SAMPLE':
+        setFieldsName(Object.keys(new PatientSample({})));
         clearErrors('fieldName');
         break;
       default:
@@ -420,14 +465,23 @@ export const ReportFieldMapping = observer(() => {
                             path: item.path,
                             children,
                           };
-                          console.log({name: documentName.children?.name});
+                          console.log({documentName});
 
-                          getFieldName(documentName.children?.name);
-                          onChange(documentName);
-                          // lookupStore.updateLookup({
-                          //   ...lookupStore.lookup,
-                          //   documentName,
-                          // });
+                          if (
+                            documentName.children?.name ===
+                            'Patient Registration'
+                          ) {
+                            setSubTitleList(patientRegistrationOptions);
+                          } else {
+                            getFieldName(documentName.children?.name);
+                            onChange(documentName);
+                            reportSettingStore.updateReportFieldMapping({
+                              ...reportSettingStore.reportFieldMapping,
+                              tableName: documentName,
+                            });
+                            setSubTitleList([]);
+                          }
+                          setDocument(documentName);
                         }}
                       />
                     </Form.InputWrapper>
@@ -436,6 +490,49 @@ export const ReportFieldMapping = observer(() => {
                   rules={{required: true}}
                   defaultValue={router}
                 />
+                {subTitleList.length > 0 && (
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.InputWrapper
+                        hasError={errors.subTableName}
+                        label='Sub Table Name'
+                      >
+                        <select
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.subTableName
+                              ? 'border-red-500  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const subTableName = e.target.value;
+                            onChange(subTableName);
+                            getFieldName(subTableName);
+                            reportSettingStore.updateReportFieldMapping({
+                              ...reportSettingStore.reportFieldMapping,
+                              tableName: Object.assign(
+                                {document},
+                                {
+                                  subTableName,
+                                },
+                              ),
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {subTitleList?.map((item: any, index: number) => (
+                            <option key={index} value={item.title}>
+                              {item.title}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='subTableName'
+                    rules={{required: true}}
+                    defaultValue={router}
+                  />
+                )}
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
