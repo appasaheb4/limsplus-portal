@@ -83,6 +83,34 @@ export const FILTER = gql`
   }
 `;
 
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: ReportFieldMappingInput!) {
+    findByFieldsReportFieldMapping(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        tempCode
+        section
+        sectionStyle
+        tableName
+        fieldName
+        startFromLine
+        startFromColumn
+        fieldLength
+        fieldCondition
+        fontId
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: ReportFieldMappingInput!) {
     findByFieldsReportFieldMapping(input: $input) {

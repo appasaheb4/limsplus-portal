@@ -12,6 +12,7 @@ import {
   CREATE_FONT_SETTING,
   REMOVE_FONT_SETTING,
   FIND_BY_FIELDS,
+  FILTER_BY_FIELDS,
 } from './mutation-font-setting';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -60,6 +61,34 @@ export class FontSettingService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsPageSetting.success)
+            return this.listFontSetting();
+          stores.reportSettingStore.filterFontSettingList({
+            filterByFieldsFontSetting: {
+              data: response.data.filterByFieldsFontSetting.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsFontSetting.paginatorInfo.count,
+              },
+            },
+          });
+          stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
         .catch(error =>

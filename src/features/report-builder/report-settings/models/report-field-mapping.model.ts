@@ -9,7 +9,7 @@ export class ReportFieldMapping {
   startFromColumn: number;
   fieldLength: number;
   fieldCondition: string;
-  fontId: string;
+  fontId: object;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
