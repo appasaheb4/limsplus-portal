@@ -21,12 +21,49 @@ import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
-// model
-import {Banner} from '@features/master/banner/models';
-import {Labs} from '@features/master/labs/models';
-
 import {dashboardRouter as dashboardRoutes} from '@/routes';
 let router = dashboardRoutes;
+
+// master
+import {Banner} from '@features/master/banner/models';
+import {Labs} from '@features/master/labs/models';
+import {Deginisation} from '@features/master/deginisation/models';
+import {Department} from '@features/master/department/models';
+import {MasterAnalyte} from '@features/master/master-analyte/models';
+import {TestAnalyteMapping} from '@features/master/test-analyte-mapping/models';
+import {MasterPanel} from '@features/master/master-panel/models';
+import {TestPanelMapping} from '@features/master/test-panel-mapping/models';
+import {MasterPackage} from '@features/master/master-package/models';
+import {TestMaster} from '@features/master/test-master/models';
+import {Lookup} from '@features/master/lookup/models';
+import {Section} from '@features/master/section/models';
+import {SampleContainer} from '@features/master/sample-container/models';
+import {SampleType} from '@features/master/sample-type/models';
+import {TestSampleMapping} from '@features/master/test-sample-mapping/models';
+import {Methods} from '@features/master/methods/models';
+import {Doctors} from '@features/master/doctors/models';
+import {RegistrationLocations} from '@features/master/registration-locations/models';
+import {CorporateClients} from '@features/master/corporate-clients/models';
+import {DeliverySchedule} from '@features/master/delivery-schedule/models';
+import {AdministrativeDivisions} from '@features/master/administrative-divisions/models';
+import {SalesTeam} from '@features/master/sales-team/models';
+import {PossibleResults} from '@features/master/possible-results/models';
+import {Library} from '@features/master/library/models';
+import {PriceList} from '@features/master/price-list/models';
+import {ReferenceRanges} from '@features/master/reference-ranges/models';
+// communication
+import {InterfaceManager} from '@features/communication/interface-manager/models';
+import {DataConversation} from '@features/communication/data-conversation/models';
+import {HostCommunication} from '@features/communication/host-communication/models';
+import {SegmentMapping} from '@features/communication/segment-mapping/models';
+// Setting
+import {Role} from '@features/settings/roles/models';
+import {Users} from '@features/settings/users/models';
+import {LoginActivity} from '@features/settings/login-activity/models';
+import {Role as RoleMapping} from '@features/settings/mapping/role/models';
+import {ShortcutMenu} from '@features/settings/shortcut-menu/models';
+import {EnvironmentSettings} from '@features/settings/environment/models';
+import {NoticeBoard} from '@features/settings/notice-board/models';
 
 export const ReportFieldMapping = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -63,6 +100,7 @@ export const ReportFieldMapping = observer(() => {
 
   const getFieldName = (tableName: string) => {
     switch (tableName) {
+      // master
       case 'Banner':
         setFieldsName(Object.keys(new Banner({})));
         clearErrors('fieldName');
@@ -71,7 +109,148 @@ export const ReportFieldMapping = observer(() => {
         setFieldsName(Object.keys(new Labs({})));
         clearErrors('fieldName');
         break;
-
+      case 'Deginisation':
+        setFieldsName(Object.keys(new Deginisation({})));
+        clearErrors('fieldName');
+        break;
+      case 'Department':
+        setFieldsName(Object.keys(new Department({})));
+        clearErrors('fieldName');
+        break;
+      case 'Analyte Master':
+        setFieldsName(Object.keys(new MasterAnalyte({})));
+        clearErrors('fieldName');
+        break;
+      case 'Test Analyte Mapping':
+        setFieldsName(Object.keys(new TestAnalyteMapping({})));
+        clearErrors('fieldName');
+        break;
+      case 'Panel Master':
+        setFieldsName(Object.keys(new MasterPanel({})));
+        clearErrors('fieldName');
+        break;
+      case 'Test Panel Mapping':
+        setFieldsName(Object.keys(new TestPanelMapping({})));
+        clearErrors('fieldName');
+        break;
+      case 'Package Master':
+        setFieldsName(Object.keys(new MasterPackage({})));
+        clearErrors('fieldName');
+        break;
+      case 'Test Master':
+        setFieldsName(Object.keys(new TestMaster({})));
+        clearErrors('fieldName');
+        break;
+      case 'Lookup':
+        setFieldsName(Object.keys(new Lookup({})));
+        clearErrors('fieldName');
+        break;
+      case 'Section':
+        setFieldsName(Object.keys(new Section({})));
+        clearErrors('fieldName');
+        break;
+      case 'Sample Container':
+        setFieldsName(Object.keys(new SampleContainer({})));
+        clearErrors('fieldName');
+        break;
+      case 'Sample Type':
+        setFieldsName(Object.keys(new SampleType({})));
+        clearErrors('fieldName');
+        break;
+      case 'Test Sample Mapping':
+        setFieldsName(Object.keys(new TestSampleMapping({})));
+        clearErrors('fieldName');
+        break;
+      case 'Methods':
+        setFieldsName(Object.keys(new Methods({})));
+        clearErrors('fieldName');
+        break;
+      case 'Doctors':
+        setFieldsName(Object.keys(new Doctors({})));
+        clearErrors('fieldName');
+        break;
+      case 'Registartion Locations':
+        setFieldsName(Object.keys(new RegistrationLocations({})));
+        clearErrors('fieldName');
+        break;
+      case 'Corporate Clients':
+        setFieldsName(Object.keys(new CorporateClients({})));
+        clearErrors('fieldName');
+        break;
+      case 'Delivery Schedule':
+        setFieldsName(Object.keys(new DeliverySchedule({})));
+        clearErrors('fieldName');
+        break;
+      case 'Administrative Divisions':
+        setFieldsName(Object.keys(new AdministrativeDivisions({})));
+        clearErrors('fieldName');
+        break;
+      case 'Sales Team':
+        setFieldsName(Object.keys(new SalesTeam({})));
+        clearErrors('fieldName');
+        break;
+      case 'Possible Results':
+        setFieldsName(Object.keys(new PossibleResults({})));
+        clearErrors('fieldName');
+        break;
+      case 'Library':
+        setFieldsName(Object.keys(new Library({})));
+        clearErrors('fieldName');
+        break;
+      case 'PriceList':
+        setFieldsName(Object.keys(new PriceList({})));
+        clearErrors('fieldName');
+        break;
+      case 'ReferenceRanges':
+        setFieldsName(Object.keys(new ReferenceRanges({})));
+        clearErrors('fieldName');
+        break;
+      // communication
+      case 'Interface Manager':
+        setFieldsName(Object.keys(new InterfaceManager({})));
+        clearErrors('fieldName');
+        break;
+      case 'Conversation Mapping':
+        setFieldsName(Object.keys(new DataConversation({})));
+        clearErrors('fieldName');
+        break;
+      case 'Host Communication':
+        setFieldsName(Object.keys(new HostCommunication({})));
+        clearErrors('fieldName');
+        break;
+      case 'Data Segment Mapping':
+        setFieldsName(Object.keys(new SegmentMapping({})));
+        clearErrors('fieldName');
+        break;
+      //Setting
+      case 'Role':
+        setFieldsName(Object.keys(new Role({})));
+        clearErrors('fieldName');
+        break;
+      case 'User':
+        setFieldsName(Object.keys(new Users({})));
+        clearErrors('fieldName');
+        break;
+      case 'Login Activity':
+        setFieldsName(Object.keys(new LoginActivity({})));
+        clearErrors('fieldName');
+        break;
+      case 'Role Mapping':
+        setFieldsName(Object.keys(new RoleMapping({})));
+        clearErrors('fieldName');
+        break;
+      case 'Shortcut Menu':
+        setFieldsName(Object.keys(new ShortcutMenu({})));
+        clearErrors('fieldName');
+        break;
+      case 'Environment':
+        setFieldsName(Object.keys(new EnvironmentSettings({})));
+        clearErrors('fieldName');
+        break;
+      case 'Notice Boards':
+        setFieldsName(Object.keys(new NoticeBoard({})));
+        clearErrors('fieldName');
+        break;
       default:
         setFieldsName([]);
         Toast.error({
@@ -241,6 +420,8 @@ export const ReportFieldMapping = observer(() => {
                             path: item.path,
                             children,
                           };
+                          console.log({name: documentName.children?.name});
+
                           getFieldName(documentName.children?.name);
                           onChange(documentName);
                           // lookupStore.updateLookup({
@@ -297,55 +478,111 @@ export const ReportFieldMapping = observer(() => {
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label='Version'
-                      placeholder='Version'
-                      hasError={errors.version}
-                      value={reportSettingStore.generalSetting?.version}
-                      disabled={true}
+                      label='Start From Line'
+                      placeholder='Start From Line'
+                      hasError={errors.startFromLine}
+                      value={
+                        reportSettingStore.reportFieldMapping?.startFromLine
+                      }
+                      onChange={startFromLine => {
+                        onChange(startFromLine);
+                        reportSettingStore.updateReportFieldMapping({
+                          ...reportSettingStore.reportFieldMapping,
+                          startFromLine: Number.parseFloat(startFromLine),
+                        });
+                      }}
                     />
                   )}
-                  name='version'
+                  name='startFromLine'
                   rules={{required: false}}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='Environment'
-                      hasError={errors.environment}
-                    >
-                      <select
-                        value={reportSettingStore.generalSetting?.environment}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          reportSettingStore.updateGeneralSetting({
-                            ...reportSettingStore.generalSetting,
-                            environment,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'GENERAL SETTING-ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
+                    <Form.Input
+                      label='Start From Column'
+                      placeholder='Start From Column'
+                      hasError={errors.startFromColumn}
+                      value={
+                        reportSettingStore.reportFieldMapping?.startFromColumn
+                      }
+                      onChange={startFromColumn => {
+                        onChange(startFromColumn);
+                        reportSettingStore.updateReportFieldMapping({
+                          ...reportSettingStore.reportFieldMapping,
+                          startFromColumn: Number.parseFloat(startFromColumn),
+                        });
+                      }}
+                    />
                   )}
-                  name='environment'
-                  rules={{required: true}}
+                  name='startFromColumn'
+                  rules={{required: false}}
                   defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Field Length'
+                      placeholder='Field Length'
+                      hasError={errors.fieldLength}
+                      value={reportSettingStore.reportFieldMapping?.fieldLength}
+                      onChange={fieldLength => {
+                        onChange(fieldLength);
+                        reportSettingStore.updateReportFieldMapping({
+                          ...reportSettingStore.reportFieldMapping,
+                          fieldLength: Number.parseFloat(fieldLength),
+                        });
+                      }}
+                    />
+                  )}
+                  name='startFromColumn'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      placeholder='Font Id'
+                      data={{
+                        list: reportSettingStore.fontSettingList,
+                        displayKey: ['fontId', 'fontName'],
+                      }}
+                      hasError={errors.section}
+                      onFilter={(value: string) => {
+                        reportSettingStore.fontSettingService.filterByFields({
+                          input: {
+                            filter: {
+                              fields: ['fontId', 'fontName'],
+                              srText: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        });
+                      }}
+                      onSelect={item => {
+                        onChange(item._id);
+                        reportSettingStore.updateReportFieldMapping({
+                          ...reportSettingStore.reportFieldMapping,
+                          fontId: {
+                            id: item._id,
+                            fontId: item.fontId,
+                            fontName: item.fontName,
+                          },
+                        });
+                        reportSettingStore.updateFontSettingList(
+                          reportSettingStore.fontSettingListCopy,
+                        );
+                      }}
+                    />
+                  )}
+                  name='section'
+                  rules={{required: true}}
+                  defaultValue={reportSettingStore.fontSettingList}
                 />
               </List>
             </Grid>

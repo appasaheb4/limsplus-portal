@@ -83,6 +83,34 @@ export const FILTER = gql`
   }
 `;
 
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: FontSettingInput!) {
+    filterByFieldsFontSetting(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        fontId
+        fontName
+        fontSize
+        fontStyle
+        fontColor
+        fontBackground
+        fontCase
+        fontCss
+        version
+        environment
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: FontSettingInput!) {
     findByFieldsFontSetting(input: $input) {

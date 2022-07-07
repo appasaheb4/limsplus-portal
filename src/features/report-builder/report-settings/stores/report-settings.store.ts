@@ -33,6 +33,7 @@ export class ReportSettingStore {
   generalSettingListCount: number = 0;
   fontSetting!: FontSetting;
   fontSettingList!: Array<FontSetting>;
+  fontSettingListCopy!: Array<FontSetting>;
   fontSettingListCount: number = 0;
   reportFieldMapping!: ReportFieldMapping;
   reportFieldMappingList!: Array<ReportFieldMapping>;
@@ -61,6 +62,7 @@ export class ReportSettingStore {
       version: 1,
     });
     this.fontSettingList = [];
+    this.fontSettingListCopy = [];
     this.reportFieldMapping = new ReportFieldMapping({});
     this.reportFieldMappingList = [];
 
@@ -81,6 +83,7 @@ export class ReportSettingStore {
       generalSettingListCount: observable,
       fontSetting: observable,
       fontSettingList: observable,
+      fontSettingListCopy: observable,
       fontSettingListCount: observable,
       reportFieldMapping: observable,
       reportFieldMappingList: observable,
@@ -193,8 +196,18 @@ export class ReportSettingStore {
   }
 
   updateFontSettingList(res: any) {
-    this.fontSettingList = res.fontSettings.data;
-    this.fontSettingListCount = res.fontSettings.paginatorInfo.count;
+    if (!Array.isArray(res)) {
+      this.fontSettingList = res.fontSettings.data;
+      this.fontSettingListCount = res.fontSettings.paginatorInfo.count;
+    } else {
+      this.fontSettingList = res;
+    }
+  }
+
+  filterFontSettingList(res: any) {
+    this.fontSettingList = res.filterByFieldsFontSetting.data;
+    this.fontSettingListCount =
+      res.filterByFieldsFontSetting.paginatorInfo.count;
   }
 
   updateReportFieldMapping(res) {
