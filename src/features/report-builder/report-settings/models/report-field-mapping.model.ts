@@ -3,7 +3,7 @@ export class ReportFieldMapping {
   tempCode: string;
   section: object;
   sectionStyle: string;
-  tableName: string;
+  tableName: object;
   fieldName: string;
   startFromLine: number;
   startFromColumn: number;

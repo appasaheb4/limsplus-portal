@@ -23,6 +23,14 @@ import {
 } from '../index';
 import {useStores} from '@/stores';
 import {stores} from '@/stores';
+export const patientRegistrationOptions = [
+  {title: 'PATIENT MANAGER'},
+  {title: 'PATIENT VISIT'},
+  {title: 'PATIENT ORDER'},
+  {title: 'PATIENT TEST'},
+  {title: 'PATIENT RESULT'},
+  {title: 'PATIENT SAMPLE'},
+];
 const PatientRegistation = observer(() => {
   const {loading, loginStore, patientRegistrationStore, patientVisitStore} =
     useStores();
@@ -94,14 +102,7 @@ const PatientRegistation = observer(() => {
       </Header>
       <div>
         <Accordion>
-          {[
-            {title: 'PATIENT MANAGER'},
-            {title: 'PATIENT VISIT'},
-            {title: 'PATIENT ORDER'},
-            {title: 'PATIENT TEST'},
-            {title: 'PATIENT RESULT'},
-            {title: 'PATIENT SAMPLE'},
-          ].map(item => {
+          {patientRegistrationOptions.map(item => {
             return (
               <AccordionItem
                 title={`${item.title}`}
