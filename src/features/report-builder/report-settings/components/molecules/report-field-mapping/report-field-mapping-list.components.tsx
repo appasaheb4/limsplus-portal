@@ -125,7 +125,7 @@ export const ReportFieldMappingList = observer(
                 editable: false,
               },
               {
-                dataField: 'fontId',
+                dataField: 'fontId.fontId',
                 text: 'Font Id',
                 // filter: textFilter({
                 //   getFilter: filter => {
@@ -135,60 +135,7 @@ export const ReportFieldMappingList = observer(
                 sort: true,
                 editable: false,
               },
-              {
-                dataField: 'backgroundImage',
-                text: 'Background Image',
-                headerClasses: 'textHeader4',
-                // filter: textFilter({
-                //   getFilter: filter => {
-                //     sectionSetting = filter;
-                //   },
-                // }),
-                sort: true,
-                editable: false,
-                formatter: (cell, row) => {
-                  return (
-                    <>
-                      {row.backgroundImage && (
-                        <img
-                          src={row.backgroundImage}
-                          alt='backgroundImage'
-                          className='object-fill h-35 w-40 rounded-md'
-                        />
-                      )}
-                    </>
-                  );
-                },
-              },
-              {
-                dataField: 'version',
-                text: 'Version',
-                headerClasses: 'textHeader5',
-                sort: true,
-                csvFormatter: col => (col ? col : ''),
-                editable: false,
-                // filter: customFilter({
-                //   getFilter: filter => {
-                //     version = filter;
-                //   },
-                // }),
-                // filterRenderer: (onFilter, column) => (
-                //   <NumberFilter onFilter={onFilter} column={column} />
-                // ),
-              },
-              {
-                dataField: 'environment',
-                text: 'Environment',
-                headerClasses: 'textHeader5',
-                sort: true,
-                csvFormatter: col => (col ? col : ''),
-                editable: false,
-                // filter: textFilter({
-                //   getFilter: filter => {
-                //     environment = filter;
-                //   },
-                // }),
-              },
+
               {
                 dataField: 'operation',
                 text: 'Action',

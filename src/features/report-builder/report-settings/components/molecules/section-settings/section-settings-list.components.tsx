@@ -51,7 +51,7 @@ export const SectionSettingsList = observer((props: SectionSettingsProps) => {
             },
             {
               dataField: 'tempCode',
-              text: 'Temp Code',
+              text: 'Section Id',
               headerClasses: 'textHeader',
               sort: true,
               editable: false,
@@ -65,6 +65,18 @@ export const SectionSettingsList = observer((props: SectionSettingsProps) => {
               //     sectionSetting = filter;
               //   },
               // }),
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'sectionCSS',
+              text: 'Section CSS',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'order',
+              text: 'Order',
               sort: true,
               editable: false,
             },

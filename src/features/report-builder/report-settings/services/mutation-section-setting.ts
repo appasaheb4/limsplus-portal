@@ -11,6 +11,8 @@ export const SECTION_SETTING_LIST = gql`
       data {
         _id
         sectionSetting
+        sectionCSS
+        order
         sectionRequired
         sectionGrid
         lineGrid
@@ -82,6 +84,8 @@ export const FILTER_BY_FIELDS = gql`
       data {
         _id
         sectionSetting
+        sectionCSS
+        order
         sectionRequired
         sectionGrid
         lineGrid
@@ -105,6 +109,8 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         sectionSetting
+        sectionCSS
+        order
         sectionRequired
         sectionGrid
         lineGrid

@@ -18,6 +18,7 @@ export const PAGE_SETTING_LIST = gql`
         rightMargin
         headerSize
         footerSize
+        lineSpacing
         pageOrientation
         backgroundImage
         version
@@ -75,6 +76,7 @@ export const FILTER = gql`
         rightMargin
         headerSize
         footerSize
+        lineSpacing
         pageOrientation
         backgroundImage
         version
@@ -105,6 +107,7 @@ export const FILTER_BY_FIELDS = gql`
         rightMargin
         headerSize
         footerSize
+        lineSpacing
         pageOrientation
         backgroundImage
         version
@@ -132,6 +135,7 @@ export const FIND_BY_FIELDS = gql`
         rightMargin
         headerSize
         footerSize
+        lineSpacing
         pageOrientation
         backgroundImage
         version

@@ -41,7 +41,7 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
             },
             {
               dataField: 'tempCode',
-              text: 'Temp Code',
+              text: 'Page Id',
               headerClasses: 'textHeader',
               sort: true,
               editable: false,
@@ -121,6 +121,18 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
             {
               dataField: 'footerSize',
               text: 'Footer Size',
+              headerClasses: 'textHeader4',
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     sectionSetting = filter;
+              //   },
+              // }),
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'lineSpacing',
+              text: 'Line Spacing',
               headerClasses: 'textHeader4',
               // filter: textFilter({
               //   getFilter: filter => {

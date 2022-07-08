@@ -50,14 +50,14 @@ export const GeneralSettingsList = observer((props: GeneralSettingsProps) => {
             },
             {
               dataField: 'tempCode',
-              text: 'Temp Code',
+              text: 'Template Code',
               headerClasses: 'textHeader',
               sort: true,
               editable: false,
             },
             {
               dataField: 'reportSection.section',
-              text: 'Report Section',
+              text: 'Section',
               headerClasses: 'textHeader4',
               // filter: textFilter({
               //   getFilter: filter => {
@@ -69,7 +69,7 @@ export const GeneralSettingsList = observer((props: GeneralSettingsProps) => {
             },
             {
               dataField: 'sectionSetting.tempCode',
-              text: 'Section Setting',
+              text: 'Section Id',
               headerClasses: 'textHeader4',
               // filter: textFilter({
               //   getFilter: filter => {
@@ -81,7 +81,7 @@ export const GeneralSettingsList = observer((props: GeneralSettingsProps) => {
             },
             {
               dataField: 'pageSetting.tempCode',
-              text: 'Page Setting',
+              text: 'Page Id',
               headerClasses: 'textHeader4',
               // filter: textFilter({
               //   getFilter: filter => {

@@ -86,8 +86,8 @@ export const SectionSettings = SectionSettingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        label='Temp Code'
-                        placeholder='Temp code'
+                        label='Section Id'
+                        placeholder='Section Id'
                         hasError={errors.tempCode}
                         value={reportSettingStore.sectionSetting?.tempCode}
                         onChange={tempCode => {
@@ -199,7 +199,40 @@ export const SectionSettings = SectionSettingHoc(
                     rules={{required: true}}
                     defaultValue=''
                   />
-
+                  <Form.MultilineInput
+                    label='Section CSS'
+                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    placeholder='Style'
+                    value={reportSettingStore.sectionSetting?.sectionCSS}
+                    onChange={sectionCSS => {
+                      reportSettingStore.updateSectionSetting({
+                        ...reportSettingStore.sectionSetting,
+                        sectionCSS,
+                      });
+                    }}
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Input
+                        label='Order'
+                        placeholder='Order'
+                        type='number'
+                        hasError={errors.order}
+                        value={reportSettingStore.sectionSetting?.order}
+                        onChange={order => {
+                          onChange(order);
+                          reportSettingStore.updateSectionSetting({
+                            ...reportSettingStore.sectionSetting,
+                            order: Number.parseFloat(order),
+                          });
+                        }}
+                      />
+                    )}
+                    name='order'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
                   <Grid cols={4}>
                     <Controller
                       control={control}
