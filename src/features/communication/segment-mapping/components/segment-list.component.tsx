@@ -38,7 +38,7 @@ const SegmentList = observer((props: SegmentListProps) => {
 
   useEffect(() => {
     segmentMappingStore.fetchListSegmentMapping();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const customTotal = (from, to, size) => {
@@ -189,21 +189,20 @@ const SegmentList = observer((props: SegmentListProps) => {
       if (isSelect) {
         for (const row of rows) {
           segmentMappingStore.updateSelectedItem([
-                ...(segmentMappingStore.selectedItems || []),
-                row,
-              ]);
+            ...(segmentMappingStore.selectedItems || []),
+            row,
+          ]);
         }
-       
       } else {
         for (const row of rows) {
           if (segmentMappingStore.selectedItems) {
-                const position = segmentMappingStore.selectedItems.indexOf(row);
-                const newItem = segmentMappingStore.selectedItems.splice(
-                  position,
-                  1,
-                );
-                segmentMappingStore.updateSelectedItem(newItem);
-              }
+            const position = segmentMappingStore.selectedItems.indexOf(row);
+            const newItem = segmentMappingStore.selectedItems.splice(
+              position,
+              1,
+            );
+            segmentMappingStore.updateSelectedItem(newItem);
+          }
         }
       }
     } else {
@@ -1268,11 +1267,15 @@ const SegmentList = observer((props: SegmentListProps) => {
             <div>
               <SearchBar {...props.searchProps} />
               <ClearSearchButton
-                className={'inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center'}
+                className={
+                  'inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center'
+                }
                 {...props.searchProps}
               />
               <ExportCSVButton
-                className={'inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center'}
+                className={
+                  'inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center'
+                }
                 {...props.csvProps}
               >
                 Export CSV!!
@@ -1327,9 +1330,10 @@ const SegmentList = observer((props: SegmentListProps) => {
                 segmentMappingStore.segmentMappingService
                   .updateSingleFiled({
                     input: {
-                      _id: segmentMappingStore.updateItem.id,
-                      [segmentMappingStore.updateItem.dataField]:
-                        segmentMappingStore.updateItem.value,
+                      _id: segmentMappingStore.updateItem?.id,
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      [segmentMappingStore?.updateItem!.dataField]:
+                        segmentMappingStore.updateItem?.value,
                     },
                   })
                   .then(res => {

@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -57,7 +56,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
 
   useEffect(() => {
     segmentMappingStore.fetchListSegmentMapping();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -1230,9 +1229,10 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               segmentMappingStore.segmentMappingService
                 .updateSingleFiled({
                   input: {
-                    _id: segmentMappingStore.updateItem.id,
-                    [segmentMappingStore.updateItem.dataField]:
-                      segmentMappingStore.updateItem.value,
+                    _id: segmentMappingStore?.updateItem?.id,
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    [segmentMappingStore.updateItem!.dataField]:
+                      segmentMappingStore?.updateItem?.value,
                   },
                 })
                 .then(res => {
