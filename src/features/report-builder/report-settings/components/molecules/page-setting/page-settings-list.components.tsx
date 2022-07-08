@@ -1,21 +1,11 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {
-  NumberFilter,
-  textFilter,
-  customFilter,
-  Form,
-  TableBootstrap,
-  Tooltip,
-  Icons,
-} from '@/library/components';
+import {TableBootstrap, Tooltip, Icons} from '@/library/components';
 import {Confirm} from '@/library/models';
-import dayjs from 'dayjs';
 
 interface PageSettingsProps {
   data: any;
   totalSize: number;
-  extraData: any;
   isDelete?: boolean;
   isEditModify?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
@@ -215,7 +205,7 @@ export const PageSettingsList = observer((props: PageSettingsProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete' position='top'>
+                    <Tooltip tooltipText='Delete' position='bottom'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
