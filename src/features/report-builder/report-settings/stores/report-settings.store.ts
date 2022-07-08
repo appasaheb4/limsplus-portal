@@ -40,6 +40,8 @@ export class ReportSettingStore {
   reportFieldMappingListCount: number = 0;
 
   constructor() {
+    this.generalSetting = new GeneralSettings({});
+    this.generalSettingList = [];
     this.sectionSetting = new SectionSettings({
       sectionRequired: false,
       sectionGrid: false,

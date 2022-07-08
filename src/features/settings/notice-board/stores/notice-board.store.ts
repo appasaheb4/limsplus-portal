@@ -10,6 +10,7 @@ export class NoticeBoardStore {
   constructor() {
     this.noticeBoardList = [];
     this.noticeBoardListCount = 0;
+    this.noticeBoard = new NoticeBoard({});
     makeObservable<NoticeBoardStore, any>(this, {
       noticeBoard: observable,
       noticeBoardList: observable,
