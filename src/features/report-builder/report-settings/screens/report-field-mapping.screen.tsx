@@ -12,8 +12,7 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutocompleteGroupBy,
 } from '@/library/components';
-import {GeneralSettingsList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {ReportFieldMappingList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
@@ -88,7 +87,7 @@ export const ReportFieldMapping = observer(() => {
   } = useForm();
   const [fieldsName, setFieldsName] = useState<Array<any>>([]);
   const [subTitleList, setSubTitleList] = useState<Array<any>>([]);
-  const [document, setDocument] = useState<object>();
+  const [document, setDocument] = useState<object>({});
 
   useEffect(() => {
     router = router.filter((item: any) => {
@@ -117,184 +116,139 @@ export const ReportFieldMapping = observer(() => {
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const getFieldName = (tableName: string) => {
-    console.log({tableName});
-
     switch (tableName) {
       // master
       case 'Banner':
         setFieldsName(Object.keys(new Banner({})));
-        clearErrors('fieldName');
         break;
       case 'Lab':
         setFieldsName(Object.keys(new Labs({})));
-        clearErrors('fieldName');
         break;
       case 'Deginisation':
         setFieldsName(Object.keys(new Deginisation({})));
-        clearErrors('fieldName');
         break;
       case 'Department':
         setFieldsName(Object.keys(new Department({})));
-        clearErrors('fieldName');
         break;
       case 'Analyte Master':
         setFieldsName(Object.keys(new MasterAnalyte({})));
-        clearErrors('fieldName');
         break;
       case 'Test Analyte Mapping':
         setFieldsName(Object.keys(new TestAnalyteMapping({})));
-        clearErrors('fieldName');
         break;
       case 'Panel Master':
         setFieldsName(Object.keys(new MasterPanel({})));
-        clearErrors('fieldName');
         break;
       case 'Test Panel Mapping':
         setFieldsName(Object.keys(new TestPanelMapping({})));
-        clearErrors('fieldName');
         break;
       case 'Package Master':
         setFieldsName(Object.keys(new MasterPackage({})));
-        clearErrors('fieldName');
         break;
       case 'Test Master':
         setFieldsName(Object.keys(new TestMaster({})));
-        clearErrors('fieldName');
         break;
       case 'Lookup':
         setFieldsName(Object.keys(new Lookup({})));
-        clearErrors('fieldName');
         break;
       case 'Section':
         setFieldsName(Object.keys(new Section({})));
-        clearErrors('fieldName');
         break;
       case 'Sample Container':
         setFieldsName(Object.keys(new SampleContainer({})));
-        clearErrors('fieldName');
         break;
       case 'Sample Type':
         setFieldsName(Object.keys(new SampleType({})));
-        clearErrors('fieldName');
         break;
       case 'Test Sample Mapping':
         setFieldsName(Object.keys(new TestSampleMapping({})));
-        clearErrors('fieldName');
         break;
       case 'Methods':
         setFieldsName(Object.keys(new Methods({})));
-        clearErrors('fieldName');
         break;
       case 'Doctors':
         setFieldsName(Object.keys(new Doctors({})));
-        clearErrors('fieldName');
         break;
       case 'Registartion Locations':
         setFieldsName(Object.keys(new RegistrationLocations({})));
-        clearErrors('fieldName');
         break;
       case 'Corporate Clients':
         setFieldsName(Object.keys(new CorporateClients({})));
-        clearErrors('fieldName');
         break;
       case 'Delivery Schedule':
         setFieldsName(Object.keys(new DeliverySchedule({})));
-        clearErrors('fieldName');
         break;
       case 'Administrative Divisions':
         setFieldsName(Object.keys(new AdministrativeDivisions({})));
-        clearErrors('fieldName');
         break;
       case 'Sales Team':
         setFieldsName(Object.keys(new SalesTeam({})));
-        clearErrors('fieldName');
         break;
       case 'Possible Results':
         setFieldsName(Object.keys(new PossibleResults({})));
-        clearErrors('fieldName');
         break;
       case 'Library':
         setFieldsName(Object.keys(new Library({})));
-        clearErrors('fieldName');
         break;
       case 'PriceList':
         setFieldsName(Object.keys(new PriceList({})));
-        clearErrors('fieldName');
         break;
       case 'ReferenceRanges':
         setFieldsName(Object.keys(new ReferenceRanges({})));
-        clearErrors('fieldName');
         break;
       // communication
       case 'Interface Manager':
         setFieldsName(Object.keys(new InterfaceManager({})));
-        clearErrors('fieldName');
         break;
       case 'Conversation Mapping':
         setFieldsName(Object.keys(new DataConversation({})));
-        clearErrors('fieldName');
         break;
       case 'Host Communication':
         setFieldsName(Object.keys(new HostCommunication({})));
-        clearErrors('fieldName');
         break;
       case 'Data Segment Mapping':
         setFieldsName(Object.keys(new SegmentMapping({})));
-        clearErrors('fieldName');
         break;
       //Setting
       case 'Role':
         setFieldsName(Object.keys(new Role({})));
-        clearErrors('fieldName');
         break;
       case 'User':
         setFieldsName(Object.keys(new Users({})));
-        clearErrors('fieldName');
         break;
       case 'Login Activity':
         setFieldsName(Object.keys(new LoginActivity({})));
-        clearErrors('fieldName');
         break;
       case 'Role Mapping':
         setFieldsName(Object.keys(new RoleMapping({})));
-        clearErrors('fieldName');
         break;
       case 'Shortcut Menu':
         setFieldsName(Object.keys(new ShortcutMenu({})));
-        clearErrors('fieldName');
         break;
       case 'Environment':
         setFieldsName(Object.keys(new EnvironmentSettings({})));
-        clearErrors('fieldName');
         break;
       case 'Notice Boards':
         setFieldsName(Object.keys(new NoticeBoard({})));
-        clearErrors('fieldName');
         break;
       // Registration
       case 'PATIENT MANAGER':
         setFieldsName(Object.keys(new PatientManger({})));
-        clearErrors('fieldName');
         break;
       case 'PATIENT VISIT':
         setFieldsName(Object.keys(new PatientVisit({})));
-        clearErrors('fieldName');
         break;
       case 'PATIENT ORDER':
         setFieldsName(Object.keys(new PatientOrder({})));
-        clearErrors('fieldName');
         break;
       case 'PATIENT TEST':
         setFieldsName(Object.keys(new PatientTest({})));
-        clearErrors('fieldName');
         break;
       case 'PATIENT RESULT':
         setFieldsName(Object.keys(new PatientResult({})));
-        clearErrors('fieldName');
         break;
       case 'PATIENT SAMPLE':
         setFieldsName(Object.keys(new PatientSample({})));
-        clearErrors('fieldName');
         break;
       default:
         setFieldsName([]);
@@ -307,17 +261,18 @@ export const ReportFieldMapping = observer(() => {
   };
 
   const onSubmitBanner = () => {
-    console.log({isExistsTempCode});
     if (isExistsTempCode)
       return Toast.warning({
         message: '😔 Already exists temp code. Please enter diff.',
       });
-    reportSettingStore.generalSettingService
-      .addGeneralSetting({input: {...reportSettingStore.generalSetting}})
+    reportSettingStore.reportFieldMappingService
+      .addReportFieldMapping({
+        input: {...reportSettingStore.reportFieldMapping},
+      })
       .then(res => {
-        if (res.createGeneralSetting.success) {
+        if (res.createReportFieldMapping.success) {
           Toast.success({
-            message: `😊 ${res.createGeneralSetting.message}`,
+            message: `😊 ${res.createReportFieldMapping.message}`,
           });
         }
         setTimeout(() => {
@@ -465,8 +420,6 @@ export const ReportFieldMapping = observer(() => {
                             path: item.path,
                             children,
                           };
-                          console.log({documentName});
-
                           if (
                             documentName.children?.name ===
                             'Patient Registration'
@@ -477,7 +430,9 @@ export const ReportFieldMapping = observer(() => {
                             onChange(documentName);
                             reportSettingStore.updateReportFieldMapping({
                               ...reportSettingStore.reportFieldMapping,
-                              tableName: documentName,
+                              tableName: Object.assign(documentName, {
+                                subTableName: documentName.children?.name,
+                              }),
                             });
                             setSubTitleList([]);
                           }
@@ -488,7 +443,7 @@ export const ReportFieldMapping = observer(() => {
                   )}
                   name='tableName'
                   rules={{required: true}}
-                  defaultValue={router}
+                  defaultValue=''
                 />
                 {subTitleList.length > 0 && (
                   <Controller
@@ -510,12 +465,9 @@ export const ReportFieldMapping = observer(() => {
                             getFieldName(subTableName);
                             reportSettingStore.updateReportFieldMapping({
                               ...reportSettingStore.reportFieldMapping,
-                              tableName: Object.assign(
-                                {document},
-                                {
-                                  subTableName,
-                                },
-                              ),
+                              tableName: Object.assign(document, {
+                                subTableName,
+                              }),
                             });
                           }}
                         >
@@ -529,7 +481,7 @@ export const ReportFieldMapping = observer(() => {
                       </Form.InputWrapper>
                     )}
                     name='subTableName'
-                    rules={{required: true}}
+                    rules={{required: false}}
                     defaultValue={router}
                   />
                 )}
@@ -648,7 +600,7 @@ export const ReportFieldMapping = observer(() => {
                         list: reportSettingStore.fontSettingList,
                         displayKey: ['fontId', 'fontName'],
                       }}
-                      hasError={errors.section}
+                      hasError={errors.fontId}
                       onFilter={(value: string) => {
                         reportSettingStore.fontSettingService.filterByFields({
                           input: {
@@ -677,7 +629,7 @@ export const ReportFieldMapping = observer(() => {
                       }}
                     />
                   )}
-                  name='section'
+                  name='fontId'
                   rules={{required: true}}
                   defaultValue={reportSettingStore.fontSettingList}
                 />
@@ -708,8 +660,8 @@ export const ReportFieldMapping = observer(() => {
         </List>
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-        <GeneralSettingsList
-          data={reportSettingStore.generalSettingList || []}
+        <ReportFieldMappingList
+          data={reportSettingStore.reportFieldMappingList || []}
           totalSize={reportSettingStore.generalSettingListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
@@ -753,17 +705,17 @@ export const ReportFieldMapping = observer(() => {
         click={(type?: string) => {
           switch (type) {
             case 'delete': {
-              reportSettingStore.generalSettingService
-                .deleteGeneralSetting({
+              reportSettingStore.reportFieldMappingService
+                .deleteReportFieldMapping({
                   input: {id: modalConfirm.id},
                 })
                 .then((res: any) => {
-                  if (res.removeGeneralSetting.success) {
+                  if (res.removeReportFieldMapping.success) {
                     Toast.success({
-                      message: `😊 ${res.removeGeneralSetting.message}`,
+                      message: `😊 ${res.removeReportFieldMapping.message}`,
                     });
                     setModalConfirm({show: false});
-                    reportSettingStore.generalSettingService.listGeneralSetting();
+                    reportSettingStore.reportFieldMappingService.listReportFieldMapping();
                   }
                 });
               break;

@@ -215,7 +215,8 @@ export class ReportSettingStore {
   }
 
   updateReportFieldMappingList(res) {
-    this.reportFieldMappingList = res;
-    this.reportFieldMappingListCount = res;
+    this.reportFieldMappingList = res.reportFieldMappings.data;
+    this.reportFieldMappingListCount =
+      res.reportFieldMappings.paginatorInfo.count;
   }
 }

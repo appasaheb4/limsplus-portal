@@ -559,9 +559,6 @@ export const PageSetting = PageSettingHoc(
           <PageSettingsList
             data={reportSettingStore.pageSettingList || []}
             totalSize={reportSettingStore.pageSettingListCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-            }}
             isDelete={RouterFlow.checkPermission(
               routerStore.userPermission,
               'Delete',

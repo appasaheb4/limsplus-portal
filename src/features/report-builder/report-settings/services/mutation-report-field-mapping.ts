@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const REPORT_FIELD_MAPPING_LIST = gql`
-  mutation ($input: GeneralSettingInput!) {
-    generalSettings(input: $input) {
+  mutation ($input: ReportFieldMappingInput!) {
+    reportFieldMappings(input: $input) {
       paginatorInfo {
         count
       }
@@ -29,8 +29,8 @@ export const REPORT_FIELD_MAPPING_LIST = gql`
 `;
 
 export const CREATE_REPORT_FIELD_MAPPING = gql`
-  mutation ($input: CreateGeneralSettingInput!) {
-    createGeneralSetting(input: $input) {
+  mutation ($input: CreateReportFieldMappingInput!) {
+    createReportFieldMapping(input: $input) {
       success
       message
     }
