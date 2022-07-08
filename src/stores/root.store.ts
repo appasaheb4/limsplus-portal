@@ -9,8 +9,6 @@ export class RootStore {
 
   constructor() {
     this.processLoading = false;
-    this.session = undefined;
-    this.modalTokenExpire = undefined;
     makeObservable<RootStore, any>(this, {
       processLoading: observable,
       session: observable,
