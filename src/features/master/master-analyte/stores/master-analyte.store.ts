@@ -15,6 +15,7 @@ export class MasterAnalyteStore {
 
   constructor() {
     this.listMasterAnalyte = [];
+    this.listMasterAnalyteCopy = [];
     this.masterAnalyte = {
       ...this.masterAnalyte,
       dateCreation: new Date(),
@@ -31,6 +32,8 @@ export class MasterAnalyteStore {
       calculationFlag: false,
       repetition: false,
     };
+    this.selectedItems = new SelectedItems({});
+    this.masterAnalyteActivity = new MasterAnalyteActivity({});
     makeObservable<MasterAnalyteStore, any>(this, {
       masterAnalyte: observable,
       listMasterAnalyte: observable,

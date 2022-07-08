@@ -6,12 +6,3 @@ jest.mock('global', () => ({
   useState: jest.fn(),
 }));
 jest.mock('mobx-session');
-// jest.mock('./src/stores', () => {
-//   return {
-//     stores: {
-//       isLoading: false,
-//       setLoading: jest.fn(),
-//       updateError: jest.fn(),
-//     },
-//   };
-// });

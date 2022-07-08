@@ -7,7 +7,8 @@
     "serve-webapp": "craco build && craco start",
     "dev": "craco start",
     "build": "craco build",
-    "test": "jest --watch --config=jest.config.js",
+    "test": "jest",
+    "testConfig": "jest --watch --config=jest.config.js",
     "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint src",
@@ -198,6 +199,34 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.+)": "<rootDir>/src/$1",
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
+    "coveragePathIgnorePatterns": [
+      ".eslintrc",
+      "index",
+      "stories",
+      "model",
+      "route",
+      "root.store",
+      "service"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!src/App.tsx"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 60,
+        "lines": 60,
+        "statements": 60
+      }
     }
   }
 }

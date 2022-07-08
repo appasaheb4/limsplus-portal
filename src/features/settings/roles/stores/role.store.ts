@@ -10,6 +10,7 @@ export class RoleStore {
   checkExitsCode?: boolean = false;
 
   constructor() {
+    this.role = new Role({});
     makeObservable<RoleStore, any>(this, {
       listRole: observable,
       listRoleCopy: observable,

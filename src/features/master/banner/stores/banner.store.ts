@@ -10,6 +10,7 @@ export class BannerStore {
   listBannerCount: number;
 
   constructor() {
+    this.banner = new Banner({});
     this.listBanner = [];
     this.listAllBanner = [];
     this.listBannerCount = 0;

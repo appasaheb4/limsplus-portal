@@ -12,6 +12,8 @@ export class LookupStore {
 
   constructor() {
     this.listLookup = [];
+    this.lookup = new Lookup({});
+    this.globalSettings = new GlobalSettings({});
     this.localInput = new LocalInput({});
     this.flagUpperCase = true;
     makeObservable<LookupStore, any>(this, {
