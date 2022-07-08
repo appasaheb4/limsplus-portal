@@ -6,6 +6,20 @@ import ReduxToastr from 'react-redux-toastr';
 import {configure} from 'mobx';
 import {I18nextProvider} from 'react-i18next';
 import i18next, {setLanguage} from './localization';
+//import {Document, Page, Text, View, StyleSheet} from '@react-pdf/renderer';
+
+// Create styles
+// const styles = StyleSheet.create({
+//   page: {
+//     flexDirection: 'row',
+//     backgroundColor: '#E4E4E4',
+//   },
+//   section: {
+//     margin: 10,
+//     padding: 10,
+//     flexGrow: 1,
+//   },
+// });
 
 import store from './redux/store/index';
 import Routes from './routes/root-route';
@@ -75,6 +89,16 @@ const App = observer(() => {
         <ToastContainer />
         {stores.flagLoading && stores.loading && <ModalLoader />}
       </ApolloProvider>
+      {/* <Document>
+        <Page size='A4' style={styles.page}>
+          <View style={styles.section}>
+            <Text>Section #1</Text>
+          </View>
+          <View style={styles.section}>
+            <Text>Section #2</Text>
+          </View>
+        </Page>
+      </Document> */}
     </>
   );
 });
