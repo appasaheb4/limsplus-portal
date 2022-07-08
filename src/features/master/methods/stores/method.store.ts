@@ -13,6 +13,7 @@ export class MethodsStore {
     this.listMethods = [];
     this.listMethodsCount = 0;
     this.checkExitsEnvCode = false;
+    this.methods = new Methods({});
 
     makeObservable<MethodsStore, any>(this, {
       methods: observable,

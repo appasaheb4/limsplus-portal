@@ -11,6 +11,9 @@ export class RoleMappingStore {
   constructor() {
     this.roleMappingList = [];
     this.roleMappingListCount = 0;
+    this.user = new Role({});
+    this.selectedRole = new RoleMapping({});
+    this.rolePermission = undefined;
 
     makeObservable<RoleMappingStore, any>(this, {
       user: observable,

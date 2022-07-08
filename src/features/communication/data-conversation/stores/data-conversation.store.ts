@@ -13,11 +13,13 @@ export class DataConversationStore {
   dataConversation!: DataConversation;
   listdataConversation: DataConversation[];
   listdataConversationCount: number;
-  updateItem!: UpdateItem;
+  updateItem!: Partial<UpdateItem>;
 
   constructor() {
     this.listdataConversation = [];
     this.listdataConversationCount = 0;
+    this.updateItem = {};
+    this.dataConversation = new DataConversation({});
     makeObservable<DataConversationStore, any>(this, {
       dataConversation: observable,
       listdataConversation: observable,

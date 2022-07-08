@@ -14,6 +14,7 @@ export class MasterPackageStore {
 
   constructor() {
     this.listMasterPackage = [];
+    this.selectedItems = new SelectedItems({});
     this.listMasterPackageCopy = [];
     this.listMasterPackageCount = 0;
     this.checkExitsLabEnvCode = false;

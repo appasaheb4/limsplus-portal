@@ -13,12 +13,14 @@ export class InterfaceManagerStore {
   listInterfaceManager: InterfaceManager[];
   listInterfaceManagerCopy: InterfaceManager[];
   listInterfaceManagerCount: number;
-  updateItem!: UpdateItem;
+  updateItem!: Partial<UpdateItem>;
 
   constructor() {
     this.listInterfaceManager = [];
     this.listInterfaceManagerCopy = [];
     this.listInterfaceManagerCount = 0;
+    this.interfaceManager = new InterfaceManager({});
+    this.updateItem = {};
     makeObservable<InterfaceManagerStore, any>(this, {
       interfaceManager: observable,
       listInterfaceManager: observable,

@@ -18,7 +18,9 @@ export class MasterPanelStore {
   constructor() {
     this.listMasterPanel = [];
     this.listMasterPanelCount = 0;
+    this.sectionListByDeptCode = [];
     this.checkExitsLabEnvCode = false;
+    this.masterPanelActivity = new MasterPanelActivity({});
     this.masterPanel = {
       ...this.masterPanel,
       dateCreation: new Date(),
