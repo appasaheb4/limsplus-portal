@@ -20,7 +20,6 @@ export class AppStore {
       ...this.applicationSetting,
       isExpandScreen: false,
     };
-    this.environmentValues = new EnvironmentValue({});
     makeObservable<AppStore, any>(this, {
       applicationSetting: observable,
       loadApi: observable,
