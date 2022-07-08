@@ -5,11 +5,12 @@ import {stores} from '@/stores';
 export class RootStore {
   processLoading: boolean;
   session!: any;
-
-  //modals
   modalTokenExpire!: any;
+
   constructor() {
     this.processLoading = false;
+    this.session = undefined;
+    this.modalTokenExpire = undefined;
     makeObservable<RootStore, any>(this, {
       processLoading: observable,
       session: observable,

@@ -13,10 +13,13 @@ export class AdministrativeDivisionsStore {
   listAdministrativeDivCount: number = 0;
   listAdministrativeDiv!: AdministrativeDivisions[];
   listAdministrativeDivCopy!: AdministrativeDivisions[];
-  localState!: LocalState;
+  localState!: Partial<LocalState>;
 
   constructor() {
+    this.administrativeDiv = new AdministrativeDivisions({});
     this.listAdministrativeDiv = [];
+    this.listAdministrativeDivCopy = [];
+    this.localState = {};
     makeObservable<AdministrativeDivisionsStore, any>(this, {
       administrativeDiv: observable,
       listAdministrativeDivCount: observable,

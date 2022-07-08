@@ -12,6 +12,8 @@ export class DeginisationStore {
 
   constructor() {
     this.listDeginisation = [];
+    this.listDeginisationCopy = [];
+    this.deginisation = new Deginisation({});
     makeObservable<DeginisationStore, any>(this, {
       listDeginisation: observable,
       listDeginisationCount: observable,

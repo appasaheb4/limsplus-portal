@@ -24,7 +24,7 @@ export class LabStore {
       critical: false,
       priceList: [{id: 0, maxDis: 0}],
     };
-
+    this.selectedItems = new SelectedItems({});
     makeObservable<LabStore, any>(this, {
       listLabs: observable,
       listLabsCount: observable,

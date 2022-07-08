@@ -14,6 +14,7 @@ export class DepartmentStore {
 
   constructor() {
     this.listDepartment = [];
+    this.listDepartmentCopy = [];
     this.department = {
       ...this.department,
       autoRelease: false,
@@ -23,6 +24,7 @@ export class DepartmentStore {
       openingTime: dayjs().format('hh:mm a'),
       closingTime: dayjs().format('hh:mm a'),
     };
+    this.selectedItems = new SelectedItems({});
     makeObservable<DepartmentStore, any>(this, {
       listDepartment: observable,
       listDepartmentCount: observable,

@@ -13,8 +13,10 @@ export class LoginStore {
   forgotPassword!: ForgotPassword;
 
   constructor() {
+    this.inputLogin = new Login({});
     this.login = new Login({});
     this.loginFailedCount = 0;
+    this.forgotPassword = new ForgotPassword({});
     makeObservable<LoginStore, any>(this, {
       inputLogin: observable,
       login: observable,

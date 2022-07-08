@@ -11,6 +11,7 @@ export class SectionStore {
   constructor() {
     this.listSection = [];
     this.listSectionCount = 0;
+    this.section = new Section({});
     makeObservable<SectionStore, any>(this, {
       listSection: observable,
       listSectionCount: observable,
