@@ -95,8 +95,8 @@ export const PageSetting = PageSettingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        label='Temp Code'
-                        placeholder='Temp code'
+                        label='Page Id'
+                        placeholder='Page Id'
                         hasError={errors.tempCode}
                         value={reportSettingStore.pageSetting?.tempCode}
                         onChange={tempCode => {
@@ -413,6 +413,28 @@ export const PageSetting = PageSettingHoc(
                     rules={{required: false}}
                     defaultValue=''
                   />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Input
+                        label='Line Spacing'
+                        placeholder='Line Spacing'
+                        hasError={errors.lineSpacing}
+                        value={reportSettingStore.pageSetting?.lineSpacing}
+                        onChange={lineSpacing => {
+                          onChange(lineSpacing);
+                          reportSettingStore.updatePageSetting({
+                            ...reportSettingStore.pageSetting,
+                            lineSpacing,
+                          });
+                        }}
+                      />
+                    )}
+                    name='lineSpacing'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (

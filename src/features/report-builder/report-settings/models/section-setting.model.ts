@@ -6,7 +6,8 @@ export class SectionSettings {
   sectionGrid: boolean;
   lineGrid: boolean;
   columnGrid: boolean;
-
+  sectionCSS: string;
+  order: number;
   version: number;
   environment: string;
   documentType: string;
@@ -20,7 +21,8 @@ export class SectionSettings {
     this.sectionGrid = rawData.sectionGrid;
     this.lineGrid = rawData.lineGrid;
     this.columnGrid = rawData.columnGrid;
-
+    this.sectionCSS = rawData.sectionCSS;
+    this.order = rawData.order;
     this.version = rawData.version;
     this.environment = rawData.environment;
     this.documentType = rawData.documentType;

@@ -8,6 +8,7 @@ export class PageSetting {
   rightMargin: string;
   headerSize: string;
   footerSize: string;
+  lineSpacing: string;
   pageOrientation: string;
   backgroundImage: any;
   version: number;
@@ -25,6 +26,7 @@ export class PageSetting {
     this.rightMargin = rawData.rightMargin;
     this.headerSize = rawData.headerSize;
     this.footerSize = rawData.footerSize;
+    this.lineSpacing = rawData.lineSpacing;
     this.pageOrientation = rawData.pageOrientation;
     this.version = rawData.version;
     this.environment = rawData.environment;

@@ -83,8 +83,8 @@ export const GeneralSettings = GeneralSettingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        label='Temp Code'
-                        placeholder='Temp code'
+                        label='Template Code'
+                        placeholder='Template code'
                         hasError={errors.tempCode}
                         value={reportSettingStore.generalSetting?.tempCode}
                         onChange={tempCode => {
@@ -128,7 +128,7 @@ export const GeneralSettings = GeneralSettingHoc(
                     render={({field: {onChange}}) => (
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder='Report Section'
+                        placeholder='Section'
                         data={{
                           list: reportSettingStore.reportSectionList,
                           displayKey: ['section'],
@@ -177,7 +177,7 @@ export const GeneralSettings = GeneralSettingHoc(
                     render={({field: {onChange}}) => (
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder='Section Setting'
+                        placeholder='Section Id'
                         data={{
                           list: reportSettingStore.sectionSettingList,
                           displayKey: ['tempCode', 'sectionSetting'],
@@ -223,7 +223,7 @@ export const GeneralSettings = GeneralSettingHoc(
                     render={({field: {onChange}}) => (
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        placeholder='Page Setting'
+                        placeholder='Page Id'
                         data={{
                           list: reportSettingStore.pageSettingList,
                           displayKey: ['tempCode'],
