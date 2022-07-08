@@ -13,6 +13,7 @@ export class TestPanelMappingStore {
 
   constructor() {
     this.listTestPanelMapping = [];
+    this.selectedItems = new SelectedItems({});
     this.listTestPanelMappingCount = 0;
     this.checkExitsLabEnvCode = false;
     this.testPanelMapping = {

@@ -17,6 +17,7 @@ export class TestMasterStore {
     this.listTestMaster = [];
     this.sectionListByDeptCode = [];
     this.checkExitsLabEnvCode = false;
+    this.listTestMasterCount = 0;
     this.testMaster = {
       ...this.testMaster,
       dateCreation: new Date(),

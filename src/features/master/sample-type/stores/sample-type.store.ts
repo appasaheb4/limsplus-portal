@@ -13,6 +13,7 @@ export class SampleTypeStore {
     this.listSampleType = [];
     this.sampleType = new SampleType({});
     this.checkExitsEnvCode = false;
+    this.listSampleTypeCount = 0;
 
     makeObservable<SampleTypeStore, any>(this, {
       listSampleType: observable,

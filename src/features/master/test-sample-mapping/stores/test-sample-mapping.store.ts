@@ -15,6 +15,7 @@ export class TestSampleMappingStore {
     this.listTestSampleMappingCount = 0;
     this.checkExitsTestSampleEnvCode = false;
     this.localInput = new LocalInput({});
+    this.departments = undefined;
     this.testSampleMapping = {
       ...this.testSampleMapping,
       primaryContainer: false,
