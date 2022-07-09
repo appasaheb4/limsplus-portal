@@ -16,7 +16,7 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@utils';
+import {lookupItems, lookupValue} from '@/library/utils';
 import {UserList} from '../components';
 import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';

@@ -179,6 +179,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-unicorn": "36.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "jest-sonar-reporter": "^2.0.0",
@@ -209,10 +210,23 @@
     }
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/__mocks__/globalMock.js"
+    ],
     "moduleNameMapper": {
       "^@/(.+)": "<rootDir>/src/$1",
-      "\\.(css|scss)$": "identity-obj-proxy"
+      "\\.(css|less|sass|scss|png|jpg)$": "identity-obj-proxy"
     },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules"
+    ],
     "coveragePathIgnorePatterns": [
       ".eslintrc",
       "index",
