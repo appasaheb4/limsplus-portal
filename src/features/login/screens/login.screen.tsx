@@ -41,7 +41,7 @@ export const Login = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: {errors, isDirty},
     setValue,
     clearErrors,
   } = useForm();
@@ -189,7 +189,7 @@ export const Login = observer(() => {
                           placeholder={
                             errors.userId ? 'Please enter userId' : 'UserId'
                           }
-                          hasError={errors.userId}
+                          hasError={!!errors.userId}
                           value={loginStore.inputLogin?.userId}
                           onChange={userId => {
                             onChange(userId);
@@ -253,7 +253,7 @@ export const Login = observer(() => {
                               ? 'Please enter password'
                               : 'Password'
                           }
-                          hasError={errors.password}
+                          hasError={!!errors.password}
                           value={loginStore.inputLogin?.password}
                           onChange={password => {
                             onChange(password);
@@ -277,7 +277,7 @@ export const Login = observer(() => {
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
                           label='Lab'
-                          hasError={errors.lab}
+                          hasError={!!errors.lab}
                           style={{color: 'white'}}
                         >
                           <select
@@ -313,7 +313,7 @@ export const Login = observer(() => {
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
                           label='Role'
-                          hasError={errors.role}
+                          hasError={!!errors.role}
                           style={{color: 'white'}}
                         >
                           <select

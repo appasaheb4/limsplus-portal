@@ -776,7 +776,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
                       }
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row.mobileNo}

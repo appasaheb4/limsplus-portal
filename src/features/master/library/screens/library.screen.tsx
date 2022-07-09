@@ -172,9 +172,9 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Code'
-                      placeholder={errors.code ? 'Please enter code' : 'Code'}
+                      placeholder={!!errors.code ? 'Please enter code' : 'Code'}
                       value={libraryStore.library?.code}
-                      hasError={errors.code}
+                      hasError={!!errors.code}
                       onChange={code => {
                         onChange(code);
                         libraryStore.updateLibrary({
@@ -222,7 +222,7 @@ export const Library = LibraryHoc(
                           ? 'Please Enter description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={libraryStore.library?.description}
                       onChange={description => {
                         onChange(description);
@@ -242,7 +242,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Usage Type'
-                      hasError={errors.usageType}
+                      hasError={!!errors.usageType}
                     >
                       <select
                         value={libraryStore.library?.usageType}
@@ -280,7 +280,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Library Type'
-                      hasError={errors.libraryType}
+                      hasError={!!errors.libraryType}
                     >
                       <select
                         value={libraryStore.library?.libraryType}
@@ -319,7 +319,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Comment Type'
-                      hasError={errors.commentType}
+                      hasError={!!errors.commentType}
                     >
                       <select
                         value={
@@ -358,7 +358,7 @@ export const Library = LibraryHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
@@ -373,7 +373,7 @@ export const Library = LibraryHoc(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
-                        hasError={errors.lab}
+                        hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -422,7 +422,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Department'
-                      hasError={errors.department}
+                      hasError={!!errors.department}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
                         onSelect={item => {
@@ -443,7 +443,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Comments Target'
-                      hasError={errors.commentsTarget}
+                      hasError={!!errors.commentsTarget}
                     >
                       <select
                         value={
@@ -488,7 +488,7 @@ export const Library = LibraryHoc(
                       placeholder={
                         errors.details ? 'Please Enter Details' : 'Detials'
                       }
-                      hasError={errors.details}
+                      hasError={!!errors.details}
                       value={libraryStore.library?.details}
                       onChange={details => {
                         onChange(details);
@@ -510,7 +510,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Parameter'
-                      hasError={errors.parameter}
+                      hasError={!!errors.parameter}
                     >
                       <select
                         value={libraryStore.library?.parameter}
@@ -546,7 +546,10 @@ export const Library = LibraryHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Action' hasError={errors.action}>
+                    <Form.InputWrapper
+                      label='Action'
+                      hasError={!!errors.action}
+                    >
                       <select
                         value={libraryStore.library?.action}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -581,7 +584,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Results'
-                      hasError={errors.results}
+                      hasError={!!errors.results}
                     >
                       <select
                         value={libraryStore.library?.results}
@@ -622,7 +625,7 @@ export const Library = LibraryHoc(
                       placeholder={
                         errors.value ? 'Please Enter value' : 'Value'
                       }
-                      hasError={errors.value}
+                      hasError={!!errors.value}
                       value={libraryStore.library?.value}
                       onChange={value => {
                         onChange(value);
@@ -640,7 +643,10 @@ export const Library = LibraryHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Reflex' hasError={errors.reflex}>
+                    <Form.InputWrapper
+                      label='Reflex'
+                      hasError={!!errors.reflex}
+                    >
                       <AutoCompleteCheckMultiFilterKeys
                         placeholder='Search by panel name or panel code'
                         data={{
@@ -670,7 +676,7 @@ export const Library = LibraryHoc(
                       placeholder={
                         errors.analyte ? 'Please Enter analyte' : 'Analyte'
                       }
-                      hasError={errors.analyte}
+                      hasError={!!errors.analyte}
                       value={libraryStore.library?.analyte}
                       onChange={analyte => {
                         onChange(analyte);
@@ -691,8 +697,8 @@ export const Library = LibraryHoc(
                     <Form.MultilineInput
                       rows={3}
                       label='Rule'
-                      placeholder={errors.rule ? 'Please Enter rule' : 'Rule'}
-                      hasError={errors.rule}
+                      placeholder={!!errors.rule ? 'Please Enter rule' : 'Rule'}
+                      hasError={!!errors.rule}
                       value={libraryStore.library?.rule}
                       onChange={rule => {
                         onChange(rule);
@@ -710,7 +716,10 @@ export const Library = LibraryHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={libraryStore && libraryStore.library?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -745,7 +754,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.Toggle
                       label='AbNormal'
-                      hasError={errors.abNormal}
+                      hasError={!!errors.abNormal}
                       value={libraryStore.library?.abNormal}
                       onChange={abNormal => {
                         onChange(abNormal);
@@ -772,7 +781,7 @@ export const Library = LibraryHoc(
                           ? 'Please Enter organismGroup'
                           : 'Organism Group'
                       }
-                      hasError={errors.organismGroup}
+                      hasError={!!errors.organismGroup}
                       value={libraryStore.library?.organismGroup}
                       onChange={organismGroup => {
                         onChange(organismGroup);
@@ -797,7 +806,7 @@ export const Library = LibraryHoc(
                           ? 'Please Enter organismClass'
                           : 'Organism Class'
                       }
-                      hasError={errors.organismClass}
+                      hasError={!!errors.organismClass}
                       value={libraryStore.library?.organismClass}
                       onChange={organismClass => {
                         onChange(organismClass);
@@ -820,7 +829,7 @@ export const Library = LibraryHoc(
                       placeholder={
                         errors.loAge ? 'Please Enter loAge' : 'LO Age'
                       }
-                      hasError={errors.loAge}
+                      hasError={!!errors.loAge}
                       value={libraryStore.library?.loAge}
                       onChange={loAge => {
                         onChange(loAge);
@@ -843,7 +852,7 @@ export const Library = LibraryHoc(
                       placeholder={
                         errors.hiAge ? 'Please Enter hiAge' : 'HI Age'
                       }
-                      hasError={errors.hiAge}
+                      hasError={!!errors.hiAge}
                       value={libraryStore.library?.hiAge}
                       onChange={hiAge => {
                         onChange(hiAge);
@@ -861,7 +870,7 @@ export const Library = LibraryHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Sex' hasError={errors.sex}>
+                    <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                       <select
                         value={libraryStore.library?.sex}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -896,7 +905,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Sex Action'
-                      hasError={errors.sexAction}
+                      hasError={!!errors.sexAction}
                     >
                       <select
                         value={libraryStore.library?.sexAction}
@@ -934,7 +943,7 @@ export const Library = LibraryHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={libraryStore.library?.environment}

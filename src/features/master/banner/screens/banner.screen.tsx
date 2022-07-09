@@ -77,7 +77,7 @@ const Banner = BannerHoc(
                       placeholder={
                         errors.title ? 'Please Enter Title' : 'Title'
                       }
-                      hasError={errors.title}
+                      hasError={!!errors.title}
                       value={bannerStore.banner?.title}
                       onChange={title => {
                         onChange(title);
@@ -100,7 +100,7 @@ const Banner = BannerHoc(
                       placeholder={
                         errors.image ? 'Please insert image' : 'File'
                       }
-                      hasError={errors.image}
+                      hasError={!!errors.image}
                       onChange={e => {
                         const image = e.target.files[0];
                         onChange(image);

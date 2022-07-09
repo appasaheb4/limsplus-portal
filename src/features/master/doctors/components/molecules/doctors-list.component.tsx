@@ -684,7 +684,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                           ? 'Please Enter Telephone'
                           : 'Telephone'
                       }
-                      hasError={errors.telephone}
+                      hasError={!!errors.telephone}
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row.telephone}
                       onChange={telephone => {
@@ -738,7 +738,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
                       }
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row.mobileNo}
                       onChange={mobileNo => {

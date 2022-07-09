@@ -86,7 +86,7 @@ const Methods = MethodsHoc(
                           ? 'Please Enter Method Code'
                           : 'Method Code'
                       }
-                      hasError={errors.methodsCode}
+                      hasError={!!errors.methodsCode}
                       value={methodsStore.methods?.methodsCode}
                       onChange={methodsCode => {
                         onChange(methodsCode);
@@ -133,7 +133,7 @@ const Methods = MethodsHoc(
                           ? 'Please Enter Methods Name'
                           : 'Methods Name'
                       }
-                      hasError={errors.methodName}
+                      hasError={!!errors.methodName}
                       value={methodsStore.methods?.methodsName}
                       onChange={methodsName => {
                         onChange(methodsName);
@@ -160,7 +160,7 @@ const Methods = MethodsHoc(
                           ? 'Please enter description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={methodsStore.methods?.description}
                       onChange={description => {
                         onChange(description);
@@ -180,7 +180,10 @@ const Methods = MethodsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={methodsStore && methodsStore.methods?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${

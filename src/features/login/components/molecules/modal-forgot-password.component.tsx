@@ -83,7 +83,7 @@ export const ModalForgotPassword = observer(
                           <Form.Input
                             label='User Id'
                             placeholder='User Id'
-                            hasError={errors.userId}
+                            hasError={!!errors.userId}
                             value={loginStore.forgotPassword?.userId}
                             onChange={userId => {
                               onChange(userId);
@@ -105,7 +105,7 @@ export const ModalForgotPassword = observer(
                             type='mail'
                             label='Email'
                             placeholder='Email'
-                            hasError={errors.email}
+                            hasError={!!errors.email}
                             value={loginStore.forgotPassword?.email}
                             onChange={email => {
                               onChange(email);
@@ -131,7 +131,7 @@ export const ModalForgotPassword = observer(
                             pattern={FormHelper.patterns.mobileNo}
                             label='Mobile Number'
                             placeholder='Mobile Number'
-                            hasError={errors.mobileNo}
+                            hasError={!!errors.mobileNo}
                             value={loginStore.forgotPassword?.mobileNo}
                             onChange={mobileNo => {
                               onChange(mobileNo);

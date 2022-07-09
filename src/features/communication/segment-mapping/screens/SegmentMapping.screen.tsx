@@ -241,7 +241,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.InputWrapper
                       label='EQUIPMENT TYPE'
                       id='equipment_type'
-                      hasError={errors.equipmentType}
+                      hasError={!!errors.equipmentType}
                     >
                       <select
                         name='equipment_type'
@@ -286,7 +286,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.InputWrapper
                       label='DATA FLOW FROM'
                       id='dataFlowFrom'
-                      hasError={errors.dataFlowFrom}
+                      hasError={!!errors.dataFlowFrom}
                     >
                       <select
                         name='dataFlowFrom'
@@ -326,7 +326,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.InputWrapper
                       label='DATA TYPE'
                       id='data_type'
-                      hasError={errors.data_type}
+                      hasError={!!errors.data_type}
                     >
                       <select
                         name='data_type'
@@ -366,7 +366,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.InputWrapper
                       label='SEGMENTS'
                       id='segments'
-                      hasError={errors.segments}
+                      hasError={!!errors.segments}
                     >
                       <select
                         name='segments'
@@ -406,7 +406,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.InputWrapper
                       label='SEGMENT USAGE'
                       id='segment_usage'
-                      hasError={errors.segment_usage}
+                      hasError={!!errors.segment_usage}
                     >
                       <select
                         name='segment_usage'
@@ -452,7 +452,7 @@ const SegmentMapping = SegmentMappingHoc(
                       placeholder={
                         errors.field_no ? 'Please Enter field_no' : 'Field No'
                       }
-                      hasError={errors.field_no}
+                      hasError={!!errors.field_no}
                       value={segmentMappingStore.segmentMapping?.field_no}
                       onChange={field_no => {
                         onChange(field_no);
@@ -479,7 +479,7 @@ const SegmentMapping = SegmentMappingHoc(
                       placeholder={
                         errors.item_no ? 'Please Enter item_no' : 'Item No'
                       }
-                      hasError={errors.item_no}
+                      hasError={!!errors.item_no}
                       value={segmentMappingStore.segmentMapping?.item_no}
                       onChange={item_no => {
                         onChange(item_no);
@@ -505,7 +505,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.Toggle
                       label='FIELD REQUIRED'
                       id='field_required'
-                      hasError={errors.field_required}
+                      hasError={!!errors.field_required}
                       value={segmentMappingStore.segmentMapping?.field_required}
                       onChange={field_required => {
                         onChange(field_required);
@@ -531,7 +531,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter element_name'
                           : 'Element Name'
                       }
-                      hasError={errors.element_name}
+                      hasError={!!errors.element_name}
                       value={segmentMappingStore.segmentMapping?.element_name}
                       onChange={element_name => {
                         onChange(element_name);
@@ -557,7 +557,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter transmitted_data'
                           : 'TRANSMITTED DATA'
                       }
-                      hasError={errors.transmitted_data}
+                      hasError={!!errors.transmitted_data}
                       value={
                         segmentMappingStore.segmentMapping?.transmitted_data
                       }
@@ -585,7 +585,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter field_array'
                           : 'FIELD ARRAY'
                       }
-                      hasError={errors.field_array}
+                      hasError={!!errors.field_array}
                       value={segmentMappingStore.segmentMapping?.field_array}
                       onChange={field_array => {
                         onChange(field_array);
@@ -612,7 +612,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter field_length'
                           : 'FIELD LENGTH'
                       }
-                      hasError={errors.field_length}
+                      hasError={!!errors.field_length}
                       value={segmentMappingStore.segmentMapping?.field_length}
                       onChange={field_length => {
                         onChange(field_length);
@@ -640,7 +640,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter field_type'
                           : 'FIELD TYPE'
                       }
-                      hasError={errors.field_type}
+                      hasError={!!errors.field_type}
                       value={segmentMappingStore.segmentMapping?.field_type}
                       onChange={field_type => {
                         onChange(field_type);
@@ -661,7 +661,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.Toggle
                       label='REPEAT DELIMITER'
                       id='repeat_delimiter'
-                      hasError={errors.repeat_delimiter}
+                      hasError={!!errors.repeat_delimiter}
                       value={
                         segmentMappingStore.segmentMapping?.repeat_delimiter
                       }
@@ -687,7 +687,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.Toggle
                       label='MANDATORY'
                       id='mandatory'
-                      hasError={errors.mandatory}
+                      hasError={!!errors.mandatory}
                       value={segmentMappingStore.segmentMapping?.mandatory}
                       onChange={mandatory => {
                         onChange(mandatory);
@@ -713,7 +713,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter lims_descriptions'
                           : 'LIMS DESCRIPTIONS'
                       }
-                      hasError={errors.lims_descriptions}
+                      hasError={!!errors.lims_descriptions}
                       value={
                         segmentMappingStore.segmentMapping?.lims_descriptions
                       }
@@ -741,7 +741,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter lims_tables'
                           : 'Lims Tables'
                       }
-                      hasError={errors.lims_tables}
+                      hasError={!!errors.lims_tables}
                       value={segmentMappingStore.segmentMapping?.lims_tables}
                       onChange={lims_tables => {
                         onChange(lims_tables);
@@ -767,7 +767,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter lims_fields'
                           : 'LIMS FIELDS'
                       }
-                      hasError={errors.lims_fields}
+                      hasError={!!errors.lims_fields}
                       value={segmentMappingStore.segmentMapping?.lims_fields}
                       onChange={lims_fields => {
                         onChange(lims_fields);
@@ -788,7 +788,7 @@ const SegmentMapping = SegmentMappingHoc(
                     <Form.Toggle
                       label='REQUIRED FOR LIMS'
                       id='required_for_lims'
-                      hasError={errors.required_for_lims}
+                      hasError={!!errors.required_for_lims}
                       value={
                         segmentMappingStore.segmentMapping?.required_for_lims
                       }
@@ -814,7 +814,7 @@ const SegmentMapping = SegmentMappingHoc(
                       placeholder={
                         errors.notes ? 'Please Enter notes' : 'NOTES'
                       }
-                      hasError={errors.notes}
+                      hasError={!!errors.notes}
                       value={segmentMappingStore.segmentMapping?.notes}
                       onChange={notes => {
                         onChange(notes);
@@ -840,7 +840,7 @@ const SegmentMapping = SegmentMappingHoc(
                           ? 'Please Enter attachments'
                           : 'ATTACHMENTS'
                       }
-                      hasError={errors.attachments}
+                      hasError={!!errors.attachments}
                       multiple={true}
                       // value={segmentMappingStore.segmentMapping?.attachments}
                       onChange={e => {

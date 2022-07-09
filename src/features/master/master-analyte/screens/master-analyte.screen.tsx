@@ -224,7 +224,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
@@ -240,7 +240,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           findKey: 'name',
                         }}
                         displayValue={masterAnalyteStore.masterAnalyte?.lab}
-                        hasError={errors.lab}
+                        hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -303,7 +303,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.Input
                       label='Analyte Code'
                       name='txtAnalyteCode'
-                      hasError={errors.analyteCode}
+                      hasError={!!errors.analyteCode}
                       placeholder={
                         errors.analyteCode
                           ? 'Please Enter Analyte Code'
@@ -391,7 +391,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       label='Analyte Name'
                       name='txtAnalyteName'
                       placeholder='Analyte Name'
-                      hasError={errors.analyteName}
+                      hasError={!!errors.analyteName}
                       value={masterAnalyteStore.masterAnalyte?.analyteName}
                       disabled={
                         masterAnalyteStore.masterAnalyteActivity
@@ -422,7 +422,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ? 'Please Enter Description '
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={masterAnalyteStore.masterAnalyte?.description}
                       onChange={description => {
                         onChange(description);
@@ -442,7 +442,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Analyte Method'
-                      hasError={errors.analyteMethod}
+                      hasError={!!errors.analyteMethod}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -452,7 +452,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           displayKey: ['methodsCode', 'methodsName'],
                         }}
                         disable={!masterAnalyteStore.masterAnalyte?.method}
-                        hasError={errors.analyteMethod}
+                        hasError={!!errors.analyteMethod}
                         onFilter={(value: string) => {
                           methodsStore.methodsService.filterByFields({
                             input: {
@@ -498,7 +498,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ? 'Please Enter Short Name'
                           : 'Short Name'
                       }
-                      hasError={errors.shortName}
+                      hasError={!!errors.shortName}
                       value={masterAnalyteStore.masterAnalyte?.shortName}
                       onChange={shortName => {
                         onChange(shortName);
@@ -523,7 +523,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         errors.price ? 'Please Enter Price' : 'Price'
                       }
                       type='number'
-                      hasError={errors.price}
+                      hasError={!!errors.price}
                       value={masterAnalyteStore.masterAnalyte?.price}
                       onChange={price => {
                         onChange(price);
@@ -581,7 +581,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by Equipment Type'
-                        hasError={errors.equipmentType}
+                        hasError={!!errors.equipmentType}
                         data={{
                           list: interfaceManagerStore.listInterfaceManager,
                           displayKey: ['instrumentType'],
@@ -626,7 +626,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.Input
                       label='Equipment Id'
                       placeholder='Equipment Id'
-                      hasError={errors.high}
+                      hasError={!!errors.high}
                       value={masterAnalyteStore.masterAnalyte?.equipmentId}
                       onChange={equipmentId => {
                         onChange(equipmentId);
@@ -648,7 +648,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <Form.Toggle
                         label='Method'
                         id='modeMethod'
-                        hasError={errors.method}
+                        hasError={!!errors.method}
                         value={masterAnalyteStore.masterAnalyte?.method}
                         onChange={method => {
                           onChange(method);
@@ -675,7 +675,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
-                        hasError={errors.bill}
+                        hasError={!!errors.bill}
                         value={masterAnalyteStore.masterAnalyte?.bill}
                         onChange={bill => {
                           onChange(bill);
@@ -696,7 +696,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <Form.Toggle
                         label='Reportable'
                         id='modeDisplay'
-                        hasError={errors.reportable}
+                        hasError={!!errors.reportable}
                         value={masterAnalyteStore.masterAnalyte?.reportable}
                         onChange={reportable => {
                           onChange(reportable);
@@ -717,7 +717,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <Form.Toggle
                         label='Calculation Flag'
                         id='modeCalculationFlag'
-                        hasError={errors.calculationFlag}
+                        hasError={!!errors.calculationFlag}
                         value={
                           masterAnalyteStore.masterAnalyte?.calculationFlag
                         }
@@ -748,7 +748,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by code or name'
-                        hasError={errors.department}
+                        hasError={!!errors.department}
                         data={{
                           list: departmentStore?.listDepartment.filter(
                             item =>
@@ -792,7 +792,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Result Type'
-                      hasError={errors.resultType}
+                      hasError={!!errors.resultType}
                     >
                       <select
                         value={masterAnalyteStore.masterAnalyte?.resultType}
@@ -841,7 +841,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ? 'Please Enter Default Result'
                           : 'Default Result'
                       }
-                      hasError={errors.defaultResult}
+                      hasError={!!errors.defaultResult}
                       value={masterAnalyteStore.masterAnalyte?.defaultResult}
                       onChange={defaultResult => {
                         onChange(defaultResult);
@@ -861,7 +861,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Analyte Type'
-                      hasError={errors.analyteType}
+                      hasError={!!errors.analyteType}
                     >
                       <select
                         value={masterAnalyteStore.masterAnalyte?.analyteType}
@@ -898,7 +898,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Units' hasError={errors.units}>
+                    <Form.InputWrapper label='Units' hasError={!!errors.units}>
                       <select
                         value={masterAnalyteStore.masterAnalyte?.units}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -931,7 +931,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Usage' hasError={errors.usage}>
+                    <Form.InputWrapper label='Usage' hasError={!!errors.usage}>
                       <select
                         value={masterAnalyteStore.masterAnalyte?.usage}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -967,7 +967,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.InputWrapper
                       label='Picture'
                       id='optionPicture'
-                      hasError={errors.picture}
+                      hasError={!!errors.picture}
                     >
                       <select
                         value={masterAnalyteStore.masterAnalyte?.picture}
@@ -1103,7 +1103,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       disabled={
                         !masterAnalyteStore.masterAnalyte?.calculationFlag
                       }
-                      hasError={errors.calcyName}
+                      hasError={!!errors.calcyName}
                       value={masterAnalyteStore.masterAnalyte?.calcyName}
                       onChange={calcyName => {
                         onChange(calcyName);
@@ -1132,7 +1132,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         errors.cptCode ? 'Please Enter CPT Code' : 'CPT Code'
                       }
-                      hasError={errors.cptCode}
+                      hasError={!!errors.cptCode}
                       value={masterAnalyteStore.masterAnalyte?.cptCode}
                       onChange={cptCode => {
                         onChange(cptCode);
@@ -1150,7 +1150,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={masterAnalyteStore.masterAnalyte?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1188,7 +1191,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <Form.Toggle
                         label='InstantResult'
                         id='modeInstantResult'
-                        hasError={errors.instantResult}
+                        hasError={!!errors.instantResult}
                         value={masterAnalyteStore.masterAnalyte?.instantResult}
                         onChange={instantResult => {
                           onChange(instantResult);
@@ -1209,7 +1212,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <Form.Toggle
                         label='Repitation'
                         id='modeRepitation'
-                        hasError={errors.repetition}
+                        hasError={!!errors.repetition}
                         value={masterAnalyteStore.masterAnalyte?.repetition}
                         onChange={repetition => {
                           onChange(repetition);
@@ -1235,7 +1238,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -1254,7 +1257,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ? 'Please Enter Date Creation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={masterAnalyteStore.masterAnalyte?.dateCreation}
                       disabled={true}
                     />
@@ -1273,7 +1276,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ? 'Please Enter Date Active'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={masterAnalyteStore.masterAnalyte?.dateActive}
                       disabled={true}
                     />
@@ -1292,7 +1295,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={errors.schedule}
+                      hasError={!!errors.schedule}
                       value={masterAnalyteStore.masterAnalyte?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -1315,7 +1318,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={masterAnalyteStore.masterAnalyte?.version}
                       disabled={true}
                     />
@@ -1330,7 +1333,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.Input
                       label='Min Reportable'
                       placeholder='Min reportable'
-                      hasError={errors.minReportable}
+                      hasError={!!errors.minReportable}
                       value={masterAnalyteStore.masterAnalyte?.minReportable}
                       onChange={minReportable => {
                         const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
@@ -1362,7 +1365,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.Input
                       label='Max Reportable'
                       placeholder='Max reportable'
-                      hasError={errors.maxReportable}
+                      hasError={!!errors.maxReportable}
                       value={masterAnalyteStore.masterAnalyte?.maxReportable}
                       onChange={maxReportable => {
                         const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
@@ -1395,7 +1398,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by code'
-                        hasError={errors.interpretation}
+                        hasError={!!errors.interpretation}
                         data={{
                           list: libraryStore.listLibrary.filter(
                             item => item.libraryType === 'I',
@@ -1436,7 +1439,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={masterAnalyteStore.masterAnalyte?.environment}

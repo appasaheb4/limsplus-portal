@@ -120,7 +120,7 @@ const NoticeBoard = NoticeBoardHoc(
                     <Form.InputWrapper
                       label='Lab'
                       id='labs'
-                      hasError={errors.lab}
+                      hasError={!!errors.lab}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -136,7 +136,7 @@ const NoticeBoard = NoticeBoardHoc(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
-                        hasError={errors.name}
+                        hasError={!!errors.name}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -175,7 +175,7 @@ const NoticeBoard = NoticeBoardHoc(
                     placeholder={
                       errors.header ? 'Please Enter Header' : 'Header'
                     }
-                    hasError={errors.header}
+                    hasError={!!errors.header}
                     //value={userStore.user.password}
                     onChange={header => {
                       onChange(header);
@@ -196,7 +196,7 @@ const NoticeBoard = NoticeBoardHoc(
                   <Form.InputWrapper
                     label='Action'
                     id='lblAction'
-                    hasError={errors.action}
+                    hasError={!!errors.action}
                   >
                     <select
                       name='action'
@@ -234,7 +234,7 @@ const NoticeBoard = NoticeBoardHoc(
                     rows={7}
                     label='Message'
                     name='lblMessage'
-                    hasError={errors.message}
+                    hasError={!!errors.message}
                     placeholder={
                       errors.message ? 'Please Enter Message' : 'Message'
                     }

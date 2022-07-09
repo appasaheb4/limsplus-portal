@@ -245,7 +245,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
@@ -263,7 +263,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         displayValue={
                           testPanelMappingStore.testPanelMapping?.lab
                         }
-                        hasError={errors.lab}
+                        hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -330,10 +330,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
-                      hasError={errors.panelCode}
+                      hasError={!!errors.panelCode}
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
-                        hasError={errors.panelCode}
+                        hasError={!!errors.panelCode}
                         lab={testPanelMappingStore.testPanelMapping?.lab}
                         onSelect={item => {
                           onChange(item.panelName);
@@ -399,7 +399,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       placeholder={
                         errors.testCode ? 'Please Enter testCode' : 'Test Code'
                       }
-                      hasError={errors.testCode}
+                      hasError={!!errors.testCode}
                       disabled={true}
                       value={testPanelMappingStore.testPanelMapping?.testCode}
                       onChange={testCode => {
@@ -420,7 +420,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Test Name'
-                      hasError={errors.testName}
+                      hasError={!!errors.testName}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -436,7 +436,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                             testPanelMappingStore.selectedItems?.testName,
                           displayKey: ['testCode', 'testName'],
                         }}
-                        hasError={errors.testName}
+                        hasError={!!errors.testName}
                         onUpdate={item => {
                           const items =
                             testPanelMappingStore.selectedItems?.testName;
@@ -536,7 +536,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={testPanelMappingStore.testPanelMapping?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -575,7 +578,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         errors.userId ? 'Please Enter userId' : 'Entered By'
                       }
                       value={loginStore.login?.userId}
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       disabled={true}
                       // onChange={(analyteCode) => {
                       //   masterAnalyteStore.updateMasterAnalyte({
@@ -599,7 +602,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           ? 'Please Enter DateCreation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={
                         testPanelMappingStore.testPanelMapping?.dateCreation
                       }
@@ -618,7 +621,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
-                        hasError={errors.bill}
+                        hasError={!!errors.bill}
                         value={testPanelMappingStore.testPanelMapping?.bill}
                         onChange={bill => {
                           onChange(bill);
@@ -638,7 +641,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Print Test Name'
-                        hasError={errors.printTestName}
+                        hasError={!!errors.printTestName}
                         value={
                           testPanelMappingStore.testPanelMapping?.printTestName
                         }
@@ -660,7 +663,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Panel Method'
-                        hasError={errors.panelMethod}
+                        hasError={!!errors.panelMethod}
                         value={
                           testPanelMappingStore.testPanelMapping?.panelMethod
                         }
@@ -682,7 +685,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Test Method'
-                        hasError={errors.testMethod}
+                        hasError={!!errors.testMethod}
                         value={
                           testPanelMappingStore.testPanelMapping?.testMethod
                         }
@@ -823,7 +826,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           ? 'Please Enter DateActiveFrom'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={testPanelMappingStore.testPanelMapping?.dateActive}
                       disabled={true}
                     />
@@ -842,7 +845,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           ? 'Please Enter dateExpire'
                           : 'Date Expire'
                       }
-                      hasError={errors.dateExpire}
+                      hasError={!!errors.dateExpire}
                       value={testPanelMappingStore.testPanelMapping?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -865,7 +868,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       placeholder={
                         errors.version ? 'Please Enter version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={testPanelMappingStore.testPanelMapping?.version}
                       disabled={true}
                     />
@@ -880,7 +883,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={

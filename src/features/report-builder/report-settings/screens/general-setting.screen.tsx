@@ -85,7 +85,7 @@ export const GeneralSettings = GeneralSettingHoc(
                       <Form.Input
                         label='Template Code'
                         placeholder='Template code'
-                        hasError={errors.tempCode}
+                        hasError={!!errors.tempCode}
                         value={reportSettingStore.generalSetting?.tempCode}
                         onChange={tempCode => {
                           onChange(tempCode);
@@ -133,7 +133,7 @@ export const GeneralSettings = GeneralSettingHoc(
                           list: reportSettingStore.reportSectionList,
                           displayKey: ['section'],
                         }}
-                        hasError={errors.reportSection}
+                        hasError={!!errors.reportSection}
                         onFilter={(value: string) => {
                           if (_.isEmpty(value)) {
                             console.log('empty');
@@ -182,7 +182,7 @@ export const GeneralSettings = GeneralSettingHoc(
                           list: reportSettingStore.sectionSettingList,
                           displayKey: ['tempCode', 'sectionSetting'],
                         }}
-                        hasError={errors.sectionSetting}
+                        hasError={!!errors.sectionSetting}
                         onFilter={(value: string) => {
                           reportSettingStore.sectionSettingService.filterByFields(
                             {
@@ -228,7 +228,7 @@ export const GeneralSettings = GeneralSettingHoc(
                           list: reportSettingStore.pageSettingList,
                           displayKey: ['tempCode'],
                         }}
-                        hasError={errors.pageSetting}
+                        hasError={!!errors.pageSetting}
                         onFilter={(value: string) => {
                           reportSettingStore.pageSettingService.filterByFields({
                             input: {
@@ -268,7 +268,7 @@ export const GeneralSettings = GeneralSettingHoc(
                       <Form.Input
                         label='Version'
                         placeholder='Version'
-                        hasError={errors.version}
+                        hasError={!!errors.version}
                         value={reportSettingStore.generalSetting?.version}
                         disabled={true}
                       />
@@ -282,7 +282,7 @@ export const GeneralSettings = GeneralSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Environment'
-                        hasError={errors.environment}
+                        hasError={!!errors.environment}
                       >
                         <select
                           value={reportSettingStore.generalSetting?.environment}

@@ -268,7 +268,7 @@ const MasterPackage = MasterPackageHOC(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         placeholder='Search by name'
                         loader={loading}
@@ -284,7 +284,7 @@ const MasterPackage = MasterPackageHOC(
                           findKey: 'name',
                         }}
                         displayValue={masterPackageStore.masterPackage?.lab}
-                        hasError={errors.lab}
+                        hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -350,7 +350,7 @@ const MasterPackage = MasterPackageHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Service Type'
-                      hasError={errors.serviceType}
+                      hasError={!!errors.serviceType}
                     >
                       <select
                         value={masterPackageStore.masterPackage?.serviceType}
@@ -415,7 +415,7 @@ const MasterPackage = MasterPackageHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Package Code'
-                      hasError={errors.packageCode}
+                      hasError={!!errors.packageCode}
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -515,7 +515,7 @@ const MasterPackage = MasterPackageHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
-                      hasError={errors.panelCode}
+                      hasError={!!errors.panelCode}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -536,7 +536,7 @@ const MasterPackage = MasterPackageHOC(
                           selected: masterPackageStore.selectedItems?.panelCode,
                           displayKey: ['panelCode', 'panelName'],
                         }}
-                        hasError={errors.testName}
+                        hasError={!!errors.testName}
                         onUpdate={item => {
                           const items =
                             masterPackageStore.selectedItems?.panelCode;
@@ -635,7 +635,7 @@ const MasterPackage = MasterPackageHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Name'
-                      hasError={errors.panelName}
+                      hasError={!!errors.panelName}
                     >
                       <select
                         disabled={true}
@@ -660,7 +660,10 @@ const MasterPackage = MasterPackageHOC(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={masterPackageStore.masterPackage?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -700,7 +703,7 @@ const MasterPackage = MasterPackageHOC(
                           ? 'Please Enter Entered By '
                           : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -719,7 +722,7 @@ const MasterPackage = MasterPackageHOC(
                           ? 'Please Enter DateCreation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={masterPackageStore.masterPackage?.dateCreation}
                       disabled={true}
                     />
@@ -736,7 +739,7 @@ const MasterPackage = MasterPackageHOC(
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
-                        hasError={errors.bill}
+                        hasError={!!errors.bill}
                         value={masterPackageStore.masterPackage?.bill}
                         onChange={bill => {
                           masterPackageStore.updateMasterPackage({
@@ -756,7 +759,7 @@ const MasterPackage = MasterPackageHOC(
                       <Form.Toggle
                         label='Print Package Name'
                         id='printPackageName'
-                        hasError={errors.printPackageName}
+                        hasError={!!errors.printPackageName}
                         value={
                           masterPackageStore.masterPackage?.printPackageName
                         }
@@ -779,7 +782,7 @@ const MasterPackage = MasterPackageHOC(
                       <Form.Toggle
                         label='Print Panel Name'
                         id='printPanelName'
-                        hasError={errors.printPanelName}
+                        hasError={!!errors.printPanelName}
                         value={masterPackageStore.masterPackage?.printPanelName}
                         onChange={printPanelName => {
                           masterPackageStore.updateMasterPackage({
@@ -913,7 +916,7 @@ const MasterPackage = MasterPackageHOC(
                           ? 'Please Enter DateActiveFrom'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={masterPackageStore.masterPackage?.dateActive}
                       disabled={true}
                     />
@@ -933,7 +936,7 @@ const MasterPackage = MasterPackageHOC(
                           ? 'Please Enter Date Expire'
                           : 'Date Expire'
                       }
-                      hasError={errors.dateExpire}
+                      hasError={!!errors.dateExpire}
                       value={masterPackageStore.masterPackage?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -956,7 +959,7 @@ const MasterPackage = MasterPackageHOC(
                       placeholder={
                         errors.version ? 'Please Enter Version ' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={masterPackageStore.masterPackage?.version}
                       disabled={true}
                     />
@@ -970,7 +973,7 @@ const MasterPackage = MasterPackageHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={masterPackageStore.masterPackage?.environment}

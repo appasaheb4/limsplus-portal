@@ -37,9 +37,9 @@ interface InputWrapperProps {
   children?: React.ReactNode;
 }
 
-export const InputWrapper: React.FunctionComponent<
-  InputWrapperProps
-> = props => (
+export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
+  props: InputWrapperProps,
+) => (
   <div className={props.className} ref={props.ref}>
     <Label
       htmlFor={props.id || ''}
