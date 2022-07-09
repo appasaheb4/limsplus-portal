@@ -161,7 +161,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         ),
                         displayKey: 'environmentVariable',
                       }}
-                      hasError={errors.name}
+                      hasError={!!errors.name}
                       onFilter={(value: string) => {
                         environmentStore.EnvironmentService.filter(
                           {
@@ -241,7 +241,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       <Form.InputWrapper
                         label='Labs'
                         id='labs'
-                        hasError={errors.lab}
+                        hasError={!!errors.lab}
                       >
                         <div className='flex flex-row gap-2 w-full'>
                           <Form.Toggle
@@ -275,7 +275,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                               selected: environmentStore.selectedItems?.labs,
                               displayKey: ['code', 'name'],
                             }}
-                            hasError={errors.labs}
+                            hasError={!!errors.labs}
                             onUpdate={item => {
                               const items =
                                 environmentStore.selectedItems?.labs;
@@ -334,7 +334,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       <Form.InputWrapper
                         label='Users'
                         id='user'
-                        hasError={errors.user}
+                        hasError={!!errors.user}
                       >
                         <div className='flex flex-row gap-2 w-full'>
                           <Form.Toggle
@@ -368,7 +368,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                               selected: environmentStore.selectedItems?.users,
                               displayKey: ['userId', 'fullName'],
                             }}
-                            hasError={errors.user}
+                            hasError={!!errors.user}
                             onUpdate={item => {
                               const items =
                                 environmentStore.selectedItems?.users;
@@ -426,7 +426,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       <Form.InputWrapper
                         label='Department'
                         id='department'
-                        hasError={errors.department}
+                        hasError={!!errors.department}
                       >
                         <div className='flex flex-row gap-2 w-full'>
                           <Form.Toggle
@@ -464,7 +464,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                                 environmentStore.selectedItems?.department,
                               displayKey: ['code', 'name'],
                             }}
-                            hasError={errors.department}
+                            hasError={!!errors.department}
                             onUpdate={item => {
                               const items =
                                 environmentStore.selectedItems?.department;
@@ -520,7 +520,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Value'
-                      hasError={errors.value}
+                      hasError={!!errors.value}
                       value={environmentStore.environmentSettings?.value}
                       placeholder={
                         errors.value ? 'Please Enter Value' : 'Value'
@@ -552,7 +552,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           ? 'Please Enter descriptions'
                           : 'Description'
                       }
-                      hasError={errors.descriptions}
+                      hasError={!!errors.descriptions}
                       value={environmentStore.environmentSettings?.descriptions}
                       onChange={descriptions => {
                         onChange(descriptions);

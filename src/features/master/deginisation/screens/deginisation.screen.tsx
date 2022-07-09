@@ -85,7 +85,7 @@ const Deginisation = DeginisationHoc(
                       label='Code'
                       id='code'
                       placeholder={errors.code ? 'Please Enter Code' : 'Code'}
-                      hasError={errors.code}
+                      hasError={!!errors.code}
                       value={deginisationStore.deginisation?.code}
                       onChange={code => {
                         onChange(code);
@@ -135,7 +135,7 @@ const Deginisation = DeginisationHoc(
                           ? 'Please Enter Description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={deginisationStore.deginisation?.description}
                       onChange={description => {
                         onChange(description);

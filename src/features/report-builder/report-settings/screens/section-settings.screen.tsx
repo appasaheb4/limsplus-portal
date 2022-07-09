@@ -88,7 +88,7 @@ export const SectionSettings = SectionSettingHoc(
                       <Form.Input
                         label='Section Id'
                         placeholder='Section Id'
-                        hasError={errors.tempCode}
+                        hasError={!!errors.tempCode}
                         value={reportSettingStore.sectionSetting?.tempCode}
                         onChange={tempCode => {
                           onChange(tempCode);
@@ -138,7 +138,7 @@ export const SectionSettings = SectionSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Section Setting'
-                        hasError={errors.sectionSetting}
+                        hasError={!!errors.sectionSetting}
                       >
                         <select
                           value={
@@ -218,7 +218,7 @@ export const SectionSettings = SectionSettingHoc(
                         label='Order'
                         placeholder='Order'
                         type='number'
-                        hasError={errors.order}
+                        hasError={!!errors.order}
                         value={reportSettingStore.sectionSetting?.order}
                         onChange={order => {
                           onChange(order);
@@ -239,7 +239,7 @@ export const SectionSettings = SectionSettingHoc(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Section Required'
-                          hasError={errors.sectionRequired}
+                          hasError={!!errors.sectionRequired}
                           value={
                             reportSettingStore.sectionSetting?.sectionRequired
                           }
@@ -261,7 +261,7 @@ export const SectionSettings = SectionSettingHoc(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Section Grid'
-                          hasError={errors.sectionGrid}
+                          hasError={!!errors.sectionGrid}
                           value={reportSettingStore.sectionSetting?.sectionGrid}
                           onChange={sectionGrid => {
                             onChange(sectionGrid);
@@ -282,7 +282,7 @@ export const SectionSettings = SectionSettingHoc(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Line Grid'
-                          hasError={errors.lineGrid}
+                          hasError={!!errors.lineGrid}
                           value={reportSettingStore.sectionSetting?.lineGrid}
                           onChange={lineGrid => {
                             onChange(lineGrid);
@@ -302,7 +302,7 @@ export const SectionSettings = SectionSettingHoc(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Column Grid'
-                          hasError={errors.columnGrid}
+                          hasError={!!errors.columnGrid}
                           value={reportSettingStore.sectionSetting?.columnGrid}
                           onChange={columnGrid => {
                             onChange(columnGrid);
@@ -326,7 +326,7 @@ export const SectionSettings = SectionSettingHoc(
                       <Form.Input
                         label='Version'
                         placeholder='Version'
-                        hasError={errors.version}
+                        hasError={!!errors.version}
                         value={reportSettingStore.sectionSetting?.version}
                         disabled={true}
                       />
@@ -340,7 +340,7 @@ export const SectionSettings = SectionSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Environment'
-                        hasError={errors.environment}
+                        hasError={!!errors.environment}
                       >
                         <select
                           value={reportSettingStore.sectionSetting?.environment}

@@ -515,7 +515,7 @@ export const UserList = (props: UserListProps) => {
                         }
                         pattern={FormHelper.patterns.mobileNo}
                         type='number'
-                        hasError={errors.mobileNo}
+                        hasError={!!errors.mobileNo}
                         defaultValue={row?.mobileNo}
                         onChange={mobileNo => {
                           onChange(mobileNo);
@@ -569,7 +569,7 @@ export const UserList = (props: UserListProps) => {
                             : 'Contact No'
                         }
                         pattern={FormHelper.patterns.mobileNo}
-                        hasError={errors.contactNo}
+                        hasError={!!errors.contactNo}
                         defaultValue={row?.contactNo}
                         onChange={contactNo => {
                           onChange(contactNo);

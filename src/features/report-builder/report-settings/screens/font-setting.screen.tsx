@@ -86,7 +86,7 @@ export const FontSetting = FontSettingHoc(
                       <Form.Input
                         label='Font Id'
                         placeholder='Font Id'
-                        hasError={errors.fontId}
+                        hasError={!!errors.fontId}
                         value={reportSettingStore.fontSetting?.fontId}
                         onChange={fontId => {
                           onChange(fontId);
@@ -129,7 +129,7 @@ export const FontSetting = FontSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Font Name'
-                        hasError={errors.fontName}
+                        hasError={!!errors.fontName}
                       >
                         <select
                           value={reportSettingStore.fontSetting?.fontName}
@@ -169,7 +169,7 @@ export const FontSetting = FontSettingHoc(
                       <Form.Input
                         label='Font Size'
                         placeholder='Font Size'
-                        hasError={errors.fontSize}
+                        hasError={!!errors.fontSize}
                         value={reportSettingStore.fontSetting?.fontSize}
                         onChange={fontSize => {
                           onChange(fontSize);
@@ -191,7 +191,7 @@ export const FontSetting = FontSettingHoc(
                         <Form.Input
                           label='Font hex color'
                           placeholder='Like #000000'
-                          hasError={errors.fontColor}
+                          hasError={!!errors.fontColor}
                           value={reportSettingStore.fontSetting?.fontColor}
                           onChange={fontColor => {
                             onChange(fontColor);
@@ -223,7 +223,7 @@ export const FontSetting = FontSettingHoc(
                         <Form.Input
                           label='Background hex color'
                           placeholder='Like #000000'
-                          hasError={errors.fontBackground}
+                          hasError={!!errors.fontBackground}
                           value={reportSettingStore.fontSetting?.fontBackground}
                           onChange={fontBackground => {
                             onChange(fontBackground);
@@ -253,7 +253,7 @@ export const FontSetting = FontSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Font Case'
-                        hasError={errors.fontCase}
+                        hasError={!!errors.fontCase}
                       >
                         <select
                           value={reportSettingStore.fontSetting?.fontCase}
@@ -308,7 +308,7 @@ export const FontSetting = FontSettingHoc(
                       <Form.Input
                         label='Version'
                         placeholder='Version'
-                        hasError={errors.version}
+                        hasError={!!errors.version}
                         value={reportSettingStore.fontSetting?.version}
                         disabled={true}
                       />
@@ -322,7 +322,7 @@ export const FontSetting = FontSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Environment'
-                        hasError={errors.environment}
+                        hasError={!!errors.environment}
                       >
                         <select
                           value={reportSettingStore.fontSetting?.environment}

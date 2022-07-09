@@ -106,7 +106,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                             control={control}
                             render={({field: {onChange}}) => (
                               <Form.InputWrapper
-                                hasError={errors.defaultLab}
+                                hasError={!!errors.defaultLab}
                                 label='Default Lab'
                               >
                                 <AutoCompleteFilterSingleSelectMultiFieldsDisplay
@@ -117,7 +117,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                     displayKey: ['code', 'name'],
                                   }}
                                   displayValue={userStore.user?.defaultLab}
-                                  hasError={errors.defaultLab}
+                                  hasError={!!errors.defaultLab}
                                   onFilter={(value: string) => {
                                     labStore.LabService.filter({
                                       input: {
@@ -169,7 +169,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                             control={control}
                             render={({field: {onChange}}) => (
                               <Form.InputWrapper
-                                hasError={errors.defaultDepartment}
+                                hasError={!!errors.defaultDepartment}
                                 label='Default Department'
                               >
                                 <AutoCompleteFilterSingleSelectMultiFieldsDisplay
@@ -182,7 +182,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                     displayKey: ['code', 'name'],
                                   }}
                                   displayValue={department}
-                                  hasError={errors.defaultDepartment}
+                                  hasError={!!errors.defaultDepartment}
                                   onFilter={(value: string) => {
                                     departmentStore.DepartmentService.filter({
                                       input: {
@@ -223,7 +223,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                             render={({field: {onChange}}) => (
                               <Form.InputWrapper
                                 label='Assigned Lab'
-                                hasError={errors.labs}
+                                hasError={!!errors.labs}
                               >
                                 <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                                   loader={loading}
@@ -239,7 +239,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                     selected: userStore.selectedItems?.labs,
                                     displayKey: ['code', 'name'],
                                   }}
-                                  hasError={errors.labs}
+                                  hasError={!!errors.labs}
                                   onUpdate={item => {
                                     const labs = userStore.selectedItems?.labs;
                                     setAssignedLab(labs);
@@ -332,7 +332,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                             render={({field: {onChange}}) => (
                               <Form.InputWrapper
                                 label='Assigned Department'
-                                hasError={errors.department}
+                                hasError={!!errors.department}
                               >
                                 <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                                   loader={loading}
@@ -360,7 +360,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                       userStore.selectedItems?.department,
                                     displayKey: ['code', 'name'],
                                   }}
-                                  hasError={errors.department}
+                                  hasError={!!errors.department}
                                   onUpdate={item => {
                                     const departments =
                                       userStore.selectedItems?.department;

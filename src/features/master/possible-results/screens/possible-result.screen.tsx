@@ -168,10 +168,10 @@ export const PossibleResults = PossibleResultHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Analyte Code'
-                      hasError={errors.analyteCode}
+                      hasError={!!errors.analyteCode}
                     >
                       <AutoCompleteFilterSingleSelectAnalyteCode
-                        hasError={errors.analyteCode}
+                        hasError={!!errors.analyteCode}
                         displayValue={
                           possibleResultsStore.possibleResults?.analyteCode
                         }
@@ -226,7 +226,7 @@ export const PossibleResults = PossibleResultHoc(
                           ? 'Please Enter Analyte Name'
                           : 'Analyte Name'
                       }
-                      hasError={errors.analyteName}
+                      hasError={!!errors.analyteName}
                       value={possibleResultsStore.possibleResults?.analyteName}
                     />
                   )}
@@ -244,7 +244,7 @@ export const PossibleResults = PossibleResultHoc(
                           placeholder={
                             errors.result ? 'Please Enter Result' : 'Result'
                           }
-                          hasError={errors.result}
+                          hasError={!!errors.result}
                           value={possibleResultsStore.possibleResults?.result}
                           onChange={result => {
                             onChange(result);
@@ -268,7 +268,7 @@ export const PossibleResults = PossibleResultHoc(
                               ? 'Please Enter Possible Value'
                               : 'Possible Value'
                           }
-                          hasError={errors.possibleValue}
+                          hasError={!!errors.possibleValue}
                           value={
                             possibleResultsStore.possibleResults?.possibleValue
                           }
@@ -290,7 +290,7 @@ export const PossibleResults = PossibleResultHoc(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='AbNormal'
-                          hasError={errors.abNormal}
+                          hasError={!!errors.abNormal}
                           value={possibleResultsStore.possibleResults?.abNormal}
                           onChange={abNormal => {
                             onChange(abNormal);
@@ -309,7 +309,7 @@ export const PossibleResults = PossibleResultHoc(
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.Toggle
-                          hasError={errors.critical}
+                          hasError={!!errors.critical}
                           label='Critical'
                           value={possibleResultsStore.possibleResults?.critical}
                           onChange={critical => {
@@ -431,7 +431,7 @@ export const PossibleResults = PossibleResultHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      hasError={errors.defaulItem}
+                      hasError={!!errors.defaulItem}
                       label='Default Conclusion'
                     >
                       <select
@@ -554,7 +554,7 @@ export const PossibleResults = PossibleResultHoc(
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -576,7 +576,7 @@ export const PossibleResults = PossibleResultHoc(
                           ? 'Please Enter Date Creation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={possibleResultsStore.possibleResults?.dateCreation}
                       disabled={true}
                     />
@@ -595,7 +595,7 @@ export const PossibleResults = PossibleResultHoc(
                           ? 'Please Enter Date Active'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={possibleResultsStore.possibleResults?.dateActive}
                       disabled={true}
                     />
@@ -614,7 +614,7 @@ export const PossibleResults = PossibleResultHoc(
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={errors.schedule}
+                      hasError={!!errors.schedule}
                       value={possibleResultsStore.possibleResults?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -637,7 +637,7 @@ export const PossibleResults = PossibleResultHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={possibleResultsStore.possibleResults?.version}
                       disabled={true}
                     />
@@ -649,7 +649,10 @@ export const PossibleResults = PossibleResultHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={possibleResultsStore.possibleResults?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${

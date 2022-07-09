@@ -120,7 +120,10 @@ export const PatientOrder = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab Id' hasError={errors.visitId}>
+                    <Form.InputWrapper
+                      label='Lab Id'
+                      hasError={!!errors.visitId}
+                    >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by lab id, visit id or name'
@@ -128,7 +131,7 @@ export const PatientOrder = PatientOrderHoc(
                           list: patientVisitStore.listPatientVisit,
                           displayKey: ['labId', 'patientName'],
                         }}
-                        hasError={errors.visitId}
+                        hasError={!!errors.visitId}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
@@ -199,7 +202,10 @@ export const PatientOrder = PatientOrderHoc(
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
-                      <Form.InputWrapper label='Panel' hasError={errors.panel}>
+                      <Form.InputWrapper
+                        label='Panel'
+                        hasError={!!errors.panel}
+                      >
                         <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder='Search by code or name'
@@ -213,7 +219,7 @@ export const PatientOrder = PatientOrderHoc(
                             displayKey: ['panelCode', 'panelName'],
                           }}
                           disable={!patientOrderStore.patientOrder?.rLab}
-                          hasError={errors.panel}
+                          hasError={!!errors.panel}
                           onUpdate={item => {
                             const panels =
                               patientOrderStore.selectedItems?.panels;
@@ -306,7 +312,7 @@ export const PatientOrder = PatientOrderHoc(
                       placeholder={
                         errors.orderId ? 'Please Enter order id' : 'Order Id'
                       }
-                      hasError={errors.orderId}
+                      hasError={!!errors.orderId}
                       disabled={true}
                       value={patientOrderStore.patientOrder?.orderId}
                       onChange={orderId => {

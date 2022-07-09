@@ -761,7 +761,7 @@ export const RegistrationLocationsList = (
                           ? 'Please Enter Telephone No'
                           : 'Telephone No'
                       }
-                      hasError={errors.telephone}
+                      hasError={!!errors.telephone}
                       type='number'
                       defaultValue={row.telephone}
                       pattern={FormHelper.patterns.mobileNo}
@@ -816,7 +816,7 @@ export const RegistrationLocationsList = (
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
                       }
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       type='number'
                       defaultValue={row.mobileNo}
                       pattern={FormHelper.patterns.mobileNo}

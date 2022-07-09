@@ -83,7 +83,7 @@ const SampleContainer = SampleContainerHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Container Code'
-                      hasError={errors.containerCode}
+                      hasError={!!errors.containerCode}
                       placeholder={
                         errors.containerCode
                           ? 'Please Enter Container Code '
@@ -134,7 +134,7 @@ const SampleContainer = SampleContainerHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Container Name'
-                      hasError={errors.containerName}
+                      hasError={!!errors.containerName}
                       placeholder={
                         errors.containerName
                           ? 'Please Enter Container Name'
@@ -164,7 +164,7 @@ const SampleContainer = SampleContainerHoc(
                       placeholder={
                         errors.image ? 'Please Insert Image' : 'Image'
                       }
-                      hasError={errors.image}
+                      hasError={!!errors.image}
                       onChange={e => {
                         const image = e.target.files[0];
                         onChange(image);
@@ -188,7 +188,7 @@ const SampleContainer = SampleContainerHoc(
                     <Form.MultilineInput
                       rows={5}
                       label='Description'
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       placeholder={
                         errors.description
                           ? 'Please Enter Description'

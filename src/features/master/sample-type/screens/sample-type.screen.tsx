@@ -83,7 +83,7 @@ const SampleType = SampleTypeHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Sample Code'
-                      hasError={errors.sampleCode}
+                      hasError={!!errors.sampleCode}
                       placeholder={
                         errors.sampleCode
                           ? 'Please Enter Sample Code'
@@ -130,7 +130,7 @@ const SampleType = SampleTypeHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Sample Type'
-                      hasError={errors.sampleType}
+                      hasError={!!errors.sampleType}
                       placeholder={
                         errors.sampleType
                           ? 'Please Enter Sample Type'
@@ -160,7 +160,7 @@ const SampleType = SampleTypeHoc(
                           ? 'Please Enter sampleGroup'
                           : 'Sample Group'
                       }
-                      hasError={errors.sampleGroup}
+                      hasError={!!errors.sampleGroup}
                       value={sampleTypeStore.sampleType?.sampleGroup}
                       onChange={sampleGroup => {
                         onChange(sampleGroup);
@@ -188,7 +188,7 @@ const SampleType = SampleTypeHoc(
                           ? 'Please Enter descriptions'
                           : 'Descriptions'
                       }
-                      hasError={errors.descriptions}
+                      hasError={!!errors.descriptions}
                       value={sampleTypeStore.sampleType?.descriptions}
                       onChange={descriptions => {
                         onChange(descriptions);

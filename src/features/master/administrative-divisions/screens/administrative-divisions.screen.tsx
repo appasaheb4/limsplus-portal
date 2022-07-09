@@ -95,7 +95,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       placeholder={
                         errors.country ? 'Please Enter Country ' : 'Country'
                       }
-                      hasError={errors.country}
+                      hasError={!!errors.country}
                       value={administrativeDivisions.administrativeDiv?.country}
                       onChange={country => {
                         onChange(country);
@@ -116,7 +116,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   defaultValue=''
                 />
 
-                <Form.InputWrapper label='State' hasError={errors.state}>
+                <Form.InputWrapper label='State' hasError={!!errors.state}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
@@ -124,7 +124,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         placeholder={
                           errors.state ? 'Please Enter state' : 'State'
                         }
-                        hasError={errors.state}
+                        hasError={!!errors.state}
                         value={
                           administrativeDivisions.administrativeDiv?.state || ''
                         }
@@ -143,7 +143,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   />
                 </Form.InputWrapper>
 
-                <Form.InputWrapper label='District' hasError={errors.district}>
+                <Form.InputWrapper
+                  label='District'
+                  hasError={!!errors.district}
+                >
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
@@ -151,7 +154,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         placeholder={
                           errors.district ? 'Please Enter District' : 'District'
                         }
-                        hasError={errors.district}
+                        hasError={!!errors.district}
                         value={
                           administrativeDivisions.administrativeDiv?.district ||
                           ''
@@ -176,8 +179,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        hasError={errors.city}
-                        placeholder={errors.city ? 'Please Enter City' : 'City'}
+                        hasError={!!errors.city}
+                        placeholder={
+                          !!errors.city ? 'Please Enter City' : 'City'
+                        }
                         value={
                           administrativeDivisions.administrativeDiv?.city || ''
                         }
@@ -201,8 +206,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Input
-                        placeholder={errors.area ? 'Please Enter Area' : 'Area'}
-                        hasError={errors.area}
+                        placeholder={
+                          !!errors.area ? 'Please Enter Area' : 'Area'
+                        }
+                        hasError={!!errors.area}
                         value={
                           administrativeDivisions.administrativeDiv?.area || ''
                         }
@@ -234,7 +241,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                               ? 'Please Enter PostalCode'
                               : 'PostalCode'
                           }
-                          hasError={errors.postalCode}
+                          hasError={!!errors.postalCode}
                           value={
                             administrativeDivisions.localState?.postalCode || ''
                           }
@@ -324,7 +331,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='SBU' hasError={errors.sbu}>
+                    <Form.InputWrapper label='SBU' hasError={!!errors.sbu}>
                       <select
                         value={administrativeDivisions.administrativeDiv?.sbu}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -358,7 +365,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='ZONE' hasError={errors.zone}>
+                    <Form.InputWrapper label='ZONE' hasError={!!errors.zone}>
                       <select
                         value={administrativeDivisions.administrativeDiv?.zone}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -393,7 +400,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={

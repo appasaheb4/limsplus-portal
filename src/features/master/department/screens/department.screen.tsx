@@ -154,7 +154,7 @@ export const Department = DeginisationHoc(
                     <Form.InputWrapper
                       label='Lab'
                       id='lab'
-                      hasError={errors.lab}
+                      hasError={!!errors.lab}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -171,7 +171,7 @@ export const Department = DeginisationHoc(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
-                        hasError={errors.lab}
+                        hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -222,7 +222,7 @@ export const Department = DeginisationHoc(
                     <Form.Input
                       label='Code'
                       id='code'
-                      hasError={errors.labCode}
+                      hasError={!!errors.labCode}
                       placeholder={
                         errors.labCode ? 'Please Enter Code' : 'Code'
                       }
@@ -269,7 +269,7 @@ export const Department = DeginisationHoc(
                     <Form.Input
                       label='Name'
                       name='name'
-                      hasError={errors.labName}
+                      hasError={!!errors.labName}
                       placeholder={
                         errors.labName ? 'Please Enter Name' : 'Name'
                       }
@@ -298,7 +298,7 @@ export const Department = DeginisationHoc(
                           ? 'Please Enter Short Name'
                           : 'Short Name'
                       }
-                      hasError={errors.shortName}
+                      hasError={!!errors.shortName}
                       value={departmentStore.department?.shortName}
                       onChange={shortName => {
                         onChange(shortName);
@@ -316,7 +316,7 @@ export const Department = DeginisationHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='HOD' hasError={errors.hod}>
+                    <Form.InputWrapper label='HOD' hasError={!!errors.hod}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
@@ -325,7 +325,7 @@ export const Department = DeginisationHoc(
                           displayKey: 'fullName',
                           findKey: 'fullName',
                         }}
-                        hasError={errors.fullName}
+                        hasError={!!errors.fullName}
                         onFilter={(value: string) => {
                           userStore.UsersService.filter({
                             input: {
@@ -366,7 +366,7 @@ export const Department = DeginisationHoc(
                         errors.mobileNo ? 'Please Enter MobileNo' : 'MobileNo'
                       }
                       type='number'
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       pattern={FormHelper.patterns.mobileNo}
                       value={departmentStore.department?.mobileNo}
                       onChange={mobileNo => {
@@ -397,7 +397,7 @@ export const Department = DeginisationHoc(
                       }
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
-                      hasError={errors.contactNo}
+                      hasError={!!errors.contactNo}
                       value={departmentStore.department?.contactNo}
                       onChange={contactNo => {
                         onChange(contactNo);
@@ -420,7 +420,7 @@ export const Department = DeginisationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Opening Time'
-                      hasError={errors.openingTime}
+                      hasError={!!errors.openingTime}
                       value={departmentStore.department?.openingTime}
                       onChange={openingTime => {
                         onChange(openingTime);
@@ -440,7 +440,7 @@ export const Department = DeginisationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Closing Time'
-                      hasError={errors.closingTime}
+                      hasError={!!errors.closingTime}
                       value={departmentStore.department?.closingTime}
                       onChange={closingTime => {
                         onChange(closingTime);
@@ -461,7 +461,7 @@ export const Department = DeginisationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Auto Release'
-                        hasError={errors.autoRelease}
+                        hasError={!!errors.autoRelease}
                         value={departmentStore.department?.autoRelease}
                         onChange={autoRelease => {
                           onChange(autoRelease);
@@ -482,7 +482,7 @@ export const Department = DeginisationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Require receving in Lab'
-                        hasError={errors.requireReceveInLab}
+                        hasError={!!errors.requireReceveInLab}
                         value={departmentStore.department?.requireReceveInLab}
                         onChange={requireReceveInLab => {
                           onChange(requireReceveInLab);
@@ -502,7 +502,7 @@ export const Department = DeginisationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Require Scain In'
-                        hasError={errors.requireScainIn}
+                        hasError={!!errors.requireScainIn}
                         value={departmentStore.department?.requireScainIn}
                         onChange={requireScainIn => {
                           onChange(requireScainIn);
@@ -522,7 +522,7 @@ export const Department = DeginisationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Routing Dept'
-                        hasError={errors.routingDept}
+                        hasError={!!errors.routingDept}
                         value={departmentStore.department?.routingDept}
                         onChange={routingDept => {
                           onChange(routingDept);
@@ -549,7 +549,7 @@ export const Department = DeginisationHoc(
                       placeholder={
                         errors.fyiLine ? 'Please Enter fyiLine' : 'fyiLine'
                       }
-                      hasError={errors.fyiLine}
+                      hasError={!!errors.fyiLine}
                       value={departmentStore.department?.fyiLine}
                       onChange={fyiLine => {
                         onChange(fyiLine);
@@ -573,7 +573,7 @@ export const Department = DeginisationHoc(
                       placeholder={
                         errors.workLine ? 'Please Enter workLine' : 'workLine'
                       }
-                      hasError={errors.workLine}
+                      hasError={!!errors.workLine}
                       value={departmentStore.department?.workLine}
                       onChange={workLine => {
                         onChange(workLine);
@@ -591,7 +591,10 @@ export const Department = DeginisationHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={departmentStore.department?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
