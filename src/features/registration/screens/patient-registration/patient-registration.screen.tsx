@@ -23,6 +23,7 @@ import {
 } from '../index';
 import {useStores} from '@/stores';
 import {stores} from '@/stores';
+
 export const patientRegistrationOptions = [
   {title: 'PATIENT MANAGER'},
   {title: 'PATIENT VISIT'},
@@ -31,7 +32,8 @@ export const patientRegistrationOptions = [
   {title: 'PATIENT RESULT'},
   {title: 'PATIENT SAMPLE'},
 ];
-const PatientRegistation = observer(() => {
+
+const PatientRegistration = observer(() => {
   const {loading, loginStore, patientRegistrationStore, patientVisitStore} =
     useStores();
   return (
@@ -123,30 +125,8 @@ const PatientRegistation = observer(() => {
       <div className='flex flex-row items-center justify-center mb-20'>
         <h4>SPECIMEN AND TEST DETAILS</h4>
       </div>
-      {/* <div>
-        <Accordion>
-          {[
-            {title: 'INFORMATION GROUP'},
-            {title: 'SPECIAL RESULT'},
-            {title: 'SAMPLE'},
-            {title: 'PANEL'},
-            {title: 'ANALYTE'},
-          ].map(item => {
-            return (
-              <AccordionItem
-                title={`${item.title}`}
-                // expanded={item.title === "Patient Manager"}
-              >
-                {item.title === 'INFORMATION GROUP' && <InformationGroup />},
-                {item.title === 'SPECIAL RESULT' && <InformationGroup />}
-                {item.title === 'SAMPLE' && <></>}
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
-      </div> */}
     </>
   );
 });
 
-export default PatientRegistation;
+export default PatientRegistration;
