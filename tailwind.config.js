@@ -23,10 +23,7 @@ module.exports = {
         mono: '#754c00',
       },
       fontFamily: {
-        nunitoSansRegular: ['Nunito Sans Regular'],
-        nunitoSansBold: ['Nunito Sans Bold'],
-        inspiration: ['Inspiration Regular'],
-        FugazOne: ['Fugaz One'],
+        arimaRegular: ['Arima Regular'],
       },
       spacing: {
         '8xl': '96rem',
