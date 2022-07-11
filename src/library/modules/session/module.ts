@@ -1,28 +1,27 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import SessionStore from 'mobx-session';
 class Session {
   initialized: boolean = false;
   hasSession: boolean = false;
 
   initialize = async key => {
     this.initialized = true;
-    SessionStore.initialize(key);
+    // SessionStore.initialize(key);
   };
   saveSession = async value => {
     this.hasSession = true;
-    await SessionStore.saveSession(value);
+    await window.localStorage.setItem('session', JSON.stringify(value));
   };
   getSession = async () => {
-    const isSession = await SessionStore.getSession();
+    const isSession = await window.localStorage.getItem('session');
     if (isSession) {
       this.hasSession = true;
-      return isSession;
+      return JSON.parse(isSession);
     }
     return;
   };
   deleteSession = async () => {
     this.hasSession = false;
-    await SessionStore.deleteSession();
+    await window.localStorage.removeItem('session');
   };
 }
 export default new Session();
