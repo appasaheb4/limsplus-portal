@@ -1,7 +1,8 @@
 .scrollTable {
-  height: 47vh;
+  height: auto;
   overflow-y: auto;
   overflow-x: auto;
+  max-height: 47vh;
 }
 .react-bootstrap-table table {
   font-family: 'Roboto Condensed', sans-serif;

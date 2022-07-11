@@ -65,6 +65,9 @@ import {
 // Result Entry
 import {GeneralResultEntryStore} from '@/features/result-entry/general-result-entry/stores';
 
+// Patient Report
+import {DeliveryQueueStore} from '@/features/patient-reports/delivery-queue/stores';
+
 export class Stores extends Store {
   rootStore!: RootStore;
   appStore!: AppStore;
@@ -129,6 +132,9 @@ export class Stores extends Store {
   // report builder
   reportSettingStore!: ReportSettingStore;
 
+  // patient report
+  deliveryQueueStore!: DeliveryQueueStore;
+
   constructor() {
     super();
     this.rootStore = new RootStore();
@@ -192,6 +198,9 @@ export class Stores extends Store {
 
     // report builder
     this.reportSettingStore = new ReportSettingStore();
+
+    // patient report
+    this.deliveryQueueStore = new DeliveryQueueStore();
   }
 }
 
