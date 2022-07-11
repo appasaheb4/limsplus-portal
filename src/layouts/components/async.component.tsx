@@ -4,10 +4,10 @@ import Loader from './loader.component';
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Props = {};
 type State = {component: any};
-
 export default function asyncComponent(importComponent) {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   class AsyncComponent extends React.Component<Props, State> {
+    component: any;
     constructor(props) {
       super(props);
       this.state = {
