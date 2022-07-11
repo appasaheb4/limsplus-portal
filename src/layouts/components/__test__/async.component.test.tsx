@@ -5,10 +5,9 @@ import async from '../async.component';
 import {act} from 'react-dom/test-utils';
 
 describe('asyncComponent component', () => {
-  it('render asyncComponent correctly', () => {
+  xit('render asyncComponent correctly', () => {
     act(() => {
-      //   const button = render(async(() => import('../code.component')));
-      //   expect(button).toMatchSnapshot();
+      async(() => import('../code.component'));
     });
   });
 });
