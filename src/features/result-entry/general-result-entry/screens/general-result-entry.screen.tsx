@@ -104,6 +104,7 @@ const GeneralResultEntry = observer(() => {
               .updateSingleFiled({
                 input: {
                   ...modalConfirm.data,
+                  enteredBy: loginStore.login?.userId,
                   resultDate: new Date(),
                   _id: modalConfirm.id,
                   __v: undefined,
