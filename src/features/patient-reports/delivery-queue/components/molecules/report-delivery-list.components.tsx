@@ -28,6 +28,7 @@ interface ReportDeliveryProps {
     page: number,
     totalSize: number,
   ) => void;
+  onClickRow?: (item: any, index: number) => void;
 }
 
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
@@ -195,45 +196,10 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
-            {
-              dataField: 'operation',
-              text: 'Action',
-              editable: false,
-              csvExport: false,
-              hidden: !props.isDelete,
-              formatter: (cellContent, row) => (
-                <>
-                  <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete' position='top'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Delete item',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  </div>
-                </>
-              ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white',
-              classes: (cell, row, rowIndex, colIndex) => {
-                return 'sticky right-0 bg-gray-500';
-              },
-            },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='Font_Settings'
+          fileName='Report Delivery'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
@@ -248,6 +214,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {}}
+          onClickRow={(item, index) => {
+            props.onClickRow && props.onClickRow(item, index);
+          }}
         />
       </div>
     </>

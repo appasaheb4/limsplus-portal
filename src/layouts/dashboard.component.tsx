@@ -59,11 +59,15 @@ import * as DataConveration from '@/features/communication/data-conversation';
 // result entry
 import * as GeneralResultEntry from '@/features/result-entry/general-result-entry';
 
+// registration
+import * as PatientRegistration from '@/features/registration';
+
 // report builder
 import * as ReportSettings from '@/features/report-builder/report-settings';
 
-// registration
-import * as PatientRegistration from '@/features/registration';
+// Patient Report
+import * as DeliveryQueue from '@/features/patient-reports/delivery-queue';
+
 const Dashboard = observer(({children}) => {
   const {loginStore} = useStores();
   const history: any = useHistory();
@@ -221,6 +225,10 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/report-builder/report-settings') {
         await ReportSettings.startup();
+      }
+      // patient reports
+      if (pathname === '/patient-reports/delivery-queue') {
+        await DeliveryQueue.startup();
       }
       stores;
     }
