@@ -45,6 +45,7 @@ interface TableBootstrapProps {
     totalSize: number,
   ) => void;
   clearAllFilter?: () => void;
+  onClickRow?: (item: any, index: number) => void;
 }
 export const TableBootstrap = ({
   id,
@@ -62,6 +63,7 @@ export const TableBootstrap = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
+  onClickRow,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -83,28 +85,6 @@ export const TableBootstrap = ({
     onSizePerPageChange,
   }) => (
     <div className='btn-group items-center' role='group'>
-      {isSelectRow && (
-        <Buttons.Button
-          style={{height: 10, width: 200}}
-          size='small'
-          type='solid'
-          onClick={() => {
-            if (selectedRow) {
-              onSelectedRow && onSelectedRow(selectedRow);
-            } else {
-              alert('Please select any item.');
-            }
-          }}
-        >
-          <Icons.EvaIcon
-            icon='trash-outline'
-            size='large'
-            color='#ffffff'
-            className='mr-1'
-          />
-          {` Remove Selected`}
-        </Buttons.Button>
-      )}
       <input
         type='number'
         min='0'
@@ -203,7 +183,7 @@ export const TableBootstrap = ({
       searchText,
     },
   ) => {
-    //console.log({ type, filters })
+    // console.log({type});
     if (type === 'cellEdit' && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId);
@@ -289,6 +269,12 @@ export const TableBootstrap = ({
         })}
     </div>
   );
+
+  const rowEvents = {
+    onClick: (e, row, rowIndex) => {
+      onClickRow && onClickRow(row, rowIndex);
+    },
+  };
 
   return (
     <PaginationProvider
@@ -385,6 +371,7 @@ export const TableBootstrap = ({
                   filter={filterFactory()}
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
+                  rowEvents={rowEvents}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>

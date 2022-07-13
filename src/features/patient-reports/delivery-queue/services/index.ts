@@ -1,1 +1,1 @@
-export {};
+export * from './delivery-queue.service';

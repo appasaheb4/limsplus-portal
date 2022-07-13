@@ -84,13 +84,16 @@ const DeliveryQueue = observer(() => {
             //   input: {type, filter, page, limit},
             // });
           }}
+          onClickRow={(item, index) => {
+            deliveryQueueStore.updateOrderDeliveredList([item]);
+          }}
         />
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Order Delivered</span>
         <OrderDeliveredList
-          data={deliveryQueueStore.reportDeliveryList || []}
-          totalSize={deliveryQueueStore.reportDeliveryListCount}
+          data={deliveryQueueStore.orderDeliveredList || []}
+          totalSize={deliveryQueueStore.orderDeliveredListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
