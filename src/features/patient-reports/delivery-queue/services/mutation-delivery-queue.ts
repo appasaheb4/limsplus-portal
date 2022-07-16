@@ -64,8 +64,8 @@ export const REMOVE_DELIVERY_QUEUE = gql`
 `;
 
 export const UPDATE_DELIVERY_QUEUE = gql`
-  mutation ($input: UpdateBannerInput!) {
-    updateBanner(input: $input) {
+  mutation ($input: UpdateDeliveryQueueInput!) {
+    updateDeliveryQueue(input: $input) {
       success
       message
     }
