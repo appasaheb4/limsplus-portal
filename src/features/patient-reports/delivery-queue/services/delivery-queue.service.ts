@@ -7,7 +7,10 @@
 
 import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
-import {DELIVERY_QUEUE_LIST} from './mutation-delivery-queue';
+import {
+  DELIVERY_QUEUE_LIST,
+  UPDATE_DELIVERY_QUEUE,
+} from './mutation-delivery-queue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -25,6 +28,21 @@ export class DeliveryQueueService {
         })
         .then((response: any) => {
           stores.deliveryQueueStore.updateReportDeliveryList(response.data);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateDeliveryQueue = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_DELIVERY_QUEUE,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

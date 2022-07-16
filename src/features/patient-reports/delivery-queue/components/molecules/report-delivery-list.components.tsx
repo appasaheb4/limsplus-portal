@@ -18,7 +18,7 @@ interface ReportDeliveryProps {
   totalSize: number;
   isDelete?: boolean;
   isEditModify?: boolean;
-  onDelete?: (selectedItem: Confirm) => void;
+  onUpdate?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
@@ -195,6 +195,78 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+            },
+
+            {
+              dataField: 'operation',
+              text: 'Action',
+              editable: false,
+              csvExport: false,
+              hidden: !props.isDelete,
+              formatter: (cellContent, row) => (
+                <>
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Cancel' position='bottom'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onUpdate &&
+                          props.onUpdate({
+                            type: 'cancel',
+                            show: true,
+                            id: row._id,
+                            title: 'Are you sure?',
+                            body: 'Cancel item',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconGi.GiCancel)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    <Tooltip tooltipText='Hold' position='bottom'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onUpdate &&
+                          props.onUpdate({
+                            type: 'hold',
+                            show: true,
+                            id: row._id,
+                            title: 'Are you sure?',
+                            body: 'Hold item',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.Iconmd.MdBackHand)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    <Tooltip tooltipText='Generate PDF' position='bottom'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onUpdate &&
+                          props.onUpdate({
+                            type: 'generatePdf',
+                            show: true,
+                            id: row._id,
+                            title: 'Are you sure?',
+                            body: 'Generate pdf',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiOutlineFilePdf)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  </div>
+                </>
+              ),
+              headerClasses: 'sticky right-0  bg-gray-500 text-white',
+              classes: (cell, row, rowIndex, colIndex) => {
+                return 'sticky right-0 bg-gray-500';
+              },
             },
           ]}
           isEditModify={props.isEditModify}

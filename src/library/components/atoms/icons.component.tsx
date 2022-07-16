@@ -161,6 +161,10 @@ export const getIcons = (icon: string): any => {
   //common
   if (icon === 'Icons.IconBs.BsFillTrashFill')
     return Icons.IconBs.BsFillTrashFill;
+  if (icon === 'Icons.IconGi.GiCancel') return Icons.IconGi.GiCancel;
+  if (icon === 'Icons.Iconmd.MdBackHand') return Icons.Iconmd.MdBackHand;
+  if (icon === 'Icons.Iconai.AiOutlineFilePdf')
+    return Icons.Iconai.AiOutlineFilePdf;
 
   return Icons.IconBs.BsList;
 };

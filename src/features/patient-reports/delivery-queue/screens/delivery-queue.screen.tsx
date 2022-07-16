@@ -2,16 +2,11 @@ import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
-  Buttons,
-  List,
-  Grid,
-  Svg,
-  Toast,
-  Form,
-  AutoCompleteFilterSingleSelect,
+  ModalConfirm,
   Header,
   PageHeading,
   PageHeadingLabDetails,
+  Toast,
 } from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
@@ -57,7 +52,7 @@ const DeliveryQueue = observer(() => {
             routerStore.userPermission,
             'Edit/Modify',
           )}
-          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onUpdate={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
             setModalConfirm({
               show: true,
@@ -128,6 +123,35 @@ const DeliveryQueue = observer(() => {
             // bannerStore.BannerService.filter({
             //   input: {type, filter, page, limit},
             // });
+          }}
+        />
+        <ModalConfirm
+          {...modalConfirm}
+          click={(type?: string) => {
+            deliveryQueueStore.deliveryQueueService
+              .updateDeliveryQueue({
+                input: {
+                  _id: modalConfirm.id,
+                  deliveryStatus:
+                    type == 'cancel'
+                      ? 'Cancel'
+                      : type == 'hold'
+                      ? 'Hold'
+                      : 'Done',
+                },
+              })
+              .then(res => {
+                if (res.updateDeliveryQueue.success) {
+                  Toast.success({
+                    message: `😊 ${res.updateDeliveryQueue.message}`,
+                  });
+                  setModalConfirm({show: false});
+                  deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+                }
+              });
+          }}
+          onClose={() => {
+            setModalConfirm({show: false});
           }}
         />
       </div>
