@@ -24,6 +24,7 @@ export class PatientVisitStore {
       visitDate: new Date(),
       registrationDate: new Date(),
       collectionDate: new Date(),
+      holdReport: false,
     };
 
     makeObservable<PatientVisitStore, any>(this, {

@@ -720,26 +720,48 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Toggle
-                      label='History'
-                      id='toggleHistory'
-                      hasError={!!errors.history}
-                      value={patientVisitStore.patientVisit?.history}
-                      onChange={history => {
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          history,
-                        });
-                      }}
-                    />
-                  )}
-                  name='history'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='History'
+                        id='toggleHistory'
+                        hasError={!!errors.history}
+                        value={patientVisitStore.patientVisit?.history}
+                        onChange={history => {
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            history,
+                          });
+                        }}
+                      />
+                    )}
+                    name='history'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Hold Report'
+                        id='toggleHistory'
+                        hasError={!!errors.holdReport}
+                        value={patientVisitStore.patientVisit?.holdReport}
+                        onChange={holdReport => {
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            holdReport,
+                          });
+                        }}
+                      />
+                    )}
+                    name='holdReport'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 {patientVisitStore.patientVisit && (

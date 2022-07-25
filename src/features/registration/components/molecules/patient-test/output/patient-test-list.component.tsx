@@ -243,6 +243,17 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               },
             },
             {
+              dataField: 'reportOrder',
+              text: 'Report Order',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row?.reportOrder}</span>
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'prefix',
               text: 'Prefix',
               formatter: (cell, row) => {

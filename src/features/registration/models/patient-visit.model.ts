@@ -20,6 +20,8 @@ export class PatientVisit {
   doctorName: string;
   deliveryType: string;
   history: boolean;
+  holdReport: boolean;
+  holdReason: string;
   status: string;
   extraData: {
     accountType: string;
@@ -78,6 +80,8 @@ export class PatientVisit {
     this.doctorName = rawData.doctorName;
     this.deliveryType = rawData.deliveryType;
     this.history = rawData.history;
+    this.holdReport = rawData.holdReport;
+    this.holdReason = rawData.holdReason;
     this.status = rawData.status;
     this.extraData = rawData.extraData;
     this.documentType = rawData.documentType;
