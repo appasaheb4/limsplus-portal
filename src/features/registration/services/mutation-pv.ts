@@ -31,6 +31,8 @@ export const LIST_PATIENT_VISIT = gql`
         doctorName
         deliveryType
         history
+        holdReport
+        holdReason
         resultDate
         abnFlag
         critical
@@ -133,6 +135,8 @@ export const FILTER_PATIENT_VISIT = gql`
         doctorName
         deliveryType
         history
+        holdReport
+        holdReason
         resultDate
         abnFlag
         critical
@@ -238,6 +242,8 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         doctorName
         deliveryType
         history
+        holdReport
+        holdReason
         resultDate
         abnFlag
         critical

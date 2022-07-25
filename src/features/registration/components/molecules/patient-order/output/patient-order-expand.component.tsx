@@ -496,28 +496,6 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'abNormal',
-              text: 'ABNormal',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.abNormal}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.critical}</span>
-                  </>
-                );
-              },
-            },
-            {
               dataField: 'rep',
               text: 'Rep',
               formatter: (cell, row) => {

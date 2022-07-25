@@ -612,6 +612,21 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               },
             },
             {
+              dataField: 'reportOrder',
+              text: 'Report Order',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.reportOrder}</span>
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'enteredBy',
               text: 'Entered By',
               headerClasses: 'textHeader4',

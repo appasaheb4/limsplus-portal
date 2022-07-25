@@ -58,6 +58,7 @@ let acClass;
 let doctorId;
 let doctorName;
 let deliveryType;
+let holdReason;
 let status;
 
 export const PatientVisitList = observer((props: PatientVisitProps) => {
@@ -688,6 +689,41 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             },
 
             {
+              dataField: 'holdReport',
+              text: 'Hold Report',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row.holdReport ? (row.holdReport ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.holdReport}
+                      onChange={holdReport => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(holdReport, 'holdReport', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+
+            {
+              dataField: 'holdReason',
+              text: 'Hold Reason',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: false,
+              filter: textFilter({
+                getFilter: filter => {
+                  holdReason = filter;
+                },
+              }),
+            },
+            {
               dataField: 'abnFlag',
               text: 'Abn Flag',
               sort: true,
@@ -846,6 +882,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             doctorId('');
             doctorName('');
             deliveryType('');
+            holdReason('');
             status('');
           }}
         />

@@ -6,6 +6,7 @@ export class PatientTest {
   testId: number;
   panelCode: any[];
   panelList: any[];
+  reportOrder: number;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -18,6 +19,7 @@ export class PatientTest {
     this.orderId = rawData.orderId;
     this.panelCode = rawData.panelCode;
     this.panelList = rawData.panelList;
+    this.reportOrder = rawData.reportOrder;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
