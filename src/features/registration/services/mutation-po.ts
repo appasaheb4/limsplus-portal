@@ -52,7 +52,7 @@ export const LIST_PATIENT_ORDER = gql`
             eqtype
             methodOn
             methodName
-            porder
+            reportOrder
             confidential
             workflow
             loginServgrp
@@ -152,7 +152,7 @@ export const FILTER_PATIENT_ORDER = gql`
             eqtype
             methodOn
             methodName
-            porder
+            reportOrder
             confidential
             workflow
             loginServgrp
@@ -244,7 +244,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
             eqtype
             methodOn
             methodName
-            porder
+            reportOrder
             confidential
             workflow
             loginServgrp

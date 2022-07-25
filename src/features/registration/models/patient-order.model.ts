@@ -47,7 +47,7 @@ export class PatientOrder {
         eqtype: string;
         methodOn: string;
         methodName: string;
-        porder: string;
+        reportOrder: string;
         confidential: string;
         workflow: string;
         loginServgrp: string;

@@ -32,14 +32,16 @@ export const LIST = gql`
         district
         country
         postalCode
+        creditLimit
+        consumedLimit
         customerGroup
         category
         confidential
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportType
+        deliveryMode
         salesTerritoRy
         area
         sbu
@@ -145,14 +147,16 @@ export const FILTER = gql`
         district
         country
         postalCode
+        creditLimit
+        consumedLimit
         customerGroup
         category
         confidential
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportType
+        deliveryMode
         salesTerritoRy
         area
         sbu
@@ -203,14 +207,16 @@ export const FILTER_BY_FIELDS = gql`
         district
         country
         postalCode
+        creditLimit
+        consumedLimit
         customerGroup
         category
         confidential
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportType
+        deliveryMode
         salesTerritoRy
         area
         sbu

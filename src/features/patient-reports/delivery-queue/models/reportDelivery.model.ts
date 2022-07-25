@@ -6,7 +6,7 @@ export class ReportDelivery {
   reportDate: Date;
   deliveryStatus: string;
   reportType: string;
-  deliveryType: string;
+  deliveryMode: string;
   destination: string;
   comments: string;
   startDate: Date;
@@ -27,7 +27,7 @@ export class ReportDelivery {
     this.reportDate = rawData.reportDate;
     this.deliveryStatus = rawData.deliveryStatus;
     this.reportType = rawData.reportType;
-    this.deliveryType = rawData.deliveryType;
+    this.deliveryMode = rawData.deliveryMode;
     this.destination = rawData.destination;
     this.comments = rawData.comments;
     this.startDate = rawData.startDate;

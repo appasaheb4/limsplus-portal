@@ -42,13 +42,14 @@ let city;
 let state;
 let country;
 let postcode;
+let address;
 let customerGroup;
 let category;
 let telephone;
 let mobileNo;
 let email;
-let deliveryType;
-let deliveryMethod;
+let reportType;
+let deliveryMode;
 let corporateCode;
 let invoiceAc;
 let openingTime;
@@ -675,6 +676,19 @@ export const RegistrationLocationsList = (
             ),
           },
           {
+            dataField: 'address',
+            text: 'Address',
+            headerClasses: 'textHeader2',
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                address = filter;
+              },
+            }),
+            editable: false,
+          },
+          {
             dataField: 'sbu',
             text: 'SBU',
             headerClasses: 'textHeader2',
@@ -857,14 +871,14 @@ export const RegistrationLocationsList = (
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
-            dataField: 'deliveryType',
-            text: 'Delivery Type',
+            dataField: 'reportType',
+            text: 'Report Type',
             headerClasses: 'textHeader5',
             sort: true,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                deliveryType = filter;
+                reportType = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -880,13 +894,9 @@ export const RegistrationLocationsList = (
                 <select
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
-                    const deliveryType = e.target.value;
+                    const reportType = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(
-                        deliveryType,
-                        column.dataField,
-                        row._id,
-                      );
+                      props.onUpdateItem(reportType, column.dataField, row._id);
                   }}
                 >
                   <option selected>Select</option>
@@ -903,14 +913,14 @@ export const RegistrationLocationsList = (
             ),
           },
           {
-            dataField: 'deliveryMethod',
-            text: 'Delivery Method',
+            dataField: 'deliveryMode',
+            text: 'Delivery Mode',
             headerClasses: 'textHeader5',
             sort: true,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                deliveryMethod = filter;
+                deliveryMode = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -926,10 +936,10 @@ export const RegistrationLocationsList = (
                 <select
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
-                    const deliveryMethod = e.target.value;
+                    const deliveryMode = e.target.value;
                     props.onUpdateItem &&
                       props.onUpdateItem(
-                        deliveryMethod,
+                        deliveryMode,
                         column.dataField,
                         row._id,
                       );
@@ -1530,14 +1540,15 @@ export const RegistrationLocationsList = (
           state('');
           country('');
           postcode('');
+          address('');
           sbu('');
           customerGroup('');
           category('');
           telephone('');
           mobileNo('');
           email('');
-          deliveryType('');
-          deliveryMethod('');
+          reportType('');
+          deliveryMode('');
           corporateCode('');
           invoiceAc('');
           priceList('');
