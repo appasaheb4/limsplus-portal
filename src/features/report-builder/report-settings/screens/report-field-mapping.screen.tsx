@@ -306,7 +306,7 @@ export const ReportFieldMapping = observer(() => {
                     <Form.Input
                       label='Template Code'
                       placeholder='Template code'
-                      hasError={errors.tempCode}
+                      hasError={!!errors.tempCode}
                       value={reportSettingStore.reportFieldMapping?.tempCode}
                       onChange={tempCode => {
                         onChange(tempCode);
@@ -354,7 +354,7 @@ export const ReportFieldMapping = observer(() => {
                         list: reportSettingStore.sectionSettingList,
                         displayKey: ['tempCode', 'sectionSetting'],
                       }}
-                      hasError={errors.section}
+                      hasError={!!errors.section}
                       onFilter={(value: string) => {
                         reportSettingStore.sectionSettingService.filterByFields(
                           {
@@ -407,11 +407,11 @@ export const ReportFieldMapping = observer(() => {
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      hasError={errors.tableName}
+                      hasError={!!errors.tableName}
                       label='Table Name'
                     >
                       <AutocompleteGroupBy
-                        hasError={errors.tableName}
+                        hasError={!!errors.tableName}
                         data={router}
                         onChange={async (item: any, children: any) => {
                           const documentName = {
@@ -450,7 +450,7 @@ export const ReportFieldMapping = observer(() => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        hasError={errors.subTableName}
+                        hasError={!!errors.subTableName}
                         label='Sub Table Name'
                       >
                         <select
@@ -490,7 +490,7 @@ export const ReportFieldMapping = observer(() => {
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Field Name'
-                      hasError={errors.fieldName}
+                      hasError={!!errors.fieldName}
                     >
                       <select
                         value={reportSettingStore.reportFieldMapping?.fieldName}
@@ -529,7 +529,7 @@ export const ReportFieldMapping = observer(() => {
                     <Form.Input
                       label='Start From Line'
                       placeholder='Start From Line'
-                      hasError={errors.startFromLine}
+                      hasError={!!errors.startFromLine}
                       value={
                         reportSettingStore.reportFieldMapping?.startFromLine
                       }
@@ -552,7 +552,7 @@ export const ReportFieldMapping = observer(() => {
                     <Form.Input
                       label='Start From Column'
                       placeholder='Start From Column'
-                      hasError={errors.startFromColumn}
+                      hasError={!!errors.startFromColumn}
                       value={
                         reportSettingStore.reportFieldMapping?.startFromColumn
                       }
@@ -575,7 +575,7 @@ export const ReportFieldMapping = observer(() => {
                     <Form.Input
                       label='Field Length'
                       placeholder='Field Length'
-                      hasError={errors.fieldLength}
+                      hasError={!!errors.fieldLength}
                       value={reportSettingStore.reportFieldMapping?.fieldLength}
                       onChange={fieldLength => {
                         onChange(fieldLength);
@@ -600,7 +600,7 @@ export const ReportFieldMapping = observer(() => {
                         list: reportSettingStore.fontSettingList,
                         displayKey: ['fontId', 'fontName'],
                       }}
-                      hasError={errors.fontId}
+                      hasError={!!errors.fontId}
                       onFilter={(value: string) => {
                         reportSettingStore.fontSettingService.filterByFields({
                           input: {

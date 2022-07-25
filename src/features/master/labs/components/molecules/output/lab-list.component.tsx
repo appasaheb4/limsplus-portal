@@ -570,7 +570,7 @@ export const LabList = (props: LabListProps) => {
                             ? 'Please Enter MobileNo'
                             : 'Mobile No'
                         }
-                        hasError={errors.mobileNo}
+                        hasError={!!errors.mobileNo}
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.mobileNo}
                         type='number'
@@ -628,7 +628,7 @@ export const LabList = (props: LabListProps) => {
                             ? 'Please Enter ContactNo'
                             : 'Contact No'
                         }
-                        hasError={errors.contactNo}
+                        hasError={!!errors.contactNo}
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.contactNo}
                         type='number'

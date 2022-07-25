@@ -97,7 +97,7 @@ export const PageSetting = PageSettingHoc(
                       <Form.Input
                         label='Page Id'
                         placeholder='Page Id'
-                        hasError={errors.tempCode}
+                        hasError={!!errors.tempCode}
                         value={reportSettingStore.pageSetting?.tempCode}
                         onChange={tempCode => {
                           onChange(tempCode);
@@ -140,7 +140,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Page Size'
-                        hasError={errors.pageSize}
+                        hasError={!!errors.pageSize}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.pageSize}
@@ -179,7 +179,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Top Margin'
-                        hasError={errors.topMargin}
+                        hasError={!!errors.topMargin}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.topMargin}
@@ -218,7 +218,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Bottom Margin'
-                        hasError={errors.bottomMargin}
+                        hasError={!!errors.bottomMargin}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.bottomMargin}
@@ -258,7 +258,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Left Margin'
-                        hasError={errors.leftMargin}
+                        hasError={!!errors.leftMargin}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.leftMargin}
@@ -298,7 +298,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Right Margin'
-                        hasError={errors.rightMargin}
+                        hasError={!!errors.rightMargin}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.rightMargin}
@@ -338,7 +338,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Header Size'
-                        hasError={errors.headerSize}
+                        hasError={!!errors.headerSize}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.headerSize}
@@ -379,7 +379,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Footer Size'
-                        hasError={errors.footerSize}
+                        hasError={!!errors.footerSize}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.footerSize}
@@ -419,7 +419,7 @@ export const PageSetting = PageSettingHoc(
                       <Form.Input
                         label='Line Spacing'
                         placeholder='Line Spacing'
-                        hasError={errors.lineSpacing}
+                        hasError={!!errors.lineSpacing}
                         value={reportSettingStore.pageSetting?.lineSpacing}
                         onChange={lineSpacing => {
                           onChange(lineSpacing);
@@ -440,7 +440,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Page Orientation'
-                        hasError={errors.pageOrientation}
+                        hasError={!!errors.pageOrientation}
                       >
                         <select
                           value={
@@ -482,7 +482,7 @@ export const PageSetting = PageSettingHoc(
                       <Form.InputFile
                         label='Background Image'
                         placeholder='Please select image'
-                        hasError={errors.image}
+                        hasError={!!errors.image}
                         onChange={e => {
                           const backgroundImage = e.target.files[0];
                           onChange(backgroundImage);
@@ -503,7 +503,7 @@ export const PageSetting = PageSettingHoc(
                       <Form.Input
                         label='Version'
                         placeholder='Version'
-                        hasError={errors.version}
+                        hasError={!!errors.version}
                         value={reportSettingStore.pageSetting?.version}
                         disabled={true}
                       />
@@ -517,7 +517,7 @@ export const PageSetting = PageSettingHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Environment'
-                        hasError={errors.environment}
+                        hasError={!!errors.environment}
                       >
                         <select
                           value={reportSettingStore.pageSetting?.environment}

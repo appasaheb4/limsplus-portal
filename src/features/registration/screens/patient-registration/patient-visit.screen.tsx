@@ -131,7 +131,7 @@ export const PatientVisit = PatientVisitHoc(
                       placeholder={
                         errors.visitId ? 'Please Enter Visit ID' : 'Visit ID'
                       }
-                      hasError={errors.visitId}
+                      hasError={!!errors.visitId}
                       disabled={true}
                       value={patientVisitStore.patientVisit?.visitId}
                       onChange={visitId => {
@@ -155,7 +155,7 @@ export const PatientVisit = PatientVisitHoc(
                       placeholder={
                         errors.labId ? 'Please Enter Lab ID' : 'Lab ID'
                       }
-                      hasError={errors.labId}
+                      hasError={!!errors.labId}
                       disabled={
                         appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
                         'no'
@@ -222,9 +222,9 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='PId' hasError={errors.pid}>
+                    <Form.InputWrapper label='PId' hasError={!!errors.pid}>
                       <AutoCompleteFilterSingleSelectPid
-                        hasError={errors.pid}
+                        hasError={!!errors.pid}
                         onSelect={item => {
                           onChange(item.pId);
                           const resultAge = calculateTimimg(
@@ -252,7 +252,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Rlab' hasError={errors.rLab}>
+                    <Form.InputWrapper label='Rlab' hasError={!!errors.rLab}>
                       <select
                         value={patientVisitStore.patientVisit?.rLab}
                         disabled={true}
@@ -295,7 +295,7 @@ export const PatientVisit = PatientVisitHoc(
                           ? 'Please Enter VisitDate'
                           : 'VisitDate'
                       }
-                      hasError={errors.visitDate}
+                      hasError={!!errors.visitDate}
                       value={patientVisitStore.patientVisit.visitDate}
                       onChange={visitDate => {
                         onChange(visitDate);
@@ -321,7 +321,7 @@ export const PatientVisit = PatientVisitHoc(
                           ? 'Please Enter RegistrationDate'
                           : 'RegistrationDate'
                       }
-                      hasError={errors.registrationDate}
+                      hasError={!!errors.registrationDate}
                       value={patientVisitStore.patientVisit?.registrationDate}
                       onChange={registrationDate => {
                         onChange(registrationDate);
@@ -347,7 +347,7 @@ export const PatientVisit = PatientVisitHoc(
                           ? 'Please Enter Collection Date'
                           : 'Collection Date'
                       }
-                      hasError={errors.collectionDate}
+                      hasError={!!errors.collectionDate}
                       value={patientVisitStore.patientVisit?.collectionDate}
                       onChange={collectionDate => {
                         patientVisitStore.updatePatientVisit({
@@ -371,7 +371,7 @@ export const PatientVisit = PatientVisitHoc(
                         errors.dueDate ? 'Please Enter Due Date' : 'Due Date'
                       }
                       disabled={true}
-                      hasError={errors.dueDate}
+                      hasError={!!errors.dueDate}
                       value={patientVisitStore.patientVisit?.dueDate}
                       onChange={dueDate => {
                         onChange(dueDate);
@@ -397,7 +397,7 @@ export const PatientVisit = PatientVisitHoc(
                         placeholder={
                           errors.birthDate ? 'Please Enter Age' : 'Age'
                         }
-                        hasError={errors.age}
+                        hasError={!!errors.age}
                         type='number'
                         value={patientVisitStore.patientVisit?.age}
                         onChange={age => {
@@ -420,7 +420,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Age Units'
-                      hasError={errors.ageUnits}
+                      hasError={!!errors.ageUnits}
                     >
                       <select
                         disabled={true}
@@ -463,7 +463,7 @@ export const PatientVisit = PatientVisitHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Collection Center'
-                        hasError={errors.collectionCenter}
+                        hasError={!!errors.collectionCenter}
                       >
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
@@ -477,7 +477,7 @@ export const PatientVisit = PatientVisitHoc(
                               ? `${patientVisitStore.patientVisit?.collectionCenter} - ${patientVisitStore.patientVisit?.collectionCenterName}`
                               : ''
                           }
-                          hasError={errors.collectionCenter}
+                          hasError={!!errors.collectionCenter}
                           onFilter={(value: string) => {
                             registrationLocationsStore.registrationLocationsService.filterByFields(
                               {
@@ -532,7 +532,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Corporate Code'
-                      hasError={errors.corporateCode}
+                      hasError={!!errors.corporateCode}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -549,7 +549,7 @@ export const PatientVisit = PatientVisitHoc(
                           list: corporateClientsStore.listCorporateClients,
                           displayKey: ['corporateCode', 'corporateName'],
                         }}
-                        hasError={errors.corporateCode}
+                        hasError={!!errors.corporateCode}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(
                             {
@@ -591,7 +591,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='AC Class'
-                      hasError={errors.acClass}
+                      hasError={!!errors.acClass}
                     >
                       <select
                         value={patientVisitStore.patientVisit?.acClass}
@@ -633,7 +633,7 @@ export const PatientVisit = PatientVisitHoc(
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
                           label='Doctor Id'
-                          hasError={errors.doctorId}
+                          hasError={!!errors.doctorId}
                         >
                           <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
@@ -647,7 +647,7 @@ export const PatientVisit = PatientVisitHoc(
                               list: doctorsStore.listDoctors,
                               displayKey: ['doctorCode', 'doctorName'],
                             }}
-                            hasError={errors.doctorId}
+                            hasError={!!errors.doctorId}
                             onFilter={(value: string) => {
                               doctorsStore.doctorsService.filterByFields({
                                 input: {
@@ -686,7 +686,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Delivery Type'
-                      hasError={errors.deliveryType}
+                      hasError={!!errors.deliveryType}
                     >
                       <select
                         value={patientVisitStore.patientVisit.deliveryType}
@@ -726,7 +726,7 @@ export const PatientVisit = PatientVisitHoc(
                     <Form.Toggle
                       label='History'
                       id='toggleHistory'
-                      hasError={errors.history}
+                      hasError={!!errors.history}
                       value={patientVisitStore.patientVisit?.history}
                       onChange={history => {
                         patientVisitStore.updatePatientVisit({
@@ -748,7 +748,7 @@ export const PatientVisit = PatientVisitHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Status'
-                        hasError={errors.status}
+                        hasError={!!errors.status}
                       >
                         <select
                           value={patientVisitStore.patientVisit?.status}
@@ -809,7 +809,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter AdditionalInformation'
                                   : 'AdditionalInformation'
                               }
-                              hasError={errors.additionalInfo}
+                              hasError={!!errors.additionalInfo}
                               value={
                                 patientVisitStore.patientVisit?.extraData
                                   ?.additionalInfo
@@ -835,7 +835,7 @@ export const PatientVisit = PatientVisitHoc(
                           render={({field: {onChange}}) => (
                             <Form.InputWrapper
                               label='Invoice Ac'
-                              hasError={errors.invoiceAc}
+                              hasError={!!errors.invoiceAc}
                             >
                               <AutoCompleteFilterSingleSelect
                                 loader={loading}
@@ -849,7 +849,7 @@ export const PatientVisit = PatientVisitHoc(
                                   list: corporateClientsStore.listCorporateClients,
                                   displayKey: 'invoiceAc',
                                 }}
-                                hasError={errors.invoiceAc}
+                                hasError={!!errors.invoiceAc}
                                 onFilter={(value: string) => {
                                   corporateClientsStore.corporateClientsService.filterByFields(
                                     {
@@ -939,7 +939,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Bill Number'
                                   : 'Bill Number'
                               }
-                              hasError={errors.billNumber}
+                              hasError={!!errors.billNumber}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.billNumber
@@ -1009,7 +1009,7 @@ export const PatientVisit = PatientVisitHoc(
                             <Form.Input
                               label='Collection By'
                               placeholder='Collected By'
-                              hasError={errors.collectedBy}
+                              hasError={!!errors.collectedBy}
                               value={
                                 patientVisitStore.patientVisit?.extraData
                                   ?.collectedBy
@@ -1042,7 +1042,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Received Date'
                                   : 'Received Date'
                               }
-                              hasError={errors.receivedDate}
+                              hasError={!!errors.receivedDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.receivedDate
@@ -1075,7 +1075,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Result Date'
                                   : 'Result Date'
                               }
-                              hasError={errors.resultDate}
+                              hasError={!!errors.resultDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.resultDate
@@ -1103,7 +1103,7 @@ export const PatientVisit = PatientVisitHoc(
                               <Form.Toggle
                                 label='Urgent'
                                 id='toggleUrgent'
-                                hasError={errors.urgent}
+                                hasError={!!errors.urgent}
                                 value={
                                   patientVisitStore.patientVisit.extraData
                                     ?.urgent
@@ -1130,7 +1130,7 @@ export const PatientVisit = PatientVisitHoc(
                               <Form.Toggle
                                 label='Pending Data Entry'
                                 id='togglePendingDataEntry'
-                                hasError={errors.pendingDataEntry}
+                                hasError={!!errors.pendingDataEntry}
                                 value={
                                   patientVisitStore.patientVisit.extraData
                                     ?.pendingDataEntry
@@ -1165,7 +1165,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Result Date'
                                   : 'Result Date'
                               }
-                              hasError={errors.approvalDate}
+                              hasError={!!errors.approvalDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.approvalDate
@@ -1283,7 +1283,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Reported Date'
                                   : 'Reported Date'
                               }
-                              hasError={errors.reportedDate}
+                              hasError={!!errors.reportedDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.reportedDate
@@ -1314,7 +1314,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Entered By'
                                   : 'Entered By'
                               }
-                              hasError={errors.enteredBy}
+                              hasError={!!errors.enteredBy}
                               value={loginStore.login?.userId}
                               disabled={true}
                             />
@@ -1332,7 +1332,7 @@ export const PatientVisit = PatientVisitHoc(
                               placeholder={
                                 errors.height ? 'Please Enter Height' : 'Height'
                               }
-                              hasError={errors.height}
+                              hasError={!!errors.height}
                               value={
                                 patientVisitStore.patientVisit.extraData?.height
                               }
@@ -1365,7 +1365,7 @@ export const PatientVisit = PatientVisitHoc(
                               placeholder={
                                 errors.weight ? 'Please Enter Weight' : 'Weight'
                               }
-                              hasError={errors.weight}
+                              hasError={!!errors.weight}
                               value={
                                 patientVisitStore.patientVisit.extraData?.weight
                               }
@@ -1534,7 +1534,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Submitted System'
                                   : 'Submitted System'
                               }
-                              hasError={errors.submittedSystem}
+                              hasError={!!errors.submittedSystem}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.submittedSystem
@@ -1567,7 +1567,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Archieve'
                                   : 'Archieve'
                               }
-                              hasError={errors.submittedOn}
+                              hasError={!!errors.submittedOn}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.submittedOn
@@ -1600,7 +1600,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Balance'
                                   : 'Balance'
                               }
-                              hasError={errors.balance}
+                              hasError={!!errors.balance}
                               type='number'
                               value={
                                 patientVisitStore.patientVisit.extraData

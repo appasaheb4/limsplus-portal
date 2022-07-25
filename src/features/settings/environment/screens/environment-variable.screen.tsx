@@ -79,7 +79,7 @@ export const EnvironmentVariable = observer(
                         environmentStore.environmentVariable
                           ?.environmentVariable
                       }
-                      hasError={errors.environmentVariable}
+                      hasError={!!errors.environmentVariable}
                       placeholder={
                         errors.environmentVariable
                           ? 'Please Enter Environment Variable'
@@ -131,7 +131,7 @@ export const EnvironmentVariable = observer(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Category'
-                      hasError={errors.category}
+                      hasError={!!errors.category}
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -176,7 +176,7 @@ export const EnvironmentVariable = observer(
                           ? 'Please Enter descriptions'
                           : 'Description'
                       }
-                      hasError={errors.descriptions}
+                      hasError={!!errors.descriptions}
                       //value={userStore.user.password}
                       onChange={descriptions => {
                         onChange(descriptions);
@@ -201,7 +201,7 @@ export const EnvironmentVariable = observer(
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -218,7 +218,7 @@ export const EnvironmentVariable = observer(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Lab'
-                          hasError={errors.lab}
+                          hasError={!!errors.lab}
                           value={environmentStore.environmentVariable?.allLabs}
                           onChange={allLabs => {
                             onChange(allLabs);

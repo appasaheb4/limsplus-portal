@@ -101,7 +101,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               className={
                 'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
               }
-              hasError={errors.result}
+              hasError={!!errors.result}
               onBlur={result => {
                 onChange(Number.parseFloat(result).toFixed(row?.picture || 0));
                 onSelect({
@@ -174,7 +174,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               rows={2}
               label=''
               placeholder='Result'
-              hasError={errors.result}
+              hasError={!!errors.result}
               onBlur={result => {
                 onChange(result);
                 onSelect({result});
@@ -197,7 +197,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
                 selected: generalResultEntryStore.selectedItems?.library,
                 displayKey: ['code', 'description'],
               }}
-              hasError={errors.testName}
+              hasError={!!errors.testName}
               onUpdate={item => {
                 const items = generalResultEntryStore.selectedItems?.library;
                 onSelect({

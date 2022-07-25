@@ -238,7 +238,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <select
                         value={
                           registrationLocationsStore.registrationLocations?.lab
@@ -330,7 +330,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Location Code'
-                      hasError={errors.locationCode}
+                      hasError={!!errors.locationCode}
                       placeholder={
                         errors.locationCode
                           ? 'Please Enter Location Code'
@@ -397,7 +397,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Location Name'
-                      hasError={errors.locationName}
+                      hasError={!!errors.locationName}
                       placeholder={
                         errors.locationName
                           ? 'Please Enter Loaction Name'
@@ -425,7 +425,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Client Code'
-                      hasError={errors.corporateCode}
+                      hasError={!!errors.corporateCode}
                     >
                       <AutoCompleteFilterSingleSelectCorparateCode
                         onSelect={item => {
@@ -456,7 +456,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Invoice Ac'
-                      hasError={errors.invoiceAc}
+                      hasError={!!errors.invoiceAc}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -469,7 +469,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           registrationLocationsStore.registrationLocations
                             ?.invoiceAc
                         }
-                        hasError={errors.invoiceAc}
+                        hasError={!!errors.invoiceAc}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(
                             {
@@ -508,7 +508,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='AC Class'
-                      hasError={errors.acClass}
+                      hasError={!!errors.acClass}
                     >
                       <select
                         value={
@@ -551,7 +551,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Account Type'
-                      hasError={errors.accountType}
+                      hasError={!!errors.accountType}
                     >
                       <select
                         value={
@@ -594,7 +594,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Customer Group'
-                      hasError={errors.customerGroup}
+                      hasError={!!errors.customerGroup}
                     >
                       <select
                         value={
@@ -638,7 +638,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Method Coln'
-                      hasError={errors.methodColn}
+                      hasError={!!errors.methodColn}
                     >
                       <select
                         value={
@@ -682,7 +682,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Category'
-                      hasError={errors.category}
+                      hasError={!!errors.category}
                     >
                       <select
                         value={
@@ -727,7 +727,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputWrapper
                       label='Country'
                       id='country'
-                      hasError={errors.country}
+                      hasError={!!errors.country}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -739,7 +739,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           displayKey: 'country',
                           findKey: 'country',
                         }}
-                        hasError={errors.country}
+                        hasError={!!errors.country}
                         onFilter={(value: string) => {
                           administrativeDivisions.administrativeDivisionsService.filter(
                             {
@@ -782,7 +782,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputWrapper
                       label='State'
                       id='state'
-                      hasError={errors.state}
+                      hasError={!!errors.state}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -803,7 +803,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           displayKey: 'state',
                           findKey: 'state',
                         }}
-                        hasError={errors.state}
+                        hasError={!!errors.state}
                         displayValue={
                           registrationLocationsStore.registrationLocations
                             ?.state
@@ -852,7 +852,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputWrapper
                       label='District'
                       id='district'
-                      hasError={errors.district}
+                      hasError={!!errors.district}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -876,7 +876,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           displayKey: 'district',
                           findKey: 'district',
                         }}
-                        hasError={errors.district}
+                        hasError={!!errors.district}
                         displayValue={
                           registrationLocationsStore.registrationLocations
                             ?.district
@@ -925,7 +925,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputWrapper
                       label='City'
                       id='city'
-                      hasError={errors.city}
+                      hasError={!!errors.city}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -952,7 +952,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           displayKey: 'city',
                           findKey: 'city',
                         }}
-                        hasError={errors.city}
+                        hasError={!!errors.city}
                         displayValue={
                           registrationLocationsStore.registrationLocations.city
                         }
@@ -1007,7 +1007,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputWrapper
                       label='Area'
                       id='area'
-                      hasError={errors.area}
+                      hasError={!!errors.area}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -1037,7 +1037,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           displayKey: 'area',
                           findKey: 'area',
                         }}
-                        hasError={errors.area}
+                        hasError={!!errors.area}
                         displayValue={
                           registrationLocationsStore.registrationLocations.area
                         }
@@ -1092,7 +1092,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputWrapper
                       label='Postal Code'
                       id='postalCode'
-                      hasError={errors.postalCode}
+                      hasError={!!errors.postalCode}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -1125,7 +1125,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           displayKey: 'postalCode',
                           findKey: 'postalCode',
                         }}
-                        hasError={errors.postalCode}
+                        hasError={!!errors.postalCode}
                         displayValue={
                           registrationLocationsStore.registrationLocations?.postalCode?.toString() ||
                           ''
@@ -1187,8 +1187,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='SBU'
-                      placeholder={errors.sbu ? 'Please Enter sbu' : 'SBU'}
-                      hasError={errors.sbu}
+                      placeholder={!!errors.sbu ? 'Please Enter sbu' : 'SBU'}
+                      hasError={!!errors.sbu}
                       value={
                         registrationLocationsStore.registrationLocations?.sbu
                       }
@@ -1211,8 +1211,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Zone'
-                      placeholder={errors.zone ? 'Please Enter zone' : 'Zone'}
-                      hasError={errors.zone}
+                      placeholder={!!errors.zone ? 'Please Enter zone' : 'Zone'}
+                      hasError={!!errors.zone}
                       value={
                         registrationLocationsStore.registrationLocations?.zone
                       }
@@ -1234,7 +1234,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Sales Territory'
-                      hasError={errors.salesTerritoRy}
+                      hasError={!!errors.salesTerritoRy}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -1246,7 +1246,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           ),
                           displayKey: ['salesTerritory'],
                         }}
-                        hasError={errors.salesTerritoRy}
+                        hasError={!!errors.salesTerritoRy}
                         onFilter={(value: string) => {
                           salesTeamStore.salesTeamService.filterByFields({
                             input: {
@@ -1290,7 +1290,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           : 'Telephone'
                       }
                       type='number'
-                      hasError={errors.telephone}
+                      hasError={!!errors.telephone}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.telephone
@@ -1320,7 +1320,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       placeholder={
                         errors.mobileNo ? 'Please Enter mobileNo' : 'Mobile No'
                       }
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.mobileNo
@@ -1351,7 +1351,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       placeholder={
                         errors.email ? 'Please Enter email' : 'Email'
                       }
-                      hasError={errors.email}
+                      hasError={!!errors.email}
                       value={
                         registrationLocationsStore.registrationLocations?.email
                       }
@@ -1373,7 +1373,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Delivery Type'
-                      hasError={errors.deliveryType}
+                      hasError={!!errors.deliveryType}
                     >
                       <select
                         value={
@@ -1417,7 +1417,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Delivery Method'
-                      hasError={errors.deliveryMethod}
+                      hasError={!!errors.deliveryMethod}
                     >
                       <select
                         value={
@@ -1464,7 +1464,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       placeholder={
                         errors.route ? 'Please Enter route' : 'Route'
                       }
-                      hasError={errors.route}
+                      hasError={!!errors.route}
                       value={
                         registrationLocationsStore.registrationLocations?.route
                       }
@@ -1487,7 +1487,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Opening Time'
-                      hasError={errors.openingTime}
+                      hasError={!!errors.openingTime}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.openingTime
@@ -1510,7 +1510,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Closing Time'
-                      hasError={errors.closingTime}
+                      hasError={!!errors.closingTime}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.closingTime
@@ -1535,8 +1535,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Info'
-                      placeholder={errors.info ? 'Please Enter info' : 'Info'}
-                      hasError={errors.info}
+                      placeholder={!!errors.info ? 'Please Enter info' : 'Info'}
+                      hasError={!!errors.info}
                       value={
                         registrationLocationsStore.registrationLocations?.info
                       }
@@ -1561,7 +1561,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       placeholder={
                         errors.fyiLine ? 'Please Enter fyiLine' : 'FYI Line'
                       }
-                      hasError={errors.fyiLine}
+                      hasError={!!errors.fyiLine}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.fyiLine
@@ -1587,7 +1587,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       placeholder={
                         errors.workLine ? 'Please Enter workLine' : 'Work Line'
                       }
-                      hasError={errors.workLine}
+                      hasError={!!errors.workLine}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.workLine
@@ -1615,7 +1615,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           ? 'Please Enter Date Creation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.dateCreation
@@ -1637,7 +1637,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           ? 'Please enter date Active'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.dateActive
@@ -1655,7 +1655,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder='Date Expire'
-                      hasError={errors.dateActiveTo}
+                      hasError={!!errors.dateActiveTo}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.dateExpire
@@ -1678,7 +1678,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.Input
                       label='Version'
                       placeholder='Version'
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={
                         registrationLocationsStore.registrationLocations
                           ?.version
@@ -1696,7 +1696,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.Input
                       label='Entered By'
                       placeholder='Entered By'
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -1708,7 +1708,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={
                           registrationLocationsStore &&
@@ -1749,7 +1752,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={
@@ -1838,7 +1841,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Confidential'
-                        hasError={errors.confidential}
+                        hasError={!!errors.confidential}
                         value={
                           registrationLocationsStore.registrationLocations
                             ?.confidential
@@ -1863,7 +1866,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Print Label'
-                        hasError={errors.printLabel}
+                        hasError={!!errors.printLabel}
                         value={
                           registrationLocationsStore.registrationLocations
                             ?.printLabel
@@ -1888,7 +1891,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Never Bill'
-                        hasError={errors.neverBill}
+                        hasError={!!errors.neverBill}
                         value={
                           registrationLocationsStore.registrationLocations
                             ?.neverBill
@@ -1913,7 +1916,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Urgent'
-                        hasError={errors.urgent}
+                        hasError={!!errors.urgent}
                         value={
                           registrationLocationsStore.registrationLocations
                             ?.urgent
@@ -1938,7 +1941,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Report Format'
-                        hasError={errors.reportFormat}
+                        hasError={!!errors.reportFormat}
                         value={
                           registrationLocationsStore.registrationLocations
                             ?.reportFormat
@@ -1968,7 +1971,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 render={({field: {onChange}}) => (
                   <Form.InputWrapper
                     label='Price List'
-                    hasError={errors.priceList}
+                    hasError={!!errors.priceList}
                   >
                     <PriceListTable />
                   </Form.InputWrapper>

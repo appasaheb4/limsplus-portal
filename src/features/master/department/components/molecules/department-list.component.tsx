@@ -201,7 +201,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                         errors.mobileNo ? 'Please Enter MobileNo' : 'MobileNo'
                       }
                       type='number'
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row?.mobileNo}
                       onChange={mobileNo => {
@@ -253,7 +253,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                           ? 'Please Enter contactNo'
                           : 'contactNo'
                       }
-                      hasError={errors.contactNo}
+                      hasError={!!errors.contactNo}
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row?.contactNo}

@@ -53,7 +53,7 @@ export const FilterInputTable = observer(() => {
                   <div className='flex flex-row items-center gap-2'>
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
-                      hasError={errors.analyte}
+                      hasError={!!errors.analyte}
                       placeholder='Search by plab'
                       data={{
                         list: _.uniqBy(
@@ -164,7 +164,7 @@ export const FilterInputTable = observer(() => {
                   render={({field: {onChange}}) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
-                      hasError={errors.analyte}
+                      hasError={!!errors.analyte}
                       placeholder='Search by departement'
                       data={{
                         list: _.uniqBy(
@@ -275,7 +275,7 @@ export const FilterInputTable = observer(() => {
                   render={({field: {onChange}}) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
-                      hasError={errors.testStatus}
+                      hasError={!!errors.testStatus}
                       placeholder='Search by test status'
                       data={{
                         list: _.uniqBy(
@@ -386,7 +386,7 @@ export const FilterInputTable = observer(() => {
                   render={({field: {onChange}}) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
-                      hasError={errors.resultStatus}
+                      hasError={!!errors.resultStatus}
                       placeholder='Search by result status'
                       data={{
                         list: _.uniqBy(
@@ -497,7 +497,7 @@ export const FilterInputTable = observer(() => {
                   render={({field: {onChange}}) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
-                      hasError={errors.testCode}
+                      hasError={!!errors.testCode}
                       placeholder='Search by code '
                       data={{
                         list: _.uniqBy(
@@ -607,7 +607,7 @@ export const FilterInputTable = observer(() => {
                   render={({field: {onChange}}) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
-                      hasError={errors.analyteCode}
+                      hasError={!!errors.analyteCode}
                       placeholder='Search by code'
                       data={{
                         list: _.uniqBy(
@@ -718,7 +718,7 @@ export const FilterInputTable = observer(() => {
                   render={({field: {onChange}}) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
-                      hasError={errors.labId}
+                      hasError={!!errors.labId}
                       placeholder='Search by labId'
                       data={{
                         list: _.uniqBy(

@@ -94,7 +94,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       placeholder={
                         errors.schCode ? 'Please Enter Sch Code' : 'Sch Code'
                       }
-                      hasError={errors.schCode}
+                      hasError={!!errors.schCode}
                       value={deliveryScheduleStore.deliverySchedule?.schCode}
                       onChange={schCode => {
                         onChange(schCode);
@@ -138,7 +138,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='P Start Time'
-                      hasError={errors.pStartTime}
+                      hasError={!!errors.pStartTime}
                       value={deliveryScheduleStore.deliverySchedule?.pStartTime}
                       onChange={pStartTime => {
                         onChange(pStartTime);
@@ -158,7 +158,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='P End Time'
-                      hasError={errors.pEndTime}
+                      hasError={!!errors.pEndTime}
                       value={deliveryScheduleStore.deliverySchedule?.pEndTime}
                       onChange={pEndTime => {
                         onChange(pEndTime);
@@ -178,7 +178,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Cutof Time'
-                      hasError={errors.cutofTime}
+                      hasError={!!errors.cutofTime}
                       value={deliveryScheduleStore.deliverySchedule?.cutofTime}
                       onChange={cutofTime => {
                         onChange(cutofTime);
@@ -198,7 +198,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Secound Cutof Time'
-                      hasError={errors.secoundCutofTime}
+                      hasError={!!errors.secoundCutofTime}
                       value={
                         deliveryScheduleStore.deliverySchedule?.secoundCutofTime
                       }
@@ -220,7 +220,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Processing Type'
-                      hasError={errors.processingType}
+                      hasError={!!errors.processingType}
                     >
                       <select
                         value={
@@ -287,7 +287,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       placeholder={
                         errors.reportOn ? 'Please Enter ReportOn' : 'ReportOn'
                       }
-                      hasError={errors.reportOn}
+                      hasError={!!errors.reportOn}
                       value={deliveryScheduleStore.deliverySchedule?.reportOn}
                       onChange={reportOn => {
                         onChange(reportOn);
@@ -312,7 +312,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           ? 'Please Enter DynamicRT '
                           : 'DynamicRT'
                       }
-                      hasError={errors.dynamicRT}
+                      hasError={!!errors.dynamicRT}
                       value={deliveryScheduleStore.deliverySchedule?.dynamicRT}
                       onChange={dynamicRT => {
                         onChange(dynamicRT);
@@ -335,7 +335,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Dynamic TU'
-                      hasError={errors.dynamicTU}
+                      hasError={!!errors.dynamicTU}
                     >
                       <select
                         value={
@@ -379,7 +379,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       placeholder={
                         errors.fixedRT ? 'Please Enter fixedRT' : 'fixedRT'
                       }
-                      hasError={errors.fixedRT}
+                      hasError={!!errors.fixedRT}
                       value={deliveryScheduleStore.deliverySchedule?.fixedRT}
                       onChange={fixedRT => {
                         onChange(fixedRT);
@@ -404,7 +404,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           ? 'Please Enter schForDept'
                           : 'schForDept'
                       }
-                      hasError={errors.schForDept}
+                      hasError={!!errors.schForDept}
                       value={deliveryScheduleStore.deliverySchedule?.schForDept}
                       onChange={schForDept => {
                         onChange(schForDept);
@@ -429,7 +429,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           ? 'Please Enter schForPat'
                           : 'schForPat'
                       }
-                      hasError={errors.schForPat}
+                      hasError={!!errors.schForPat}
                       value={deliveryScheduleStore.deliverySchedule?.schForPat}
                       onChange={schForPat => {
                         onChange(schForPat);
@@ -521,7 +521,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Sunday Processing'
-                        hasError={errors.sundayProcessing}
+                        hasError={!!errors.sundayProcessing}
                         value={
                           deliveryScheduleStore.deliverySchedule
                             ?.sundayProcessing
@@ -544,7 +544,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Holiday Processing'
-                        hasError={errors.holidayProcessing}
+                        hasError={!!errors.holidayProcessing}
                         value={
                           deliveryScheduleStore.deliverySchedule
                             ?.holidayProcessing
@@ -566,7 +566,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        hasError={errors.sundayReporting}
+                        hasError={!!errors.sundayReporting}
                         label='Sunday Reporting'
                         value={
                           deliveryScheduleStore.deliverySchedule
@@ -590,7 +590,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Holiday Reporting'
-                        hasError={errors.holidayReporting}
+                        hasError={!!errors.holidayReporting}
                         value={
                           deliveryScheduleStore.deliverySchedule
                             ?.holidayReporting
@@ -613,7 +613,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='On Time'
-                        hasError={errors.onTime}
+                        hasError={!!errors.onTime}
                         value={deliveryScheduleStore.deliverySchedule?.onTime}
                         onChange={onTime => {
                           onChange(onTime);

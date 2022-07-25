@@ -243,7 +243,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
-                      <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                      <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
                           placeholder='Search by name'
@@ -261,7 +261,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           displayValue={
                             testAnalyteMappingStore.testAnalyteMapping?.lab
                           }
-                          hasError={errors.name}
+                          hasError={!!errors.name}
                           onFilter={(value: string) => {
                             labStore.LabService.filter({
                               input: {
@@ -338,7 +338,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.testCode ? 'border-red-500  ' : 'border-gray-300'
                       } rounded-md`}
-                      hasError={errors.testCode}
+                      hasError={!!errors.testCode}
                       disabled={true}
                       value={
                         testAnalyteMappingStore.testAnalyteMapping?.testCode
@@ -359,11 +359,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Test Name'
-                      hasError={errors.testName}
+                      hasError={!!errors.testName}
                     >
                       <AutoCompleteFilterSingleSelectTestName
                         lab={testAnalyteMappingStore.testAnalyteMapping?.lab}
-                        hasError={errors.testName}
+                        hasError={!!errors.testName}
                         onSelect={item => {
                           onChange(item.testName);
                           setValue('testCode', item.testCode);
@@ -419,7 +419,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Analyte Code'
-                      hasError={errors.analyteCode}
+                      hasError={!!errors.analyteCode}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -440,7 +440,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             testAnalyteMappingStore.selectedItems?.analyteCode,
                           displayKey: ['analyteCode', 'analyteName'],
                         }}
-                        hasError={errors.analyteCode}
+                        hasError={!!errors.analyteCode}
                         onUpdate={item => {
                           const items =
                             testAnalyteMappingStore.selectedItems?.analyteCode;
@@ -558,7 +558,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           ? 'Please Enter AnalyteName'
                           : 'Analyte Name'
                       }
-                      hasError={errors.analyteName}
+                      hasError={!!errors.analyteName}
                       disabled={true}
                       value={
                         typeof testAnalyteMappingStore.testAnalyteMapping
@@ -578,7 +578,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={
                           testAnalyteMappingStore.testAnalyteMapping?.status
@@ -618,7 +621,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       placeholder={
                         errors.userId ? 'Please Enter UserID' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                       // onChange={(analyteCode) => {
@@ -658,7 +661,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
                       label='Date Active'
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       placeholder={
                         errors.dateActive
                           ? 'Please Enter dateActive'
@@ -708,7 +711,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
-                        hasError={errors.bill}
+                        hasError={!!errors.bill}
                         value={testAnalyteMappingStore.testAnalyteMapping?.bill}
                         onChange={bill => {
                           onChange(bill);
@@ -729,7 +732,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       <Form.Toggle
                         label='Test Method'
                         id='testMethod'
-                        hasError={errors.testMethod}
+                        hasError={!!errors.testMethod}
                         value={
                           testAnalyteMappingStore.testAnalyteMapping?.testMethod
                         }
@@ -752,7 +755,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       <Form.Toggle
                         label='Analyte Method'
                         id='analyteMethod'
-                        hasError={errors.analyteMethod}
+                        hasError={!!errors.analyteMethod}
                         value={
                           testAnalyteMappingStore.testAnalyteMapping
                             ?.analyteMethod
@@ -999,7 +1002,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Version'
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }

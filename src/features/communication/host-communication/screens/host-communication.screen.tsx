@@ -158,7 +158,7 @@ const HostCommunication = HostCommunicationHoc(
 
                 {/* {errors?.fullName && (
                   <span className="text-red-600 font-medium relative">
-                    {errors.fullName}
+                    {!!errors.fullName}
                   </span>
                 )} */}
                 <Form.Input
@@ -177,7 +177,7 @@ const HostCommunication = HostCommunicationHoc(
                 />
                 {/* {errors?.fullName && (
                   <span className="text-red-600 font-medium relative">
-                    {errors.fullName}
+                    {!!errors.fullName}
                   </span>
                 )} */}
                 <Form.InputWrapper

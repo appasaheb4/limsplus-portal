@@ -62,11 +62,11 @@ export const GeneralField = GeneralFieldHoc(
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  hasError={errors.documentList}
+                  hasError={!!errors.documentList}
                   label='Document Name'
                 >
                   <AutoCompleteGroupByCheck
-                    hasError={errors.documentList}
+                    hasError={!!errors.documentList}
                     data={router}
                     defaultItem={
                       toJS(
@@ -92,11 +92,11 @@ export const GeneralField = GeneralFieldHoc(
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  hasError={errors.filedName}
+                  hasError={!!errors.filedName}
                   label='Global Filed'
                 >
                   <AutoComplete
-                    hasError={errors.filedName}
+                    hasError={!!errors.filedName}
                     data={{
                       list: toJS(lookupStore.listLookup).filter(
                         (a, i) =>
@@ -128,7 +128,7 @@ export const GeneralField = GeneralFieldHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       placeholder='Code'
-                      hasError={errors.code}
+                      hasError={!!errors.code}
                       value={lookupStore.localInput.code}
                       onChange={code => {
                         onChange(code.toUpperCase());
@@ -150,7 +150,7 @@ export const GeneralField = GeneralFieldHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       placeholder='Value'
-                      hasError={errors.value}
+                      hasError={!!errors.value}
                       value={lookupStore.localInput.value}
                       onChange={value => {
                         onChange(value);
@@ -168,7 +168,7 @@ export const GeneralField = GeneralFieldHoc(
                 <div className='mt-2 flex flex-row justify-between'>
                   <Form.Toggle
                     label='Enable Upper Case'
-                    hasError={errors.method}
+                    hasError={!!errors.method}
                     value={lookupStore.flagUpperCase}
                     onChange={flag => {
                       lookupStore.updateFlagUppperCase(flag);
@@ -248,7 +248,7 @@ export const GeneralField = GeneralFieldHoc(
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  hasError={errors.defaulItem}
+                  hasError={!!errors.defaulItem}
                   label='Default Item'
                 >
                   <select
@@ -317,7 +317,7 @@ export const GeneralField = GeneralFieldHoc(
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
                   label='Environment'
-                  hasError={errors.environment}
+                  hasError={!!errors.environment}
                 >
                   <select
                     value={lookupStore.globalSettings?.environment}
