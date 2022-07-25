@@ -1185,9 +1185,37 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Address'
+                      placeholder={
+                        errors.address ? 'Please enter address' : 'Address'
+                      }
+                      hasError={!!errors.address}
+                      value={
+                        registrationLocationsStore.registrationLocations
+                          ?.address
+                      }
+                      onChange={address => {
+                        onChange(address);
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          address,
+                        });
+                      }}
+                    />
+                  )}
+                  name='address'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
                     <Form.Input
                       label='SBU'
-                      placeholder={!!errors.sbu ? 'Please Enter sbu' : 'SBU'}
+                      placeholder={errors.sbu ? 'Please Enter sbu' : 'SBU'}
                       hasError={!!errors.sbu}
                       value={
                         registrationLocationsStore.registrationLocations?.sbu
@@ -1211,7 +1239,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Zone'
-                      placeholder={!!errors.zone ? 'Please Enter zone' : 'Zone'}
+                      placeholder={errors.zone ? 'Please Enter zone' : 'Zone'}
                       hasError={!!errors.zone}
                       value={
                         registrationLocationsStore.registrationLocations?.zone
@@ -1372,26 +1400,26 @@ const RegistrationLocation = RegistrationLocationHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Type'
-                      hasError={!!errors.deliveryType}
+                      label='Report Type'
+                      hasError={!!errors.reportType}
                     >
                       <select
                         value={
                           registrationLocationsStore.registrationLocations
-                            ?.deliveryType
+                            ?.reportType
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryType
+                          errors.reportType
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const deliveryType = e.target.value;
-                          onChange(deliveryType);
+                          const reportType = e.target.value;
+                          onChange(reportType);
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
-                              deliveryType,
+                              reportType,
                             },
                           );
                         }}
@@ -1408,7 +1436,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='deliveryType'
+                  name='reportType'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1416,26 +1444,26 @@ const RegistrationLocation = RegistrationLocationHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Method'
-                      hasError={!!errors.deliveryMethod}
+                      label='Delivery Mode'
+                      hasError={!!errors.deliveryMode}
                     >
                       <select
                         value={
                           registrationLocationsStore.registrationLocations
-                            ?.deliveryMethod
+                            ?.deliveryMode
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryMethod
+                          errors.deliveryMode
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const deliveryMethod = e.target.value;
-                          onChange(deliveryMethod);
+                          const deliveryMode = e.target.value;
+                          onChange(deliveryMode);
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
-                              deliveryMethod,
+                              deliveryMode,
                             },
                           );
                         }}
@@ -1452,7 +1480,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='deliveryMethod'
+                  name='deliveryMode'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1535,7 +1563,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Info'
-                      placeholder={!!errors.info ? 'Please Enter info' : 'Info'}
+                      placeholder={errors.info ? 'Please Enter info' : 'Info'}
                       hasError={!!errors.info}
                       value={
                         registrationLocationsStore.registrationLocations?.info

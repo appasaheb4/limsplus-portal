@@ -19,6 +19,7 @@ let code;
 let name;
 let shortName;
 let hod;
+let reportOrder;
 let mobileNo;
 let contactNo;
 let openingTime;
@@ -168,6 +169,61 @@ export const DepartmentList = (props: DepartmentListProps) => {
                         row._id,
                       );
                   }}
+                />
+              </>
+            ),
+          },
+          {
+            dataField: 'reportOrder',
+            text: 'Report Order',
+            headerClasses: 'textHeader3',
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                reportOrder = filter;
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      placeholder={
+                        errors.reportOrder
+                          ? 'Please enter report order'
+                          : 'Report Order'
+                      }
+                      type='number'
+                      hasError={!!errors.reportOrder}
+                      defaultValue={row?.reportOrder}
+                      onChange={reportOrder => {
+                        onChange(reportOrder);
+                      }}
+                      onBlur={reportOrder => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            Number.parseFloat(reportOrder),
+                            'reportOrder',
+                            row._id,
+                          );
+                      }}
+                    />
+                  )}
+                  name='reportOrder'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
                 />
               </>
             ),
@@ -581,6 +637,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
           name('');
           shortName('');
           hod('');
+          reportOrder('');
           mobileNo('');
           contactNo('');
           openingTime('');

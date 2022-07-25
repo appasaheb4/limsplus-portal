@@ -573,12 +573,12 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'porder',
-              text: 'Porder',
+              dataField: 'reportOrder',
+              text: 'Report Order',
               formatter: (cell, row) => {
                 return (
                   <>
-                    <span>{row.extraData?.porder}</span>
+                    <span>{row.extraData?.reportOrder}</span>
                   </>
                 );
               },

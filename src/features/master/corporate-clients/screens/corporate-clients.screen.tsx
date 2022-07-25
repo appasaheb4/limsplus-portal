@@ -837,8 +837,6 @@ const CorporateClients = CorporateClientsHoc(
                     corporateClientsStore.corporateClients?.district
                   }
                 />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -1003,13 +1001,101 @@ const CorporateClients = CorporateClientsHoc(
                   rules={{required: false}}
                   defaultValue={corporateClientsStore.corporateClients?.area}
                 />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Address'
+                      placeholder={
+                        errors.address ? 'Please enter address' : 'Address'
+                      }
+                      hasError={!!errors.address}
+                      value={corporateClientsStore.corporateClients?.address}
+                      onChange={address => {
+                        onChange(address);
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          address,
+                        });
+                      }}
+                    />
+                  )}
+                  name='address'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Credit Limit'
+                      placeholder={
+                        errors.creditLimit
+                          ? 'Please enter credit limit'
+                          : 'Credit Limit'
+                      }
+                      type='number'
+                      hasError={!!errors.creditLimit}
+                      value={
+                        corporateClientsStore.corporateClients?.creditLimit
+                      }
+                      onChange={creditLimit => {
+                        onChange(creditLimit);
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          creditLimit: Number.parseFloat(creditLimit),
+                        });
+                      }}
+                    />
+                  )}
+                  name='creditLimit'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Consumed Limit'
+                      placeholder={
+                        errors.consumedLimit
+                          ? 'Please enter consumed limit'
+                          : 'Consumed Limit'
+                      }
+                      type='number'
+                      hasError={!!errors.consumedLimit}
+                      value={
+                        corporateClientsStore.corporateClients?.consumedLimit
+                      }
+                      disabled={true}
+                      onChange={consumedLimit => {
+                        onChange(consumedLimit);
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          consumedLimit: Number.parseFloat(consumedLimit),
+                        });
+                      }}
+                    />
+                  )}
+                  name='consumedLimit'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
 
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='SBU'
-                      placeholder={!!errors.sbu ? 'Please Enter sbu' : 'SBU'}
+                      placeholder={errors.sbu ? 'Please Enter sbu' : 'SBU'}
                       hasError={!!errors.sbu}
                       value={corporateClientsStore.corporateClients?.sbu}
                       onChange={sbu => {
@@ -1030,7 +1116,7 @@ const CorporateClients = CorporateClientsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Zone'
-                      placeholder={!!errors.zone ? 'Please Enter Zone' : 'Zone'}
+                      placeholder={errors.zone ? 'Please Enter Zone' : 'Zone'}
                       hasError={!!errors.zone}
                       value={corporateClientsStore.corporateClients?.zone}
                       onChange={zone => {
@@ -1174,24 +1260,24 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Type'
-                      hasError={!!errors.deliveryType}
+                      label='Report Type'
+                      hasError={!!errors.reportType}
                     >
                       <select
                         value={
-                          corporateClientsStore.corporateClients?.deliveryType
+                          corporateClientsStore.corporateClients?.reportType
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryType
+                          errors.reportType
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const deliveryType = e.target.value;
-                          onChange(deliveryType);
+                          const reportType = e.target.value;
+                          onChange(reportType);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            deliveryType,
+                            reportType,
                           });
                         }}
                       >
@@ -1207,7 +1293,7 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='deliveryType'
+                  name='reportType'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1215,24 +1301,24 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Method'
-                      hasError={!!errors.deliveryMethod}
+                      label='Delivery Mode'
+                      hasError={!!errors.deliveryMode}
                     >
                       <select
                         value={
-                          corporateClientsStore.corporateClients?.deliveryMethod
+                          corporateClientsStore.corporateClients?.deliveryMode
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryMethod
+                          errors.deliveryMode
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const deliveryMethod = e.target.value;
-                          onChange(deliveryMethod);
+                          const deliveryMode = e.target.value;
+                          onChange(deliveryMode);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            deliveryMethod,
+                            deliveryMode,
                           });
                         }}
                       >
@@ -1248,7 +1334,7 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='deliveryMethod'
+                  name='deliveryMode'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1258,7 +1344,7 @@ const CorporateClients = CorporateClientsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Info'
-                      placeholder={!!errors.info ? 'Please Enter INFO' : 'INFO'}
+                      placeholder={errors.info ? 'Please Enter INFO' : 'INFO'}
                       hasError={!!errors.info}
                       value={corporateClientsStore.corporateClients?.info}
                       onChange={info => {

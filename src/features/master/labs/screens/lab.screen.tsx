@@ -189,7 +189,7 @@ const Lab = LabHoc(
                       label='Code'
                       id='code'
                       hasError={!!errors.code}
-                      placeholder={!!errors.code ? 'Please Enter Code' : 'Code'}
+                      placeholder={errors.code ? 'Please Enter Code' : 'Code'}
                       value={labStore.labs?.code}
                       onChange={code => {
                         onChange(code);
@@ -232,7 +232,7 @@ const Lab = LabHoc(
                       label='Name'
                       name='name'
                       hasError={!!errors.name}
-                      placeholder={!!errors.name ? 'Please Enter Name' : 'Name'}
+                      placeholder={errors.name ? 'Please Enter Name' : 'Name'}
                       value={labStore.labs?.name}
                       onChange={name => {
                         onChange(name);
@@ -606,6 +606,30 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Address'
+                      placeholder={
+                        errors.address ? 'Please enter address' : 'Address'
+                      }
+                      hasError={!!errors.address}
+                      value={labStore.labs?.address}
+                      onChange={address => {
+                        onChange(address);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          address,
+                        });
+                      }}
+                    />
+                  )}
+                  name='address'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                {/* <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Delivery Type'
                       hasError={!!errors.deliveryType}
@@ -641,7 +665,7 @@ const Lab = LabHoc(
                   name='deliveryType'
                   rules={{required: false}}
                   defaultValue=''
-                />
+                /> */}
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller

@@ -15,6 +15,7 @@ export const LIST = gql`
         name
         shortName
         hod
+        reportOrder
         mobileNo
         contactNo
         autoRelease
@@ -85,6 +86,7 @@ export const FILTER = gql`
         name
         shortName
         hod
+        reportOrder
         mobileNo
         contactNo
         autoRelease
@@ -119,6 +121,7 @@ export const FILTER_BY_FIELDS = gql`
         name
         shortName
         hod
+        reportOrder
         mobileNo
         contactNo
         autoRelease
@@ -153,6 +156,7 @@ export const FIND_BY_FIELDS = gql`
         name
         shortName
         hod
+        reportOrder
         mobileNo
         contactNo
         autoRelease

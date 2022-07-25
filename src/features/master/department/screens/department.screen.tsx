@@ -354,6 +354,34 @@ export const Department = DeginisationHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Report Order'
+                      placeholder={
+                        errors.reportOrder
+                          ? 'Please enter report order'
+                          : 'Report Order'
+                      }
+                      type='number'
+                      hasError={!!errors.reportOrder}
+                      value={departmentStore.department?.reportOrder}
+                      onChange={reportOrder => {
+                        onChange(reportOrder);
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
+                          reportOrder: Number.parseFloat(reportOrder),
+                        });
+                      }}
+                    />
+                  )}
+                  name='reportOrder'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
               </List>
 
               <List direction='col' space={4} justify='stretch' fill>

@@ -101,8 +101,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
             },
             {
-              dataField: 'deliveryType',
-              text: 'Delivery Type',
+              dataField: 'deliveryMode',
+              text: 'Delivery Mode',
               sort: true,
               editable: false,
             },
