@@ -226,9 +226,6 @@
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules"
     ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/src/layouts/components/async.component.tsx"
-    ],
     "coveragePathIgnorePatterns": [
       ".eslintrc",
       "index",
@@ -236,8 +233,7 @@
       "model",
       "route",
       "root.store",
-      "service",
-      "<rootDir>/src/layouts/components/async.component.tsx"
+      "service"
     ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

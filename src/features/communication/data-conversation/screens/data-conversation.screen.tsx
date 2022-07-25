@@ -101,7 +101,7 @@ const DataConversation = DataConversationHoc(
                           ? 'Please Enter hexadecimal'
                           : 'Hexa Decimal'
                       }
-                      hasError={errors.hexadecimal}
+                      hasError={!!errors.hexadecimal}
                       value={
                         dataConversationStore.dataConversation?.hexadecimal
                       }
@@ -129,7 +129,7 @@ const DataConversation = DataConversationHoc(
                       placeholder={
                         errors.binary ? 'Please Enter Binary' : 'Binary'
                       }
-                      hasError={errors.binary}
+                      hasError={!!errors.binary}
                       value={dataConversationStore.dataConversation?.binary}
                       onChange={binary => {
                         onChange(binary);
@@ -155,7 +155,7 @@ const DataConversation = DataConversationHoc(
                       placeholder={
                         errors.ascii ? 'Please Enter ascii' : 'ASCII'
                       }
-                      hasError={errors.ascii}
+                      hasError={!!errors.ascii}
                       value={dataConversationStore.dataConversation?.ascii}
                       onChange={ascii => {
                         onChange(ascii);

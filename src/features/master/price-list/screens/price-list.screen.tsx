@@ -226,7 +226,7 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Price Group'
-                      hasError={errors.priceGroup}
+                      hasError={!!errors.priceGroup}
                     >
                       <select
                         value={priceListStore.priceList?.priceGroup}
@@ -296,7 +296,7 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Price List'
-                      hasError={errors.priceList}
+                      hasError={!!errors.priceList}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -311,7 +311,7 @@ export const PriceList = PriceListHoc(
                             ? true
                             : false
                         }
-                        hasError={errors.priceList}
+                        hasError={!!errors.priceList}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(
                             {
@@ -356,7 +356,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={priceListStore.priceList?.description}
                       onChange={description => {
                         onChange(description);
@@ -376,10 +376,10 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
-                      hasError={errors.panelCode}
+                      hasError={!!errors.panelCode}
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
-                        hasError={errors.panelCode}
+                        hasError={!!errors.panelCode}
                         onSelect={item => {
                           onChange(item.panelName);
                           setValue('panelName', item.panelName);
@@ -444,7 +444,7 @@ export const PriceList = PriceListHoc(
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.panelName ? 'border-red-500' : 'border-gray-300'
                       } rounded-md`}
-                      hasError={errors.panelName}
+                      hasError={!!errors.panelName}
                     />
                   )}
                   name='panelName'
@@ -461,7 +461,7 @@ export const PriceList = PriceListHoc(
                         errors.price ? 'Please Enter Price' : 'Price'
                       }
                       type='number'
-                      hasError={errors.price}
+                      hasError={!!errors.price}
                       value={priceListStore.priceList?.price}
                       onChange={price => {
                         onChange(price);
@@ -490,7 +490,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Min Sales Price'
                           : 'Min Sales Price'
                       }
-                      hasError={errors.minSp}
+                      hasError={!!errors.minSp}
                       value={priceListStore.priceList?.minSp}
                       onChange={minSp => {
                         onChange(minSp);
@@ -517,7 +517,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Max Sales Price'
                           : ' Max Sales Price'
                       }
-                      hasError={errors.minSp}
+                      hasError={!!errors.minSp}
                       value={priceListStore.priceList?.maxSp}
                       onChange={maxSp => {
                         onChange(maxSp);
@@ -540,7 +540,7 @@ export const PriceList = PriceListHoc(
                       name='txtMaxDis'
                       type='number'
                       placeholder='Max Dis%'
-                      hasError={errors.maxDis}
+                      hasError={!!errors.maxDis}
                       value={priceListStore.priceList?.maxDis}
                       onChange={maxDis => {
                         onChange(maxDis);
@@ -558,7 +558,10 @@ export const PriceList = PriceListHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={priceListStore.priceList?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -597,7 +600,7 @@ export const PriceList = PriceListHoc(
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -612,7 +615,7 @@ export const PriceList = PriceListHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Fixed Price'
-                        hasError={errors.fixedPrice}
+                        hasError={!!errors.fixedPrice}
                         value={priceListStore.priceList?.fixedPrice}
                         onChange={fixedPrice => {
                           onChange(fixedPrice);
@@ -640,7 +643,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Date Creation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={priceListStore.priceList?.dateCreation}
                       disabled={true}
                     />
@@ -659,7 +662,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Date Active'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={priceListStore.priceList?.dateActive}
                       disabled={true}
                     />
@@ -678,7 +681,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={errors.dateExpiry}
+                      hasError={!!errors.dateExpiry}
                       value={priceListStore.priceList?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -701,7 +704,7 @@ export const PriceList = PriceListHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={priceListStore.priceList?.version}
                       disabled={true}
                     />
@@ -715,7 +718,7 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={

@@ -107,7 +107,7 @@ export const PatientManager = PatientManagerHoc(
                       name='txtPid'
                       disabled={true}
                       placeholder={errors.pId ? 'Please enter pid' : 'Pid'}
-                      hasError={errors.pId}
+                      hasError={!!errors.pId}
                       value={patientManagerStore.patientManger?.pId}
                       onChange={pId => {
                         onChange(pId);
@@ -132,7 +132,7 @@ export const PatientManager = PatientManagerHoc(
                           ? 'Please Enter MobileNo'
                           : 'Mobile No'
                       }
-                      hasError={errors.txtMobileNo}
+                      hasError={!!errors.txtMobileNo}
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       value={patientManagerStore.patientManger?.mobileNo}
@@ -185,7 +185,7 @@ export const PatientManager = PatientManagerHoc(
                           ? 'Please Enter BirthDate'
                           : 'BirthDate'
                       }
-                      hasError={errors.birthDate}
+                      hasError={!!errors.birthDate}
                       value={patientManagerStore.patientManger?.birthDate}
                       onChange={birthDate => {
                         onChange(birthDate);
@@ -224,7 +224,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Title' hasError={errors.title}>
+                    <Form.InputWrapper label='Title' hasError={!!errors.title}>
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.title ? 'border-red-500  ' : 'border-gray-300'
@@ -265,7 +265,7 @@ export const PatientManager = PatientManagerHoc(
                           ? 'Please Enter FirstName'
                           : 'First Name'
                       }
-                      hasError={errors.firstName}
+                      hasError={!!errors.firstName}
                       value={patientManagerStore.patientManger?.firstName}
                       onChange={firstName => {
                         onChange(firstName);
@@ -313,7 +313,7 @@ export const PatientManager = PatientManagerHoc(
                           ? 'Please Enter MiddleName'
                           : 'Middle Name'
                       }
-                      hasError={errors.middleName}
+                      hasError={!!errors.middleName}
                       value={patientManagerStore.patientManger?.middleName}
                       onChange={middleName => {
                         onChange(middleName);
@@ -336,7 +336,7 @@ export const PatientManager = PatientManagerHoc(
                       placeholder={
                         errors.lastName ? 'Please Enter LastName' : 'Last Name'
                       }
-                      hasError={errors.lastName}
+                      hasError={!!errors.lastName}
                       value={patientManagerStore.patientManger?.lastName}
                       onChange={lastName => {
                         onChange(lastName);
@@ -382,7 +382,7 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Sex' hasError={errors.sex}>
+                    <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sex ? 'border-red-500  ' : 'border-gray-300'
@@ -420,7 +420,7 @@ export const PatientManager = PatientManagerHoc(
                   render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Species'
-                      hasError={errors.species}
+                      hasError={!!errors.species}
                     >
                       <select
                         value={patientManagerStore.patientManger?.species}
@@ -464,7 +464,7 @@ export const PatientManager = PatientManagerHoc(
                         placeholder={
                           errors.breed ? 'Please Enter Breed' : 'Breed'
                         }
-                        hasError={errors.breed}
+                        hasError={!!errors.breed}
                         value={patientManagerStore.patientManger?.breed}
                         onChange={breed => {
                           onChange(breed);
@@ -486,7 +486,7 @@ export const PatientManager = PatientManagerHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Usual Doctor'
-                        hasError={errors.usualDoctor}
+                        hasError={!!errors.usualDoctor}
                       >
                         <select
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -525,7 +525,7 @@ export const PatientManager = PatientManagerHoc(
                   render={({field: {onChange}}) => (
                     <Form.Toggle
                       label='History'
-                      hasError={errors.history}
+                      hasError={!!errors.history}
                       value={patientManagerStore.patientManger?.history}
                       onChange={history => {
                         onChange(history);
@@ -562,7 +562,7 @@ export const PatientManager = PatientManagerHoc(
                               <Form.InputWrapper
                                 label='Country'
                                 id='country'
-                                hasError={errors.country}
+                                hasError={!!errors.country}
                               >
                                 <AutoCompleteFilterSingleSelect
                                   loader={loading}
@@ -578,7 +578,7 @@ export const PatientManager = PatientManagerHoc(
                                     patientManagerStore.patientManger.extraData
                                       ?.country
                                   }
-                                  hasError={errors.country}
+                                  hasError={!!errors.country}
                                   onFilter={(value: string) => {
                                     administrativeDivisions.administrativeDivisionsService.filter(
                                       {
@@ -622,7 +622,7 @@ export const PatientManager = PatientManagerHoc(
                               <Form.InputWrapper
                                 label='State'
                                 id='state'
-                                hasError={errors.state}
+                                hasError={!!errors.state}
                               >
                                 <AutoCompleteFilterSingleSelect
                                   loader={loading}
@@ -643,7 +643,7 @@ export const PatientManager = PatientManagerHoc(
                                     displayKey: 'state',
                                     findKey: 'state',
                                   }}
-                                  hasError={errors.state}
+                                  hasError={!!errors.state}
                                   onFilter={(value: string) => {
                                     administrativeDivisions.administrativeDivisionsService.filter(
                                       {
@@ -689,7 +689,7 @@ export const PatientManager = PatientManagerHoc(
                               <Form.InputWrapper
                                 label='City'
                                 id='city'
-                                hasError={errors.city}
+                                hasError={!!errors.city}
                               >
                                 <AutoCompleteFilterSingleSelect
                                   loader={loading}
@@ -713,7 +713,7 @@ export const PatientManager = PatientManagerHoc(
                                     displayKey: 'city',
                                     findKey: 'city',
                                   }}
-                                  hasError={errors.city}
+                                  hasError={!!errors.city}
                                   onFilter={(value: string) => {
                                     administrativeDivisions.administrativeDivisionsService.filter(
                                       {
@@ -759,7 +759,7 @@ export const PatientManager = PatientManagerHoc(
                             <Form.InputWrapper
                               label='Postal Code'
                               id='postalCode'
-                              hasError={errors.postalCode}
+                              hasError={!!errors.postalCode}
                             >
                               <AutoCompleteFilterSingleSelect
                                 loader={loading}
@@ -786,7 +786,7 @@ export const PatientManager = PatientManagerHoc(
                                   displayKey: 'postalCode',
                                   findKey: 'postalCode',
                                 }}
-                                hasError={errors.postalCode}
+                                hasError={!!errors.postalCode}
                                 onFilter={(value: string) => {
                                   administrativeDivisions.administrativeDivisionsService.filter(
                                     {
@@ -842,7 +842,7 @@ export const PatientManager = PatientManagerHoc(
                                   ? 'Please Enter Address'
                                   : 'Address'
                               }
-                              hasError={errors.address}
+                              hasError={!!errors.address}
                               value={
                                 patientManagerStore.patientManger?.extraData
                                   ?.address
@@ -873,7 +873,7 @@ export const PatientManager = PatientManagerHoc(
                               placeholder={
                                 errors.email ? 'Please Enter Email' : 'Email'
                               }
-                              hasError={errors.email}
+                              hasError={!!errors.email}
                               type='mail'
                               value={
                                 patientManagerStore.patientManger?.extraData
@@ -909,7 +909,7 @@ export const PatientManager = PatientManagerHoc(
                               }
                               type='number'
                               pattern={FormHelper.patterns.mobileNo}
-                              hasError={errors.whatsappNumber}
+                              hasError={!!errors.whatsappNumber}
                               value={
                                 patientManagerStore.patientManger?.extraData
                                   ?.whatsappNumber
@@ -1037,7 +1037,7 @@ export const PatientManager = PatientManagerHoc(
                                   ? 'Please Enter FollowUp'
                                   : 'FollowUp'
                               }
-                              hasError={errors.followUp}
+                              hasError={!!errors.followUp}
                               value={
                                 patientManagerStore.patientManger?.extraData
                                   ?.followUp
@@ -1069,7 +1069,7 @@ export const PatientManager = PatientManagerHoc(
                                   ? 'Please Enter FollowUp'
                                   : 'FollowUp'
                               }
-                              hasError={errors.comments}
+                              hasError={!!errors.comments}
                               value={
                                 patientManagerStore.patientManger?.extraData
                                   ?.comments
@@ -1101,7 +1101,7 @@ export const PatientManager = PatientManagerHoc(
                                   ? 'Please Enter FyiLine'
                                   : 'Fyiline'
                               }
-                              hasError={errors.fyiLine}
+                              hasError={!!errors.fyiLine}
                               value={
                                 patientManagerStore.patientManger?.extraData
                                   ?.fyiLine
@@ -1133,7 +1133,7 @@ export const PatientManager = PatientManagerHoc(
                                   ? 'Please Enter Balance'
                                   : 'Balance'
                               }
-                              hasError={errors.balance}
+                              hasError={!!errors.balance}
                               value={
                                 patientManagerStore.patientManger?.extraData
                                   ?.balance
@@ -1165,7 +1165,7 @@ export const PatientManager = PatientManagerHoc(
                                   ? 'Please Enter Entered By'
                                   : 'Entered By'
                               }
-                              hasError={errors.enteredBy}
+                              hasError={!!errors.enteredBy}
                               value={loginStore.login?.userId}
                               disabled={true}
                             />
@@ -1279,7 +1279,7 @@ export const PatientManager = PatientManagerHoc(
                             render={({field: {onChange}}) => (
                               <Form.Toggle
                                 label='Is Mobile WhatsApp'
-                                hasError={errors.isMobileAndWhatsApp}
+                                hasError={!!errors.isMobileAndWhatsApp}
                                 value={
                                   patientManagerStore.patientManger?.extraData
                                     ?.isMobileAndWhatsApp
@@ -1311,7 +1311,7 @@ export const PatientManager = PatientManagerHoc(
                             render={({field: {onChange}}) => (
                               <Form.Toggle
                                 label='Confidental'
-                                hasError={errors.confidental}
+                                hasError={!!errors.confidental}
                                 value={
                                   patientManagerStore.patientManger?.extraData
                                     ?.confidental
@@ -1338,7 +1338,7 @@ export const PatientManager = PatientManagerHoc(
                             render={({field: {onChange}}) => (
                               <Form.Toggle
                                 label='Permanent'
-                                hasError={errors.permanent}
+                                hasError={!!errors.permanent}
                                 value={
                                   patientManagerStore.patientManger?.extraData
                                     ?.permanent

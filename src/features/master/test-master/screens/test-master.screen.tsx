@@ -231,7 +231,7 @@ const TestMater = TestMasterHOC(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='RLab' hasError={errors.rLab}>
+                    <Form.InputWrapper label='RLab' hasError={!!errors.rLab}>
                       <select
                         value={testMasterStore.testMaster?.rLab}
                         disabled={
@@ -291,7 +291,7 @@ const TestMater = TestMasterHOC(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='PLab' hasError={errors.pLab}>
+                    <Form.InputWrapper label='PLab' hasError={!!errors.pLab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
@@ -306,7 +306,7 @@ const TestMater = TestMasterHOC(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
-                        hasError={errors.pLab}
+                        hasError={!!errors.pLab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -339,11 +339,11 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label={'Department'}
-                      hasError={errors.department}
+                      hasError={!!errors.department}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
                         lab={testMasterStore.testMaster?.pLab}
-                        hasError={errors.department}
+                        hasError={!!errors.department}
                         onSelect={item => {
                           onChange(item.name);
                           testMasterStore.updateTestMaster({
@@ -369,7 +369,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Section'
-                        hasError={errors.section}
+                        hasError={!!errors.section}
                       >
                         <select
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -415,7 +415,7 @@ const TestMater = TestMasterHOC(
                       placeholder={
                         errors.testCode ? 'Please Enter testCode' : 'Test Code'
                       }
-                      hasError={errors.testCode}
+                      hasError={!!errors.testCode}
                       value={testMasterStore.testMaster?.testCode}
                       onChange={testCode => {
                         onChange(testCode);
@@ -485,7 +485,7 @@ const TestMater = TestMasterHOC(
                       placeholder={
                         errors.testName ? 'Please Enter testName' : 'Test Name'
                       }
-                      hasError={errors.testName}
+                      hasError={!!errors.testName}
                       disabled={testMasterStore.testMaster?.disableTestName}
                       value={testMasterStore.testMaster?.testName}
                       onChange={testName => {
@@ -512,7 +512,7 @@ const TestMater = TestMasterHOC(
                           ? 'Please Enter description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={testMasterStore.testMaster?.description}
                       onChange={description => {
                         onChange(description);
@@ -537,7 +537,7 @@ const TestMater = TestMasterHOC(
                           ? 'Please Enter shortName'
                           : 'Short Name'
                       }
-                      hasError={errors.shortName}
+                      hasError={!!errors.shortName}
                       value={testMasterStore.testMaster?.shortName}
                       onChange={shortName => {
                         onChange(shortName);
@@ -561,7 +561,7 @@ const TestMater = TestMasterHOC(
                         errors.price ? 'Please Enter price' : 'Price'
                       }
                       type='number'
-                      hasError={errors.price}
+                      hasError={!!errors.price}
                       value={testMasterStore.testMaster?.price}
                       onChange={price => {
                         onChange(price);
@@ -581,7 +581,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Schedule'
-                      hasError={errors.schedule}
+                      hasError={!!errors.schedule}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -591,7 +591,7 @@ const TestMater = TestMasterHOC(
                           displayKey: 'schCode',
                           findKey: 'schCode',
                         }}
-                        hasError={errors.schCode}
+                        hasError={!!errors.schCode}
                         onFilter={(value: string) => {
                           deliveryScheduleStore.deliveryScheduleService.filter({
                             input: {
@@ -626,7 +626,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Validation Level'
-                      hasError={errors.validationLevel}
+                      hasError={!!errors.validationLevel}
                     >
                       <select
                         value={
@@ -668,7 +668,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Processing'
-                      hasError={errors.processing}
+                      hasError={!!errors.processing}
                     >
                       <select
                         value={testMasterStore.testMaster?.processing}
@@ -706,7 +706,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Test Method'
-                      hasError={errors.testMethod}
+                      hasError={!!errors.testMethod}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -715,7 +715,7 @@ const TestMater = TestMasterHOC(
                           list: methodsStore.listMethods,
                           displayKey: ['methodsCode', 'methodsName'],
                         }}
-                        hasError={errors.testMethod}
+                        hasError={!!errors.testMethod}
                         onFilter={(value: string) => {
                           methodsStore.methodsService.filterByFields({
                             input: {
@@ -757,7 +757,7 @@ const TestMater = TestMasterHOC(
                         ? "Please Enter panelMethod"
                         : "Panel Method"
                     }
-                    hasError={errors.panelMethod}
+                    hasError={!!errors.panelMethod}
                     value={testMasterStore.testMaster?.panelMethod}
                     onChange={(panelMethod) => {
                       onChange(panelMethod)
@@ -780,7 +780,7 @@ const TestMater = TestMasterHOC(
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
-                        hasError={errors.bill}
+                        hasError={!!errors.bill}
                         value={testMasterStore.testMaster?.bill}
                         onChange={bill => {
                           onChange(bill);
@@ -801,7 +801,7 @@ const TestMater = TestMasterHOC(
                       <Form.Toggle
                         label='AutoFinish'
                         id='modeAutoFinish'
-                        hasError={errors.autoFinish}
+                        hasError={!!errors.autoFinish}
                         value={testMasterStore.testMaster?.autoFinish}
                         onChange={autoFinish => {
                           onChange(autoFinish);
@@ -822,7 +822,7 @@ const TestMater = TestMasterHOC(
                       <Form.Toggle
                         label='Hold OOS'
                         id='modeHoldOOS'
-                        hasError={errors.holdOOS}
+                        hasError={!!errors.holdOOS}
                         value={testMasterStore.testMaster?.holdOOS}
                         onChange={holdOOS => {
                           onChange(holdOOS);
@@ -842,7 +842,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Confidential'
-                        hasError={errors.confidential}
+                        hasError={!!errors.confidential}
                         value={testMasterStore.testMaster?.confidential}
                         onChange={confidential => {
                           onChange(confidential);
@@ -862,7 +862,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Urgent'
-                        hasError={errors.urgent}
+                        hasError={!!errors.urgent}
                         value={testMasterStore.testMaster?.urgent}
                         onChange={urgent => {
                           onChange(urgent);
@@ -920,7 +920,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Sample Run On'
-                      hasError={errors.sampleRunOn}
+                      hasError={!!errors.sampleRunOn}
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -959,7 +959,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Workflow'
-                      hasError={errors.workflow}
+                      hasError={!!errors.workflow}
                     >
                       <select
                         value={testMasterStore.testMaster?.workflow}
@@ -1008,7 +1008,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Speical Instruction'
-                      hasError={errors.speicalInstructions}
+                      hasError={!!errors.speicalInstructions}
                       placeholder={
                         errors.speicalInstructions
                           ? 'Please Enter speicalInstructions'
@@ -1045,7 +1045,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Disease'
-                      hasError={errors.disease}
+                      hasError={!!errors.disease}
                     >
                       <select
                         value={testMasterStore.testMaster?.disease}
@@ -1079,7 +1079,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Category'
-                      hasError={errors.category}
+                      hasError={!!errors.category}
                     >
                       <select
                         value={testMasterStore.testMaster?.category}
@@ -1113,7 +1113,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Test Type'
-                      hasError={errors.testType}
+                      hasError={!!errors.testType}
                     >
                       <select
                         value={testMasterStore.testMaster?.testType}
@@ -1152,7 +1152,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Workflow Code'
-                      hasError={errors.workflowCode}
+                      hasError={!!errors.workflowCode}
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1209,7 +1209,7 @@ const TestMater = TestMasterHOC(
                       placeholder={
                         errors.cptCode ? 'Please Enter cptCode' : 'CPT Code'
                       }
-                      hasError={errors.cptCode}
+                      hasError={!!errors.cptCode}
                       value={testMasterStore.testMaster?.cptCode}
                       onChange={cptCode => {
                         onChange(cptCode);
@@ -1227,7 +1227,10 @@ const TestMater = TestMasterHOC(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Prefix' hasError={errors.prefix}>
+                    <Form.InputWrapper
+                      label='Prefix'
+                      hasError={!!errors.prefix}
+                    >
                       <select
                         value={testMasterStore.testMaster?.prefix}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1272,7 +1275,7 @@ const TestMater = TestMasterHOC(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Sufix' hasError={errors.sufix}>
+                    <Form.InputWrapper label='Sufix' hasError={!!errors.sufix}>
                       <select
                         value={testMasterStore.testMaster?.sufix}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1308,7 +1311,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Accredited'
-                        hasError={errors.accredited}
+                        hasError={!!errors.accredited}
                         value={testMasterStore.testMaster?.accredited}
                         onChange={accredited => {
                           onChange(accredited);
@@ -1328,7 +1331,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Abn Flag'
-                        hasError={errors.abnFlag}
+                        hasError={!!errors.abnFlag}
                         value={testMasterStore.testMaster?.abnFlag}
                         onChange={abnFlag => {
                           onChange(abnFlag);
@@ -1348,7 +1351,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Cretical'
-                        hasError={errors.cretical}
+                        hasError={!!errors.cretical}
                         value={testMasterStore.testMaster?.cretical}
                         onChange={cretical => {
                           onChange(cretical);
@@ -1368,7 +1371,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Repetition'
-                        hasError={errors.repitation}
+                        hasError={!!errors.repitation}
                         value={testMasterStore.testMaster?.repitation}
                         onChange={repitation => {
                           onChange(repitation);
@@ -1388,7 +1391,7 @@ const TestMater = TestMasterHOC(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Print Label'
-                        hasError={errors.printLabel}
+                        hasError={!!errors.printLabel}
                         value={testMasterStore.testMaster?.printLabel}
                         onChange={printLabel => {
                           onChange(printLabel);
@@ -1428,7 +1431,10 @@ const TestMater = TestMasterHOC(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={testMasterStore.testMaster?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1468,7 +1474,7 @@ const TestMater = TestMasterHOC(
                           ? 'Please Enter dateCreation'
                           : 'Entered By'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -1487,7 +1493,7 @@ const TestMater = TestMasterHOC(
                           ? 'Please Enter dateCreation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={testMasterStore.testMaster?.dateCreation}
                       disabled={true}
                     />
@@ -1506,7 +1512,7 @@ const TestMater = TestMasterHOC(
                           ? 'Please Enter dateActive'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={testMasterStore.testMaster?.dateActive}
                       disabled={true}
                     />
@@ -1525,7 +1531,7 @@ const TestMater = TestMasterHOC(
                           ? 'Please Enter dateExpire'
                           : 'Date Expire'
                       }
-                      hasError={errors.dateExpire}
+                      hasError={!!errors.dateExpire}
                       value={testMasterStore.testMaster?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -1548,7 +1554,7 @@ const TestMater = TestMasterHOC(
                       placeholder={
                         errors.version ? 'Please Enter version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={testMasterStore.testMaster?.version}
                       disabled={true}
                     />
@@ -1564,7 +1570,7 @@ const TestMater = TestMasterHOC(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by code'
-                        hasError={errors.interpretation}
+                        hasError={!!errors.interpretation}
                         data={{
                           list: libraryStore.listLibrary.filter(
                             item => item.libraryType === 'I',
@@ -1606,7 +1612,7 @@ const TestMater = TestMasterHOC(
                     <Form.InputDateTime
                       label='Test Result Date'
                       placeholder='Date'
-                      hasError={errors.testResultDate}
+                      hasError={!!errors.testResultDate}
                       disabled={true}
                       value={testMasterStore.testMaster?.testResultDate}
                       onChange={testResultDate => {
@@ -1627,7 +1633,7 @@ const TestMater = TestMasterHOC(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={testMasterStore.testMaster?.environment}
@@ -1699,7 +1705,7 @@ const TestMater = TestMasterHOC(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Method'
-                          hasError={errors.method}
+                          hasError={!!errors.method}
                           value={testMasterStore.testMaster?.method}
                           onChange={method => {
                             onChange(method);
@@ -1725,7 +1731,7 @@ const TestMater = TestMasterHOC(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Cumulative'
-                          hasError={errors.cumulative}
+                          hasError={!!errors.cumulative}
                           value={testMasterStore.testMaster?.cumulative}
                           onChange={cumulative => {
                             onChange(cumulative);
@@ -1745,7 +1751,7 @@ const TestMater = TestMasterHOC(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='QC Hold'
-                          hasError={errors.qcHold}
+                          hasError={!!errors.qcHold}
                           value={testMasterStore.testMaster?.qcHold}
                           onChange={qcHold => {
                             onChange(qcHold);
@@ -1765,7 +1771,7 @@ const TestMater = TestMasterHOC(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='OOS Hold'
-                          hasError={errors.oosHold}
+                          hasError={!!errors.oosHold}
                           value={testMasterStore.testMaster?.oosHold}
                           onChange={oosHold => {
                             onChange(oosHold);
@@ -1785,7 +1791,7 @@ const TestMater = TestMasterHOC(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Delta Hold'
-                          hasError={errors.deltaHold}
+                          hasError={!!errors.deltaHold}
                           value={testMasterStore.testMaster?.deltaHold}
                           onChange={deltaHold => {
                             onChange(deltaHold);
@@ -1805,7 +1811,7 @@ const TestMater = TestMasterHOC(
                       render={({field: {onChange}}) => (
                         <Form.Toggle
                           label='Allow Partial'
-                          hasError={errors.allowPartial}
+                          hasError={!!errors.allowPartial}
                           value={testMasterStore.testMaster?.allowPartial}
                           onChange={allowPartial => {
                             onChange(allowPartial);

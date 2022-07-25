@@ -109,7 +109,7 @@ export const PriceListTable = observer(() => {
                         ),
                         displayKey: ['priceGroup', 'description'],
                       }}
-                      hasError={errors.priceGroup}
+                      hasError={!!errors.priceGroup}
                       displayValue={item?.priceGroup}
                       onFilter={(value: string) => {
                         priceListStore.priceListService.filterByFields({
@@ -174,7 +174,7 @@ export const PriceListTable = observer(() => {
                       }}
                       displayValue={item?.priceList}
                       disable={item?.priceGroup !== 'CSP001' ? true : false}
-                      hasError={errors.priceList}
+                      hasError={!!errors.priceList}
                       onFilter={(value: string) => {
                         corporateClientsStore.corporateClientsService.filterByFields(
                           {
@@ -225,7 +225,7 @@ export const PriceListTable = observer(() => {
                           ? 'Please Enter description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={item?.description}
                       onChange={description => {
                         onChange(description);
@@ -249,7 +249,7 @@ export const PriceListTable = observer(() => {
                       className={
                         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                       }
-                      hasError={errors.priority}
+                      hasError={!!errors.priority}
                       onChange={priority => {
                         onChange(priority);
                         const priceList = labStore.labs?.priceList;
@@ -280,7 +280,7 @@ export const PriceListTable = observer(() => {
                       className={
                         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                       }
-                      hasError={errors.maxDis}
+                      hasError={!!errors.maxDis}
                       onChange={maxDis => {
                         onChange(maxDis);
                         const priceList = labStore.labs?.priceList;

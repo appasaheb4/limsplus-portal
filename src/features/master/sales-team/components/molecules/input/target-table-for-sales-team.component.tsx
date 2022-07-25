@@ -165,7 +165,7 @@ export const TargetTableForSalesTeam = observer(
                             className={
                               'leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md'
                             }
-                            hasError={errors.targetSale}
+                            hasError={!!errors.targetSale}
                             onChange={targetSale => {
                               onChange(targetSale);
                               // const targets = salesTeamStore.salesTeam?.targets;

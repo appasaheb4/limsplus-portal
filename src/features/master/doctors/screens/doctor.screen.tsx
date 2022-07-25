@@ -221,7 +221,7 @@ const Doctors = DoctorsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Title' hasError={errors.title}>
+                    <Form.InputWrapper label='Title' hasError={!!errors.title}>
                       <select
                         value={doctorsStore.doctors?.title}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -259,7 +259,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Doctor Code'
-                      hasError={errors.doctorCode}
+                      hasError={!!errors.doctorCode}
                       placeholder={
                         errors.doctorCode ? 'Please Enter Code' : 'Doctor Code'
                       }
@@ -312,7 +312,7 @@ const Doctors = DoctorsHoc(
                           ? 'Please Enter Doctor Name'
                           : 'Doctor Name'
                       }
-                      hasError={errors.doctorName}
+                      hasError={!!errors.doctorName}
                       value={doctorsStore.doctors?.doctorName}
                       onChange={doctorName => {
                         onChange(doctorName);
@@ -340,7 +340,7 @@ const Doctors = DoctorsHoc(
                           ? 'Please Enter reportName'
                           : 'Report Name'
                       }
-                      hasError={errors.reportName}
+                      hasError={!!errors.reportName}
                       value={doctorsStore.doctors?.reportName}
                       onChange={reportName => {
                         onChange(reportName);
@@ -359,7 +359,7 @@ const Doctors = DoctorsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Sex' hasError={errors.sex}>
+                    <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sex ? 'border-red-500  ' : 'border-gray-300'
@@ -394,7 +394,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Doctor Type'
-                      hasError={errors.doctorType}
+                      hasError={!!errors.doctorType}
                     >
                       <select
                         value={doctorsStore.doctors?.doctorType}
@@ -433,7 +433,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Speciality'
-                      hasError={errors.speciality}
+                      hasError={!!errors.speciality}
                     >
                       <select
                         value={doctorsStore.doctors?.speciality}
@@ -471,7 +471,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Category'
-                      hasError={errors.category}
+                      hasError={!!errors.category}
                     >
                       <select
                         value={doctorsStore.doctors?.category}
@@ -511,7 +511,7 @@ const Doctors = DoctorsHoc(
                     <Form.InputWrapper
                       label='Country'
                       id='country'
-                      hasError={errors.country}
+                      hasError={!!errors.country}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -523,7 +523,7 @@ const Doctors = DoctorsHoc(
                           displayKey: 'country',
                           findKey: 'country',
                         }}
-                        hasError={errors.country}
+                        hasError={!!errors.country}
                         onFilter={(value: string) => {
                           administrativeDivisions.administrativeDivisionsService.filter(
                             {
@@ -564,7 +564,7 @@ const Doctors = DoctorsHoc(
                     <Form.InputWrapper
                       label='State'
                       id='state'
-                      hasError={errors.state}
+                      hasError={!!errors.state}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -580,7 +580,7 @@ const Doctors = DoctorsHoc(
                           displayKey: 'state',
                           findKey: 'state',
                         }}
-                        hasError={errors.state}
+                        hasError={!!errors.state}
                         displayValue={doctorsStore.doctors?.state}
                         onFilter={(value: string) => {
                           administrativeDivisions.administrativeDivisionsService.filter(
@@ -622,7 +622,7 @@ const Doctors = DoctorsHoc(
                     <Form.InputWrapper
                       label='District'
                       id='district'
-                      hasError={errors.district}
+                      hasError={!!errors.district}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -641,7 +641,7 @@ const Doctors = DoctorsHoc(
                           findKey: 'district',
                         }}
                         displayValue={doctorsStore.doctors.district}
-                        hasError={errors.district}
+                        hasError={!!errors.district}
                         onFilter={(value: string) => {
                           administrativeDivisions.administrativeDivisionsService.filter(
                             {
@@ -682,7 +682,7 @@ const Doctors = DoctorsHoc(
                     <Form.InputWrapper
                       label='City'
                       id='city'
-                      hasError={errors.city}
+                      hasError={!!errors.city}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -702,7 +702,7 @@ const Doctors = DoctorsHoc(
                           displayKey: 'city',
                           findKey: 'city',
                         }}
-                        hasError={errors.city}
+                        hasError={!!errors.city}
                         displayValue={doctorsStore.doctors.city}
                         onFilter={(value: string) => {
                           administrativeDivisions.administrativeDivisionsService.filter(
@@ -744,7 +744,7 @@ const Doctors = DoctorsHoc(
                     <Form.InputWrapper
                       label='Area'
                       id='area'
-                      hasError={errors.area}
+                      hasError={!!errors.area}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -765,7 +765,7 @@ const Doctors = DoctorsHoc(
                           displayKey: 'area',
                           findKey: 'area',
                         }}
-                        hasError={errors.area}
+                        hasError={!!errors.area}
                         displayValue={doctorsStore.doctors.area}
                         onFilter={(value: string) => {
                           administrativeDivisions.administrativeDivisionsService.filter(
@@ -807,7 +807,7 @@ const Doctors = DoctorsHoc(
                     <Form.InputWrapper
                       label='Postal Code'
                       id='postalCode'
-                      hasError={errors.postalCode}
+                      hasError={!!errors.postalCode}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -829,7 +829,7 @@ const Doctors = DoctorsHoc(
                           displayKey: 'postalCode',
                           findKey: 'postalCode',
                         }}
-                        hasError={errors.postalCode}
+                        hasError={!!errors.postalCode}
                         displayValue={
                           doctorsStore.doctors?.postalCode?.toString() || ''
                         }
@@ -879,8 +879,8 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='SBU'
-                      placeholder={errors.sbu ? 'Please Enter sbu' : 'SBU'}
-                      hasError={errors.sbu}
+                      placeholder={!!errors.sbu ? 'Please Enter sbu' : 'SBU'}
+                      hasError={!!errors.sbu}
                       value={doctorsStore.doctors?.sbu}
                       onChange={sbu => {
                         onChange(sbu);
@@ -900,8 +900,8 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Zone'
-                      placeholder={errors.zone ? 'Please Enter Zone' : 'Zone'}
-                      hasError={errors.zone}
+                      placeholder={!!errors.zone ? 'Please Enter Zone' : 'Zone'}
+                      hasError={!!errors.zone}
                       value={doctorsStore.doctors?.zone}
                       onChange={zone => {
                         onChange(zone);
@@ -921,7 +921,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Sales Territory'
-                      hasError={errors.salesTerritoRy}
+                      hasError={!!errors.salesTerritoRy}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -933,7 +933,7 @@ const Doctors = DoctorsHoc(
                           ),
                           displayKey: ['salesTerritory'],
                         }}
-                        hasError={errors.salesTerritoRy}
+                        hasError={!!errors.salesTerritoRy}
                         onFilter={(value: string) => {
                           salesTeamStore.salesTeamService.filterByFields({
                             input: {
@@ -976,7 +976,7 @@ const Doctors = DoctorsHoc(
                       }
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
-                      hasError={errors.telephone}
+                      hasError={!!errors.telephone}
                       value={doctorsStore.doctors?.telephone}
                       onChange={telephone => {
                         onChange(telephone);
@@ -1004,7 +1004,7 @@ const Doctors = DoctorsHoc(
                       }
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       value={doctorsStore.doctors?.mobileNo}
                       onChange={mobileNo => {
                         console.log({mobileNo});
@@ -1031,7 +1031,7 @@ const Doctors = DoctorsHoc(
                       placeholder={
                         errors.email ? 'Please Enter Email' : 'Email'
                       }
-                      hasError={errors.email}
+                      hasError={!!errors.email}
                       value={doctorsStore.doctors?.email}
                       onChange={email => {
                         onChange(email);
@@ -1052,7 +1052,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Delivery Type'
-                      hasError={errors.deliveryType}
+                      hasError={!!errors.deliveryType}
                     >
                       <select
                         value={doctorsStore.doctors?.deliveryType}
@@ -1091,7 +1091,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Delivery Method'
-                      hasError={errors.deliveryMethod}
+                      hasError={!!errors.deliveryMethod}
                     >
                       <select
                         value={doctorsStore.doctors?.deliveryMethod}
@@ -1131,7 +1131,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Registartion Location'
-                      hasError={errors.registrationLocation}
+                      hasError={!!errors.registrationLocation}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -1140,7 +1140,7 @@ const Doctors = DoctorsHoc(
                           list: registrationLocationsStore.listRegistrationLocations,
                           displayKey: ['locationCode', 'locationName'],
                         }}
-                        hasError={errors.registrationLocation}
+                        hasError={!!errors.registrationLocation}
                         onFilter={(value: string) => {
                           registrationLocationsStore.registrationLocationsService.filterByFields(
                             {
@@ -1175,7 +1175,7 @@ const Doctors = DoctorsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <select
                         value={doctorsStore.doctors?.lab}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1232,7 +1232,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Opening Time'
-                      hasError={errors.openingTime}
+                      hasError={!!errors.openingTime}
                       value={doctorsStore.doctors?.openingTime}
                       onChange={openingTime => {
                         onChange(openingTime);
@@ -1252,7 +1252,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Clock
                       label='Closing Time'
-                      hasError={errors.closingTime}
+                      hasError={!!errors.closingTime}
                       value={doctorsStore.doctors?.closingTime}
                       onChange={closingTime => {
                         onChange(closingTime);
@@ -1274,8 +1274,8 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Info'
-                      placeholder={errors.info ? 'Please Enter info' : 'Info'}
-                      hasError={errors.info}
+                      placeholder={!!errors.info ? 'Please Enter info' : 'Info'}
+                      hasError={!!errors.info}
                       value={doctorsStore.doctors?.info}
                       onChange={info => {
                         onChange(info);
@@ -1299,7 +1299,7 @@ const Doctors = DoctorsHoc(
                       placeholder={
                         errors.fyiLine ? 'Please Enter fyiLine' : 'FYI Line'
                       }
-                      hasError={errors.fyiLine}
+                      hasError={!!errors.fyiLine}
                       value={doctorsStore.doctors?.fyiLine}
                       onChange={fyiLine => {
                         onChange(fyiLine);
@@ -1322,7 +1322,7 @@ const Doctors = DoctorsHoc(
                       placeholder={
                         errors.workLine ? 'Please Enter workLine' : 'Work Line'
                       }
-                      hasError={errors.workLine}
+                      hasError={!!errors.workLine}
                       value={doctorsStore.doctors?.workLine}
                       onChange={workLine => {
                         onChange(workLine);
@@ -1348,7 +1348,7 @@ const Doctors = DoctorsHoc(
                           ? 'Please Enter dateCreation'
                           : 'DateCreation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={doctorsStore.doctors?.dateCreation}
                       disabled={true}
                     />
@@ -1367,7 +1367,7 @@ const Doctors = DoctorsHoc(
                           ? 'Please Enter DateActiveFrom'
                           : 'DateActiveFrom'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={doctorsStore.doctors?.dateActive}
                       disabled={true}
                     />
@@ -1386,7 +1386,7 @@ const Doctors = DoctorsHoc(
                           ? 'Please Enter DateActiveTo'
                           : 'DateActiveTo'
                       }
-                      hasError={errors.dateActiveTo}
+                      hasError={!!errors.dateActiveTo}
                       value={doctorsStore.doctors?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -1409,7 +1409,7 @@ const Doctors = DoctorsHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={doctorsStore.doctors?.version}
                       disabled={true}
                     />
@@ -1427,7 +1427,7 @@ const Doctors = DoctorsHoc(
                       placeholder={
                         errors.userId ? 'Please Enter userId' : 'EnterEd By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -1439,7 +1439,10 @@ const Doctors = DoctorsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={doctorsStore && doctorsStore.doctors?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1474,7 +1477,7 @@ const Doctors = DoctorsHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={doctorsStore.doctors?.environment}
@@ -1544,7 +1547,7 @@ const Doctors = DoctorsHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Confidential'
-                        hasError={errors.confidential}
+                        hasError={!!errors.confidential}
                         value={doctorsStore.doctors?.confidential}
                         onChange={confidential => {
                           onChange(confidential);
@@ -1564,7 +1567,7 @@ const Doctors = DoctorsHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Urgent'
-                        hasError={errors.urgent}
+                        hasError={!!errors.urgent}
                         value={doctorsStore.doctors?.urgent}
                         onChange={urgent => {
                           onChange(urgent);
@@ -1584,7 +1587,7 @@ const Doctors = DoctorsHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Report Format'
-                        hasError={errors.reportFormat}
+                        hasError={!!errors.reportFormat}
                         value={doctorsStore.doctors?.reportFormat}
                         onChange={reportFormat => {
                           onChange(reportFormat);

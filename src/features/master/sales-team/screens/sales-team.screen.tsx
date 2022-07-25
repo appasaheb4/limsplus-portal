@@ -172,7 +172,7 @@ export const SalesTeam = SalesTeamHoc(
                     <Form.Input
                       label='Sales Territory'
                       placeholder='Sales Territory'
-                      hasError={errors.salesTerritory}
+                      hasError={!!errors.salesTerritory}
                       value={salesTeamStore.salesTeam?.salesTerritory}
                       onChange={salesTerritory => {
                         onChange(salesTerritory);
@@ -224,10 +224,10 @@ export const SalesTeam = SalesTeamHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Employee code'
-                      hasError={errors.empCode}
+                      hasError={!!errors.empCode}
                     >
                       <AutoCompleteFilterSingleSelectEmpolyeCode
-                        hasError={errors.empCode}
+                        hasError={!!errors.empCode}
                         displayValue={salesTeamStore.salesTeam?.empCode}
                         onSelect={item => {
                           onChange(item.empCode);
@@ -303,7 +303,7 @@ export const SalesTeam = SalesTeamHoc(
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.empName ? 'border-red-500  ' : 'border-gray-300'
                       } rounded-md`}
-                      hasError={errors.empName}
+                      hasError={!!errors.empName}
                       disabled={true}
                       value={salesTeamStore.salesTeam?.empName}
                     />
@@ -317,7 +317,7 @@ export const SalesTeam = SalesTeamHoc(
                   render={() => (
                     <Form.InputWrapper
                       label='Sales Hierarchy'
-                      hasError={errors.salesHierarchy}
+                      hasError={!!errors.salesHierarchy}
                     >
                       {/* {!salesTeamStore.salesTeam?.salesHierarchy && (
                         <Buttons.Button
@@ -356,10 +356,10 @@ export const SalesTeam = SalesTeamHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Targets'
-                      hasError={errors.targets}
+                      hasError={!!errors.targets}
                     >
                       <TargetsTable
-                        hasError={errors.targets}
+                        hasError={!!errors.targets}
                         onSelectItem={item => {
                           onChange(item);
                         }}
@@ -380,7 +380,7 @@ export const SalesTeam = SalesTeamHoc(
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -399,7 +399,7 @@ export const SalesTeam = SalesTeamHoc(
                           ? 'Please Enter Date Creation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={salesTeamStore.salesTeam?.dateCreation}
                       disabled={true}
                     />
@@ -418,7 +418,7 @@ export const SalesTeam = SalesTeamHoc(
                           ? 'Please Enter Date Active'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={salesTeamStore.salesTeam?.dateActive}
                       disabled={true}
                     />
@@ -437,7 +437,7 @@ export const SalesTeam = SalesTeamHoc(
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={errors.schedule}
+                      hasError={!!errors.schedule}
                       value={salesTeamStore.salesTeam?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -460,7 +460,7 @@ export const SalesTeam = SalesTeamHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={salesTeamStore.salesTeam?.version}
                       disabled={true}
                     />
@@ -472,7 +472,10 @@ export const SalesTeam = SalesTeamHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={salesTeamStore.salesTeam?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
