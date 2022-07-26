@@ -7,7 +7,7 @@
     "serve-webapp": "craco build && craco start",
     "dev": "craco start",
     "build": "craco build",
-    "test": "jest --testPathIgnorePatterns=ignore",
+    "test": "craco test",
     "testConfig": "jest --watch --config=jest.config.js",
     "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll=false",
     "eject": "react-scripts eject",
@@ -207,47 +207,5 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/__mocks__/globalMock.js"
-    ],
-    "moduleNameMapper": {
-      "^@/(.+)": "<rootDir>/src/$1",
-      "\\.(css|less|sass|scss|png|jpg)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules"
-    ],
-    "coveragePathIgnorePatterns": [
-      ".eslintrc",
-      "index",
-      "stories",
-      "model",
-      "route",
-      "root.store",
-      "service"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/node_modules/",
-      "!src/App.tsx"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 50,
-        "functions": 60,
-        "lines": 60,
-        "statements": 60
-      }
-    },
-    "testEnvironment": "jsdom"
   }
 }
