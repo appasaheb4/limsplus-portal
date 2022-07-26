@@ -22,7 +22,7 @@ export const InterfaceManagerHoc = (Component: React.FC<any>) => {
           environment: loginStore.login.environment,
         });
       }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
 
     return <Component {...props} />;

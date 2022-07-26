@@ -117,5 +117,6 @@ module.exports = {
         },
       },
     ],
+    'no-extra-boolean-cast': 'off',
   },
 };
