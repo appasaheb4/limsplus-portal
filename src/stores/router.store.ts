@@ -14,11 +14,11 @@ export class RouterStore {
     this.userPermission = [];
     this.lookupItems = [];
 
-    this.userRouter = [];
-    this.selectedUserCategory = {};
-    this.selectedCategory = {};
-    this.router = undefined;
-    this.selectedComponents = {};
+    // this.userRouter = [];
+    // this.selectedUserCategory = {};
+    // this.selectedCategory = {};
+    // this.router = undefined;
+    // this.selectedComponents = {};
 
     makeObservable<RouterStore, any>(this, {
       userRouter: observable,
