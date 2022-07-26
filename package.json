@@ -7,7 +7,7 @@
     "serve-webapp": "craco build && craco start",
     "dev": "craco start",
     "build": "craco build",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns=ignore",
     "testConfig": "jest --watch --config=jest.config.js",
     "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll=false",
     "eject": "react-scripts eject",
@@ -58,7 +58,6 @@
     "lodash": "^4.17.21",
     "mobx": "6.2.0",
     "mobx-react": "7.1.0",
-    "mobx-session": "1.0.0",
     "mobx-sync": "3.0.0",
     "numeral": "^2.0.6",
     "react": "^18.0.0",
@@ -179,6 +178,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-unicorn": "36.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "jest-sonar-reporter": "^2.0.0",
@@ -209,10 +209,23 @@
     }
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/__mocks__/globalMock.js"
+    ],
     "moduleNameMapper": {
       "^@/(.+)": "<rootDir>/src/$1",
-      "\\.(css|scss)$": "identity-obj-proxy"
+      "\\.(css|less|sass|scss|png|jpg)$": "identity-obj-proxy"
     },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules"
+    ],
     "coveragePathIgnorePatterns": [
       ".eslintrc",
       "index",
@@ -234,6 +247,7 @@
         "lines": 60,
         "statements": 60
       }
-    }
+    },
+    "testEnvironment": "jsdom"
   }
 }

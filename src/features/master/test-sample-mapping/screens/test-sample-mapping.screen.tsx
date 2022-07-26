@@ -1000,7 +1000,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Info'
-                      placeholder={!!errors.info ? 'Please Enter info' : 'Info'}
+                      placeholder={errors.info ? 'Please Enter info' : 'Info'}
                       hasError={!!errors.info}
                       value={testSampleMappingStore.testSampleMapping?.info}
                       onChange={info => {

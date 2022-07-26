@@ -84,9 +84,7 @@ const Role = RolesHoc(
                       label='Code'
                       id='code'
                       hasError={!!errors.code}
-                      placeholder={
-                        !!errors.code ? 'Please Enter Code ' : 'Code'
-                      }
+                      placeholder={errors.code ? 'Please Enter Code ' : 'Code'}
                       value={roleStore.role?.code}
                       onChange={code => {
                         onChange(code);

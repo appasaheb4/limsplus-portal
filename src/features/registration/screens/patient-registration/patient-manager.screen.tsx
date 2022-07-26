@@ -106,7 +106,7 @@ export const PatientManager = PatientManagerHoc(
                       label='Pid'
                       name='txtPid'
                       disabled={true}
-                      placeholder={!!errors.pId ? 'Please enter pid' : 'Pid'}
+                      placeholder={errors.pId ? 'Please enter pid' : 'Pid'}
                       hasError={!!errors.pId}
                       value={patientManagerStore.patientManger?.pId}
                       onChange={pId => {

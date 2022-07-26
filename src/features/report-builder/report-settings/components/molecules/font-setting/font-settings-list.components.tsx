@@ -11,7 +11,7 @@ import {
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
-import {invertHex} from '@utils';
+import {invertHex} from '@/library/utils';
 
 interface FontSettingsProps {
   data: any;

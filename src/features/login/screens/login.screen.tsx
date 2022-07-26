@@ -22,7 +22,7 @@ import {FormHelper} from '@/helper';
 
 import {useHistory} from 'react-router-dom';
 import {useStores} from '@/stores';
-import {t} from '@localization';
+import {t} from '@/localization';
 
 export const Login = observer(() => {
   const {userStore, loginStore, rootStore, labStore, roleStore, bannerStore} =

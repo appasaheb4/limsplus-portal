@@ -15,7 +15,6 @@ import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
-import {invertHex} from '@utils';
 
 import {FontSettingHoc} from '../hoc';
 
