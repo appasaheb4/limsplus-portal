@@ -30,6 +30,7 @@ export class PatientOrder {
       cretical: boolean;
       orderStatus: string;
       status: string;
+      reportGroup: number;
       extraData: {
         priority: string;
         outsourceLab: string;

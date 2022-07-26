@@ -685,22 +685,22 @@ export const PatientVisit = PatientVisitHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Type'
-                      hasError={!!errors.deliveryType}
+                      label='Report Type'
+                      hasError={!!errors.reportType}
                     >
                       <select
-                        value={patientVisitStore.patientVisit.deliveryType}
+                        value={patientVisitStore.patientVisit.reportType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryType
+                          errors.reportType
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const deliveryType = e.target.value as string;
-                          onChange(deliveryType);
+                          const reportType = e.target.value as string;
+                          onChange(reportType);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
-                            deliveryType,
+                            reportType,
                           });
                         }}
                       >
@@ -716,7 +716,7 @@ export const PatientVisit = PatientVisitHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='deliveryType'
+                  name='reportType'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1690,26 +1690,26 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
-                            <Form.InputWrapper label='Delivery Method'>
+                            <Form.InputWrapper label='Delivery Mode'>
                               <select
                                 value={
                                   patientVisitStore.patientVisit?.extraData
-                                    ?.deliveryMethod
+                                    ?.deliveryMode
                                 }
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                  errors.deliveryMethod
+                                  errors.deliveryMode
                                     ? 'border-red-500  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
-                                  const deliveryMethod = e.target.value;
-                                  onChange(deliveryMethod);
+                                  const deliveryMode = e.target.value;
+                                  onChange(deliveryMode);
                                   patientVisitStore.updatePatientVisit({
                                     ...patientVisitStore.patientVisit,
                                     extraData: {
                                       ...patientVisitStore.patientVisit
                                         ?.extraData,
-                                      deliveryMethod,
+                                      deliveryMode,
                                     },
                                   });
                                 }}
@@ -1726,7 +1726,7 @@ export const PatientVisit = PatientVisitHoc(
                               </select>
                             </Form.InputWrapper>
                           )}
-                          name='deliveryMethod'
+                          name='deliveryMode'
                           rules={{required: false}}
                           defaultValue=''
                         />

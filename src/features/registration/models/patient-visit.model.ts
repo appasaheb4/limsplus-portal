@@ -18,14 +18,14 @@ export class PatientVisit {
   acClass: string;
   doctorId: string;
   doctorName: string;
-  deliveryType: string;
+  reportType: string;
   history: boolean;
   holdReport: boolean;
   holdReason: string;
   status: string;
   extraData: {
     accountType: string;
-    deliveryMethod: string;
+    deliveryMode: string;
     additionalInfo: string;
     invoiceAc: string;
     billingMethod: string;
@@ -78,7 +78,7 @@ export class PatientVisit {
     this.acClass = rawData.acClass;
     this.doctorId = rawData.doctorId;
     this.doctorName = rawData.doctorName;
-    this.deliveryType = rawData.deliveryType;
+    this.reportType = rawData.reportType;
     this.history = rawData.history;
     this.holdReport = rawData.holdReport;
     this.holdReason = rawData.holdReason;

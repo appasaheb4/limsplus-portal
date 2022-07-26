@@ -136,6 +136,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
             <th className='text-white'>Section</th>
             <th className='text-white'>PLab</th>
             <th className='text-white'>RLab</th>
+            <th className='text-white'>Report Group</th>
             <th className='text-white'>Bill</th>
             <th className='text-white'>Gross Amt</th>
             <th className='text-white'>Net Amt</th>
@@ -143,6 +144,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
             <th className='text-white'>Due Date</th>
             <th className='text-white'>Result Date</th>
             <th className='text-white'>Order Status</th>
+
             <th className='text-white'>Status</th>
           </tr>
         </thead>
@@ -169,6 +171,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               <td>{item.section?.code}</td>
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
+              <td>{item.reportGroup}</td>
               <td>
                 <Form.Toggle
                   label=''
@@ -313,6 +316,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                   ))}
                 </select>
               </td>
+
               <td>
                 <select
                   value={item.status}
@@ -369,6 +373,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               <td>{item.section?.code}</td>
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
+              <td>{item.reportGroup}</td>
               <td>
                 <Form.Toggle
                   label=''
@@ -561,6 +566,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               <td>{item.section?.code}</td>
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
+              <td>{item.reportGroup}</td>
               <td>
                 <Form.Toggle
                   label=''
@@ -753,6 +759,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
               <td>{item.section?.code}</td>
               <td>{item.pLab}</td>
               <td>{item.rLab}</td>
+              <td>{item.reportGroup}</td>
               <td>
                 <Form.Toggle
                   label=''

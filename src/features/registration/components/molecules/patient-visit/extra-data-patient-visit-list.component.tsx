@@ -35,7 +35,7 @@ let submittingSystem;
 let submittindOn;
 let balance;
 let accountType;
-let deliveryMethod;
+let deliveryMode;
 let environment;
 interface ExtraDataPatientVisitProps {
   data: any;
@@ -963,21 +963,19 @@ export const ExtraDataPatientVisitList = observer(
                 ),
               },
               {
-                dataField: 'deliveryMethod',
-                text: 'Delivery Method',
+                dataField: 'deliveryMode',
+                text: 'Delivery Mode',
                 headerClasses: 'textHeader4',
                 sort: true,
                 csvFormatter: (col, row) =>
-                  row.extraData?.deliveryMethod
-                    ? row.extraData.deliveryMethod
-                    : '',
+                  row.extraData?.deliveryMode ? row.extraData.deliveryMode : '',
                 filter: textFilter({
                   getFilter: filter => {
-                    deliveryMethod = filter;
+                    deliveryMode = filter;
                   },
                 }),
                 formatter: (cell, row) => {
-                  return <>{row.extraData.deliveryMethod}</>;
+                  return <>{row.extraData.deliveryMode}</>;
                 },
                 editorRenderer: (
                   editorProps,
@@ -989,15 +987,15 @@ export const ExtraDataPatientVisitList = observer(
                 ) => (
                   <>
                     <select
-                      value={row?.extraData?.deliveryMethod}
+                      value={row?.extraData?.deliveryMode}
                       className={
                         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                       }
                       onChange={e => {
-                        const deliveryMethod = e.target.value;
+                        const deliveryMode = e.target.value;
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            deliveryMethod,
+                            deliveryMode,
                             column.dataField,
                             row._id,
                           );
@@ -1143,7 +1141,7 @@ export const ExtraDataPatientVisitList = observer(
               submittindOn('');
               balance('');
               accountType('');
-              deliveryMethod('');
+              deliveryMode('');
               environment('');
             }}
           />
