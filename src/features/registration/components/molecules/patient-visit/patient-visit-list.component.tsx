@@ -57,7 +57,7 @@ let corporateCode;
 let acClass;
 let doctorId;
 let doctorName;
-let deliveryType;
+let reportType;
 let holdReason;
 let status;
 
@@ -602,14 +602,14 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
             },
             {
-              dataField: 'deliveryType',
-              text: 'Delivery Type',
+              dataField: 'reportType',
+              text: 'Report Type',
               headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  deliveryType = filter;
+                  reportType = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -624,15 +624,15 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <select
-                    value={row.deliveryType}
+                    value={row.reportType}
                     className={
                       'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                     }
                     onChange={e => {
-                      const deliveryType = e.target.value as string;
+                      const reportType = e.target.value as string;
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          deliveryType,
+                          reportType,
                           column.dataField,
                           row._id,
                         );
@@ -881,7 +881,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             acClass('');
             doctorId('');
             doctorName('');
-            deliveryType('');
+            reportType('');
             holdReason('');
             status('');
           }}

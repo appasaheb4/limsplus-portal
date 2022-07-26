@@ -348,6 +348,10 @@ export const PatientOrderExpand = ({
               text: 'RLab',
             },
             {
+              dataField: 'reportGroup',
+              text: 'Report Group',
+            },
+            {
               dataField: 'bill',
               text: 'Bill',
               formatter: (cell, row) => {

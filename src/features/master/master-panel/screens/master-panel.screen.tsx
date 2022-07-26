@@ -350,10 +350,13 @@ const MasterPanel = MasterPanelHoc(
                         lab={masterPanelStore.masterPanel?.pLab}
                         hasError={!!errors.department}
                         onSelect={item => {
+                          console.log({item});
+
                           onChange(item.name);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             department: item.code,
+                            reportGroup: Number.parseFloat(item?.reportOrder),
                           });
                           departmentStore.updateDepartmentList(
                             departmentStore.listDepartmentCopy,
@@ -764,6 +767,7 @@ const MasterPanel = MasterPanelHoc(
                       }
                       hasError={!!errors.reportGroup}
                       value={masterPanelStore.masterPanel?.reportGroup}
+                      disabled={true}
                       onChange={reportGroup => {
                         onChange(reportGroup);
                         masterPanelStore.updateMasterPanel({

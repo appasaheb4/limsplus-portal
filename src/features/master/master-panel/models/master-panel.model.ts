@@ -25,7 +25,7 @@ export class MasterPanel {
   validationLevel: number;
   confidential: boolean;
   urgent: boolean;
-  reportGroup: string;
+  reportGroup: number;
   reportOrder: number;
   ageAction: string;
   hiAge: string;
