@@ -192,10 +192,11 @@
     "webpack": "^5.72.0"
   },
   "lint-staged": {
-    "src/*.{ts,tsx}": [
-      "yarn prettier:fix",
-      "yarn lint",
-      "yarn test:coverage"
+    "src/**/*.{ts,tsx}": [
+      "eslint --ext .tsx --ext .ts src/ --fix"
+    ],
+    "./src/**": [
+      "prettier --write ."
     ]
   },
   "jestSonar": {
