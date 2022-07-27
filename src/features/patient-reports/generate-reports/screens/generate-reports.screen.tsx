@@ -60,7 +60,7 @@ const GenerateReport = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-      <PDFDownloadLink document={<PDFSampleDemo />} fileName='PFDSampleDemp'>
+      {/* <PDFDownloadLink document={<PDFSampleDemo />} fileName='PFDSampleDemp'>
         {({loading, error}) =>
           loading ? (
             <button>Loading document...</button>
@@ -68,8 +68,11 @@ const GenerateReport = observer(() => {
             <button>Download</button>
           )
         }
-      </PDFDownloadLink>
-      <PDFViewer style={{width: '100%', height: '100%', zIndex: 50}}>
+      </PDFDownloadLink> */}
+      <PDFViewer
+        style={{width: '100%', height: '100%', zIndex: 50}}
+        showToolbar={false}
+      >
         <PDFSampleDemo />
       </PDFViewer>
     </>

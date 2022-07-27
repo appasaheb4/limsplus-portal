@@ -9,10 +9,15 @@ interface ApplicationSetting {
   isExpandScreen?: boolean;
 }
 
+interface FooterViewProps {
+  visible: boolean;
+}
+
 export class AppStore {
   applicationSetting!: ApplicationSetting;
   loadApi: {count: number; path?: string};
   environmentValues!: EnvironmentValue;
+  footerView!: FooterViewProps;
 
   constructor() {
     this.loadApi = {count: 0};
@@ -20,14 +25,19 @@ export class AppStore {
       ...this.applicationSetting,
       isExpandScreen: false,
     };
+    this.footerView = {
+      visible: true,
+    };
     makeObservable<AppStore, any>(this, {
       applicationSetting: observable,
       loadApi: observable,
       environmentValues: observable,
+      footerView: observable,
 
       updateApplicationSetting: action,
       updateLoadApi: action,
       updateEnvironmentValue: action,
+      updateFooterView: action,
     });
   }
 
@@ -41,5 +51,8 @@ export class AppStore {
 
   updateEnvironmentValue(value: EnvironmentValue) {
     this.environmentValues = value;
+  }
+  updateFooterView(footer: FooterViewProps) {
+    this.footerView = footer;
   }
 }

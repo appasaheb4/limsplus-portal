@@ -92,7 +92,8 @@ const Dashboard = observer(({children}) => {
       RouterFlow.getLookupValues(pathname).then(items => {
         stores.routerStore.updateLookupItems(items);
       });
-
+      // footer view update
+      stores.appStore.updateFooterView({visible: true});
       // specific api load
       if (pathname === '/collection/lab') {
         await PriceList.startup();
@@ -230,6 +231,12 @@ const Dashboard = observer(({children}) => {
       if (pathname === '/patient-reports/delivery-queue') {
         await DeliveryQueue.startup();
       }
+      if (pathname === '/patient-reports/generate-report') {
+        stores.appStore.updateFooterView({visible: false});
+      } else {
+        stores.appStore.updateFooterView({visible: true});
+      }
+
       stores;
     }
     stores.appStore.updateLoadApi({count: 1});

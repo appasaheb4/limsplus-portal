@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Page,
   Text,
@@ -8,6 +8,20 @@ import {
   StyleSheet,
   Font,
 } from '@react-pdf/renderer';
+import {
+  PdfHeading,
+  PdfRegular,
+  PdfMedium,
+  PdfPageNumber,
+  PdfHeader,
+  PdfSubHeader,
+  PdfView,
+  PdfBorderView,
+  PdfFooterView,
+  PdfGrid,
+} from '@components';
+import {observer} from 'mobx-react';
+
 Font.register({
   family: 'arimaRegular',
   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
@@ -15,74 +29,53 @@ Font.register({
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    fontSize: 12,
-  },
-  viewFooter: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  pageNumber: {
-    fontSize: 12,
-    textAlign: 'center',
-    color: 'grey',
+    zIndex: 1,
   },
 });
 
-export const PDFSampleDemo = () => {
+export const PDFSampleDemo = observer(() => {
   return (
     <Document>
       <Page size='A4' style={styles.page}>
         {/* Header */}
-        <View style={{backgroundColor: 'orange', padding: 10}}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 22,
-              fontFamily: 'arimaRegular',
-            }}
-          >
-            {' '}
-            LimsPlus Solutions Private Limited
-          </Text>
-        </View>
-        <View>
-          <Text>Name: Appasaheb</Text>
-          <Text>Lab No: 8968978</Text>
-        </View>
-        <View>
-          <Text
-            style={styles.pageNumber}
-            render={({pageNumber, totalPages}) =>
-              `Page ${pageNumber} of ${totalPages}`
-            }
-            fixed
-          />
-        </View>
-        <View
-          style={[
-            styles.viewFooter,
-            {backgroundColor: 'orange', padding: 10, alignItems: 'center'},
-          ]}
-        >
-          <Text
-            style={{
-              fontSize: 14,
-              textAlign: 'center',
-              fontFamily: 'arimaRegular',
-            }}
-          >
+        <PdfHeader>
+          <PdfHeading> LimsPlus Solutions Private Limited</PdfHeading>
+        </PdfHeader>
+        <PdfSubHeader>
+          <PdfRegular>Regd. Office: Dr Lal Pathlabs Ltd.</PdfRegular>
+          <PdfRegular>
+            Web: www.limsplus.com CIN No: 9867987FDLKAJ987987
+          </PdfRegular>
+        </PdfSubHeader>
+        {/* Address */}
+        <PdfView>
+          <PdfRegular>S - 59 - LPL - TILAK NAGAR</PdfRegular>
+          <PdfRegular>4B/13, NEAR METRO PILLAR NO.494, TILAK N</PdfRegular>
+          <PdfRegular>AGAR, NEW DELHI - 110018</PdfRegular>
+          <PdfRegular>DELHI</PdfRegular>
+        </PdfView>
+
+        <PdfBorderView>
+          <PdfRegular>Name: MR. Appasaheb Lakade</PdfRegular>
+          <PdfRegular>Name: MR. Appasaheb Lakade</PdfRegular>
+          <PdfRegular>Name: MR. Appasaheb Lakade</PdfRegular>
+          <PdfRegular>Name: MR. Appasaheb Lakade</PdfRegular>
+          <PdfRegular>Name: MR. Appasaheb Lakade</PdfRegular>
+        </PdfBorderView>
+
+        {/* Page Number */}
+        <PdfPageNumber />
+        <PdfFooterView>
+          <PdfMedium textAlign='center'>
             {' '}
             If test results are alarming or unexpected, client is advised to
             contact the Customer Care immediately for possible remedial action.
-          </Text>
-          <Text style={{fontSize: 14, fontFamily: 'arimaRegular'}}>
-            {' '}
+          </PdfMedium>
+          <PdfMedium>
             <b>Tel</b>:+91 9818162255, <b>E-mail</b>: limsplus@gmail.com
-          </Text>
-        </View>
+          </PdfMedium>
+        </PdfFooterView>
       </Page>
     </Document>
   );
-};
+});

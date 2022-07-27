@@ -14,6 +14,8 @@ export * from './atoms/list/list.component';
 export * from './atoms/loader/loader.component';
 export * from './atoms/modals/modals.component';
 export * from './atoms/tooltip/tooltip.component';
+export * from './atoms/pdf/typography.components';
+export * from './atoms/pdf/wrapped-view.components';
 
 export * from './molecules/auto-complete/auto-complete.component';
 export * from './molecules/auto-complete-check/auto-complete-check.component';
