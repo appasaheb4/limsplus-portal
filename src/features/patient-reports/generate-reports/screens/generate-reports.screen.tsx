@@ -8,7 +8,7 @@ import {
   Svg,
   Toast,
   Form,
-  AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Header,
   PageHeading,
   PageHeadingLabDetails,
@@ -29,7 +29,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import {PDFSampleDemo} from '../components';
+import {PdfPatientReport} from '../components';
 import {PDFDownloadLink, PDFViewer} from '@react-pdf/renderer';
 
 const GenerateReport = observer(() => {
@@ -37,9 +37,10 @@ const GenerateReport = observer(() => {
     loading,
     patientManagerStore,
     routerStore,
-    administrativeDivisions,
-    doctorsStore,
+    patientVisitStore,
+    patientRegistrationStore,
     loginStore,
+    generateReportsStore,
   } = useStores();
 
   const {
@@ -57,7 +58,39 @@ const GenerateReport = observer(() => {
   return (
     <>
       <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
+        <div className='flex flex-row gap-2 items-center'>
+          <PageHeading title={routerStore.selectedComponents?.title || ''} />
+          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+            loader={loading}
+            placeholder='Lab Id'
+            className='h-4'
+            data={{
+              list: _.uniqBy(
+                patientVisitStore.labIdList?.filter(
+                  item => item.labId !== undefined,
+                ),
+                'labId',
+              ),
+              displayKey: ['labId'],
+            }}
+            displayValue={
+              patientRegistrationStore.defaultValues?.labId?.toString() || ''
+            }
+            onFilter={(labId: string) => {
+              patientVisitStore.patientVisitService.filterByLabId({
+                input: {
+                  filter: {labId},
+                },
+              });
+            }}
+            onSelect={item => {
+              generateReportsStore.generateReportsService.listPatientReports(
+                item.labId,
+              );
+              console.log({item});
+            }}
+          />
+        </div>
         <PageHeadingLabDetails store={loginStore} />
       </Header>
       {/* <PDFDownloadLink document={<PDFSampleDemo />} fileName='PFDSampleDemp'>
@@ -73,7 +106,7 @@ const GenerateReport = observer(() => {
         style={{width: '100%', height: '100%', zIndex: 50}}
         showToolbar={false}
       >
-        <PDFSampleDemo />
+        <PdfPatientReport data={generateReportsStore.patientReports} />
       </PDFViewer>
     </>
   );

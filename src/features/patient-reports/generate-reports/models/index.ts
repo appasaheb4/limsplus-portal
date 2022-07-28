@@ -1,1 +1,1 @@
-export {};
+export * from './patient-report.model';

@@ -1,1 +1,1 @@
-export * from './molecules/PDFSampleDemo';
+export * from './molecules/pdf-patient-report.component';

@@ -67,6 +67,7 @@ import {GeneralResultEntryStore} from '@/features/result-entry/general-result-en
 
 // Patient Report
 import {DeliveryQueueStore} from '@/features/patient-reports/delivery-queue/stores';
+import {GenerateReportsStore} from '@/features/patient-reports/generate-reports/stores';
 
 export class Stores extends Store {
   rootStore!: RootStore;
@@ -134,6 +135,7 @@ export class Stores extends Store {
 
   // patient report
   deliveryQueueStore!: DeliveryQueueStore;
+  generateReportsStore!: GenerateReportsStore;
 
   constructor() {
     super();
@@ -201,6 +203,7 @@ export class Stores extends Store {
 
     // patient report
     this.deliveryQueueStore = new DeliveryQueueStore();
+    this.generateReportsStore = new GenerateReportsStore();
   }
 }
 

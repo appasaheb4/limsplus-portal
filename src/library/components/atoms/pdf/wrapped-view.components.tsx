@@ -11,20 +11,29 @@ import {
 
 interface PdfViewProps {
   mh?: number;
+  mt?: number;
+  mv?: number;
   p?: number;
   borderColor?: string;
   bg?: string;
   bw?: number;
   alignItems?: 'flex-end' | 'flex-start' | 'center';
+  flexDirection?: 'row' | 'column';
   children?: React.ReactNode;
 }
 
-export const PdfView = ({mh = 20, p = 2, children}: PdfViewProps) => {
+export const PdfView = ({
+  mh = 20,
+  p = 2,
+  flexDirection = 'column',
+  children,
+}: PdfViewProps) => {
   return (
     <View
       style={{
         marginHorizontal: mh,
         padding: p,
+        flexDirection: flexDirection,
       }}
     >
       {children}
@@ -34,6 +43,7 @@ export const PdfView = ({mh = 20, p = 2, children}: PdfViewProps) => {
 
 export const PdfBorderView = ({
   mh = 20,
+  mv = 50,
   p = 2,
   borderColor = 'gray',
   bw = 2,
@@ -43,6 +53,7 @@ export const PdfBorderView = ({
     <View
       style={{
         marginHorizontal: mh,
+        marginVertical: mv,
         padding: p,
         borderColor: borderColor,
         borderWidth: bw,
@@ -111,15 +122,21 @@ export const PdfFooterView = ({
 
 interface GridProps {
   cols?: number;
+  bg?: string;
   children?: React.ReactNode;
 }
 
-export const PdfGrid: React.FunctionComponent<GridProps> = props => (
+export const PdfGrid: React.FunctionComponent<GridProps> = ({
+  cols = 1,
+  bg = 'white',
+  children,
+}) => (
   <View
     style={{
-      flex: 1,
+      width: `${100 / cols}%`,
+      backgroundColor: bg,
     }}
   >
-    {props.children}
+    {children}
   </View>
 );
