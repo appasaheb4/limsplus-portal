@@ -67,6 +67,7 @@ import * as ReportSettings from '@/features/report-builder/report-settings';
 
 // Patient Report
 import * as DeliveryQueue from '@/features/patient-reports/delivery-queue';
+import * as GenerateReport from '@/features/patient-reports/generate-reports';
 
 const Dashboard = observer(({children}) => {
   const {loginStore} = useStores();
@@ -233,6 +234,7 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/patient-reports/generate-report') {
         stores.appStore.updateFooterView({visible: false});
+        await GenerateReport.startup();
       } else {
         stores.appStore.updateFooterView({visible: true});
       }

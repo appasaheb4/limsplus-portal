@@ -97,7 +97,7 @@ export const PdfRegular = ({
 
 export const PdfSmall = ({
   fontWeight = 'normal',
-  fontSize = 8,
+  fontSize = 10,
   fontFamily = 'arimaRegular',
   children,
 }: PdfTextProps) => {
@@ -120,6 +120,7 @@ export const PdfPageNumber = () => {
       <Text
         style={{
           fontSize: 12,
+          marginVertical: 5,
           textAlign: 'center',
           color: 'grey',
         }}
