@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Font,
 } from '@react-pdf/renderer';
-
+import {Style} from '@react-pdf/types';
 interface PdfViewProps {
   mh?: number;
   mt?: number;
@@ -19,6 +19,8 @@ interface PdfViewProps {
   bw?: number;
   alignItems?: 'flex-end' | 'flex-start' | 'center';
   flexDirection?: 'row' | 'column';
+  fixed?: boolean;
+  style?: Style | Style[];
   children?: React.ReactNode;
 }
 
@@ -26,15 +28,19 @@ export const PdfView = ({
   mh = 20,
   p = 2,
   flexDirection = 'column',
+  style,
+  fixed = false,
   children,
 }: PdfViewProps) => {
   return (
     <View
       style={{
+        ...style,
         marginHorizontal: mh,
         padding: p,
         flexDirection: flexDirection,
       }}
+      fixed={fixed}
     >
       {children}
     </View>
@@ -47,17 +53,21 @@ export const PdfBorderView = ({
   p = 2,
   borderColor = 'gray',
   bw = 2,
+  style,
+  fixed = false,
   children,
 }: PdfViewProps) => {
   return (
     <View
       style={{
+        ...style,
         marginHorizontal: mh,
         marginVertical: mv,
         padding: p,
         borderColor: borderColor,
         borderWidth: bw,
       }}
+      fixed={fixed}
     >
       {children}
     </View>
@@ -68,6 +78,7 @@ export const PdfHeader = ({
   bg = 'orange',
   p = 10,
   alignItems = 'flex-start',
+  fixed = false,
   children,
 }: PdfViewProps) => {
   return (
@@ -77,6 +88,7 @@ export const PdfHeader = ({
         alignItems: alignItems,
         padding: p,
       }}
+      fixed={fixed}
     >
       {children}
     </View>
@@ -87,6 +99,7 @@ export const PdfSubHeader = ({
   bg = 'yellow',
   p = 4,
   alignItems = 'flex-end',
+  fixed = false,
   children,
 }: PdfViewProps) => {
   return (
@@ -96,6 +109,7 @@ export const PdfSubHeader = ({
         alignItems: alignItems,
         padding: p,
       }}
+      fixed={fixed}
     >
       {children}
     </View>
@@ -106,6 +120,7 @@ export const PdfFooterView = ({
   bg = 'orange',
   p = 10,
   alignItems = 'center',
+  fixed = false,
   children,
 }: PdfViewProps) => {
   return (
@@ -114,6 +129,7 @@ export const PdfFooterView = ({
         {position: 'absolute', bottom: 0, left: 0, right: 0},
         {backgroundColor: bg, padding: p, alignItems: alignItems},
       ]}
+      fixed={fixed}
     >
       {children}
     </View>
