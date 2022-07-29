@@ -1,0 +1,326 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader component render loader correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body
+    class="modal-open"
+    style="padding-right: 0px;"
+  >
+    <div
+      aria-hidden="true"
+    >
+      <div
+        class="bg-black"
+      />
+    </div>
+    <div
+      class="fade modal-backdrop show"
+    />
+    <div
+      aria-modal="true"
+      class="fade modal show"
+      role="dialog"
+      style="display: block;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-body"
+            style="text-align: center;"
+          >
+            <div
+              class="spinner-border text-dark"
+            />
+            <br />
+            <span>
+              Loading...
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div
+    aria-hidden="true"
+  >
+    <div
+      class="bg-black"
+    />
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Modal Loader component render modal loader correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body
+    class=""
+    style="padding-right: 0px;"
+  >
+    <div>
+      <div
+        class="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+      >
+        <div
+          class="relative  mx-auto "
+        >
+          <div
+            class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+          >
+            <div
+              class="relative p-2 flex-auto flex flex-col items-center"
+            >
+              <style>
+                
+    .spinner .background {
+      fill: #555;
+    }
+    .spinner .line {
+      animation: PacMan 5s infinite;
+      fill: none;
+      stroke: #d26188;
+      stroke-width: 25;
+    }
+    .spinner .spinner {
+      animation: Spin 2s infinite linear;
+    }
+    @keyframes PacMan {
+      0% {
+        stroke-dasharray: 79px 79;
+      }
+      50% {
+        stroke-dasharray: 1px 79;
+      }
+      100% {
+        stroke-dasharray: 79px 79;
+      }
+    }
+    @keyframes Spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+              </style>
+              <svg
+                class="spinner"
+                height="100"
+                viewBox="0 0 100 100"
+                width="100"
+              >
+                <circle
+                  class="background"
+                  cx="0"
+                  cy="0"
+                />
+                <path
+                  class="line"
+                  d="M 37.5,50 C 37.5,43.096441 43.096441,37.5 50,37.5 C 56.903559,37.5 62.5,43.096441 62.5,50 C 62.5,56.903559 56.903559,62.5 50,62.5 C 43.096441,62.5 37.5,56.903559 37.5,50"
+                />
+              </svg>
+               
+              <span
+                style="margin-top: -15px;"
+              >
+                loading ...
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="opacity-25 fixed inset-0 z-40 bg-black"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+    >
+      <div
+        class="relative  mx-auto "
+      >
+        <div
+          class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+        >
+          <div
+            class="relative p-2 flex-auto flex flex-col items-center"
+          >
+            <style>
+              
+    .spinner .background {
+      fill: #555;
+    }
+    .spinner .line {
+      animation: PacMan 5s infinite;
+      fill: none;
+      stroke: #d26188;
+      stroke-width: 25;
+    }
+    .spinner .spinner {
+      animation: Spin 2s infinite linear;
+    }
+    @keyframes PacMan {
+      0% {
+        stroke-dasharray: 79px 79;
+      }
+      50% {
+        stroke-dasharray: 1px 79;
+      }
+      100% {
+        stroke-dasharray: 79px 79;
+      }
+    }
+    @keyframes Spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+            </style>
+            <svg
+              class="spinner"
+              height="100"
+              viewBox="0 0 100 100"
+              width="100"
+            >
+              <circle
+                class="background"
+                cx="0"
+                cy="0"
+              />
+              <path
+                class="line"
+                d="M 37.5,50 C 37.5,43.096441 43.096441,37.5 50,37.5 C 56.903559,37.5 62.5,43.096441 62.5,50 C 62.5,56.903559 56.903559,62.5 50,62.5 C 43.096441,62.5 37.5,56.903559 37.5,50"
+              />
+            </svg>
+             
+            <span
+              style="margin-top: -15px;"
+            >
+              loading ...
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="opacity-25 fixed inset-0 z-40 bg-black"
+    />
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
