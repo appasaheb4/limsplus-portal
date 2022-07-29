@@ -1,19 +1,15 @@
 import React from 'react';
-import {
-  Page,
-  Text,
-  View,
-  Image,
-  Document,
-  StyleSheet,
-  Font,
-} from '@react-pdf/renderer';
+import {Text} from '@react-pdf/renderer';
+import {Style} from '@react-pdf/types';
 
 interface PdfTextProps {
   fontWeight?: 'bold' | 'medium' | 'normal';
   fontSize?: number;
   fontFamily?: string;
   textAlign?: 'center' | 'left';
+  style?: Style | Style[];
+  bottom?: number;
+  fixed?: boolean;
   children?: React.ReactNode;
 }
 
@@ -99,11 +95,13 @@ export const PdfSmall = ({
   fontWeight = 'normal',
   fontSize = 10,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
     <Text
       style={{
+        ...style,
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
@@ -114,21 +112,21 @@ export const PdfSmall = ({
   );
 };
 
-export const PdfPageNumber = () => {
+export const PdfPageNumber = ({style, bottom = 55}: PdfTextProps) => {
   return (
-    <View>
-      <Text
-        style={{
-          fontSize: 12,
-          marginVertical: 5,
-          textAlign: 'center',
-          color: 'grey',
-        }}
-        render={({pageNumber, totalPages}) =>
-          `Page ${pageNumber} of ${totalPages}`
-        }
-        fixed
-      />
-    </View>
+    <Text
+      style={{
+        ...style,
+        position: 'absolute',
+        bottom: bottom,
+        right: 5,
+        fontSize: 12,
+        color: 'grey',
+      }}
+      render={({pageNumber, totalPages}) =>
+        `Page ${pageNumber} of ${totalPages}`
+      }
+      fixed
+    />
   );
 };

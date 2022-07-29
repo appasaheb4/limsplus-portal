@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   Page,
   Text,
@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Font,
 } from '@react-pdf/renderer';
+
 import dayjs from 'dayjs';
 import {
   PdfHeading,
@@ -21,6 +22,7 @@ import {
   PdfFooterView,
   PdfGrid,
   PdfSmall,
+  PdfTable,
 } from '@components';
 import {observer} from 'mobx-react';
 
@@ -28,10 +30,11 @@ Font.register({
   family: 'arimaRegular',
   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
 });
+
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    zIndex: 1,
+    paddingBottom: '80pt',
   },
 });
 
@@ -40,16 +43,341 @@ interface PdfPatientReportProps {
 }
 
 export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
-  console.log({data});
+  const [numPages, setNumPages] = useState(null);
+
+  const fields = [
+    {
+      title: 'Test Name',
+      width: '30',
+    },
+    {
+      title: 'Results',
+      width: '35',
+    },
+    {
+      title: 'Units',
+      width: '20',
+    },
+    {
+      title: 'Bio. Ref. Interval',
+      width: '15',
+    },
+  ];
+
+  const tableData = [
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Appasaheb',
+      results: '98798',
+      units: 'A',
+      bioRefInterval: '876',
+    },
+    {
+      testName: 'Sagar',
+      results: '98798',
+      units: 'B',
+      bioRefInterval: '876',
+    },
+  ];
 
   return (
     <Document>
       <Page size='A4' style={styles.page}>
         {/* Header */}
-        <PdfHeader>
+        <PdfHeader fixed>
           <PdfHeading> LimsPlus Solutions Private Limited</PdfHeading>
         </PdfHeader>
-        <PdfSubHeader>
+        <PdfSubHeader fixed>
           <PdfRegular>Regd. Office: Dr Lal Pathlabs Ltd.</PdfRegular>
           <PdfRegular>
             Web: www.limsplus.com CIN No: 9867987FDLKAJ987987
@@ -57,7 +385,7 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
         </PdfSubHeader>
 
         {/* Address */}
-        <PdfView>
+        <PdfView fixed>
           <PdfRegular>{`${data?.rLabCode || ''} - ${
             data?.rLabName || ''
           }`}</PdfRegular>
@@ -65,21 +393,22 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
           <PdfRegular>{`${data?.rLabCity || ''}`}</PdfRegular>
         </PdfView>
 
-        <PdfBorderView mv={10}>
+        {/* Patient Details */}
+        <PdfBorderView mv={10} fixed>
           <PdfView mh={0} p={0} flexDirection='row'>
             <PdfGrid cols={3}>
-              <PdfRegular fontSize={11}>{`Name: ${data?.title || ''} ${
+              <PdfSmall fontSize={11}>{`Name: ${data?.title || ''} ${
                 data?.firstName || ''
-              } ${data?.middleName || ''} ${data?.lastName || ''}`}</PdfRegular>
-              <PdfRegular>{`Lab No: ${data?.labId || ''}`}</PdfRegular>
-              <PdfRegular>{`A/c Status: ${data?.acStatus || ''}`}</PdfRegular>
-              <PdfRegular>{`Age: ${data?.age || ''} ${
+              } ${data?.middleName || ''} ${data?.lastName || ''}`}</PdfSmall>
+              <PdfSmall>{`Lab No: ${data?.labId || ''}`}</PdfSmall>
+              <PdfSmall>{`A/c Status: ${data?.acStatus || ''}`}</PdfSmall>
+              <PdfSmall>{`Age: ${data?.age || ''} ${
                 data?.ageUnits || ''
-              }`}</PdfRegular>
+              }`}</PdfSmall>
             </PdfGrid>
             <PdfGrid cols={3}>
-              <PdfRegular>{`Ref By: ${data?.refBy || ''}`}</PdfRegular>
-              <PdfRegular>{`Gender: ${data?.sex || ''}`}</PdfRegular>
+              <PdfSmall>{`Ref By: ${data?.refBy || ''}`}</PdfSmall>
+              <PdfSmall>{`Gender: ${data?.sex || ''}`}</PdfSmall>
             </PdfGrid>
             <PdfGrid cols={3}>
               <PdfSmall>{`Collected: ${dayjs(data?.collectionDate).format(
@@ -98,18 +427,22 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
           </PdfView>
         </PdfBorderView>
 
+        {/* Table */}
+
+        <PdfTable headerFixed fields={fields} data={tableData} />
         {/* Page Number */}
         <PdfPageNumber />
 
-        <PdfFooterView>
-          <PdfMedium textAlign='center'>
+        {/* Footer */}
+        <PdfFooterView fixed>
+          <PdfSmall textAlign='center'>
             {' '}
             If test results are alarming or unexpected, client is advised to
             contact the Customer Care immediately for possible remedial action.
-          </PdfMedium>
-          <PdfMedium>
+          </PdfSmall>
+          <PdfSmall>
             <b>Tel</b>:+91 9818162255, <b>E-mail</b>: limsplus@gmail.com
-          </PdfMedium>
+          </PdfSmall>
         </PdfFooterView>
       </Page>
     </Document>

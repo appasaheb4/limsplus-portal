@@ -1829,6 +1829,8 @@ export const PatientVisit = PatientVisitHoc(
             )}
             onDelete={selectedItem => setModalConfirm(selectedItem)}
             onSelectedRow={rows => {
+              console.log({rows});
+
               setModalConfirm({
                 show: true,
                 type: 'delete',
@@ -1934,9 +1936,15 @@ export const PatientVisit = PatientVisitHoc(
           {...modalConfirm}
           click={(type?: string) => {
             if (type === 'delete') {
+              console.log({modalConfirm});
+
               patientVisitStore.patientVisitService
                 .deletePatientVisit({
-                  input: {id: modalConfirm.id, labId: modalConfirm.labId},
+                  input: {
+                    id: modalConfirm.id,
+                    labId: modalConfirm.labId,
+                    __typename: undefined,
+                  },
                 })
                 .then((res: any) => {
                   if (res.removePatientVisit.success) {
