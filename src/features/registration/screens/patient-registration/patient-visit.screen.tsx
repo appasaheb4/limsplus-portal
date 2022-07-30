@@ -1829,13 +1829,11 @@ export const PatientVisit = PatientVisitHoc(
             )}
             onDelete={selectedItem => setModalConfirm(selectedItem)}
             onSelectedRow={rows => {
-              console.log({rows});
-
               setModalConfirm({
                 show: true,
                 type: 'delete',
-                id: rows.filter(item => item._id),
-                labId: rows.filter(item => item.labId),
+                id: rows.filter(item => item._id).map(item => item._id),
+                labId: rows.filter(item => item.labId).map(item => item.labId),
                 title: 'Are you sure?',
                 body: 'Delete selected items!',
               });

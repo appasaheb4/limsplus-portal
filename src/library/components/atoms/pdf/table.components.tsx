@@ -53,20 +53,18 @@ export const PdfTable = ({
     <View style={[styles.tableRow, styles.headerBg]} fixed={headerFixed}>
       {fields.map((item, index) => (
         <View key={index} style={[{width: item.width + '%'}]}>
-          <Text style={[styles.tableCellHeader]}>{item.title}</Text>
+          <Text style={[styles.tableCellHeader]}>{item?.title}</Text>
         </View>
       ))}
     </View>
-    {data.map((item, index) => (
+    {data?.map((item, index) => (
       <View key={index} style={styles.tableRow}>
         {Object.entries(item).map((_item: any, _idx) => (
           <PdfBorderView
             key={_idx}
             style={{
-              width: fields[_idx].width + '%',
+              width: fields[_idx]?.width + '%',
               borderStyle: 'solid',
-              borderLeftWidth: 0,
-              borderTopWidth: 0,
             }}
             mh={0}
             mv={0}
@@ -74,7 +72,39 @@ export const PdfTable = ({
             bw={1}
             borderColor='#000'
           >
-            <PdfSmall style={{textAlign: 'center'}}>{_item[1]}</PdfSmall>
+            {typeof _item[1] == 'object' ? (
+              <>
+                <PdfSmall style={{textAlign: 'center'}}>
+                  {_item[1]?.panelDesc
+                    ? `Panel Description : ${_item[1]?.panelDesc} \n`
+                    : ''}
+                </PdfSmall>
+                <PdfSmall style={{textAlign: 'center'}}>
+                  {_item[1]?.panelMethodName
+                    ? `Panel Method Name: ${_item[1]?.panelMethodName} \n`
+                    : ''}
+                </PdfSmall>
+                <PdfSmall style={{textAlign: 'center'}}>
+                  {_item[1]?.testMethodName
+                    ? `Test Method Name: ${_item[1]?.testMethodName} \n`
+                    : ''}
+                </PdfSmall>
+                <PdfSmall style={{textAlign: 'center'}}>
+                  {_item[1]?.analyteDesc
+                    ? `Analyte Description: ${_item[1]?.analyteDesc} \n`
+                    : ''}
+                </PdfSmall>
+                <PdfSmall style={{textAlign: 'center'}}>
+                  {_item[1]?.analyteMethodName
+                    ? `Analyte Method Name: ${_item[1]?.analyteMethodName}`
+                    : ''}
+                </PdfSmall>
+              </>
+            ) : (
+              <PdfSmall style={{textAlign: 'center'}}>
+                {_item[1] || ''}
+              </PdfSmall>
+            )}
           </PdfBorderView>
         ))}
       </View>
