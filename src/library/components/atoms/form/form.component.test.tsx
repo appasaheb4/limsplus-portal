@@ -29,11 +29,21 @@ describe('Input component', () => {
         type='text'
         value='test'
         onChange={val => jest.fn()}
-        defaultValue='test'
+        onBlur={value => jest.fn()}
+        onKeyDown={val => jest.fn()}
       />,
     );
     const input = inputComp.getByTestId('INPT');
-    fireEvent.change(input, {target: {value: 'test'}});
+    fireEvent.change(input, {target: {value: 'check'}});
+    fireEvent.blur(input);
+    fireEvent.keyDown(input, {
+      key: 'Escape',
+      code: 'Escape',
+      keyCode: 27,
+      charCode: 27,
+    });
+    fireEvent.keyPress(input, {key: 'Enter', keyCode: 13});
+
     expect(input).toMatchSnapshot();
   });
 });
