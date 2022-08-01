@@ -1,5 +1,6 @@
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   CheckBox,
   Input,
@@ -35,6 +36,7 @@ describe('Input component', () => {
     );
     const input = inputComp.getByTestId('INPT');
     fireEvent.change(input, {target: {value: 'check'}});
+    userEvent.type(input, 'value');
     fireEvent.blur(input);
     fireEvent.keyDown(input, {
       key: 'Escape',
