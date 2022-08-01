@@ -96,7 +96,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         data-testid='INPT'
         name={props.name}
         style={props.style}
-        // defaultValue={props.defaultValue}
+        defaultValue={props.defaultValue}
         placeholder={props.placeholder}
         required={props.required || false}
         disabled={props.disabled || false}
