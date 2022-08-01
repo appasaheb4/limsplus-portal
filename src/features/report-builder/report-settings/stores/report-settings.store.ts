@@ -7,6 +7,7 @@ import {
   FontSettingService,
   ReportFieldMappingService,
 } from '../services';
+
 import {
   ReportSection,
   SectionSettings,
@@ -14,6 +15,7 @@ import {
   GeneralSettings,
   FontSetting,
   ReportFieldMapping,
+  PageBranding,
 } from '../models';
 
 export class ReportSettingStore {
@@ -38,6 +40,9 @@ export class ReportSettingStore {
   reportFieldMapping!: ReportFieldMapping;
   reportFieldMappingList!: Array<ReportFieldMapping>;
   reportFieldMappingListCount: number = 0;
+  pageBranding!: PageBranding;
+  pageBrandingList!: Array<PageBranding>;
+  pageBrandingListCount: number = 0;
 
   constructor() {
     this.generalSetting = new GeneralSettings({});
@@ -67,6 +72,8 @@ export class ReportSettingStore {
     this.fontSettingListCopy = [];
     this.reportFieldMapping = new ReportFieldMapping({});
     this.reportFieldMappingList = [];
+    this.pageBranding = new PageBranding({});
+    this.pageBrandingList = [];
 
     makeObservable<ReportSettingStore, any>(this, {
       reportSectionList: observable,
@@ -108,6 +115,8 @@ export class ReportSettingStore {
       updateFontSettingList: action,
       updateReportFieldMapping: action,
       updateReportFieldMappingList: action,
+      updatePageBranding: action,
+      updatePageBrandingList: action,
     });
   }
 
@@ -220,5 +229,13 @@ export class ReportSettingStore {
     this.reportFieldMappingList = res.reportFieldMappings.data;
     this.reportFieldMappingListCount =
       res.reportFieldMappings.paginatorInfo.count;
+  }
+
+  updatePageBranding(payload: PageBranding) {
+    this.pageBranding = payload;
+  }
+
+  updatePageBrandingList(res: any) {
+    this.pageBrandingList = res;
   }
 }

@@ -15,6 +15,7 @@ import {PageSetting} from './page-setting.screen';
 import {GeneralSettings} from './general-setting.screen';
 import {FontSetting} from './font-setting.screen';
 import {ReportFieldMapping} from './report-field-mapping.screen';
+import {PageBranding} from './page-branding.screen';
 
 const ReportSettings = observer(() => {
   const {
@@ -46,6 +47,7 @@ const ReportSettings = observer(() => {
             {title: 'REPORT SECTION'},
             {title: 'SECTION SETTING'},
             {title: 'PAGE SETTING'},
+            {title: 'PAGE BRANDING'},
             {title: 'GENERAL SETTING'},
             {title: 'FONT SETTING'},
             {title: 'REPORT FIELD MAPPING'},
@@ -53,11 +55,12 @@ const ReportSettings = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                // expanded={item.title === "PATIENT MANAGER"}
+                expanded={item.title === 'PAGE BRANDING'}
               >
                 {item.title === 'REPORT SECTION' && <ReportSection />}
                 {item.title === 'SECTION SETTING' && <SectionSettings />}
                 {item.title === 'PAGE SETTING' && <PageSetting />}
+                {item.title === 'PAGE BRANDING' && <PageBranding />}
                 {item.title === 'GENERAL SETTING' && <GeneralSettings />}
                 {item.title === 'FONT SETTING' && <FontSetting />}
                 {item.title === 'REPORT FIELD MAPPING' && (
