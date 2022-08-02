@@ -30,7 +30,7 @@ import {
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 import {PdfPatientReport} from '../components';
-import {PDFDownloadLink, PDFViewer} from '@react-pdf/renderer';
+import {PDFViewer, PDFDownloadLink} from '@react-pdf/renderer';
 
 const GenerateReport = observer(() => {
   const {
@@ -93,21 +93,35 @@ const GenerateReport = observer(() => {
         </div>
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-      {/* <PDFDownloadLink document={<PDFSampleDemo />} fileName='PFDSampleDemp'>
-        {({loading, error}) =>
-          loading ? (
-            <button>Loading document...</button>
-          ) : (
-            <button>Download</button>
-          )
-        }
-      </PDFDownloadLink> */}
-      <PDFViewer
-        style={{width: '100%', height: '100%', zIndex: 50}}
-        showToolbar={false}
-      >
-        <PdfPatientReport data={generateReportsStore.patientReports} />
-      </PDFViewer>
+      {window.innerWidth <= 768 ? (
+        <PDFDownloadLink
+          document={
+            <PdfPatientReport data={generateReportsStore.patientReports} />
+          }
+          fileName='Patient Reports'
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
+            minHeight: '100%',
+          }}
+        >
+          {({loading, error}) =>
+            loading ? (
+              <button>Loading document...</button>
+            ) : (
+              <button className='border-2 p-2 rounded-md bg-blue-500 text-white'>
+                Pdf Patient Reports
+              </button>
+            )
+          }
+        </PDFDownloadLink>
+      ) : (
+        <PDFViewer style={{width: '100%', height: '100%'}} showToolbar={false}>
+          <PdfPatientReport data={generateReportsStore.patientReports} />
+        </PDFViewer>
+      )}
     </>
   );
 });

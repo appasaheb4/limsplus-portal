@@ -9,6 +9,7 @@ import {
 } from '../services';
 
 import {
+  TemplateSettings,
   ReportSection,
   SectionSettings,
   PageSetting,
@@ -19,6 +20,9 @@ import {
 } from '../models';
 
 export class ReportSettingStore {
+  templateSettings!: TemplateSettings;
+  templateSettingsList!: Array<TemplateSettings>;
+  templateSettingsListCount: number = 0;
   reportSectionList: ReportSection[] = [];
   reportSectionListCopy: ReportSection[] = [];
   reportSectionListCount: number = 0;
@@ -45,6 +49,11 @@ export class ReportSettingStore {
   pageBrandingListCount: number = 0;
 
   constructor() {
+    this.templateSettings = new TemplateSettings({
+      isToolbar: false,
+      pageSize: 'A4',
+    });
+    this.templateSettingsList = [];
     this.generalSetting = new GeneralSettings({});
     this.generalSettingList = [];
     this.sectionSetting = new SectionSettings({
@@ -76,6 +85,9 @@ export class ReportSettingStore {
     this.pageBrandingList = [];
 
     makeObservable<ReportSettingStore, any>(this, {
+      templateSettings: observable,
+      templateSettingsList: observable,
+      templateSettingsListCount: observable,
       reportSectionList: observable,
       reportSectionListCopy: observable,
       reportSectionListCount: observable,
@@ -105,6 +117,8 @@ export class ReportSettingStore {
       fontSettingService: computed,
       reportFieldMappingService: computed,
 
+      updateTemplateSettings: action,
+      updateTemplateSettingsList: action,
       updateReportSectionList: action,
       updateSectionSetting: action,
       updateSectionSettingList: action,
@@ -142,6 +156,15 @@ export class ReportSettingStore {
 
   get reportFieldMappingService() {
     return new ReportFieldMappingService();
+  }
+
+  updateTemplateSettings(payload: TemplateSettings) {
+    this.templateSettings = payload;
+  }
+
+  updateTemplateSettingsList(res: any) {
+    this.templateSettingsList = res;
+    this.templateSettingsListCount = res;
   }
 
   updateReportSectionList(res: any) {
