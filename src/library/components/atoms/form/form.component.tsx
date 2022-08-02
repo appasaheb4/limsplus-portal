@@ -255,6 +255,8 @@ export const SelectOption = (props: SelectOptionProps) => (
       name={props.name}
       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
       onChange={e => props.onChange && props.onChange(e.target.value)}
+      data-testid='SELECT'
+      value={props.value}
     >
       <option selected>Select</option>
       {props.values?.map((item: any) => (
