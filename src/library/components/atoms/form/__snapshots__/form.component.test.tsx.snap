@@ -86,3 +86,1127 @@ exports[`Input component render input correctly 1`] = `
   value="test"
 />
 `;
+
+exports[`InputDate component render inputDate correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <label
+          class="text-gray-700 block text-3xs font-medium  mb-1"
+          for=""
+        />
+        <input
+          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+          type="date"
+          value=""
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for=""
+      />
+      <input
+        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+        type="date"
+        value=""
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`InputDateTime component render inputDateTime correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <label
+          class="text-gray-700 block text-3xs font-medium  mb-1"
+          for=""
+        />
+        <div>
+          <div
+            class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--enabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+          >
+            <div
+              class="react-datetime-picker__wrapper"
+            >
+              <div
+                class="react-datetime-picker__inputGroup"
+              >
+                <input
+                  max="275760-09-13T05:30"
+                  min="0001-01-01T00:00"
+                  name="datetime"
+                  step="60"
+                  style="visibility: hidden; position: absolute; z-index: -999;"
+                  type="datetime-local"
+                  value=""
+                />
+                <input
+                  autocomplete="off"
+                  class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day"
+                  data-input="true"
+                  inputmode="numeric"
+                  max="31"
+                  min="1"
+                  name="day"
+                  placeholder="--"
+                  style="width: 8px;"
+                  type="number"
+                  value=""
+                />
+                <span
+                  class="react-datetime-picker__inputGroup__divider"
+                >
+                  -
+                </span>
+                <input
+                  autocomplete="off"
+                  class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month"
+                  data-input="true"
+                  inputmode="numeric"
+                  max="12"
+                  min="1"
+                  name="month"
+                  placeholder="--"
+                  style="width: 8px;"
+                  type="number"
+                  value=""
+                />
+                <span
+                  class="react-datetime-picker__inputGroup__divider"
+                >
+                  -
+                </span>
+                <input
+                  autocomplete="off"
+                  class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                  data-input="true"
+                  inputmode="numeric"
+                  max="275760"
+                  min="1"
+                  name="year"
+                  placeholder="----"
+                  step="1"
+                  style="width: 16px;"
+                  type="number"
+                  value=""
+                />
+                <span
+                  class="react-datetime-picker__inputGroup__divider"
+                >
+                   
+                </span>
+                <input
+                  autocomplete="off"
+                  class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour "
+                  data-input="true"
+                  inputmode="numeric"
+                  max="12"
+                  min="1"
+                  name="hour12"
+                  placeholder="--"
+                  style="width: 8px;"
+                  type="number"
+                  value=""
+                />
+                <span
+                  class="react-datetime-picker__inputGroup__divider"
+                >
+                  :
+                </span>
+                <input
+                  autocomplete="off"
+                  class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                  data-input="true"
+                  inputmode="numeric"
+                  max="59"
+                  min="0"
+                  name="minute"
+                  placeholder="--"
+                  style="width: 8px;"
+                  type="number"
+                  value=""
+                />
+                <span
+                  class="react-datetime-picker__inputGroup__divider"
+                >
+                  :
+                </span>
+                <input
+                  autocomplete="off"
+                  class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                  data-input="true"
+                  inputmode="numeric"
+                  max="59"
+                  min="0"
+                  name="second"
+                  placeholder="--"
+                  style="width: 8px;"
+                  type="number"
+                  value=""
+                />
+                <span
+                  class="react-datetime-picker__inputGroup__divider"
+                >
+                   
+                </span>
+                <select
+                  aria-label="AM/PM"
+                  class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                  data-input="true"
+                  data-select="true"
+                  name="amPm"
+                >
+                  <option
+                    value=""
+                  >
+                    --
+                  </option>
+                  <option
+                    value="am"
+                  >
+                    AM
+                  </option>
+                  <option
+                    value="pm"
+                  >
+                    PM
+                  </option>
+                </select>
+              </div>
+              <button
+                class="react-datetime-picker__clear-button react-datetime-picker__button"
+                type="button"
+              >
+                <svg
+                  class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                  height="19"
+                  stroke="black"
+                  stroke-width="2"
+                  viewBox="0 0 19 19"
+                  width="19"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <line
+                    x1="4"
+                    x2="15"
+                    y1="4"
+                    y2="15"
+                  />
+                  <line
+                    x1="15"
+                    x2="4"
+                    y1="4"
+                    y2="15"
+                  />
+                </svg>
+              </button>
+              <button
+                class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                type="button"
+              >
+                <svg
+                  class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                  height="19"
+                  stroke="black"
+                  stroke-width="2"
+                  viewBox="0 0 19 19"
+                  width="19"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    fill="none"
+                    height="15"
+                    width="15"
+                    x="2"
+                    y="2"
+                  />
+                  <line
+                    x1="6"
+                    x2="6"
+                    y1="0"
+                    y2="4"
+                  />
+                  <line
+                    x1="13"
+                    x2="13"
+                    y1="0"
+                    y2="4"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for=""
+      />
+      <div>
+        <div
+          class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--enabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+        >
+          <div
+            class="react-datetime-picker__wrapper"
+          >
+            <div
+              class="react-datetime-picker__inputGroup"
+            >
+              <input
+                max="275760-09-13T05:30"
+                min="0001-01-01T00:00"
+                name="datetime"
+                step="60"
+                style="visibility: hidden; position: absolute; z-index: -999;"
+                type="datetime-local"
+                value=""
+              />
+              <input
+                autocomplete="off"
+                class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day"
+                data-input="true"
+                inputmode="numeric"
+                max="31"
+                min="1"
+                name="day"
+                placeholder="--"
+                style="width: 8px;"
+                type="number"
+                value=""
+              />
+              <span
+                class="react-datetime-picker__inputGroup__divider"
+              >
+                -
+              </span>
+              <input
+                autocomplete="off"
+                class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month"
+                data-input="true"
+                inputmode="numeric"
+                max="12"
+                min="1"
+                name="month"
+                placeholder="--"
+                style="width: 8px;"
+                type="number"
+                value=""
+              />
+              <span
+                class="react-datetime-picker__inputGroup__divider"
+              >
+                -
+              </span>
+              <input
+                autocomplete="off"
+                class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                data-input="true"
+                inputmode="numeric"
+                max="275760"
+                min="1"
+                name="year"
+                placeholder="----"
+                step="1"
+                style="width: 16px;"
+                type="number"
+                value=""
+              />
+              <span
+                class="react-datetime-picker__inputGroup__divider"
+              >
+                 
+              </span>
+              <input
+                autocomplete="off"
+                class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour "
+                data-input="true"
+                inputmode="numeric"
+                max="12"
+                min="1"
+                name="hour12"
+                placeholder="--"
+                style="width: 8px;"
+                type="number"
+                value=""
+              />
+              <span
+                class="react-datetime-picker__inputGroup__divider"
+              >
+                :
+              </span>
+              <input
+                autocomplete="off"
+                class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                data-input="true"
+                inputmode="numeric"
+                max="59"
+                min="0"
+                name="minute"
+                placeholder="--"
+                style="width: 8px;"
+                type="number"
+                value=""
+              />
+              <span
+                class="react-datetime-picker__inputGroup__divider"
+              >
+                :
+              </span>
+              <input
+                autocomplete="off"
+                class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                data-input="true"
+                inputmode="numeric"
+                max="59"
+                min="0"
+                name="second"
+                placeholder="--"
+                style="width: 8px;"
+                type="number"
+                value=""
+              />
+              <span
+                class="react-datetime-picker__inputGroup__divider"
+              >
+                 
+              </span>
+              <select
+                aria-label="AM/PM"
+                class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                data-input="true"
+                data-select="true"
+                name="amPm"
+              >
+                <option
+                  value=""
+                >
+                  --
+                </option>
+                <option
+                  value="am"
+                >
+                  AM
+                </option>
+                <option
+                  value="pm"
+                >
+                  PM
+                </option>
+              </select>
+            </div>
+            <button
+              class="react-datetime-picker__clear-button react-datetime-picker__button"
+              type="button"
+            >
+              <svg
+                class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                height="19"
+                stroke="black"
+                stroke-width="2"
+                viewBox="0 0 19 19"
+                width="19"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="4"
+                  x2="15"
+                  y1="4"
+                  y2="15"
+                />
+                <line
+                  x1="15"
+                  x2="4"
+                  y1="4"
+                  y2="15"
+                />
+              </svg>
+            </button>
+            <button
+              class="react-datetime-picker__calendar-button react-datetime-picker__button"
+              type="button"
+            >
+              <svg
+                class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                height="19"
+                stroke="black"
+                stroke-width="2"
+                viewBox="0 0 19 19"
+                width="19"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  fill="none"
+                  height="15"
+                  width="15"
+                  x="2"
+                  y="2"
+                />
+                <line
+                  x1="6"
+                  x2="6"
+                  y1="0"
+                  y2="4"
+                />
+                <line
+                  x1="13"
+                  x2="13"
+                  y1="0"
+                  y2="4"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`InputFile component render inputFile correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <label
+          class="text-gray-700 block text-3xs font-medium  mb-1"
+          for=""
+        />
+        <input
+          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+          type="file"
+          value=""
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for=""
+      />
+      <input
+        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+        type="file"
+        value=""
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`InputRadio component render inputRadio correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <label
+          class="text-gray-700 block text-3xs font-medium  mb-1"
+          for=""
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for=""
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`InputWrapper component render inputWrapper correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <label
+          class="text-gray-700 block text-3xs font-medium  mb-1"
+          for=""
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for=""
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Label component render label correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for="vsdvrf"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <label
+      class="text-gray-700 block text-3xs font-medium  mb-1"
+      for="vsdvrf"
+    />
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`MultilineInput component render multilineInput correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <label
+          class="text-gray-700 block text-3xs font-medium  mb-1"
+          for=""
+        />
+        <textarea
+          autocomplete="given-name"
+          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for=""
+      />
+      <textarea
+        autocomplete="given-name"
+        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Toggle component render toggle correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <label
+          class="text-gray-700 block text-3xs font-medium  mb-1"
+          for=""
+        />
+        <div
+          class="wrg-toggle "
+        >
+          <div
+            class="wrg-toggle-container bg-black"
+          >
+            <div
+              class="wrg-toggle-check"
+            >
+              <span
+                class="text-white ml-1"
+              >
+                Yes
+              </span>
+            </div>
+            <div
+              class="wrg-toggle-uncheck"
+            >
+              <span
+                class="text-white"
+              >
+                No
+              </span>
+            </div>
+          </div>
+          <div
+            class="wrg-toggle-circle mr-1  "
+          />
+          <input
+            aria-label="Toggle Button"
+            class="wrg-toggle-input"
+            type="checkbox"
+          />
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <label
+        class="text-gray-700 block text-3xs font-medium  mb-1"
+        for=""
+      />
+      <div
+        class="wrg-toggle "
+      >
+        <div
+          class="wrg-toggle-container bg-black"
+        >
+          <div
+            class="wrg-toggle-check"
+          >
+            <span
+              class="text-white ml-1"
+            >
+              Yes
+            </span>
+          </div>
+          <div
+            class="wrg-toggle-uncheck"
+          >
+            <span
+              class="text-white"
+            >
+              No
+            </span>
+          </div>
+        </div>
+        <div
+          class="wrg-toggle-circle mr-1  "
+        />
+        <input
+          aria-label="Toggle Button"
+          class="wrg-toggle-input"
+          type="checkbox"
+        />
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
