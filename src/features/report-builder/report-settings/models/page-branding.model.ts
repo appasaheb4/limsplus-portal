@@ -11,6 +11,7 @@ export class PageBranding {
   subHeader: {
     title: string;
     titleCSS: string;
+    subTitle: string;
     web: string;
     webCSS: string;
     cinNo: string;
@@ -20,6 +21,7 @@ export class PageBranding {
   footer: {
     title: string;
     titleCSS: string;
+    subTitle: string;
     tel: string;
     telCSS: string;
     mail: string;

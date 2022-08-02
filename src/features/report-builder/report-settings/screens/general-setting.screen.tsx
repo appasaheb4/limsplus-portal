@@ -40,7 +40,7 @@ export const GeneralSettings = GeneralSettingHoc(
     const [isInputView, setIsInputView] = useState<boolean>(true);
     const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
-    const onSubmitBanner = () => {
+    const onSave = () => {
       console.log({isExistsTempCode});
       if (isExistsTempCode)
         return Toast.warning({
@@ -326,7 +326,7 @@ export const GeneralSettings = GeneralSettingHoc(
               size='medium'
               type='solid'
               icon={Svg.Save}
-              onClick={handleSubmit(onSubmitBanner)}
+              onClick={handleSubmit(onSave)}
             >
               Save
             </Buttons.Button>

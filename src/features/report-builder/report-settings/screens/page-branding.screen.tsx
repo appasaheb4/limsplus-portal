@@ -271,6 +271,31 @@ export const PageBranding = observer(() => {
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
+                  <Form.MultilineInput
+                    label='Sub Title HTML Format'
+                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    placeholder={
+                      'Like <p>Web: www.limsplus.com</p><br/><p>Cin No: 1234</p>'
+                    }
+                    value={reportSettingStore.pageBranding?.subHeader?.webCSS}
+                    onChange={webCSS => {
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        subHeader: {
+                          ...reportSettingStore.pageBranding.subHeader,
+                          webCSS,
+                        },
+                      });
+                    }}
+                  />
+                )}
+                name='webCSS'
+                rules={{required: false}}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
                   <Form.Input
                     label='Web'
                     placeholder='Web'
