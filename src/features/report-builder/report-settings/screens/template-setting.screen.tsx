@@ -11,13 +11,12 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {GeneralSettingsList} from '../../components';
+import {TemplateSettingsList, PdfTemplateSetting} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
 import {PDFViewer} from '@react-pdf/renderer';
-import {PdfTemplateSetting} from './pdf/pdf-template-setting';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
@@ -34,7 +33,7 @@ export const TemplateSettings = observer(() => {
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
-  const [isInputView, setIsInputView] = useState<boolean>(false);
+  const [isInputView, setIsInputView] = useState<boolean>(true);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const onSave = () => {
@@ -42,12 +41,12 @@ export const TemplateSettings = observer(() => {
       return Toast.warning({
         message: '😔 Already exists temp code. Please enter diff.',
       });
-    reportSettingStore.generalSettingService
-      .addGeneralSetting({input: {...reportSettingStore.generalSetting}})
+    reportSettingStore.templateSettingsService
+      .addTemplateSetting({input: {...reportSettingStore.templateSettings}})
       .then(res => {
-        if (res.createGeneralSetting.success) {
+        if (res.createTemplateSetting.success) {
           Toast.success({
-            message: `😊 ${res.createGeneralSetting.message}`,
+            message: `😊 ${res.createTemplateSetting.message}`,
           });
         }
         setTimeout(() => {
@@ -60,7 +59,7 @@ export const TemplateSettings = observer(() => {
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
-          style={{bottom: 140}}
+          style={{bottom: 40}}
           show={isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
@@ -90,29 +89,34 @@ export const TemplateSettings = observer(() => {
                           tempCode,
                         });
                       }}
-                      // onBlur={tempCode => {
-                      //   reportSettingStore.generalSettingService
-                      //     .findByFields({
-                      //       input: {
-                      //         filter: {
-                      //           tempCode,
-                      //         },
-                      //       },
-                      //     })
-                      //     .then(res => {
-                      //       if (res.findByFieldsGeneralSetting.success) {
-                      //         setError('tempCode', {type: 'onBlur'});
-                      //         Toast.warning({
-                      //           message:
-                      //             '😔 Already exists temp code. Please enter diff.',
-                      //         });
-                      //         return setIsExistsTempCode(true);
-                      //       } else {
-                      //         clearErrors('tempCode');
-                      //         return setIsExistsTempCode(false);
-                      //       }
-                      //     });
-                      // }}
+                      onBlur={tempCode => {
+                        reportSettingStore.templateSettingsService
+                          .findByFields({
+                            input: {
+                              filter: {
+                                tempCode,
+                                tempName:
+                                  reportSettingStore.templateSettings
+                                    ?.tempName || '',
+                              },
+                            },
+                          })
+                          .then(res => {
+                            if (res.findByFieldsTemplateSetting.success) {
+                              setError('tempCode', {type: 'onBlur'});
+                              setError('tempName', {type: 'onBlur'});
+                              Toast.warning({
+                                message:
+                                  '😔 Already exists temp code. Please enter diff.',
+                              });
+                              return setIsExistsTempCode(true);
+                            } else {
+                              clearErrors('tempCode');
+                              clearErrors('tempName');
+                              return setIsExistsTempCode(false);
+                            }
+                          });
+                      }}
                     />
                   )}
                   name='tempCode'
@@ -134,29 +138,34 @@ export const TemplateSettings = observer(() => {
                           tempName,
                         });
                       }}
-                      // onBlur={tempCode => {
-                      //   reportSettingStore.generalSettingService
-                      //     .findByFields({
-                      //       input: {
-                      //         filter: {
-                      //           tempCode,
-                      //         },
-                      //       },
-                      //     })
-                      //     .then(res => {
-                      //       if (res.findByFieldsGeneralSetting.success) {
-                      //         setError('tempCode', {type: 'onBlur'});
-                      //         Toast.warning({
-                      //           message:
-                      //             '😔 Already exists temp code. Please enter diff.',
-                      //         });
-                      //         return setIsExistsTempCode(true);
-                      //       } else {
-                      //         clearErrors('tempCode');
-                      //         return setIsExistsTempCode(false);
-                      //       }
-                      //     });
-                      // }}
+                      onBlur={tempName => {
+                        reportSettingStore.templateSettingsService
+                          .findByFields({
+                            input: {
+                              filter: {
+                                tempName,
+                                tempCode:
+                                  reportSettingStore.templateSettings
+                                    ?.tempCode || '',
+                              },
+                            },
+                          })
+                          .then(res => {
+                            if (res.findByFieldsTemplateSetting.success) {
+                              setError('tempCode', {type: 'onBlur'});
+                              setError('tempName', {type: 'onBlur'});
+                              Toast.warning({
+                                message:
+                                  '😔 Already exists temp code. Please enter diff.',
+                              });
+                              return setIsExistsTempCode(true);
+                            } else {
+                              clearErrors('tempCode');
+                              clearErrors('tempName');
+                              return setIsExistsTempCode(false);
+                            }
+                          });
+                      }}
                     />
                   )}
                   name='tempName'
@@ -355,9 +364,9 @@ export const TemplateSettings = observer(() => {
         </List>
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-        <GeneralSettingsList
-          data={reportSettingStore.generalSettingList || []}
-          totalSize={reportSettingStore.generalSettingListCount}
+        <TemplateSettingsList
+          data={reportSettingStore.templateSettingsList || []}
+          totalSize={reportSettingStore.templateSettingsListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -400,38 +409,21 @@ export const TemplateSettings = observer(() => {
         click={(type?: string) => {
           switch (type) {
             case 'delete': {
-              reportSettingStore.generalSettingService
-                .deleteGeneralSetting({
+              reportSettingStore.templateSettingsService
+                .removeTemplateSetting({
                   input: {id: modalConfirm.id},
                 })
                 .then((res: any) => {
-                  if (res.removeGeneralSetting.success) {
+                  setModalConfirm({show: false});
+                  if (res.removeTemplateSetting.success) {
                     Toast.success({
-                      message: `😊 ${res.removeGeneralSetting.message}`,
+                      message: `😊 ${res.removeTemplateSetting.message}`,
                     });
-                    setModalConfirm({show: false});
-                    reportSettingStore.generalSettingService.listGeneralSetting();
+                    reportSettingStore.templateSettingsService.listTemplateSetting();
                   }
                 });
               break;
             }
-            // case 'update': {
-            //   bannerStore.BannerService.updateSingleFiled({
-            //     input: {
-            //       _id: modalConfirm.data.id,
-            //       [modalConfirm.data.dataField]: modalConfirm.data.value,
-            //     },
-            //   }).then((res: any) => {
-            //     if (res.updateBanner.success) {
-            //       Toast.success({
-            //         message: `😊 ${res.updateBanner.message}`,
-            //       });
-            //       setModalConfirm({show: false});
-            //       bannerStore.fetchListBanner();
-            //     }
-            //   });
-            //   break;
-            // }
           }
         }}
         onClose={() => setModalConfirm({show: false})}
