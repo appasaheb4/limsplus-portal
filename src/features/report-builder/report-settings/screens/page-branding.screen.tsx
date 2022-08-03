@@ -627,8 +627,8 @@ export const PageBranding = observer(() => {
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>
         <PageSettingsList
-          data={reportSettingStore.pageSettingList || []}
-          totalSize={reportSettingStore.pageSettingListCount}
+          data={[]}
+          totalSize={0}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',

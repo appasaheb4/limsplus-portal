@@ -16,7 +16,7 @@ import {GeneralSettings} from './general-setting.screen';
 import {FontSetting} from './font-setting.screen';
 import {ReportFieldMapping} from './report-field-mapping.screen';
 import {PageBranding} from './page-branding.screen';
-import {TemplateSettings} from './template-setting/template-setting.screen';
+import {TemplateSettings} from './template-setting.screen';
 
 const ReportSettings = observer(() => {
   const {
@@ -57,7 +57,7 @@ const ReportSettings = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === 'TEMPLATE SETTING'}
+                // expanded={item.title === 'TEMPLATE SETTING'}
               >
                 {item.title === 'TEMPLATE SETTING' && <TemplateSettings />}
                 {item.title === 'REPORT SECTION' && <ReportSection />}
