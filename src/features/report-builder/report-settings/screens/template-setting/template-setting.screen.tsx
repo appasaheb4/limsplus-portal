@@ -295,6 +295,14 @@ export const TemplateSettings = observer(() => {
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <a
+                  href='https://dev.azure.com/limsplus0644/_git/limsplus-portal?path=/react-styling-cheat-sheet.md&_a=preview'
+                  target='_blank'
+                  className='text-red underline'
+                  rel='noreferrer'
+                >
+                  Note: Check more properties
+                </a>
               </List>
             </Grid>
           </List>
