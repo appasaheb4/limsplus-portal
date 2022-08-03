@@ -1,7 +1,5 @@
 # React Styling Cheat Sheet
 
-Most of the React styling material in one page. Imported from the [official docs](http://facebook.github.io/react-native/docs/getting-started.html).
-
 ![YAP](https://media.giphy.com/media/B5a9bkLouElOM/giphy.gif)
 
 ## Contents
@@ -14,11 +12,10 @@ Most of the React styling material in one page. Imported from the [official docs
 
 ### Components
 
-- [Image](#image)
-- [ScrollView](#scrollview)
-- [Text](#text)
-- [TextInput](#textinput)
-- [View](#view)
+- [image](#image)
+- [lable](#text)
+- [input](#textinput)
+- [div](#view)
 
 ## Flexbox
 
@@ -96,7 +93,7 @@ Most of the React styling material in one page. Imported from the [official docs
 | transform        | `customReactPropTypes.arrayOf( ReactPropTypes.oneOfType([ ReactPropTypes.shape({perspective: ReactPropTypes.number}), ReactPropTypes.shape({rotate: ReactPropTypes.string}), ReactPropTypes.shape({rotateX: ReactPropTypes.string}), ReactPropTypes.shape({rotateY: ReactPropTypes.string}), ReactPropTypes.shape({rotateZ: ReactPropTypes.string}), ReactPropTypes.shape({scale: ReactPropTypes.number}), ReactPropTypes.shape({scaleX: ReactPropTypes.number}), ReactPropTypes.shape({scaleY: ReactPropTypes.number}), ReactPropTypes.shape({translateX: ReactPropTypes.number}), ReactPropTypes.shape({translateY: ReactPropTypes.number}), ReactPropTypes.shape({skewX: ReactPropTypes.string}), ReactPropTypes.shape({skewY: ReactPropTypes.string}) ]) )` |
 | transformMatrix  | `customTransformMatrixPropType`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-## Image
+## image
 
 | Name                                            | Type                                                              | Platforms | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ----------------------------------------------- | ----------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -118,7 +115,7 @@ Most of the React styling material in one page. Imported from the [official docs
 | tintColor                                       | `ColorPropType`                                                   |           | Changes the color of all the non-transparent pixels to the tintColor.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | overlayColor                                    | [string](#string)                                                 | android   | When the image has rounded corners, specifying an overlayColor will cause the remaining space in the corners to be filled with a solid color. This is useful in cases which are not supported by the Android implementation of rounded corners: - Certain resize modes, such as 'contain' - Animated GIFs A typical way to use this prop is with images displayed on a solid background and setting the `overlayColor` to the same color as the background. For details of how this works under the hood, see http://frescolib.org/docs/rounded-corners-and-circles.html |
 
-## ScrollView
+## div
 
 | Name                                            | Type                                        | Platforms | Description                                                                                                                                                                                                                                                                                                                 |
 | ----------------------------------------------- | ------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -147,7 +144,7 @@ Most of the React styling material in one page. Imported from the [official docs
 | overflow                                        | [oneOf](#oneof) `visible`, `hidden`         |           |                                                                                                                                                                                                                                                                                                                             |
 | elevation                                       | [number](#number)                           | android   | (Android-only) Sets the elevation of a view, using Android's underlying [elevation API](https://developer.android.com/training/material/shadows-clipping.html#Elevation). This adds a drop shadow to the item and affects z-order for overlapping views. Only supported on Android 5.0+, has no effect on earlier versions. |
 
-## Text
+## span/p/label ...
 
 | Name                | Type                                                                                                                  | Platforms | Description                                                                                                                                                                                                                                                                   |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -172,7 +169,7 @@ Most of the React styling material in one page. Imported from the [official docs
 | textDecorationStyle | [oneOf](#oneof) `solid`, `double`, `dotted`, `dashed`                                                                 | ios       |                                                                                                                                                                                                                                                                               |
 | writingDirection    | [oneOf](#oneof) `auto`, `ltr`, `rtl`                                                                                  | ios       |                                                                                                                                                                                                                                                                               |
 
-## TextInput
+## input
 
 | Name         | Type                                                                                                                                                                                                      | Platforms | Description                                                                                                                |
 | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -181,7 +178,7 @@ Most of the React styling material in one page. Imported from the [official docs
 | maxLength    | [number](#number)                                                                                                                                                                                         |           | Limits the maximum number of characters that can be entered                                                                |
 | onChangeText | callback func                                                                                                                                                                                             |           | Callback that is called when the text input's text changes. Changed text is passed as an argument to the callback handler. |
 
-## View
+## div
 
 | Name                                            | Type                                        | Platforms | Description                                                                                                                                                                                                                                                                                                                 |
 | ----------------------------------------------- | ------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -215,27 +212,3 @@ Most of the React styling material in one page. Imported from the [official docs
 | opacity                                         | [number](#number)                           |           |                                                                                                                                                                                                                                                                                                                             |
 | overflow                                        | [oneOf](#oneof) `visible`, `hidden`         |           |                                                                                                                                                                                                                                                                                                                             |
 | elevation                                       | [number](#number)                           | android   | (Android-only) Sets the elevation of a view, using Android's underlying [elevation API](https://developer.android.com/training/material/shadows-clipping.html#Elevation). This adds a drop shadow to the item and affects z-order for overlapping views. Only supported on Android 5.0+, has no effect on earlier versions. |
-
-## Appendix
-
-### Types
-
-#### [number](#number)
-
-ReactPropTypes.number
-
-#### [string](#string)
-
-ReactPropTypes.string
-
-#### [bool](#bool)
-
-ReactPropTypes.bool
-
-#### [oneOf](#oneof)
-
-ReactPropTypes.oneOf([values])
-
-#### [arrayOf](#arrayof)
-
-ReactPropTypes.arrayOf(value)
