@@ -36,6 +36,7 @@ export * from './molecules/modal/modal-session-allowed/modal-session-allowed.com
 export * from './molecules/modal/modal-token-expire/modal-token-expire.component';
 export * from './molecules/modal/modal-transition/moda-transition.component';
 export * from './molecules/modal/modal-file-upload/modal-file-upload.component';
+export * from './molecules/modal/modal-view/modal-view.component';
 
 export * from './organisms/filter-comp';
 export * from './organisms/table-bootstrap/table-bootstrap.component';

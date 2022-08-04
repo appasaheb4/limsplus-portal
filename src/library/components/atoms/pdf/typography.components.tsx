@@ -17,6 +17,7 @@ export const PdfHeading = ({
   fontWeight = 'bold',
   fontSize = 22,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -25,6 +26,7 @@ export const PdfHeading = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
@@ -36,6 +38,7 @@ export const PdfSubHeading = ({
   fontWeight = 'bold',
   fontSize = 20,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -44,6 +47,7 @@ export const PdfSubHeading = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
@@ -56,6 +60,7 @@ export const PdfMedium = ({
   fontSize = 16,
   textAlign = 'left',
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -65,6 +70,7 @@ export const PdfMedium = ({
         fontSize: fontSize,
         fontFamily: fontFamily,
         textAlign: textAlign,
+        ...style,
       }}
     >
       {children}
@@ -76,6 +82,7 @@ export const PdfRegular = ({
   fontWeight = 'normal',
   fontSize = 12,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -84,6 +91,7 @@ export const PdfRegular = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
@@ -101,10 +109,10 @@ export const PdfSmall = ({
   return (
     <Text
       style={{
-        ...style,
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
