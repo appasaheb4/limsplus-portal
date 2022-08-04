@@ -20,7 +20,7 @@ interface PdfViewProps {
   alignItems?: 'flex-end' | 'flex-start' | 'center';
   flexDirection?: 'row' | 'column';
   fixed?: boolean;
-  style?: Style | Style[];
+  style?: Style | Style[] | any;
   children?: React.ReactNode;
 }
 
@@ -35,10 +35,10 @@ export const PdfView = ({
   return (
     <View
       style={{
-        ...style,
         marginHorizontal: mh,
         padding: p,
         flexDirection: flexDirection,
+        ...style,
       }}
       fixed={fixed}
     >
@@ -60,12 +60,12 @@ export const PdfBorderView = ({
   return (
     <View
       style={{
-        ...style,
         marginHorizontal: mh,
         marginVertical: mv,
         padding: p,
         borderColor: borderColor,
         borderWidth: bw,
+        ...style,
       }}
       fixed={fixed}
     >
@@ -79,6 +79,7 @@ export const PdfHeader = ({
   p = 10,
   alignItems = 'flex-start',
   fixed = false,
+  style,
   children,
 }: PdfViewProps) => {
   return (
@@ -87,6 +88,7 @@ export const PdfHeader = ({
         backgroundColor: bg,
         alignItems: alignItems,
         padding: p,
+        ...style,
       }}
       fixed={fixed}
     >
@@ -100,6 +102,7 @@ export const PdfSubHeader = ({
   p = 4,
   alignItems = 'flex-end',
   fixed = false,
+  style,
   children,
 }: PdfViewProps) => {
   return (
@@ -108,6 +111,7 @@ export const PdfSubHeader = ({
         backgroundColor: bg,
         alignItems: alignItems,
         padding: p,
+        ...style,
       }}
       fixed={fixed}
     >
@@ -121,13 +125,14 @@ export const PdfFooterView = ({
   p = 10,
   alignItems = 'center',
   fixed = false,
+  style,
   children,
 }: PdfViewProps) => {
   return (
     <View
       style={[
         {position: 'absolute', bottom: 0, left: 0, right: 0},
-        {backgroundColor: bg, padding: p, alignItems: alignItems},
+        {backgroundColor: bg, padding: p, alignItems: alignItems, ...style},
       ]}
       fixed={fixed}
     >
@@ -139,18 +144,21 @@ export const PdfFooterView = ({
 interface GridProps {
   cols?: number;
   bg?: string;
+  style?: Style | Style[];
   children?: React.ReactNode;
 }
 
 export const PdfGrid: React.FunctionComponent<GridProps> = ({
   cols = 1,
   bg = 'white',
+  style,
   children,
 }) => (
   <View
     style={{
       width: `${100 / cols}%`,
       backgroundColor: bg,
+      ...style,
     }}
   >
     {children}

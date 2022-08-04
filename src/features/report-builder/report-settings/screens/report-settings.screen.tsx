@@ -46,10 +46,10 @@ const ReportSettings = observer(() => {
         <Accordion>
           {[
             {title: 'TEMPLATE SETTING'},
+            {title: 'PAGE BRANDING'},
             {title: 'REPORT SECTION'},
             {title: 'SECTION SETTING'},
             {title: 'PAGE SETTING'},
-            {title: 'PAGE BRANDING'},
             {title: 'GENERAL SETTING'},
             {title: 'FONT SETTING'},
             {title: 'REPORT FIELD MAPPING'},
@@ -57,13 +57,13 @@ const ReportSettings = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                // expanded={item.title === 'TEMPLATE SETTING'}
+                expanded={item.title === 'PAGE BRANDING'}
               >
                 {item.title === 'TEMPLATE SETTING' && <TemplateSettings />}
+                {item.title === 'PAGE BRANDING' && <PageBranding />}
                 {item.title === 'REPORT SECTION' && <ReportSection />}
                 {item.title === 'SECTION SETTING' && <SectionSettings />}
                 {item.title === 'PAGE SETTING' && <PageSetting />}
-                {item.title === 'PAGE BRANDING' && <PageBranding />}
                 {item.title === 'GENERAL SETTING' && <GeneralSettings />}
                 {item.title === 'FONT SETTING' && <FontSetting />}
                 {item.title === 'REPORT FIELD MAPPING' && (

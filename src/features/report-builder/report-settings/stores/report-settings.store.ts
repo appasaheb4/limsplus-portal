@@ -24,6 +24,10 @@ export class ReportSettingStore {
   templateSettings!: TemplateSettings;
   templateSettingsList!: Array<TemplateSettings>;
   templateSettingsListCount: number = 0;
+  pageBranding!: PageBranding;
+  pageBrandingList!: Array<PageBranding>;
+  pageBrandingListCount: number = 0;
+
   reportSectionList: ReportSection[] = [];
   reportSectionListCopy: ReportSection[] = [];
   reportSectionListCount: number = 0;
@@ -45,16 +49,32 @@ export class ReportSettingStore {
   reportFieldMapping!: ReportFieldMapping;
   reportFieldMappingList!: Array<ReportFieldMapping>;
   reportFieldMappingListCount: number = 0;
-  pageBranding!: PageBranding;
-  pageBrandingList!: Array<PageBranding>;
-  pageBrandingListCount: number = 0;
 
   constructor() {
     this.templateSettings = new TemplateSettings({
       isToolbar: false,
       pageSize: 'A4',
+      mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '80pt',",
     });
     this.templateSettingsList = [];
+    this.pageBranding = new PageBranding({
+      ...this.pageBranding,
+      header: {
+        ...this.pageBranding?.header,
+        isVisible: true,
+      },
+      subHeader: {
+        ...this.pageBranding?.subHeader,
+        isVisible: true,
+      },
+      footer: {
+        ...this.pageBranding?.footer,
+        isVisible: true,
+      },
+      isPdfPageNumber: true,
+    });
+    this.pageBrandingList = [];
+
     this.generalSetting = new GeneralSettings({});
     this.generalSettingList = [];
     this.sectionSetting = new SectionSettings({
@@ -82,13 +102,14 @@ export class ReportSettingStore {
     this.fontSettingListCopy = [];
     this.reportFieldMapping = new ReportFieldMapping({});
     this.reportFieldMappingList = [];
-    this.pageBranding = new PageBranding({});
-    this.pageBrandingList = [];
 
     makeObservable<ReportSettingStore, any>(this, {
       templateSettings: observable,
       templateSettingsList: observable,
       templateSettingsListCount: observable,
+      pageBranding: observable,
+      pageBrandingList: observable,
+      pageBrandingListCount: observable,
       reportSectionList: observable,
       reportSectionListCopy: observable,
       reportSectionListCount: observable,
@@ -121,6 +142,8 @@ export class ReportSettingStore {
 
       updateTemplateSettings: action,
       updateTemplateSettingsList: action,
+      updatePageBranding: action,
+      updatePageBrandingList: action,
       updateReportSectionList: action,
       updateSectionSetting: action,
       updateSectionSettingList: action,
@@ -131,8 +154,6 @@ export class ReportSettingStore {
       updateFontSettingList: action,
       updateReportFieldMapping: action,
       updateReportFieldMappingList: action,
-      updatePageBranding: action,
-      updatePageBrandingList: action,
     });
   }
 
@@ -171,6 +192,14 @@ export class ReportSettingStore {
   updateTemplateSettingsList(res: any) {
     this.templateSettingsList = res.templateSettings.data;
     this.templateSettingsListCount = res.templateSettings.paginatorInfo?.count;
+  }
+
+  updatePageBranding(payload: PageBranding) {
+    this.pageBranding = payload;
+  }
+
+  updatePageBrandingList(res: any) {
+    this.pageBrandingList = res;
   }
 
   updateReportSectionList(res: any) {
@@ -258,13 +287,5 @@ export class ReportSettingStore {
     this.reportFieldMappingList = res.reportFieldMappings.data;
     this.reportFieldMappingListCount =
       res.reportFieldMappings.paginatorInfo.count;
-  }
-
-  updatePageBranding(payload: PageBranding) {
-    this.pageBranding = payload;
-  }
-
-  updatePageBrandingList(res: any) {
-    this.pageBrandingList = res;
   }
 }

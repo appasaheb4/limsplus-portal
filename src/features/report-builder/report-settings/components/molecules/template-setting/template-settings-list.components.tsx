@@ -27,6 +27,7 @@ interface TemplateSettingsProps {
     page: number,
     totalSize: number,
   ) => void;
+  onPdfPreview?: (selectedItem: any) => void;
 }
 
 let sectionSetting;
@@ -120,7 +121,18 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete' position='top'>
+                    <Tooltip tooltipText='Preview' position='bottom'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onPdfPreview && props.onPdfPreview(row)
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconIm.ImFilePdf)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    <Tooltip tooltipText='Delete' position='bottom'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'

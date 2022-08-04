@@ -9,7 +9,9 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  PdfMedium,
+  ModalView,
+  ModalViewProps,
 } from '@/library/components';
 import {TemplateSettingsList, PdfTemplateSetting} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -33,6 +35,7 @@ export const TemplateSettings = observer(() => {
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [modalView, setModalView] = useState<ModalViewProps>();
   const [isInputView, setIsInputView] = useState<boolean>(true);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
@@ -312,33 +315,18 @@ export const TemplateSettings = observer(() => {
                 >
                   Note: Check more properties
                 </a>
+                <p>{"Note: paddingBottom:'80pt' but footer view display"}</p>
               </List>
             </Grid>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
-            {reportSettingStore.templateSettings?.isToolbar ? (
-              <PDFViewer
-                style={{width: '100%', height: 300}}
-                showToolbar={reportSettingStore.templateSettings?.isToolbar}
-              >
-                <PdfTemplateSetting
-                  mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
-                  pageSize={reportSettingStore.templateSettings?.pageSize}
-                />
-              </PDFViewer>
-            ) : (
-              <div>
-                <PDFViewer
-                  style={{width: '100%', height: 300}}
-                  showToolbar={reportSettingStore.templateSettings?.isToolbar}
-                >
-                  <PdfTemplateSetting
-                    mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
-                    pageSize={reportSettingStore.templateSettings?.pageSize}
-                  />
-                </PDFViewer>
-              </div>
-            )}
+            <PdfTemplateSetting
+              documentTitle='Template Setting'
+              isToolbar={reportSettingStore.templateSettings?.isToolbar}
+              mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
+              pageSize={reportSettingStore.templateSettings?.pageSize}
+              children={<PdfMedium>Template Setting</PdfMedium>}
+            />
           </List>
         </Grid>
         <br />
@@ -402,6 +390,20 @@ export const TemplateSettings = observer(() => {
             //   input: {type, filter, page, limit},
             // });
           }}
+          onPdfPreview={item => {
+            setModalView({
+              visible: true,
+              children: (
+                <PdfTemplateSetting
+                  documentTitle='Template Setting'
+                  isToolbar={item.isToolbar}
+                  mainBoxCSS={item.mainBoxCSS}
+                  pageSize={item.pageSize}
+                  children={<PdfMedium>Template Setting</PdfMedium>}
+                />
+              ),
+            });
+          }}
         />
       </div>
       <ModalConfirm
@@ -427,6 +429,10 @@ export const TemplateSettings = observer(() => {
           }
         }}
         onClose={() => setModalConfirm({show: false})}
+      />
+      <ModalView
+        {...modalView}
+        onClose={() => setModalView({visible: false})}
       />
     </>
   );
