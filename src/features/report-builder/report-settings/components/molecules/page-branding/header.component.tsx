@@ -18,98 +18,6 @@ export const PageBrandingHeader = observer(() => {
 
   return (
     <>
-      <Grid cols={4}>
-        <Controller
-          control={control}
-          render={({field: {onChange}}) => (
-            <Form.Toggle
-              label='Header Visible'
-              hasError={!!errors.headerVisible}
-              value={reportSettingStore.pageBranding?.header?.isVisible}
-              onChange={isVisible => {
-                onChange(isVisible);
-                reportSettingStore.updatePageBranding({
-                  ...reportSettingStore.pageBranding,
-                  header: {
-                    ...reportSettingStore.pageBranding.header,
-                    isVisible,
-                  },
-                });
-              }}
-            />
-          )}
-          name='headerVisible'
-          rules={{required: false}}
-          defaultValue=''
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange}}) => (
-            <Form.Toggle
-              label='Sub Header Visible'
-              hasError={!!errors.subHeaderVisible}
-              value={reportSettingStore.pageBranding?.subHeader?.isVisible}
-              onChange={isVisible => {
-                onChange(isVisible);
-                reportSettingStore.updatePageBranding({
-                  ...reportSettingStore.pageBranding,
-                  subHeader: {
-                    ...reportSettingStore.pageBranding.subHeader,
-                    isVisible,
-                  },
-                });
-              }}
-            />
-          )}
-          name='subHeaderVisible'
-          rules={{required: false}}
-          defaultValue=''
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange}}) => (
-            <Form.Toggle
-              label='Footer Visible'
-              hasError={!!errors.footerVisible}
-              value={reportSettingStore.pageBranding?.footer?.isVisible}
-              onChange={isVisible => {
-                onChange(isVisible);
-                reportSettingStore.updatePageBranding({
-                  ...reportSettingStore.pageBranding,
-                  footer: {
-                    ...reportSettingStore.pageBranding.footer,
-                    isVisible,
-                  },
-                });
-              }}
-            />
-          )}
-          name='footerVisible'
-          rules={{required: false}}
-          defaultValue=''
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange}}) => (
-            <Form.Toggle
-              label='Page Number'
-              hasError={!!errors.pageNumber}
-              value={reportSettingStore.pageBranding?.isPdfPageNumber}
-              onChange={isPdfPageNumber => {
-                onChange(isPdfPageNumber);
-                reportSettingStore.updatePageBranding({
-                  ...reportSettingStore.pageBranding,
-                  isPdfPageNumber,
-                });
-              }}
-            />
-          )}
-          name='pageNumber'
-          rules={{required: false}}
-          defaultValue=''
-        />
-      </Grid>
-
       <Controller
         control={control}
         render={({field: {onChange}}) => (
@@ -164,15 +72,21 @@ export const PageBrandingHeader = observer(() => {
           <Form.InputFile
             label='Logo'
             placeholder={'Select Logo'}
-            hasError={!!errors.image}
+            hasError={!!errors.headerLogo}
             onChange={e => {
               const logo = e.target.files[0];
-              onChange(logo);
+              const reader = new FileReader();
+
+              reader.onloadend = function () {
+                console.log('RESULT', reader.result);
+              };
+              reader.readAsDataURL(logo);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 header: {
                   ...reportSettingStore.pageBranding?.header,
                   logo,
+                  logoLocalPath: logo,
                 },
               });
             }}
@@ -188,7 +102,7 @@ export const PageBrandingHeader = observer(() => {
           <Form.MultilineInput
             label='Logo CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
-            placeholder={"Like {fontSize: 12,backgroundColor:'#000000'}"}
+            placeholder={'Like borderRadius:25,width:50'}
             value={reportSettingStore.pageBranding?.header?.logoCSS}
             onChange={logoCSS => {
               reportSettingStore.updatePageBranding({

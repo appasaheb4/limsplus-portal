@@ -10,7 +10,7 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import dayjs from 'dayjs';
+import {Type} from 'react-bootstrap-table2-editor';
 
 interface TemplateSettingsProps {
   data: any;
@@ -19,7 +19,7 @@ interface TemplateSettingsProps {
   isEditModify?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
-  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateItem?: (fields: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -74,11 +74,10 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                 return (
                   <>
                     <Form.Toggle
-                      disabled={true}
                       value={row.isToolbar}
                       onChange={isToolbar => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(isToolbar, 'isToolbar', row._id);
+                          props.onUpdateItem({isToolbar}, row._id);
                       }}
                     />
                   </>
@@ -89,28 +88,109 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
               dataField: 'pageSize',
               text: 'Page Size',
               sort: true,
-              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <select
+                      value={row?.pageSize}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300
+                       rounded-md`}
+                      onChange={e => {
+                        const pageSize = e.target.value;
+                        props.onUpdateItem &&
+                          props.onUpdateItem({pageSize}, row._id);
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {[
+                        '4A0',
+                        '2A0',
+                        'A0',
+                        'A1',
+                        'A2',
+                        'A3',
+                        'A4',
+                        'A5',
+                        'A6',
+                        'A7',
+                        'A8',
+                        'A9',
+                        'A10',
+                        'B0',
+                        'B1',
+                        'B2',
+                        'B3',
+                        'B4',
+                        'B5',
+                        'B6',
+                        'B7',
+                        'B8',
+                        'B9',
+                        'B10',
+                        'C0',
+                        'C1',
+                        'C2',
+                        'C3',
+                        'C4',
+                        'C5',
+                        'C6',
+                        'C7',
+                        'C8',
+                        'C9',
+                        'C10',
+                        'RA0',
+                        'RA1',
+                        'RA2',
+                        'RA3',
+                        'RA4',
+                        'SRA0',
+                        'SRA1',
+                        'SRA2',
+                        'SRA3',
+                        'SRA4',
+                        'EXECUTIVE',
+                        'FOLIO',
+                        'LEGAL',
+                        'LETTER',
+                        'TABLOID',
+                        'ID1',
+                      ].map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                );
+              },
             },
             {
               dataField: 'mainBoxCSS',
               text: 'Main Box Css',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {row?.mainBoxCSS && (
-                      <Form.MultilineInput
-                        label=''
-                        style={{color: '#ffffff', backgroundColor: '#000000'}}
-                        disabled={true}
-                        value={row?.mainBoxCSS}
-                      />
-                    )}
-                  </>
-                );
-              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row?.mainBoxCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={mainBoxCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem({mainBoxCSS}, row._id);
+                      }}
+                      defaultValue={row?.mainBoxCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'operation',
@@ -165,9 +245,6 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size);

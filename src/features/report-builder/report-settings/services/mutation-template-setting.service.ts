@@ -42,8 +42,8 @@ export const REMOVE_TEMPLATE_SETTING = gql`
 `;
 
 export const UPDATE_TEMPLATE_SETTING = gql`
-  mutation ($input: UpdateBannerInput!) {
-    updateBanner(input: $input) {
+  mutation ($input: UpdateTemplateSettingInput!) {
+    updateTemplateSetting(input: $input) {
       success
       message
     }

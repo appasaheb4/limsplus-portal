@@ -11,6 +11,7 @@ import {
   TEMPLATE_SETTING_LIST,
   CREATE_TEMPLATE_SETTING,
   REMOVE_TEMPLATE_SETTING,
+  UPDATE_TEMPLATE_SETTING,
   FIND_BY_FIELDS,
 } from './mutation-template-setting.service';
 import dayjs from 'dayjs';
@@ -57,6 +58,23 @@ export class TemplateSettingService {
       client
         .mutate({
           mutation: REMOVE_TEMPLATE_SETTING,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  update = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({variables});
+
+      client
+        .mutate({
+          mutation: UPDATE_TEMPLATE_SETTING,
           variables,
         })
         .then((response: any) => {
