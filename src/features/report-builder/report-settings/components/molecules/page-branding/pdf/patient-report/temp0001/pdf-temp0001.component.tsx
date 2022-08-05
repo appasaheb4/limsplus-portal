@@ -25,6 +25,10 @@ import {observer} from 'mobx-react';
 import {PdfTemplateSetting} from '../../../../template-setting/pdf-template-setting';
 import {PageBranding} from '../../../../../../models/page-branding.model';
 
+import {PdfTemp0001Header} from './pdf-temp0001-header.component';
+import {PdfTemp0001SubHeader} from './pdf-temp0001-sub-header.component';
+import {PdfTemp0001Footer} from './pdf-temp0001-footer.component';
+
 Font.register({
   family: 'arimaRegular',
   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
@@ -39,26 +43,10 @@ const styles = StyleSheet.create({
 
 interface PdfTemp0001Props {
   data: PageBranding;
+  children?: React.ReactNode;
 }
 
-export const PdfTemp0001 = observer(({data}: PdfTemp0001Props) => {
-  const headerTitleCSS = useRef<any>({});
-  const headerMainBoxCSS = useRef<any>({});
-  if (data.header?.titleCSS) {
-    try {
-      headerTitleCSS.current = eval('({' + data.header?.titleCSS + '})');
-    } catch (e) {
-      headerTitleCSS.current = {};
-    }
-  }
-  if (data.header?.mainBoxCSS) {
-    try {
-      headerMainBoxCSS.current = eval('({' + data.header?.mainBoxCSS + '})');
-    } catch (e) {
-      headerMainBoxCSS.current = {};
-    }
-  }
-
+export const PdfTemp0001 = observer(({data, children}: PdfTemp0001Props) => {
   return (
     <PdfTemplateSetting
       height={700}
@@ -68,41 +56,19 @@ export const PdfTemp0001 = observer(({data}: PdfTemp0001Props) => {
       children={
         <>
           {/* Header */}
-          {data.header?.isVisible && (
-            <PdfHeader style={headerMainBoxCSS.current} fixed>
-              <PdfHeading style={headerTitleCSS.current}>
-                {data.header?.title || 'Lims Plus'}
-              </PdfHeading>
-            </PdfHeader>
-          )}
+          {data?.isHeader && <PdfTemp0001Header data={data} />}
 
           {/* Sub Header */}
-          {data.subHeader?.isVisible && (
-            <PdfSubHeader fixed>
-              <PdfRegular>Regd. Office: Dr Lal Pathlabs Ltd.</PdfRegular>
-              <PdfRegular>
-                Web: www.limsplus.com CIN No: 9867987FDLKAJ987987
-              </PdfRegular>
-            </PdfSubHeader>
-          )}
+          {data?.isSubHeader && <PdfTemp0001SubHeader data={data} />}
+
+          {/* children */}
+          {children}
 
           {/* Page Number */}
           {data.isPdfPageNumber && <PdfPageNumber />}
 
           {/* Footer */}
-          {data.footer?.isVisible && (
-            <PdfFooterView fixed>
-              <PdfSmall textAlign='center'>
-                {' '}
-                If test results are alarming or unexpected, client is advised to
-                contact the Customer Care immediately for possible remedial
-                action.
-              </PdfSmall>
-              <PdfSmall>
-                <b>Tel</b>:+91 9818162255, <b>E-mail</b>: limsplus@gmail.com
-              </PdfSmall>
-            </PdfFooterView>
-          )}
+          {data?.isFooter && <PdfTemp0001Footer data={data} />}
         </>
       }
     />

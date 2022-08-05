@@ -315,7 +315,11 @@ export const TemplateSettings = observer(() => {
                 >
                   Note: Check more properties
                 </a>
-                <p>{"Note: paddingBottom:'80pt' but footer view display"}</p>
+                <p>
+                  {
+                    "Note: if footer present then paddingBottom:'80pt' required."
+                  }
+                </p>
               </List>
             </Grid>
           </List>
@@ -373,11 +377,11 @@ export const TemplateSettings = observer(() => {
               body: 'Delete selected items!',
             });
           }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
+          onUpdateItem={(fields: any, id: string) => {
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: {fields, id},
               title: 'Are you sure?',
               body: 'Update banner!',
             });
@@ -424,6 +428,28 @@ export const TemplateSettings = observer(() => {
                     reportSettingStore.templateSettingsService.listTemplateSetting();
                   }
                 });
+              break;
+            }
+            case 'update': {
+              reportSettingStore.templateSettingsService
+                .update({
+                  input: {
+                    ...modalConfirm.data.fields,
+                    _id: modalConfirm.data.id,
+                  },
+                })
+                .then((res: any) => {
+                  setModalConfirm({show: false});
+                  if (res.updateTemplateSetting.success) {
+                    Toast.success({
+                      message: `😊 ${res.updateTemplateSetting.message}`,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
+                  }
+                });
+
               break;
             }
           }

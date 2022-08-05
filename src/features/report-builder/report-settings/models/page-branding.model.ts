@@ -4,15 +4,14 @@ export class PageBranding {
   tempCode: string;
   templateSettings: TemplateSettings;
   header: {
-    isVisible: boolean;
     title: string;
     titleCSS: any;
     logo: any;
+    logoLocalPath: string;
     logoCSS: number;
     mainBoxCSS: string;
   };
   subHeader: {
-    isVisible: boolean;
     title: string;
     titleCSS: string;
     subTitle: string;
@@ -23,7 +22,6 @@ export class PageBranding {
     mainBoxCss: string;
   };
   footer: {
-    isVisible: boolean;
     title: string;
     titleCSS: string;
     subTitle: string;
@@ -33,6 +31,9 @@ export class PageBranding {
     mailCSS: string;
     mainBoxCss: string;
   };
+  isHeader: boolean;
+  isSubHeader: boolean;
+  isFooter: boolean;
   isPdfPageNumber: boolean;
   documentType: string;
   dateOfEntry: Date;
@@ -44,6 +45,9 @@ export class PageBranding {
     this.header = rawData.header;
     this.subHeader = rawData.subHeader;
     this.footer = rawData.footer;
+    this.isHeader = rawData.isHeader;
+    this.isSubHeader = rawData.isSubHeader;
+    this.isFooter = rawData.isFooter;
     this.isPdfPageNumber = rawData.isPdfPageNumber;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;

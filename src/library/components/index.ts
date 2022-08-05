@@ -17,6 +17,7 @@ export * from './atoms/tooltip/tooltip.component';
 export * from './atoms/pdf/typography.components';
 export * from './atoms/pdf/wrapped-view.components';
 export * from './atoms/pdf/table.components';
+export * from './atoms/pdf/images.components';
 
 export * from './molecules/auto-complete/auto-complete.component';
 export * from './molecules/auto-complete-check/auto-complete-check.component';

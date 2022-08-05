@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -18,10 +18,10 @@ import {
   PageBrandingFooter,
   PdfTemp0001,
 } from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
+import {PageBranding as PageBrandingModel} from '../models';
 
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
@@ -57,6 +57,30 @@ export const PageBranding = observer(() => {
           window.location.reload();
         }, 1000);
       });
+  };
+
+  const getTemplate = (tempCode: string) => {
+    switch (tempCode) {
+      case 'TEMP0001':
+        return <PdfTemp0001 data={reportSettingStore.pageBranding} />;
+      default:
+        return (
+          <div className='justify-center items-center'>
+            <h4 className='text-center text-red'>
+              Template not found. Please select correct temp code. 🚨
+            </h4>
+          </div>
+        );
+        break;
+    }
+  };
+
+  const getAccordionItem = (pageBranding: PageBrandingModel) => {
+    const accordionItem: Array<any> = [];
+    if (pageBranding.isHeader) accordionItem.push({title: 'Header'});
+    if (pageBranding.isSubHeader) accordionItem.push({title: 'Sub Header'});
+    if (pageBranding.isFooter) accordionItem.push({title: 'Footer'});
+    return accordionItem;
   };
 
   return (
@@ -97,19 +121,12 @@ export const PageBranding = observer(() => {
                     // );
                   }}
                   onSelect={item => {
-                    console.log({item});
-
                     onChange(item.tempCode);
-                    // reportSettingStore.updateGeneralSetting({
-                    //   ...reportSettingStore.generalSetting,
-                    //   reportSection: {
-                    //     id: item._id,
-                    //     section: item.section,
-                    //   },
-                    // });
-                    // reportSettingStore.updateReportSectionList(
-                    //   reportSettingStore.reportSectionListCopy,
-                    // );
+                    reportSettingStore.updatePageBranding({
+                      ...reportSettingStore.pageBranding,
+                      tempCode: item.tempCode,
+                      templateSettings: item,
+                    });
                   }}
                 />
               )}
@@ -117,12 +134,90 @@ export const PageBranding = observer(() => {
               rules={{required: true}}
               defaultValue={reportSettingStore.templateSettingsList}
             />
+            <Grid cols={4}>
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Toggle
+                    label='Header Visible'
+                    hasError={!!errors.headerVisible}
+                    value={reportSettingStore.pageBranding?.isHeader}
+                    onChange={isHeader => {
+                      onChange(isHeader);
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        isHeader,
+                      });
+                    }}
+                  />
+                )}
+                name='headerVisible'
+                rules={{required: false}}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Toggle
+                    label='Sub Header Visible'
+                    hasError={!!errors.subHeaderVisible}
+                    value={reportSettingStore.pageBranding?.isSubHeader}
+                    onChange={isSubHeader => {
+                      onChange(isSubHeader);
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        isSubHeader,
+                      });
+                    }}
+                  />
+                )}
+                name='subHeaderVisible'
+                rules={{required: false}}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Toggle
+                    label='Footer Visible'
+                    hasError={!!errors.footerVisible}
+                    value={reportSettingStore.pageBranding?.isFooter}
+                    onChange={isFooter => {
+                      onChange(isFooter);
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        isFooter,
+                      });
+                    }}
+                  />
+                )}
+                name='footerVisible'
+                rules={{required: false}}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Toggle
+                    label='Page Number'
+                    hasError={!!errors.pageNumber}
+                    value={reportSettingStore.pageBranding?.isPdfPageNumber}
+                    onChange={isPdfPageNumber => {
+                      onChange(isPdfPageNumber);
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        isPdfPageNumber,
+                      });
+                    }}
+                  />
+                )}
+                name='pageNumber'
+                rules={{required: false}}
+                defaultValue=''
+              />
+            </Grid>
             <Accordion>
-              {[
-                {title: 'Header'},
-                {title: 'Sub Header'},
-                {title: 'Footer'},
-              ].map(item => {
+              {getAccordionItem(reportSettingStore?.pageBranding).map(item => {
                 return (
                   <AccordionItem
                     title={`${item.title}`}
@@ -137,7 +232,7 @@ export const PageBranding = observer(() => {
             </Accordion>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
-            <PdfTemp0001 data={reportSettingStore.pageBranding} />
+            {getTemplate(reportSettingStore.pageBranding?.tempCode)}
           </List>
         </Grid>
         <br />

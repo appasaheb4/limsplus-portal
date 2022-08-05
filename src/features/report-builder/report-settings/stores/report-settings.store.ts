@@ -59,18 +59,9 @@ export class ReportSettingStore {
     this.templateSettingsList = [];
     this.pageBranding = new PageBranding({
       ...this.pageBranding,
-      header: {
-        ...this.pageBranding?.header,
-        isVisible: true,
-      },
-      subHeader: {
-        ...this.pageBranding?.subHeader,
-        isVisible: true,
-      },
-      footer: {
-        ...this.pageBranding?.footer,
-        isVisible: true,
-      },
+      isHeader: true,
+      isSubHeader: true,
+      isFooter: true,
       isPdfPageNumber: true,
     });
     this.pageBrandingList = [];
