@@ -1,9 +1,10 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
-import {Form, Grid} from '@/library/components';
+import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
+import Resizer from 'react-image-file-resizer';
 
 export const PageBrandingHeader = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -15,6 +16,22 @@ export const PageBrandingHeader = observer(() => {
     setError,
     clearErrors,
   } = useForm();
+
+  const resizeFile = file =>
+    new Promise(resolve => {
+      Resizer.imageFileResizer(
+        file,
+        50,
+        50,
+        'JPEG',
+        50,
+        0,
+        uri => {
+          resolve(uri);
+        },
+        'base64',
+      );
+    });
 
   return (
     <>
@@ -65,7 +82,6 @@ export const PageBrandingHeader = observer(() => {
         rules={{required: false}}
         defaultValue=''
       />
-
       <Controller
         control={control}
         render={({field: {onChange}}) => (
@@ -73,20 +89,15 @@ export const PageBrandingHeader = observer(() => {
             label='Logo'
             placeholder={'Select Logo'}
             hasError={!!errors.headerLogo}
-            onChange={e => {
+            onChange={async e => {
               const logo = e.target.files[0];
-              const reader = new FileReader();
-
-              reader.onloadend = function () {
-                console.log('RESULT', reader.result);
-              };
-              reader.readAsDataURL(logo);
+              onChange(logo);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 header: {
                   ...reportSettingStore.pageBranding?.header,
                   logo,
-                  logoLocalPath: logo,
+                  logoUrl: await resizeFile(logo),
                 },
               });
             }}

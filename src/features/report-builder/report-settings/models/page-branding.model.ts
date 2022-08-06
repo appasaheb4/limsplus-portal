@@ -7,7 +7,7 @@ export class PageBranding {
     title: string;
     titleCSS: any;
     logo: any;
-    logoLocalPath: string;
+    logoUrl: any;
     logoCSS: number;
     mainBoxCSS: string;
   };
@@ -15,21 +15,18 @@ export class PageBranding {
     title: string;
     titleCSS: string;
     subTitle: string;
-    web: string;
-    webCSS: string;
-    cinNo: string;
-    cinNoCSS: string;
-    mainBoxCss: string;
+    subTitleCSS: string;
+    mainBoxCSS: string;
   };
   footer: {
     title: string;
     titleCSS: string;
     subTitle: string;
-    tel: string;
-    telCSS: string;
-    mail: string;
-    mailCSS: string;
-    mainBoxCss: string;
+    subTitleCSS: string;
+    mainBoxCSS: string;
+  };
+  pageNumber: {
+    pageNumberCSS: string;
   };
   isHeader: boolean;
   isSubHeader: boolean;
@@ -45,6 +42,7 @@ export class PageBranding {
     this.header = rawData.header;
     this.subHeader = rawData.subHeader;
     this.footer = rawData.footer;
+    this.pageNumber = rawData.pageNumber;
     this.isHeader = rawData.isHeader;
     this.isSubHeader = rawData.isSubHeader;
     this.isFooter = rawData.isFooter;

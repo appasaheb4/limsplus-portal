@@ -124,12 +124,12 @@ export const PdfPageNumber = ({style, bottom = 55}: PdfTextProps) => {
   return (
     <Text
       style={{
-        ...style,
         position: 'absolute',
         bottom: bottom,
         right: 5,
         fontSize: 12,
         color: 'grey',
+        ...style,
       }}
       render={({pageNumber, totalPages}) =>
         `Page ${pageNumber} of ${totalPages}`

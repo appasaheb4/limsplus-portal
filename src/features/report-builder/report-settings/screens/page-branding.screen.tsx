@@ -16,6 +16,7 @@ import {
   PageBrandingHeader,
   PageBrandingSubHeader,
   PageBrandingFooter,
+  PageNumber,
   PdfTemp0001,
 } from '../components';
 import {useForm, Controller} from 'react-hook-form';
@@ -80,6 +81,8 @@ export const PageBranding = observer(() => {
     if (pageBranding.isHeader) accordionItem.push({title: 'Header'});
     if (pageBranding.isSubHeader) accordionItem.push({title: 'Sub Header'});
     if (pageBranding.isFooter) accordionItem.push({title: 'Footer'});
+    if (pageBranding.isPdfPageNumber)
+      accordionItem.push({title: 'Page Number'});
     return accordionItem;
   };
 
@@ -226,6 +229,7 @@ export const PageBranding = observer(() => {
                     {item.title === 'Header' && <PageBrandingHeader />}
                     {item.title === 'Sub Header' && <PageBrandingSubHeader />}
                     {item.title === 'Footer' && <PageBrandingFooter />}
+                    {item.title === 'Page Number' && <PageNumber />}
                   </AccordionItem>
                 );
               })}

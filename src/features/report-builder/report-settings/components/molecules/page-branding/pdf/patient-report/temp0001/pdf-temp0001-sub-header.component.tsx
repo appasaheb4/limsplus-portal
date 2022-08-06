@@ -17,27 +17,39 @@ interface PdfTemp0001SubHeaderProps {
 }
 
 export const PdfTemp0001SubHeader = ({data}: PdfTemp0001SubHeaderProps) => {
-  const headerTitleCSS = useRef<any>({});
-  const headerMainBoxCSS = useRef<any>({});
-  if (data.header?.titleCSS) {
+  const mainBoxCSS = useRef<any>({});
+  const titleCSS = useRef<any>({});
+  const subTitleCSS = useRef<any>({});
+  if (data.subHeader?.mainBoxCSS) {
     try {
-      headerTitleCSS.current = eval('({' + data.header?.titleCSS + '})');
+      mainBoxCSS.current = eval('({' + data.subHeader?.mainBoxCSS + '})');
     } catch (e) {
-      headerTitleCSS.current = {};
+      mainBoxCSS.current = {};
     }
   }
-  if (data.header?.mainBoxCSS) {
+  if (data.subHeader?.titleCSS) {
     try {
-      headerMainBoxCSS.current = eval('({' + data.header?.mainBoxCSS + '})');
+      titleCSS.current = eval('({' + data.subHeader?.titleCSS + '})');
     } catch (e) {
-      headerMainBoxCSS.current = {};
+      titleCSS.current = {};
+    }
+  }
+  if (data.subHeader?.subTitle) {
+    try {
+      subTitleCSS.current = eval('({' + data.subHeader?.subTitle + '})');
+    } catch (e) {
+      subTitleCSS.current = {};
     }
   }
 
   return (
-    <PdfSubHeader fixed>
-      <PdfRegular>Regd. Office: Dr Lal Pathlabs Ltd.</PdfRegular>
-      <PdfRegular>Web: www.limsplus.com CIN No: 9867987FDLKAJ987987</PdfRegular>
+    <PdfSubHeader style={{...mainBoxCSS.current}} fixed>
+      <PdfRegular style={{...titleCSS.current}}>
+        {data.subHeader?.title || 'Title'}
+      </PdfRegular>
+      <PdfRegular style={{...subTitleCSS.current}}>{`Web: ${
+        data.subHeader?.subTitle || 'web-url'
+      }`}</PdfRegular>
     </PdfSubHeader>
   );
 };

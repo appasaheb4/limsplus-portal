@@ -47,6 +47,16 @@ interface PdfTemp0001Props {
 }
 
 export const PdfTemp0001 = observer(({data, children}: PdfTemp0001Props) => {
+  const pageNumberCSS = useRef<any>({});
+  if (data.pageNumber?.pageNumberCSS) {
+    try {
+      pageNumberCSS.current = eval(
+        '({' + data.pageNumber?.pageNumberCSS + '})',
+      );
+    } catch (e) {
+      pageNumberCSS.current = {};
+    }
+  }
   return (
     <PdfTemplateSetting
       height={700}
@@ -65,7 +75,9 @@ export const PdfTemp0001 = observer(({data, children}: PdfTemp0001Props) => {
           {children}
 
           {/* Page Number */}
-          {data.isPdfPageNumber && <PdfPageNumber />}
+          {data.isPdfPageNumber && (
+            <PdfPageNumber style={{...pageNumberCSS.current}} />
+          )}
 
           {/* Footer */}
           {data?.isFooter && <PdfTemp0001Footer data={data} />}
