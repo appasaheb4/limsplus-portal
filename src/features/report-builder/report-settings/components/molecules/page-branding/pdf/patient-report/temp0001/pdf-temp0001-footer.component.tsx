@@ -17,33 +17,38 @@ interface PdfTemp0001FooterProps {
 }
 
 export const PdfTemp0001Footer = ({data}: PdfTemp0001FooterProps) => {
-  const headerTitleCSS = useRef<any>({});
-  const headerMainBoxCSS = useRef<any>({});
-  if (data.header?.titleCSS) {
+  const mainBoxCSS = useRef<any>({});
+  const titleCSS = useRef<any>({});
+  const subTitleCSS = useRef<any>({});
+  if (data.footer?.mainBoxCSS) {
     try {
-      headerTitleCSS.current = eval('({' + data.header?.titleCSS + '})');
+      mainBoxCSS.current = eval('({' + data.footer?.mainBoxCSS + '})');
     } catch (e) {
-      headerTitleCSS.current = {};
+      mainBoxCSS.current = {};
     }
   }
-  if (data.header?.mainBoxCSS) {
+  if (data.footer?.titleCSS) {
     try {
-      headerMainBoxCSS.current = eval('({' + data.header?.mainBoxCSS + '})');
+      titleCSS.current = eval('({' + data.footer?.titleCSS + '})');
     } catch (e) {
-      headerMainBoxCSS.current = {};
+      titleCSS.current = {};
     }
   }
-
+  if (data.footer?.subTitle) {
+    try {
+      subTitleCSS.current = eval('({' + data.footer?.subTitle + '})');
+    } catch (e) {
+      subTitleCSS.current = {};
+    }
+  }
   return (
-    <PdfFooterView fixed>
-      <PdfSmall textAlign='center'>
-        {' '}
-        If test results are alarming or unexpected, client is advised to contact
-        the Customer Care immediately for possible remedial action.
+    <PdfFooterView fixed style={{...mainBoxCSS.current}}>
+      <PdfSmall style={{textAlign: 'center', ...titleCSS.current}}>
+        {data.footer?.title || 'Title'}
       </PdfSmall>
-      <PdfSmall>
-        <b>Tel</b>:+91 9818162255, <b>E-mail</b>: limsplus@gmail.com
-      </PdfSmall>
+      <PdfSmall style={{...subTitleCSS.current}}>{`Tel: ${
+        data.footer?.subTitle || '1234'
+      }`}</PdfSmall>
     </PdfFooterView>
   );
 };

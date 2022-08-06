@@ -6,7 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
 
 export const PageBrandingFooter = observer(() => {
-  const {loading, routerStore, reportSettingStore} = useStores();
+  const {reportSettingStore} = useStores();
   const {
     control,
     handleSubmit,
@@ -49,7 +49,7 @@ export const PageBrandingFooter = observer(() => {
           <Form.MultilineInput
             label='Title CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
-            placeholder={"Like {fontSize: 12,backgroundColor:'#000000'}"}
+            placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
             value={reportSettingStore.pageBranding?.footer?.titleCSS}
             onChange={titleCSS => {
               reportSettingStore.updatePageBranding({
@@ -70,23 +70,23 @@ export const PageBrandingFooter = observer(() => {
         control={control}
         render={({field: {onChange}}) => (
           <Form.Input
-            label='Tel'
-            placeholder='Tel'
-            hasError={!!errors.footerTel}
-            value={reportSettingStore.pageBranding?.footer?.tel}
-            onChange={tel => {
-              onChange(tel);
+            label='Sub Title'
+            placeholder='Sub Title'
+            hasError={!!errors.subTitle}
+            value={reportSettingStore.pageBranding?.footer?.subTitle}
+            onChange={subTitle => {
+              onChange(subTitle);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 footer: {
                   ...reportSettingStore.pageBranding?.footer,
-                  tel,
+                  subTitle,
                 },
               });
             }}
           />
         )}
-        name='footerTel'
+        name='subTitle'
         rules={{required: false}}
         defaultValue=''
       />
@@ -95,87 +95,40 @@ export const PageBrandingFooter = observer(() => {
         control={control}
         render={({field: {onChange}}) => (
           <Form.MultilineInput
-            label='Tel CSS'
+            label='Sub Title CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
-            placeholder={"Like {fontSize: 12,backgroundColor:'#000000'}"}
-            value={reportSettingStore.pageBranding?.footer?.telCSS}
-            onChange={telCSS => {
+            placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
+            value={reportSettingStore.pageBranding?.footer?.subTitleCSS}
+            onChange={subTitleCSS => {
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 footer: {
                   ...reportSettingStore.pageBranding.footer,
-                  telCSS,
+                  subTitleCSS,
                 },
               });
             }}
           />
         )}
-        name='footerTelCSS'
-        rules={{required: false}}
-        defaultValue=''
-      />
-      <Controller
-        control={control}
-        render={({field: {onChange}}) => (
-          <Form.Input
-            label='Mail'
-            placeholder='Mail'
-            hasError={!!errors.footerMail}
-            value={reportSettingStore.pageBranding?.footer?.mail}
-            onChange={mail => {
-              onChange(mail);
-              reportSettingStore.updatePageBranding({
-                ...reportSettingStore.pageBranding,
-                footer: {
-                  ...reportSettingStore.pageBranding?.footer,
-                  mail,
-                },
-              });
-            }}
-          />
-        )}
-        name='footerMail'
+        name='subTitleCSS'
         rules={{required: false}}
         defaultValue=''
       />
 
-      <Controller
-        control={control}
-        render={({field: {onChange}}) => (
-          <Form.MultilineInput
-            label='Mail CSS'
-            style={{color: '#ffffff', backgroundColor: '#000000'}}
-            placeholder={"Like {fontSize: 12,backgroundColor:'#000000'}"}
-            value={reportSettingStore.pageBranding?.footer?.mailCSS}
-            onChange={mailCSS => {
-              reportSettingStore.updatePageBranding({
-                ...reportSettingStore.pageBranding,
-                footer: {
-                  ...reportSettingStore.pageBranding.footer,
-                  mailCSS,
-                },
-              });
-            }}
-          />
-        )}
-        name='footerMailCSS'
-        rules={{required: false}}
-        defaultValue=''
-      />
       <Controller
         control={control}
         render={({field: {onChange}}) => (
           <Form.MultilineInput
             label='Main Box CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
-            placeholder={"Like {fontSize: 12,backgroundColor:'#000000'}"}
-            value={reportSettingStore.pageBranding?.footer?.mainBoxCss}
-            onChange={mainBoxCss => {
+            placeholder={"Like backgroundColor:'#000000'"}
+            value={reportSettingStore.pageBranding?.footer?.mainBoxCSS}
+            onChange={mainBoxCSS => {
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 footer: {
                   ...reportSettingStore.pageBranding?.footer,
-                  mainBoxCss,
+                  mainBoxCSS,
                 },
               });
             }}

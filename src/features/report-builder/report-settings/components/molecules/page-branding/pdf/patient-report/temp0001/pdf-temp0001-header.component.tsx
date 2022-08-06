@@ -18,8 +18,6 @@ interface PdfTemp0001HeaderProps {
 }
 
 export const PdfTemp0001Header = ({data}: PdfTemp0001HeaderProps) => {
-  console.log({image: data.header?.logo});
-
   const headerTitleCSS = useRef<any>({});
   const headerMainBoxCSS = useRef<any>({});
   const imageCSS = useRef<any>({});
@@ -55,7 +53,7 @@ export const PdfTemp0001Header = ({data}: PdfTemp0001HeaderProps) => {
       fixed
     >
       <PdfImage
-        source={data.header?.logoLocalPath}
+        src={data.header?.logoUrl}
         style={{
           width: 50,
           height: 50,
@@ -65,7 +63,7 @@ export const PdfTemp0001Header = ({data}: PdfTemp0001HeaderProps) => {
         }}
       />
       <PdfHeading style={headerTitleCSS.current}>
-        {data.header?.title || 'Lims Plus'}
+        {data.header?.title || 'Title'}
       </PdfHeading>
     </PdfHeader>
   );
