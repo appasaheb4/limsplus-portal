@@ -1,0 +1,1768 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InterfaceManager Screen render interfaceManager correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+      >
+        <div>
+          <h2
+            class="text-lg font-bold leading-4 text-gray-900 mt-0"
+          />
+        </div>
+        <div
+          class="flex flex-row items-center"
+        >
+          <img
+            alt="banner"
+            class="object-fill h-10 w-12 rounded-md mr-2"
+          />
+          <h2
+            class="text-base  leading-4 text-gray-900 mt-0"
+          />
+        </div>
+      </div>
+      <div
+        class=" mx-auto  flex-wrap"
+      >
+        <div
+          class="p-2 rounded-lg shadow-xl hidden"
+        >
+          <div
+            class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+          >
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Interface Type
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  name="interfaceType"
+                  placeholder="Interface Type"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Instrument Type
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  name="instrumentType"
+                  placeholder="Instrument Type"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Instrument Name
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  name="instrumentName"
+                  placeholder="Instrument Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Data Flow From
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  name="dataFlowFrom"
+                  placeholder="Data Flow From"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Communication Protocol
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  name="communicationProtocal"
+                  placeholder="Communication Protocal"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                class="clearfix"
+              />
+            </span>
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="block"
+                >
+                  Block
+                </label>
+                <div
+                  class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+                >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    />
+                    <input
+                      autocomplete="given-name"
+                      class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                      data-testid="INPT"
+                      name="startBlock"
+                      placeholder="Start Block"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    />
+                    <input
+                      autocomplete="given-name"
+                      class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                      data-testid="INPT"
+                      name="endBlock"
+                      placeholder="End Block"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="filed"
+                >
+                  Filed
+                </label>
+                <div
+                  class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+                >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    />
+                    <input
+                      autocomplete="given-name"
+                      class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                      data-testid="INPT"
+                      name="filed"
+                      placeholder="Filed"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    />
+                    <input
+                      autocomplete="given-name"
+                      class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                      data-testid="INPT"
+                      name="value"
+                      placeholder="Value"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="mt-2"
+                  >
+                    <div
+                      class="undefined"
+                    >
+                      <button
+                        class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                        type="button"
+                      >
+                        <div
+                          class="undefined"
+                        >
+                          <i
+                            class="eva-hover"
+                          >
+                            <svg
+                              class="eva eva-plus-circle-outline eva-animation eva-icon-hover-pulse"
+                              fill="#fff"
+                              height="18px"
+                              viewBox="0 0 24 24"
+                              width="18px"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g
+                                data-name="Layer 2"
+                              >
+                                <g
+                                  data-name="plus-circle"
+                                >
+                                  <rect
+                                    height="24"
+                                    opacity="0"
+                                    width="24"
+                                  />
+                                  <path
+                                    d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"
+                                  />
+                                  <path
+                                    d="M15 11h-2V9a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2z"
+                                  />
+                                </g>
+                              </g>
+                            </svg>
+                          </i>
+                        </div>
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </div>
+                <span
+                  class="flex flex-row space-x-2     items-center"
+                >
+                  <div />
+                </span>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Environment
+                </label>
+                <select
+                  class="leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  disabled=""
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+            </span>
+          </div>
+          <span
+            class="flex flex-row space-x-3   justify-center  items-center"
+          >
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Save
+              </button>
+            </div>
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 18L18 6M6 6l12 13"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Clear
+              </button>
+            </div>
+            <div
+              class="clearfix"
+            />
+          </span>
+        </div>
+        <div
+          class="p-2 rounded-lg shadow-xl overflow-scroll"
+        >
+          <div>
+            <div
+              class="flex items-center"
+            >
+              <label
+                class="search-label"
+                for="search-bar-0"
+              >
+                <span
+                  class="sr-only"
+                  id="search-bar-0-label"
+                >
+                  Search this table
+                </span>
+                <input
+                  aria-labelledby="search-bar-0-label"
+                  class="form-control "
+                  id="search-bar-0"
+                  placeholder="Search..."
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              >
+                Clear
+              </button>
+              <button
+                class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+              >
+                Clear all filters
+              </button>
+              <button
+                class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                type="button"
+              >
+                Export CSV!!
+              </button>
+              <div
+                class="undefined"
+              >
+                <button
+                  class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                  type="button"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="scrollTable"
+            >
+              <div
+                class="react-bootstrap-table"
+              >
+                <table
+                  class="table table-hover table-bordered"
+                >
+                  <thead>
+                    <tr
+                      class="bg-gray-500 text-white whitespace-nowrap"
+                    >
+                      <th
+                        class="selection-cell-header"
+                        data-row-selection="true"
+                      >
+                        <input
+                          class="selection-input-4"
+                          type="checkbox"
+                        />
+                      </th>
+                      <th
+                        aria-label="Interface Type sortable"
+                        class="sortable textHeader4"
+                        tabindex="0"
+                      >
+                        Interface Type
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-interfaceType"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Interface Type
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-interfaceType"
+                            placeholder="Enter Interface Type..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Instrument Type sortable"
+                        class="sortable textHeader4"
+                        tabindex="0"
+                      >
+                        Instrument Type
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-instrumentType"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Instrument Type
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-instrumentType"
+                            placeholder="Enter Instrument Type..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Instrument Name sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Instrument Name
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-instrumentName"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Instrument Name
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-instrumentName"
+                            placeholder="Enter Instrument Name..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Data Flow From sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Data Flow From
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-dataFlowFrom"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Data Flow From
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-dataFlowFrom"
+                            placeholder="Enter Data Flow From..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Communication Protocol sortable"
+                        class="sortable textHeader6"
+                        tabindex="0"
+                      >
+                        Communication Protocol
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-communicationProtocol"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Communication Protocol
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-communicationProtocol"
+                            placeholder="Enter Communication Protocol..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Block sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Block
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-block"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Block
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-block"
+                            placeholder="Enter Block..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Fileds sortable"
+                        class="sortable textHeader4"
+                        tabindex="0"
+                      >
+                        Fileds
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-fileds"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Fileds
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-fileds"
+                            placeholder="Enter Fileds..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Environment sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Environment
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-environment"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Environment
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-environment"
+                            placeholder="Enter Environment..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="react-bs-table-no-data"
+                        colspan="9"
+                        data-toggle="collapse"
+                      >
+                        Table is Empty
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="row react-bootstrap-table-pagination"
+              >
+                <div
+                  class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <span
+                    class="react-bs-table-sizePerPage-dropdown dropdown"
+                    style="visibility: visible;"
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="btn btn-default btn-secondary dropdown-toggle"
+                      data-toggle="dropdown"
+                      id="pageDropDown"
+                      type="button"
+                    >
+                      10
+                       
+                    </button>
+                    <ul
+                      aria-labelledby="pageDropDown"
+                      class="dropdown-menu "
+                      role="menu"
+                    >
+                      <a
+                        class="dropdown-item"
+                        data-page="10"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        10
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="25"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        25
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="30"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        30
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="50"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        50
+                      </a>
+                    </ul>
+                  </span>
+                </div>
+                <div
+                  class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <ul
+                    class="pagination react-bootstrap-table-page-btns-ul"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bs-table-sizePerPage-dropdown dropdown"
+                style="visibility: visible;"
+              >
+                <button
+                  aria-expanded="false"
+                  class="btn btn-default btn-secondary dropdown-toggle"
+                  data-toggle="dropdown"
+                  id="pageDropDown"
+                  type="button"
+                >
+                  10
+                   
+                  <span>
+                    <span
+                      class="caret"
+                    />
+                  </span>
+                </button>
+                <ul
+                  aria-labelledby="pageDropDown"
+                  class="dropdown-menu "
+                  role="menu"
+                >
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </li>
+                </ul>
+              </span>
+              <ul
+                class="pagination react-bootstrap-table-page-btns-ul"
+              />
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bootstrap-table-pagination-total"
+              >
+                 Showing rows 
+                0
+                 to 
+                0
+                 of 
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="container"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+    >
+      <div>
+        <h2
+          class="text-lg font-bold leading-4 text-gray-900 mt-0"
+        />
+      </div>
+      <div
+        class="flex flex-row items-center"
+      >
+        <img
+          alt="banner"
+          class="object-fill h-10 w-12 rounded-md mr-2"
+        />
+        <h2
+          class="text-base  leading-4 text-gray-900 mt-0"
+        />
+      </div>
+    </div>
+    <div
+      class=" mx-auto  flex-wrap"
+    >
+      <div
+        class="p-2 rounded-lg shadow-xl hidden"
+      >
+        <div
+          class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+        >
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Interface Type
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                name="interfaceType"
+                placeholder="Interface Type"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Instrument Type
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                name="instrumentType"
+                placeholder="Instrument Type"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Instrument Name
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                name="instrumentName"
+                placeholder="Instrument Name"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Data Flow From
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                name="dataFlowFrom"
+                placeholder="Data Flow From"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Communication Protocol
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                name="communicationProtocal"
+                placeholder="Communication Protocal"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="clearfix"
+            />
+          </span>
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="block"
+              >
+                Block
+              </label>
+              <div
+                class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+              >
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  />
+                  <input
+                    autocomplete="given-name"
+                    class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                    data-testid="INPT"
+                    name="startBlock"
+                    placeholder="Start Block"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  />
+                  <input
+                    autocomplete="given-name"
+                    class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                    data-testid="INPT"
+                    name="endBlock"
+                    placeholder="End Block"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="filed"
+              >
+                Filed
+              </label>
+              <div
+                class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+              >
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  />
+                  <input
+                    autocomplete="given-name"
+                    class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                    data-testid="INPT"
+                    name="filed"
+                    placeholder="Filed"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  />
+                  <input
+                    autocomplete="given-name"
+                    class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                    data-testid="INPT"
+                    name="value"
+                    placeholder="Value"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  class="mt-2"
+                >
+                  <div
+                    class="undefined"
+                  >
+                    <button
+                      class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                      type="button"
+                    >
+                      <div
+                        class="undefined"
+                      >
+                        <i
+                          class="eva-hover"
+                        >
+                          <svg
+                            class="eva eva-plus-circle-outline eva-animation eva-icon-hover-pulse"
+                            fill="#fff"
+                            height="18px"
+                            viewBox="0 0 24 24"
+                            width="18px"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g
+                              data-name="Layer 2"
+                            >
+                              <g
+                                data-name="plus-circle"
+                              >
+                                <rect
+                                  height="24"
+                                  opacity="0"
+                                  width="24"
+                                />
+                                <path
+                                  d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"
+                                />
+                                <path
+                                  d="M15 11h-2V9a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2z"
+                                />
+                              </g>
+                            </g>
+                          </svg>
+                        </i>
+                      </div>
+                      Add
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="clearfix"
+                />
+              </div>
+              <span
+                class="flex flex-row space-x-2     items-center"
+              >
+                <div />
+              </span>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Environment
+              </label>
+              <select
+                class="leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                disabled=""
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+          </span>
+        </div>
+        <span
+          class="flex flex-row space-x-3   justify-center  items-center"
+        >
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Save
+            </button>
+          </div>
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 18L18 6M6 6l12 13"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Clear
+            </button>
+          </div>
+          <div
+            class="clearfix"
+          />
+        </span>
+      </div>
+      <div
+        class="p-2 rounded-lg shadow-xl overflow-scroll"
+      >
+        <div>
+          <div
+            class="flex items-center"
+          >
+            <label
+              class="search-label"
+              for="search-bar-0"
+            >
+              <span
+                class="sr-only"
+                id="search-bar-0-label"
+              >
+                Search this table
+              </span>
+              <input
+                aria-labelledby="search-bar-0-label"
+                class="form-control "
+                id="search-bar-0"
+                placeholder="Search..."
+                type="text"
+                value=""
+              />
+            </label>
+            <button
+              class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+            >
+              Clear
+            </button>
+            <button
+              class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+            >
+              Clear all filters
+            </button>
+            <button
+              class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              type="button"
+            >
+              Export CSV!!
+            </button>
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div
+            class="scrollTable"
+          >
+            <div
+              class="react-bootstrap-table"
+            >
+              <table
+                class="table table-hover table-bordered"
+              >
+                <thead>
+                  <tr
+                    class="bg-gray-500 text-white whitespace-nowrap"
+                  >
+                    <th
+                      class="selection-cell-header"
+                      data-row-selection="true"
+                    >
+                      <input
+                        class="selection-input-4"
+                        type="checkbox"
+                      />
+                    </th>
+                    <th
+                      aria-label="Interface Type sortable"
+                      class="sortable textHeader4"
+                      tabindex="0"
+                    >
+                      Interface Type
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-interfaceType"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Interface Type
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-interfaceType"
+                          placeholder="Enter Interface Type..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                    <th
+                      aria-label="Instrument Type sortable"
+                      class="sortable textHeader4"
+                      tabindex="0"
+                    >
+                      Instrument Type
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-instrumentType"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Instrument Type
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-instrumentType"
+                          placeholder="Enter Instrument Type..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                    <th
+                      aria-label="Instrument Name sortable"
+                      class="sortable textHeader5"
+                      tabindex="0"
+                    >
+                      Instrument Name
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-instrumentName"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Instrument Name
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-instrumentName"
+                          placeholder="Enter Instrument Name..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                    <th
+                      aria-label="Data Flow From sortable"
+                      class="sortable textHeader5"
+                      tabindex="0"
+                    >
+                      Data Flow From
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-dataFlowFrom"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Data Flow From
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-dataFlowFrom"
+                          placeholder="Enter Data Flow From..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                    <th
+                      aria-label="Communication Protocol sortable"
+                      class="sortable textHeader6"
+                      tabindex="0"
+                    >
+                      Communication Protocol
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-communicationProtocol"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Communication Protocol
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-communicationProtocol"
+                          placeholder="Enter Communication Protocol..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                    <th
+                      aria-label="Block sortable"
+                      class="sortable textHeader5"
+                      tabindex="0"
+                    >
+                      Block
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-block"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Block
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-block"
+                          placeholder="Enter Block..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                    <th
+                      aria-label="Fileds sortable"
+                      class="sortable textHeader4"
+                      tabindex="0"
+                    >
+                      Fileds
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-fileds"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Fileds
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-fileds"
+                          placeholder="Enter Fileds..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                    <th
+                      aria-label="Environment sortable"
+                      class="sortable textHeader3"
+                      tabindex="0"
+                    >
+                      Environment
+                      <span
+                        class="order-4"
+                      />
+                      <label
+                        class="filter-label"
+                        for="text-filter-column-environment"
+                      >
+                        <span
+                          class="sr-only"
+                        >
+                          Filter by 
+                          Environment
+                        </span>
+                        <input
+                          class="filter text-filter form-control undefined"
+                          delay="500"
+                          id="text-filter-column-environment"
+                          placeholder="Enter Environment..."
+                          type="text"
+                          value=""
+                        />
+                      </label>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      class="react-bs-table-no-data"
+                      colspan="9"
+                      data-toggle="collapse"
+                    >
+                      Table is Empty
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              class="row react-bootstrap-table-pagination"
+            >
+              <div
+                class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+              >
+                <span
+                  class="react-bs-table-sizePerPage-dropdown dropdown"
+                  style="visibility: visible;"
+                >
+                  <button
+                    aria-expanded="false"
+                    class="btn btn-default btn-secondary dropdown-toggle"
+                    data-toggle="dropdown"
+                    id="pageDropDown"
+                    type="button"
+                  >
+                    10
+                     
+                  </button>
+                  <ul
+                    aria-labelledby="pageDropDown"
+                    class="dropdown-menu "
+                    role="menu"
+                  >
+                    <a
+                      class="dropdown-item"
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </ul>
+                </span>
+              </div>
+              <div
+                class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+              >
+                <ul
+                  class="pagination react-bootstrap-table-page-btns-ul"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2 mt-2"
+          >
+            <span
+              class="react-bs-table-sizePerPage-dropdown dropdown"
+              style="visibility: visible;"
+            >
+              <button
+                aria-expanded="false"
+                class="btn btn-default btn-secondary dropdown-toggle"
+                data-toggle="dropdown"
+                id="pageDropDown"
+                type="button"
+              >
+                10
+                 
+                <span>
+                  <span
+                    class="caret"
+                  />
+                </span>
+              </button>
+              <ul
+                aria-labelledby="pageDropDown"
+                class="dropdown-menu "
+                role="menu"
+              >
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="10"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    10
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="25"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    25
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="30"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    30
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="50"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    50
+                  </a>
+                </li>
+              </ul>
+            </span>
+            <ul
+              class="pagination react-bootstrap-table-page-btns-ul"
+            />
+          </div>
+          <div
+            class="flex items-center gap-2 mt-2"
+          >
+            <span
+              class="react-bootstrap-table-pagination-total"
+            >
+               Showing rows 
+              0
+               to 
+              0
+               of 
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="container"
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

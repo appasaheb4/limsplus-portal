@@ -631,7 +631,7 @@ Object {
                 <div>
                   <input
                     class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    value="12:18 pm"
+                    value="02:26 pm"
                   />
                 </div>
               </div>
@@ -645,7 +645,7 @@ Object {
                 <div>
                   <input
                     class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    value="12:18 pm"
+                    value="02:26 pm"
                   />
                 </div>
               </div>
@@ -3010,7 +3010,7 @@ Object {
               <div>
                 <input
                   class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  value="12:18 pm"
+                  value="02:26 pm"
                 />
               </div>
             </div>
@@ -3024,7 +3024,7 @@ Object {
               <div>
                 <input
                   class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  value="12:18 pm"
+                  value="02:26 pm"
                 />
               </div>
             </div>
